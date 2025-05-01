@@ -3,12 +3,11 @@ import { App, Astal, Gdk, Gtk } from "astal/gtk4"
 import {Variable} from "astal"
 import Pango from "gi://Pango?version=1.0";
 import {hideAllWindows} from "../utils/windows";
-import Hyprland from "gi://AstalHyprland"
 
 export const AppLauncherWindowName = "appLauncher"
 
 function launchApp(app: Apps.Application) {
-    Hyprland.get_default().dispatch("exec", app.executable)
+    app.launch()
 }
 
 interface AppButtonProps {

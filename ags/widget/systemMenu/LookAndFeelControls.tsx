@@ -1,11 +1,12 @@
-import {App, Gtk} from "astal/gtk4"
+import {Gtk} from "astal/gtk4"
 import {execAsync} from "astal/process"
-import {bind, Variable} from "astal"
+import {GLib, Variable} from "astal"
 import {SystemMenuWindowName} from "./SystemMenuWindow";
 import Pango from "gi://Pango?version=1.0";
 import {createScaledTexture} from "../utils/images";
 import Divider from "../common/Divider";
-import {config, selectedBar, selectedTheme, Theme} from "../../config/config";
+import {config, selectedBar, selectedTheme} from "../../config/config";
+import {Theme} from "../../config/configSchema"
 import LargeIconButton from "../common/LargeIconButton";
 import RevealerRow from "../common/RevealerRow";
 import {setBarType, setTheme, setWallpaper} from "../../config/cachedStates";
@@ -38,39 +39,6 @@ function chunkIntoColumns<T>(arr: T[], numCols: number): T[][] {
     return columns;
 }
 
-function chunkEvenly<T>(items: T[], maxPerRow: number, softMinPerRow: number): T[][] {
-    if (softMinPerRow > maxPerRow) {
-        throw new Error("softMinPerRow cannot be greater than maxPerRow");
-    }
-
-    const total = items.length;
-    const chunks: T[][] = [];
-
-    let index = 0;
-
-    // Determine how many full rows we can get with at least softMinPerRow
-    let fullRows = Math.floor(total / softMinPerRow);
-
-    while (fullRows > 0) {
-        const remaining = total - fullRows * softMinPerRow;
-        // Check if the remainder can fit within maxPerRow (as a last row)
-        if (remaining <= maxPerRow && remaining >= 0) break;
-        fullRows--;
-    }
-
-    for (let i = 0; i < fullRows; i++) {
-        chunks.push(items.slice(index, index + softMinPerRow));
-        index += softMinPerRow;
-    }
-
-    // Push the remainder (can be empty or smaller than softMinPerRow)
-    if (index < total) {
-        chunks.push(items.slice(index));
-    }
-
-    return chunks;
-}
-
 function updateFiles(theme: Theme) {
     if (theme.wallpaperDir === "") {
         return
@@ -93,6 +61,56 @@ function updateFiles(theme: Theme) {
                 )
             )
         })
+}
+
+let scrollAnimationId: number | null = null
+
+function animateScroll(
+    adjustment: Gtk.Adjustment,
+    targetValue: number,
+    leftGradient: Gtk.Box,
+    rightGradient: Gtk.Box,
+    duration = 150
+) {
+    // Cancel any previous animation
+    if (scrollAnimationId !== null) {
+        GLib.source_remove(scrollAnimationId);
+        scrollAnimationId = null;
+    }
+
+    const start = adjustment.get_value();
+    const delta = targetValue - start;
+    const startTime = GLib.get_monotonic_time();
+
+    scrollAnimationId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000 / 60, () => {
+        const now = GLib.get_monotonic_time();
+        const elapsed = (now - startTime) / 1000; // microseconds → milliseconds
+
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = progress * (2 - progress); // easeOutQuad
+
+        adjustment.set_value(start + delta * eased);
+
+        let leftDistance = adjustment.get_value() * 2
+        if (leftDistance > 100) {
+            leftDistance = 100
+        }
+        leftGradient.opacity = leftDistance / 100
+
+        const maxScroll = adjustment.get_upper() - adjustment.get_page_size();
+        let rightDistance = (maxScroll - adjustment.get_value()) * 2
+        if (rightDistance > 100) {
+            rightDistance = 100
+        }
+        rightGradient.opacity = rightDistance / 100
+
+        if (progress < 1) {
+            return GLib.SOURCE_CONTINUE;
+        } else {
+            scrollAnimationId = null;
+            return GLib.SOURCE_REMOVE;
+        }
+    });
 }
 
 function BarButton(
@@ -153,23 +171,76 @@ function ThemeButton(
 }
 
 function ThemeOptions() {
-    const themeRows = chunkEvenly(config.themes, 5, 4)
+    let leftGradient: Gtk.Box
+    let rightGradient: Gtk.Box
+    const scrolledWindow = new Gtk.ScrolledWindow({
+        hexpand: true,
+        cssClasses: ["visibleScrollWindow"],
+        hscrollbar_policy: Gtk.PolicyType.AUTOMATIC,
+        vscrollbar_policy: Gtk.PolicyType.NEVER,
+        heightRequest: 50,
+        child: <box
+            marginStart={22}
+            marginEnd={22}
+            vertical={false}
+            spacing={10}>
+            {config.themes.map((theme) => {
+                return <ThemeButton theme={theme}/>
+            })}
+        </box>
+    })
+
+    const scrollController = Gtk.EventControllerScroll.new(Gtk.EventControllerScrollFlags.VERTICAL)
+
+    // Intercept vertical scrolling and translate to horizontal
+    scrollController.connect('scroll', (controller, dx, dy) => {
+        if (dy !== 0) {
+            const hadj = scrolledWindow.get_hadjustment()
+            const newValue = hadj.get_value() + dy * 30;
+            const maxScroll = hadj.get_upper() - hadj.get_page_size();
+            animateScroll(
+                hadj,
+                Math.max(0, Math.min(newValue, maxScroll)),
+                leftGradient,
+                rightGradient,
+            );
+            return true
+        }
+        return false
+    })
+
+    scrolledWindow.add_controller(scrollController);
 
     return <box
-        vertical={true}
-        spacing={4}>
-        {themeRows.map((themeRow) => {
-            return <box
-                vertical={false}
-                marginStart={20}
-                marginEnd={20}
-                halign={Gtk.Align.CENTER}
-                spacing={12}>
-                {themeRow.map((theme) => {
-                    return <ThemeButton theme={theme}/>
-                })}
-            </box>
-        })}
+        hexpand={true}
+        vertical={false}>
+        <overlay>
+            <box
+                canTarget={false}
+                canFocus={false}
+                opacity={0}
+                type={"overlay clip"}
+                widthRequest={50}
+                halign={Gtk.Align.START}
+                hexpand={false}
+                cssClasses={["fadeLeft"]}
+                setup={(self) => {
+                    leftGradient = self
+                }}/>
+            <box
+                canTarget={false}
+                canFocus={false}
+                type={"overlay clip"}
+                widthRequest={50}
+                halign={Gtk.Align.END}
+                hexpand={false}
+                cssClasses={["fadeRight"]}
+                setup={(self) => {
+                    rightGradient = self
+                }}/>
+            {scrolledWindow}
+
+        </overlay>
     </box>
 }
 

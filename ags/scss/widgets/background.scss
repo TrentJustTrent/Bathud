@@ -11,3 +11,23 @@
 .testBackground {
   background-color: red;
 }
+
+.fadeLeft {
+  background-image: linear-gradient(
+                  to right,
+                  vars.$bg 0%,
+                  rgba(vars.$bg, 0.95) 25%,
+                  rgba(vars.$bg, 0.7) 50%,
+                  transparent 100%
+  );
+}
+
+.fadeRight {
+  background-image: linear-gradient(
+                  to left,
+                  vars.$bg 0%,
+                  rgba(vars.$bg, 0.95) 25%,
+                  rgba(vars.$bg, 0.7) 50%,
+                  transparent 100%
+  );
+}
