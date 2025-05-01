@@ -38,19 +38,34 @@ function chunkIntoColumns<T>(arr: T[], numCols: number): T[][] {
     return columns;
 }
 
-function chunkEvenly<T>(items: T[], maxPerRow: number): T[][] {
-    const total = items.length;
-    const rowCount = Math.ceil(total / maxPerRow);
-    const baseSize = Math.floor(total / rowCount);
-    const remainder = total % rowCount;
+function chunkEvenly<T>(items: T[], maxPerRow: number, softMinPerRow: number): T[][] {
+    if (softMinPerRow > maxPerRow) {
+        throw new Error("softMinPerRow cannot be greater than maxPerRow");
+    }
 
+    const total = items.length;
     const chunks: T[][] = [];
+
     let index = 0;
 
-    for (let i = 0; i < rowCount; i++) {
-        const size = baseSize + (i < remainder ? 1 : 0); // Spread out the extras
-        chunks.push(items.slice(index, index + size));
-        index += size;
+    // Determine how many full rows we can get with at least softMinPerRow
+    let fullRows = Math.floor(total / softMinPerRow);
+
+    while (fullRows > 0) {
+        const remaining = total - fullRows * softMinPerRow;
+        // Check if the remainder can fit within maxPerRow (as a last row)
+        if (remaining <= maxPerRow && remaining >= 0) break;
+        fullRows--;
+    }
+
+    for (let i = 0; i < fullRows; i++) {
+        chunks.push(items.slice(index, index + softMinPerRow));
+        index += softMinPerRow;
+    }
+
+    // Push the remainder (can be empty or smaller than softMinPerRow)
+    if (index < total) {
+        chunks.push(items.slice(index));
     }
 
     return chunks;
@@ -78,15 +93,6 @@ function updateFiles(theme: Theme) {
                 )
             )
         })
-}
-
-function updateMargins(box: Gtk.Box, theme: Theme) {
-    let pixelAdjustment = theme.pixelOffset
-    const leftPadding = 18 - pixelAdjustment
-    const rightPadding = 18 + pixelAdjustment
-
-    box.marginStart = leftPadding
-    box.marginEnd = rightPadding
 }
 
 function BarButton(
@@ -147,7 +153,7 @@ function ThemeButton(
 }
 
 function ThemeOptions() {
-    const themeRows = chunkEvenly(config.themes, 5)
+    const themeRows = chunkEvenly(config.themes, 5, 4)
 
     return <box
         vertical={true}

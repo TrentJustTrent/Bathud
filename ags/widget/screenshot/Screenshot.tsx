@@ -309,7 +309,9 @@ function ScreenShots() {
                             "bash",
                             "-c",
                             `
-                                    grim -g "$(slurp -o)" ${path}
+                                    slurpValue=$(slurp -o)
+                                    sleep ${delay.get()}
+                                    grim -g "$slurpValue" ${path}
                             `
                         ]
                     ).catch((error) => {
@@ -331,7 +333,9 @@ function ScreenShots() {
                             "bash",
                             "-c",
                             `
-                                    grim -g "$(slurp)" ${path}
+                                    slurpValue=$(slurp)
+                                    sleep ${delay.get()}
+                                    grim -g "$slurpValue" ${path}
                             `
                         ]
                     ).catch((error) => {
