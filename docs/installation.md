@@ -1,5 +1,7 @@
 # Installation
 
+This project is still a work in progress, so there are no versioned releases yet.
+
 ## Arch
 
 ---
