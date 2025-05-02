@@ -17,9 +17,10 @@ yay -S okpanel-git
 ### Manual
 
 Install dependencies    
-Hyprland is assumed to already be installed
+
 ```
 yay -S aylurs-gtk-shell-git \
+hyprland \
 gvfs \
 sox \
 wf-recorder \
@@ -35,7 +36,10 @@ dart-sass \
 upower \
 brightnessctl \
 ttf-jetbrains-mono-nerd \
-libnotify
+libnotify \
+hyprsunset \
+cliphist \
+wl-clipboard
 ```
 
 Checkout the git repository
