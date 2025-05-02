@@ -63,6 +63,25 @@ function updateFiles(theme: Theme) {
         })
 }
 
+function updateFade(
+    adjustment: Gtk.Adjustment,
+    leftGradient: Gtk.Box,
+    rightGradient: Gtk.Box,
+) {
+    let leftDistance = adjustment.get_value() * 2
+    if (leftDistance > 100) {
+        leftDistance = 100
+    }
+    leftGradient.opacity = leftDistance / 100
+
+    const maxScroll = adjustment.get_upper() - adjustment.get_page_size();
+    let rightDistance = (maxScroll - adjustment.get_value()) * 2
+    if (rightDistance > 100) {
+        rightDistance = 100
+    }
+    rightGradient.opacity = rightDistance / 100
+}
+
 let scrollAnimationId: number | null = null
 
 function animateScroll(
@@ -91,18 +110,7 @@ function animateScroll(
 
         adjustment.set_value(start + delta * eased);
 
-        let leftDistance = adjustment.get_value() * 2
-        if (leftDistance > 100) {
-            leftDistance = 100
-        }
-        leftGradient.opacity = leftDistance / 100
-
-        const maxScroll = adjustment.get_upper() - adjustment.get_page_size();
-        let rightDistance = (maxScroll - adjustment.get_value()) * 2
-        if (rightDistance > 100) {
-            rightDistance = 100
-        }
-        rightGradient.opacity = rightDistance / 100
+        updateFade(adjustment, leftGradient, rightGradient);
 
         if (progress < 1) {
             return GLib.SOURCE_CONTINUE;
@@ -190,21 +198,46 @@ function ThemeOptions() {
         </box>
     })
 
-    const scrollController = Gtk.EventControllerScroll.new(Gtk.EventControllerScrollFlags.VERTICAL)
+    const scrollController = Gtk.EventControllerScroll.new(Gtk.EventControllerScrollFlags.BOTH_AXES)
 
     // Intercept vertical scrolling and translate to horizontal
     scrollController.connect('scroll', (controller, dx, dy) => {
         if (dy !== 0) {
             const hadj = scrolledWindow.get_hadjustment()
-            const newValue = hadj.get_value() + dy * 30;
             const maxScroll = hadj.get_upper() - hadj.get_page_size();
-            animateScroll(
-                hadj,
-                Math.max(0, Math.min(newValue, maxScroll)),
-                leftGradient,
-                rightGradient,
-            );
+            if (dy === 1 || dy === -1) {
+                const newValue = hadj.get_value() + dy * 30;
+                animateScroll(
+                    hadj,
+                    Math.max(0, Math.min(newValue, maxScroll)),
+                    leftGradient,
+                    rightGradient,
+                );
+            } else {
+                const newValue = hadj.get_value() + dy * 5;
+                hadj.set_value(newValue);
+                updateFade(hadj, leftGradient, rightGradient);
+            }
             return true
+        }
+        if (dx !== 0) {
+            const hadj = scrolledWindow.get_hadjustment()
+            const maxScroll = hadj.get_upper() - hadj.get_page_size();
+            if (dx === 1 || dx === -1) {
+                const newValue = hadj.get_value() + dx * 30;
+                animateScroll(
+                    hadj,
+                    Math.max(0, Math.min(newValue, maxScroll)),
+                    leftGradient,
+                    rightGradient,
+                );
+            } else {
+                const newValue = hadj.get_value() + dx * 5;
+                hadj.set_value(newValue);
+                updateFade(hadj, leftGradient, rightGradient);
+            }
+            return true
+
         }
         return false
     })

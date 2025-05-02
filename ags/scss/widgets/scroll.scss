@@ -12,3 +12,10 @@
 .scrollWindow trough slider {
   all: unset;
 }
+
+.scrollWindow overshoot.top,
+.scrollWindow overshoot.bottom,
+.scrollWindow overshoot.left,
+.scrollWindow overshoot.right {
+  background: none;
+}
