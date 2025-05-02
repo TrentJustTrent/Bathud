@@ -25,7 +25,6 @@ pipewire-pulse \
 grim \
 slurp \
 jq \
-wl-clipboard \
 networkmanager \
 wireplumber \
 bluez \
