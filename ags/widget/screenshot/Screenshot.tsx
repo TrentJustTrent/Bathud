@@ -6,6 +6,7 @@ import Pango from "gi://Pango?version=1.0";
 import {playCameraShutter} from "../utils/audio";
 import RevealerRow from "../common/RevealerRow";
 import {hideAllWindows} from "../utils/windows";
+import {projectDir} from "../../config/config";
 
 export const isRecording = Variable(false)
 
@@ -191,6 +192,11 @@ function showNotification(
     })
 }
 
+function generateFileName(): string {
+    const time = GLib.DateTime.new_now_local().format("%Y_%m_%d_%H_%M_%S")!
+    return `${time}_screenshot.png`
+}
+
 function ScreenshotButton(
     {
         icon,
@@ -220,7 +226,7 @@ function ScreenshotButton(
 }
 
 function ScreenShots() {
-    const delay = Variable(1)
+    const delay = Variable(0)
     let delayRevealed: Variable<boolean> | null = null
 
     return <box
@@ -302,23 +308,59 @@ function ScreenShots() {
                 label={"Monitor"}
                 onClicked={() => {
                     hideAllWindows()
-                    const time = GLib.DateTime.new_now_local().format("%Y_%m_%d_%H_%M_%S")!
-                    const path = `${screenshotDir}/${time}_screenshot.png`
+                    const dir = screenshotDir
+                    const fileName = generateFileName()
+                    const path = `${dir}/${fileName}`
+                    let canceled = false
                     execAsync(
                         [
                             "bash",
                             "-c",
                             `
-                                    slurpValue=$(slurp -o)
-                                    sleep ${delay.get()}
-                                    grim -g "$slurpValue" ${path}
+                                    ${projectDir}/shellScripts/hyprshot -m output -o ${dir} -f ${fileName} -D ${delay.get()}
                             `
                         ]
                     ).catch((error) => {
+                        const message = typeof error === "string" ? error : error?.toString?.() ?? "";
+                        if (message.includes("selection cancelled")) {
+                            canceled = true;
+                        }
                         print(error)
                     }).finally(() => {
-                        playCameraShutter()
-                        showScreenshotNotification(path)
+                        if (!canceled) {
+                            playCameraShutter()
+                            showScreenshotNotification(path)
+                        }
+                    })
+                }}/>
+            <ScreenshotButton
+                icon={""}
+                label={"Window"}
+                onClicked={() => {
+                    hideAllWindows()
+                    const dir = screenshotDir
+                    const fileName = generateFileName()
+                    const path = `${dir}/${fileName}`
+                    let canceled = false
+                    execAsync(
+                        [
+                            "bash",
+                            "-c",
+                            `
+                                    ${projectDir}/shellScripts/hyprshot -m window -o ${dir} -f ${fileName} -D ${delay.get()}
+                            `
+                        ]
+                    ).catch((error) => {
+                        const message = typeof error === "string" ? error : error?.toString?.() ?? "";
+                        if (message.includes("selection cancelled")) {
+                            canceled = true;
+                        }
+                        print(error)
+                    }).finally(() => {
+                        if (!canceled) {
+                            playCameraShutter()
+                            showScreenshotNotification(path)
+                        }
                     })
                 }}/>
             <ScreenshotButton
@@ -326,23 +368,29 @@ function ScreenShots() {
                 label={"Area"}
                 onClicked={() => {
                     hideAllWindows()
-                    const time = GLib.DateTime.new_now_local().format("%Y_%m_%d_%H_%M_%S")!
-                    const path = `${screenshotDir}/${time}_screenshot.png`
+                    const dir = screenshotDir
+                    const fileName = generateFileName()
+                    const path = `${dir}/${fileName}`
+                    let canceled = false
                     execAsync(
                         [
                             "bash",
                             "-c",
                             `
-                                    slurpValue=$(slurp)
-                                    sleep ${delay.get()}
-                                    grim -g "$slurpValue" ${path}
+                                    ${projectDir}/shellScripts/hyprshot -m region -o ${dir} -f ${fileName} -D ${delay.get()}
                             `
                         ]
                     ).catch((error) => {
+                        const message = typeof error === "string" ? error : error?.toString?.() ?? "";
+                        if (message.includes("selection cancelled")) {
+                            canceled = true;
+                        }
                         print(error)
                     }).finally(() => {
-                        playCameraShutter()
-                        showScreenshotNotification(path)
+                        if (!canceled) {
+                            playCameraShutter()
+                            showScreenshotNotification(path)
+                        }
                     })
                 }}/>
         </box>
@@ -617,7 +665,32 @@ function ScreenRecording() {
                             "bash",
                             "-c",
                             `
-                            sleep 0.7
+                            ${command}
+                            `
+                        ]
+                    ).catch((error) => {
+                        print(error)
+                    }).finally(() => {
+                        isRecording.set(false)
+                        showScreenRecordingNotification(path)
+                    })
+                }}/>
+            <ScreenshotButton
+                icon={""}
+                label={"Window"}
+                onClicked={() => {
+                    isRecording.set(true)
+                    const time = GLib.DateTime.new_now_local().format("%Y_%m_%d_%H_%M_%S")!
+                    const path = `${screenRecordingDir}/${time}_record.mp4`
+                    const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
+                    const command = `wf-recorder --file=${path} -g "$(${projectDir}/shellScripts/grabWindow)" ${audioParam} -p preset=${selectedEncodingPreset.get()} -p crf=${selectedCrfQuality.get()} -c ${selectedCodec.get().lib}`
+                    print(command)
+                    hideAllWindows()
+                    execAsync(
+                        [
+                            "bash",
+                            "-c",
+                            `
                             ${command}
                             `
                         ]
@@ -644,7 +717,6 @@ function ScreenRecording() {
                             "bash",
                             "-c",
                             `
-                            sleep 0.7
                             ${command}
                             `
                         ]
@@ -688,7 +760,7 @@ export default function () {
             <box
                 cssClasses={["window"]}>
                 <Gtk.ScrolledWindow
-                    widthRequest={430}
+                    widthRequest={560}
                     cssClasses={["scrollWindow"]}
                     vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
                     propagateNaturalHeight={true}>
