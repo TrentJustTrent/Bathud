@@ -5,12 +5,14 @@ export default function(
         marginBottom,
         marginStart,
         marginEnd,
+        thin = false,
     }: {
         cssClasses?: string[],
         marginTop?: number,
         marginBottom?: number,
         marginStart?: number,
         marginEnd?: number,
+        thin?: boolean
     }
 ) {
     return <box
@@ -18,5 +20,9 @@ export default function(
         marginBottom={marginBottom}
         marginStart={marginStart}
         marginEnd={marginEnd}
-        cssClasses={cssClasses != null ? cssClasses.concat(["divider"]) : ["divider"]}/>
+        cssClasses={
+            cssClasses != null ?
+                cssClasses.concat([thin ? "dividerThin" : "divider"]) :
+                [thin ? "dividerThin" : "divider"]
+        }/>
 }

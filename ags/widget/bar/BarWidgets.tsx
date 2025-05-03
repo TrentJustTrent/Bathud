@@ -53,7 +53,12 @@ function Workspaces({vertical}: { vertical: boolean }) {
             return groupedWorkspaces.map((workspaceGroup, index) => {
                 return <box
                     vertical={vertical}>
-                    {index > 0 && index < groupedWorkspaces.length && <Divider/>}
+                    {index > 0 && index < groupedWorkspaces.length &&
+                        <Divider
+                            thin={true}
+                            marginStart={4}
+                            marginEnd={4}/>
+                    }
                     {workspaceGroup.sort((a, b) => {
                         return a.id - b.id
                     }).map((workspace) => {
