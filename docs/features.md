@@ -114,6 +114,8 @@ Cliphist will only run if the clipboard manager widget is added to the bar.  Sen
 passwords, api keys, private keys, etc should be filtered out.  Check the [script](https://github.com/JohnOberhauser/OkPanel/blob/main/ags/shellScripts/cliphistStore.sh)
 or disable the widget if you have concerns.
 
+![screenshot](screenshots/features/clipboardManager.png)
+
 ## Volume and brightness alerts
 
 These alerts will show automatically when changing volume or brightness.
