@@ -2757,20 +2757,23 @@ declare module 'gi://GObject?version=2.0' {
              */
             NO_HOOKS,
             /**
-             * Varargs signal emission will always collect the
-             *   arguments, even if there are no signal handlers connected.  Since 2.30.
+             * Varargs signal emission will always collect the arguments, even if there
+             * are no signal handlers connected.
              */
             MUST_COLLECT,
             /**
-             * The signal is deprecated and will be removed
-             *   in a future version. A warning will be generated if it is connected while
-             *   running with G_ENABLE_DIAGNOSTIC=1.  Since 2.32.
+             * The signal is deprecated and will be removed in a future version.
+             *
+             * A warning will be generated if it is connected while running with
+             * `G_ENABLE_DIAGNOSTIC=1`.
              */
             DEPRECATED,
             /**
-             * Only used in #GSignalAccumulator accumulator
-             *   functions for the #GSignalInvocationHint::run_type field to mark the first
-             *   call to the accumulator function for a signal emission.  Since 2.68.
+             * The signal accumulator was invoked for the first time.
+             *
+             * This flag is only used in [callback`GObject`.SignalAccumulator][accumulator functions]
+             * for the `run_type` field of the [struct`GObject`.SignalInvocationHint], to
+             * mark the first call to the accumulator function for a signal emission.
              */
             ACCUMULATOR_FIRST_RUN,
         }

@@ -13469,7 +13469,7 @@ declare module 'gi://GtkSource?version=4' {
             _init(...args: any[]): void;
         }
 
-        class Encoding {
+        abstract class Encoding {
             static $gtype: GObject.GType<Encoding>;
 
             // Constructors

@@ -616,7 +616,7 @@ declare module 'gi://AstalWp?version=0.1' {
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
                 devices: Endpoint[];
-                recorders: any;
+                recorders: Endpoint[];
                 sinks: Endpoint[];
                 sources: Endpoint[];
                 streams: Endpoint[];
@@ -638,7 +638,10 @@ declare module 'gi://AstalWp?version=0.1' {
              * A list of AstalWpEndpoint objects
              */
             get devices(): Endpoint[];
-            get recorders(): any;
+            /**
+             * A list of AstalWpEndpoint objects
+             */
+            get recorders(): Endpoint[];
             /**
              * A list of AstalWpEndpoint objects
              */

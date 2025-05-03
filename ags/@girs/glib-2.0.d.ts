@@ -9119,12 +9119,15 @@ declare module 'gi://GLib?version=2.0' {
          * If you are using #GApplication the program name is set in
          * g_application_run(). In case of GDK or GTK it is set in
          * gdk_init(), which is called by gtk_init() and the
-         * #GtkApplication::startup handler. The program name is found by
-         * taking the last component of `argv[`0].
+         * #GtkApplication::startup handler. By default, the program name is
+         * found by taking the last component of `argv[`0].
          *
          * Since GLib 2.72, this function can be called multiple times
          * and is fully thread safe. Prior to GLib 2.72, this function
          * could only be called once per process.
+         *
+         * See the [GTK documentation](https://docs.gtk.org/gtk4/migrating-3to4.html#set-a-proper-application-id)
+         * for requirements on integrating g_set_prgname() with GTK applications.
          * @param prgname the name of the program.
          */
         function set_prgname(prgname: string): void;
@@ -18455,8 +18458,10 @@ declare module 'gi://GLib?version=2.0' {
             load_from_data(data: string, length: number, flags: KeyFileFlags | null): boolean;
             /**
              * Looks for a key file named `file` in the paths returned from
-             * [func`GLib`.get_user_data_dir] and [func`GLib`.get_system_data_dirs],
-             * loads the file into `key_file` and returns the file’s full path in
+             * [func`GLib`.get_user_data_dir] and [func`GLib`.get_system_data_dirs].
+             *
+             * The search algorithm from [method`GLib`.KeyFile.load_from_dirs] is used. If
+             * `file` is found, it’s loaded into `key_file` and its full path is returned in
              * `full_path`.
              *
              * If the file could not be loaded then either a [error`GLib`.FileError] or
@@ -18469,6 +18474,13 @@ declare module 'gi://GLib?version=2.0' {
             /**
              * Looks for a key file named `file` in the paths specified in `search_dirs,`
              * loads the file into `key_file` and returns the file’s full path in `full_path`.
+             *
+             * `search_dirs` are checked in the order listed in the array, with the highest
+             * priority directory listed first. Within each directory, `file` is looked for.
+             * If it’s not found, `-` characters in `file` are progressively replaced with
+             * directory separators to search subdirectories of the search directory. If the
+             * file has not been found after all `-` characters have been replaced, the next
+             * search directory in `search_dirs` is checked.
              *
              * If the file could not be found in any of the `search_dirs,`
              * [error`GLib`.KeyFileError.NOT_FOUND] is returned. If
@@ -26895,6 +26907,19 @@ declare module 'gi://GLib?version=2.0' {
 
         /**
          * A type in the [type`GLib`.Variant] type system.
+         *
+         * [type`GLib`.Variant] types are represented as strings, but have a strict
+         * syntax described below. All [type`GLib`.VariantType]s passed to GLib must be
+         * valid, and they are typically expected to be static (i.e. not provided by
+         * user input) as they determine how binary [type`GLib`.Variant] data is
+         * interpreted.
+         *
+         * To convert a static string to a [type`GLib`.VariantType] in C, use the
+         * [func`GLib`.VARIANT_TYPE] casting macro. When GLib is compiled with checks
+         * enabled, it will validate the type. To check if an arbitrary string is a
+         * valid [type`GLib`.VariantType], use [func`GLib`.VariantType.string_is_valid].
+         *
+         * ## GVariant Type System
          *
          * This section introduces the [type`GLib`.Variant] type system. It is based, in
          * large part, on the D-Bus type system, with two major changes and

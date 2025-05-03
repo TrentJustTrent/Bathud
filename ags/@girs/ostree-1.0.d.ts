@@ -575,6 +575,10 @@ declare module 'gi://OSTree?version=1.0' {
          * The name of the default ed25519 signing type.
          */
         const SIGN_NAME_ED25519: string;
+        /**
+         * The name of the spki signing type.
+         */
+        const SIGN_NAME_SPKI: string;
         const SUMMARY_GVARIANT_STRING: string;
         const SUMMARY_SIG_GVARIANT_STRING: string;
         /**
@@ -6122,13 +6126,17 @@ declare module 'gi://OSTree?version=1.0' {
              */
             load_partial_contents_finish(res: Gio.AsyncResult): [boolean, Uint8Array, string];
             /**
-             * Creates a directory. Note that this will only create a child directory
+             * Creates a directory.
+             *
+             * Note that this will only create a child directory
              * of the immediate parent directory of the path or URI given by the #GFile.
              * To recursively create directories, see g_file_make_directory_with_parents().
+             *
              * This function will fail if the parent directory does not exist, setting
              * `error` to %G_IO_ERROR_NOT_FOUND. If the file system doesn't support
              * creating directories, this function will fail, setting `error` to
-             * %G_IO_ERROR_NOT_SUPPORTED.
+             * %G_IO_ERROR_NOT_SUPPORTED. If the directory already exists,
+             * [error`Gio`.IOErrorEnum.EXISTS] will be returned.
              *
              * For a local #GFile the newly created directory will have the default
              * (current) ownership and permissions of the current process.
@@ -8818,13 +8826,17 @@ declare module 'gi://OSTree?version=1.0' {
              */
             vfunc_is_native(): boolean;
             /**
-             * Creates a directory. Note that this will only create a child directory
+             * Creates a directory.
+             *
+             * Note that this will only create a child directory
              * of the immediate parent directory of the path or URI given by the #GFile.
              * To recursively create directories, see g_file_make_directory_with_parents().
+             *
              * This function will fail if the parent directory does not exist, setting
              * `error` to %G_IO_ERROR_NOT_FOUND. If the file system doesn't support
              * creating directories, this function will fail, setting `error` to
-             * %G_IO_ERROR_NOT_SUPPORTED.
+             * %G_IO_ERROR_NOT_SUPPORTED. If the directory already exists,
+             * [error`Gio`.IOErrorEnum.EXISTS] will be returned.
              *
              * For a local #GFile the newly created directory will have the default
              * (current) ownership and permissions of the current process.
@@ -12564,6 +12576,10 @@ declare module 'gi://OSTree?version=1.0' {
              * @param unused Not used, just in case you didn't infer that from the parameter name
              */
             static fscreatecon_cleanup(unused?: any | null): void;
+            /**
+             * Disable SELinux's builtin logging; one rarely wants this enabled.
+             */
+            static set_null_log(): void;
 
             // Methods
 
@@ -14186,6 +14202,7 @@ declare module 'gi://OSTree?version=1.0' {
         }
 
         type AsyncProgressClass = typeof AsyncProgress;
+        type BlobReaderInterface = typeof BlobReader;
         /**
          * A structure which globally uniquely identifies a ref as the tuple
          * (`collection_id,` `ref_name)`. For backwards compatibility, `collection_id` may be %NULL,
@@ -14972,6 +14989,30 @@ declare module 'gi://OSTree?version=1.0' {
             _init(...args: any[]): void;
         }
 
+        namespace BlobReader {
+            // Constructor properties interface
+
+            interface ConstructorProps extends GObject.Object.ConstructorProps {}
+        }
+
+        export interface BlobReaderNamespace {
+            $gtype: GObject.GType<BlobReader>;
+            prototype: BlobReader;
+        }
+        interface BlobReader extends GObject.Object {
+            // Methods
+
+            read_blob(cancellable?: Gio.Cancellable | null): GLib.Bytes;
+
+            // Virtual methods
+
+            vfunc_read_blob(cancellable?: Gio.Cancellable | null): GLib.Bytes;
+        }
+
+        export const BlobReader: BlobReaderNamespace & {
+            new (): BlobReader; // This allows `obj instanceof BlobReader`
+        };
+
         namespace RepoFinder {
             // Constructor properties interface
 
@@ -15294,6 +15335,18 @@ declare module 'gi://OSTree?version=1.0' {
              * @returns pointer to the metadata key name, @NULL in case of error (unlikely).
              */
             metadata_key(): string;
+            /**
+             * Start reading public keys from a stream.
+             * @param stream a #GInputStream
+             * @returns a #OstreamBlobReader or %NULL on error
+             */
+            read_pk(stream: Gio.InputStream): BlobReader;
+            /**
+             * Start reading secret keys from a stream.
+             * @param stream a #GInputStream
+             * @returns a #OstreamBlobReader or %NULL on error
+             */
+            read_sk(stream: Gio.InputStream): BlobReader;
             /**
              * Set the public key for verification. It is expected what all
              * previously pre-loaded public keys will be dropped.

@@ -102,9 +102,9 @@ declare module 'gi://Gtk4SessionLock?version=1.0' {
             // Methods
 
             /**
-             * This should be called with a different window once for each monitor immediately after calling
+             * This must be called with a different window once for each monitor, immediately after calling
              * gtk_session_lock_lock(). Hiding a window that is active on a monitor or not letting a window be resized by the
-             * library may result in a Wayland protocol error.
+             * library is not allowed (may result in a Wayland protocol error).
              * @param window The GTK Window to use as a lock surface
              * @param monitor The monitor to show it on
              */

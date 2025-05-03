@@ -6823,7 +6823,7 @@ declare module 'gi://Secret?version=1' {
              * value.
              *
              * The content type must be `text/plain`.
-             * @returns the content type
+             * @returns the value
              */
             get_text(): string | null;
             /**

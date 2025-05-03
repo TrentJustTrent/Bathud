@@ -1410,6 +1410,17 @@ declare module 'gi://Soup?version=3.0' {
          */
         function message_headers_iter_init(hdrs: MessageHeaders): MessageHeadersIter;
         /**
+         * Yields the next name/value pair in the [struct`MessageHeaders]` being
+         * iterated by `iter`.
+         *
+         * If `iter` has already yielded the last header, then
+         * [method`MessageHeadersIter`.next] will return %FALSE and `name` and `value`
+         * will be unchanged.
+         * @param iter a %SoupMessageHeadersIter
+         * @returns %TRUE if another name and value were returned, %FALSE   if the end of the headers has been reached.
+         */
+        function message_headers_iter_next(iter: MessageHeadersIter): [boolean, MessageHeadersIter, string, string];
+        /**
          * Registers error quark for SoupSession if needed.
          * @returns Error quark for SoupSession.
          */
@@ -4336,7 +4347,7 @@ declare module 'gi://Soup?version=3.0' {
             // Signal callback interfaces
 
             interface Changed {
-                (old_cookie: Cookie, new_cookie: Cookie): void;
+                (old_cookie?: Cookie | null, new_cookie?: Cookie | null): void;
             }
 
             // Constructor properties interface
@@ -4399,13 +4410,13 @@ declare module 'gi://Soup?version=3.0' {
             emit(id: string, ...args: any[]): void;
             connect(
                 signal: 'changed',
-                callback: (_source: this, old_cookie: Cookie, new_cookie: Cookie) => void,
+                callback: (_source: this, old_cookie: Cookie | null, new_cookie: Cookie | null) => void,
             ): number;
             connect_after(
                 signal: 'changed',
-                callback: (_source: this, old_cookie: Cookie, new_cookie: Cookie) => void,
+                callback: (_source: this, old_cookie: Cookie | null, new_cookie: Cookie | null) => void,
             ): number;
-            emit(signal: 'changed', old_cookie: Cookie, new_cookie: Cookie): void;
+            emit(signal: 'changed', old_cookie?: Cookie | null, new_cookie?: Cookie | null): void;
 
             // Virtual methods
 
@@ -4471,6 +4482,8 @@ declare module 'gi://Soup?version=3.0' {
              *
              * The cookies in the list are a copy of the original, so
              * you have to free them when you are done with them.
+             *
+             * For historical reasons this list is in reverse order.
              * @returns a #GSList   with all the cookies in the @jar.
              */
             all_cookies(): Cookie[];
@@ -10594,6 +10607,9 @@ declare module 'gi://Soup?version=3.0' {
              * initial (`3xx/401/407`) response body will be suppressed, and
              * [method`Session`.send] will only return once a final response has been
              * received.
+             *
+             * Possible error domains include [error`SessionError]`, [error`Gio`.IOErrorEnum],
+             * and [error`Gio`.TlsError] which you may want to specifically handle.
              * @param msg a #SoupMessage
              * @param cancellable a #GCancellable
              * @returns a #GInputStream for reading the   response body, or %NULL on error.
@@ -12782,9 +12798,6 @@ declare module 'gi://Soup?version=3.0' {
              * @param hdrs a %SoupMessageHeaders
              */
             static init(hdrs: MessageHeaders): MessageHeadersIter;
-
-            // Methods
-
             /**
              * Yields the next name/value pair in the [struct`MessageHeaders]` being
              * iterated by `iter`.
@@ -12792,9 +12805,9 @@ declare module 'gi://Soup?version=3.0' {
              * If `iter` has already yielded the last header, then
              * [method`MessageHeadersIter`.next] will return %FALSE and `name` and `value`
              * will be unchanged.
-             * @returns %TRUE if another name and value were returned, %FALSE   if the end of the headers has been reached.
+             * @param iter a %SoupMessageHeadersIter
              */
-            next(): [boolean, string, string];
+            static next(iter: MessageHeadersIter): [boolean, MessageHeadersIter, string, string];
         }
 
         /**

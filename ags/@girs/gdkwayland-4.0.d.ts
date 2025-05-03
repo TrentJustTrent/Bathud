@@ -635,6 +635,13 @@ declare module 'gi://GdkWayland?version=4.0' {
             constructor(properties?: Partial<WaylandSurface.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Methods
+
+            /**
+             * Forces next commit.
+             */
+            force_next_commit(): void;
         }
 
         namespace WaylandToplevel {

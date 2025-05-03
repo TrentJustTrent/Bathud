@@ -51,7 +51,9 @@ declare module 'gi://AstalTray?version=0.1' {
         const MICRO_VERSION: number;
         const VERSION: string;
         function category_to_nick(): string;
+        function category_from_string(value: string): Category;
         function status_to_nick(): string;
+        function status_from_string(value: string): Status;
         /**
          * Get the singleton instance of [class`AstalTray`.Tray]
          */
@@ -153,6 +155,8 @@ declare module 'gi://AstalTray?version=0.1' {
                 gicon: Gio.Icon;
                 item_id: string;
                 itemId: string;
+                menu_path: never;
+                menuPath: never;
                 menu_model: Gio.MenuModel;
                 menuModel: Gio.MenuModel;
                 action_group: Gio.ActionGroup;
@@ -169,18 +173,22 @@ declare module 'gi://AstalTray?version=0.1' {
              * The Title of the TrayItem
              */
             get title(): string;
+            set title(val: string);
             /**
              * The category this item belongs to
              */
             get category(): Category;
+            set category(val: Category);
             /**
              * The current status of this item
              */
             get status(): Status;
+            set status(val: Status);
             /**
              * The tooltip of this item
              */
             get tooltip(): Tooltip;
+            set tooltip(val: Tooltip);
             /**
              * A markup representation of the tooltip. This is basically equvivalent to `tooltip.title \n tooltip.description`
              */
@@ -193,24 +201,29 @@ declare module 'gi://AstalTray?version=0.1' {
              * the id of the item. This id is specified by the tray app.
              */
             get id(): string;
+            set id(val: string);
             /**
              * If set, this only supports the menu, so showing the menu should be prefered over calling [method`AstalTray`.TrayItem.activate].
              */
             get is_menu(): boolean;
+            set is_menu(val: boolean);
             /**
              * If set, this only supports the menu, so showing the menu should be prefered over calling [method`AstalTray`.TrayItem.activate].
              */
             get isMenu(): boolean;
+            set isMenu(val: boolean);
             /**
              * The icon theme path, where to look for the [property`AstalTray`.TrayItem:icon-name]. It is recommended to use the [property@
              * AstalTray.TrayItem:gicon] property, which does the icon lookups for you.
              */
             get icon_theme_path(): string;
+            set icon_theme_path(val: string);
             /**
              * The icon theme path, where to look for the [property`AstalTray`.TrayItem:icon-name]. It is recommended to use the [property@
              * AstalTray.TrayItem:gicon] property, which does the icon lookups for you.
              */
             get iconThemePath(): string;
+            set iconThemePath(val: string);
             /**
              * The name of the icon. This should be looked up in the [property`AstalTray`.TrayItem:icon-theme-path] if set or in the currently used icon
              * theme otherwise. It is recommended to use the [property`AstalTray`.TrayItem:gicon] property, which does the icon lookups for you.
@@ -248,6 +261,16 @@ declare module 'gi://AstalTray?version=0.1' {
              */
             get itemId(): string;
             set itemId(val: string);
+            /**
+             * The object path to the dbusmenu
+             */
+            get menu_path(): never;
+            set menu_path(val: never);
+            /**
+             * The object path to the dbusmenu
+             */
+            get menuPath(): never;
+            set menuPath(val: never);
             /**
              * The MenuModel describing the menu for this TrayItem to be used with a MenuButton or PopoverMenu. The actions for this menu are defined in
              * [property`AstalTray`.TrayItem:action-group].
@@ -327,6 +350,7 @@ declare module 'gi://AstalTray?version=0.1' {
             get_icon_pixbuf(): GdkPixbuf.Pixbuf;
             get_gicon(): Gio.Icon;
             get_item_id(): string;
+            get_menu_path(): never;
             get_menu_model(): Gio.MenuModel | null;
             get_action_group(): Gio.ActionGroup | null;
         }

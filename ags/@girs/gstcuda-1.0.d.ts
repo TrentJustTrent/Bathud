@@ -628,11 +628,18 @@ declare module 'gi://GstCuda?version=1.0' {
 
             // Constructors
 
-            constructor(context: CudaContext, props?: unknown | null);
+            constructor(context: CudaContext, props?: CudaGst.memPoolProps | null);
             _init(...args: any[]): void;
+
+            static ['new'](context: CudaContext, props?: CudaGst.memPoolProps | null): CudaMemoryPool;
 
             // Methods
 
+            /**
+             * Get CUDA memory pool handle
+             * @returns a CUmemoryPool handle
+             */
+            get_handle(): CudaGst.memoryPool;
             /**
              * Increase the reference count of `pool`.
              * @returns @pool

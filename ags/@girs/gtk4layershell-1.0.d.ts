@@ -145,11 +145,11 @@ declare module 'gi://Gtk4LayerShell?version=1.0' {
         function get_minor_version(): number;
         /**
          * NOTE: To get which monitor the surface is actually on, use
-         * gdk_display_get_monitor_at_window().
+         * gdk_display_get_monitor_at_surface().
          * @param window A layer surface.
-         * @returns the monitor this surface will/has requested to be on, can be %NULL.
+         * @returns the monitor this surface will/has requested to be on.
          */
-        function get_monitor(window: Gtk.Window): Gdk.Monitor;
+        function get_monitor(window: Gtk.Window): Gdk.Monitor | null;
         /**
          * NOTE: this function does not return ownership of the string. Do not free the returned string.
          * Future calls into the library may invalidate the returned string.
@@ -232,9 +232,9 @@ declare module 'gi://Gtk4LayerShell?version=1.0' {
          *
          * Default is %NULL
          * @param window A layer surface.
-         * @param monitor The output this layer surface will be placed on(%NULL to let the compositor decide).
+         * @param monitor The output this layer surface will be placed on (%NULL to let the compositor decide).
          */
-        function set_monitor(window: Gtk.Window, monitor: Gdk.Monitor): void;
+        function set_monitor(window: Gtk.Window, monitor?: Gdk.Monitor | null): void;
         /**
          * Set the "namespace" of the surface.
          *
@@ -247,7 +247,7 @@ declare module 'gi://Gtk4LayerShell?version=1.0' {
          * @param window A layer surface.
          * @param name_space The namespace of this layer surface.
          */
-        function set_namespace(window: Gtk.Window, name_space: string): void;
+        function set_namespace(window: Gtk.Window, name_space?: string | null): void;
         /**
          * Name of the imported GIR library
          * `see` https://gitlab.gnome.org/GNOME/gjs/-/blob/master/gi/ns.cpp#L188
