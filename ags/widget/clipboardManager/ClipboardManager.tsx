@@ -7,7 +7,6 @@ import {execAsync} from "astal/process";
 import { App, Gtk } from "astal/gtk4";
 import {hideAllWindows} from "../utils/windows";
 import Divider from "../common/Divider";
-import Pango from "gi://Pango?version=1.0";
 import {insertNewlines} from "../utils/strings";
 
 export const ClipboardManagerWindowName = "clipboardManagerWindow"
