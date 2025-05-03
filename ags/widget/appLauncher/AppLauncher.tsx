@@ -13,11 +13,30 @@ function launchApp(app: Apps.Application) {
 interface AppButtonProps {
     app: Apps.Application;
     isSelected: boolean;
-    indexInList: number;
-    selectedIndexVariable: Variable<number>;
 }
 
-function AppButton({ app, isSelected, indexInList, selectedIndexVariable }: AppButtonProps) {
+function ensureChildVisible(scrolledWindow: Gtk.ScrolledWindow, index: number): void {
+    const vAdj = scrolledWindow.get_vadjustment();
+    const container = scrolledWindow.get_child();
+    if (!container || !vAdj) return;
+
+    // Magic number, height of each child
+    const height = 48
+    const viewStart = vAdj.get_value();
+    const viewEnd = viewStart + vAdj.get_page_size();
+
+    const childTop = (height) * index;
+    const childBottom = (height * index) + height;
+
+    if (childTop < viewStart) {
+        vAdj.set_value(childTop);
+    } else if (childBottom > viewEnd) {
+        const newValue = childBottom - vAdj.get_page_size();
+        vAdj.set_value(Math.min(newValue, vAdj.get_upper() - vAdj.get_page_size()));
+    }
+}
+
+function AppButton({ app, isSelected }: AppButtonProps) {
     return <button
         canFocus={false}
         cssClasses={isSelected ? ["selectedAppButton"] : ["appButton"]}
@@ -90,6 +109,30 @@ export default function () {
     ])
     let textEntryBox: Gtk.Entry | null = null
 
+    const scrolledWindow = new Gtk.ScrolledWindow({
+        cssClasses: ["visibleScrollWindow"],
+        vscrollbar_policy: Gtk.PolicyType.AUTOMATIC,
+        propagateNaturalHeight: true,
+        canFocus: false,
+        child: <box spacing={6} vertical={true}>
+            {listBinding(value => value[0].map((app, index) => (
+                <AppButton
+                    app={app}
+                    isSelected={index === value[1]}/>
+            )))}
+            <box
+                halign={CENTER}
+                vertical={true}
+                marginBottom={8}
+                visible={list.as(l => l.length === 0)}>
+                <label
+                    cssClasses={["labelSmall"]}
+                    label="No match found"/>
+            </box>
+            <box/>
+        </box>
+    })
+
     return <window
         name={AppLauncherWindowName}
         anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM}
@@ -110,8 +153,10 @@ export default function () {
                 hideAllWindows()
             } else if (key === Gdk.KEY_Down && list.get().length >= selectedIndex.get()) {
                 selectedIndex.set(selectedIndex.get() + 1)
+                ensureChildVisible(scrolledWindow, selectedIndex.get())
             } else if (key === Gdk.KEY_Up && selectedIndex.get() != 0) {
                 selectedIndex.set(selectedIndex.get() - 1)
+                ensureChildVisible(scrolledWindow, selectedIndex.get())
             }
         }}
         cssClasses={["transparentBackground"]}
@@ -142,31 +187,7 @@ export default function () {
                             }}
                         />
                     </box>
-                    <Gtk.ScrolledWindow
-                        cssClasses={["scrollWindow"]}
-                        vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
-                        propagateNaturalHeight={true}
-                        canFocus={false}>
-                        <box spacing={6} vertical={true}>
-                            {listBinding(value => value[0].map((app, index) => (
-                                <AppButton
-                                    app={app}
-                                    isSelected={index === value[1]}
-                                    indexInList={index}
-                                    selectedIndexVariable={selectedIndex}/>
-                            )))}
-                            <box
-                                halign={CENTER}
-                                vertical={true}
-                                marginBottom={8}
-                                visible={list.as(l => l.length === 0)}>
-                                <label
-                                    cssClasses={["labelSmall"]}
-                                    label="No match found"/>
-                            </box>
-                            <box/>
-                        </box>
-                    </Gtk.ScrolledWindow>
+                    {scrolledWindow}
                 </box>
             </box>
             <box
