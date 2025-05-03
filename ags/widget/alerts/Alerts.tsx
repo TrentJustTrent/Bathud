@@ -138,7 +138,7 @@ export function BrightnessAlert(monitor: Hyprland.Monitor): Astal.Window {
 export function ChargingAlertSound() {
     const battery = Battery.get_default()
     bind(battery, "charging").subscribe((charging) => {
-        if (battery.percentage === 1) {
+        if (battery.percentage >= 0.99) {
             return
         }
         if (charging) {
