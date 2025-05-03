@@ -121,6 +121,27 @@ function animateScroll(
     });
 }
 
+function startHyprsunset() {
+    execAsync("hyprsunset -i")
+        .catch((error) => {
+            print(error)
+        })
+}
+
+function enableNightLight() {
+    execAsync(`hyprctl hyprsunset temperature ${config.nightLightTemperature}`)
+        .catch((error) => {
+            print(error)
+        })
+}
+
+function disableNightLight() {
+    execAsync("hyprctl hyprsunset identity")
+        .catch((error) => {
+            print(error)
+        })
+}
+
 function BarButton(
     {
         barType,
@@ -313,7 +334,29 @@ function WallpaperColumn(
     </box>
 }
 
+function NightLight() {
+    return <box
+        marginStart={20}
+        marginEnd={20}
+        vertical={false}>
+        <label
+            halign={Gtk.Align.START}
+            hexpand={true}
+            label="󱩌  Night light"
+            cssClasses={["labelMedium"]}/>
+        <switch
+            onNotifyActive={(self) => {
+                if (self.active) {
+                    enableNightLight()
+                } else {
+                    disableNightLight()
+                }
+            }}/>
+    </box>
+}
+
 export default function () {
+    startHyprsunset()
     selectedTheme.subscribe((theme) => {
         if (theme != null) {
             updateFiles(theme)
@@ -351,6 +394,9 @@ export default function () {
                         marginBottom={10}/>
                 </box>}
                 <BarPositionOptions/>
+                <box marginTop={20}/>
+                <NightLight/>
+                <box marginTop={10}/>
                 <box
                     vertical={false}>
                     {Array.from({length: numberOfColumns}).map((_, index) => {

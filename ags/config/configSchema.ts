@@ -131,6 +131,13 @@ export const CONFIG_SCHEMA = [
         description: 'Default font family used across the panel widgets.',
     },
     {
+        name: 'nightLightTemperature',
+        type: 'number',
+        default: 5000,
+        description: 'The temperature of the night light.'
+    },
+    // ────────────────── Sounds ──────────────────
+    {
         name: 'sounds',
         type: 'object',
         description: 'Global sound configs.',
