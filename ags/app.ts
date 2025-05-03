@@ -15,6 +15,7 @@ import {toggleWindow} from "./widget/utils/windows";
 import Hyprland from "gi://AstalHyprland"
 import {restoreSavedState, setThemeBasic} from "./config/cachedStates";
 import {setHomeDir, setProjectDir} from "./config/config";
+import ClipboardManager from "./widget/clipboardManager/ClipboardManager";
 
 const hyprland = Hyprland.get_default()
 
@@ -34,6 +35,7 @@ App.start({
         AppLauncher()
         Screenshot()
         Screenshare()
+        ClipboardManager()
 
         hyprland.monitors.map((monitor) => {
             VolumeAlert(monitor)

@@ -12,12 +12,13 @@ import Bluetooth from "gi://AstalBluetooth"
 import {activeVpnConnections} from "../systemMenu/NetworkControls";
 import {isRecording, ScreenshotWindowName} from "../screenshot/Screenshot";
 import Divider from "../common/Divider";
-import {config} from "../../config/config";
+import {config, projectDir} from "../../config/config";
 import Tray from "gi://AstalTray"
 import {toggleWindow} from "../utils/windows";
 import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
 import {Gtk} from "astal/gtk4";
 import {BarWidget} from "../../config/configSchema";
+import {ClipboardManagerWindowName} from "../clipboardManager/ClipboardManager";
 
 const tray = Tray.get_default()
 
@@ -262,6 +263,20 @@ function ScreenshotButton() {
         }}/>
 }
 
+function ClipboardManagerButton() {
+    execAsync(`${projectDir}/shellScripts/cliphistStore.sh`)
+        .catch((error) => {
+            print(error)
+        })
+
+    return <button
+        cssClasses={["iconButton"]}
+        label=""
+        onClicked={() => {
+            toggleWindow(ClipboardManagerWindowName)
+        }}/>
+}
+
 export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
     return widgets.map((widget) => {
         switch (widget) {
@@ -293,6 +308,8 @@ export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
                 return <AppLauncherButton/>
             case BarWidget.SCREENSHOT:
                 return <ScreenshotButton/>
+            case BarWidget.CLIPBOARD_MANAGER:
+                return <ClipboardManagerButton/>
         }
     })
 }
