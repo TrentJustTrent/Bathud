@@ -136,15 +136,25 @@ export function BrightnessAlert(monitor: Hyprland.Monitor): Astal.Window {
 }
 
 export function ChargingAlertSound() {
-    const battery = Battery.get_default()
-    bind(battery, "charging").subscribe((charging) => {
-        if (battery.percentage >= 0.99) {
-            return
-        }
-        if (charging) {
-            playPowerPlug()
-        } else {
-            playPowerUnplug()
-        }
-    })
+    const linePowerDevice = Battery
+        .UPower
+        .new()
+        .devices
+        .find((device) => {
+            return device.deviceType === Battery.Type.LINE_POWER &&
+                (device.nativePath.includes("ACAD") ||
+                device.nativePath.includes("ACPI") ||
+                device.nativePath.includes("AC") ||
+                device.nativePath.includes("ADP"))
+        })
+
+    if (linePowerDevice !== null && linePowerDevice !== undefined) {
+        bind(linePowerDevice, "online").subscribe((online) => {
+            if (online) {
+                playPowerPlug()
+            } else {
+                playPowerUnplug()
+            }
+        })
+    }
 }
