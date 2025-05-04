@@ -19,6 +19,8 @@ import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
 import {Gtk} from "astal/gtk4";
 import {BarWidget} from "../../config/configSchema";
 import {ClipboardManagerWindowName} from "../clipboardManager/ClipboardManager";
+import PowerProfiles from "gi://AstalPowerProfiles"
+import {getPowerProfileIconBinding} from "../utils/powerProfile";
 
 const tray = Tray.get_default()
 
@@ -282,6 +284,12 @@ function ClipboardManagerButton() {
         }}/>
 }
 
+function PowerProfileIndicator() {
+    return <label
+        cssClasses={["iconLabel"]}
+        label={getPowerProfileIconBinding()}/>
+}
+
 export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
     return widgets.map((widget) => {
         switch (widget) {
@@ -315,6 +323,8 @@ export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
                 return <ScreenshotButton/>
             case BarWidget.CLIPBOARD_MANAGER:
                 return <ClipboardManagerButton/>
+            case BarWidget.POWER_PROFILE:
+                return <PowerProfileIndicator/>
         }
     })
 }

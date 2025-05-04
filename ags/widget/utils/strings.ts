@@ -76,3 +76,8 @@ export function insertNewlines(input: string, maxLineLength: number = 25): strin
 
     return result.join("\n");
 }
+
+export function capitalizeFirstLetter(str: string): string {
+    if (!str) return str;
+    return str[0].toUpperCase() + str.slice(1);
+}

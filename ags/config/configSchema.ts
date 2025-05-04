@@ -49,6 +49,7 @@ export enum BarWidget {
     APP_LAUNCHER = "app_launcher",
     SCREENSHOT ="screenshot",
     CLIPBOARD_MANAGER = "clipboard_manager",
+    POWER_PROFILE = "power_profile",
 }
 export const BAR_WIDGET_VALUES = Object.values(BarWidget) as readonly BarWidget[]
 
@@ -260,6 +261,7 @@ export const CONFIG_SCHEMA = [
                     BarWidget.RECORDING_INDICATOR,
                     BarWidget.TRAY,
                     BarWidget.CLIPBOARD_MANAGER,
+                    BarWidget.POWER_PROFILE,
                     BarWidget.AUDIO_OUT,
                     BarWidget.AUDIO_IN,
                     BarWidget.BLUETOOTH,
@@ -317,6 +319,7 @@ export const CONFIG_SCHEMA = [
                     BarWidget.RECORDING_INDICATOR,
                     BarWidget.TRAY,
                     BarWidget.CLIPBOARD_MANAGER,
+                    BarWidget.POWER_PROFILE,
                     BarWidget.AUDIO_OUT,
                     BarWidget.AUDIO_IN,
                     BarWidget.BLUETOOTH,

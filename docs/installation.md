@@ -34,6 +34,7 @@ bluez \
 bluez-utils \
 dart-sass \
 upower \
+power-profiles-daemon \
 brightnessctl \
 ttf-jetbrains-mono-nerd \
 libnotify \

@@ -1,31 +1,20 @@
-import {bind, Binding, Variable} from "astal"
+import {bind} from "astal"
 import {Gtk} from "astal/gtk4"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../common/RevealerRow";
 import {SystemMenuWindowName} from "./SystemMenuWindow";
 import PowerProfiles from "gi://AstalPowerProfiles"
+import {capitalizeFirstLetter} from "../utils/strings";
+import {getPowerProfileIconBinding, PowerProfile} from "../utils/powerProfile";
 
 const powerProfiles = PowerProfiles.get_default()
 
 export default function () {
-    powerProfiles.get_profiles().forEach((profile) => {
-        print(profile.profile)
-    })
     const profiles = powerProfiles.get_profiles()
 
     return <RevealerRow
         visible={profiles.length !== 0}
-        icon={bind(powerProfiles, "activeProfile").as((profile) => {
-            if (profile === "battery-saver") {
-                return "s"
-            } else if (profile === "balanced") {
-                return "b"
-            } else if (profile === "performance") {
-                return "p"
-            } else {
-                return "e"
-            }
-        })}
+        icon={getPowerProfileIconBinding()}
         iconOffset={0}
         windowName={SystemMenuWindowName}
         content={
@@ -35,14 +24,12 @@ export default function () {
                 hexpand={true}
                 ellipsize={Pango.EllipsizeMode.END}
                 label={bind(powerProfiles, "activeProfile").as((profile) => {
-                    if (profile === "battery-saver") {
-                        return "s"
-                    } else if (profile === "balanced") {
-                        return "b"
-                    } else if (profile === "performance") {
-                        return "p"
+                    if (profile === PowerProfile.PowerSaver) {
+                        return `Power Profile: ${capitalizeFirstLetter(PowerProfile.PowerSaver)}`
+                    } else if (profile === PowerProfile.Balanced) {
+                        return `Power Profile: ${capitalizeFirstLetter(PowerProfile.Balanced)}`
                     } else {
-                        return "e"
+                        return `Power Profile: ${capitalizeFirstLetter(PowerProfile.Performance)}`
                     }
                 })}/>
         }
@@ -50,7 +37,26 @@ export default function () {
             <box
                 marginTop={10}
                 vertical={true}>
-
+                {profiles.map((profile) => {
+                    return <button
+                        hexpand={true}
+                        cssClasses={["transparentButton"]}
+                        onClicked={() => {
+                            powerProfiles.set_active_profile(profile.profile)
+                        }}>
+                        <label
+                            halign={Gtk.Align.START}
+                            cssClasses={["labelSmall"]}
+                            ellipsize={Pango.EllipsizeMode.END}
+                            label={bind(powerProfiles, "activeProfile").as((activeProfile) => {
+                                if (activeProfile === profile.profile) {
+                                    return `  ${capitalizeFirstLetter(profile.profile)}`
+                                } else {
+                                    return `   ${capitalizeFirstLetter(profile.profile)}`
+                                }
+                            })}/>
+                    </button>
+                })}
             </box>
         }
     />
