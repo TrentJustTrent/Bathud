@@ -12,6 +12,7 @@ import {config, selectedBar} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import {BarWidget} from "../../config/configSchema";
 import {Bar} from "../../config/bar";
+import PowerProfileControls from "./PowerProfileControls";
 
 export const SystemMenuWindowName = "systemMenuWindow"
 
@@ -85,6 +86,7 @@ export default function () {
                     defaultEndpoint={audio.default_microphone}
                     endpointsBinding={bind(audio, "microphones")}
                     getIcon={getMicrophoneIcon}/>
+                {/*<PowerProfileControls/>*/}
                 <LookAndFeelControls/>
                 {/*MediaPlayersAstal uses the astal mpris component.  It causes UI jank.  Until it gets fix
                         use MediaPlayers.  It uses a home-made mpris component that doesn't cause the jank.*/}
