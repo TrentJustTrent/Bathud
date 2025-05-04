@@ -285,7 +285,9 @@ function ClipboardManagerButton() {
 }
 
 function PowerProfileIndicator() {
+    const profiles = PowerProfiles.get_default().get_profiles()
     return <label
+        visible={profiles.length !== 0}
         cssClasses={["iconLabel"]}
         label={getPowerProfileIconBinding()}/>
 }
