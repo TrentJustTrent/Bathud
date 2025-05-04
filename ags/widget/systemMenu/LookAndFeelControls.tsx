@@ -45,7 +45,7 @@ function updateFiles(theme: Theme) {
     }
     execAsync(["bash", "-c", `ls ${theme.wallpaperDir}`])
         .catch((error) => {
-            print(error)
+            console.error(error)
         })
         .then((value) => {
             if (typeof value !== "string") {
@@ -124,21 +124,21 @@ function animateScroll(
 function startHyprsunset() {
     execAsync("hyprsunset -i")
         .catch((error) => {
-            print(error)
+            console.error(error, "is hyprsunset already running?")
         })
 }
 
 function enableNightLight() {
     execAsync(`hyprctl hyprsunset temperature ${config.nightLightTemperature}`)
         .catch((error) => {
-            print(error)
+            console.error(error)
         })
 }
 
 function disableNightLight() {
     execAsync("hyprctl hyprsunset identity")
         .catch((error) => {
-            print(error)
+            console.error(error)
         })
 }
 

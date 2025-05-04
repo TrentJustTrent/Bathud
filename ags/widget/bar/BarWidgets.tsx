@@ -121,7 +121,7 @@ function ScreenRecordingStopButton() {
         onClicked={() => {
             execAsync("pkill wf-recorder")
                 .catch((error) => {
-                    print(error)
+                    console.error(error)
                 })
         }}/>
 }
@@ -273,7 +273,7 @@ function ScreenshotButton() {
 function ClipboardManagerButton() {
     execAsync(`${projectDir}/shellScripts/cliphistStore.sh`)
         .catch((error) => {
-            print(error)
+            console.error(error)
         })
 
     return <button

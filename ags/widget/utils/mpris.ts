@@ -95,8 +95,7 @@ export class Player {
                 null // GCancellable
             );
         } catch (e) {
-            print(`Error creating proxy for ${this.busName}`);
-            print(e);
+            console.error(e, `Error creating proxy for ${this.busName}`);
             return;
         }
 
@@ -357,7 +356,7 @@ export class Player {
 
     public setShuffleStatus(status: ShuffleStatus): void {
         if (!this.proxy) {
-            print(`No proxy available for ${this.busName}`);
+            console.log(`No proxy available for ${this.busName}`);
             return;
         }
 
@@ -371,7 +370,7 @@ export class Player {
                 boolValue = false;
                 break;
             case ShuffleStatus.Unsupported:
-                print("Shuffle is unsupported; not setting property.");
+                console.log("Shuffle is unsupported; not setting property.");
                 return;
         }
 
@@ -394,9 +393,9 @@ export class Player {
                     proxy?.call_finish(res);
                     // Optionally update the local reactive variable.
                     this.shuffleStatus.set(status);
-                    print(`Shuffle status set to ${status}`);
+                    console.log(`Shuffle status set to ${status}`);
                 } catch (e) {
-                    print("Error setting shuffle status: " + e);
+                    console.error("Error setting shuffle status: " + e);
                 }
             }
         );
@@ -404,7 +403,7 @@ export class Player {
 
     public setLoopStatus(status: LoopStatus): void {
         if (!this.proxy) {
-            print(`No proxy available for ${this.busName}`);
+            console.log(`No proxy available for ${this.busName}`);
             return;
         }
 
@@ -426,9 +425,9 @@ export class Player {
                     proxy?.call_finish(res);
                     // Update the local reactive variable if the call succeeds.
                     this.loopStatus.set(status);
-                    print(`Loop status set to ${status}`);
+                    console.log(`Loop status set to ${status}`);
                 } catch (e) {
-                    print("Error setting loop status: " + e);
+                    console.error("Error setting loop status: " + e);
                 }
             }
         );
@@ -436,7 +435,7 @@ export class Player {
 
     public nextTrack(): void {
         if (!this.proxy) {
-            print(`No proxy available for ${this.busName}`);
+            console.log(`No proxy available for ${this.busName}`);
             return;
         }
         // Call the Next method with no parameters.
@@ -449,9 +448,9 @@ export class Player {
             (proxy, res) => {
                 try {
                     proxy?.call_finish(res);
-                    print("Switched to next track");
+                    console.log("Switched to next track");
                 } catch (e) {
-                    print("Error switching to next track: " + e);
+                    console.error("Error switching to next track: " + e);
                 }
             }
         );
@@ -459,7 +458,7 @@ export class Player {
 
     public previousTrack(): void {
         if (!this.proxy) {
-            print(`No proxy available for ${this.busName}`);
+            console.log(`No proxy available for ${this.busName}`);
             return;
         }
         // Call the Previous method with no parameters.
@@ -472,9 +471,9 @@ export class Player {
             (proxy, res) => {
                 try {
                     proxy?.call_finish(res);
-                    print("Switched to previous track");
+                    console.log("Switched to previous track");
                 } catch (e) {
-                    print("Error switching to previous track: " + e);
+                    console.error("Error switching to previous track: " + e);
                 }
             }
         );
@@ -482,7 +481,7 @@ export class Player {
 
     public playPause(): void {
         if (!this.proxy) {
-            print(`No proxy available for ${this.busName}`);
+            console.log(`No proxy available for ${this.busName}`);
             return;
         }
         // Call the PlayPause method with no parameters.
@@ -495,9 +494,9 @@ export class Player {
             (proxy, res) => {
                 try {
                     proxy?.call_finish(res);
-                    print("Toggled play/pause");
+                    console.log("Toggled play/pause");
                 } catch (e) {
-                    print("Error toggling play/pause: " + e);
+                    console.error("Error toggling play/pause: " + e);
                 }
             }
         );
@@ -506,14 +505,14 @@ export class Player {
 
     public setPosition(newPosition: number): void {
         if (!this.proxy) {
-            print(`No proxy available for ${this.busName}`);
+            console.log(`No proxy available for ${this.busName}`);
             return;
         }
 
         // Retrieve the Metadata property from the proxy.
         const metaVariant = this.proxy.get_cached_property("Metadata");
         if (!metaVariant) {
-            print("No metadata available; cannot update track position.");
+            console.log("No metadata available; cannot update track position.");
             return;
         }
 
@@ -522,13 +521,13 @@ export class Player {
         try {
             meta = metaVariant.deep_unpack();
         } catch (e) {
-            print("Error unpacking metadata: " + e);
+            console.error("Error unpacking metadata: " + e);
             return;
         }
 
         // Ensure the metadata contains the track id.
         if (!meta["mpris:trackid"]) {
-            print("No track id available in metadata.");
+            console.log("No track id available in metadata.");
             return;
         }
 
@@ -537,7 +536,7 @@ export class Player {
             // mpris:trackid is itself a variant; extract the plain string.
             trackId = meta["mpris:trackid"].deep_unpack();
         } catch (e) {
-            print("Error unpacking track id: " + e);
+            console.error("Error unpacking track id: " + e);
             return;
         }
 
@@ -555,9 +554,9 @@ export class Player {
             (proxy, res) => {
                 try {
                     proxy?.call_finish(res);
-                    print(`Position updated to ${newPosition} (seconds)`);
+                    console.log(`Position updated to ${newPosition} (seconds)`);
                 } catch (e) {
-                    print("Error setting position: " + e);
+                    console.error("Error setting position: " + e);
                 }
             }
         );
@@ -603,7 +602,7 @@ export class Mpris {
                         }
                     }
                 } catch (e) {
-                    print(e);
+                    console.error(e);
                 }
             }
         );
@@ -641,8 +640,7 @@ export class Mpris {
                 let player = new Player(busName);
                 this.players.set(this.players.get().concat(player))
             } catch (e) {
-                print("Failed to add player: " + busName);
-                print(e)
+                console.error(e, "Failed to add player: " + busName)
             }
         }
     }

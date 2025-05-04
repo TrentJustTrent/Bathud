@@ -26,7 +26,7 @@ function updateConnections() {
     // update active connections
     execAsync(["bash", "-c", `nmcli -t -f NAME,TYPE connection show --active`])
         .catch((error) => {
-            print(error)
+            console.error(error)
         })
         .then((value) => {
             if (typeof value !== "string") {
@@ -69,7 +69,7 @@ function updateConnections() {
             // update inactive connections
             execAsync(["bash", "-c", `nmcli -t -f NAME,TYPE connection show`])
                 .catch((error) => {
-                    print(error)
+                    console.error(error)
                 })
                 .then((value) => {
                     if (typeof value !== "string") {
@@ -172,7 +172,7 @@ function connectVpn(name: string) {
 
     execAsync(["bash", "-c", `nmcli connection up "${name}"`])
         .catch((error) => {
-            print(error)
+            console.error(error)
         }).finally(() => {
             updateConnections()
         })
@@ -202,12 +202,12 @@ function PasswordEntry(
         isConnecting.set(true)
         execAsync(["bash", "-c", `echo '${text.get()}' | nmcli device wifi connect "${accessPoint.ssid}" --ask`])
             .catch((error) => {
-                print(error)
+                console.error(error)
                 errorRevealed.set(true)
                 deleteConnection(accessPoint.ssid)
             })
             .then((value) => {
-                print(value)
+                console.log(value)
             })
             .finally(() => {
                 if (!errorRevealed.get()) {
@@ -322,7 +322,7 @@ function WifiConnections() {
                                 onClicked={() => {
                                     execAsync(`nmcli c up ${connection}`)
                                         .catch((error) => {
-                                            print(error)
+                                            console.error(error)
                                         })
                                         .finally(() => {
                                             updateConnections()
@@ -476,7 +476,7 @@ function VpnActiveConnections() {
                                     onClicked={() => {
                                         execAsync(`nmcli c down ${connection}`)
                                             .catch((error) => {
-                                                print(error)
+                                                console.error(error)
                                             })
                                             .finally(() => {
                                                 updateConnections()

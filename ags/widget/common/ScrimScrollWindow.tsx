@@ -96,10 +96,8 @@ export default function(
                     y <= childY + allocation.height;
 
                 if (insideIgnoredChild) {
-                    print('Click was inside ignored child — ignoring.');
                     return;
                 }
-                print(`Box clicked at (${x}, ${y}) with ${n_press} presses`);
                 hideAllWindows()
             });
             self.add_controller(gesture);

@@ -63,7 +63,6 @@ App.start({
             toggleWindow(ScreenshotWindowName)
             res("screenshot toggled")
         } else if (request.startsWith("screenshare")) {
-            print(request.startsWith("screenshare"))
             updateWindows(request)
             updateResponse(res)
             toggleWindow(ScreenshareWindowName)

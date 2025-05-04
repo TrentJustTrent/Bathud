@@ -9,7 +9,6 @@ export enum PowerProfile {
 
 export function getPowerProfileIconBinding() {
     const powerProfiles = PowerProfiles.get_default()
-    const profiles = powerProfiles.get_profiles()
 
     return bind(powerProfiles, "activeProfile").as((profile) => {
         if (profile === PowerProfile.PowerSaver) {

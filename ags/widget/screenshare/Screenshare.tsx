@@ -199,7 +199,7 @@ function Region() {
                 onClicked={() => {
                     execAsync("slurp -f \"%o %x %y %w %h\"")
                         .catch((error) => {
-                            print(error)
+                            console.error(error)
                             response(`[SELECTION]/region:`)
                         })
                         .then((value) => {

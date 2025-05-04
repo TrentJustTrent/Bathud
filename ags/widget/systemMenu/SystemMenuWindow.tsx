@@ -88,9 +88,6 @@ export default function () {
                     getIcon={getMicrophoneIcon}/>
                 <PowerProfileControls/>
                 <LookAndFeelControls/>
-                {/*MediaPlayersAstal uses the astal mpris component.  It causes UI jank.  Until it gets fix
-                        use MediaPlayers.  It uses a home-made mpris component that doesn't cause the jank.*/}
-                {/*<MediaPlayersAstal/>*/}
                 {config.systemMenu.enableMprisWidget && <MediaPlayers/>}
                 <PowerOptions/>
                 <box

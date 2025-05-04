@@ -119,7 +119,7 @@ function updateAudioOptions() {
         "-c",
         `pactl list sources | grep -E "Name:|Description"`
     ]).catch((error) => {
-        print(error)
+        console.error(error)
     }).then((value) => {
         if (typeof value !== "string") {
             return
@@ -186,9 +186,9 @@ function showNotification(
         done
     `
     ]).catch((error) => {
-        print(error)
+        console.error(error)
     }).then((value) => {
-        print(value)
+        console.log(value)
     })
 }
 
@@ -297,7 +297,7 @@ function ScreenShots() {
                             `
                         ]
                     ).catch((error) => {
-                        print(error)
+                        console.error(error)
                     }).finally(() => {
                         playCameraShutter()
                         showScreenshotNotification(path)
@@ -325,7 +325,7 @@ function ScreenShots() {
                         if (message.includes("selection cancelled")) {
                             canceled = true;
                         }
-                        print(error)
+                        console.error(error)
                     }).finally(() => {
                         if (!canceled) {
                             playCameraShutter()
@@ -355,7 +355,7 @@ function ScreenShots() {
                         if (message.includes("selection cancelled")) {
                             canceled = true;
                         }
-                        print(error)
+                        console.error(error)
                     }).finally(() => {
                         if (!canceled) {
                             playCameraShutter()
@@ -385,7 +385,7 @@ function ScreenShots() {
                         if (message.includes("selection cancelled")) {
                             canceled = true;
                         }
-                        print(error)
+                        console.error(error)
                     }).finally(() => {
                         if (!canceled) {
                             playCameraShutter()
@@ -631,7 +631,7 @@ function ScreenRecording() {
                     const path = `${screenRecordingDir}/${time}_record.mp4`
                     const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
                     const command = `wf-recorder --file=${path} ${audioParam} -p preset=${selectedEncodingPreset.get()} -p crf=${selectedCrfQuality.get()} -c ${selectedCodec.get().lib}`
-                    print(command)
+                    console.log(command)
                     hideAllWindows()
                     execAsync(
                         [
@@ -643,7 +643,7 @@ function ScreenRecording() {
                             `
                         ]
                     ).catch((error) => {
-                        print(error)
+                        console.error(error)
                     }).finally(() => {
                         isRecording.set(false)
                         showScreenRecordingNotification(path)
@@ -658,7 +658,7 @@ function ScreenRecording() {
                     const path = `${screenRecordingDir}/${time}_record.mp4`
                     const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
                     const command = `wf-recorder --file=${path} -g "$(slurp -o)" ${audioParam} -p preset=${selectedEncodingPreset.get()} -p crf=${selectedCrfQuality.get()} -c ${selectedCodec.get().lib}`
-                    print(command)
+                    console.log(command)
                     hideAllWindows()
                     execAsync(
                         [
@@ -669,7 +669,7 @@ function ScreenRecording() {
                             `
                         ]
                     ).catch((error) => {
-                        print(error)
+                        console.error(error)
                     }).finally(() => {
                         isRecording.set(false)
                         showScreenRecordingNotification(path)
@@ -684,7 +684,7 @@ function ScreenRecording() {
                     const path = `${screenRecordingDir}/${time}_record.mp4`
                     const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
                     const command = `wf-recorder --file=${path} -g "$(${projectDir}/shellScripts/grabWindow)" ${audioParam} -p preset=${selectedEncodingPreset.get()} -p crf=${selectedCrfQuality.get()} -c ${selectedCodec.get().lib}`
-                    print(command)
+                    console.log(command)
                     hideAllWindows()
                     execAsync(
                         [
@@ -695,7 +695,7 @@ function ScreenRecording() {
                             `
                         ]
                     ).catch((error) => {
-                        print(error)
+                        console.error(error)
                     }).finally(() => {
                         isRecording.set(false)
                         showScreenRecordingNotification(path)
@@ -710,7 +710,7 @@ function ScreenRecording() {
                     const path = `${screenRecordingDir}/${time}_record.mp4`
                     const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
                     const command = `wf-recorder --file=${path} -g "$(slurp)" ${audioParam} -p preset=${selectedEncodingPreset.get()} -p crf=${selectedCrfQuality.get()} -c ${selectedCodec.get().lib}`
-                    print(command)
+                    console.log(command)
                     hideAllWindows()
                     execAsync(
                         [
@@ -721,7 +721,7 @@ function ScreenRecording() {
                             `
                         ]
                     ).catch((error) => {
-                        print(error)
+                        console.error(error)
                     }).finally(() => {
                         isRecording.set(false)
                         showScreenRecordingNotification(path)

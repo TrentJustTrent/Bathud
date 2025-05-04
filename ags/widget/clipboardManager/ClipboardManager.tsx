@@ -21,7 +21,7 @@ const clipboardEntries = Variable<Entry[]>([])
 function updateClipboardEntries() {
     execAsync(["bash", "-c", `CLIPHIST_PREVIEW_WIDTH=500 cliphist list`])
         .catch((error) => {
-            print(error)
+            console.error(error)
         }).then((value) => {
             if (typeof value !== "string") {
                 return
@@ -49,11 +49,11 @@ function updateClipboardEntries() {
 function copyEntry(entry: Entry) {
     execAsync(`cliphist decode ${entry.number}`)
         .catch((error) => {
-            print(error)
+            console.error(error)
         }).then((value) => {
             execAsync(`wl-copy ${value}`)
                 .catch((error) => {
-                    print(error)
+                    console.error(error)
                 })
         })
 }
@@ -61,7 +61,7 @@ function copyEntry(entry: Entry) {
 function deleteEntry(entry: Entry) {
     execAsync(`cliphist delete-query ${entry.value}`)
         .catch((error) => {
-            print(error)
+            console.error(error)
         }).finally(() => {
             updateClipboardEntries()
         })
@@ -70,7 +70,7 @@ function deleteEntry(entry: Entry) {
 function wipeHistory() {
     execAsync(`cliphist wipe`)
         .catch((error) => {
-            print(error)
+            console.error(error)
         }).finally(() => {
         updateClipboardEntries()
     })

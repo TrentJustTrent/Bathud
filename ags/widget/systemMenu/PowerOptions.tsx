@@ -15,6 +15,9 @@ export default function () {
             onClicked={() => {
                 hideAllWindows()
                 execAsync(config.systemCommands.logout)
+                    .catch((error) => {
+                        console.error(error)
+                    })
             }}/>
         <LargeIconButton
             icon=""
@@ -22,6 +25,9 @@ export default function () {
             onClicked={() => {
                 hideAllWindows()
                 execAsync(config.systemCommands.lock)
+                    .catch((error) => {
+                        console.error(error)
+                    })
             }}/>
         <LargeIconButton
             icon=""
@@ -29,6 +35,9 @@ export default function () {
             onClicked={() => {
                 hideAllWindows()
                 execAsync(config.systemCommands.restart)
+                    .catch((error) => {
+                        console.error(error)
+                    })
             }}/>
         <LargeIconButton
             icon="⏻"
@@ -36,6 +45,9 @@ export default function () {
             onClicked={() => {
                 hideAllWindows()
                 execAsync(config.systemCommands.shutdown)
+                    .catch((error) => {
+                        console.error(error)
+                    })
             }}/>
     </box>
 }

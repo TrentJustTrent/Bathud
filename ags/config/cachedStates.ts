@@ -27,7 +27,7 @@ if [[ -f "${config.wallpaperUpdateScript}" ]]; then
 fi
 
     '`).catch((error) => {
-        print(error)
+        console.error(error)
     })
 }
 
@@ -74,7 +74,7 @@ if [[ -f "${config.wallpaperUpdateScript}" ]]; then
 fi
 
     '`).catch((error) => {
-        print(error)
+        console.error(error)
     }).finally(() => {
         App.apply_css("/tmp/OkPanel/style.css")
         onFinished()
@@ -90,7 +90,7 @@ export function setThemeBasic(theme: Theme) {
 # compile the scss in /tmp
 ${compileThemeBashScript(theme)}
     '`).catch((error) => {
-        print(error)
+        console.error(error)
     }).finally(() => {
         App.apply_css("/tmp/OkPanel/style.css")
     })
@@ -105,7 +105,7 @@ export function restoreSavedState() {
             savedTheme = JSON.parse(savedThemeString)
         }
     } catch (e) {
-        print(e)
+        console.error(e)
     }
     if (savedTheme !== null) {
         if (config.themes.length > 0) {
@@ -158,7 +158,7 @@ function saveBar() {
 mkdir -p ${homeDir}/.cache/OkPanel
 echo "${selectedBar.get()}" > ${homeDir}/.cache/OkPanel/savedBar
     '`).catch((error) => {
-        print(error)
+        console.error(error)
     })
 }
 

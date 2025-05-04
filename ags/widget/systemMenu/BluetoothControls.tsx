@@ -73,11 +73,11 @@ function BluetoothDevices() {
                                         // do nothing
                                     } else if (device.connected) {
                                         device.disconnect_device((device, result, data) => {
-                                            print("disconnected")
+                                            console.log("device disconnected")
                                         })
                                     } else {
                                         device.connect_device((device, result, data) => {
-                                            print("connected")
+                                            console.log("device connected")
                                         })
                                     }
                                 }}/>

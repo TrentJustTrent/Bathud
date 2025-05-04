@@ -98,7 +98,7 @@ export function playVolumeTick() {
             : `${projectDir}/sounds/audio-volume-change.oga`
         execAsync(`bash -c "play ${path}"`)
             .catch((error) => {
-                print(error)
+                console.error(error)
             })
     }
 }
@@ -110,7 +110,7 @@ export function playCameraShutter() {
             : `${projectDir}/sounds/camera-shutter.ogg`
         execAsync(`bash -c "play ${path}"`)
             .catch((error) => {
-                print(error)
+                console.error(error)
             })
     }
 }
@@ -122,7 +122,7 @@ export function playBatteryWarning() {
             : `${projectDir}/sounds/battery-low.ogg`
         execAsync(`bash -c "play ${path}"`)
             .catch((error) => {
-                print(error)
+                console.error(error)
             })
     }
 }
@@ -134,7 +134,7 @@ export function playPowerPlug() {
             : `${projectDir}/sounds/power-plug.ogg`
         execAsync(`bash -c "play ${path}"`)
             .catch((error) => {
-                print(error)
+                console.error(error)
             })
     }
 }
@@ -146,7 +146,7 @@ export function playPowerUnplug() {
             : `${projectDir}/sounds/power-unplug.ogg`
         execAsync(`bash -c "play ${path}"`)
             .catch((error) => {
-                print(error)
+                console.error(error)
             })
     }
 }
