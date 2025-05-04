@@ -43,6 +43,12 @@ You can swap the default input/output.
 
 ---
 
+### Power profiles
+
+Change the current power profile.
+
+---
+
 ### Look and Feel controls for theme, bar position, and wallpaper
 
 Here you can switch between predefined themes.  The `themeUpdateScript` will be called
