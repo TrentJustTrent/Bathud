@@ -50,6 +50,7 @@ export enum BarWidget {
     SCREENSHOT ="screenshot",
     CLIPBOARD_MANAGER = "clipboard_manager",
     POWER_PROFILE = "power_profile",
+    CAVA_WAVEFORM = "cava_waveform",
 }
 export const BAR_WIDGET_VALUES = Object.values(BarWidget) as readonly BarWidget[]
 
@@ -308,6 +309,12 @@ export const CONFIG_SCHEMA = [
                 default: 0,
                 description: 'Spacing (px) between widgets inside the bar.',
             },
+            {
+                name: 'cavaWaveformLength',
+                type: 'number',
+                default: 200,
+                description: 'Length of the cava waveform.'
+            },
         ],
     },
     // ────────────────── verticalBar ──────────────────
@@ -366,6 +373,12 @@ export const CONFIG_SCHEMA = [
                 type: 'number',
                 default: 0,
                 description: 'Spacing (px) between widgets inside the bar.',
+            },
+            {
+                name: 'cavaWaveformLength',
+                type: 'number',
+                default: 200,
+                description: 'Length of the cava waveform.'
             },
         ],
     },

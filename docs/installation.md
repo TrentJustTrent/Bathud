@@ -40,7 +40,8 @@ ttf-jetbrains-mono-nerd \
 libnotify \
 hyprsunset \
 cliphist \
-wl-clipboard
+wl-clipboard \
+cava
 ```
 
 Checkout the git repository

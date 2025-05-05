@@ -21,6 +21,8 @@ import {BarWidget} from "../../config/configSchema";
 import {ClipboardManagerWindowName} from "../clipboardManager/ClipboardManager";
 import PowerProfiles from "gi://AstalPowerProfiles"
 import {getPowerProfileIconBinding} from "../utils/powerProfile";
+import Cava from "gi://AstalCava"
+import CavaWaveform from "../cava/CavaWaveform";
 
 const tray = Tray.get_default()
 
@@ -292,6 +294,13 @@ function PowerProfileIndicator() {
         label={getPowerProfileIconBinding()}/>
 }
 
+function CavaBars({vertical}: { vertical: boolean }) {
+    return <CavaWaveform
+        vertical={vertical}
+        length={vertical ? config.verticalBar.cavaWaveformLength : config.horizontalBar.cavaWaveformLength}
+        size={40}/>
+}
+
 export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
     return widgets.map((widget) => {
         switch (widget) {
@@ -327,6 +336,8 @@ export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
                 return <ClipboardManagerButton/>
             case BarWidget.POWER_PROFILE:
                 return <PowerProfileIndicator/>
+            case BarWidget.CAVA_WAVEFORM:
+                return <CavaBars vertical={isVertical}/>
         }
     })
 }
