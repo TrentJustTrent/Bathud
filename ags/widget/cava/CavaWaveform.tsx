@@ -5,22 +5,14 @@ import {bind} from "astal";
 import {selectedBar, selectedTheme} from "../../config/config";
 import {Bar} from "../../config/bar";
 
-type Params = {
-    vertical?: boolean,
-    length?: number,
-    size?: number,
-    marginTop?: number,
-    marginBottom?: number,
-    marginStart?: number,
-    marginEnd?: number,
-}
-
 function getCoordinate(value: number, size: number) {
     const magicSize = size * 0.6
     if (selectedBar.get() === Bar.LEFT) {
-        return Math.min(size, value * magicSize)
+        // subtract 1 to make it align with the bar if the line should be flat
+        return Math.min(size, (value * magicSize) - 1)
     }
-    return Math.max(0, size - (value * magicSize))
+    // add 1 to make it align with the bar if the line should be flat
+    return Math.max(0, size - (value * magicSize) + 1)
 }
 
 function hexToRgba(hex: string): [number, number, number, number] {
@@ -74,11 +66,23 @@ function lineTo(
     }
 }
 
+type Params = {
+    vertical?: boolean,
+    length?: number,
+    size?: number,
+    expand?: boolean,
+    marginTop?: number,
+    marginBottom?: number,
+    marginStart?: number,
+    marginEnd?: number,
+}
+
 export default function(
     {
         vertical = false,
         length = 0,
         size = 0,
+        expand = false,
         marginTop,
         marginBottom,
         marginStart,
@@ -93,11 +97,9 @@ export default function(
 
     let [r, g, b, a] = hexToRgba(selectedTheme.get().colors.primary);
 
-    // const originalAlpha = a
-
     const drawing = new Gtk.DrawingArea({
-        hexpand: false,
-        vexpand: false,
+        hexpand: vertical ? false : expand,
+        vexpand: vertical ? expand : false,
         height_request: vertical ? length : size,
         width_request: vertical ? size : length,
     });
@@ -108,12 +110,10 @@ export default function(
         drawWidth: number,
         drawHeight: number
     ) => {
-        // const nonZeroValues = cava.values.filter((value) => value > 0.001)
-        // if (nonZeroValues.length === 0) {
-        //     a = 0
-        // } else {
-        //     a = originalAlpha
-        // }
+        const drawLength = vertical ? drawHeight : drawWidth
+        const drawSize = vertical ? drawWidth : drawHeight
+        const bar = selectedBar.get()
+
         // @ts-ignore
         cr.setSourceRGBA(r, g, b, a);
 
@@ -122,25 +122,28 @@ export default function(
 
         let x = 0
         const values = cava.values
-        const spacing = length / (values.length * 2 + 1)
+        // add one to even the ends out
+        const spacing = drawLength / (values.length * 2 + 1)
 
         values.reverse()
 
-        moveTo(cr, vertical, 0, selectedBar.get() === Bar.LEFT ? -1 : size - 1)
+        // add or subtract 1 to make it align with the bar if the line should be flat
+        moveTo(cr, vertical, 0, bar === Bar.LEFT ? -1 : drawSize + 1)
 
         values.forEach((value) => {
             x = x + spacing
-            lineTo(cr, vertical, x, getCoordinate(value, size) - 1)
+            lineTo(cr, vertical, x, getCoordinate(value, drawSize))
         })
 
         values.reverse()
 
         values.forEach((value) => {
             x = x + spacing
-            lineTo(cr, vertical, x, getCoordinate(value, size) - 1)
+            lineTo(cr, vertical, x, getCoordinate(value, drawSize))
         })
 
-        lineTo(cr, vertical, length, selectedBar.get() === Bar.LEFT ? -1 : size - 1)
+        // add or subtract 1 to make it align with the bar if the line should be flat
+        lineTo(cr, vertical, drawLength, bar === Bar.LEFT ? -1 : drawSize + 1)
 
         // @ts-ignore
         cr.stroke();
@@ -155,6 +158,8 @@ export default function(
         marginBottom={marginBottom}
         marginStart={marginStart}
         marginEnd={marginEnd}
+        vexpand={vertical ? expand : false}
+        hexpand={vertical ? false : expand}
         widthRequest={vertical ? size : length}
         heightRequest={vertical ? length : size}>
         {drawing}

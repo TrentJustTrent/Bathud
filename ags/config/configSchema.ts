@@ -315,6 +315,12 @@ export const CONFIG_SCHEMA = [
                 default: 200,
                 description: 'Length of the cava waveform.'
             },
+            {
+                name: 'cavaWaveformExpanded',
+                type: 'boolean',
+                default: false,
+                description: 'Expands the waveform to fill the empty space.  This can expand beyond the set length.'
+            },
         ],
     },
     // ────────────────── verticalBar ──────────────────
@@ -379,6 +385,12 @@ export const CONFIG_SCHEMA = [
                 type: 'number',
                 default: 200,
                 description: 'Length of the cava waveform.'
+            },
+            {
+                name: 'cavaWaveformExpanded',
+                type: 'boolean',
+                default: false,
+                description: 'Expands the waveform to fill the empty space.  This can expand beyond the set length.'
             },
         ],
     },

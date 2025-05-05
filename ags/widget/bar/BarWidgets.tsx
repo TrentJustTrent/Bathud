@@ -297,6 +297,7 @@ function PowerProfileIndicator() {
 function CavaBars({vertical}: { vertical: boolean }) {
     return <CavaWaveform
         vertical={vertical}
+        expand={vertical ? config.verticalBar.cavaWaveformExpanded : config.horizontalBar.cavaWaveformExpanded}
         length={vertical ? config.verticalBar.cavaWaveformLength : config.horizontalBar.cavaWaveformLength}
         size={40}/>
 }
