@@ -5,6 +5,8 @@ import {execAsync} from "astal/process"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../common/RevealerRow";
 import {hideAllWindows} from "../utils/windows";
+import {config} from "../../config/config";
+import ScrimScrollWindow from "../common/ScrimScrollWindow";
 
 export const ScreenshareWindowName = "screenshareWindow"
 
@@ -89,7 +91,10 @@ function Monitors() {
         }
         revealedContent={
             <box
-                vertical={true}>
+                marginTop={8}
+                marginBottom={8}
+                vertical={true}
+                spacing={12}>
                 {bind(hyprland, "monitors").as((monitors) => {
                     return monitors.map((monitor) => {
                             return <button
@@ -126,6 +131,8 @@ function Windows() {
         }
         revealedContent={
             <box
+                marginTop={8}
+                marginBottom={8}
                 vertical={true}
                 spacing={12}>
                 {screenShareWindows((programs) => {
@@ -194,6 +201,8 @@ function Region() {
         }
         revealedContent={
             <button
+                marginTop={8}
+                marginBottom={8}
                 hexpand={true}
                 cssClasses={["primaryButton", "screenshareButton"]}
                 onClicked={() => {
@@ -224,50 +233,26 @@ function Region() {
 }
 
 export default function () {
-    return <window
-        name={ScreenshareWindowName}
+    return <ScrimScrollWindow
+        monitor={config.mainMonitor}
         anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM}
-        application={App}
-        layer={Astal.Layer.OVERLAY}
-        keymode={Astal.Keymode.EXCLUSIVE}
-        cssClasses={["transparentBackground"]}
-        margin={5}
-        visible={false}
-        onKeyPressed={function (_, key) {
-            if (key === Gdk.KEY_Escape) {
-                hideAllWindows()
-                response(`[SELECTION]/`)
-            }
-        }}>
-        <box
-            vertical={true}
-            marginStart={2}
-            marginBottom={2}
-            marginTop={2}
-            marginEnd={2}>
+        windowName={ScreenshareWindowName}
+        topExpand={true}
+        bottomExpand={true}
+        leftExpand={false}
+        rightExpand={false}
+        contentWidth={560}
+        content={
             <box
-                vexpand={true}/>
-            <box
-                cssClasses={["window"]}>
-                <Gtk.ScrolledWindow
-                    widthRequest={500}
-                    cssClasses={["scrollWindow"]}
-                    vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
-                    propagateNaturalHeight={true}>
-                    <box
-                        vertical={true}
-                        marginStart={10}
-                        marginBottom={10}
-                        marginTop={20}
-                        marginEnd={10}>
-                        <Monitors/>
-                        <Windows/>
-                        <Region/>
-                    </box>
-                </Gtk.ScrolledWindow>
+                vertical={true}
+                marginStart={10}
+                marginBottom={10}
+                marginTop={20}
+                marginEnd={10}
+                spacing={8}>
+                <Monitors/>
+                <Windows/>
+                <Region/>
             </box>
-            <box
-                vexpand={true}/>
-        </box>
-    </window>
+        }/>
 }

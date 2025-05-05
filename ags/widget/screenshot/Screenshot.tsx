@@ -6,7 +6,8 @@ import Pango from "gi://Pango?version=1.0";
 import {playCameraShutter} from "../utils/audio";
 import RevealerRow from "../common/RevealerRow";
 import {hideAllWindows} from "../utils/windows";
-import {projectDir} from "../../config/config";
+import {config, projectDir} from "../../config/config";
+import ScrimScrollWindow from "../common/ScrimScrollWindow";
 
 export const isRecording = Variable(false)
 
@@ -735,51 +736,27 @@ export default function () {
     setDirectories()
     updateAudioOptions()
 
-    return <window
-        cssClasses={["transparentBackground"]}
-        name={ScreenshotWindowName}
-        application={App}
-        layer={Astal.Layer.OVERLAY}
+    return <ScrimScrollWindow
+        monitor={config.mainMonitor}
         anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM}
-        keymode={Astal.Keymode.EXCLUSIVE}
-        margin={5}
-        visible={false}
-        onKeyPressed={function (_, key) {
-            if (key === Gdk.KEY_Escape) {
-                hideAllWindows()
-            }
-        }}>
-        <box
-            vertical={true}
-            marginTop={2}
-            marginBottom={2}
-            marginStart={2}
-            marginEnd={2}>
+        windowName={ScreenshotWindowName}
+        topExpand={true}
+        bottomExpand={true}
+        leftExpand={false}
+        rightExpand={false}
+        contentWidth={560}
+        content={
             <box
-                vexpand={true}/>
-            <box
-                cssClasses={["window"]}>
-                <Gtk.ScrolledWindow
-                    widthRequest={560}
-                    cssClasses={["scrollWindow"]}
-                    vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
-                    propagateNaturalHeight={true}>
-                    <box
-                        vertical={true}
-                        marginTop={20}
-                        marginBottom={20}
-                        marginStart={20}
-                        marginEnd={20}>
-                        <ScreenShots/>
-                        <box marginTop={20}/>
-                        <Divider/>
-                        <box marginTop={10}/>
-                        <ScreenRecording/>
-                    </box>
-                </Gtk.ScrolledWindow>
+                vertical={true}
+                marginTop={20}
+                marginBottom={20}
+                marginStart={20}
+                marginEnd={20}>
+                <ScreenShots/>
+                <box marginTop={20}/>
+                <Divider/>
+                <box marginTop={10}/>
+                <ScreenRecording/>
             </box>
-            <box
-                vexpand={true}/>
-        </box>
-    </window>
+        }/>
 }

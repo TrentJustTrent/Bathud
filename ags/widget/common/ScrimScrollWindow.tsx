@@ -15,8 +15,8 @@ type Params = {
     rightExpand: Binding<boolean> | boolean,
     leftExpand: Binding<boolean> | boolean,
     contentWidth: number,
-    width: number,
-    height: number,
+    width?: number,
+    height?: number,
     content?: JSX.Element;
 }
 
@@ -59,8 +59,8 @@ export default function(
         rightExpand,
         leftExpand,
         contentWidth,
-        width,
-        height,
+        width = 0,
+        height = 0,
         content,
     }: Params
 ) {
