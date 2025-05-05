@@ -124,6 +124,13 @@ export function parseConf(text: string): Record<string, any> {
             return;
         }
 
+        // Plain value inside array (e.g., identifier, string, number)
+        if (curType() === 'array') {
+            const value = parseInlineValue(line.replace(/,?\s*$/, ''));
+            ctxStack[ctxStack.length - 1].push(value);
+            return;
+        }
+
         // Regular assignment
         const kv = line.match(/^([^=]+?)\s*=\s*(.+)$/);
         if (!kv) throw new Error(`Invalid line ${idx + 1}: ${line}`);
