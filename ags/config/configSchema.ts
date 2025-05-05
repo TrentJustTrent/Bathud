@@ -137,6 +137,12 @@ export const CONFIG_SCHEMA = [
         default: 5000,
         description: 'The temperature of the night light.'
     },
+    // {
+    //     name: 'polkitAgentEnabled',
+    //     type: 'boolean',
+    //     default: 'true',
+    //     description: 'Makes OkPanel your polkit agent'
+    // },
     // ────────────────── Sounds ──────────────────
     {
         name: 'sounds',
