@@ -1,8 +1,9 @@
 import {Gtk} from "astal/gtk4"
 import Pango from "gi://Pango?version=1.0";
-import {LoopStatus, Mpris, PlaybackStatus, Player, ShuffleStatus} from "../utils/mpris"
+import {Mpris, Player} from "../utils/mpris"
+import MprisControlButtons from "../mpris/MprisControlButtons";
 
-const mpris = new Mpris()
+const mpris = Mpris.get_default()
 const STREAMING_TRACK_LENGTH = 9999999999
 
 function lengthStr(length: number) {
@@ -20,12 +21,6 @@ function MediaPlayer({ player }: { player: Player }) {
 
     const artist = player.artist(a =>
         a || "Unknown Artist")
-
-    const playIcon = player.playbackStatus(s =>
-        s === PlaybackStatus.Playing
-            ? ""
-            : ""
-    )
 
     return <box
         cssClasses={["mediaPlayer"]}
@@ -78,68 +73,7 @@ function MediaPlayer({ player }: { player: Player }) {
                 })}
             />
         </box>
-        <box
-            halign={CENTER}>
-            <button
-                cssClasses={["controlButton"]}
-                onClicked={() => {
-                    if (player.shuffleStatus.get() === ShuffleStatus.Enabled) {
-                        player.setShuffleStatus(ShuffleStatus.Disabled)
-                    } else {
-                        player.setShuffleStatus(ShuffleStatus.Enabled)
-                    }
-                }}
-                visible={player.shuffleStatus((shuffle) => shuffle !== ShuffleStatus.Unsupported)}
-                label={player.shuffleStatus((shuffle) => {
-                    if (shuffle === ShuffleStatus.Enabled) {
-                        return ""
-                    } else {
-                        return "󰒞"
-                    }
-                })}/>
-            <button
-                cssClasses={["controlButton"]}
-                onClicked={() => {
-                    player.previousTrack()
-                }}
-                visible={player.canGoPrevious()}
-                label=""/>
-            <button
-                cssClasses={["controlButton"]}
-                onClicked={() => {
-                    player.playPause()
-                }}
-                visible={player.canControl()}
-                label={playIcon}/>
-            <button
-                cssClasses={["controlButton"]}
-                onClicked={() => {
-                    player.nextTrack()
-                }}
-                visible={player.canGoNext()}
-                label=""/>
-            <button
-                cssClasses={["controlButton"]}
-                onClicked={() => {
-                    if (player.loopStatus.get() === LoopStatus.None) {
-                        player.setLoopStatus(LoopStatus.Playlist)
-                    } else if (player.loopStatus.get() === LoopStatus.Playlist) {
-                        player.setLoopStatus(LoopStatus.Track)
-                    } else {
-                        player.setLoopStatus(LoopStatus.None)
-                    }
-                }}
-                visible={player.loopStatus((status) => status !== LoopStatus.Unsupported)}
-                label={player.loopStatus((status) => {
-                    if (status === LoopStatus.None) {
-                        return "󰑗"
-                    } else if (status === LoopStatus.Playlist) {
-                        return "󰑖"
-                    } else {
-                        return "󰑘"
-                    }
-                })}/>
-        </box>
+        <MprisControlButtons player={player} vertical={false}/>
     </box>
 }
 

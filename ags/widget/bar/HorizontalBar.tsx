@@ -3,6 +3,8 @@ import {addWidgets} from "./BarWidgets";
 import {config, selectedBar} from "../../config/config";
 
 import {Bar} from "../../config/bar";
+import CavaWaveform from "../cava/CavaWaveform";
+import {getCavaFlipStartValue} from "../utils/cava";
 
 export default function () {
     return <window
@@ -32,44 +34,56 @@ export default function () {
             }
         })}
         application={App}>
-        <centerbox
-            orientation={Gtk.Orientation.HORIZONTAL}
+        <overlay
             cssClasses={config.horizontalBar.splitSections ? ["topBar"] : ["barWindow", "topBar"]}>
-            <box
-                visible={config.horizontalBar.leftWidgets.length > 0}
-                halign={Gtk.Align.START}
-                cssClasses={config.horizontalBar.splitSections ? ["barWindow"] : []}>
+            <centerbox
+                type={"overlay measure"}
+                orientation={Gtk.Orientation.HORIZONTAL}>
                 <box
-                    vertical={false}
-                    marginStart={config.horizontalBar.sectionPadding}
-                    marginEnd={config.horizontalBar.sectionPadding}
-                    spacing={config.horizontalBar.widgetSpacing}>
-                    {addWidgets(config.horizontalBar.leftWidgets, false)}
+                    visible={config.horizontalBar.leftWidgets.length > 0}
+                    halign={Gtk.Align.START}
+                    cssClasses={config.horizontalBar.splitSections ? ["barWindow"] : []}>
+                    <box
+                        vertical={false}
+                        marginStart={config.horizontalBar.sectionPadding}
+                        marginEnd={config.horizontalBar.sectionPadding}
+                        spacing={config.horizontalBar.widgetSpacing}>
+                        {addWidgets(config.horizontalBar.leftWidgets, false)}
+                    </box>
                 </box>
-            </box>
-            <box
-                visible={config.horizontalBar.centerWidgets.length > 0}
-                cssClasses={config.horizontalBar.splitSections ? ["barWindow"] : []}>
                 <box
-                    vertical={false}
-                    marginStart={config.horizontalBar.sectionPadding}
-                    marginEnd={config.horizontalBar.sectionPadding}
-                    spacing={config.horizontalBar.widgetSpacing}>
-                    {addWidgets(config.horizontalBar.centerWidgets, false)}
+                    visible={config.horizontalBar.centerWidgets.length > 0}
+                    cssClasses={config.horizontalBar.splitSections ? ["barWindow"] : []}>
+                    <box
+                        vertical={false}
+                        marginStart={config.horizontalBar.sectionPadding}
+                        marginEnd={config.horizontalBar.sectionPadding}
+                        spacing={config.horizontalBar.widgetSpacing}>
+                        {addWidgets(config.horizontalBar.centerWidgets, false)}
+                    </box>
                 </box>
-            </box>
-            <box
-                visible={config.horizontalBar.rightWidgets.length > 0}
-                halign={Gtk.Align.END}
-                cssClasses={config.horizontalBar.splitSections ? ["barWindow"] : []}>
                 <box
-                    vertical={false}
-                    marginStart={config.horizontalBar.sectionPadding}
-                    marginEnd={config.horizontalBar.sectionPadding}
-                    spacing={config.horizontalBar.widgetSpacing}>
-                    {addWidgets(config.horizontalBar.rightWidgets, false)}
+                    visible={config.horizontalBar.rightWidgets.length > 0}
+                    halign={Gtk.Align.END}
+                    cssClasses={config.horizontalBar.splitSections ? ["barWindow"] : []}>
+                    <box
+                        vertical={false}
+                        marginStart={config.horizontalBar.sectionPadding}
+                        marginEnd={config.horizontalBar.sectionPadding}
+                        spacing={config.horizontalBar.widgetSpacing}>
+                        {addWidgets(config.horizontalBar.rightWidgets, false)}
+                    </box>
                 </box>
+            </centerbox>
+            <box
+                visible={config.horizontalBar.enableFullBarCavaWaveform && !config.horizontalBar.splitSections}>
+                <CavaWaveform
+                    vertical={false}
+                    flipStart={getCavaFlipStartValue(false)}
+                    expand={true}
+                    length={400}
+                    size={40}/>
             </box>
-        </centerbox>
+        </overlay>
     </window>
 }

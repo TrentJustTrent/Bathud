@@ -11,21 +11,6 @@
   border-radius: vars.$buttonBorderRadius;
   padding: 4px 12px 4px 12px;
 
-  .controlButton {
-    all: unset;
-    background-color: vars.$bg;
-    color: vars.$fg;
-    padding: 4px 4px 4px 2px;
-    border: none;
-    min-height: 25px;
-    min-width: 30px;
-    border-radius: vars.$buttonBorderRadius;
-  }
-
-  .controlButton:hover {
-    background-color: vars.$bgHover;
-  }
-
   .seekContainer {
     margin: 10px 0 10px 0;
   }

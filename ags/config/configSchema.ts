@@ -51,8 +51,26 @@ export enum BarWidget {
     CLIPBOARD_MANAGER = "clipboard_manager",
     POWER_PROFILE = "power_profile",
     CAVA_WAVEFORM = "cava_waveform",
+    MPRIS_CONTROLS = "mpris_controls",
+    MPRIS_TRACK_INFO = "mpris_track_info",
 }
 export const BAR_WIDGET_VALUES = Object.values(BarWidget) as readonly BarWidget[]
+
+export enum VerticalWaveformPosition {
+    INNER = "inner",
+    OUTER = "outer",
+    LEFT = "left",
+    RIGHT = "right",
+}
+export const VERTICAL_WAVEFORM_POSITIONS = Object.values(VerticalWaveformPosition) as readonly VerticalWaveformPosition[]
+
+export enum HorizontalWaveformPosition {
+    INNER = "inner",
+    OUTER = "outer",
+    TOP = "top",
+    BOTTOM = "bottom",
+}
+export const HORIZONTAL_WAVEFORM_POSITIONS = Object.values(HorizontalWaveformPosition) as readonly HorizontalWaveformPosition[]
 
 export enum NotificationsPosition {
     LEFT = "left",
@@ -260,7 +278,15 @@ export const CONFIG_SCHEMA = [
         description: 'Configuration for a horizontal (top/bottom) bar layout.',
         children: [
             widgetsArrayField('leftWidgets', 'Widgets anchored left.', [BarWidget.MENU, BarWidget.WORKSPACES]),
-            widgetsArrayField('centerWidgets', 'Widgets centered.', [BarWidget.CLOCK]),
+            widgetsArrayField(
+                'centerWidgets',
+                'Widgets centered horizontally.',
+                [
+                    BarWidget.MPRIS_TRACK_INFO,
+                    BarWidget.MPRIS_CONTROLS,
+                    BarWidget.CAVA_WAVEFORM
+                ]
+            ),
             widgetsArrayField(
                 'rightWidgets',
                 'Widgets anchored right.',
@@ -275,6 +301,7 @@ export const CONFIG_SCHEMA = [
                     BarWidget.VPN_INDICATOR,
                     BarWidget.NETWORK,
                     BarWidget.BATTERY,
+                    BarWidget.CLOCK
                 ],
             ),
             {
@@ -313,13 +340,26 @@ export const CONFIG_SCHEMA = [
                 name: 'cavaWaveformLength',
                 type: 'number',
                 default: 200,
-                description: 'Length of the cava waveform.'
+                description: 'Length of the cava waveform.  This has no effect on the full bar waveform.'
             },
             {
                 name: 'cavaWaveformExpanded',
                 type: 'boolean',
                 default: false,
-                description: 'Expands the waveform to fill the empty space.  This can expand beyond the set length.'
+                description: 'Expands the waveform to fill the empty space.  This can expand beyond the set length.  This has no effect on the full bar waveform.'
+            },
+            {
+                name: 'cavaWaveformPosition',
+                type: 'enum',
+                enumValues: HORIZONTAL_WAVEFORM_POSITIONS,
+                default: HorizontalWaveformPosition.BOTTOM,
+                description: 'The base position of the waveform'
+            },
+            {
+                name: 'enableFullBarCavaWaveform',
+                type: 'boolean',
+                default: false,
+                description: 'Shows a cava waveform stretching across the entire bar, underneath other widgets.  Does not show when split sections are enabled.'
             },
         ],
     },
@@ -330,7 +370,15 @@ export const CONFIG_SCHEMA = [
         description: 'Configuration for a vertical (left/right) bar layout.',
         children: [
             widgetsArrayField('topWidgets', 'Widgets anchored at the top.', [BarWidget.MENU, BarWidget.WORKSPACES]),
-            widgetsArrayField('centerWidgets', 'Widgets centered vertically.', []),
+            widgetsArrayField(
+                'centerWidgets',
+                'Widgets centered vertically.',
+                [
+                    BarWidget.MPRIS_TRACK_INFO,
+                    BarWidget.MPRIS_CONTROLS,
+                    BarWidget.CAVA_WAVEFORM
+                ]
+            ),
             widgetsArrayField(
                 'bottomWidgets',
                 'Widgets anchored at the bottom.',
@@ -384,13 +432,26 @@ export const CONFIG_SCHEMA = [
                 name: 'cavaWaveformLength',
                 type: 'number',
                 default: 200,
-                description: 'Length of the cava waveform.'
+                description: 'Length of the cava waveform.  This has no effect on the full bar waveform.'
             },
             {
                 name: 'cavaWaveformExpanded',
                 type: 'boolean',
                 default: false,
-                description: 'Expands the waveform to fill the empty space.  This can expand beyond the set length.'
+                description: 'Expands the waveform to fill the empty space.  This can expand beyond the set length.  This has no effect on the full bar waveform.'
+            },
+            {
+                name: 'cavaWaveformPosition',
+                type: 'enum',
+                enumValues: VERTICAL_WAVEFORM_POSITIONS,
+                default: VerticalWaveformPosition.OUTER,
+                description: 'The base position of the waveform.'
+            },
+            {
+                name: 'enableFullBarCavaWaveform',
+                type: 'boolean',
+                default: false,
+                description: 'Shows a cava waveform stretching across the entire bar, underneath other widgets.  Does not show when split sections are enabled.'
             },
         ],
     },

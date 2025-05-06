@@ -81,3 +81,24 @@ export function capitalizeFirstLetter(str: string): string {
     if (!str) return str;
     return str[0].toUpperCase() + str.slice(1);
 }
+
+export function hexToRgba(hex: string): [number, number, number, number] {
+    hex = hex.replace("#", "");
+
+    if (hex.length === 6) {
+        const r = parseInt(hex.slice(0, 2), 16) / 255;
+        const g = parseInt(hex.slice(2, 4), 16) / 255;
+        const b = parseInt(hex.slice(4, 6), 16) / 255;
+        return [r, g, b, 1];
+    }
+
+    if (hex.length === 8) {
+        const r = parseInt(hex.slice(0, 2), 16) / 255;
+        const g = parseInt(hex.slice(2, 4), 16) / 255;
+        const b = parseInt(hex.slice(4, 6), 16) / 255;
+        const a = parseInt(hex.slice(6, 8), 16) / 255;
+        return [r, g, b, a];
+    }
+
+    throw new Error(`Invalid hex color: "${hex}"`);
+}

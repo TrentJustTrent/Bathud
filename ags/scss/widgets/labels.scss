@@ -61,7 +61,7 @@
 
 .iconLabel {
   all: unset;
-  background-color: vars.$bg;
+  background-color: transparent;
   color: vars.$fg;
   padding: 4px 4px 4px 2px;
   border: none;
@@ -72,7 +72,7 @@
 
 .warningIconLabel {
   all: unset;
-  background-color: vars.$bg;
+  background-color: transparent;
   color: vars.$warning;
   padding: 4px 4px 4px 2px;
   border: none;

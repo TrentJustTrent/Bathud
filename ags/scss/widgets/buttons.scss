@@ -2,7 +2,7 @@
 
 .iconButton {
   all: unset;
-  background-color: vars.$bg;
+  background-color: transparent;
   color: vars.$fg;
   padding: 4px 4px 4px 2px;
   border: none;
@@ -12,27 +12,12 @@
 }
 
 .iconButton:hover {
-  background-color: vars.$bgHover;
-}
-
-.activeIconButton {
-  all: unset;
-  background-color: vars.$primary;
-  color: vars.$fg;
-  padding: 4px 4px 4px 2px;
-  border: none;
-  min-height: 25px;
-  min-width: 30px;
-  border-radius: vars.$buttonBorderRadius;
-}
-
-.activeIconButton:hover {
-  background-color: vars.$bgHover;
+  background-color: rgba(vars.$bgHover, 0.9);
 }
 
 .warningIconButton {
   all: unset;
-  background-color: vars.$bg;
+  background-color: transparent;
   color: vars.$warning;
   padding: 4px 4px 4px 2px;
   border: none;
@@ -42,7 +27,7 @@
 }
 
 .warningIconButton:hover {
-  background-color: vars.$bgHover;
+  background-color: rgba(vars.$bgHover, 0.9);
 }
 
 .largeIconButton {

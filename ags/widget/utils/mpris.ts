@@ -569,6 +569,15 @@ export class Player {
 // Mpris class: keeps track of all active Player objects
 // -------------------------------------------------------
 export class Mpris {
+    private static _instance: Mpris | null = null;
+
+    static get_default(): Mpris {
+        if (Mpris._instance === null) {
+            Mpris._instance = new Mpris();
+        }
+        return Mpris._instance;
+    }
+
     players: Variable<Player[]> = Variable([]);
 
     constructor() {

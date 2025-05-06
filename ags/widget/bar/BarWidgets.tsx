@@ -12,7 +12,7 @@ import Bluetooth from "gi://AstalBluetooth"
 import {activeVpnConnections} from "../systemMenu/NetworkControls";
 import {isRecording, ScreenshotWindowName} from "../screenshot/Screenshot";
 import Divider from "../common/Divider";
-import {config, projectDir} from "../../config/config";
+import {config, projectDir, selectedBar} from "../../config/config";
 import Tray from "gi://AstalTray"
 import {toggleWindow} from "../utils/windows";
 import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
@@ -21,8 +21,12 @@ import {BarWidget} from "../../config/configSchema";
 import {ClipboardManagerWindowName} from "../clipboardManager/ClipboardManager";
 import PowerProfiles from "gi://AstalPowerProfiles"
 import {getPowerProfileIconBinding} from "../utils/powerProfile";
-import Cava from "gi://AstalCava"
 import CavaWaveform from "../cava/CavaWaveform";
+import {getCavaFlipStartValue} from "../utils/cava";
+import {Mpris} from "../utils/mpris";
+import MprisControlButtons from "../mpris/MprisControlButtons";
+import MprisTrackInfo from "../mpris/MprisTrackInfo";
+import {Bar} from "../../config/bar";
 
 const tray = Tray.get_default()
 
@@ -296,10 +300,56 @@ function PowerProfileIndicator() {
 
 function CavaBars({vertical}: { vertical: boolean }) {
     return <CavaWaveform
+        marginStart={vertical ? 0 : 20}
+        marginEnd={vertical ? 0 : 20}
+        marginTop={vertical ? 20 : 0}
+        marginBottom={vertical ? 20 : 0}
         vertical={vertical}
+        flipStart={getCavaFlipStartValue(vertical)}
         expand={vertical ? config.verticalBar.cavaWaveformExpanded : config.horizontalBar.cavaWaveformExpanded}
         length={vertical ? config.verticalBar.cavaWaveformLength : config.horizontalBar.cavaWaveformLength}
         size={40}/>
+}
+
+function MprisControls({vertical}: { vertical: boolean }) {
+    const mpris = Mpris.get_default()
+    return <box
+        marginStart={vertical ? 0 : 20}
+        marginEnd={vertical ? 0 : 20}
+        marginTop={vertical ? 20 : 0}
+        marginBottom={vertical ? 20 : 0}>
+        {mpris.players(players => {
+            if (players.length === 0) {
+                return <box/>
+            }
+            const player = players[0]
+
+            return <MprisControlButtons player={player} vertical={vertical}/>
+        })}
+    </box>
+}
+
+function MprisTrackInfoBarWidget({vertical}: { vertical: boolean }) {
+    const mpris = Mpris.get_default()
+    return <box
+        marginStart={vertical ? 0 : 20}
+        marginEnd={vertical ? 0 : 20}
+        marginTop={vertical ? 20 : 0}
+        marginBottom={vertical ? 20 : 0}>
+        {mpris.players(players => {
+            if (players.length === 0) {
+                return <box/>
+            }
+            const player = players[0]
+
+            return <MprisTrackInfo
+                player={player}
+                vertical={vertical}
+                flipped={selectedBar().as((bar) => {
+                    return bar === Bar.RIGHT
+                })}/>
+        })}
+    </box>
 }
 
 export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
@@ -339,6 +389,10 @@ export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
                 return <PowerProfileIndicator/>
             case BarWidget.CAVA_WAVEFORM:
                 return <CavaBars vertical={isVertical}/>
+            case BarWidget.MPRIS_CONTROLS:
+                return <MprisControls vertical={isVertical}/>
+            case BarWidget.MPRIS_TRACK_INFO:
+                return <MprisTrackInfoBarWidget vertical={isVertical}/>
         }
     })
 }

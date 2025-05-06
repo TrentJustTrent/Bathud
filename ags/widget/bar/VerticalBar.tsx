@@ -3,6 +3,8 @@ import {addWidgets} from "./BarWidgets";
 import {config, selectedBar} from "../../config/config";
 
 import {Bar} from "../../config/bar";
+import CavaWaveform from "../cava/CavaWaveform";
+import {getCavaFlipStartValue} from "../utils/cava";
 
 export default function () {
     return <window
@@ -32,46 +34,58 @@ export default function () {
             }
         })}
         application={App}>
-        <centerbox
-            orientation={Gtk.Orientation.VERTICAL}
+        <overlay
             cssClasses={config.verticalBar.splitSections ? ["sideBar"] : ["barWindow", "sidebar"]}>
-            <box
-                visible={config.verticalBar.topWidgets.length > 0}
-                vertical={true}
-                cssClasses={config.verticalBar.splitSections ? ["barWindow"] : []}>
+            <centerbox
+                type={"overlay measure"}
+                orientation={Gtk.Orientation.VERTICAL}>
                 <box
+                    visible={config.verticalBar.topWidgets.length > 0}
                     vertical={true}
-                    marginTop={config.verticalBar.sectionPadding}
-                    marginBottom={config.verticalBar.sectionPadding}
-                    spacing={config.verticalBar.widgetSpacing}>
-                    {addWidgets(config.verticalBar.topWidgets, true)}
+                    cssClasses={config.verticalBar.splitSections ? ["barWindow"] : []}>
+                    <box
+                        vertical={true}
+                        marginTop={config.verticalBar.sectionPadding}
+                        marginBottom={config.verticalBar.sectionPadding}
+                        spacing={config.verticalBar.widgetSpacing}>
+                        {addWidgets(config.verticalBar.topWidgets, true)}
+                    </box>
                 </box>
-            </box>
-            <box
-                visible={config.verticalBar.centerWidgets.length > 0}
-                vertical={true}
-                cssClasses={config.verticalBar.splitSections ? ["barWindow"] : []}>
                 <box
+                    visible={config.verticalBar.centerWidgets.length > 0}
                     vertical={true}
-                    marginTop={config.verticalBar.sectionPadding}
-                    marginBottom={config.verticalBar.sectionPadding}
-                    spacing={config.verticalBar.widgetSpacing}>
-                    {addWidgets(config.verticalBar.centerWidgets, true)}
+                    cssClasses={config.verticalBar.splitSections ? ["barWindow"] : []}>
+                    <box
+                        vertical={true}
+                        marginTop={config.verticalBar.sectionPadding}
+                        marginBottom={config.verticalBar.sectionPadding}
+                        spacing={config.verticalBar.widgetSpacing}>
+                        {addWidgets(config.verticalBar.centerWidgets, true)}
+                    </box>
                 </box>
-            </box>
-            <box
-                visible={config.verticalBar.bottomWidgets.length > 0}
-                vertical={true}
-                valign={Gtk.Align.END}
-                cssClasses={config.verticalBar.splitSections ? ["barWindow"] : []}>
                 <box
+                    visible={config.verticalBar.bottomWidgets.length > 0}
                     vertical={true}
-                    marginTop={config.verticalBar.sectionPadding}
-                    marginBottom={config.verticalBar.sectionPadding}
-                    spacing={config.verticalBar.widgetSpacing}>
-                    {addWidgets(config.verticalBar.bottomWidgets, true)}
+                    valign={Gtk.Align.END}
+                    cssClasses={config.verticalBar.splitSections ? ["barWindow"] : []}>
+                    <box
+                        vertical={true}
+                        marginTop={config.verticalBar.sectionPadding}
+                        marginBottom={config.verticalBar.sectionPadding}
+                        spacing={config.verticalBar.widgetSpacing}>
+                        {addWidgets(config.verticalBar.bottomWidgets, true)}
+                    </box>
                 </box>
+            </centerbox>
+            <box
+                visible={config.verticalBar.enableFullBarCavaWaveform && !config.verticalBar.splitSections}>
+                <CavaWaveform
+                    vertical={true}
+                    flipStart={getCavaFlipStartValue(true)}
+                    expand={true}
+                    length={400}
+                    size={40}/>
             </box>
-        </centerbox>
+        </overlay>
     </window>
 }

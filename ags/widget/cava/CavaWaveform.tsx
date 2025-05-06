@@ -1,39 +1,20 @@
-import {Gtk} from "astal/gtk4";
+import {Gdk, Gtk} from "astal/gtk4";
 import Cairo from 'gi://cairo';
 import Cava from "gi://AstalCava"
-import {bind} from "astal";
-import {selectedBar, selectedTheme} from "../../config/config";
-import {Bar} from "../../config/bar";
+import {bind, Binding, GLib} from "astal";
+import {selectedTheme} from "../../config/config";
+import {isBinding} from "../utils/bindings";
+import { timeout } from "astal/time"
+import {hexToRgba} from "../utils/strings";
 
-function getCoordinate(value: number, size: number) {
+function getCoordinate(value: number, size: number, flipStart: boolean) {
     const magicSize = size * 0.6
-    if (selectedBar.get() === Bar.LEFT) {
+    if (flipStart) {
         // subtract 1 to make it align with the bar if the line should be flat
         return Math.min(size, (value * magicSize) - 1)
     }
     // add 1 to make it align with the bar if the line should be flat
     return Math.max(0, size - (value * magicSize) + 1)
-}
-
-function hexToRgba(hex: string): [number, number, number, number] {
-    hex = hex.replace("#", "");
-
-    if (hex.length === 6) {
-        const r = parseInt(hex.slice(0, 2), 16) / 255;
-        const g = parseInt(hex.slice(2, 4), 16) / 255;
-        const b = parseInt(hex.slice(4, 6), 16) / 255;
-        return [r, g, b, 1];
-    }
-
-    if (hex.length === 8) {
-        const r = parseInt(hex.slice(0, 2), 16) / 255;
-        const g = parseInt(hex.slice(2, 4), 16) / 255;
-        const b = parseInt(hex.slice(4, 6), 16) / 255;
-        const a = parseInt(hex.slice(6, 8), 16) / 255;
-        return [r, g, b, a];
-    }
-
-    throw new Error(`Invalid hex color: "${hex}"`);
 }
 
 function moveTo(
@@ -66,8 +47,14 @@ function lineTo(
     }
 }
 
+// Weird things happen if there are over 200 bars
+function setBars(cava: Cava.Cava, length: number) {
+    cava.bars = Math.min(200, length / 10)
+}
+
 type Params = {
     vertical?: boolean,
+    flipStart?: boolean | Binding<boolean>,
     length?: number,
     size?: number,
     expand?: boolean,
@@ -77,9 +64,23 @@ type Params = {
     marginEnd?: number,
 }
 
+/**
+ *
+ * @param vertical if the waveform is vertical
+ * @param flipStart if the waveform's 0 line is flipped.  For a horizontal waveform, if this is true, the base will
+ * be at the top instead of the bottom of the drawable area
+ * @param length the length of the waveform
+ * @param size the size of the waveform.  If vertical, then size is width.  If horizontal, then size is height
+ * @param expand expand the waveform to fill available space.
+ * @param marginTop
+ * @param marginBottom
+ * @param marginStart
+ * @param marginEnd
+ */
 export default function(
     {
         vertical = false,
+        flipStart = false,
         length = 0,
         size = 0,
         expand = false,
@@ -89,20 +90,26 @@ export default function(
         marginEnd,
     }: Params
 ) {
-    const cava = Cava.get_default()
+    const cava = new Cava.Cava()
 
     if (cava === null) {
         return <box/>
     }
 
-    let [r, g, b, a] = hexToRgba(selectedTheme.get().colors.primary);
+    setBars(cava, length)
+
+    let [r, g, b, a] = hexToRgba(selectedTheme.get().colors.primary)
+
+    selectedTheme().subscribe((theme) => {
+        [r, g, b, a] = hexToRgba(theme.colors.primary)
+    })
 
     const drawing = new Gtk.DrawingArea({
         hexpand: vertical ? false : expand,
         vexpand: vertical ? expand : false,
         height_request: vertical ? length : size,
         width_request: vertical ? size : length,
-    });
+    })
 
     drawing.set_draw_func((
         area: Gtk.DrawingArea,
@@ -112,13 +119,18 @@ export default function(
     ) => {
         const drawLength = vertical ? drawHeight : drawWidth
         const drawSize = vertical ? drawWidth : drawHeight
-        const bar = selectedBar.get()
+        let flip: boolean
+        if (isBinding(flipStart)) {
+            flip = flipStart.get()
+        } else {
+            flip = flipStart
+        }
 
         // @ts-ignore
-        cr.setSourceRGBA(r, g, b, a);
+        cr.setSourceRGBA(r, g, b, a)
 
         // @ts-ignore
-        cr.setLineWidth(2);
+        cr.setLineWidth(2)
 
         let x = 0
         const values = cava.values
@@ -128,29 +140,52 @@ export default function(
         values.reverse()
 
         // add or subtract 1 to make it align with the bar if the line should be flat
-        moveTo(cr, vertical, 0, bar === Bar.LEFT ? -1 : drawSize + 1)
+        moveTo(cr, vertical, x, flip ? -1 : drawSize + 1)
 
         values.forEach((value) => {
             x = x + spacing
-            lineTo(cr, vertical, x, getCoordinate(value, drawSize))
+            lineTo(cr, vertical, x, getCoordinate(value, drawSize, flip))
         })
 
         values.reverse()
 
         values.forEach((value) => {
             x = x + spacing
-            lineTo(cr, vertical, x, getCoordinate(value, drawSize))
+            lineTo(cr, vertical, x, getCoordinate(value, drawSize, flip))
         })
 
         // add or subtract 1 to make it align with the bar if the line should be flat
-        lineTo(cr, vertical, drawLength, bar === Bar.LEFT ? -1 : drawSize + 1)
+        lineTo(cr, vertical, drawLength, flip ? -1 : drawSize + 1)
 
         // @ts-ignore
-        cr.stroke();
-    });
+        cr.stroke()
+    })
 
-    bind(cava, "values").subscribe((values) => {
-        drawing.queue_draw()
+    // Unsubscribe when the waveform isn't visible
+    let unsubscribe: (() => void) | null = null
+
+    drawing.connect("map", () => {
+        // set the number of bars after 2 seconds so that size has been allocated.  Not sure how to detect allocation,
+        // so just using a timer
+        timeout(2000, () => {
+            const drawLength = vertical
+                ? drawing.get_height()
+                : drawing.get_width()
+            if (drawLength > 0) {
+                setBars(cava, drawLength)
+            }
+        })
+
+        unsubscribe = bind(cava, "values").subscribe(() => {
+            drawing.queue_draw()
+        })
+    })
+
+    drawing.connect("unmap", () => {
+        if (unsubscribe) {
+            unsubscribe()
+            unsubscribe = null
+        }
     })
 
     return <box
