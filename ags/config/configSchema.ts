@@ -277,13 +277,21 @@ export const CONFIG_SCHEMA = [
         type: 'object',
         description: 'Configuration for a horizontal (top/bottom) bar layout.',
         children: [
-            widgetsArrayField('leftWidgets', 'Widgets anchored left.', [BarWidget.MENU, BarWidget.WORKSPACES]),
+            widgetsArrayField(
+                'leftWidgets',
+                'Widgets anchored left.',
+                [
+                    BarWidget.MENU,
+                    BarWidget.WORKSPACES
+                ]
+            ),
             widgetsArrayField(
                 'centerWidgets',
                 'Widgets centered horizontally.',
                 [
                     BarWidget.MPRIS_TRACK_INFO,
-                    BarWidget.MPRIS_CONTROLS
+                    BarWidget.MPRIS_CONTROLS,
+                    BarWidget.CAVA_WAVEFORM
                 ]
             ),
             widgetsArrayField(
@@ -380,13 +388,21 @@ export const CONFIG_SCHEMA = [
         type: 'object',
         description: 'Configuration for a vertical (left/right) bar layout.',
         children: [
-            widgetsArrayField('topWidgets', 'Widgets anchored at the top.', [BarWidget.MENU, BarWidget.WORKSPACES]),
+            widgetsArrayField(
+                'topWidgets',
+                'Widgets anchored at the top.',
+                [
+                    BarWidget.MENU,
+                    BarWidget.WORKSPACES
+                ]
+            ),
             widgetsArrayField(
                 'centerWidgets',
                 'Widgets centered vertically.',
                 [
                     BarWidget.MPRIS_TRACK_INFO,
-                    BarWidget.MPRIS_CONTROLS
+                    BarWidget.MPRIS_CONTROLS,
+                    BarWidget.CAVA_WAVEFORM
                 ]
             ),
             widgetsArrayField(

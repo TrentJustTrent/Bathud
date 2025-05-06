@@ -22,7 +22,7 @@ function castPrimitive(value: string, target: PrimitiveType) {
 
 function parseInlineValue(raw: string): any {
     const t = raw.trim();
-    if (/^\[.*\]$/.test(t)) {
+    if (/^\[[^\n]*\]$/.test(t)) {
         const inner = t.slice(1, -1);
         return inner
             .split(/,(?=(?:[^'\"]|'[^']*'|"[^"]*")*$)/)
@@ -108,6 +108,17 @@ export function parseConf(text: string): Record<string, any> {
         const arrayStart = line.match(/^([^=]+?)\s*=\s*\[\s*$/);
         if (arrayStart) {
             const path = arrayStart[1].trim().split('.');
+            const arr: any[] = [];
+            put(path, arr);
+            ctxStack.push(arr);
+            typeStack.push('array');
+            return;
+        }
+
+        // Array assignment without '='  e.g., key [
+        const arrayStartNoEq = line.match(/^([\w.]+)\s*\[\s*$/);
+        if (arrayStartNoEq) {
+            const path = arrayStartNoEq[1].split('.');
             const arr: any[] = [];
             put(path, arr);
             ctxStack.push(arr);

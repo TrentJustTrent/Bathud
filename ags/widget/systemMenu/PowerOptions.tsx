@@ -3,6 +3,7 @@ import {execAsync} from "astal/process"
 import {config} from "../../config/config";
 import LargeIconButton from "../common/LargeIconButton";
 import {hideAllWindows} from "../utils/windows";
+import {cleanup} from "../../app";
 
 export default function () {
     return <box
@@ -13,6 +14,7 @@ export default function () {
             icon="󰍃"
             offset={0}
             onClicked={() => {
+                cleanup()
                 hideAllWindows()
                 execAsync(config.systemCommands.logout)
                     .catch((error) => {
@@ -33,6 +35,7 @@ export default function () {
             icon=""
             offset={0}
             onClicked={() => {
+                cleanup()
                 hideAllWindows()
                 execAsync(config.systemCommands.restart)
                     .catch((error) => {
@@ -43,6 +46,7 @@ export default function () {
             icon="⏻"
             offset={2}
             onClicked={() => {
+                cleanup()
                 hideAllWindows()
                 execAsync(config.systemCommands.shutdown)
                     .catch((error) => {

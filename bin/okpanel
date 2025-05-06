@@ -108,7 +108,16 @@ run_run_command() {
       dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../ags
   fi
 
+  # listen for interruptions so we can cleanup properly
+  trap quit SIGINT SIGTERM
+
   ags run --gtk4 -d $dir -a $dir -a $HOME
+}
+
+quit() {
+  echo "Quitting..."
+  astal -i "OkPanel" "cleanup"
+  ags quit -i "OkPanel"
 }
 
 main() {
@@ -119,7 +128,7 @@ main() {
 
   case $1 in
     run)          run_run_command;;
-    quit)         ags quit -i "OkPanel";;
+    quit)         quit;;
     launcher)     astal -i "OkPanel" "appLauncher";;
     screenshot)   astal -i "OkPanel" "screenshot";;
     volume-up)    astal -i "OkPanel" "volume-up";;

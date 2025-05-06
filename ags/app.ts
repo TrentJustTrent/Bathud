@@ -16,6 +16,7 @@ import Hyprland from "gi://AstalHyprland"
 import {restoreSavedState, setThemeBasic} from "./config/cachedStates";
 import {setHomeDir, setProjectDir} from "./config/config";
 import ClipboardManager from "./widget/clipboardManager/ClipboardManager";
+import {cavaInstances} from "./widget/cava/cavaInstances";
 
 const hyprland = Hyprland.get_default()
 
@@ -75,8 +76,21 @@ App.start({
         } else if (request.startsWith("mute")) {
             muteVolume()
             res("mute")
+        } else if (request.startsWith("cleanup")) {
+            console.log("Cleanup request received, cleaning up...");
+            cleanup()
+            res("Clean up successful")
         } else {
             res("command not found")
         }
     }
 })
+
+export function cleanup() {
+    console.log("Cleaning up")
+    cavaInstances.forEach((cava) => {
+        cava.set_active(false)
+    })
+
+    console.log("Finished cleaning up")
+}

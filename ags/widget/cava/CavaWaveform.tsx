@@ -1,11 +1,12 @@
 import {Gdk, Gtk} from "astal/gtk4";
 import Cairo from 'gi://cairo';
-import Cava from "gi://AstalCava"
+import AstalCava from "gi://AstalCava"
 import {bind, Binding, GLib} from "astal";
 import {selectedTheme} from "../../config/config";
 import {isBinding} from "../utils/bindings";
 import { timeout } from "astal/time"
 import {hexToRgba} from "../utils/strings";
+import {cavaInstances} from "./cavaInstances";
 
 function getCoordinate(
     value: number,
@@ -53,7 +54,7 @@ function lineTo(
 }
 
 // Weird things happen if there are over 200 bars
-function setBars(cava: Cava.Cava, length: number) {
+function setBars(cava: AstalCava.Cava, length: number) {
     cava.bars = Math.min(200, length / 10)
 }
 
@@ -98,11 +99,13 @@ export default function(
         marginEnd,
     }: Params
 ) {
-    const cava = new Cava.Cava()
+    const cava = new AstalCava.Cava()
 
     if (cava === null) {
         return <box/>
     }
+
+    cavaInstances.push(cava)
 
     setBars(cava, length)
 

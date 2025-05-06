@@ -9,33 +9,51 @@ wallpaperUpdateScript  = "/home/john/workspace/scripts/setWallpaper.sh"
 
 # ───────────── Horizontal bar ─────────────
 horizontalBar {
-    leftWidgets   = [menu, workspaces]
-    centerWidgets = [clock]
-    rightWidgets  = [
-        recording_indicator,
-        audio_out,
-        audio_in,
-        bluetooth,
-        vpn_indicator,
-        network,
-        battery,
+    leftWidgets [
+        menu
+        workspaces
+    ]
+    centerWidgets [
+        mpris_track_info
+        mpris_controls
+    ]
+    rightWidgets [
+        recording_indicator
         tray
+        clipboard_manager
+        power_profile
+        audio_out
+        audio_in
+        bluetooth
+        vpn_indicator
+        network
+        battery
+        tray
+        clock
     ]
 }
 
 # ───────────── Vertical bar ─────────────
 verticalBar {
-    topWidgets    = [menu, workspaces]
-    centerWidgets = []
-    bottomWidgets = [
-        recording_indicator,
-        tray,
-        audio_out,
-        audio_in,
-        bluetooth,
-        vpn_indicator,
-        network,
-        battery,
+    topWidgets [
+        menu
+        workspaces
+    ]
+    centerWidgets [
+        mpris_track_info
+        mpris_controls
+    ]
+    bottomWidgets [
+        recording_indicator
+        tray
+        clipboard_manager
+        power_profile
+        audio_out
+        audio_in
+        bluetooth
+        vpn_indicator
+        network
+        battery
         clock
     ]
 }
@@ -57,7 +75,7 @@ themes = [
         pixelOffset  = 1
         wallpaperDir = /home/john/workspace/Pictures/wallpaper/everforest
         
-        colors = {
+        colors {
             background    = #1E2326
             foreground    = #D3C6AA
             primary       = #7A8478
@@ -77,7 +95,7 @@ themes = [
         pixelOffset  = 2
         wallpaperDir = /home/john/workspace/Pictures/wallpaper/nord
         
-        colors = {
+        colors {
             background    = #2e3440
             foreground    = #d8dee9
             primary       = #81a1c1
