@@ -75,15 +75,16 @@ export default function () {
                     </box>
                 </box>
             </centerbox>
-            <box
-                visible={config.horizontalBar.enableFullBarCavaWaveform && !config.horizontalBar.splitSections}>
-                <CavaWaveform
-                    vertical={false}
-                    intensity={config.horizontalBar.cavaWaveformIntensityMultiplier}
-                    flipStart={getCavaFlipStartValue(false)}
-                    expand={true}
-                    length={400}
-                    size={40}/>
+            <box>
+                {config.horizontalBar.enableFullBarCavaWaveform && !config.horizontalBar.splitSections &&
+                    <CavaWaveform
+                        vertical={false}
+                        intensity={config.horizontalBar.cavaWaveformIntensityMultiplier}
+                        flipStart={getCavaFlipStartValue(false)}
+                        expand={true}
+                        length={400}
+                        size={40}/>
+                }
             </box>
         </overlay>
     </window>

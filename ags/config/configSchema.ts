@@ -283,8 +283,7 @@ export const CONFIG_SCHEMA = [
                 'Widgets centered horizontally.',
                 [
                     BarWidget.MPRIS_TRACK_INFO,
-                    BarWidget.MPRIS_CONTROLS,
-                    BarWidget.CAVA_WAVEFORM
+                    BarWidget.MPRIS_CONTROLS
                 ]
             ),
             widgetsArrayField(
@@ -387,8 +386,7 @@ export const CONFIG_SCHEMA = [
                 'Widgets centered vertically.',
                 [
                     BarWidget.MPRIS_TRACK_INFO,
-                    BarWidget.MPRIS_CONTROLS,
-                    BarWidget.CAVA_WAVEFORM
+                    BarWidget.MPRIS_CONTROLS
                 ]
             ),
             widgetsArrayField(
