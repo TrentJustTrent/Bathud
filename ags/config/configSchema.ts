@@ -57,6 +57,19 @@ export enum BarWidget {
 }
 export const BAR_WIDGET_VALUES = Object.values(BarWidget) as readonly BarWidget[]
 
+export enum SystemMenuWidget {
+    NETWORK = "network",
+    BLUETOOTH = "bluetooth",
+    AUDIO_OUT = "audio_out",
+    AUDIO_IN = "audio_in",
+    POWER_PROFILE = "power_profile",
+    LOOK_AND_FEEL = "look_and_feel",
+    MPRIS_PLAYERS = "mpris_players",
+    POWER_OPTIONS = "power_options",
+    NOTIFICATION_HISTORY = "notification_history"
+}
+export const SYSTEM_MENU_WIDGET_VALUES = Object.values(SystemMenuWidget) as readonly SystemMenuWidget[]
+
 export enum VerticalWaveformPosition {
     INNER = "inner",
     OUTER = "outer",
@@ -81,7 +94,7 @@ export enum NotificationsPosition {
 export const NOTIFICATION_POSITIONS = Object.values(NotificationsPosition) as readonly NotificationsPosition[]
 
 // Helper factory to reduce repetition for BarWidget string arrays
-const widgetsArrayField = <N extends string>( //preserve the literal key
+const barWidgetsArrayField = <N extends string>( //preserve the literal key
     name:        N,
     description: string,
     defaults:    readonly BarWidget[],
@@ -95,6 +108,23 @@ const widgetsArrayField = <N extends string>( //preserve the literal key
             name: "widget",
             type: "enum",
             enumValues: BAR_WIDGET_VALUES,
+        },
+    } as const satisfies Field & { name: N })
+
+const systemMenuWidgetsArrayField = <N extends string>( //preserve the literal key
+    name:        N,
+    description: string,
+    defaults:    readonly SystemMenuWidget[],
+) =>
+    ({
+        name,
+        type: "array",
+        description,
+        default: defaults,
+        item: {
+            name: "widget",
+            type: "enum",
+            enumValues: SYSTEM_MENU_WIDGET_VALUES,
         },
     } as const satisfies Field & { name: N })
 
@@ -278,7 +308,7 @@ export const CONFIG_SCHEMA = [
         type: 'object',
         description: 'Configuration for a horizontal (top/bottom) bar layout.',
         children: [
-            widgetsArrayField(
+            barWidgetsArrayField(
                 'leftWidgets',
                 'Widgets anchored left.',
                 [
@@ -286,7 +316,7 @@ export const CONFIG_SCHEMA = [
                     BarWidget.WORKSPACES
                 ]
             ),
-            widgetsArrayField(
+            barWidgetsArrayField(
                 'centerWidgets',
                 'Widgets centered horizontally.',
                 [
@@ -295,7 +325,7 @@ export const CONFIG_SCHEMA = [
                     BarWidget.CAVA_WAVEFORM
                 ]
             ),
-            widgetsArrayField(
+            barWidgetsArrayField(
                 'rightWidgets',
                 'Widgets anchored right.',
                 [
@@ -390,7 +420,7 @@ export const CONFIG_SCHEMA = [
         type: 'object',
         description: 'Configuration for a vertical (left/right) bar layout.',
         children: [
-            widgetsArrayField(
+            barWidgetsArrayField(
                 'topWidgets',
                 'Widgets anchored at the top.',
                 [
@@ -398,7 +428,7 @@ export const CONFIG_SCHEMA = [
                     BarWidget.WORKSPACES
                 ]
             ),
-            widgetsArrayField(
+            barWidgetsArrayField(
                 'centerWidgets',
                 'Widgets centered vertically.',
                 [
@@ -407,7 +437,7 @@ export const CONFIG_SCHEMA = [
                     BarWidget.CAVA_WAVEFORM
                 ]
             ),
-            widgetsArrayField(
+            barWidgetsArrayField(
                 'bottomWidgets',
                 'Widgets anchored at the bottom.',
                 [
@@ -502,6 +532,21 @@ export const CONFIG_SCHEMA = [
         type: 'object',
         description: 'Extra controls exposed by the menu button.',
         children: [
+            systemMenuWidgetsArrayField(
+                'widgets',
+                'Widgets inside the system menu',
+                [
+                    SystemMenuWidget.NETWORK,
+                    SystemMenuWidget.BLUETOOTH,
+                    SystemMenuWidget.AUDIO_OUT,
+                    SystemMenuWidget.AUDIO_IN,
+                    SystemMenuWidget.POWER_PROFILE,
+                    SystemMenuWidget.LOOK_AND_FEEL,
+                    SystemMenuWidget.MPRIS_PLAYERS,
+                    SystemMenuWidget.POWER_OPTIONS,
+                    SystemMenuWidget.NOTIFICATION_HISTORY
+                ]
+            ),
             {
                 name: 'menuButtonIcon',
                 type: 'string',
@@ -509,16 +554,10 @@ export const CONFIG_SCHEMA = [
                 description: 'Icon shown on the menu button (ex: Nerd Font glyph).',
             },
             {
-                name: 'enableMprisWidget',
-                type: 'boolean',
-                default: true,
-                description: 'Show the MPRIS now‑playing widget in the menu.',
-            },
-            {
                 name: 'enableVpnControls',
                 type: 'boolean',
                 default: true,
-                description: 'Show quick‑toggle VPN controls inside the menu.',
+                description: 'Show quick‑toggle VPN controls inside the network widget.',
             },
         ],
     },

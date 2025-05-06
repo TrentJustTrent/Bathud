@@ -10,15 +10,46 @@ import BluetoothControls from "./BluetoothControls";
 import LookAndFeelControls from "./LookAndFeelControls";
 import {config, selectedBar} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
-import {BarWidget} from "../../config/configSchema";
+import {BarWidget, SystemMenuWidget} from "../../config/configSchema";
 import {Bar} from "../../config/bar";
 import PowerProfileControls from "./PowerProfileControls";
 
 export const SystemMenuWindowName = "systemMenuWindow"
 
-export default function () {
-    const {audio} = Wp.get_default()!
+const {audio} = Wp.get_default()!
 
+export function addWidgets(widgets: SystemMenuWidget[]) {
+    return widgets.map((widget) => {
+        switch (widget) {
+            case SystemMenuWidget.NETWORK:
+                return <NetworkControls/>
+            case SystemMenuWidget.BLUETOOTH:
+                return <BluetoothControls/>
+            case SystemMenuWidget.AUDIO_OUT:
+                return <EndpointControls
+                    defaultEndpoint={audio.default_speaker}
+                    endpointsBinding={bind(audio, "speakers")}
+                    getIcon={getVolumeIcon}/>
+            case SystemMenuWidget.AUDIO_IN:
+                return <EndpointControls
+                    defaultEndpoint={audio.default_microphone}
+                    endpointsBinding={bind(audio, "microphones")}
+                    getIcon={getMicrophoneIcon}/>
+            case SystemMenuWidget.POWER_PROFILE:
+                return <PowerProfileControls/>
+            case SystemMenuWidget.LOOK_AND_FEEL:
+                return <LookAndFeelControls/>
+            case SystemMenuWidget.MPRIS_PLAYERS:
+                return <MediaPlayers/>
+            case SystemMenuWidget.POWER_OPTIONS:
+                return <PowerOptions/>
+            case SystemMenuWidget.NOTIFICATION_HISTORY:
+                return <NotificationHistory/>
+        }
+    })
+}
+
+export default function () {
     return <ScrimScrollWindow
         monitor={config.mainMonitor}
         windowName={SystemMenuWindowName}
@@ -74,28 +105,10 @@ export default function () {
                 marginTop={20}
                 marginStart={20}
                 marginEnd={20}
+                marginBottom={20}
                 vertical={true}
                 spacing={10}>
-                <NetworkControls/>
-                <BluetoothControls/>
-                <EndpointControls
-                    defaultEndpoint={audio.default_speaker}
-                    endpointsBinding={bind(audio, "speakers")}
-                    getIcon={getVolumeIcon}/>
-                <EndpointControls
-                    defaultEndpoint={audio.default_microphone}
-                    endpointsBinding={bind(audio, "microphones")}
-                    getIcon={getMicrophoneIcon}/>
-                <PowerProfileControls/>
-                <LookAndFeelControls/>
-                {config.systemMenu.enableMprisWidget && <MediaPlayers/>}
-                <PowerOptions/>
-                <box
-                    marginTop={10}
-                    vertical={false}>
-                    <NotificationHistory/>
-                </box>
-                <box marginTop={2}/>
+                {addWidgets(config.systemMenu.widgets)}
             </box>
         }
     />
