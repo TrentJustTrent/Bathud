@@ -330,10 +330,11 @@ function MprisControls({vertical}: { vertical: boolean }) {
         marginTop={vertical ? 20 : 0}
         marginBottom={vertical ? 20 : 0}>
         {mpris.players(players => {
-            if (players.length === 0) {
+            const player = players.find((player) => player.isPrimaryPlayer)
+
+            if (player === undefined) {
                 return <box/>
             }
-            const player = players[0]
 
             return <MprisControlButtons player={player} vertical={vertical}/>
         })}
@@ -348,10 +349,11 @@ function MprisTrackInfoBarWidget({vertical}: { vertical: boolean }) {
         marginTop={vertical ? 20 : 0}
         marginBottom={vertical ? 20 : 0}>
         {mpris.players(players => {
-            if (players.length === 0) {
+            const player = players.find((player) => player.isPrimaryPlayer)
+
+            if (player === undefined) {
                 return <box/>
             }
-            const player = players[0]
 
             return <MprisTrackInfo
                 player={player}
@@ -361,6 +363,27 @@ function MprisTrackInfoBarWidget({vertical}: { vertical: boolean }) {
                 })}/>
         })}
     </box>
+}
+
+function MprisPrimaryPlayerSwitcher() {
+    const mpris = Mpris.get_default()
+
+    return <box>
+        {mpris.players(players => {
+            if (players.length <= 1) {
+                return <box/>
+            }
+
+            return <button
+                cssClasses={["iconButton"]}
+                label=""
+                onClicked={() => {
+                    mpris.rotatePrimaryPlayer()
+                }}/>
+        })}
+    </box>
+
+
 }
 
 export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
@@ -404,6 +427,8 @@ export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
                 return <MprisControls vertical={isVertical}/>
             case BarWidget.MPRIS_TRACK_INFO:
                 return <MprisTrackInfoBarWidget vertical={isVertical}/>
+            case BarWidget.MPRIS_PRIMARY_PLAYER_SWITCHER:
+                return <MprisPrimaryPlayerSwitcher/>
         }
     })
 }

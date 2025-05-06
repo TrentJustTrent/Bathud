@@ -27,6 +27,7 @@ export enum LoopStatus {
 export class Player {
     busName: string;
     proxy: Gio.DBusProxy | null;
+    isPrimaryPlayer: boolean
 
     playbackStatus: Variable<PlaybackStatus | null> = Variable(null);
     position: Variable<number> = Variable(0);
@@ -41,10 +42,11 @@ export class Player {
 
     positionInterval: AstalIO.Time | null;
 
-    constructor(busName: string) {
+    constructor(busName: string, isPrimary: boolean) {
         this.busName = busName;
         this.proxy = null;
         this.positionInterval = null;
+        this.isPrimaryPlayer = isPrimary
 
         this._initProxy();
         this._setupPositionInterval()
@@ -588,6 +590,28 @@ export class Mpris {
         this._loadExistingPlayers();
     }
 
+    public rotatePrimaryPlayer(): void {
+        const players = this.players.get();
+
+        // Don't rotate if 0 or 1 player
+        if (players.length <= 1) return;
+
+        const currentIndex = players.findIndex(p => p.isPrimaryPlayer);
+        if (currentIndex === -1) return; // no current primary set
+
+        // Clear current primary
+        players[currentIndex].isPrimaryPlayer = false;
+
+        // Calculate next index (wrap around)
+        const nextIndex = (currentIndex + 1) % players.length;
+
+        // Set new primary
+        players[nextIndex].isPrimaryPlayer = true;
+
+        // Update the reactive list (to notify bindings)
+        this.players.set([...players]);
+    }
+
     private _loadExistingPlayers(): void {
         Gio.DBus.session.call(
             "org.freedesktop.DBus",
@@ -646,7 +670,7 @@ export class Mpris {
         if (!this.players.get().find((player) => player.busName === busName)) {
             log("Adding player: " + busName);
             try {
-                let player = new Player(busName);
+                let player = new Player(busName, this.players.length === 0);
                 this.players.set(this.players.get().concat(player))
             } catch (e) {
                 console.error(e, "Failed to add player: " + busName)
@@ -656,7 +680,12 @@ export class Mpris {
 
     private _removePlayer(busName: string): void {
         log("Removing player: " + busName)
-        this.players.get().find((player) => player.busName === busName)?.destroy()
-        this.players.set(this.players.get().filter((player) => player.busName !== busName))
+        const player = this.players.get().find((player) => player.busName === busName)
+        player?.destroy()
+        const newList = this.players.get().filter((player) => player.busName !== busName)
+        if (newList.length !== 0 && player?.isPrimaryPlayer) {
+            newList[0].isPrimaryPlayer = true
+        }
+        this.players.set(newList)
     }
 }

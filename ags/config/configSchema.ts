@@ -53,6 +53,7 @@ export enum BarWidget {
     CAVA_WAVEFORM = "cava_waveform",
     MPRIS_CONTROLS = "mpris_controls",
     MPRIS_TRACK_INFO = "mpris_track_info",
+    MPRIS_PRIMARY_PLAYER_SWITCHER = "mpris_primary_player_switcher"
 }
 export const BAR_WIDGET_VALUES = Object.values(BarWidget) as readonly BarWidget[]
 
@@ -299,6 +300,7 @@ export const CONFIG_SCHEMA = [
                 'Widgets anchored right.',
                 [
                     BarWidget.RECORDING_INDICATOR,
+                    BarWidget.MPRIS_PRIMARY_PLAYER_SWITCHER,
                     BarWidget.TRAY,
                     BarWidget.CLIPBOARD_MANAGER,
                     BarWidget.POWER_PROFILE,
@@ -410,6 +412,7 @@ export const CONFIG_SCHEMA = [
                 'Widgets anchored at the bottom.',
                 [
                     BarWidget.RECORDING_INDICATOR,
+                    BarWidget.MPRIS_PRIMARY_PLAYER_SWITCHER,
                     BarWidget.TRAY,
                     BarWidget.CLIPBOARD_MANAGER,
                     BarWidget.POWER_PROFILE,
