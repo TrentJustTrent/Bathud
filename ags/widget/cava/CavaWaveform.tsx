@@ -1,7 +1,7 @@
-import {Gdk, Gtk} from "astal/gtk4";
+import {Gtk} from "astal/gtk4";
 import Cairo from 'gi://cairo';
 import AstalCava from "gi://AstalCava"
-import {bind, Binding, GLib} from "astal";
+import {bind, Binding} from "astal";
 import {selectedTheme} from "../../config/config";
 import {isBinding} from "../utils/bindings";
 import { timeout } from "astal/time"

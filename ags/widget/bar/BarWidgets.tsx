@@ -382,8 +382,6 @@ function MprisPrimaryPlayerSwitcher() {
                 }}/>
         })}
     </box>
-
-
 }
 
 export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
