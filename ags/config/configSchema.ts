@@ -53,7 +53,8 @@ export enum BarWidget {
     CAVA_WAVEFORM = "cava_waveform",
     MPRIS_CONTROLS = "mpris_controls",
     MPRIS_TRACK_INFO = "mpris_track_info",
-    MPRIS_PRIMARY_PLAYER_SWITCHER = "mpris_primary_player_switcher"
+    MPRIS_PRIMARY_PLAYER_SWITCHER = "mpris_primary_player_switcher",
+    NOTIFICATION_HISTORY = "notification_history"
 }
 export const BAR_WIDGET_VALUES = Object.values(BarWidget) as readonly BarWidget[]
 

@@ -17,6 +17,7 @@ import {restoreSavedState, setThemeBasic} from "./config/cachedStates";
 import {setHomeDir, setProjectDir} from "./config/config";
 import ClipboardManager from "./widget/clipboardManager/ClipboardManager";
 import {cavaInstances} from "./widget/cava/cavaInstances";
+import NotificationHistoryWindow from "./widget/notification/NotificationHistoryWindow";
 
 const hyprland = Hyprland.get_default()
 
@@ -37,6 +38,7 @@ App.start({
         Screenshot()
         Screenshare()
         ClipboardManager()
+        NotificationHistoryWindow()
 
         hyprland.monitors.map((monitor) => {
             VolumeAlert(monitor)

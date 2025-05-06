@@ -27,6 +27,8 @@ import {Mpris} from "../utils/mpris";
 import MprisControlButtons from "../mpris/MprisControlButtons";
 import MprisTrackInfo from "../mpris/MprisTrackInfo";
 import {Bar} from "../../config/bar";
+import Notifd from "gi://AstalNotifd"
+import {NotificationHistoryWindowName} from "../notification/NotificationHistoryWindow";
 
 const tray = Tray.get_default()
 
@@ -384,6 +386,30 @@ function MprisPrimaryPlayerSwitcher() {
     </box>
 }
 
+function NotificationButton() {
+    const notifications = Notifd.get_default()
+
+    const derivedNotificationState = Variable.derive([
+        bind(notifications, "notifications"),
+        bind(notifications, "dontDisturb")
+    ])
+
+    return <button
+        cssClasses={["iconButton"]}
+        label={derivedNotificationState().as(([notificationsList, doNotDisturb]) => {
+            if (doNotDisturb) {
+                return "󰂛"
+            } else if (notificationsList.length === 0) {
+                return "󰂚"
+            } else {
+                return "󱅫"
+            }
+        })}
+        onClicked={() => {
+            toggleWindow(NotificationHistoryWindowName)
+        }}/>
+}
+
 export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
     return widgets.map((widget) => {
         switch (widget) {
@@ -427,6 +453,8 @@ export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
                 return <MprisTrackInfoBarWidget vertical={isVertical}/>
             case BarWidget.MPRIS_PRIMARY_PLAYER_SWITCHER:
                 return <MprisPrimaryPlayerSwitcher/>
+            case BarWidget.NOTIFICATION_HISTORY:
+                return <NotificationButton/>
         }
     })
 }

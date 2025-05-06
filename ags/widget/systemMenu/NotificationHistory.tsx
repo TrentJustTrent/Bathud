@@ -9,8 +9,6 @@ export default function() {
     return <box
         vertical={true}>
         <box
-            marginStart={20}
-            marginEnd={20}
             vertical={false}>
             <button
                 cssClasses={["iconButton"]}

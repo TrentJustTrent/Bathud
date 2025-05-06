@@ -7,6 +7,7 @@ import {ScreenshareWindowName} from "../screenshare/Screenshare";
 import {ScreenshotWindowName} from "../screenshot/Screenshot";
 import {ClipboardManagerWindowName} from "../clipboardManager/ClipboardManager";
 import {PolkitWindowName} from "../polkit/PolkitPopup";
+import {NotificationHistoryWindowName} from "../notification/NotificationHistoryWindow";
 
 export function toggleWindow(windowName: string) {
     const window = App.get_windows().find((window) => window.name === windowName)
@@ -26,7 +27,8 @@ export function hideAllWindows() {
             window.name === ScreenshareWindowName ||
             window.name === ScreenshotWindowName ||
             window.name === ClipboardManagerWindowName ||
-            window.name === PolkitWindowName
+            window.name === PolkitWindowName ||
+            window.name === NotificationHistoryWindowName
     })
     windows.forEach((window) => {
         window.hide()
