@@ -361,6 +361,12 @@ export const CONFIG_SCHEMA = [
                 default: false,
                 description: 'Shows a cava waveform stretching across the entire bar, underneath other widgets.  Does not show when split sections are enabled.'
             },
+            {
+                name: 'maxMprisTrackInfoTextLength',
+                type: 'number',
+                default: 30,
+                description: 'The max number of characters to display for track info for the mpris_track_info bar widget'
+            },
         ],
     },
     // ────────────────── verticalBar ──────────────────
@@ -452,6 +458,12 @@ export const CONFIG_SCHEMA = [
                 type: 'boolean',
                 default: false,
                 description: 'Shows a cava waveform stretching across the entire bar, underneath other widgets.  Does not show when split sections are enabled.'
+            },
+            {
+                name: 'maxMprisTrackInfoTextLength',
+                type: 'number',
+                default: 30,
+                description: 'The max number of characters to display for track info for the mpris_track_info bar widget'
             },
         ],
     },

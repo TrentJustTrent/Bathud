@@ -3,6 +3,7 @@ import {Gtk} from "astal/gtk4";
 import VerticalLabel from "../common/VerticalLabel";
 import {Binding} from "astal";
 import {truncateString} from "../utils/strings";
+import {config} from "../../config/config";
 
 export default function (
     {
@@ -16,10 +17,16 @@ export default function (
     }
 ) {
     const title = player.title(t =>
-        t ? truncateString(t, 30) : "Unknown Track")
+        t ? truncateString(
+            t,
+            vertical ? config.verticalBar.maxMprisTrackInfoTextLength : config.horizontalBar.maxMprisTrackInfoTextLength
+        ) : "Unknown Track")
 
     const artist = player.artist(a =>
-        a ?  truncateString(a, 30) : "Unknown Artist")
+        a ?  truncateString(
+            a,
+            vertical ? config.verticalBar.maxMprisTrackInfoTextLength : config.horizontalBar.maxMprisTrackInfoTextLength
+        ) : "Unknown Artist")
 
     return <box>
         {vertical &&
