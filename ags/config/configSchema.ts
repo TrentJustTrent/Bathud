@@ -356,6 +356,12 @@ export const CONFIG_SCHEMA = [
                 description: 'The base position of the waveform'
             },
             {
+                name: 'cavaWaveformIntensityMultiplier',
+                type: 'number',
+                default: 1,
+                description: 'Makes the waves bigger or smaller.'
+            },
+            {
                 name: 'enableFullBarCavaWaveform',
                 type: 'boolean',
                 default: false,
@@ -452,6 +458,12 @@ export const CONFIG_SCHEMA = [
                 enumValues: VERTICAL_WAVEFORM_POSITIONS,
                 default: VerticalWaveformPosition.OUTER,
                 description: 'The base position of the waveform.'
+            },
+            {
+                name: 'cavaWaveformIntensityMultiplier',
+                type: 'number',
+                default: 1,
+                description: 'Makes the waves bigger or smaller.'
             },
             {
                 name: 'enableFullBarCavaWaveform',

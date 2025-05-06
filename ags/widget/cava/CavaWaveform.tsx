@@ -7,8 +7,13 @@ import {isBinding} from "../utils/bindings";
 import { timeout } from "astal/time"
 import {hexToRgba} from "../utils/strings";
 
-function getCoordinate(value: number, size: number, flipStart: boolean) {
-    const magicSize = size * 0.6
+function getCoordinate(
+    value: number,
+    size: number,
+    flipStart: boolean,
+    intensity: number,
+) {
+    const magicSize = size * intensity
     if (flipStart) {
         // subtract 1 to make it align with the bar if the line should be flat
         return Math.min(size, (value * magicSize) - 1)
@@ -58,6 +63,7 @@ type Params = {
     length?: number,
     size?: number,
     expand?: boolean,
+    intensity?: number,
     marginTop?: number,
     marginBottom?: number,
     marginStart?: number,
@@ -72,6 +78,7 @@ type Params = {
  * @param length the length of the waveform
  * @param size the size of the waveform.  If vertical, then size is width.  If horizontal, then size is height
  * @param expand expand the waveform to fill available space.
+ * @param intensity makes the waves bigger or smaller
  * @param marginTop
  * @param marginBottom
  * @param marginStart
@@ -84,6 +91,7 @@ export default function(
         length = 0,
         size = 0,
         expand = false,
+        intensity = 1,
         marginTop,
         marginBottom,
         marginStart,
@@ -144,14 +152,14 @@ export default function(
 
         values.forEach((value) => {
             x = x + spacing
-            lineTo(cr, vertical, x, getCoordinate(value, drawSize, flip))
+            lineTo(cr, vertical, x, getCoordinate(value, drawSize, flip, intensity))
         })
 
         values.reverse()
 
         values.forEach((value) => {
             x = x + spacing
-            lineTo(cr, vertical, x, getCoordinate(value, drawSize, flip))
+            lineTo(cr, vertical, x, getCoordinate(value, drawSize, flip, intensity))
         })
 
         // add or subtract 1 to make it align with the bar if the line should be flat

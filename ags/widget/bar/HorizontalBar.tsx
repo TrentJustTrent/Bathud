@@ -79,6 +79,7 @@ export default function () {
                 visible={config.horizontalBar.enableFullBarCavaWaveform && !config.horizontalBar.splitSections}>
                 <CavaWaveform
                     vertical={false}
+                    intensity={config.horizontalBar.cavaWaveformIntensityMultiplier}
                     flipStart={getCavaFlipStartValue(false)}
                     expand={true}
                     length={400}

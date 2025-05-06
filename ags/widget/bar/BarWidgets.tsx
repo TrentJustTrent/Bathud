@@ -299,16 +299,27 @@ function PowerProfileIndicator() {
 }
 
 function CavaBars({vertical}: { vertical: boolean }) {
-    return <CavaWaveform
-        marginStart={vertical ? 0 : 20}
-        marginEnd={vertical ? 0 : 20}
-        marginTop={vertical ? 20 : 0}
-        marginBottom={vertical ? 20 : 0}
-        vertical={vertical}
-        flipStart={getCavaFlipStartValue(vertical)}
-        expand={vertical ? config.verticalBar.cavaWaveformExpanded : config.horizontalBar.cavaWaveformExpanded}
-        length={vertical ? config.verticalBar.cavaWaveformLength : config.horizontalBar.cavaWaveformLength}
-        size={40}/>
+    const mpris = Mpris.get_default()
+
+    return <box>
+        {mpris.players(players => {
+            if (players.length === 0) {
+                return <box/>
+            }
+
+            return <CavaWaveform
+                marginStart={vertical ? 0 : 20}
+                marginEnd={vertical ? 0 : 20}
+                marginTop={vertical ? 20 : 0}
+                marginBottom={vertical ? 20 : 0}
+                vertical={vertical}
+                flipStart={getCavaFlipStartValue(vertical)}
+                intensity={vertical ? config.verticalBar.cavaWaveformIntensityMultiplier : config.horizontalBar.cavaWaveformIntensityMultiplier}
+                expand={vertical ? config.verticalBar.cavaWaveformExpanded : config.horizontalBar.cavaWaveformExpanded}
+                length={vertical ? config.verticalBar.cavaWaveformLength : config.horizontalBar.cavaWaveformLength}
+                size={40}/>
+        })}
+    </box>
 }
 
 function MprisControls({vertical}: { vertical: boolean }) {
