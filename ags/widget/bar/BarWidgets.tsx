@@ -405,50 +405,61 @@ function NotificationButton() {
 }
 
 export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
+    const schema = isVertical ? config.verticalBar : config.horizontalBar
     return widgets.map((widget) => {
-        switch (widget) {
-            case BarWidget.MENU:
-                return <MenuButton/>
-            case BarWidget.WORKSPACES:
-                return <Workspaces vertical={isVertical}/>
-            case BarWidget.BATTERY:
-                return <BatteryIndicator/>
-            case BarWidget.AUDIO_IN:
-                return <AudioIn/>
-            case BarWidget.AUDIO_OUT:
-                return <AudioOut/>
-            case BarWidget.BLUETOOTH:
-                return <BluetoothIndicator/>
-            case BarWidget.CLOCK:
-                return <Clock singleLine={!isVertical}/>
-            case BarWidget.NETWORK:
-                return <NetworkIndicator/>
-            case BarWidget.RECORDING_INDICATOR:
-                return <ScreenRecordingStopButton/>
-            case BarWidget.VPN_INDICATOR:
-                return <VpnIndicator/>
-            case BarWidget.TRAY:
-                return <TrayButton/>
-            case BarWidget.INTEGRATED_TRAY:
-                return <IntegratedTray vertical={isVertical}/>
-            case BarWidget.APP_LAUNCHER:
-                return <AppLauncherButton/>
-            case BarWidget.SCREENSHOT:
-                return <ScreenshotButton/>
-            case BarWidget.CLIPBOARD_MANAGER:
-                return <ClipboardManagerButton/>
-            case BarWidget.POWER_PROFILE:
-                return <PowerProfileIndicator/>
-            case BarWidget.CAVA_WAVEFORM:
-                return <CavaBars vertical={isVertical}/>
-            case BarWidget.MPRIS_CONTROLS:
-                return <MprisControls vertical={isVertical}/>
-            case BarWidget.MPRIS_TRACK_INFO:
-                return <MprisTrackInfoBarWidget vertical={isVertical}/>
-            case BarWidget.MPRIS_PRIMARY_PLAYER_SWITCHER:
-                return <MprisPrimaryPlayerSwitcher/>
-            case BarWidget.NOTIFICATION_HISTORY:
-                return <NotificationButton/>
-        }
+        return <box
+            marginTop={schema[widget].marginTop}
+            marginBottom={schema[widget].marginBottom}
+            marginStart={schema[widget].marginStart}
+            marginEnd={schema[widget].marginEnd}>
+            {getWidget(widget, isVertical)}
+        </box>
     })
+}
+
+function getWidget(widget: BarWidget, isVertical: boolean) {
+    switch (widget) {
+        case BarWidget.MENU:
+            return <MenuButton/>
+        case BarWidget.WORKSPACES:
+            return <Workspaces vertical={isVertical}/>
+        case BarWidget.BATTERY:
+            return <BatteryIndicator/>
+        case BarWidget.AUDIO_IN:
+            return <AudioIn/>
+        case BarWidget.AUDIO_OUT:
+            return <AudioOut/>
+        case BarWidget.BLUETOOTH:
+            return <BluetoothIndicator/>
+        case BarWidget.CLOCK:
+            return <Clock singleLine={!isVertical}/>
+        case BarWidget.NETWORK:
+            return <NetworkIndicator/>
+        case BarWidget.RECORDING_INDICATOR:
+            return <ScreenRecordingStopButton/>
+        case BarWidget.VPN_INDICATOR:
+            return <VpnIndicator/>
+        case BarWidget.TRAY:
+            return <TrayButton/>
+        case BarWidget.INTEGRATED_TRAY:
+            return <IntegratedTray vertical={isVertical}/>
+        case BarWidget.APP_LAUNCHER:
+            return <AppLauncherButton/>
+        case BarWidget.SCREENSHOT:
+            return <ScreenshotButton/>
+        case BarWidget.CLIPBOARD_MANAGER:
+            return <ClipboardManagerButton/>
+        case BarWidget.POWER_PROFILE:
+            return <PowerProfileIndicator/>
+        case BarWidget.CAVA_WAVEFORM:
+            return <CavaBars vertical={isVertical}/>
+        case BarWidget.MPRIS_CONTROLS:
+            return <MprisControls vertical={isVertical}/>
+        case BarWidget.MPRIS_TRACK_INFO:
+            return <MprisTrackInfoBarWidget vertical={isVertical}/>
+        case BarWidget.MPRIS_PRIMARY_PLAYER_SWITCHER:
+            return <MprisPrimaryPlayerSwitcher/>
+        case BarWidget.NOTIFICATION_HISTORY:
+            return <NotificationButton/>
+    }
 }
