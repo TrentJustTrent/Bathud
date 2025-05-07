@@ -75,9 +75,9 @@ export default function (
                 })}
                 {flipped === undefined &&
                     <box
-                    hexpand={true}
-                    halign={Gtk.Align.CENTER}
-                    vertical={false}>
+                        hexpand={true}
+                        halign={Gtk.Align.CENTER}
+                        vertical={false}>
                         <VerticalLabel
                             text={title}
                             fontSize={14}

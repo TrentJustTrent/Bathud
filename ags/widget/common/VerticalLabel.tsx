@@ -11,12 +11,16 @@ export default function (
         fontSize,
         flipped,
         bold,
+        centered = true,
+        minimumHeight = 0,
     }:
     {
         text: string | Binding<string>,
         fontSize: number,
         flipped: boolean | Binding<boolean>,
         bold: boolean,
+        centered?: boolean,
+        minimumHeight?: number,
     }
 ) {
     const area = new Gtk.DrawingArea()
@@ -69,7 +73,14 @@ export default function (
         const textWidth = extents.width
         const textHeight = extents.height
 
-        const y = -textWidth / 2
+        // this will center
+        let y
+        if (centered) {
+            y = -textWidth / 2
+        } else {
+            y = -height / 2
+        }
+
         const x = (width - textHeight) / 2
         // @ts-ignore
         cr.moveTo(y, x)
@@ -83,7 +94,8 @@ export default function (
         area.set_content_height(textWidth)
     })
 
-    return <box>
+    return <box
+        heightRequest={minimumHeight}>
         {area}
     </box>
 }

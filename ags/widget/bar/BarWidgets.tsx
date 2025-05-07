@@ -326,11 +326,7 @@ function CavaBars({vertical}: { vertical: boolean }) {
 
 function MprisControls({vertical}: { vertical: boolean }) {
     const mpris = Mpris.get_default()
-    return <box
-        marginStart={vertical ? 0 : 20}
-        marginEnd={vertical ? 0 : 20}
-        marginTop={vertical ? 20 : 0}
-        marginBottom={vertical ? 20 : 0}>
+    return <box>
         {mpris.players(players => {
             const player = players.find((player) => player.isPrimaryPlayer)
 
@@ -345,11 +341,7 @@ function MprisControls({vertical}: { vertical: boolean }) {
 
 function MprisTrackInfoBarWidget({vertical}: { vertical: boolean }) {
     const mpris = Mpris.get_default()
-    return <box
-        marginStart={vertical ? 0 : 20}
-        marginEnd={vertical ? 0 : 20}
-        marginTop={vertical ? 20 : 0}
-        marginBottom={vertical ? 20 : 0}>
+    return <box>
         {mpris.players(players => {
             const player = players.find((player) => player.isPrimaryPlayer)
 
