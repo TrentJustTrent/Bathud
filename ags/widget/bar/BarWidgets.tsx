@@ -31,6 +31,7 @@ import {NotificationHistoryWindowName} from "../notification/NotificationHistory
 
 
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
+import IconButton, {IconButtonMode} from "../common/IconButton";
 
 const tray = Tray.get_default()
 
@@ -83,8 +84,7 @@ function Workspaces({vertical}: { vertical: boolean }) {
                             cssClasses={["iconButton"]}
                             onClicked={() => {
                                 hypr.dispatch("workspace", `${workspace.id}`)
-                            }}>
-                        </button>
+                            }}/>
                     })}
                 </box>
             })
@@ -109,9 +109,7 @@ function Clock({singleLine}: { singleLine: boolean }) {
         label={time()}
         onClicked={() => {
             toggleWindow(CalendarWindowName)
-        }}>
-
-    </button>
+        }}/>
 }
 
 function VpnIndicator() {
@@ -212,10 +210,10 @@ function BatteryIndicator() {
         visible={bind(battery, "isBattery")}/>
 }
 
-function MenuButton() {
+function MenuButton({vertical}: { vertical: boolean }) {
     return <button
         cssClasses={["iconButton"]}
-        label={config.systemMenu.menuButtonIcon}
+        label={vertical ? config.verticalBar.menu.icon : config.horizontalBar.menu.icon}
         onClicked={() => {
             toggleWindow(SystemMenuWindowName)
         }}/>
@@ -420,7 +418,7 @@ export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
 function getWidget(widget: BarWidget, isVertical: boolean) {
     switch (widget) {
         case BarWidget.MENU:
-            return <MenuButton/>
+            return <MenuButton vertical={isVertical}/>
         case BarWidget.WORKSPACES:
             return <Workspaces vertical={isVertical}/>
         case BarWidget.BATTERY:

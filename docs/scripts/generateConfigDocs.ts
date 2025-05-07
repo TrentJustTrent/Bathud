@@ -1,5 +1,6 @@
 import { writeFileSync } from "fs";
-import { CONFIG_SCHEMA, Field } from "../../ags/config/configSchema";
+import { CONFIG_SCHEMA } from "../../ags/config/schema/definitions/root";
+import { Field } from "../../ags/config/schema/primitiveDefinitions"
 
 const INTRO = `# Configure
 
@@ -143,7 +144,7 @@ function generateDocs(schema: Field[]): string {
         const childTables = collectChildren(field);
 
         for (const { path, rows } of childTables) {
-            nestedSections.push(`\n### ${path}\n`);
+            nestedSections.push(`\n${path.includes('.') ? '####' : '###'} ${path}\n`);
             nestedSections.push(...formatTable(rows));
         }
     }

@@ -118,6 +118,7 @@ quit() {
   echo "Quitting..."
   astal -i "OkPanel" "cleanup"
   ags quit -i "OkPanel"
+  pkill hyprsunset
 }
 
 main() {

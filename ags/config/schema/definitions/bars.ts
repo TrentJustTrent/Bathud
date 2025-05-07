@@ -81,9 +81,9 @@ export const horizontalBarSchema = {
             'centerWidgets',
             'Widgets centered horizontally.',
             [
-                BarWidget.MPRIS_TRACK_INFO,
+                BarWidget.CAVA_WAVEFORM,
                 BarWidget.MPRIS_CONTROLS,
-                BarWidget.CAVA_WAVEFORM
+                BarWidget.MPRIS_TRACK_INFO,
             ]
         ),
         barWidgetsArrayField(
@@ -110,10 +110,10 @@ export const horizontalBarSchema = {
             default: 800,
             description: 'Minimum bar width if not expanded.',
             withinConstraints: (value) => value >= 500,
-            constraintDescription: 'Must be > 500',
+            constraintDescription: 'Must be >= 500',
         },
         ...commonBarChildrenSchema,
-        ...barWidgetsSchema,
+        ...barWidgetsSchema(false),
     ],
 } as const satisfies Field
 
@@ -136,7 +136,7 @@ export const verticalBarSchema = {
             [
                 BarWidget.MPRIS_TRACK_INFO,
                 BarWidget.MPRIS_CONTROLS,
-                BarWidget.CAVA_WAVEFORM
+                BarWidget.CAVA_WAVEFORM,
             ]
         ),
         barWidgetsArrayField(
@@ -163,9 +163,9 @@ export const verticalBarSchema = {
             default: 600,
             description: 'Minimum bar height if not expanded.',
             withinConstraints: (value) => value >= 500,
-            constraintDescription: 'Must be > 500',
+            constraintDescription: 'Must be >= 500',
         },
         ...commonBarChildrenSchema,
-        ...barWidgetsSchema,
+        ...barWidgetsSchema(true),
     ],
 } as const satisfies Field

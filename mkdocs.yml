@@ -10,9 +10,6 @@ theme:
     assets/logo.png
   favicon:
     assets/favicon.ico
-  font:
-    text: JetBrains Mono
-    code: JetBrains Mono
   features:
     - navigation.footer
     - navigation.instant

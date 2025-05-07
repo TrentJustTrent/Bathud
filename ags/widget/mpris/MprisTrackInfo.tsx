@@ -5,6 +5,8 @@ import {Binding} from "astal";
 import {truncateString} from "../utils/strings";
 import {config} from "../../config/config";
 
+import {alignmentToGtk} from "../utils/configHelper";
+
 export default function (
     {
         player,
@@ -13,7 +15,7 @@ export default function (
     }: {
         player: Player,
         vertical: boolean,
-        flipped?: Binding<boolean>,
+        flipped: Binding<boolean>,
     }
 ) {
     const title = player.title(t =>
@@ -31,79 +33,65 @@ export default function (
     return <box>
         {vertical &&
             <box
-                hexpand={true}
-                halign={Gtk.Align.CENTER}
-                vertical={false}>
-                {flipped !== undefined && flipped.as((isFlipped) => {
+                hexpand={true}>
+                {flipped.as((isFlipped) => {
                     if (isFlipped) {
                         return <box
                             hexpand={true}
                             halign={Gtk.Align.CENTER}
-                            vertical={false}>
+                            vertical={false}
+                            heightRequest={config.verticalBar.mpris_track_info.minimumLength}>
                             <VerticalLabel
                                 text={artist}
                                 fontSize={14}
                                 flipped={isFlipped}
                                 bold={false}
+                                alignment={alignmentToGtk(config.verticalBar.mpris_track_info.textAlignment)}
                             />
                             <VerticalLabel
                                 text={title}
                                 fontSize={14}
                                 flipped={isFlipped}
                                 bold={true}
+                                alignment={alignmentToGtk(config.verticalBar.mpris_track_info.textAlignment)}
                             />
                         </box>
                     } else {
                         return <box
                             hexpand={true}
                             halign={Gtk.Align.CENTER}
-                            vertical={false}>
+                            vertical={false}
+                            heightRequest={config.verticalBar.mpris_track_info.minimumLength}>
                             <VerticalLabel
                                 text={title}
                                 fontSize={14}
                                 flipped={isFlipped}
                                 bold={true}
+                                alignment={alignmentToGtk(config.verticalBar.mpris_track_info.textAlignment)}
                             />
                             <VerticalLabel
                                 text={artist}
                                 fontSize={14}
                                 flipped={isFlipped}
                                 bold={false}
+                                alignment={alignmentToGtk(config.verticalBar.mpris_track_info.textAlignment)}
                             />
                         </box>
                     }
                 })}
-                {flipped === undefined &&
-                    <box
-                        hexpand={true}
-                        halign={Gtk.Align.CENTER}
-                        vertical={false}>
-                        <VerticalLabel
-                            text={title}
-                            fontSize={14}
-                            flipped={false}
-                            bold={true}
-                        />
-                        <VerticalLabel
-                            text={artist}
-                            fontSize={14}
-                            flipped={false}
-                            bold={false}
-                        />
-                    </box>
-                }
             </box>
         }
         {!vertical &&
             <box
-                vertical={true}>
+                vertical={true}
+                widthRequest={config.horizontalBar.mpris_track_info.minimumLength}>
                 <label
                     cssClasses={["labelSmallBold"]}
-                    halign={Gtk.Align.CENTER}
+                    halign={alignmentToGtk(config.horizontalBar.mpris_track_info.textAlignment)}
                     label={title}/>
                 <label
                     cssClasses={["labelSmall"]}
-                    halign={Gtk.Align.CENTER}
+                    halign={alignmentToGtk(config.horizontalBar.mpris_track_info.textAlignment)}
                     label={artist}/>
             </box>
         }

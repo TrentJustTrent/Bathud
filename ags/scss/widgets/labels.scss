@@ -15,19 +15,9 @@
   font-size: 18px;
 }
 
-.labelSmallWarning {
-  color: vars.$warning;
-  font-size: 14px;
-}
-
-.labelMediumWarning {
-  color: vars.$warning;
-  font-size: 16px;
-}
-
-.labelLargeWarning {
-  color: vars.$warning;
-  font-size: 18px;
+.labelXL {
+  color: vars.$fg;
+  font-size: 25px;
 }
 
 .labelSmallBold {
@@ -45,6 +35,60 @@
 .labelLargeBold {
   color: vars.$fg;
   font-size: 18px;
+  font-weight: bold;
+}
+
+.labelXLBold {
+  color: vars.$fg;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.labelSmallWarning {
+  color: vars.$warning;
+  font-size: 14px;
+}
+
+.labelMediumWarning {
+  color: vars.$warning;
+  font-size: 16px;
+}
+
+.labelLargeWarning {
+  color: vars.$warning;
+  font-size: 18px;
+}
+
+.labelXLWarning {
+  color: vars.$warning;
+  font-size: 25px;
+}
+
+.labelSmallWarningBold {
+  color: vars.$warning;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.labelMediumWarningBold {
+  color: vars.$warning;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.labelLargeWarningBold {
+  color: vars.$warning;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.labelXLWarningBold {
+  color: vars.$warning;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.bold {
   font-weight: bold;
 }
 

@@ -51,12 +51,6 @@ export const systemMenuSchema = {
             ]
         ),
         {
-            name: 'menuButtonIcon',
-            type: 'string',
-            default: '',
-            description: 'Icon shown on the menu button (ex: Nerd Font glyph).',
-        },
-        {
             name: 'enableVpnControls',
             type: 'boolean',
             default: true,

@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'ags/config/configSchema.ts'
+      - 'ags/config/**'
       - '.github/workflows/deploy.yml'
       - 'docs/**'
       - 'mkdocs.yml'

@@ -24,7 +24,17 @@
     display: none !important;
 }
 
+@font-face {
+    font-family: "JetBrains Mono Nerd";
+    src: url("../fonts/JetBrainsMonoNerdFont-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
 :root  > * {
+    --md-text-font: "JetBrains Mono Nerd", sans-serif;
+    --md-code-font: "JetBrains Mono Nerd", monospace;
+
     --md-primary-fg-color:        #7C545F;
     --md-primary-fg-color--light: #7C545F;
     --md-primary-fg-color--dark:  #7C545F;

@@ -11,7 +11,7 @@ export default function (
         fontSize,
         flipped,
         bold,
-        centered = true,
+        alignment = Gtk.Align.CENTER,
         minimumHeight = 0,
     }:
     {
@@ -19,7 +19,7 @@ export default function (
         fontSize: number,
         flipped: boolean | Binding<boolean>,
         bold: boolean,
-        centered?: boolean,
+        alignment?: Gtk.Align,
         minimumHeight?: number,
     }
 ) {
@@ -73,12 +73,14 @@ export default function (
         const textWidth = extents.width
         const textHeight = extents.height
 
-        // this will center
+        // align the text
         let y
-        if (centered) {
+        if (alignment === Gtk.Align.CENTER) {
             y = -textWidth / 2
-        } else {
+        } else if ((alignment === Gtk.Align.START && flipped) || (alignment === Gtk.Align.END && !flipped)) {
             y = -height / 2
+        } else {
+            y = (height / 2) - textWidth
         }
 
         const x = (width - textHeight) / 2

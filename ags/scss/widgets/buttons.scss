@@ -12,7 +12,23 @@
 }
 
 .iconButton:hover {
-  background-color: rgba(vars.$bgHover, 0.9);
+  background-color: vars.$bgHover;
+}
+
+.iconButtonClass {
+  all: unset;
+  background-color: transparent;
+  border: none;
+}
+
+.iconButtonClass:hover {
+  background-color: vars.$bgHover;
+}
+
+.iconButtonClassSelected {
+  all: unset;
+  background-color: vars.$primary;
+  border: none;
 }
 
 .warningIconButton {
@@ -27,7 +43,7 @@
 }
 
 .warningIconButton:hover {
-  background-color: rgba(vars.$bgHover, 0.9);
+  background-color: vars.$bgHover;
 }
 
 .largeIconButton {

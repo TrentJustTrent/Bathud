@@ -33,11 +33,23 @@ export enum WaveformPosition {
 }
 export const WAVEFORM_POSITIONS = Object.values(WaveformPosition) as readonly WaveformPosition[]
 
-const commonFields = [
+export enum Alignment {
+    START = "start",
+    CENTER = "center",
+    END = "end"
+}
+export const ALIGNMENT_VALUES = Object.values(Alignment) as readonly Alignment[]
+
+function commonFields(
+    marginStart: number = 0,
+    marginEnd: number = 0,
+    marginTop: number = 0,
+    marginBottom: number = 0,
+) { return [
     {
         name: 'marginStart',
         type: 'number',
-        default: 0,
+        default: marginStart,
         description: "Margin at the start of the widget.",
         withinConstraints: (value) => value >= 0,
         constraintDescription: 'Must be >= 0',
@@ -45,7 +57,7 @@ const commonFields = [
     {
         name: 'marginEnd',
         type: 'number',
-        default: 0,
+        default: marginEnd,
         description: "Margin at the end of the widget.",
         withinConstraints: (value) => value >= 0,
         constraintDescription: 'Must be >= 0',
@@ -53,7 +65,7 @@ const commonFields = [
     {
         name: 'marginTop',
         type: 'number',
-        default: 0,
+        default: marginTop,
         description: "Margin at the top of the widget.",
         withinConstraints: (value) => value >= 0,
         constraintDescription: 'Must be >= 0',
@@ -61,121 +73,131 @@ const commonFields = [
     {
         name: 'marginBottom',
         type: 'number',
-        default: 0,
+        default: marginBottom,
         description: "Margin at the bottom of the widget.",
         withinConstraints: (value) => value >= 0,
         constraintDescription: 'Must be >= 0',
     }
-] as const satisfies Field[]
+] as const satisfies Field[] }
 
-export const barWidgetsSchema = [
+export function barWidgetsSchema(vertical: boolean) { return [
     {
         name: BarWidget.MENU,
         type: "object",
         description: "Configuration for the menu bar widget.",
-        children: [...commonFields],
+        children: [
+            ...commonFields(),
+            {
+                name: 'icon',
+                type: 'string',
+                default: '',
+                description: 'Icon shown on the menu button (ex: Nerd Font glyph).',
+            },
+        ],
     },
     {
         name: BarWidget.WORKSPACES,
         type: "object",
         description: "Configuration for the workspaces bar widget.",
-        children: [...commonFields],
+        children: [...commonFields()],
     },
     {
         name: BarWidget.CLOCK,
         type: "object",
         description: "Configuration for the clock bar widget.",
-        children: [...commonFields],
+        children: [...commonFields()],
     },
     {
         name: BarWidget.AUDIO_OUT,
         type: "object",
         description: "Configuration for the audio_out bar widget.",
-        children: [...commonFields],
+        children: [...commonFields()],
     },
     {
         name: BarWidget.AUDIO_IN,
         type: "object",
         description: "Configuration for the audio_in bar widget.",
-        children: [...commonFields],
+        children: [...commonFields()],
     },
     {
         name: BarWidget.BLUETOOTH,
         type: "object",
         description: "Configuration for the bluetooth bar widget.",
-        children: [...commonFields],
+        children: [...commonFields()],
     },
     {
         name: BarWidget.NETWORK,
         type: "object",
         description: "Configuration for the network bar widget.",
-        children: [...commonFields],
+        children: [...commonFields()],
     },
     {
         name: BarWidget.RECORDING_INDICATOR,
         type: "object",
         description: "Configuration for the recording_indicator bar widget.",
-        children: [...commonFields],
+        children: [...commonFields()],
     },
     {
         name: BarWidget.VPN_INDICATOR,
         type: "object",
         description: "Configuration for the vpn_indicator bar widget.",
-        children: [...commonFields],
+        children: [...commonFields()],
     },
     {
         name: BarWidget.BATTERY,
         type: "object",
         description: "Configuration for the battery bar widget.",
-        children: [...commonFields],
+        children: [...commonFields()],
     },
     {
         name: BarWidget.TRAY,
         type: "object",
         description: "Configuration for the tray bar widget.",
-        children: [...commonFields],
+        children: [...commonFields()],
     },
     {
         name: BarWidget.INTEGRATED_TRAY,
         type: "object",
         description: "Configuration for the integrated_tray bar widget.",
-        children: [...commonFields],
+        children: [...commonFields()],
     },
     {
         name: BarWidget.APP_LAUNCHER,
         type: "object",
         description: "Configuration for the app_launcher bar widget.",
-        children: [...commonFields],
+        children: [...commonFields()],
     },
     {
         name: BarWidget.SCREENSHOT,
         type: "object",
         description: "Configuration for the screenshot bar widget.",
-        children: [...commonFields],
+        children: [...commonFields()],
     },
     {
         name: BarWidget.CLIPBOARD_MANAGER,
         type: "object",
         description: "Configuration for the clipboard_manager bar widget.",
-        children: [...commonFields],
+        children: [...commonFields()],
     },
     {
         name: BarWidget.POWER_PROFILE,
         type: "object",
         description: "Configuration for the power_profile bar widget.",
-        children: [...commonFields],
+        children: [...commonFields()],
     },
     {
         name: BarWidget.CAVA_WAVEFORM,
         type: "object",
         description: "Configuration for the cava_waveform bar widget.",
         children: [
-            ...commonFields,
+            ...commonFields(),
             {
                 name: 'length',
                 type: 'number',
                 default: 200,
-                description: 'Length of the cava waveform.  This has no effect on the full bar waveform.'
+                description: 'Length of the cava waveform.  This has no effect on the full bar waveform.',
+                withinConstraints: value => value >= 100,
+                constraintDescription: 'Must be >= 100'
             },
             {
                 name: 'expanded',
@@ -187,14 +209,16 @@ export const barWidgetsSchema = [
                 name: 'position',
                 type: 'enum',
                 enumValues: WAVEFORM_POSITIONS,
-                default: WaveformPosition.END,
+                default: vertical ? WaveformPosition.OUTER : WaveformPosition.END,
                 description: 'The base position of the waveform'
             },
             {
                 name: 'intensityMultiplier',
                 type: 'number',
                 default: 1,
-                description: 'Makes the waves bigger or smaller.'
+                description: 'Makes the waves bigger or smaller.',
+                withinConstraints: value => value >= 0,
+                constraintDescription: 'Must be >= 0'
             },
         ],
     },
@@ -202,32 +226,50 @@ export const barWidgetsSchema = [
         name: BarWidget.MPRIS_CONTROLS,
         type: "object",
         description: "Configuration for the mpris_controls bar widget.",
-        children: [...commonFields],
+        children: [...commonFields()],
     },
     {
         name: BarWidget.MPRIS_TRACK_INFO,
         type: "object",
         description: "Configuration for the mpris_track_info bar widget.",
         children: [
-            ...commonFields,
+            ...commonFields(
+                vertical ? 0 : 10,
+                vertical ? 0 : 10,
+                vertical ? 10 : 0,
+                vertical ? 10 : 0,
+            ),
             {
                 name: 'textLength',
                 type: 'number',
                 default: 30,
                 description: 'The max number of characters to display.'
             },
+            {
+                name: 'textAlignment',
+                type: 'enum',
+                enumValues: ALIGNMENT_VALUES,
+                default: vertical ? Alignment.END : Alignment.START,
+                description: 'How to align the text.'
+            },
+            {
+                name: 'minimumLength',
+                type: 'number',
+                default: 300,
+                description: 'The minimum length of the widget.'
+            }
         ],
     },
     {
         name: BarWidget.MPRIS_PRIMARY_PLAYER_SWITCHER,
         type: "object",
         description: "Configuration for the mpris_primary_player_switcher bar widget.",
-        children: [...commonFields],
+        children: [...commonFields()],
     },
     {
         name: BarWidget.NOTIFICATION_HISTORY,
         type: "object",
         description: "Configuration for the notification_history bar widget.",
-        children: [...commonFields],
+        children: [...commonFields()],
     },
-] as const satisfies Field[]
+] as const satisfies Field[] }
