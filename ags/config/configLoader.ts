@@ -1,5 +1,9 @@
-import {Config, CONFIG_SCHEMA, Field, PrimitiveType} from "./configSchema";
+import {PrimitiveType} from "./configSchema";
 import {readFile} from "astal/file";
+import {Field} from "./schema/primitiveDefinitions";
+import {Config} from "./schema/derivedTypes";
+
+import {CONFIG_SCHEMA} from "./schema/definitions/root";
 
 
 // ───────────────────────── helpers ─────────────────────────

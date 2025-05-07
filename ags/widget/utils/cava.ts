@@ -1,7 +1,8 @@
 import {config, selectedBar} from "../../config/config";
-import {HorizontalWaveformPosition, VerticalWaveformPosition} from "../../config/configSchema";
 import {Bar} from "../../config/bar";
 import {Binding} from "astal";
+
+import {HorizontalWaveformPosition, VerticalWaveformPosition} from "../../config/schema/definitions/bars";
 
 export function getCavaFlipStartValue(vertical: boolean): Binding<boolean> {
     return selectedBar().as((bar): boolean => {

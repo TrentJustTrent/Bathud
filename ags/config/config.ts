@@ -1,8 +1,8 @@
 import {exec} from "astal/process";
 import {Variable} from "astal";
 import {loadConfig, validateAndApplyDefaults} from "./configLoader";
-import {Config, Theme, themeSchema} from "./configSchema";
 import {Bar} from "./bar";
+import {Config, Theme, themeSchema} from "./schema/derivedTypes";
 
 export const config: Config = (() => {
     const homePath = exec('bash -c "echo $HOME"')

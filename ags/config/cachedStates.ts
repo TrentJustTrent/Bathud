@@ -1,11 +1,11 @@
 import {readFile} from "astal/file";
-import {Theme} from "./configSchema";
 import {config, homeDir, projectDir, selectedBar, selectedTheme} from "./config";
 import {execAsync} from "astal/process";
 import {App} from "astal/gtk4";
 import {GLib} from "astal";
 import Gio from "gi://Gio?version=2.0";
 import {Bar} from "./bar";
+import {Theme} from "./schema/derivedTypes";
 
 export function setBarType(bar: Bar) {
     selectedBar.set(bar)

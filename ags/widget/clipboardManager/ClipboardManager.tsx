@@ -1,6 +1,5 @@
 import {config, selectedBar} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
-import {BarWidget} from "../../config/configSchema";
 import {Bar} from "../../config/bar";
 import {bind, Variable} from "astal";
 import {execAsync} from "astal/process";
@@ -8,6 +7,9 @@ import { App, Gtk } from "astal/gtk4";
 import {hideAllWindows} from "../utils/windows";
 import Divider from "../common/Divider";
 import {insertNewlines} from "../utils/strings";
+
+
+import {BarWidget} from "../../config/schema/definitions/bars";
 
 export const ClipboardManagerWindowName = "clipboardManagerWindow"
 

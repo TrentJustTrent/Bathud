@@ -17,7 +17,6 @@ import Tray from "gi://AstalTray"
 import {toggleWindow} from "../utils/windows";
 import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
 import {Gtk} from "astal/gtk4";
-import {BarWidget} from "../../config/configSchema";
 import {ClipboardManagerWindowName} from "../clipboardManager/ClipboardManager";
 import PowerProfiles from "gi://AstalPowerProfiles"
 import {getPowerProfileIconBinding} from "../utils/powerProfile";
@@ -29,6 +28,9 @@ import MprisTrackInfo from "../mpris/MprisTrackInfo";
 import {Bar} from "../../config/bar";
 import Notifd from "gi://AstalNotifd"
 import {NotificationHistoryWindowName} from "../notification/NotificationHistoryWindow";
+
+
+import {BarWidget} from "../../config/schema/definitions/bars";
 
 const tray = Tray.get_default()
 

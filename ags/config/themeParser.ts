@@ -1,6 +1,9 @@
-import { Theme, CONFIG_SCHEMA }         from "./configSchema";
 import { validateAndApplyDefaults }     from "./configLoader";  // <- already exported
-import type { Field }                   from "./configSchema";
+
+import {Field} from "./schema/primitiveDefinitions";
+import {Theme} from "./schema/derivedTypes";
+
+import {CONFIG_SCHEMA} from "./schema/definitions/root";
 
 /* ------------------------------------------------------------------ */
 /* helper – grab the theme item schema once so we can reuse defaults  */
