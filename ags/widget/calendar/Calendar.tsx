@@ -5,7 +5,7 @@ import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import {Bar} from "../../config/bar";
 
 
-import {BarWidget} from "../../config/schema/definitions/bars";
+import {BarWidget} from "../../config/schema/definitions/barWidgets";
 
 export const CalendarWindowName = "calendarWindow"
 

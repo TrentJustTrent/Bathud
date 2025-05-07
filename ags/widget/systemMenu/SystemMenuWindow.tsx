@@ -13,8 +13,8 @@ import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import {Bar} from "../../config/bar";
 import PowerProfileControls from "./PowerProfileControls";
 
-import {BarWidget} from "../../config/schema/definitions/bars";
 import {SystemMenuWidget} from "../../config/schema/definitions/systemMenu";
+import {BarWidget} from "../../config/schema/definitions/barWidgets";
 
 export const SystemMenuWindowName = "systemMenuWindow"
 

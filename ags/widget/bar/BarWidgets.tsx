@@ -30,7 +30,7 @@ import Notifd from "gi://AstalNotifd"
 import {NotificationHistoryWindowName} from "../notification/NotificationHistoryWindow";
 
 
-import {BarWidget} from "../../config/schema/definitions/bars";
+import {BarWidget} from "../../config/schema/definitions/barWidgets";
 
 const tray = Tray.get_default()
 
@@ -318,9 +318,9 @@ function CavaBars({vertical}: { vertical: boolean }) {
                 marginBottom={vertical ? 20 : 0}
                 vertical={vertical}
                 flipStart={getCavaFlipStartValue(vertical)}
-                intensity={vertical ? config.verticalBar.cavaWaveformIntensityMultiplier : config.horizontalBar.cavaWaveformIntensityMultiplier}
-                expand={vertical ? config.verticalBar.cavaWaveformExpanded : config.horizontalBar.cavaWaveformExpanded}
-                length={vertical ? config.verticalBar.cavaWaveformLength : config.horizontalBar.cavaWaveformLength}
+                intensity={vertical ? config.verticalBar.cava_waveform.intensityMultiplier : config.horizontalBar.cava_waveform.intensityMultiplier}
+                expand={vertical ? config.verticalBar.cava_waveform.expanded : config.horizontalBar.cava_waveform.expanded}
+                length={vertical ? config.verticalBar.cava_waveform.length : config.horizontalBar.cava_waveform.length}
                 size={40}/>
         })}
     </box>

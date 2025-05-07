@@ -9,7 +9,7 @@ import Divider from "../common/Divider";
 import {insertNewlines} from "../utils/strings";
 
 
-import {BarWidget} from "../../config/schema/definitions/bars";
+import {BarWidget} from "../../config/schema/definitions/barWidgets";
 
 export const ClipboardManagerWindowName = "clipboardManagerWindow"
 

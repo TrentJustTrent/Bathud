@@ -76,10 +76,10 @@ export default function () {
                 </box>
             </centerbox>
             <box>
-                {config.horizontalBar.enableFullBarCavaWaveform && !config.horizontalBar.splitSections &&
+                {config.horizontalBar.fullBarCavaWaveform.enabled && !config.horizontalBar.splitSections &&
                     <CavaWaveform
                         vertical={false}
-                        intensity={config.horizontalBar.cavaWaveformIntensityMultiplier}
+                        intensity={config.horizontalBar.fullBarCavaWaveform.intensityMultiplier}
                         flipStart={getCavaFlipStartValue(false)}
                         expand={true}
                         length={400}

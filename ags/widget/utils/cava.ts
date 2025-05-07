@@ -2,30 +2,30 @@ import {config, selectedBar} from "../../config/config";
 import {Bar} from "../../config/bar";
 import {Binding} from "astal";
 
-import {HorizontalWaveformPosition, VerticalWaveformPosition} from "../../config/schema/definitions/bars";
+import {WaveformPosition} from "../../config/schema/definitions/barWidgets";
 
 export function getCavaFlipStartValue(vertical: boolean): Binding<boolean> {
     return selectedBar().as((bar): boolean => {
         if (vertical) {
-            switch (config.verticalBar.cavaWaveformPosition) {
-                case VerticalWaveformPosition.LEFT:
+            switch (config.verticalBar.cava_waveform.position) {
+                case WaveformPosition.START:
                     return true
-                case VerticalWaveformPosition.RIGHT:
+                case WaveformPosition.END:
                     return false
-                case VerticalWaveformPosition.OUTER:
+                case WaveformPosition.OUTER:
                     return bar === Bar.LEFT
-                case VerticalWaveformPosition.INNER:
+                case WaveformPosition.INNER:
                     return bar !== Bar.LEFT
             }
         } else {
-            switch (config.horizontalBar.cavaWaveformPosition) {
-                case HorizontalWaveformPosition.TOP:
+            switch (config.horizontalBar.cava_waveform.position) {
+                case WaveformPosition.START:
                     return true
-                case HorizontalWaveformPosition.BOTTOM:
+                case WaveformPosition.END:
                     return false
-                case HorizontalWaveformPosition.OUTER:
+                case WaveformPosition.OUTER:
                     return bar === Bar.TOP
-                case HorizontalWaveformPosition.INNER:
+                case WaveformPosition.INNER:
                     return bar !== Bar.TOP
             }
         }

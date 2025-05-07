@@ -4,7 +4,7 @@ import {Bar} from "../../config/bar";
 import NotificationHistory from "../systemMenu/NotificationHistory";
 
 
-import {BarWidget} from "../../config/schema/definitions/bars";
+import {BarWidget} from "../../config/schema/definitions/barWidgets";
 
 export const NotificationHistoryWindowName = "notificationHistoryWindow"
 

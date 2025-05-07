@@ -19,13 +19,13 @@ export default function (
     const title = player.title(t =>
         t ? truncateString(
             t,
-            vertical ? config.verticalBar.maxMprisTrackInfoTextLength : config.horizontalBar.maxMprisTrackInfoTextLength
+            vertical ? config.verticalBar.mpris_track_info.textLength : config.horizontalBar.mpris_track_info.textLength
         ) : "Unknown Track")
 
     const artist = player.artist(a =>
         a ?  truncateString(
             a,
-            vertical ? config.verticalBar.maxMprisTrackInfoTextLength : config.horizontalBar.maxMprisTrackInfoTextLength
+            vertical ? config.verticalBar.mpris_track_info.textLength : config.horizontalBar.mpris_track_info.textLength
         ) : "Unknown Artist")
 
     return <box>
