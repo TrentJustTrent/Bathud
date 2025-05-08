@@ -6,11 +6,11 @@ import Pango from "gi://Pango?version=1.0";
 import {createScaledTexture} from "../utils/images";
 import Divider from "../common/Divider";
 import {config, selectedBar, selectedTheme} from "../../config/config";
-import LargeIconButton from "../common/LargeIconButton";
 import RevealerRow from "../common/RevealerRow";
 import {setBarType, setTheme, setWallpaper} from "../../config/cachedStates";
 import {Bar} from "../../config/bar";
 import {Theme} from "../../config/schema/derivedTypes";
+import OkButton, {IconButtonSize} from "../common/OkButton";
 
 const files: Variable<string[][]> = Variable([])
 const numberOfColumns = 2
@@ -151,23 +151,13 @@ function BarButton(
         icon: string,
     }
 ) {
-    return <button
-        cssClasses={selectedBar((bar) => {
-            if (bar === barType) {
-                return ["largeIconButtonSelected"]
-            }
-            return ["largeIconButton"]
-        })}
+    return <OkButton
+        size={IconButtonSize.XL}
+        selected={selectedBar((bar) => bar === barType)}
+        label={icon}
         onClicked={() => {
             setBarType(barType)
-        }}>
-        <label
-            marginTop={8}
-            marginBottom={8}
-            marginStart={16}
-            marginEnd={20}
-            label={icon}/>
-    </button>
+        }}/>
 }
 
 function BarPositionOptions() {
@@ -190,8 +180,9 @@ function ThemeButton(
         theme: Theme,
     }
 ) {
-    return <LargeIconButton
-        icon={theme.icon}
+    return <OkButton
+        size={IconButtonSize.XL}
+        label={theme.icon}
         offset={theme.pixelOffset}
         selected={selectedTheme((t) => t === theme)}
         onClicked={() => {

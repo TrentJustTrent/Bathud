@@ -8,6 +8,7 @@ import RevealerRow from "../common/RevealerRow";
 import {hideAllWindows} from "../utils/windows";
 import {config, projectDir} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
+import OkButton from "../common/OkButton";
 
 export const isRecording = Variable(false)
 
@@ -260,21 +261,15 @@ function ScreenShots() {
                 <box
                     vertical={true}>
                     {delayOptions.map((value) => {
-                        return <button
+                        return <OkButton
                             hexpand={true}
-                            cssClasses={["iconButton"]}
+                            labelHalign={Gtk.Align.START}
+                            ellipsize={Pango.EllipsizeMode.END}
+                            label={`󰔛  ${value} seconds`}
                             onClicked={() => {
                                 delay.set(value)
                                 delayRevealed?.set(false)
-                            }}>
-                            <label
-                                marginStart={8}
-                                marginEnd={8}
-                                halign={Gtk.Align.START}
-                                cssClasses={["labelSmall"]}
-                                ellipsize={Pango.EllipsizeMode.END}
-                                label={`󰔛  ${value} seconds`}/>
-                        </button>
+                            }}/>
                     })}
                 </box>
             }/>
@@ -459,38 +454,26 @@ function ScreenRecording() {
             revealedContent={
                 <box
                     vertical={true}>
-                    <button
+                    <OkButton
                         hexpand={true}
-                        cssClasses={["iconButton"]}
+                        labelHalign={Gtk.Align.START}
+                        ellipsize={Pango.EllipsizeMode.END}
+                        label={`󰝟  No Audio`}
                         onClicked={() => {
                             selectedAudio.set(null)
                             audioRevealed?.set(false)
-                        }}>
-                        <label
-                            marginStart={8}
-                            marginEnd={8}
-                            halign={Gtk.Align.START}
-                            cssClasses={["labelSmall"]}
-                            ellipsize={Pango.EllipsizeMode.END}
-                            label={`󰝟  No Audio`}/>
-                    </button>
+                        }}/>
                     {audioOptions().as((options) => {
                         return options.map((option) => {
-                            return <button
+                            return <OkButton
                                 hexpand={true}
-                                cssClasses={["iconButton"]}
+                                labelHalign={Gtk.Align.START}
+                                ellipsize={Pango.EllipsizeMode.END}
+                                label={`${option.isMonitor ? "󰕾" : ""}  ${option.description}`}
                                 onClicked={() => {
                                     selectedAudio.set(option)
                                     audioRevealed?.set(false)
-                                }}>
-                                <label
-                                    marginStart={8}
-                                    marginEnd={8}
-                                    halign={Gtk.Align.START}
-                                    cssClasses={["labelSmall"]}
-                                    ellipsize={Pango.EllipsizeMode.END}
-                                    label={`${option.isMonitor ? "󰕾" : ""}  ${option.description}`}/>
-                            </button>
+                                }}/>
                         })
                     })}
                 </box>
@@ -517,21 +500,15 @@ function ScreenRecording() {
                 <box
                     vertical={true}>
                     {codecs.map((value) => {
-                        return <button
+                        return <OkButton
                             hexpand={true}
-                            cssClasses={["iconButton"]}
+                            labelHalign={Gtk.Align.START}
+                            ellipsize={Pango.EllipsizeMode.END}
+                            label={`󰕧  ${value.display}`}
                             onClicked={() => {
                                 selectedCodec.set(value)
                                 codecRevealed?.set(false)
-                            }}>
-                            <label
-                                marginStart={8}
-                                marginEnd={8}
-                                halign={Gtk.Align.START}
-                                cssClasses={["labelSmall"]}
-                                ellipsize={Pango.EllipsizeMode.END}
-                                label={`󰕧  ${value.display}`}/>
-                        </button>
+                            }}/>
                     })}
                 </box>
             }
@@ -559,21 +536,15 @@ function ScreenRecording() {
                 <box
                     vertical={true}>
                     {h264EncodingPresets.map((value) => {
-                        return <button
+                        return <OkButton
                             hexpand={true}
-                            cssClasses={["iconButton"]}
+                            labelHalign={Gtk.Align.START}
+                            ellipsize={Pango.EllipsizeMode.END}
+                            label={`${getEncodingPresetIcon(value)}  ${value.charAt(0).toUpperCase() + value.slice(1)}`}
                             onClicked={() => {
                                 selectedEncodingPreset.set(value)
                                 encodingRevealed?.set(false)
-                            }}>
-                            <label
-                                marginStart={8}
-                                marginEnd={8}
-                                halign={Gtk.Align.START}
-                                cssClasses={["labelSmall"]}
-                                ellipsize={Pango.EllipsizeMode.END}
-                                label={`${getEncodingPresetIcon(value)}  ${value.charAt(0).toUpperCase() + value.slice(1)}`}/>
-                        </button>
+                            }}/>
                     })}
                 </box>
             }
@@ -601,21 +572,15 @@ function ScreenRecording() {
                 <box
                     vertical={true}>
                     {crfQualityValues.map((value) => {
-                        return <button
+                        return <OkButton
                             hexpand={true}
-                            cssClasses={["iconButton"]}
+                            labelHalign={Gtk.Align.START}
+                            ellipsize={Pango.EllipsizeMode.END}
+                            label={`${getCrfQualityIcon(value)}  ${value}`}
                             onClicked={() => {
                                 selectedCrfQuality.set(value)
                                 crfRevealed?.set(false)
-                            }}>
-                            <label
-                                marginStart={8}
-                                marginEnd={8}
-                                halign={Gtk.Align.START}
-                                cssClasses={["labelSmall"]}
-                                ellipsize={Pango.EllipsizeMode.END}
-                                label={`${getCrfQualityIcon(value)}  ${value}`}/>
-                        </button>
+                            }}/>
                     })}
                 </box>
             }

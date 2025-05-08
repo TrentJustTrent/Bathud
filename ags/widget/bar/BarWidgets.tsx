@@ -28,10 +28,8 @@ import MprisTrackInfo from "../mpris/MprisTrackInfo";
 import {Bar} from "../../config/bar";
 import Notifd from "gi://AstalNotifd"
 import {NotificationHistoryWindowName} from "../notification/NotificationHistoryWindow";
-
-
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
-import IconButton, {IconButtonMode} from "../common/IconButton";
+import OkButton, {IconButtonHorizontalPadding} from "../common/OkButton";
 
 const tray = Tray.get_default()
 
@@ -75,13 +73,12 @@ function Workspaces({vertical}: { vertical: boolean }) {
                     {workspaceGroup.sort((a, b) => {
                         return a.id - b.id
                     }).map((workspace) => {
-                        return <button
-                            label={
-                                bind(workspace.monitor, "activeWorkspace").as((activeWorkspace) =>
-                                    activeWorkspace?.id === workspace.id ? "" : ""
-                                )
-                            }
-                            cssClasses={["iconButton"]}
+                        return <OkButton
+                            offset={1}
+                            hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+                            label={bind(workspace.monitor, "activeWorkspace").as((activeWorkspace) =>
+                                activeWorkspace?.id === workspace.id ? "" : ""
+                            )}
                             onClicked={() => {
                                 hypr.dispatch("workspace", `${workspace.id}`)
                             }}/>
@@ -92,39 +89,42 @@ function Workspaces({vertical}: { vertical: boolean }) {
     </box>
 }
 
-function Clock({singleLine}: { singleLine: boolean }) {
+function Clock({vertical}: { vertical: boolean }) {
     let format: string
 
-    if (singleLine) {
-        format = "%I:%M"
-    } else {
+    if (vertical) {
         format = "%I\n%M"
+    } else {
+        format = "%I:%M"
     }
 
     const time = Variable<string>("").poll(1000, () =>
         GLib.DateTime.new_now_local().format(format)!)
 
-    return <button
-        cssClasses={["iconButton"]}
+    return <OkButton
+        hexpand={vertical}
+        hpadding={vertical ? IconButtonHorizontalPadding.NONE : IconButtonHorizontalPadding.THIN}
         label={time()}
         onClicked={() => {
             toggleWindow(CalendarWindowName)
         }}/>
 }
 
-function VpnIndicator() {
-    return <label
-        cssClasses={["iconLabel"]}
+function VpnIndicator({vertical}: { vertical: boolean }) {
+    return <OkButton
+        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
         label="󰯄"
         visible={activeVpnConnections().as((connections) => {
             return connections.length !== 0
         })}/>
 }
 
-function ScreenRecordingStopButton() {
-    return <button
-        cssClasses={["warningIconButton"]}
+function ScreenRecordingStopButton({vertical}: { vertical: boolean }) {
+    return <OkButton
+        offset={2}
+        warning={true}
         label=""
+        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
         visible={isRecording()}
         onClicked={() => {
             execAsync("pkill wf-recorder")
@@ -134,7 +134,7 @@ function ScreenRecordingStopButton() {
         }}/>
 }
 
-function AudioOut() {
+function AudioOut({vertical}: { vertical: boolean }) {
     const defaultSpeaker = Wp.get_default()!.audio.default_speaker
 
     const speakerVar = Variable.derive([
@@ -143,12 +143,12 @@ function AudioOut() {
         bind(defaultSpeaker, "mute")
     ])
 
-    return <label
-        cssClasses={["iconLabel"]}
+    return <OkButton
+        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
         label={speakerVar(() => getVolumeIcon(defaultSpeaker))}/>
 }
 
-function AudioIn() {
+function AudioIn({vertical}: { vertical: boolean }) {
     const {defaultMicrophone} = Wp.get_default()!.audio
 
     const micVar = Variable.derive([
@@ -157,28 +157,29 @@ function AudioIn() {
         bind(defaultMicrophone, "mute")
     ])
 
-    return <label
-        cssClasses={["iconLabel"]}
+    return <OkButton
+        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
         label={micVar(() => getMicrophoneIcon(defaultMicrophone))}/>
 }
 
-function BluetoothIndicator() {
+function BluetoothIndicator({vertical}: { vertical: boolean }) {
     const bluetooth = Bluetooth.get_default()
-    return <label
-        cssClasses={["iconLabel"]}
+    return <OkButton
         label="󰂯"
+        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
         visible={bind(bluetooth, "isPowered").as((isPowered) => {
             return isPowered
         })}/>
 }
 
-function NetworkIndicator() {
-    return <label
-        cssClasses={["iconLabel"]}
+function NetworkIndicator({vertical}: { vertical: boolean }) {
+    return <OkButton
+        offset={1}
+        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
         label={getNetworkIconBinding()}/>
 }
 
-function BatteryIndicator() {
+function BatteryIndicator({vertical}: { vertical: boolean }) {
     const battery = Battery.get_default()
 
     let batteryWarningInterval: GLib.Source | null = null
@@ -188,14 +189,15 @@ function BatteryIndicator() {
         bind(battery, "state")
     ])
 
-    return <label
-        cssClasses={batteryVar((value) => {
+    return <OkButton
+        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+        warning={batteryVar((value) => {
             if (value[0] > 0.04 || battery.state === Battery.State.CHARGING) {
                 if (batteryWarningInterval != null) {
                     batteryWarningInterval.destroy()
                     batteryWarningInterval = null
                 }
-                return ["iconLabel"]
+                return false
             } else {
                 if (batteryWarningInterval === null && battery.isBattery) {
                     batteryWarningInterval = setInterval(() => {
@@ -203,7 +205,7 @@ function BatteryIndicator() {
                     }, 120_000)
                     playBatteryWarning()
                 }
-                return ["warningIconLabel"]
+                return true
             }
         })}
         label={batteryVar(() => getBatteryIcon(battery))}
@@ -211,8 +213,9 @@ function BatteryIndicator() {
 }
 
 function MenuButton({vertical}: { vertical: boolean }) {
-    return <button
-        cssClasses={["iconButton"]}
+    return <OkButton
+        offset={1}
+        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
         label={vertical ? config.verticalBar.menu.icon : config.horizontalBar.menu.icon}
         onClicked={() => {
             toggleWindow(SystemMenuWindowName)
@@ -224,15 +227,16 @@ function IntegratedTray({vertical}: { vertical: boolean }) {
 }
 
 function TrayButton() {
-    return <menubutton
+    return <OkButton
+        offset={1}
         visible={bind(tray, "items").as((items) => items.length > 0)}
-        cssClasses={["trayIconButton"]}>
-        <label label="󱊔"/>
-        <popover
-            position={Gtk.PositionType.RIGHT}>
-            <TrayContent vertical={false}/>
-        </popover>
-    </menubutton>
+        label={"󱊔"}
+        menuButtonContent={
+            <popover
+                position={Gtk.PositionType.RIGHT}>
+                <TrayContent vertical={false}/>
+            </popover>
+        }/>
 }
 
 function TrayContent({vertical}: { vertical: boolean }) {
@@ -260,43 +264,44 @@ function TrayContent({vertical}: { vertical: boolean }) {
     </box>
 }
 
-function AppLauncherButton() {
-    return <button
-        cssClasses={["iconButton"]}
+function AppLauncherButton({vertical}: { vertical: boolean }) {
+    return <OkButton
+        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
         label="󰀻"
         onClicked={() => {
             toggleWindow(AppLauncherWindowName)
         }}/>
 }
 
-function ScreenshotButton() {
-    return <button
-        cssClasses={["iconButton"]}
+function ScreenshotButton({vertical}: { vertical: boolean }) {
+    return <OkButton
+        offset={2}
+        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
         label="󰹑"
         onClicked={() => {
             toggleWindow(ScreenshotWindowName)
         }}/>
 }
 
-function ClipboardManagerButton() {
+function ClipboardManagerButton({vertical}: { vertical: boolean }) {
     execAsync(`${projectDir}/shellScripts/cliphistStore.sh`)
         .catch((error) => {
             console.error(error)
         })
 
-    return <button
-        cssClasses={["iconButton"]}
+    return <OkButton
+        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
         label=""
         onClicked={() => {
             toggleWindow(ClipboardManagerWindowName)
         }}/>
 }
 
-function PowerProfileIndicator() {
+function PowerProfileIndicator({vertical}: { vertical: boolean }) {
     const profiles = PowerProfiles.get_default().get_profiles()
-    return <label
+    return <OkButton
+        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
         visible={profiles.length !== 0}
-        cssClasses={["iconLabel"]}
         label={getPowerProfileIconBinding()}/>
 }
 
@@ -359,7 +364,7 @@ function MprisTrackInfoBarWidget({vertical}: { vertical: boolean }) {
     </box>
 }
 
-function MprisPrimaryPlayerSwitcher() {
+function MprisPrimaryPlayerSwitcher({vertical}: { vertical: boolean }) {
     const mpris = Mpris.get_default()
 
     return <box>
@@ -368,8 +373,8 @@ function MprisPrimaryPlayerSwitcher() {
                 return <box/>
             }
 
-            return <button
-                cssClasses={["iconButton"]}
+            return <OkButton
+                hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
                 label=""
                 onClicked={() => {
                     mpris.rotatePrimaryPlayer()
@@ -378,7 +383,7 @@ function MprisPrimaryPlayerSwitcher() {
     </box>
 }
 
-function NotificationButton() {
+function NotificationButton({vertical}: { vertical: boolean }) {
     const notifications = Notifd.get_default()
 
     const derivedNotificationState = Variable.derive([
@@ -386,8 +391,9 @@ function NotificationButton() {
         bind(notifications, "dontDisturb")
     ])
 
-    return <button
-        cssClasses={["iconButton"]}
+    return <OkButton
+        offset={1}
+        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
         label={derivedNotificationState().as(([notificationsList, doNotDisturb]) => {
             if (doNotDisturb) {
                 return "󰂛"
@@ -422,33 +428,33 @@ function getWidget(widget: BarWidget, isVertical: boolean) {
         case BarWidget.WORKSPACES:
             return <Workspaces vertical={isVertical}/>
         case BarWidget.BATTERY:
-            return <BatteryIndicator/>
+            return <BatteryIndicator vertical={isVertical}/>
         case BarWidget.AUDIO_IN:
-            return <AudioIn/>
+            return <AudioIn vertical={isVertical}/>
         case BarWidget.AUDIO_OUT:
-            return <AudioOut/>
+            return <AudioOut vertical={isVertical}/>
         case BarWidget.BLUETOOTH:
-            return <BluetoothIndicator/>
+            return <BluetoothIndicator vertical={isVertical}/>
         case BarWidget.CLOCK:
-            return <Clock singleLine={!isVertical}/>
+            return <Clock vertical={isVertical}/>
         case BarWidget.NETWORK:
-            return <NetworkIndicator/>
+            return <NetworkIndicator vertical={isVertical}/>
         case BarWidget.RECORDING_INDICATOR:
-            return <ScreenRecordingStopButton/>
+            return <ScreenRecordingStopButton vertical={isVertical}/>
         case BarWidget.VPN_INDICATOR:
-            return <VpnIndicator/>
+            return <VpnIndicator vertical={isVertical}/>
         case BarWidget.TRAY:
             return <TrayButton/>
         case BarWidget.INTEGRATED_TRAY:
             return <IntegratedTray vertical={isVertical}/>
         case BarWidget.APP_LAUNCHER:
-            return <AppLauncherButton/>
+            return <AppLauncherButton vertical={isVertical}/>
         case BarWidget.SCREENSHOT:
-            return <ScreenshotButton/>
+            return <ScreenshotButton vertical={isVertical}/>
         case BarWidget.CLIPBOARD_MANAGER:
-            return <ClipboardManagerButton/>
+            return <ClipboardManagerButton vertical={isVertical}/>
         case BarWidget.POWER_PROFILE:
-            return <PowerProfileIndicator/>
+            return <PowerProfileIndicator vertical={isVertical}/>
         case BarWidget.CAVA_WAVEFORM:
             return <CavaBars vertical={isVertical}/>
         case BarWidget.MPRIS_CONTROLS:
@@ -456,8 +462,8 @@ function getWidget(widget: BarWidget, isVertical: boolean) {
         case BarWidget.MPRIS_TRACK_INFO:
             return <MprisTrackInfoBarWidget vertical={isVertical}/>
         case BarWidget.MPRIS_PRIMARY_PLAYER_SWITCHER:
-            return <MprisPrimaryPlayerSwitcher/>
+            return <MprisPrimaryPlayerSwitcher vertical={isVertical}/>
         case BarWidget.NOTIFICATION_HISTORY:
-            return <NotificationButton/>
+            return <NotificationButton vertical={isVertical}/>
     }
 }

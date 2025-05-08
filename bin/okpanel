@@ -116,9 +116,9 @@ run_run_command() {
 
 quit() {
   echo "Quitting..."
+  pkill -9 -f hyprsunset
   astal -i "OkPanel" "cleanup"
   ags quit -i "OkPanel"
-  pkill hyprsunset
 }
 
 main() {

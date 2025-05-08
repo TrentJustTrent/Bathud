@@ -3,13 +3,14 @@ import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import {Bar} from "../../config/bar";
 import {bind, Variable} from "astal";
 import {execAsync} from "astal/process";
-import { App, Gtk } from "astal/gtk4";
+import {App, Gtk} from "astal/gtk4";
 import {hideAllWindows} from "../utils/windows";
 import Divider from "../common/Divider";
 import {insertNewlines} from "../utils/strings";
 
 
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
+import OkButton, {IconButtonHorizontalPadding} from "../common/OkButton";
 
 export const ClipboardManagerWindowName = "clipboardManagerWindow"
 
@@ -177,17 +178,17 @@ export default function () {
                                     <box
                                         vertical={false}
                                         vexpand={false}>
-                                        <button
+                                        <OkButton
+                                            hpadding={IconButtonHorizontalPadding.THIN}
                                             valign={Gtk.Align.START}
-                                            cssClasses={["iconButton"]}
                                             label=""
                                             onClicked={() => {
                                                 copyEntry(entry)
                                                 hideAllWindows()
                                             }}/>
-                                        <button
+                                        <OkButton
+                                            hpadding={IconButtonHorizontalPadding.THIN}
                                             valign={Gtk.Align.START}
-                                            cssClasses={["iconButton"]}
                                             label=""
                                             onClicked={() => {
                                                 deleteEntry(entry)

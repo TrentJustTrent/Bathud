@@ -3,6 +3,7 @@ import { Gtk } from "astal/gtk4"
 import Notifd from "gi://AstalNotifd"
 import {insertNewlines} from "../utils/strings";
 import Pango from "gi://Pango?version=1.0";
+import OkButton from "../common/OkButton";
 
 const time = (time: number, format = "%I:%M %p") => GLib.DateTime
     .new_from_unix_local(time)
@@ -54,9 +55,7 @@ export default function Notification(props: Props) {
                 hexpand
                 halign={END}
                 label={time(n.time)}/>
-            <button
-                cssClasses={["closeButton"]}
-                marginEnd={2}
+            <OkButton
                 onClicked={() => n.dismiss()}
                 label=""/>
         </box>

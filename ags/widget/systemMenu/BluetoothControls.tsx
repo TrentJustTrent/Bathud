@@ -4,6 +4,7 @@ import {SystemMenuWindowName} from "./SystemMenuWindow";
 import {getBluetoothIcon, getBluetoothName} from "../utils/bluetooth";
 import Bluetooth from "gi://AstalBluetooth";
 import RevealerRow from "../common/RevealerRow";
+import OkButton from "../common/OkButton";
 
 function BluetoothDevices() {
     const bluetooth = Bluetooth.get_default()
@@ -35,17 +36,13 @@ function BluetoothDevices() {
 
                 return <box
                     vertical={true}>
-                    <button
+                    <OkButton
                         hexpand={true}
-                        cssClasses={["transparentButton"]}
+                        label={`  ${device.name}`}
+                        labelHalign={Gtk.Align.START}
                         onClicked={() => {
                             buttonsRevealed.set(!buttonsRevealed.get())
-                        }}>
-                        <label
-                            halign={Gtk.Align.START}
-                            cssClasses={["labelSmall"]}
-                            label={`  ${device.name}`}/>
-                    </button>
+                        }}/>
                     <revealer
                         revealChild={buttonsRevealed()}
                         transitionDuration={200}
@@ -145,10 +142,7 @@ export default function () {
                         hexpand={true}
                         label="Devices"
                         cssClasses={["labelLargeBold"]}/>
-                    <button
-                        cssClasses={["transparentButton"]}
-                        marginStart={8}
-                        marginEnd={8}
+                    <OkButton
                         label={bind(bluetooth.adapter, "discovering").as((discovering) => {
                             return discovering ? "Stop scanning" : "Scan"
                         })}

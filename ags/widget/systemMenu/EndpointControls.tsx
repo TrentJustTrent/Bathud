@@ -5,6 +5,7 @@ import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../common/RevealerRow";
 import {toggleMuteEndpoint} from "../utils/audio";
 import {SystemMenuWindowName} from "./SystemMenuWindow";
+import OkButton from "../common/OkButton";
 
 /**
  * An Endpoint is either a speaker or microphone
@@ -53,24 +54,20 @@ export default function (
                 vertical={true}>
                 {endpointsBinding.as((endpoints) => {
                     return endpoints.map((endpoint) => {
-                        return <button
+                        return <OkButton
                             hexpand={true}
-                            cssClasses={["transparentButton"]}
                             onClicked={() => {
                                 endpoint.set_is_default(true)
-                            }}>
-                            <label
-                                halign={Gtk.Align.START}
-                                cssClasses={["labelSmall"]}
-                                ellipsize={Pango.EllipsizeMode.END}
-                                label={bind(endpoint, "isDefault").as((isDefault) => {
-                                    if (isDefault) {
-                                        return `  ${endpoint.description}`
-                                    } else {
-                                        return `   ${endpoint.description}`
-                                    }
-                                })}/>
-                        </button>
+                            }}
+                            ellipsize={Pango.EllipsizeMode.END}
+                            label={bind(endpoint, "isDefault").as((isDefault) => {
+                                if (isDefault) {
+                                    return `  ${endpoint.description}`
+                                } else {
+                                    return `   ${endpoint.description}`
+                                }
+                            })}
+                            labelHalign={Gtk.Align.START}/>
                     })
                 })}
             </box>

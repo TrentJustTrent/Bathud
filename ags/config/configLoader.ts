@@ -1,6 +1,5 @@
-import {PrimitiveType} from "./configSchema";
 import {readFile} from "astal/file";
-import {Field} from "./schema/primitiveDefinitions";
+import {Field, PrimitiveType} from "./schema/primitiveDefinitions";
 import {Config} from "./schema/derivedTypes";
 
 import {CONFIG_SCHEMA} from "./schema/definitions/root";
@@ -143,6 +142,16 @@ export function parseConf(text: string): Record<string, any> {
         if (curType() === 'array') {
             const value = parseInlineValue(line.replace(/,?\s*$/, ''));
             ctxStack[ctxStack.length - 1].push(value);
+            return;
+        }
+
+        // Shorthand assignment: key [value, value]
+        const shorthandArray = line.match(/^([\w.]+)\s+(\[.*\])$/);
+        if (shorthandArray) {
+            const [, rawKey, rawVal] = shorthandArray;
+            const path = rawKey.trim().split('.');
+            const val = parseInlineValue(rawVal);
+            put(path, val);
             return;
         }
 

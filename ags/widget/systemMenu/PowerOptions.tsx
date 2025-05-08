@@ -1,17 +1,18 @@
 import {Gtk} from "astal/gtk4"
 import {execAsync} from "astal/process"
 import {config} from "../../config/config";
-import LargeIconButton from "../common/LargeIconButton";
 import {hideAllWindows} from "../utils/windows";
 import {cleanup} from "../../app";
+import OkButton, {IconButtonSize} from "../common/OkButton";
 
 export default function () {
     return <box
         vertical={false}
         halign={Gtk.Align.CENTER}
         spacing={12}>
-        <LargeIconButton
-            icon="󰍃"
+        <OkButton
+            size={IconButtonSize.XL}
+            label="󰍃"
             offset={0}
             onClicked={() => {
                 cleanup()
@@ -21,8 +22,9 @@ export default function () {
                         console.error(error)
                     })
             }}/>
-        <LargeIconButton
-            icon=""
+        <OkButton
+            size={IconButtonSize.XL}
+            label=""
             offset={2}
             onClicked={() => {
                 hideAllWindows()
@@ -31,8 +33,9 @@ export default function () {
                         console.error(error)
                     })
             }}/>
-        <LargeIconButton
-            icon=""
+        <OkButton
+            size={IconButtonSize.XL}
+            label=""
             offset={0}
             onClicked={() => {
                 cleanup()
@@ -42,8 +45,9 @@ export default function () {
                         console.error(error)
                     })
             }}/>
-        <LargeIconButton
-            icon="⏻"
+        <OkButton
+            size={IconButtonSize.XL}
+            label="⏻"
             offset={2}
             onClicked={() => {
                 cleanup()

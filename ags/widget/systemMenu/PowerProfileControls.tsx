@@ -6,6 +6,7 @@ import {SystemMenuWindowName} from "./SystemMenuWindow";
 import PowerProfiles from "gi://AstalPowerProfiles"
 import {capitalizeFirstLetter} from "../utils/strings";
 import {getPowerProfileIconBinding, PowerProfile} from "../utils/powerProfile";
+import OkButton from "../common/OkButton";
 
 const powerProfiles = PowerProfiles.get_default()
 
@@ -38,24 +39,20 @@ export default function () {
                 marginTop={10}
                 vertical={true}>
                 {profiles.map((profile) => {
-                    return <button
+                    return <OkButton
                         hexpand={true}
-                        cssClasses={["transparentButton"]}
+                        labelHalign={Gtk.Align.START}
+                        ellipsize={Pango.EllipsizeMode.END}
+                        label={bind(powerProfiles, "activeProfile").as((activeProfile) => {
+                            if (activeProfile === profile.profile) {
+                                return `  ${capitalizeFirstLetter(profile.profile)}`
+                            } else {
+                                return `   ${capitalizeFirstLetter(profile.profile)}`
+                            }
+                        })}
                         onClicked={() => {
                             powerProfiles.set_active_profile(profile.profile)
-                        }}>
-                        <label
-                            halign={Gtk.Align.START}
-                            cssClasses={["labelSmall"]}
-                            ellipsize={Pango.EllipsizeMode.END}
-                            label={bind(powerProfiles, "activeProfile").as((activeProfile) => {
-                                if (activeProfile === profile.profile) {
-                                    return `  ${capitalizeFirstLetter(profile.profile)}`
-                                } else {
-                                    return `   ${capitalizeFirstLetter(profile.profile)}`
-                                }
-                            })}/>
-                    </button>
+                        }}/>
                 })}
             </box>
         }

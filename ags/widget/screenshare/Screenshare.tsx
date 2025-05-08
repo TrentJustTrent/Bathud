@@ -1,4 +1,4 @@
-import {App, Astal, Gdk, Gtk} from "astal/gtk4"
+import {Astal, Gtk} from "astal/gtk4"
 import {bind, Variable} from "astal"
 import Hyprland from "gi://AstalHyprland"
 import {execAsync} from "astal/process"
@@ -7,6 +7,7 @@ import RevealerRow from "../common/RevealerRow";
 import {hideAllWindows} from "../utils/windows";
 import {config} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
+import OkButton, {IconButtonSize} from "../common/OkButton";
 
 export const ScreenshareWindowName = "screenshareWindow"
 
@@ -97,18 +98,17 @@ function Monitors() {
                 spacing={12}>
                 {bind(hyprland, "monitors").as((monitors) => {
                     return monitors.map((monitor) => {
-                            return <button
+                            return <OkButton
+                                size={IconButtonSize.MEDIUM}
+                                bold={true}
                                 hexpand={true}
-                                cssClasses={["primaryButton", "screenshareButton"]}
+                                primary={true}
+                                labelHalign={Gtk.Align.START}
+                                label={monitor.name}
                                 onClicked={() => {
                                     response(`[SELECTION]/screen:${monitor.name}`)
                                     hideAllWindows()
-                                }}>
-                                <label
-                                    halign={Gtk.Align.START}
-                                    cssClasses={["labelMediumBold"]}
-                                    label={monitor.name}/>
-                            </button>
+                                }}/>
                         }
                     )
                 })}
@@ -161,22 +161,18 @@ function Windows() {
                                         }
                                     })
                                     .map((instance) => {
-                                        return <button
+                                        return <OkButton
+                                            size={IconButtonSize.MEDIUM}
+                                            bold={true}
+                                            primary={true}
                                             hexpand={true}
-                                            cssClasses={["primaryButton", "screenshareButton"]}
+                                            labelHalign={Gtk.Align.START}
+                                            label={`${instance.instanceTitle}`}
+                                            ellipsize={Pango.EllipsizeMode.END}
                                             onClicked={() => {
                                                 response(`[SELECTION]/window:${instance.windowId}`)
                                                 hideAllWindows()
-                                            }}>
-                                            <box
-                                                vertical={true}>
-                                                <label
-                                                    halign={Gtk.Align.START}
-                                                    cssClasses={["labelMediumBold"]}
-                                                    label={`${instance.instanceTitle}`}
-                                                    ellipsize={Pango.EllipsizeMode.END}/>
-                                            </box>
-                                        </button>
+                                            }}/>
                                     })
                                 }
                             </box>
@@ -200,34 +196,35 @@ function Region() {
                 cssClasses={["labelLargeBold"]}/>
         }
         revealedContent={
-            <button
+            <box
                 marginTop={8}
-                marginBottom={8}
-                hexpand={true}
-                cssClasses={["primaryButton", "screenshareButton"]}
-                onClicked={() => {
-                    execAsync("slurp -f \"%o %x %y %w %h\"")
-                        .catch((error) => {
-                            console.error(error)
-                            response(`[SELECTION]/region:`)
-                        })
-                        .then((value) => {
-                            if (typeof value === "string") {
-                                const [name, x, y, w, h] = value.split(" ")
-                                response(`[SELECTION]/region:${name}@${x},${y},${w},${h}`)
-                            } else {
+                marginBottom={8}>
+                <OkButton
+                    size={IconButtonSize.MEDIUM}
+                    bold={true}
+                    primary={true}
+                    hexpand={true}
+                    labelHalign={Gtk.Align.START}
+                    label="Region"
+                    onClicked={() => {
+                        execAsync("slurp -f \"%o %x %y %w %h\"")
+                            .catch((error) => {
+                                console.error(error)
                                 response(`[SELECTION]/region:`)
-                            }
-                        })
-                        .finally(() => {
-                            hideAllWindows()
-                        })
-                }}>
-                <label
-                    halign={Gtk.Align.START}
-                    cssClasses={["labelMediumBold"]}
-                    label="Region"/>
-            </button>
+                            })
+                            .then((value) => {
+                                if (typeof value === "string") {
+                                    const [name, x, y, w, h] = value.split(" ")
+                                    response(`[SELECTION]/region:${name}@${x},${y},${w},${h}`)
+                                } else {
+                                    response(`[SELECTION]/region:`)
+                                }
+                            })
+                            .finally(() => {
+                                hideAllWindows()
+                            })
+                    }}/>
+            </box>
         }
     />
 }

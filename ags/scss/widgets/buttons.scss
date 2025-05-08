@@ -1,20 +1,5 @@
 @use "../variables" as vars;
 
-.iconButton {
-  all: unset;
-  background-color: transparent;
-  color: vars.$fg;
-  padding: 4px 4px 4px 2px;
-  border: none;
-  min-height: 25px;
-  min-width: 30px;
-  border-radius: vars.$buttonBorderRadius;
-}
-
-.iconButton:hover {
-  background-color: vars.$bgHover;
-}
-
 .iconButtonClass {
   all: unset;
   background-color: transparent;
@@ -31,43 +16,6 @@
   border: none;
 }
 
-.warningIconButton {
-  all: unset;
-  background-color: transparent;
-  color: vars.$warning;
-  padding: 4px 4px 4px 2px;
-  border: none;
-  min-height: 25px;
-  min-width: 30px;
-  border-radius: vars.$buttonBorderRadius;
-}
-
-.warningIconButton:hover {
-  background-color: vars.$bgHover;
-}
-
-.largeIconButton {
-  all: unset;
-  background-color: transparent;
-  font-size: 25px;
-  border-radius: vars.$largeButtonBorderRadius;
-  color: vars.$fg;
-  border: 0;
-}
-
-.largeIconButton:hover {
-  background-color: vars.$bgHover;
-}
-
-.largeIconButtonSelected {
-  all: unset;
-  background-color: vars.$primary;
-  font-size: 25px;
-  border-radius: vars.$largeButtonBorderRadius;
-  color: vars.$fg;
-  border: 0;
-}
-
 .primaryButton {
   all: unset;
   background-color: vars.$buttonPrimary;
@@ -80,48 +28,9 @@
   background-color: vars.$bgHover;
 }
 
-.screenshareButton {
-  padding: 12px;
-}
-
-.transparentButton {
-  all: unset;
-  background-color: transparent;
-  color: vars.$fg;
-  border-radius: vars.$buttonBorderRadius;
-  padding: 4px 8px 4px 8px;
-}
-
-.transparentButton:hover {
-  background-color: vars.$bgHover;
-}
-
-.closeButton {
-  all: unset;
-  background-color: vars.$bg;
-  color: vars.$fg;
-  padding: 4px 4px 4px 4px;
-  border: none;
-  min-height: 25px;
-  min-width: 30px;
-  border-radius: vars.$buttonBorderRadius;
-}
-
-.closeButton:hover {
-  background-color: vars.$bgHover;
-}
-
 .trayIconButton {
-  all: unset;
-  background-color: vars.$bg;
-  color: vars.$fg;
-  padding: 4px 4px 4px 2px;
-  border: none;
-  min-height: 25px;
-  min-width: 30px;
-  border-radius: vars.$buttonBorderRadius;
-
   .toggle {
+    all: unset;
     background-color: transparent;
     box-shadow: none;
   }

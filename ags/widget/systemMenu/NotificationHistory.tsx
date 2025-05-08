@@ -2,6 +2,7 @@ import Notifd from "gi://AstalNotifd"
 import { bind } from "astal"
 import Notification from "../notification/Notification"
 import {Gtk} from "astal/gtk4"
+import OkButton from "../common/OkButton";
 
 export default function() {
     const notifications = Notifd.get_default()
@@ -10,8 +11,7 @@ export default function() {
         vertical={true}>
         <box
             vertical={false}>
-            <button
-                cssClasses={["iconButton"]}
+            <OkButton
                 label={bind(notifications, "dontDisturb").as((dnd) => {
                     return dnd ? "󰂛" : "󰂚"
                 })}
@@ -19,11 +19,11 @@ export default function() {
                     notifications.set_dont_disturb(!notifications.dontDisturb)
                 }}/>
             <label
+                marginStart={4}
                 cssClasses={["labelMediumBold"]}
                 label="Notifications"/>
             <box hexpand={true}/>
-            <button
-                cssClasses={["iconButton"]}
+            <OkButton
                 label="Clear all"
                 onClicked={() => {
                     notifications.notifications.forEach((notification) => {

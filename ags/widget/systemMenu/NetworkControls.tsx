@@ -7,6 +7,7 @@ import {SystemMenuWindowName} from "./SystemMenuWindow";
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../common/RevealerRow";
 import {config} from "../../config/config";
+import OkButton from "../common/OkButton";
 
 const wifiConnections = Variable<string[]>([])
 const inactiveWifiConnections = Variable<string[]>([])
@@ -296,17 +297,13 @@ function WifiConnections() {
 
                 return <box
                     vertical={true}>
-                    <button
+                    <OkButton
                         hexpand={true}
-                        cssClasses={["transparentButton"]}
+                        label={label}
+                        labelHalign={Gtk.Align.START}
                         onClicked={() => {
                             buttonsRevealed.set(!buttonsRevealed.get())
-                        }}>
-                        <label
-                            halign={Gtk.Align.START}
-                            cssClasses={["labelSmall"]}
-                            label={label}/>
-                    </button>
+                        }}/>
                     <revealer
                         revealChild={buttonsRevealed()}
                         transitionDuration={200}
@@ -384,17 +381,13 @@ function WifiScannedConnections() {
                         vertical={true}>
                         <box
                             vertical={false}>
-                            <button
+                            <OkButton
                                 hexpand={true}
-                                cssClasses={["transparentButton"]}
+                                labelHalign={Gtk.Align.START}
+                                label={`${getAccessPointIcon(accessPoint)}  ${accessPoint.ssid}`}
                                 onClicked={() => {
                                     passwordEntryRevealed.set(!passwordEntryRevealed.get())
-                                }}>
-                                <label
-                                    halign={Gtk.Align.START}
-                                    cssClasses={["labelSmall"]}
-                                    label={`${getAccessPointIcon(accessPoint)}  ${accessPoint.ssid}`}/>
-                            </button>
+                                }}/>
                         </box>
                         <revealer
                             revealChild={passwordEntryRevealed()}
@@ -449,17 +442,13 @@ function VpnActiveConnections() {
 
                     return <box
                         vertical={true}>
-                        <button
+                        <OkButton
                             hexpand={true}
-                            cssClasses={["transparentButton"]}
+                            labelHalign={Gtk.Align.START}
+                            label={`󰯄  ${connection}`}
                             onClicked={() => {
                                 buttonsRevealed.set(!buttonsRevealed.get())
-                            }}>
-                            <label
-                                halign={Gtk.Align.START}
-                                cssClasses={["labelSmall"]}
-                                label={`󰯄  ${connection}`}/>
-                        </button>
+                            }}/>
                         <revealer
                             revealChild={buttonsRevealed()}
                             transitionDuration={200}
@@ -521,17 +510,13 @@ function VpnConnections() {
 
                 return <box
                     vertical={true}>
-                    <button
+                    <OkButton
                         hexpand={true}
-                        cssClasses={["transparentButton"]}
+                        labelHalign={Gtk.Align.START}
+                        label={`󰯄  ${connection}`}
                         onClicked={() => {
                             buttonsRevealed.set(!buttonsRevealed.get())
-                        }}>
-                        <label
-                            halign={Gtk.Align.START}
-                            cssClasses={["labelSmall"]}
-                            label={`󰯄  ${connection}`}/>
-                    </button>
+                        }}/>
                     <revealer
                         revealChild={buttonsRevealed()}
                         transitionDuration={200}
