@@ -7,12 +7,16 @@
 }
 
 .iconButtonClass:hover {
-  background-color: vars.$bgHover;
+  background-color: lighten(vars.$bg, 5%)
+}
+
+.iconButtonClassPrimary:hover {
+  background-color: lighten(vars.$buttonPrimary, 5%)
 }
 
 .iconButtonClassSelected {
   all: unset;
-  background-color: vars.$primary;
+  background-color: vars.$buttonPrimary;
   border: none;
 }
 
@@ -25,7 +29,7 @@
 }
 
 .screenshotButton:hover {
-  background-color: vars.$bgHover;
+  background-color: lighten(vars.$buttonPrimary, 5%)
 }
 
 .trayIconButton {
@@ -36,7 +40,7 @@
   }
 
   &:hover {
-    background-color: vars.$bgHover;
+    background-color: lighten(vars.$bg, 5%)
   }
 }
 
@@ -53,6 +57,6 @@
   }
 
   &:hover {
-    background-color: vars.$bgHover;
+    background-color: lighten(vars.$bg, 5%)
   }
 }

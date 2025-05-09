@@ -6,7 +6,7 @@
   .appButton {
     margin: 2px 8px 0 8px;
     padding: 8px;
-    background: vars.$bg;
+    background-color: vars.$bg;
     border-radius: vars.$buttonBorderRadius;
 
     label.name {
@@ -16,13 +16,13 @@
   }
 
   .appButton:hover {
-    background: vars.$bgHover;
+    background-color: lighten(vars.$bg, 5%)
   }
 
   .selectedAppButton {
     margin: 2px 8px 0 8px;
     padding: 8px;
-    background: vars.$primary;
+    background-color: vars.$primary;
     border-radius: vars.$buttonBorderRadius;
 
     label.name {
@@ -34,7 +34,7 @@
   .searchField {
     margin: 4px;
     box-shadow: none;
-    background: vars.$bg;
+    background-color: vars.$bg;
   }
 
   .searchIcon {

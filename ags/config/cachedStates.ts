@@ -200,8 +200,6 @@ cat > "$TARGET_DIR/variables.scss" <<EOF
 \\$fg: ${theme.colors.foreground};
 \\$primary: ${theme.colors.primary};
 \\$buttonPrimary: ${theme.colors.buttonPrimary};
-\\$sliderTrough: ${theme.colors.sliderTrough};
-\\$bgHover: ${theme.colors.hover};
 \\$warning: ${theme.colors.warning};
 \\$barBorder: ${theme.colors.barBorder};
 \\$windowBorder: ${theme.colors.windowBorder};

@@ -7,7 +7,7 @@
 .mediaPlayer {
   margin-top: 20px;
   background-color: vars.$bg;
-  border: 2px solid vars.$bgHover;
+  border: 2px solid lighten(vars.$bg, 5%);
   border-radius: vars.$buttonBorderRadius;
   padding: 4px 12px 4px 12px;
 
@@ -19,7 +19,7 @@
     margin: 0 8px 0 8px;
 
     trough {
-      background: vars.$sliderTrough;
+      background: lighten(vars.$bg, 5%);
       min-height: 8px;
       border-radius: 8px;
 

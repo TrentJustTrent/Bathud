@@ -20,8 +20,6 @@ export const selectedTheme = Variable<Theme>(
             foreground: "#AFB3BD",
             primary: "#7C545F",
             buttonPrimary: "#7C545F",
-            sliderTrough: "#293642",
-            hover: "#293642",
             warning: "#7C7C54",
             barBorder: "#7C545F",
             windowBorder: "#AFB3BD",

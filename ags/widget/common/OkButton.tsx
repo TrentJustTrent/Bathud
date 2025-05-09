@@ -45,6 +45,9 @@ function buildButtonCssClasses(
 
     if (selected === undefined) {
         buttonClasses.push("iconButtonClass")
+        if (primary) {
+            buttonClasses.push("iconButtonClassPrimary")
+        }
         return buttonClasses
     }
 

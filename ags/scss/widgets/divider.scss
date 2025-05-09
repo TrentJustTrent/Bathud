@@ -1,11 +1,11 @@
 @use "../variables" as vars;
 
 .divider {
-  border: 2px solid vars.$sliderTrough;
+  border: 2px solid lighten(vars.$bg, 5%);
   border-radius: 8px;
 }
 
 .dividerThin {
-  border: 1px solid vars.$sliderTrough;
+  border: 1px solid lighten(vars.$bg, 5%);
   border-radius: 8px;
 }

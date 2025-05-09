@@ -13,7 +13,7 @@
 
 .alertProgress trough {
   all: unset;
-  background: vars.$sliderTrough;
+  background: lighten(vars.$bg, 5%);
   min-height: 8px;
   border-radius: 16px;
 }

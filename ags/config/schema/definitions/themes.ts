@@ -46,8 +46,6 @@ export const themesSchema = {
                     {name: 'foreground', type: 'color', required: true},
                     {name: 'primary', type: 'color', required: true},
                     {name: 'buttonPrimary', type: 'color', required: true},
-                    {name: 'sliderTrough', type: 'color', required: true},
-                    {name: 'hover', type: 'color', required: true},
                     {name: 'warning', type: 'color', required: true},
                     {name: 'barBorder', type: 'color', required: true},
                     {name: 'windowBorder', type: 'color', required: true},
