@@ -15,7 +15,23 @@ export default function () {
             return bar === Bar.LEFT || bar === Bar.RIGHT
         })}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
-        margin={config.windows.gaps}
+        // this window doesn't like marginStart for some reason
+        marginLeft={selectedBar((bar) => {
+            if (bar === Bar.LEFT) {
+                return config.verticalBar.marginOuter
+            } else {
+                return config.verticalBar.marginInner
+            }
+        })}
+        marginRight={selectedBar((bar) => {
+            if (bar === Bar.RIGHT) {
+                return config.verticalBar.marginOuter
+            } else {
+                return config.verticalBar.marginInner
+            }
+        })}
+        marginTop={config.verticalBar.marginStart}
+        marginBottom={config.verticalBar.marginEnd}
         anchor={selectedBar((bar) => {
             if (bar === Bar.LEFT) {
                 if (!config.verticalBar.expanded) {

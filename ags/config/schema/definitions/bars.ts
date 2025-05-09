@@ -44,6 +44,30 @@ const commonBarChildrenSchema = [
         description: 'Spacing (px) between widgets inside the bar.',
     },
     {
+        name: 'marginInner',
+        type: 'number',
+        default: 5,
+        description: 'Margin (px) between the bar and other windows.'
+    },
+    {
+        name: 'marginOuter',
+        type: 'number',
+        default: 5,
+        description: 'Margin (px) between the bar and the edge of the screen.'
+    },
+    {
+        name: 'marginStart',
+        type: 'number',
+        default: 5,
+        description: 'Margin (px) at the start of the bar.  (For the vertical bar, this is the top)'
+    },
+    {
+        name: 'marginEnd',
+        type: 'number',
+        default: 5,
+        description: 'Margin (px) at the end of the bar.  (For the vertical bar, this is the bottom)'
+    },
+    {
         name: 'fullBarCavaWaveform',
         type: 'object',
         description: 'Full bar cava waveform configurations.',

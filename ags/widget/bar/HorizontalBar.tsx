@@ -15,7 +15,23 @@ export default function () {
         cssClasses={["transparentBackground"]}
         monitor={config.mainMonitor}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
-        margin={config.windows.gaps}
+        // this window doesn't like marginStart for some reason
+        marginLeft={config.horizontalBar.marginStart}
+        marginRight={config.horizontalBar.marginEnd}
+        marginTop={selectedBar((bar) => {
+            if (bar === Bar.TOP) {
+                return config.horizontalBar.marginOuter
+            } else {
+                return config.horizontalBar.marginInner
+            }
+        })}
+        marginBottom={selectedBar((bar) => {
+            if (bar === Bar.BOTTOM) {
+                return config.horizontalBar.marginOuter
+            } else {
+                return config.horizontalBar.marginInner
+            }
+        })}
         anchor={selectedBar((bar) => {
             if (bar === Bar.TOP) {
                 if (!config.horizontalBar.expanded) {
