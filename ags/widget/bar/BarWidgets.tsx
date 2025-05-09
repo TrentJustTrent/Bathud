@@ -29,7 +29,7 @@ import {Bar} from "../../config/bar";
 import Notifd from "gi://AstalNotifd"
 import {NotificationHistoryWindowName} from "../notification/NotificationHistoryWindow";
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
-import OkButton, {IconButtonHorizontalPadding} from "../common/OkButton";
+import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
 
 const tray = Tray.get_default()
 
@@ -75,7 +75,7 @@ function Workspaces({vertical}: { vertical: boolean }) {
                     }).map((workspace) => {
                         return <OkButton
                             offset={1}
-                            hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+                            hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
                             label={bind(workspace.monitor, "activeWorkspace").as((activeWorkspace) =>
                                 activeWorkspace?.id === workspace.id ? "" : ""
                             )}
@@ -103,7 +103,7 @@ function Clock({vertical}: { vertical: boolean }) {
 
     return <OkButton
         hexpand={vertical}
-        hpadding={vertical ? IconButtonHorizontalPadding.NONE : IconButtonHorizontalPadding.THIN}
+        hpadding={vertical ? OkButtonHorizontalPadding.NONE : OkButtonHorizontalPadding.THIN}
         label={time()}
         onClicked={() => {
             toggleWindow(CalendarWindowName)
@@ -112,7 +112,7 @@ function Clock({vertical}: { vertical: boolean }) {
 
 function VpnIndicator({vertical}: { vertical: boolean }) {
     return <OkButton
-        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         label="󰯄"
         visible={activeVpnConnections().as((connections) => {
             return connections.length !== 0
@@ -124,7 +124,7 @@ function ScreenRecordingStopButton({vertical}: { vertical: boolean }) {
         offset={2}
         warning={true}
         label=""
-        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         visible={isRecording()}
         onClicked={() => {
             execAsync("pkill wf-recorder")
@@ -144,7 +144,7 @@ function AudioOut({vertical}: { vertical: boolean }) {
     ])
 
     return <OkButton
-        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         label={speakerVar(() => getVolumeIcon(defaultSpeaker))}/>
 }
 
@@ -158,7 +158,7 @@ function AudioIn({vertical}: { vertical: boolean }) {
     ])
 
     return <OkButton
-        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         label={micVar(() => getMicrophoneIcon(defaultMicrophone))}/>
 }
 
@@ -166,7 +166,7 @@ function BluetoothIndicator({vertical}: { vertical: boolean }) {
     const bluetooth = Bluetooth.get_default()
     return <OkButton
         label="󰂯"
-        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         visible={bind(bluetooth, "isPowered").as((isPowered) => {
             return isPowered
         })}/>
@@ -175,7 +175,7 @@ function BluetoothIndicator({vertical}: { vertical: boolean }) {
 function NetworkIndicator({vertical}: { vertical: boolean }) {
     return <OkButton
         offset={1}
-        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         label={getNetworkIconBinding()}/>
 }
 
@@ -190,7 +190,7 @@ function BatteryIndicator({vertical}: { vertical: boolean }) {
     ])
 
     return <OkButton
-        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         warning={batteryVar((value) => {
             if (value[0] > 0.04 || battery.state === Battery.State.CHARGING) {
                 if (batteryWarningInterval != null) {
@@ -215,7 +215,7 @@ function BatteryIndicator({vertical}: { vertical: boolean }) {
 function MenuButton({vertical}: { vertical: boolean }) {
     return <OkButton
         offset={1}
-        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         label={vertical ? config.verticalBar.menu.icon : config.horizontalBar.menu.icon}
         onClicked={() => {
             toggleWindow(SystemMenuWindowName)
@@ -266,7 +266,7 @@ function TrayContent({vertical}: { vertical: boolean }) {
 
 function AppLauncherButton({vertical}: { vertical: boolean }) {
     return <OkButton
-        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         label="󰀻"
         onClicked={() => {
             toggleWindow(AppLauncherWindowName)
@@ -276,7 +276,7 @@ function AppLauncherButton({vertical}: { vertical: boolean }) {
 function ScreenshotButton({vertical}: { vertical: boolean }) {
     return <OkButton
         offset={2}
-        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         label="󰹑"
         onClicked={() => {
             toggleWindow(ScreenshotWindowName)
@@ -290,7 +290,7 @@ function ClipboardManagerButton({vertical}: { vertical: boolean }) {
         })
 
     return <OkButton
-        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         label=""
         onClicked={() => {
             toggleWindow(ClipboardManagerWindowName)
@@ -300,7 +300,7 @@ function ClipboardManagerButton({vertical}: { vertical: boolean }) {
 function PowerProfileIndicator({vertical}: { vertical: boolean }) {
     const profiles = PowerProfiles.get_default().get_profiles()
     return <OkButton
-        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         visible={profiles.length !== 0}
         label={getPowerProfileIconBinding()}/>
 }
@@ -374,7 +374,7 @@ function MprisPrimaryPlayerSwitcher({vertical}: { vertical: boolean }) {
             }
 
             return <OkButton
-                hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+                hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
                 label=""
                 onClicked={() => {
                     mpris.rotatePrimaryPlayer()
@@ -393,7 +393,7 @@ function NotificationButton({vertical}: { vertical: boolean }) {
 
     return <OkButton
         offset={1}
-        hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         label={derivedNotificationState().as(([notificationsList, doNotDisturb]) => {
             if (doNotDisturb) {
                 return "󰂛"

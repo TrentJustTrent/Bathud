@@ -7,7 +7,7 @@ import RevealerRow from "../common/RevealerRow";
 import {hideAllWindows} from "../utils/windows";
 import {config} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
-import OkButton, {IconButtonSize} from "../common/OkButton";
+import OkButton, {OkButtonSize} from "../common/OkButton";
 
 export const ScreenshareWindowName = "screenshareWindow"
 
@@ -99,7 +99,7 @@ function Monitors() {
                 {bind(hyprland, "monitors").as((monitors) => {
                     return monitors.map((monitor) => {
                             return <OkButton
-                                size={IconButtonSize.MEDIUM}
+                                size={OkButtonSize.MEDIUM}
                                 bold={true}
                                 hexpand={true}
                                 primary={true}
@@ -162,7 +162,7 @@ function Windows() {
                                     })
                                     .map((instance) => {
                                         return <OkButton
-                                            size={IconButtonSize.MEDIUM}
+                                            size={OkButtonSize.MEDIUM}
                                             bold={true}
                                             primary={true}
                                             hexpand={true}
@@ -200,7 +200,7 @@ function Region() {
                 marginTop={8}
                 marginBottom={8}>
                 <OkButton
-                    size={IconButtonSize.MEDIUM}
+                    size={OkButtonSize.MEDIUM}
                     bold={true}
                     primary={true}
                     hexpand={true}

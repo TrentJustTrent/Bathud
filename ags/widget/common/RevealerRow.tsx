@@ -1,6 +1,6 @@
 import {bind, Binding, Variable} from "astal";
 import {App, Gtk} from "astal/gtk4";
-import OkButton, {IconButtonHorizontalPadding, IconButtonSize} from "./OkButton";
+import OkButton, {OkButtonHorizontalPadding, OkButtonSize} from "./OkButton";
 
 type Params = {
     marginTop?: number;
@@ -57,7 +57,7 @@ export default function (
         <box
             vertical={false}>
             <OkButton
-                size={IconButtonSize.XL}
+                size={OkButtonSize.XL}
                 offset={iconOffset}
                 label={icon}
                 onClicked={onClick}/>
@@ -67,8 +67,8 @@ export default function (
                 {content}
             </box>
             <OkButton
-                size={IconButtonSize.SMALL}
-                hpadding={IconButtonHorizontalPadding.THIN}
+                size={OkButtonSize.SMALL}
+                hpadding={OkButtonHorizontalPadding.THIN}
                 label={revealed((revealed): string => {
                     if (revealed) {
                         return ""

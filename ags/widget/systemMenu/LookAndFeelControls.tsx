@@ -10,7 +10,7 @@ import RevealerRow from "../common/RevealerRow";
 import {setBarType, setTheme, setWallpaper} from "../../config/cachedStates";
 import {Bar} from "../../config/bar";
 import {Theme} from "../../config/schema/derivedTypes";
-import OkButton, {IconButtonSize} from "../common/OkButton";
+import OkButton, {OkButtonSize} from "../common/OkButton";
 
 const files: Variable<string[][]> = Variable([])
 const numberOfColumns = 2
@@ -152,7 +152,7 @@ function BarButton(
     }
 ) {
     return <OkButton
-        size={IconButtonSize.XL}
+        size={OkButtonSize.XL}
         selected={selectedBar((bar) => bar === barType)}
         label={icon}
         onClicked={() => {
@@ -181,7 +181,7 @@ function ThemeButton(
     }
 ) {
     return <OkButton
-        size={IconButtonSize.XL}
+        size={OkButtonSize.XL}
         label={theme.icon}
         offset={theme.pixelOffset}
         selected={selectedTheme((t) => t === theme)}

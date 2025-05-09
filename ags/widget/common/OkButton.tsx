@@ -3,13 +3,13 @@ import {isBinding} from "../utils/bindings";
 import {Gtk} from "astal/gtk4";
 import Pango from "gi://Pango?version=1.0";
 
-export enum IconButtonHorizontalPadding {
+export enum OkButtonHorizontalPadding {
     STANDARD,
     THIN,
     NONE
 }
 
-export enum IconButtonSize {
+export enum OkButtonSize {
     SMALL,
     MEDIUM,
     LARGE,
@@ -17,7 +17,7 @@ export enum IconButtonSize {
 }
 
 function buildButtonCssClasses(
-    size: IconButtonSize,
+    size: OkButtonSize,
     primary: boolean,
     menuButtonContent?: JSX.Element,
     selected?: Binding<boolean>,
@@ -25,12 +25,12 @@ function buildButtonCssClasses(
     const buttonClasses: string[] = []
 
     switch (size) {
-        case IconButtonSize.SMALL:
-        case IconButtonSize.MEDIUM:
-        case IconButtonSize.LARGE:
+        case OkButtonSize.SMALL:
+        case OkButtonSize.MEDIUM:
+        case OkButtonSize.LARGE:
             buttonClasses.push("radiusSmall")
             break
-        case IconButtonSize.XL:
+        case OkButtonSize.XL:
             buttonClasses.push("radiusLarge")
             break
     }
@@ -44,18 +44,18 @@ function buildButtonCssClasses(
     }
 
     if (selected === undefined) {
-        buttonClasses.push("iconButtonClass")
+        buttonClasses.push("okButtonClass")
         if (primary) {
-            buttonClasses.push("iconButtonClassPrimary")
+            buttonClasses.push("okButtonClassPrimary")
         }
         return buttonClasses
     }
 
     return selected.as((isSelected) => {
         if (isSelected) {
-            return buttonClasses.concat("iconButtonClassSelected")
+            return buttonClasses.concat("okButtonClassSelected")
         } else {
-            return buttonClasses.concat("iconButtonClass")
+            return buttonClasses.concat("okButtonClass")
         }
     })
 }
@@ -65,8 +65,8 @@ export default function(
         label,
         offset = 0,
         selected,
-        hpadding = IconButtonHorizontalPadding.STANDARD,
-        size = IconButtonSize.SMALL,
+        hpadding = OkButtonHorizontalPadding.STANDARD,
+        size = OkButtonSize.SMALL,
         bold = false,
         warning = false,
         primary = false,
@@ -90,8 +90,8 @@ export default function(
         label: Binding<string> | string,
         offset?: number | Binding<number>,
         selected?: Binding<boolean>,
-        hpadding?: IconButtonHorizontalPadding,
-        size?: IconButtonSize,
+        hpadding?: OkButtonHorizontalPadding,
+        size?: OkButtonSize,
         bold?: boolean,
         warning?: boolean | Binding<boolean>,
         primary?: boolean,
@@ -122,29 +122,29 @@ export default function(
 
     let horizontalPadding
     switch (hpadding) {
-        case IconButtonHorizontalPadding.STANDARD:
+        case OkButtonHorizontalPadding.STANDARD:
             horizontalPadding = 18
             break
-        case IconButtonHorizontalPadding.THIN:
+        case OkButtonHorizontalPadding.THIN:
             horizontalPadding = 14
             break
-        case IconButtonHorizontalPadding.NONE:
+        case OkButtonHorizontalPadding.NONE:
             horizontalPadding = 0
     }
 
     const labelClasses: string[] = []
 
     switch (size) {
-        case IconButtonSize.SMALL:
+        case OkButtonSize.SMALL:
             labelClasses.push("labelSmall")
             break
-        case IconButtonSize.MEDIUM:
+        case OkButtonSize.MEDIUM:
             labelClasses.push("labelMedium")
             break
-        case IconButtonSize.LARGE:
+        case OkButtonSize.LARGE:
             labelClasses.push("labelLarge")
             break
-        case IconButtonSize.XL:
+        case OkButtonSize.XL:
             labelClasses.push("labelXL")
             break
     }

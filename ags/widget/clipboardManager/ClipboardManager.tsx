@@ -10,7 +10,7 @@ import {insertNewlines} from "../utils/strings";
 
 
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
-import OkButton, {IconButtonHorizontalPadding} from "../common/OkButton";
+import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
 
 export const ClipboardManagerWindowName = "clipboardManagerWindow"
 
@@ -182,7 +182,7 @@ export default function () {
                                         vertical={false}
                                         vexpand={false}>
                                         <OkButton
-                                            hpadding={IconButtonHorizontalPadding.THIN}
+                                            hpadding={OkButtonHorizontalPadding.THIN}
                                             valign={Gtk.Align.START}
                                             label=""
                                             onClicked={() => {
@@ -190,7 +190,7 @@ export default function () {
                                                 hideAllWindows()
                                             }}/>
                                         <OkButton
-                                            hpadding={IconButtonHorizontalPadding.THIN}
+                                            hpadding={OkButtonHorizontalPadding.THIN}
                                             valign={Gtk.Align.START}
                                             label=""
                                             onClicked={() => {

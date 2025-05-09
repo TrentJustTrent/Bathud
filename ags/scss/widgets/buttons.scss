@@ -1,20 +1,20 @@
 @use "../variables" as vars;
 
-.iconButtonClass {
+.okButtonClass {
   all: unset;
   background-color: transparent;
   border: none;
 }
 
-.iconButtonClass:hover {
+.okButtonClass:hover {
   background-color: lighten(vars.$bg, 5%)
 }
 
-.iconButtonClassPrimary:hover {
+.okButtonClassPrimary:hover {
   background-color: lighten(vars.$buttonPrimary, 5%)
 }
 
-.iconButtonClassSelected {
+.okButtonClassSelected {
   all: unset;
   background-color: vars.$buttonPrimary;
   border: none;

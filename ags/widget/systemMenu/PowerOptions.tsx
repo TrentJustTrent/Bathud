@@ -3,7 +3,7 @@ import {execAsync} from "astal/process"
 import {config} from "../../config/config";
 import {hideAllWindows} from "../utils/windows";
 import {cleanup} from "../../app";
-import OkButton, {IconButtonSize} from "../common/OkButton";
+import OkButton, {OkButtonSize} from "../common/OkButton";
 
 export default function () {
     return <box
@@ -11,7 +11,7 @@ export default function () {
         halign={Gtk.Align.CENTER}
         spacing={12}>
         <OkButton
-            size={IconButtonSize.XL}
+            size={OkButtonSize.XL}
             label="󰍃"
             offset={0}
             onClicked={() => {
@@ -23,7 +23,7 @@ export default function () {
                     })
             }}/>
         <OkButton
-            size={IconButtonSize.XL}
+            size={OkButtonSize.XL}
             label=""
             offset={2}
             onClicked={() => {
@@ -34,7 +34,7 @@ export default function () {
                     })
             }}/>
         <OkButton
-            size={IconButtonSize.XL}
+            size={OkButtonSize.XL}
             label=""
             offset={0}
             onClicked={() => {
@@ -46,7 +46,7 @@ export default function () {
                     })
             }}/>
         <OkButton
-            size={IconButtonSize.XL}
+            size={OkButtonSize.XL}
             label="⏻"
             offset={2}
             onClicked={() => {

@@ -1,6 +1,6 @@
 import {LoopStatus, PlaybackStatus, Player, ShuffleStatus} from "../utils/mpris";
 import {Gtk} from "astal/gtk4";
-import OkButton, {IconButtonHorizontalPadding} from "../common/OkButton";
+import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
 
 export default function ({ player, vertical }: { player: Player, vertical: boolean }) {
     const playIcon = player.playbackStatus(s =>
@@ -13,7 +13,7 @@ export default function ({ player, vertical }: { player: Player, vertical: boole
         halign={Gtk.Align.CENTER}
         vertical={vertical}>
         <OkButton
-            hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+            hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
             onClicked={() => {
                 if (player.shuffleStatus.get() === ShuffleStatus.Enabled) {
                     player.setShuffleStatus(ShuffleStatus.Disabled)
@@ -30,28 +30,28 @@ export default function ({ player, vertical }: { player: Player, vertical: boole
                 }
             })}/>
         <OkButton
-            hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+            hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
             onClicked={() => {
                 player.previousTrack()
             }}
             visible={player.canGoPrevious()}
             label=""/>
         <OkButton
-            hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+            hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
             onClicked={() => {
                 player.playPause()
             }}
             visible={player.canControl()}
             label={playIcon}/>
         <OkButton
-            hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+            hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
             onClicked={() => {
                 player.nextTrack()
             }}
             visible={player.canGoNext()}
             label=""/>
         <OkButton
-            hpadding={vertical ? IconButtonHorizontalPadding.STANDARD : IconButtonHorizontalPadding.THIN}
+            hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
             onClicked={() => {
                 if (player.loopStatus.get() === LoopStatus.None) {
                     player.setLoopStatus(LoopStatus.Playlist)
