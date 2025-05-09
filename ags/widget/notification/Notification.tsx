@@ -78,18 +78,21 @@ export default function Notification(props: Props) {
                 label={insertNewlines(n.body, 40)}
             />}
         </box>
-        {n.get_actions().length > 0 && <box vertical={true}>
-            {n.get_actions().map(({ label, id }) => (
-                <button
-                    cssClasses={["primaryButton"]}
-                    hexpand={true}
-                    marginTop={4}
-                    marginEnd={8}
-                    marginBottom={8}
-                    marginStart={8}
-                    onClicked={() => n.invoke(id)}
-                    label={label}/>
-            ))}
+        {n.get_actions().length > 0 &&
+            <box
+                vertical={true}
+                marginTop={4}
+                marginEnd={8}
+                marginBottom={8}
+                marginStart={8}
+                spacing={8}>
+                {n.get_actions().map(({ label, id }) => (
+                    <OkButton
+                        primary={true}
+                        hexpand={true}
+                        onClicked={() => n.invoke(id)}
+                        label={label}/>
+                ))}
         </box>}
     </box>
 }

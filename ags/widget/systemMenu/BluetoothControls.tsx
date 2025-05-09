@@ -48,11 +48,13 @@ function BluetoothDevices() {
                         transitionDuration={200}
                         transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>
                         <box
-                            vertical={true}>
-                            <button
+                            vertical={true}
+                            marginTop={4}
+                            marginBottom={4}
+                            spacing={4}>
+                            <OkButton
+                                primary={true}
                                 hexpand={true}
-                                cssClasses={["primaryButton"]}
-                                marginTop={4}
                                 visible={bind(device, "paired")}
                                 label={connectionState((value) => {
                                     const connected = value[0]
@@ -78,10 +80,9 @@ function BluetoothDevices() {
                                         })
                                     }
                                 }}/>
-                            <button
+                            <OkButton
+                                primary={true}
                                 hexpand={true}
-                                cssClasses={["primaryButton"]}
-                                marginTop={4}
                                 visible={bind(device, "paired")}
                                 label={bind(device, "trusted").as((trusted) => {
                                     if (trusted) {
@@ -93,11 +94,9 @@ function BluetoothDevices() {
                                 onClicked={() => {
                                     device.set_trusted(!device.trusted)
                                 }}/>
-                            <button
+                            <OkButton
+                                primary={true}
                                 hexpand={true}
-                                cssClasses={["primaryButton"]}
-                                marginTop={4}
-                                marginBottom={4}
                                 label={bind(device, "paired").as((paired) => {
                                     return paired ? "Unpair" : "Pair"
                                 })}

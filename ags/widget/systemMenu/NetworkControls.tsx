@@ -243,8 +243,8 @@ function PasswordEntry(
                 cssClasses={["labelSmallWarning"]}
                 label="Error Connecting"/>
         </revealer>
-        <button
-            cssClasses={["primaryButton"]}
+        <OkButton
+            primary={true}
             hexpand={true}
             label={isConnecting((connecting) => {
                 if (connecting) {
@@ -312,9 +312,9 @@ function WifiConnections() {
                             marginTop={4}
                             vertical={true}
                             spacing={4}>
-                            {canConnect && <button
+                            {canConnect && <OkButton
                                 hexpand={true}
-                                cssClasses={["primaryButton"]}
+                                primary={true}
                                 label="Connect"
                                 onClicked={() => {
                                     execAsync(`nmcli c up ${connection}`)
@@ -325,9 +325,9 @@ function WifiConnections() {
                                             updateConnections()
                                         })
                                 }}/>}
-                            <button
+                            <OkButton
                                 hexpand={true}
-                                cssClasses={["primaryButton"]}
+                                primary={true}
                                 label="Forget"
                                 onClicked={() => {
                                     deleteConnection(connection)
@@ -458,9 +458,9 @@ function VpnActiveConnections() {
                                 marginBottom={4}
                                 vertical={true}
                                 spacing={4}>
-                                <button
+                                <OkButton
                                     hexpand={true}
-                                    cssClasses={["primaryButton"]}
+                                    primary={true}
                                     label="Disconnect"
                                     onClicked={() => {
                                         execAsync(`nmcli c down ${connection}`)
@@ -471,9 +471,9 @@ function VpnActiveConnections() {
                                                 updateConnections()
                                             })
                                     }}/>
-                                <button
+                                <OkButton
                                     hexpand={true}
-                                    cssClasses={["primaryButton"]}
+                                    primary={true}
                                     label="Forget"
                                     onClicked={() => {
                                         deleteConnection(connection)
@@ -526,9 +526,9 @@ function VpnConnections() {
                             marginBottom={4}
                             vertical={true}
                             spacing={4}>
-                            <button
+                            <OkButton
                                 hexpand={true}
-                                cssClasses={["primaryButton"]}
+                                primary={true}
                                 label={isConnecting().as((connecting) => {
                                     if (connecting) {
                                         return "Connecting"
@@ -542,9 +542,9 @@ function VpnConnections() {
                                         connectVpn(connection)
                                     }
                                 }}/>
-                            <button
+                            <OkButton
                                 hexpand={true}
-                                cssClasses={["primaryButton"]}
+                                primary={true}
                                 label="Forget"
                                 onClicked={() => {
                                     deleteConnection(connection)
@@ -554,8 +554,8 @@ function VpnConnections() {
                 </box>
             })
         })}
-        <button
-            cssClasses={["primaryButton"]}
+        <OkButton
+            primary={true}
             label="Add Wireguard VPN"
             onClicked={() => {
                 addWireguardConnection()
@@ -615,14 +615,18 @@ export default function () {
                 vertical={true}
                 spacing={12}>
                 {network.wifi && bind(network.wifi, "activeAccessPoint").as((activeAccessPoint) => {
-                    return <button
-                        visible={activeAccessPoint !== null}
-                        marginBottom={8}
-                        cssClasses={["primaryButton"]}
-                        label="Disconnect"
-                        onClicked={() => {
-                            disconnect(activeAccessPoint.ssid)
-                        }}/>
+                    return <box
+                        hexpand={true}
+                        marginBottom={8}>
+                        <OkButton
+                            hexpand={true}
+                            visible={activeAccessPoint !== null}
+                            primary={true}
+                            label="Disconnect"
+                            onClicked={() => {
+                                disconnect(activeAccessPoint.ssid)
+                            }}/>
+                    </box>
                 })}
                 {config.systemMenu.enableVpnControls && <VpnActiveConnections/>}
                 {config.systemMenu.enableVpnControls && <VpnConnections/>}

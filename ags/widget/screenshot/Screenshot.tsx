@@ -212,7 +212,7 @@ function ScreenshotButton(
 ) {
     return <button
         widthRequest={115}
-        cssClasses={["primaryButton"]}
+        cssClasses={["screenshotButton"]}
         marginStart={8}
         marginEnd={8}
         onClicked={onClicked}>

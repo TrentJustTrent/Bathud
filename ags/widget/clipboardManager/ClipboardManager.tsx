@@ -157,13 +157,16 @@ export default function () {
                                 cssClasses={["labelMedium"]}/>
                         }
                         {entries.length > 0 &&
-                            <button
-                                marginBottom={16}
-                                label="Delete all"
-                                cssClasses={["primaryButton"]}
-                                onClicked={() => {
-                                    wipeHistory()
-                                }}/>
+                            <box
+                                marginBottom={16}>
+                                <OkButton
+                                    hexpand={true}
+                                    label="Delete all"
+                                    primary={true}
+                                    onClicked={() => {
+                                        wipeHistory()
+                                    }}/>
+                            </box>
                         }
                         {entries.map((entry) => {
                             return <box

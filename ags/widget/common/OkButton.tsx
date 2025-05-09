@@ -68,6 +68,12 @@ export default function(
         warning = false,
         primary = false,
         visible = true,
+        widthRequest = 0,
+        heightRequest = 0,
+        marginTop,
+        marginBottom,
+        marginStart,
+        marginEnd,
         hexpand = false,
         vexpand = false,
         halign = Gtk.Align.FILL,
@@ -87,6 +93,12 @@ export default function(
         warning?: boolean | Binding<boolean>,
         primary?: boolean,
         visible?: boolean | Binding<boolean>,
+        widthRequest?: number,
+        heightRequest?: number,
+        marginTop?: number,
+        marginBottom?: number,
+        marginStart?: number,
+        marginEnd?: number,
         hexpand?: boolean | Binding<boolean>,
         vexpand?: boolean | Binding<boolean>,
         halign?: Gtk.Align | Binding<Gtk.Align>,
@@ -168,6 +180,12 @@ export default function(
 
     if (menuButtonContent !== undefined) {
         return <menubutton
+            widthRequest={widthRequest}
+            heightRequest={heightRequest}
+            marginTop={marginTop}
+            marginBottom={marginBottom}
+            marginStart={marginStart}
+            marginEnd={marginEnd}
             halign={halign}
             valign={valign}
             hexpand={hexpand}
@@ -181,6 +199,12 @@ export default function(
     }
 
     return <button
+        widthRequest={widthRequest}
+        heightRequest={heightRequest}
+        marginTop={marginTop}
+        marginBottom={marginBottom}
+        marginStart={marginStart}
+        marginEnd={marginEnd}
         halign={halign}
         valign={valign}
         hexpand={hexpand}
