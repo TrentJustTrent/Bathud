@@ -72,9 +72,9 @@ export const CONFIG_SCHEMA = [
     soundsSchema,
     windowsSchema,
     notificationsSchema,
-    horizontalBarSchema,
-    verticalBarSchema,
-    systemMenuSchema,
     systemCommandsSchema,
     themesSchema,
+    systemMenuSchema,
+    horizontalBarSchema,
+    verticalBarSchema,
 ] as const satisfies Field[]
