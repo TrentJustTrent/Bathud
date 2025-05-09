@@ -1,136 +1,142 @@
 #!/usr/bin/env bash
 
 print_help() {
-  cat <<EOF
+	cat <<EOF
 Usage: $(basename "$0") <command> [options]
 
 Commands:
-  run           Run the main application.
-  quit          Exit or stop the application.
-  launcher      Launch a specific component.
-  screenshot    Take a screenshot.
-  theme         Apply a theme with color options.
-  volume-up     Increase system volume.
-  volume-down   Decrease system volume.
-  mute          Mute system sound.
-  help          Show this help message.
+	run           Run the main application.
+	quit          Exit or stop the application.
+	launcher      Launch a specific component.
+	screenshot    Take a screenshot.
+	theme         Apply a theme with color options.
+	volume-up     Increase system volume.
+	volume-down   Decrease system volume.
+	mute          Mute system sound.
+	help          Show this help message.
 
 Theme Options (used with 'theme' command):
-  -b,  --background   HEX   Background color
-  -f,  --foreground   HEX   Foreground color
-  -p,  --primary      HEX   Primary accent color
-  -bt, --button       HEX   Button color
-  -w,  --warning      HEX   Warning/error color
-  -bb, --barBorder    HEX   Bar border color
-  -ab, --alertBorder  HEX   Alert border color
-  -wb, --windowBorder HEX   Window border color
+	-b,  --background   HEX   Background color
+	-f,  --foreground   HEX   Foreground color
+	-p,  --primary      HEX   Primary accent color
+	-bt, --button       HEX   Button color
+	-w,  --warning      HEX   Warning/error color
+	-bb, --barBorder    HEX   Bar border color
+	-ab, --alertBorder  HEX   Alert border color
+	-wb, --windowBorder HEX   Window border color
 
 Global Options:
-  -h,  --help         Show help for a specific command
+	-h,  --help         Show help for a specific command
 EOF
 }
 
 print_theme_help() {
-  cat <<EOF
+	cat <<EOF
 Usage: $(basename "$0") theme [options]
 
 Required Options:
-  -b,  --background   HEX   Background color
-  -f,  --foreground   HEX   Foreground color
-  -p,  --primary      HEX   Primary accent color
-  -bt, --button       HEX   Button color
-  -w,  --warning      HEX   Warning/error color
-  -bb, --barBorder    HEX   Bar border color
-  -ab, --alertBorder  HEX   Alert border color
-  -wb, --windowBorder HEX   Window border color
+	-b,  --background   HEX   Background color
+	-f,  --foreground   HEX   Foreground color
+	-p,  --primary      HEX   Primary accent color
+	-bt, --button       HEX   Button color
+	-w,  --warning      HEX   Warning/error color
+	-bb, --barBorder    HEX   Bar border color
+	-ab, --alertBorder  HEX   Alert border color
+	-wb, --windowBorder HEX   Window border color
 EOF
 }
 
 is_hex_color() {
-  [[ "$1" =~ ^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$ ]]
+	[[ "$1" =~ ^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$ ]]
 }
 
 run_theme_command() {
-  local bg fg primary btn hover slider warning
+	local bg fg primary btn hover slider warning
 
-  while [[ $# -gt 0 ]]; do
-    case $1 in
-      --help) print_theme_help; exit 0 ;;
-      -b|--background) bg="#$2"; shift ;;
-      -f|--foreground) fg="#$2"; shift ;;
-      -p|--primary) primary="#$2"; shift ;;
-      -bt|--button) btn="#$2"; shift ;;
-      -w|--warning) warning="#$2"; shift ;;
-      -bb|--barBorder) barBorder="#$2"; shift;;
-      -ab|--alertBorder) alertBorder="#$2"; shift;;
-      -wb|--windowBorder) windowBorder="#$2"; shift;;
-      *) echo "Unknown theme option: $1"; print_theme_help; exit 1 ;;
-    esac
-    shift
-  done
+	while [[ $# -gt 0 ]]; do
+	case $1 in
+		--help) print_theme_help; exit 0 ;;
+		-b|--background) bg="#$2"; shift ;;
+		-f|--foreground) fg="#$2"; shift ;;
+		-p|--primary) primary="#$2"; shift ;;
+		-bt|--button) btn="#$2"; shift ;;
+		-w|--warning) warning="#$2"; shift ;;
+		-bb|--barBorder) barBorder="#$2"; shift;;
+		-ab|--alertBorder) alertBorder="#$2"; shift;;
+		-wb|--windowBorder) windowBorder="#$2"; shift;;
+		*) echo "Unknown theme option: $1"; print_theme_help; exit 1 ;;
+	esac
+	shift
+	done
 
-  # Validate all required options
-  for color in "$bg" "$fg" "$primary" "$btn" "$warning" "$barBorder" "$alertBorder" "$windowBorder"; do
-    if ! is_hex_color "$color"; then
-      echo "Invalid or missing color: $color"
-      print_theme_help
-      exit 1
-    fi
-  done
+	# Validate all required options
+	for color in "$bg" "$fg" "$primary" "$btn" "$warning" "$barBorder" "$alertBorder" "$windowBorder"; do
+	if ! is_hex_color "$color"; then
+		echo "Invalid or missing color: $color"
+		print_theme_help
+		exit 1
+	fi
+	done
 
-  echo "Setting theme with colors:"
-  echo "Background: $bg"
-  echo "Foreground: $fg"
-  echo "Primary: $primary"
-  echo "Button: $btn"
-  echo "Warning: $warning"
-  echo "Bar Border: $barBorder"
-  echo "Alert Border: $alertBorder"
-  echo "Window Border: $windowBorder"
+	echo "Setting theme with colors:"
+	echo "Background: $bg"
+	echo "Foreground: $fg"
+	echo "Primary: $primary"
+	echo "Button: $btn"
+	echo "Warning: $warning"
+	echo "Bar Border: $barBorder"
+	echo "Alert Border: $alertBorder"
+	echo "Window Border: $windowBorder"
 
-  astal -i "OkPanel" "theme -b $bg -f $fg -p $primary -bt $btn -w $warning -bb $barBorder -ab $alertBorder -wb $windowBorder"
+	astal -i "OkPanel" "theme -b $bg -f $fg -p $primary -bt $btn -w $warning -bb $barBorder -ab $alertBorder -wb $windowBorder"
 }
 
 run_run_command() {
-  if [ -d "/usr/share/okpanel" ]; then
-      dir="/usr/share/okpanel"
-  elif [ -d "$HOME/.local/share/okpanel" ]; then
-      dir="$HOME/.local/share/okpanel"
-  else
-      dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../ags
-  fi
+	if [ -d "/usr/share/okpanel" ]; then
+		dir="/usr/share/okpanel"
+	elif [ -d "$HOME/.local/share/okpanel" ]; then
+		dir="$HOME/.local/share/okpanel"
+	else
+		dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../ags
+	fi
 
-  # listen for interruptions so we can cleanup properly
-  trap quit SIGINT SIGTERM
+	# Start astal-tray if not already running
+	if ! pgrep -x "astal-tray" > /dev/null; then
+		echo "Starting astal-tray..."
+		nohup astal-tray -d >/dev/null 2>&1 &
+	fi
 
-  ags run --gtk4 -d $dir -a $dir -a $HOME
+	# listen for interruptions so we can cleanup properly
+	trap quit SIGINT SIGTERM
+
+	ags run --gtk4 -d $dir -a $dir -a $HOME
 }
 
 quit() {
-  echo "Quitting..."
-  pkill -9 -f hyprsunset
-  astal -i "OkPanel" "cleanup"
-  ags quit -i "OkPanel"
+	echo "Quitting..."
+	pkill -9 -f hyprsunset
+	astal -i "OkPanel" "cleanup"
+	ags quit -i "OkPanel"
 }
 
 main() {
-  if [[ $# -lt 1 ]]; then
-    print_help
-    exit 1
-  fi
+	if [[ $# -lt 1 ]]; then
+		print_help
+		exit 1
+	fi
 
-  case $1 in
-    run)          run_run_command;;
-    quit)         quit;;
-    launcher)     astal -i "OkPanel" "appLauncher";;
-    screenshot)   astal -i "OkPanel" "screenshot";;
-    volume-up)    astal -i "OkPanel" "volume-up";;
-    volume-down)  astal -i "OkPanel" "volume-down";;
-    mute)         astal -i "OkPanel" "mute";;
-    theme)        shift; run_theme_command "$@";;
-    help|-h|--help) print_help;;
-    *) echo "Unknown command: $1"; print_help; exit 1 ;;
-  esac
+	case $1 in
+		run)          run_run_command;;
+		quit)         quit;;
+		launcher)     astal -i "OkPanel" "appLauncher";;
+		screenshot)   astal -i "OkPanel" "screenshot";;
+		volume-up)    astal -i "OkPanel" "volume-up";;
+		volume-down)  astal -i "OkPanel" "volume-down";;
+		mute)         astal -i "OkPanel" "mute";;
+		theme)        shift; run_theme_command "$@";;
+		help|-h|--help) print_help;;
+		*) echo "Unknown command: $1"; print_help; exit 1 ;;
+	esac
 }
 
 main "$@"
