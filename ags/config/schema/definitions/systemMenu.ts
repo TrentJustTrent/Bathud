@@ -9,7 +9,8 @@ export enum SystemMenuWidget {
     LOOK_AND_FEEL = "look_and_feel",
     MPRIS_PLAYERS = "mpris_players",
     POWER_OPTIONS = "power_options",
-    NOTIFICATION_HISTORY = "notification_history"
+    NOTIFICATION_HISTORY = "notification_history",
+    GIZMOS = "gizmos",
 }
 export const SYSTEM_MENU_WIDGET_VALUES = Object.values(SystemMenuWidget) as readonly SystemMenuWidget[]
 
@@ -44,6 +45,7 @@ export const systemMenuSchema = {
                 SystemMenuWidget.AUDIO_OUT,
                 SystemMenuWidget.AUDIO_IN,
                 SystemMenuWidget.POWER_PROFILE,
+                SystemMenuWidget.GIZMOS,
                 SystemMenuWidget.LOOK_AND_FEEL,
                 SystemMenuWidget.MPRIS_PLAYERS,
                 SystemMenuWidget.POWER_OPTIONS,

@@ -20,28 +20,29 @@ Install dependencies
 
 ```
 yay -S aylurs-gtk-shell-git \
-hyprland \
-gvfs \
-sox \
-wf-recorder \
-pipewire-pulse \
-grim \
-slurp \
-jq \
-networkmanager \
-wireplumber \
 bluez \
 bluez-utils \
-dart-sass \
-upower \
-power-profiles-daemon \
 brightnessctl \
-ttf-jetbrains-mono-nerd \
-libnotify \
-hyprsunset \
+cava \
 cliphist \
-wl-clipboard \
-cava
+dart-sass \
+grim \
+gvfs \
+hyprland \
+hyprpicker \
+hyprsunset \
+jq \
+libnotify \
+networkmanager \
+pipewire-pulse \
+power-profiles-daemon \
+slurp \
+sox \
+ttf-jetbrains-mono-nerd \
+upower \
+wf-recorder \
+wireplumber \
+wl-clipboard 
 ```
 
 Checkout the git repository
