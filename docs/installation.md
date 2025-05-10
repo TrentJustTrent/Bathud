@@ -1,6 +1,6 @@
 # Installation
 
-This project is still a work in progress, so there are no versioned releases yet.
+This project is quite usable, but still in a pre-release state.  There may be breaking changes as development continues and dependencies may change.
 
 ## Arch
 
