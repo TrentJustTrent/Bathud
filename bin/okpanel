@@ -107,15 +107,17 @@ run_run_command() {
 	fi
 
 	# listen for interruptions so we can cleanup properly
-	trap quit SIGINT SIGTERM
+	trap cleanup SIGINT SIGTERM
 
 	ags run --gtk4 -d $dir -a $dir -a $HOME
 }
 
-quit() {
-	echo "Quitting..."
+cleanup() {
 	pkill -9 -f hyprsunset
-	astal -i "OkPanel" "cleanup"
+}
+
+quit() {
+	cleanup
 	ags quit -i "OkPanel"
 }
 

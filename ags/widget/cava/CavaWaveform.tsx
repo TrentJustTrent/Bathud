@@ -6,7 +6,6 @@ import {selectedTheme} from "../../config/config";
 import {isBinding} from "../utils/bindings";
 import { timeout } from "astal/time"
 import {hexToRgba} from "../utils/strings";
-import {cavaInstances} from "./cavaInstances";
 
 function getCoordinate(
     value: number,
@@ -100,12 +99,7 @@ export default function(
     }: Params
 ) {
     const cava = new AstalCava.Cava()
-
-    if (cava === null) {
-        return <box/>
-    }
-
-    cavaInstances.push(cava)
+    cava.input = AstalCava.Input.PULSE
 
     setBars(cava, length)
 
