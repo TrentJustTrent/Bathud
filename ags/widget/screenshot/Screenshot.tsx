@@ -25,6 +25,14 @@ type Codec = {
     lib: string;
 }
 
+enum SaveType {
+    BOTH = 0,
+    CLIPBOARD = 1,
+    FILE = 2,
+}
+
+const saveTypeValues = (Object.values(SaveType) as SaveType[]).filter((v): v is SaveType => typeof v === "number")
+
 const audioOptions = Variable<AudioSource[]>([])
 const codecs: Codec[] = [
     {
@@ -88,6 +96,28 @@ function getCrfQualityIcon(value: number) {
         return "󰨍"
     } else {
         return "󰐵"
+    }
+}
+
+function getSaveTypeLabel(value: SaveType) {
+    switch (value) {
+        case SaveType.BOTH:
+            return "Save to file and clipboard"
+        case SaveType.CLIPBOARD:
+            return "Save to clipboard"
+        case SaveType.FILE:
+            return "Save to file"
+    }
+}
+
+function getSaveTypeIcon(value: SaveType) {
+    switch (value) {
+        case SaveType.BOTH:
+            return ""
+        case SaveType.CLIPBOARD:
+            return "󱉨"
+        case SaveType.FILE:
+            return ""
     }
 }
 
@@ -155,15 +185,27 @@ function updateAudioOptions() {
     })
 }
 
-function showScreenshotNotification(filePath: string) {
-    showNotification(filePath, "Screenshot")
+function showScreenshotNotification(filePath: string, saveType: SaveType) {
+    const appName = "Screenshot"
+    switch (saveType) {
+        case SaveType.FILE:
+            showSavedNotification(filePath, appName)
+            break
+        case SaveType.CLIPBOARD:
+            showCopiedNotification(appName)
+            break
+        case SaveType.BOTH:
+            showSavedAndCopiedNotification(filePath, appName)
+            break
+    }
+
 }
 
 function showScreenRecordingNotification(filePath: string) {
-    showNotification(filePath, "Screen Recording")
+    showSavedNotification(filePath, "Screen Recording")
 }
 
-function showNotification(
+function showSavedNotification(
     filePath: string,
     appName: string
 ) {
@@ -186,6 +228,57 @@ function showNotification(
                 xdg-open ${filePath}
             fi
         done
+    `
+    ]).catch((error) => {
+        console.error(error)
+    }).then((value) => {
+        console.log(value)
+    })
+}
+
+function showSavedAndCopiedNotification(
+    filePath: string,
+    appName: string
+) {
+    execAsync([
+        "bash",
+        "-c",
+        `
+        ACTION_VIEW="viewScreenshot"
+        ACTION_OPEN_DIR="openDir"
+        # Send a notification with an action to view the file
+        notify-send "Image copied to clipboard and file saved at ${filePath}" \
+            --app-name="${appName}" \
+            --action=$ACTION_VIEW="View" \
+            --action=$ACTION_OPEN_DIR="Show in Files" |
+        while read -r action; do
+            if [[ "$action" == $ACTION_OPEN_DIR ]]; then
+                xdg-open "$(dirname "${filePath}")"
+            fi
+            if [[ "$action" == $ACTION_VIEW ]]; then
+                xdg-open ${filePath}
+            fi
+        done
+    `
+    ]).catch((error) => {
+        console.error(error)
+    }).then((value) => {
+        console.log(value)
+    })
+}
+
+function showCopiedNotification(
+    appName: string
+) {
+    execAsync([
+        "bash",
+        "-c",
+        `
+        ACTION_VIEW="viewScreenshot"
+        ACTION_OPEN_DIR="openDir"
+        # Send a notification with an action to view the file
+        notify-send "Image copied to clipboard" \
+            --app-name="${appName}"
     `
     ]).catch((error) => {
         console.error(error)
@@ -229,7 +322,9 @@ function ScreenshotButton(
 
 function ScreenShots() {
     const delay = Variable(0)
+    const saveType = Variable(SaveType.BOTH)
     let delayRevealed: Variable<boolean> | null = null
+    let saveTypeRevealed: Variable<boolean> | null = null
 
     return <box
         vertical={true}>
@@ -273,6 +368,42 @@ function ScreenShots() {
                     })}
                 </box>
             }/>
+        <RevealerRow
+            icon={saveType().as((value) => {
+                return getSaveTypeIcon(value)
+            })}
+            iconOffset={0}
+            windowName={ScreenshotWindowName}
+            setup={(revealed) => {
+                saveTypeRevealed = revealed
+            }}
+            content={
+                <label
+                    cssClasses={["labelMediumBold"]}
+                    halign={Gtk.Align.START}
+                    hexpand={true}
+                    ellipsize={Pango.EllipsizeMode.END}
+                    label={saveType().as((value) => {
+                        return getSaveTypeLabel(value)
+                    })}/>
+            }
+            revealedContent={
+                <box
+                    vertical={true}>
+                    {saveTypeValues.map((value) => {
+                        let label = `${getSaveTypeIcon(value)}  ${getSaveTypeLabel(value)}`
+                        return <OkButton
+                            hexpand={true}
+                            labelHalign={Gtk.Align.START}
+                            ellipsize={Pango.EllipsizeMode.END}
+                            label={label}
+                            onClicked={() => {
+                                saveType.set(value)
+                                saveTypeRevealed?.set(false)
+                            }}/>
+                    })}
+                </box>
+            }/>
         <box
             marginTop={8}
             vertical={false}>
@@ -281,22 +412,23 @@ function ScreenShots() {
                 label={"All"}
                 onClicked={() => {
                     hideAllWindows()
-                    const time = GLib.DateTime.new_now_local().format("%Y_%m_%d_%H_%M_%S")!
-                    const path = `${screenshotDir}/${time}_screenshot.png`
+                    const dir = screenshotDir
+                    const fileName = generateFileName()
+                    const path = `${dir}/${fileName}`
+                    const allDelay = Math.max(1, delay.get())
                     execAsync(
                         [
                             "bash",
                             "-c",
                             `
-                                    sleep ${delay.get()}
-                                    grim ${path}
+                                    ${projectDir}/shellScripts/hyprshot -m all -o ${dir} -f ${fileName} -D ${allDelay} --save-type ${saveType.get()}
                             `
                         ]
                     ).catch((error) => {
                         console.error(error)
                     }).finally(() => {
                         playCameraShutter()
-                        showScreenshotNotification(path)
+                        showScreenshotNotification(path, saveType.get())
                     })
                 }}/>
             <ScreenshotButton
@@ -313,7 +445,7 @@ function ScreenShots() {
                             "bash",
                             "-c",
                             `
-                                    ${projectDir}/shellScripts/hyprshot -m output -o ${dir} -f ${fileName} -D ${delay.get()}
+                                    ${projectDir}/shellScripts/hyprshot -m output -o ${dir} -f ${fileName} -D ${delay.get()} --save-type ${saveType.get().valueOf()}
                             `
                         ]
                     ).catch((error) => {
@@ -325,7 +457,7 @@ function ScreenShots() {
                     }).finally(() => {
                         if (!canceled) {
                             playCameraShutter()
-                            showScreenshotNotification(path)
+                            showScreenshotNotification(path, saveType.get())
                         }
                     })
                 }}/>
@@ -343,7 +475,7 @@ function ScreenShots() {
                             "bash",
                             "-c",
                             `
-                                    ${projectDir}/shellScripts/hyprshot -m window -o ${dir} -f ${fileName} -D ${delay.get()}
+                                    ${projectDir}/shellScripts/hyprshot -m window -o ${dir} -f ${fileName} -D ${delay.get()} --save-type ${saveType.get().valueOf()}
                             `
                         ]
                     ).catch((error) => {
@@ -355,7 +487,7 @@ function ScreenShots() {
                     }).finally(() => {
                         if (!canceled) {
                             playCameraShutter()
-                            showScreenshotNotification(path)
+                            showScreenshotNotification(path, saveType.get())
                         }
                     })
                 }}/>
@@ -373,7 +505,7 @@ function ScreenShots() {
                             "bash",
                             "-c",
                             `
-                                    ${projectDir}/shellScripts/hyprshot -m region -o ${dir} -f ${fileName} -D ${delay.get()}
+                                    ${projectDir}/shellScripts/hyprshot -m region -o ${dir} -f ${fileName} -D ${delay.get()} --save-type ${saveType.get().valueOf()}
                             `
                         ]
                     ).catch((error) => {
@@ -385,7 +517,7 @@ function ScreenShots() {
                     }).finally(() => {
                         if (!canceled) {
                             playCameraShutter()
-                            showScreenshotNotification(path)
+                            showScreenshotNotification(path, saveType.get())
                         }
                     })
                 }}/>
