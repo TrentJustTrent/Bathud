@@ -1,8 +1,8 @@
 import Notifd from "gi://AstalNotifd"
 import { bind } from "astal"
-import Notification from "../notification/Notification"
+import Notification from "../../notification/Notification"
 import {Gtk} from "astal/gtk4"
-import OkButton from "../common/OkButton";
+import OkButton from "../../common/OkButton";
 
 export default function() {
     const notifications = Notifd.get_default()

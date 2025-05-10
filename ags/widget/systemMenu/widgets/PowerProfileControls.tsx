@@ -1,12 +1,12 @@
 import {bind} from "astal"
 import {Gtk} from "astal/gtk4"
 import Pango from "gi://Pango?version=1.0";
-import RevealerRow from "../common/RevealerRow";
-import {SystemMenuWindowName} from "./SystemMenuWindow";
+import RevealerRow from "../../common/RevealerRow";
+import {SystemMenuWindowName} from "../SystemMenuWindow";
 import PowerProfiles from "gi://AstalPowerProfiles"
-import {capitalizeFirstLetter} from "../utils/strings";
-import {getPowerProfileIconBinding, PowerProfile} from "../utils/powerProfile";
-import OkButton from "../common/OkButton";
+import {capitalizeFirstLetter} from "../../utils/strings";
+import {getPowerProfileIconBinding, PowerProfile} from "../../utils/powerProfile";
+import OkButton from "../../common/OkButton";
 
 const powerProfiles = PowerProfiles.get_default()
 

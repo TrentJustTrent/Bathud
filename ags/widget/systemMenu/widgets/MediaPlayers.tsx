@@ -1,7 +1,7 @@
 import {Gtk} from "astal/gtk4"
 import Pango from "gi://Pango?version=1.0";
-import {Mpris, Player} from "../utils/mpris"
-import MprisControlButtons from "../mpris/MprisControlButtons";
+import {Mpris, Player} from "../../utils/mpris"
+import MprisControlButtons from "../../mpris/MprisControlButtons";
 
 const mpris = Mpris.get_default()
 const STREAMING_TRACK_LENGTH = 9999999999

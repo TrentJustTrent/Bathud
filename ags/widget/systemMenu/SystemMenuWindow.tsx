@@ -1,17 +1,17 @@
-import EndpointControls from "./EndpointControls";
+import EndpointControls from "./widgets/EndpointControls";
 import Wp from "gi://AstalWp"
 import {bind} from "astal"
 import {getMicrophoneIcon, getVolumeIcon} from "../utils/audio";
-import PowerOptions from "./PowerOptions";
-import MediaPlayers from "./MediaPlayers";
-import NotificationHistory from "./NotificationHistory";
-import NetworkControls from "./NetworkControls";
-import BluetoothControls from "./BluetoothControls";
-import LookAndFeelControls from "./LookAndFeelControls";
+import PowerOptions from "./widgets/PowerOptions";
+import MediaPlayers from "./widgets/MediaPlayers";
+import NotificationHistory from "./widgets/NotificationHistory";
+import NetworkControls from "./widgets/NetworkControls";
+import BluetoothControls from "./widgets/BluetoothControls";
+import LookAndFeelControls from "./widgets/LookAndFeelControls";
 import {config, selectedBar} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import {Bar} from "../../config/bar";
-import PowerProfileControls from "./PowerProfileControls";
+import PowerProfileControls from "./widgets/PowerProfileControls";
 
 import {SystemMenuWidget} from "../../config/schema/definitions/systemMenu";
 import {BarWidget} from "../../config/schema/definitions/barWidgets";

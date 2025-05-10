@@ -1,10 +1,10 @@
 import {bind, Variable} from "astal"
 import {Gtk, App} from "astal/gtk4"
-import {SystemMenuWindowName} from "./SystemMenuWindow";
-import {getBluetoothIcon, getBluetoothName} from "../utils/bluetooth";
+import {SystemMenuWindowName} from "../SystemMenuWindow";
+import {getBluetoothIcon, getBluetoothName} from "../../utils/bluetooth";
 import Bluetooth from "gi://AstalBluetooth";
-import RevealerRow from "../common/RevealerRow";
-import OkButton from "../common/OkButton";
+import RevealerRow from "../../common/RevealerRow";
+import OkButton from "../../common/OkButton";
 
 function BluetoothDevices() {
     const bluetooth = Bluetooth.get_default()

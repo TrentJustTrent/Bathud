@@ -9,7 +9,7 @@ import {getBatteryIcon} from "../utils/battery"
 import {execAsync} from "astal/process"
 import {SystemMenuWindowName} from "../systemMenu/SystemMenuWindow";
 import Bluetooth from "gi://AstalBluetooth"
-import {activeVpnConnections} from "../systemMenu/NetworkControls";
+import {activeVpnConnections} from "../systemMenu/widgets/NetworkControls";
 import {isRecording, ScreenshotWindowName} from "../screenshot/Screenshot";
 import Divider from "../common/Divider";
 import {config, projectDir, selectedBar} from "../../config/config";

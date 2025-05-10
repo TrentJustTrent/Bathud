@@ -1,8 +1,8 @@
 import {Gtk} from "astal/gtk4"
 import {execAsync} from "astal/process"
-import {config} from "../../config/config";
-import {hideAllWindows} from "../utils/windows";
-import OkButton, {OkButtonSize} from "../common/OkButton";
+import {config} from "../../../config/config";
+import {hideAllWindows} from "../../utils/windows";
+import OkButton, {OkButtonSize} from "../../common/OkButton";
 
 export default function () {
     return <box

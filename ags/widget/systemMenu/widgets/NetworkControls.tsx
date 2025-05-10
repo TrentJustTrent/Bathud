@@ -1,13 +1,13 @@
 import AstalNetwork from "gi://AstalNetwork"
-import {getAccessPointIcon, getNetworkIconBinding} from "../utils/network";
+import {getAccessPointIcon, getNetworkIconBinding} from "../../utils/network";
 import {bind, Variable} from "astal"
 import {Gtk, App} from "astal/gtk4"
 import {execAsync} from "astal/process"
-import {SystemMenuWindowName} from "./SystemMenuWindow";
+import {SystemMenuWindowName} from "../SystemMenuWindow";
 import Pango from "gi://Pango?version=1.0";
-import RevealerRow from "../common/RevealerRow";
-import {config} from "../../config/config";
-import OkButton from "../common/OkButton";
+import RevealerRow from "../../common/RevealerRow";
+import {config} from "../../../config/config";
+import OkButton from "../../common/OkButton";
 
 const wifiConnections = Variable<string[]>([])
 const inactiveWifiConnections = Variable<string[]>([])

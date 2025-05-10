@@ -1,16 +1,16 @@
 import {Gtk} from "astal/gtk4"
 import {execAsync} from "astal/process"
 import {GLib, Variable} from "astal"
-import {SystemMenuWindowName} from "./SystemMenuWindow";
+import {SystemMenuWindowName} from "../SystemMenuWindow";
 import Pango from "gi://Pango?version=1.0";
-import {createScaledTexture} from "../utils/images";
-import Divider from "../common/Divider";
-import {config, selectedBar, selectedTheme} from "../../config/config";
-import RevealerRow from "../common/RevealerRow";
-import {setBarType, setTheme, setWallpaper} from "../../config/cachedStates";
-import {Bar} from "../../config/bar";
-import {Theme} from "../../config/schema/derivedTypes";
-import OkButton, {OkButtonSize} from "../common/OkButton";
+import {createScaledTexture} from "../../utils/images";
+import Divider from "../../common/Divider";
+import {config, selectedBar, selectedTheme} from "../../../config/config";
+import RevealerRow from "../../common/RevealerRow";
+import {setBarType, setTheme, setWallpaper} from "../../../config/cachedStates";
+import {Bar} from "../../../config/bar";
+import {Theme} from "../../../config/schema/derivedTypes";
+import OkButton, {OkButtonSize} from "../../common/OkButton";
 
 const files: Variable<string[][]> = Variable([])
 const numberOfColumns = 2

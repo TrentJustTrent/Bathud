@@ -2,10 +2,10 @@ import Wp from "gi://AstalWp"
 import {bind, Binding, Variable} from "astal"
 import {Gtk} from "astal/gtk4"
 import Pango from "gi://Pango?version=1.0";
-import RevealerRow from "../common/RevealerRow";
-import {toggleMuteEndpoint} from "../utils/audio";
-import {SystemMenuWindowName} from "./SystemMenuWindow";
-import OkButton from "../common/OkButton";
+import RevealerRow from "../../common/RevealerRow";
+import {toggleMuteEndpoint} from "../../utils/audio";
+import {SystemMenuWindowName} from "../SystemMenuWindow";
+import OkButton from "../../common/OkButton";
 
 /**
  * An Endpoint is either a speaker or microphone

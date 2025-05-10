@@ -1,7 +1,7 @@
 import {config, selectedBar} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import {Bar} from "../../config/bar";
-import NotificationHistory from "../systemMenu/NotificationHistory";
+import NotificationHistory from "../systemMenu/widgets/NotificationHistory";
 
 
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
