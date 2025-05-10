@@ -121,13 +121,6 @@ function animateScroll(
     });
 }
 
-function startHyprsunset() {
-    execAsync("hyprsunset -i")
-        .catch((error) => {
-            console.error(error, "is hyprsunset already running?")
-        })
-}
-
 function enableNightLight() {
     execAsync(`hyprctl hyprsunset temperature ${config.nightLightTemperature}`)
         .catch((error) => {
@@ -347,7 +340,6 @@ function NightLight() {
 }
 
 export default function () {
-    startHyprsunset()
     selectedTheme.subscribe((theme) => {
         if (theme != null) {
             updateFiles(theme)

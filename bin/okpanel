@@ -106,6 +106,12 @@ run_run_command() {
 		nohup astal-tray -d >/dev/null 2>&1 &
 	fi
 
+	# Start hyprsunset if not already running
+	if ! pgrep -x "hyprsunset" > /dev/null; then
+		echo "Starting hyprsunset..."
+		nohup hyprsunset -i >/dev/null 2>&1 &
+	fi
+
 	# listen for interruptions so we can cleanup properly
 	trap cleanup SIGINT SIGTERM
 
