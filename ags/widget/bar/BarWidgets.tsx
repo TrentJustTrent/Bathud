@@ -423,7 +423,6 @@ function ColorPickerButton({vertical}: { vertical: boolean }) {
 
 function LogoutButton({vertical}: { vertical: boolean }) {
     return <OkButton
-        offset={2}
         hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         label="󰍃"
         onClicked={() => {
@@ -433,7 +432,6 @@ function LogoutButton({vertical}: { vertical: boolean }) {
 
 function LockButton({vertical}: { vertical: boolean }) {
     return <OkButton
-        offset={2}
         hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         label=""
         onClicked={() => {
@@ -443,7 +441,6 @@ function LockButton({vertical}: { vertical: boolean }) {
 
 function RestartButton({vertical}: { vertical: boolean }) {
     return <OkButton
-        offset={2}
         hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         label=""
         onClicked={() => {
@@ -453,7 +450,7 @@ function RestartButton({vertical}: { vertical: boolean }) {
 
 function ShutdownButton({vertical}: { vertical: boolean }) {
     return <OkButton
-        offset={2}
+        offset={1}
         hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         label="⏻"
         onClicked={() => {
