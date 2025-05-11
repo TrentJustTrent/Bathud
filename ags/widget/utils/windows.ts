@@ -1,4 +1,4 @@
-import {App, Gtk} from "astal/gtk4";
+import {App, Astal, Gtk} from "astal/gtk4";
 import {SystemMenuWindowName} from "../systemMenu/SystemMenuWindow";
 import {scrimsVisible} from "../common/Scrim";
 import {CalendarWindowName} from "../calendar/Calendar";
@@ -8,6 +8,8 @@ import {ScreenshotWindowName} from "../screenshot/Screenshot";
 import {ClipboardManagerWindowName} from "../clipboardManager/ClipboardManager";
 import {PolkitWindowName} from "../polkit/PolkitPopup";
 import {NotificationHistoryWindowName} from "../notification/NotificationHistoryWindow";
+
+const openedOneOffWindows: Astal.Window[] = []
 
 export function toggleWindow(windowName: string) {
     const window = App.get_windows().find((window) => window.name === windowName)
@@ -33,5 +35,13 @@ export function hideAllWindows() {
     windows.forEach((window) => {
         window.hide()
     })
+    openedOneOffWindows.forEach((window) => {
+        window.close()
+    })
+    openedOneOffWindows.length = 0
     scrimsVisible.set(false)
+}
+
+export function registerWindow(window: Astal.Window) {
+    openedOneOffWindows.push(window)
 }
