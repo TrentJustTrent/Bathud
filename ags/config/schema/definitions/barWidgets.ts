@@ -21,7 +21,8 @@ export enum BarWidget {
     MPRIS_CONTROLS = "mpris_controls",
     MPRIS_TRACK_INFO = "mpris_track_info",
     MPRIS_PRIMARY_PLAYER_SWITCHER = "mpris_primary_player_switcher",
-    NOTIFICATION_HISTORY = "notification_history"
+    NOTIFICATION_HISTORY = "notification_history",
+    COLOR_PICKER = "color_picker",
 }
 export const BAR_WIDGET_VALUES = Object.values(BarWidget) as readonly BarWidget[]
 
@@ -270,6 +271,12 @@ export function barWidgetsSchema(vertical: boolean) { return [
         name: BarWidget.NOTIFICATION_HISTORY,
         type: "object",
         description: "Configuration for the notification_history bar widget.",
+        children: [...commonFields()],
+    },
+    {
+        name: BarWidget.COLOR_PICKER,
+        type: "object",
+        description: "Configuration for the color_picker bar widget.",
         children: [...commonFields()],
     },
 ] as const satisfies Field[] }

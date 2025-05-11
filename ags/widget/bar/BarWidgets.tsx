@@ -30,6 +30,7 @@ import Notifd from "gi://AstalNotifd"
 import {NotificationHistoryWindowName} from "../notification/NotificationHistoryWindow";
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
 import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
+import {runColorPicker} from "../utils/colorPicker";
 
 const tray = Tray.get_default()
 
@@ -409,6 +410,16 @@ function NotificationButton({vertical}: { vertical: boolean }) {
         }}/>
 }
 
+function ColorPickerButton({vertical}: { vertical: boolean }) {
+    return <OkButton
+        offset={2}
+        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        label=""
+        onClicked={() => {
+            runColorPicker().catch((error) => console.log(error))
+        }}/>
+}
+
 export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
     const schema = isVertical ? config.verticalBar : config.horizontalBar
     return widgets.map((widget) => {
@@ -466,5 +477,7 @@ function getWidget(widget: BarWidget, isVertical: boolean) {
             return <MprisPrimaryPlayerSwitcher vertical={isVertical}/>
         case BarWidget.NOTIFICATION_HISTORY:
             return <NotificationButton vertical={isVertical}/>
+        case BarWidget.COLOR_PICKER:
+            return <ColorPickerButton vertical={isVertical}/>
     }
 }
