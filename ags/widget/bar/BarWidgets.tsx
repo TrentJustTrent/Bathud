@@ -31,6 +31,7 @@ import {NotificationHistoryWindowName} from "../notification/NotificationHistory
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
 import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
 import {runColorPicker} from "../utils/colorPicker";
+import {lock, logout, restart, shutdown} from "../utils/powerOptions";
 
 const tray = Tray.get_default()
 
@@ -420,6 +421,46 @@ function ColorPickerButton({vertical}: { vertical: boolean }) {
         }}/>
 }
 
+function LogoutButton({vertical}: { vertical: boolean }) {
+    return <OkButton
+        offset={2}
+        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        label="󰍃"
+        onClicked={() => {
+            logout()
+        }}/>
+}
+
+function LockButton({vertical}: { vertical: boolean }) {
+    return <OkButton
+        offset={2}
+        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        label=""
+        onClicked={() => {
+            lock()
+        }}/>
+}
+
+function RestartButton({vertical}: { vertical: boolean }) {
+    return <OkButton
+        offset={2}
+        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        label=""
+        onClicked={() => {
+            restart()
+        }}/>
+}
+
+function ShutdownButton({vertical}: { vertical: boolean }) {
+    return <OkButton
+        offset={2}
+        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        label="⏻"
+        onClicked={() => {
+            shutdown()
+        }}/>
+}
+
 export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
     const schema = isVertical ? config.verticalBar : config.horizontalBar
     return widgets.map((widget) => {
@@ -479,5 +520,13 @@ function getWidget(widget: BarWidget, isVertical: boolean) {
             return <NotificationButton vertical={isVertical}/>
         case BarWidget.COLOR_PICKER:
             return <ColorPickerButton vertical={isVertical}/>
+        case BarWidget.LOCK:
+            return <LockButton vertical={isVertical}/>
+        case BarWidget.LOGOUT:
+            return <LogoutButton vertical={isVertical}/>
+        case BarWidget.RESTART:
+            return <RestartButton vertical={isVertical}/>
+        case BarWidget.SHUTDOWN:
+            return <ShutdownButton vertical={isVertical}/>
     }
 }

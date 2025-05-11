@@ -1,9 +1,7 @@
 import {Gtk} from "astal/gtk4"
-import {execAsync} from "astal/process"
-import {config} from "../../../config/config";
 import {hideAllWindows} from "../../utils/windows";
 import OkButton, {OkButtonSize} from "../../common/OkButton";
-import ConfirmationDialog from "../../common/ConfirmationDialog";
+import {lock, logout, restart, shutdown} from "../../utils/powerOptions";
 
 export default function () {
     return <box
@@ -16,25 +14,7 @@ export default function () {
             offset={0}
             onClicked={() => {
                 hideAllWindows()
-                if (config.systemCommands.logoutConfirmationEnabled) {
-                    ConfirmationDialog(
-                        "Are you sure you want to logout?",
-                        "Logout",
-                        "Cancel",
-                        () => {
-                            execAsync(config.systemCommands.logout)
-                                .catch((error) => {
-                                    console.error(error)
-                                })
-                        }
-                    )
-                } else {
-                    execAsync(config.systemCommands.logout)
-                        .catch((error) => {
-                            console.error(error)
-                        })
-                }
-
+                logout()
             }}/>
         <OkButton
             size={OkButtonSize.XL}
@@ -42,24 +22,7 @@ export default function () {
             offset={2}
             onClicked={() => {
                 hideAllWindows()
-                if (config.systemCommands.lockConfirmationEnabled) {
-                    ConfirmationDialog(
-                        "Are you sure you want to lock the device?",
-                        "Lock",
-                        "Cancel",
-                        () => {
-                            execAsync(config.systemCommands.lock)
-                                .catch((error) => {
-                                    console.error(error)
-                                })
-                        }
-                    )
-                } else {
-                    execAsync(config.systemCommands.lock)
-                        .catch((error) => {
-                            console.error(error)
-                        })
-                }
+                lock()
             }}/>
         <OkButton
             size={OkButtonSize.XL}
@@ -67,24 +30,7 @@ export default function () {
             offset={0}
             onClicked={() => {
                 hideAllWindows()
-                if (config.systemCommands.restartConfirmationEnabled) {
-                    ConfirmationDialog(
-                        "Are you sure you want to restart?",
-                        "Restart",
-                        "Cancel",
-                        () => {
-                            execAsync(config.systemCommands.restart)
-                                .catch((error) => {
-                                    console.error(error)
-                                })
-                        }
-                    )
-                } else {
-                    execAsync(config.systemCommands.restart)
-                        .catch((error) => {
-                            console.error(error)
-                        })
-                }
+                restart()
             }}/>
         <OkButton
             size={OkButtonSize.XL}
@@ -92,24 +38,7 @@ export default function () {
             offset={2}
             onClicked={() => {
                 hideAllWindows()
-                if (config.systemCommands.shutdownConfirmationEnabled) {
-                    ConfirmationDialog(
-                        "Are you sure you want to shutdown?",
-                        "Shutdown",
-                        "Cancel",
-                        () => {
-                            execAsync(config.systemCommands.shutdown)
-                                .catch((error) => {
-                                    console.error(error)
-                                })
-                        }
-                    )
-                } else {
-                    execAsync(config.systemCommands.shutdown)
-                        .catch((error) => {
-                            console.error(error)
-                        })
-                }
+                shutdown()
             }}/>
     </box>
 }

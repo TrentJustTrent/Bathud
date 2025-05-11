@@ -23,6 +23,10 @@ export enum BarWidget {
     MPRIS_PRIMARY_PLAYER_SWITCHER = "mpris_primary_player_switcher",
     NOTIFICATION_HISTORY = "notification_history",
     COLOR_PICKER = "color_picker",
+    LOGOUT = "logout",
+    LOCK = "lock",
+    RESTART = "restart",
+    SHUTDOWN = "shutdown",
 }
 export const BAR_WIDGET_VALUES = Object.values(BarWidget) as readonly BarWidget[]
 
@@ -277,6 +281,30 @@ export function barWidgetsSchema(vertical: boolean) { return [
         name: BarWidget.COLOR_PICKER,
         type: "object",
         description: "Configuration for the color_picker bar widget.",
+        children: [...commonFields()],
+    },
+    {
+        name: BarWidget.LOGOUT,
+        type: "object",
+        description: "Configuration for the logout bar widget.",
+        children: [...commonFields()],
+    },
+    {
+        name: BarWidget.LOCK,
+        type: "object",
+        description: "Configuration for the lock bar widget.",
+        children: [...commonFields()],
+    },
+    {
+        name: BarWidget.RESTART,
+        type: "object",
+        description: "Configuration for the restart bar widget.",
+        children: [...commonFields()],
+    },
+    {
+        name: BarWidget.SHUTDOWN,
+        type: "object",
+        description: "Configuration for the shutdown bar widget.",
         children: [...commonFields()],
     },
 ] as const satisfies Field[] }
