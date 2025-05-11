@@ -115,6 +115,7 @@ run_run_command() {
 	# listen for interruptions so we can cleanup properly
 	trap cleanup SIGINT SIGTERM
 
+	echo "Starting ags..."
 	ags run --gtk4 -d $dir -a $dir -a $HOME
 }
 

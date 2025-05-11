@@ -1,4 +1,4 @@
-import {config, selectedBar} from "../../config/config";
+import {config, projectDir, selectedBar} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import {Bar} from "../../config/bar";
 import {bind, Variable} from "astal";
@@ -20,6 +20,41 @@ type Entry = {
 };
 
 const clipboardEntries = Variable<Entry[]>([])
+
+function getImageType(entry: Entry): string | null {
+    const pattern = /^\[\[ binary data (\d+(?:\.\d+)?) ([A-Za-z]+) ([a-z0-9]+) (\d+)x(\d+) \]\]$/;
+
+    const match = entry.value.match(pattern);
+
+    if (match) {
+        return match[3].toLowerCase()
+    } else {
+        return null
+    }
+}
+
+function startCliphist() {
+    // If the widget isn't on the bar, don't start cliphist
+    if (
+        !config.horizontalBar.leftWidgets.includes(BarWidget.CLIPBOARD_MANAGER) ||
+        !config.horizontalBar.centerWidgets.includes(BarWidget.CLIPBOARD_MANAGER) ||
+        !config.horizontalBar.rightWidgets.includes(BarWidget.CLIPBOARD_MANAGER) ||
+        !config.verticalBar.topWidgets.includes(BarWidget.CLIPBOARD_MANAGER) ||
+        !config.verticalBar.centerWidgets.includes(BarWidget.CLIPBOARD_MANAGER) ||
+        !config.verticalBar.bottomWidgets.includes(BarWidget.CLIPBOARD_MANAGER)
+    ) {
+        return
+    }
+    execAsync(`${projectDir}/shellScripts/cliphistStore.sh`)
+        .catch((error) => {
+            console.error(error)
+        })
+
+    execAsync(["bash", "-c", `wl-paste --type image --watch cliphist store`])
+        .catch((error) => {
+            console.error(error)
+        })
+}
 
 function updateClipboardEntries() {
     execAsync(["bash", "-c", `CLIPHIST_PREVIEW_WIDTH=500 cliphist list`])
@@ -50,15 +85,18 @@ function updateClipboardEntries() {
 }
 
 function copyEntry(entry: Entry) {
-    execAsync(`cliphist decode ${entry.number}`)
-        .catch((error) => {
-            console.error(error)
-        }).then((value) => {
-            execAsync(`wl-copy ${value}`)
-                .catch((error) => {
-                    console.error(error)
-                })
-        })
+    const imageType = getImageType(entry)
+    if (imageType !== null) {
+        execAsync(["bash", "-c", `cliphist decode ${entry.number} | wl-copy --type image/${imageType}`])
+            .catch((error) => {
+                console.error(error)
+            })
+    } else {
+        execAsync(["bash", "-c", `cliphist decode ${entry.number} | wl-copy`])
+            .catch((error) => {
+                console.error(error)
+            })
+    }
 }
 
 function deleteEntry(entry: Entry) {
@@ -80,6 +118,7 @@ function wipeHistory() {
 }
 
 export default function () {
+    startCliphist()
     updateClipboardEntries()
 
     setTimeout(() => {

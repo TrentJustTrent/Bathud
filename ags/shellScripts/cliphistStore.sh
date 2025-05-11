@@ -35,9 +35,9 @@ cliphist_filter() {
        [[ "$data" =~ ^[[:graph:]]+$ ]] &&                       # All visible (non-space) characters
        [[ "$data" =~ [A-Za-z] ]] &&                            # Contains letters
        {
-         [[ "$data" =~ [0-9] && "$data" =~ [^A-Za-z0-9] ]] ||  # letters + digits + special
-         [[ "$data" =~ [0-9] ]] ||                             # letters + digits
-         [[ "$data" =~ [^A-Za-z0-9] ]]                         # letters + special
+         [[ "$data" =~ [0-9] && "$data" =~ [^A-Za-z0-9./] ]] ||     # letters + digits + special (excluding . and /)
+         [[ "$data" =~ [0-9] ]] ||                                  # letters + digits
+         [[ "$data" =~ [^A-Za-z0-9./] ]]                            # letters + special (excluding . and /)
        }; then
         echo "[cliphist] Skipped: likely password (8–32 chars, no space, mixed content)" >&2
         return
@@ -50,4 +50,4 @@ cliphist_filter() {
 export -f cliphist_filter
 
 # Run the function every time clipboard changes
-CLIPHIST_MAX_ITEMS=50 wl-paste --watch bash -c cliphist_filter
+wl-paste --type text --watch bash -c cliphist_filter

@@ -286,11 +286,6 @@ function ScreenshotButton({vertical}: { vertical: boolean }) {
 }
 
 function ClipboardManagerButton({vertical}: { vertical: boolean }) {
-    execAsync(`${projectDir}/shellScripts/cliphistStore.sh`)
-        .catch((error) => {
-            console.error(error)
-        })
-
     return <OkButton
         hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         label=""
