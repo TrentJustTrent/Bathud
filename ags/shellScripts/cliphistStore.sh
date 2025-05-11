@@ -1,16 +1,45 @@
 #!/bin/bash
 
+read_best_plaintext_from_clipboard() {
+    local types type output
+
+    types=$(wl-paste --list-types | grep -i '^text/plain')
+
+    # Sort preferred charsets
+    preferred_charsets=(
+        'utf-8'
+        'unicode'
+        'us-ascii'
+        'iso-8859'
+    )
+
+    # Try preferred charsets first
+    for charset in "${preferred_charsets[@]}"; do
+        type=$(echo "$types" | grep -i "$charset" | head -n 1)
+        if [[ -n "$type" ]]; then
+            output=$(wl-paste --no-newline --type "$type" 2>/dev/null)
+            if [[ $? -eq 0 && -n "$output" ]]; then
+                echo "$output"
+                return 0
+            fi
+        fi
+    done
+
+    # Fallback to any other text/plain type
+    for type in $types; do
+        output=$(wl-paste --no-newline --type "$type" 2>/dev/null)
+        if [[ $? -eq 0 && -n "$output" ]]; then
+            echo "$output"
+            return 0
+        fi
+    done
+
+    echo "[cliphist] No valid text/plain content found" >&2
+    return 1
+}
+
 cliphist_filter() {
-    # Get clipboard types
-    types=$(wl-paste --list-types)
-
-    # Only process if plain text is available
-    if ! echo "$types" | grep -qx "text/plain"; then
-        echo "[cliphist] Skipped: no text/plain in clipboard (types: $types)" >&2
-        return
-    fi
-
-    data="$(wl-paste --no-newline)"
+    data=$(read_best_plaintext_from_clipboard)
 
     # Skip empty or whitespace-only entries
     [[ -z "$data" || "$data" =~ ^[[:space:]]*$ ]] && return
@@ -48,6 +77,7 @@ cliphist_filter() {
 
 # Export the function so it's available in the child shell
 export -f cliphist_filter
+export -f read_best_plaintext_from_clipboard
 
 # Run the function every time clipboard changes
 wl-paste --type text --watch bash -c cliphist_filter

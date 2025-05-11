@@ -1,5 +1,8 @@
 import GdkPixbuf from "gi://GdkPixbuf?version=2.0";
-import {Gdk} from "astal/gtk4";
+import {Gdk, Gtk} from "astal/gtk4";
+import {GLib} from "astal";
+import {exec} from "astal/process";
+import Gio from "gi://Gio?version=2.0";
 
 /**
  * Creates a scaled texture at the desired width and height, cropping out extra content if the aspect

@@ -7,10 +7,10 @@ import {App, Gtk} from "astal/gtk4";
 import {hideAllWindows} from "../utils/windows";
 import Divider from "../common/Divider";
 import {insertNewlines} from "../utils/strings";
-
-
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
 import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
+import AsyncClipboardPicture from "./AsyncClipboardPicture";
+import AsyncClipboardLabel from "./AsyncClipboardLabel";
 
 export const ClipboardManagerWindowName = "clipboardManagerWindow"
 
@@ -36,15 +36,18 @@ function getImageType(entry: Entry): string | null {
 function startCliphist() {
     // If the widget isn't on the bar, don't start cliphist
     if (
-        !config.horizontalBar.leftWidgets.includes(BarWidget.CLIPBOARD_MANAGER) ||
-        !config.horizontalBar.centerWidgets.includes(BarWidget.CLIPBOARD_MANAGER) ||
-        !config.horizontalBar.rightWidgets.includes(BarWidget.CLIPBOARD_MANAGER) ||
-        !config.verticalBar.topWidgets.includes(BarWidget.CLIPBOARD_MANAGER) ||
-        !config.verticalBar.centerWidgets.includes(BarWidget.CLIPBOARD_MANAGER) ||
+        !config.horizontalBar.leftWidgets.includes(BarWidget.CLIPBOARD_MANAGER) &&
+        !config.horizontalBar.centerWidgets.includes(BarWidget.CLIPBOARD_MANAGER) &&
+        !config.horizontalBar.rightWidgets.includes(BarWidget.CLIPBOARD_MANAGER) &&
+        !config.verticalBar.topWidgets.includes(BarWidget.CLIPBOARD_MANAGER) &&
+        !config.verticalBar.centerWidgets.includes(BarWidget.CLIPBOARD_MANAGER) &&
         !config.verticalBar.bottomWidgets.includes(BarWidget.CLIPBOARD_MANAGER)
     ) {
         return
     }
+
+    console.log("Starting cliphist...")
+
     execAsync(`${projectDir}/shellScripts/cliphistStore.sh`)
         .catch((error) => {
             console.error(error)
@@ -208,15 +211,24 @@ export default function () {
                             </box>
                         }
                         {entries.map((entry) => {
+                            const imageType = getImageType(entry)
+                            const isImage = imageType !== null
+
+                            let content
+
+                            if (isImage) {
+                                content = <AsyncClipboardPicture
+                                    cliphistId={entry.number}/>
+                            } else {
+                                content = <AsyncClipboardLabel
+                                    cliphistId={entry.number}/>
+                            }
+
                             return <box
                                 vertical={true}>
                                 <box
                                     vertical={false}>
-                                    <label
-                                        xalign={0}
-                                        wrap={true}
-                                        hexpand={true}
-                                        label={insertNewlines(entry.value, 30)}/>
+                                    {content}
                                     <box
                                         vertical={false}
                                         vexpand={false}>
