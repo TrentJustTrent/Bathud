@@ -12,7 +12,6 @@ export enum BarWidget {
     VPN_INDICATOR = "vpn_indicator",
     BATTERY = "battery",
     TRAY = "tray",
-    INTEGRATED_TRAY = "integrated_tray",
     APP_LAUNCHER = "app_launcher",
     SCREENSHOT = "screenshot",
     CLIPBOARD_MANAGER = "clipboard_manager",
@@ -158,13 +157,15 @@ export function barWidgetsSchema(vertical: boolean) { return [
         name: BarWidget.TRAY,
         type: "object",
         description: "Configuration for the tray bar widget.",
-        children: [...commonFields()],
-    },
-    {
-        name: BarWidget.INTEGRATED_TRAY,
-        type: "object",
-        description: "Configuration for the integrated_tray bar widget.",
-        children: [...commonFields()],
+        children: [
+            ...commonFields(),
+            {
+                name: 'collapsable',
+                type: 'boolean',
+                default: true,
+                description: 'If true, a tray icon will show and need to be clicked to reveal the tray apps.'
+            }
+        ],
     },
     {
         name: BarWidget.APP_LAUNCHER,

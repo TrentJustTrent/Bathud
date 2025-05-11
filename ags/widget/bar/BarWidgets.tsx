@@ -225,20 +225,25 @@ function MenuButton({vertical}: { vertical: boolean }) {
 }
 
 function IntegratedTray({vertical}: { vertical: boolean }) {
+    if ((vertical && config.verticalBar.tray.collapsable) ||
+        !vertical && config.horizontalBar.tray.collapsable) {
+        const revealed = Variable(false)
+        return <box
+            vertical={vertical}>
+            <revealer
+                revealChild={revealed()}>
+                <TrayContent vertical={vertical}/>
+            </revealer>
+            <OkButton
+                offset={1}
+                visible={bind(tray, "items").as((items) => items.length > 0)}
+                label={"󱊔"}
+                onClicked={() => {
+                    revealed.set(!revealed.get())
+                }}/>
+        </box>
+    }
     return <TrayContent vertical={vertical}/>
-}
-
-function TrayButton() {
-    return <OkButton
-        offset={1}
-        visible={bind(tray, "items").as((items) => items.length > 0)}
-        label={"󱊔"}
-        menuButtonContent={
-            <popover
-                position={Gtk.PositionType.RIGHT}>
-                <TrayContent vertical={false}/>
-            </popover>
-        }/>
 }
 
 function TrayContent({vertical}: { vertical: boolean }) {
@@ -247,6 +252,9 @@ function TrayContent({vertical}: { vertical: boolean }) {
         visible={bind(tray, "items").as((items) => items.length > 0)}>
         {bind(tray, "items").as((items) => {
             return items.map((item) => {
+                if (item.id === null) {
+                    return <box/>
+                }
                 let ag_handler: number;
 
                 return <menubutton
@@ -489,8 +497,6 @@ function getWidget(widget: BarWidget, isVertical: boolean) {
         case BarWidget.VPN_INDICATOR:
             return <VpnIndicator vertical={isVertical}/>
         case BarWidget.TRAY:
-            return <TrayButton/>
-        case BarWidget.INTEGRATED_TRAY:
             return <IntegratedTray vertical={isVertical}/>
         case BarWidget.APP_LAUNCHER:
             return <AppLauncherButton vertical={isVertical}/>

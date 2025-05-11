@@ -48,11 +48,13 @@ function startCliphist() {
 
     console.log("Starting cliphist...")
 
+    // text
     execAsync(`${projectDir}/shellScripts/cliphistStore.sh`)
         .catch((error) => {
             console.error(error)
         })
 
+    // images
     execAsync(["bash", "-c", `wl-paste --type image --watch cliphist store`])
         .catch((error) => {
             console.error(error)

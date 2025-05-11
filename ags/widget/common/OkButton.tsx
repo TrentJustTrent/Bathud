@@ -84,6 +84,8 @@ export default function(
         labelHalign = Gtk.Align.FILL,
         ellipsize = Pango.EllipsizeMode.NONE,
         menuButtonContent,
+        onHoverEnter,
+        onHoverLeave,
         onClicked,
     }:
     {
@@ -109,6 +111,8 @@ export default function(
         labelHalign?: Gtk.Align | Binding<Gtk.Align>,
         ellipsize?: Pango.EllipsizeMode,
         menuButtonContent?: JSX.Element,
+        onHoverEnter?: () => void,
+        onHoverLeave?: () => void,
         onClicked?: () => void
     }
 ) {
@@ -168,7 +172,9 @@ export default function(
         marginBottom={verticalPadding}
         marginStart={typeof offset === 'number' ? horizontalPadding - offset : offset.as((value) => horizontalPadding - value)}
         marginEnd={typeof offset === 'number' ? horizontalPadding + offset : offset.as((value) => horizontalPadding + value)}
-        label={label}/>
+        label={label}
+        onHoverEnter={onHoverEnter}
+        onHoverLeave={onHoverLeave}/>
 
     if (onlyLabel) {
         return labelWidget
