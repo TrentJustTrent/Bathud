@@ -106,6 +106,7 @@ export const horizontalBarSchema = {
             'Widgets centered horizontally.',
             [
                 BarWidget.CAVA_WAVEFORM,
+                BarWidget.MPRIS_PRIMARY_PLAYER_SWITCHER,
                 BarWidget.MPRIS_CONTROLS,
                 BarWidget.MPRIS_TRACK_INFO,
             ]
@@ -115,7 +116,6 @@ export const horizontalBarSchema = {
             'Widgets anchored right.',
             [
                 BarWidget.RECORDING_INDICATOR,
-                BarWidget.MPRIS_PRIMARY_PLAYER_SWITCHER,
                 BarWidget.TRAY,
                 BarWidget.CLIPBOARD_MANAGER,
                 BarWidget.POWER_PROFILE,
@@ -160,6 +160,7 @@ export const verticalBarSchema = {
             [
                 BarWidget.MPRIS_TRACK_INFO,
                 BarWidget.MPRIS_CONTROLS,
+                BarWidget.MPRIS_PRIMARY_PLAYER_SWITCHER,
                 BarWidget.CAVA_WAVEFORM,
             ]
         ),
@@ -168,7 +169,6 @@ export const verticalBarSchema = {
             'Widgets anchored at the bottom.',
             [
                 BarWidget.RECORDING_INDICATOR,
-                BarWidget.MPRIS_PRIMARY_PLAYER_SWITCHER,
                 BarWidget.TRAY,
                 BarWidget.CLIPBOARD_MANAGER,
                 BarWidget.POWER_PROFILE,

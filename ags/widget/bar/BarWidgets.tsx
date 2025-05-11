@@ -374,6 +374,7 @@ function MprisPrimaryPlayerSwitcher({vertical}: { vertical: boolean }) {
             }
 
             return <OkButton
+                offset={2}
                 hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
                 label=""
                 onClicked={() => {
