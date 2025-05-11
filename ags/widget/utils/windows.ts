@@ -1,4 +1,4 @@
-import {App} from "astal/gtk4";
+import {App, Gtk} from "astal/gtk4";
 import {SystemMenuWindowName} from "../systemMenu/SystemMenuWindow";
 import {scrimsVisible} from "../common/Scrim";
 import {CalendarWindowName} from "../calendar/Calendar";

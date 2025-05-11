@@ -4,7 +4,9 @@ import RevealerRow from "../../common/RevealerRow";
 import {SystemMenuWindowName} from "../SystemMenuWindow";
 import OkButton, {OkButtonSize} from "../../common/OkButton";
 import {execAsync} from "astal/process";
-import {hideAllWindows} from "../../utils/windows";
+import {hideAllWindows, toggleWindow} from "../../utils/windows";
+import {sleep} from "../../utils/async";
+import {ScreenshotWindowName} from "../../screenshot/Screenshot";
 
 function showColorPickerNotification(
     color: string
@@ -26,35 +28,58 @@ function showColorPickerNotification(
     })
 }
 
-function runColorPicker() {
+async function runColorPicker() {
     hideAllWindows()
-    execAsync('hyprpicker')
-        .catch((error) => {
+    await sleep(500)
+    execAsync('hyprpicker').catch((error) => {
+        console.error(error)
+    }).then((value) => {
+        console.log(value)
+        if (typeof value !== "string") {
+            return
+        }
+        const match = value.match(/#[0-9A-Fa-f]{6,8}/);
+
+        const color = match ? match[0] : null
+        if (color === null) {
+            return
+        }
+
+        execAsync([
+            "bash",
+            "-c",
+            `nohup wl-copy "${color}" >/dev/null 2>&1 &`
+        ]).catch((error) => {
             console.error(error)
-        }).then((value) => {
-            console.log(value)
-            if (typeof value !== "string") {
-                return
-            }
-            execAsync([
-                "bash",
-                "-c",
-                `wl-copy "${value}"`
-            ]).catch((error) => {
-                console.error(error)
-            }).finally(() => {
-                showColorPickerNotification(value)
-            })
+        }).finally(() => {
+            showColorPickerNotification(color)
         })
+    })
 }
 
 function ColorPicker() {
     return <box>
         <OkButton
+            offset={2}
+            primary={true}
             label=""
             size={OkButtonSize.XL}
             onClicked={() => {
-                runColorPicker()
+                runColorPicker().catch((error) => console.log(error))
+            }}/>
+    </box>
+}
+
+function ScreenShotGizmo() {
+    return <box>
+        <OkButton
+            offset={4}
+            primary={true}
+            label="󰹑"
+            size={OkButtonSize.XL}
+            onClicked={() => {
+                hideAllWindows()
+                toggleWindow(ScreenshotWindowName)
             }}/>
     </box>
 }
@@ -75,8 +100,11 @@ export default function () {
         revealedContent={
             <box
                 marginTop={10}
-                vertical={true}>
+                vertical={false}
+                spacing={10}
+                halign={Gtk.Align.CENTER}>
                 <ColorPicker/>
+                <ScreenShotGizmo/>
             </box>
         }
     />
