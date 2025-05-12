@@ -257,7 +257,7 @@ function TrayContent({vertical}: { vertical: boolean }) {
                 }
                 let ag_handler: number;
 
-                return <menubutton
+                const menuButton = <menubutton
                     cssClasses={["trayMenuButton"]}
                     tooltipMarkup={bind(item, "tooltipMarkup")}
                     menuModel={bind(item, "menuModel")}
@@ -269,6 +269,10 @@ function TrayContent({vertical}: { vertical: boolean }) {
                     }}>
                     <image gicon={bind(item, "gicon")}/>
                 </menubutton>
+
+                menuButton.insert_action_group("dbusmenu", item.get_action_group())
+
+                return menuButton
             })
         })}
     </box>
