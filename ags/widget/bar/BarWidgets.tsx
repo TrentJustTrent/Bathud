@@ -12,11 +12,10 @@ import Bluetooth from "gi://AstalBluetooth"
 import {activeVpnConnections} from "../systemMenu/widgets/NetworkControls";
 import {isRecording, ScreenshotWindowName} from "../screenshot/Screenshot";
 import Divider from "../common/Divider";
-import {config, projectDir, selectedBar} from "../../config/config";
+import {config, selectedBar} from "../../config/config";
 import Tray from "gi://AstalTray"
 import {toggleWindow} from "../utils/windows";
 import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
-import {Gtk} from "astal/gtk4";
 import {ClipboardManagerWindowName} from "../clipboardManager/ClipboardManager";
 import PowerProfiles from "gi://AstalPowerProfiles"
 import {getPowerProfileIconBinding} from "../utils/powerProfile";
@@ -29,7 +28,7 @@ import {Bar} from "../../config/bar";
 import Notifd from "gi://AstalNotifd"
 import {NotificationHistoryWindowName} from "../notification/NotificationHistoryWindow";
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
-import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
+import OkButton, {OkButtonHorizontalPadding, OkButtonSize} from "../common/OkButton";
 import {runColorPicker} from "../utils/colorPicker";
 import {lock, logout, restart, shutdown} from "../utils/powerOptions";
 
@@ -80,6 +79,9 @@ function Workspaces({vertical}: { vertical: boolean }) {
                             hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
                             label={bind(workspace.monitor, "activeWorkspace").as((activeWorkspace) =>
                                 activeWorkspace?.id === workspace.id ? "" : ""
+                            )}
+                            size={bind(workspace.monitor, "activeWorkspace").as((activeWorkspace) =>
+                                activeWorkspace?.id === workspace.id ? OkButtonSize.SMALL : OkButtonSize.SMALL
                             )}
                             onClicked={() => {
                                 hypr.dispatch("workspace", `${workspace.id}`)

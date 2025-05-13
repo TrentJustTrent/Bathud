@@ -93,8 +93,8 @@ export default function(
         offset?: number | Binding<number>,
         selected?: Binding<boolean>,
         hpadding?: OkButtonHorizontalPadding,
-        size?: OkButtonSize,
-        bold?: boolean,
+        size?: OkButtonSize | Binding<OkButtonSize>,
+        bold?: boolean | Binding<boolean>,
         warning?: boolean | Binding<boolean>,
         primary?: boolean,
         visible?: boolean | Binding<boolean>,
@@ -122,6 +122,24 @@ export default function(
     } else {
         realWarning = bind(Variable(warning))
     }
+    let realSize: Binding<OkButtonSize>
+    if (isBinding(size)) {
+        realSize = size
+    } else {
+        realSize = bind(Variable(size))
+    }
+    let realBold: Binding<boolean>
+    if (isBinding(bold)) {
+        realBold = bold
+    } else {
+        realBold = bind(Variable(bold))
+    }
+    const cssInputs = Variable.derive([
+        realWarning,
+        realSize,
+        realBold
+    ])
+
     const verticalPadding = 8
 
     let horizontalPadding
@@ -136,26 +154,6 @@ export default function(
             horizontalPadding = 0
     }
 
-    const labelClasses: string[] = []
-
-    switch (size) {
-        case OkButtonSize.SMALL:
-            labelClasses.push("labelSmall")
-            break
-        case OkButtonSize.MEDIUM:
-            labelClasses.push("labelMedium")
-            break
-        case OkButtonSize.LARGE:
-            labelClasses.push("labelLarge")
-            break
-        case OkButtonSize.XL:
-            labelClasses.push("labelXL")
-            break
-    }
-    if (bold) {
-        labelClasses.push("bold")
-    }
-
     const onlyLabel = onClicked === undefined && menuButtonContent === undefined
 
     const labelWidget = <label
@@ -165,7 +163,28 @@ export default function(
         valign={onlyLabel ? valign : Gtk.Align.FILL}
         hexpand={onlyLabel ? hexpand : false}
         vexpand={onlyLabel ? vexpand : false}
-        cssClasses={realWarning.as((warning) => {
+        cssClasses={cssInputs(([warning, size, bold]) => {
+            const labelClasses: string[] = []
+
+            switch (size) {
+                case OkButtonSize.SMALL:
+                    labelClasses.push("labelSmall")
+                    break
+                case OkButtonSize.MEDIUM:
+                    labelClasses.push("labelMedium")
+                    break
+                case OkButtonSize.LARGE:
+                    labelClasses.push("labelLarge")
+                    break
+                case OkButtonSize.XL:
+                    labelClasses.push("labelXL")
+                    break
+            }
+
+            if (bold) {
+                labelClasses.push("bold")
+            }
+
             return warning ? labelClasses.concat("colorWarning") : labelClasses
         })}
         marginTop={verticalPadding}
@@ -181,7 +200,7 @@ export default function(
     }
 
     const buttonClasses = buildButtonCssClasses(
-        size,
+        realSize.get(),
         primary,
         menuButtonContent,
         selected,
