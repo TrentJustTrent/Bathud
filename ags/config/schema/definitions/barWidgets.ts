@@ -97,13 +97,51 @@ export function barWidgetsSchema(vertical: boolean) { return [
                 default: '',
                 description: 'Icon shown on the menu button (ex: Nerd Font glyph).',
             },
+            {
+                name: 'iconOffset',
+                type: 'number',
+                default: 1,
+                description: 'Offset of the menu button icon.  Use this if the icon is not centered properly'
+            },
         ],
     },
     {
         name: BarWidget.WORKSPACES,
         type: "object",
         description: "Configuration for the workspaces bar widget.",
-        children: [...commonFields()],
+        children: [
+            ...commonFields(),
+            {
+                name: 'largeActive',
+                type: 'boolean',
+                default: false,
+                description: 'Make the active workspace icon larger'
+            },
+            {
+                name: 'activeIcon',
+                type: 'string',
+                default: "",
+                description: 'Icon of the an active workspace'
+            },
+            {
+                name: 'activeOffset',
+                type: 'number',
+                default: 1,
+                description: 'Offset of the active workspace icon.  Use this if the icon is not centered properly'
+            },
+            {
+                name: 'inactiveIcon',
+                type: 'string',
+                default: "",
+                description: 'Icon of the an inactive workspace'
+            },
+            {
+                name: 'inactiveOffset',
+                type: 'number',
+                default: 1,
+                description: 'Offset of the active workspace icon.  Use this if the icon is not centered properly'
+            },
+        ],
     },
     {
         name: BarWidget.CLOCK,

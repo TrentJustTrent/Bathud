@@ -57,6 +57,41 @@ function groupByProperty(
 
 function Workspaces({vertical}: { vertical: boolean }) {
     const hypr = Hyprland.get_default()
+    let activeIconSize
+    if ((vertical && config.verticalBar.workspaces.largeActive) ||
+        !vertical && config.horizontalBar.workspaces.largeActive) {
+        activeIconSize = OkButtonSize.LARGE
+    } else {
+        activeIconSize = OkButtonSize.SMALL
+    }
+
+    let activeIcon
+    if (vertical) {
+        activeIcon = config.verticalBar.workspaces.activeIcon
+    } else {
+        activeIcon = config.horizontalBar.workspaces.activeIcon
+    }
+
+    let activeOffset: number
+    if (vertical) {
+        activeOffset = config.verticalBar.workspaces.activeOffset
+    } else {
+        activeOffset = config.horizontalBar.workspaces.activeOffset
+    }
+
+    let inactiveIcon
+    if (vertical) {
+        inactiveIcon = config.verticalBar.workspaces.inactiveIcon
+    } else {
+        inactiveIcon = config.horizontalBar.workspaces.inactiveIcon
+    }
+
+    let inactiveOffset: number
+    if (vertical) {
+        inactiveOffset = config.verticalBar.workspaces.inactiveOffset
+    } else {
+        inactiveOffset = config.horizontalBar.workspaces.inactiveOffset
+    }
 
     return <box
         vertical={vertical}>
@@ -73,19 +108,18 @@ function Workspaces({vertical}: { vertical: boolean }) {
                     }
                     {workspaceGroup.sort((a, b) => {
                         return a.id - b.id
-                    }).map((workspace) => {
-                        return <OkButton
-                            offset={1}
-                            hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
-                            label={bind(workspace.monitor, "activeWorkspace").as((activeWorkspace) =>
-                                activeWorkspace?.id === workspace.id ? "" : ""
-                            )}
-                            size={bind(workspace.monitor, "activeWorkspace").as((activeWorkspace) =>
-                                activeWorkspace?.id === workspace.id ? OkButtonSize.SMALL : OkButtonSize.SMALL
-                            )}
-                            onClicked={() => {
-                                hypr.dispatch("workspace", `${workspace.id}`)
-                            }}/>
+                    }).map((workspace: Hyprland.Workspace) => {
+                        return bind(workspace.monitor, "activeWorkspace").as((activeWorkspace) => {
+                            const isActive = activeWorkspace?.id === workspace.id
+                            return <OkButton
+                                offset={isActive ? activeOffset : inactiveOffset}
+                                hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+                                label={isActive ? activeIcon : inactiveIcon}
+                                size={isActive ? activeIconSize : OkButtonSize.SMALL}
+                                onClicked={() => {
+                                    hypr.dispatch("workspace", `${workspace.id}`)
+                                }}/>
+                        })
                     })}
                 </box>
             })
@@ -217,8 +251,15 @@ function BatteryIndicator({vertical}: { vertical: boolean }) {
 }
 
 function MenuButton({vertical}: { vertical: boolean }) {
+    let offset: number
+    if (vertical) {
+        offset = config.verticalBar.menu.iconOffset
+    } else {
+        offset = config.horizontalBar.menu.iconOffset
+    }
+
     return <OkButton
-        offset={1}
+        offset={offset}
         hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         label={vertical ? config.verticalBar.menu.icon : config.horizontalBar.menu.icon}
         onClicked={() => {
