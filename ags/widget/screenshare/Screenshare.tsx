@@ -5,7 +5,7 @@ import {execAsync} from "astal/process"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../common/RevealerRow";
 import {hideAllWindows} from "../utils/windows";
-import {config} from "../../config/config";
+import {variableConfig} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import OkButton, {OkButtonSize} from "../common/OkButton";
 
@@ -231,7 +231,7 @@ function Region() {
 
 export default function () {
     return <ScrimScrollWindow
-        monitor={config.mainMonitor}
+        monitor={variableConfig.mainMonitor()}
         anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM}
         windowName={ScreenshareWindowName}
         topExpand={true}

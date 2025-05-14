@@ -6,7 +6,7 @@ import Pango from "gi://Pango?version=1.0";
 import {playCameraShutter} from "../utils/audio";
 import RevealerRow from "../common/RevealerRow";
 import {hideAllWindows} from "../utils/windows";
-import {config, projectDir} from "../../config/config";
+import {projectDir, variableConfig} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import OkButton from "../common/OkButton";
 
@@ -834,7 +834,7 @@ export default function () {
     updateAudioOptions()
 
     return <ScrimScrollWindow
-        monitor={config.mainMonitor}
+        monitor={variableConfig.mainMonitor()}
         anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM}
         windowName={ScreenshotWindowName}
         topExpand={true}

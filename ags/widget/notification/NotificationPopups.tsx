@@ -3,7 +3,7 @@ import Notifd from "gi://AstalNotifd"
 import Notification from "./Notification"
 import {type Subscribable} from "astal/binding"
 import {bind, GLib, Variable} from "astal"
-import {config} from "../../config/config";
+import {variableConfig} from "../../config/config";
 import Hyprland from "gi://AstalHyprland"
 
 
@@ -113,24 +113,6 @@ class NotificationMap implements Subscribable {
     }
 }
 
-function getAnchor() {
-    if (config.notifications.position === NotificationsPosition.LEFT) {
-        return Astal.WindowAnchor.TOP | Astal.WindowAnchor.LEFT
-    } else if (config.notifications.position === NotificationsPosition.RIGHT) {
-        return Astal.WindowAnchor.TOP | Astal.WindowAnchor.RIGHT
-    } else {
-        return Astal.WindowAnchor.TOP
-    }
-}
-
-function getExclusivity() {
-    if (config.notifications.respectExclusive) {
-        return Astal.Exclusivity.NORMAL
-    } else {
-        return Astal.Exclusivity.IGNORE
-    }
-}
-
 export default function NotificationPopups(monitor: Hyprland.Monitor): Astal.Window {
     const notifs = new NotificationMap()
 
@@ -140,9 +122,23 @@ export default function NotificationPopups(monitor: Hyprland.Monitor): Astal.Win
         })}
         cssClasses={["NotificationPopups"]}
         monitor={monitor.id}
-        exclusivity={getExclusivity()}
+        exclusivity={variableConfig.notifications.respectExclusive().as((exclusive) => {
+            if (exclusive) {
+                return Astal.Exclusivity.NORMAL
+            } else {
+                return Astal.Exclusivity.IGNORE
+            }
+        })}
         layer={Astal.Layer.OVERLAY}
-        anchor={getAnchor()}>
+        anchor={variableConfig.notifications.position().as((position) => {
+            if (position === NotificationsPosition.LEFT) {
+                return Astal.WindowAnchor.TOP | Astal.WindowAnchor.LEFT
+            } else if (position === NotificationsPosition.RIGHT) {
+                return Astal.WindowAnchor.TOP | Astal.WindowAnchor.RIGHT
+            } else {
+                return Astal.WindowAnchor.TOP
+            }
+        })}>
         <box
             vertical={true}>
             {bind(notifs)}
