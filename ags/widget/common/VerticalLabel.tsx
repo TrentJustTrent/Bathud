@@ -1,6 +1,6 @@
 import Cairo from "cairo";
 import {Gtk} from "astal/gtk4";
-import {selectedTheme, variableConfig} from "../../config/config";
+import {variableConfig} from "../../config/config";
 import {hexToRgba} from "../utils/strings";
 import {Binding, Variable} from "astal";
 import {isBinding} from "../utils/bindings";
@@ -86,10 +86,10 @@ function VerticalLabelInternal(
         realFlipped = flipped
     }
 
-    let [r, g, b, a] = hexToRgba(selectedTheme.get().colors.foreground)
+    let [r, g, b, a] = hexToRgba(variableConfig.theme.colors.foreground.get())
 
-    selectedTheme().subscribe((theme) => {
-        [r, g, b, a] = hexToRgba(theme.colors.foreground)
+    variableConfig.theme.colors.foreground.subscribe((foreground) => {
+        [r, g, b, a] = hexToRgba(foreground)
         area.queue_draw()
     })
 

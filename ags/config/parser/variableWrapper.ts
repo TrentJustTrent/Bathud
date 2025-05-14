@@ -27,3 +27,35 @@ export function wrapConfigInVariables<T extends readonly Field[]>(
     }
     return result;
 }
+
+export function updateVariablesFromConfig<T extends readonly Field[]>(
+    schema: T,
+    wrapped: VariableSchemaToType<T>,
+    newConfig: SchemaToType<T>
+): void {
+    for (const field of schema) {
+        const name = field.name;
+        const newValue = newConfig[name as keyof typeof newConfig];
+        const wrappedValue = wrapped[name as keyof typeof wrapped];
+
+        if (field.type === 'object' && field.children) {
+            updateVariablesFromConfig(
+                field.children,
+                wrappedValue as any,
+                newValue as any
+            );
+        } else if (field.type === 'array' && field.item) {
+            if (field.item.type === 'object') {
+                const arr = (newValue as any[]).map(item =>
+                    wrapConfigInVariables(field.item!.children!, item)
+                );
+                (wrappedValue as Variable<any>).set(arr);
+            } else {
+                // Primitive or enum array
+                (wrappedValue as Variable<any>).set(newValue);
+            }
+        } else {
+            (wrappedValue as Variable<any>).set(newValue);
+        }
+    }
+}

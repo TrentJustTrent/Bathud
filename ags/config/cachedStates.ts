@@ -1,5 +1,5 @@
 import {readFile} from "astal/file";
-import {config, homeDir, projectDir, selectedBar, selectedTheme, variableConfig} from "./config";
+import {homeDir, projectDir, selectedBar, variableConfig} from "./config";
 import {execAsync} from "astal/process";
 import {App} from "astal/gtk4";
 import {GLib} from "astal";
@@ -13,7 +13,6 @@ export function setBarType(bar: Bar) {
 }
 
 export function setWallpaper(path: string) {
-    const theme = selectedTheme.get()
     execAsync(`bash -c '
 
 # if the wallpaper update script exists
@@ -23,7 +22,7 @@ if [[ -f "${variableConfig.wallpaperUpdateScript.get()}" ]]; then
     
     # cache the name of the selected wallpaper
     mkdir -p ${homeDir}/.cache/OkPanel/wallpaper
-    echo "${path}" > ${homeDir}/.cache/OkPanel/wallpaper/${theme.name}
+    echo "${path}" > ${homeDir}/.cache/OkPanel/wallpaper/${variableConfig.theme.name.get()}
 fi
 
     '`).catch((error) => {
@@ -32,8 +31,6 @@ fi
 }
 
 export function setTheme(theme: Theme, onFinished: () => void) {
-    selectedTheme.set(theme)
-    cacheTheme(theme)
     execAsync(`bash -c '
 
 # compile the scss in /tmp
@@ -42,13 +39,13 @@ ${compileThemeBashScript(theme)}
 # if the set theme script exists
 if [[ -f "${variableConfig.themeUpdateScript.get()}" ]]; then
     # call the external update theme 
-    ${variableConfig.themeUpdateScript.get()} ${theme.name}
+    ${variableConfig.themeUpdateScript.get()} ${theme.name.get()}
 fi
 
 # if the update wallpaper script exists
 if [[ -f "${variableConfig.wallpaperUpdateScript.get()}" ]]; then
     # if there is a cached wallpaper for this theme, then set it
-    WALLPAPER_CACHE_PATH="${homeDir}/.cache/OkPanel/wallpaper/${theme.name}"
+    WALLPAPER_CACHE_PATH="${homeDir}/.cache/OkPanel/wallpaper/${theme.name.get()}"
     # Check if the file exists and is non-empty
     if [[ -s "$WALLPAPER_CACHE_PATH" ]]; then
         # Read the wallpaper path from the file
@@ -60,13 +57,13 @@ if [[ -f "${variableConfig.wallpaperUpdateScript.get()}" ]]; then
         else
           # Fallback: pick the first .jpg or .png in the wallpaper dir
           WALLPAPER="$(
-            ls -1 "${theme.wallpaperDir}"/*.jpg "${theme.wallpaperDir}"/*.png 2>/dev/null | head -n1
+            ls -1 "${theme.wallpaperDir.get()}"/*.jpg "${theme.wallpaperDir.get()}"/*.png 2>/dev/null | head -n1
           )"
         fi
     else
     # If there is no cached wallpaper path, do the same fallback
     WALLPAPER="$(
-      ls -1 "${theme.wallpaperDir}"/*.jpg "${theme.wallpaperDir}"/*.png 2>/dev/null | head -n1
+      ls -1 "${theme.wallpaperDir.get()}"/*.jpg "${theme.wallpaperDir.get()}"/*.png 2>/dev/null | head -n1
     )"
     fi
     
@@ -85,7 +82,6 @@ fi
  * Sets the theme for ags.  Does not call user's external scripts
  */
 export function setThemeBasic(theme: Theme) {
-    cacheTheme(theme)
     execAsync(`bash -c '
 # compile the scss in /tmp
 ${compileThemeBashScript(theme)}
@@ -97,37 +93,7 @@ ${compileThemeBashScript(theme)}
 }
 
 export function restoreSavedState() {
-    const savedThemeString = readFile(`${homeDir}/.cache/OkPanel/theme`).trim()
-
-    let savedTheme: Theme | null = null
-    try {
-        if (savedThemeString !== "") {
-            savedTheme = JSON.parse(savedThemeString)
-        }
-    } catch (e) {
-        console.error(e)
-    }
-    if (savedTheme !== null) {
-        if (variableConfig.themes.length > 0) {
-            // we have a saved theme, and we have configured themes.
-            // if the saved theme is not in the configured themes, don't use it.
-            const matchingConfigTheme = config.themes.find((theme) => theme.name === savedTheme.name)
-            if (matchingConfigTheme !== undefined) {
-                selectedTheme.set(matchingConfigTheme)
-            } else if (config.themes.length > 0) {
-                selectedTheme.set(config.themes[0])
-            }
-        } else {
-            // we have a saved theme and no configured themes
-            selectedTheme.set(savedTheme)
-        }
-    } else if (variableConfig.themes.length > 0) {
-        // we have no saved themes, but we do have configured themes
-        // use the first configured theme
-        selectedTheme.set(config.themes[0])
-    }
-
-    setThemeBasic(selectedTheme.get())
+    setThemeBasic(variableConfig.theme)
     restoreBar()
 }
 
@@ -182,6 +148,25 @@ function cacheTheme(theme: Theme) {
     outputStream.close(null)
 }
 
+export function saveConfig(name: string) {
+    const homeDir = GLib.get_home_dir()
+    const dirPath = `${homeDir}/.cache/OkPanel`
+    const filePath = `${dirPath}/config`
+
+    // Ensure the directory exists
+    const dir = Gio.File.new_for_path(dirPath)
+    if (!dir.query_exists(null)) {
+        dir.make_directory_with_parents(null)
+    }
+
+    // Write the file
+    const file = Gio.File.new_for_path(filePath)
+    const outputStream = file.replace(null, false, Gio.FileCreateFlags.REPLACE_DESTINATION, null)
+
+    outputStream.write(name, null)
+    outputStream.close(null)
+}
+
 function compileThemeBashScript(theme: Theme) {
     return `
 SOURCE_DIR="${projectDir}/scss"
@@ -196,14 +181,14 @@ cp -r "$SOURCE_DIR" "$TARGET_DIR"
 
 cat > "$TARGET_DIR/variables.scss" <<EOF
 \\$font: "${variableConfig.font.get()}";
-\\$bg: ${theme.colors.background};
-\\$fg: ${theme.colors.foreground};
-\\$primary: ${theme.colors.primary};
-\\$buttonPrimary: ${theme.colors.buttonPrimary};
-\\$warning: ${theme.colors.warning};
-\\$barBorder: ${theme.colors.barBorder};
-\\$windowBorder: ${theme.colors.windowBorder};
-\\$alertBorder: ${theme.colors.alertBorder};
+\\$bg: ${theme.colors.background.get()};
+\\$fg: ${theme.colors.foreground.get()};
+\\$primary: ${theme.colors.primary.get()};
+\\$buttonPrimary: ${theme.colors.buttonPrimary.get()};
+\\$warning: ${theme.colors.warning.get()};
+\\$barBorder: ${theme.colors.barBorder.get()};
+\\$windowBorder: ${theme.colors.windowBorder.get()};
+\\$alertBorder: ${theme.colors.alertBorder.get()};
 \\$gaps: ${variableConfig.windows.gaps.get()}px;
 \\$buttonBorderRadius: ${variableConfig.buttonBorderRadius.get()}px;
 \\$windowBorderRadius: ${variableConfig.windows.borderRadius.get()}px;

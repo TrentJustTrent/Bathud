@@ -1,8 +1,6 @@
 import { validateAndApplyDefaults }     from "./parser/configLoader";  // <- already exported
-
 import {Field} from "./schema/primitiveDefinitions";
 import {Theme} from "./types/derivedTypes";
-
 import {CONFIG_SCHEMA} from "./schema/definitions/root";
 
 /* ------------------------------------------------------------------ */

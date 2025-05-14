@@ -2,7 +2,7 @@ import {Gtk} from "astal/gtk4";
 import Cairo from 'gi://cairo';
 import AstalCava from "gi://AstalCava"
 import {bind, Binding, Variable} from "astal";
-import {selectedTheme} from "../../config/config";
+import {variableConfig} from "../../config/config";
 import {isBinding} from "../utils/bindings";
 import { timeout } from "astal/time"
 import {hexToRgba} from "../utils/strings";
@@ -153,10 +153,10 @@ function CavaWaveformInternal(
 
     setBars(cava, length)
 
-    let [r, g, b, a] = hexToRgba(selectedTheme.get().colors.primary)
+    let [r, g, b, a] = hexToRgba(variableConfig.theme.colors.primary.get())
 
-    selectedTheme().subscribe((theme) => {
-        [r, g, b, a] = hexToRgba(theme.colors.primary)
+    variableConfig.theme.colors.primary.subscribe((primaryColor) => {
+        [r, g, b, a] = hexToRgba(primaryColor)
     })
 
     const drawing = new Gtk.DrawingArea({

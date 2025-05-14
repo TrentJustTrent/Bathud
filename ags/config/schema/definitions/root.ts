@@ -6,6 +6,7 @@ import {horizontalBarSchema, verticalBarSchema} from "./bars";
 import {systemMenuSchema} from "./systemMenu";
 import {systemCommandsSchema} from "./systemCommands";
 import {themesSchema} from "./themes";
+import {themeSchema} from "./theme";
 
 export const CONFIG_SCHEMA = [
     {
@@ -74,6 +75,7 @@ export const CONFIG_SCHEMA = [
     notificationsSchema,
     systemCommandsSchema,
     themesSchema,
+    themeSchema,
     systemMenuSchema,
     horizontalBarSchema,
     verticalBarSchema,

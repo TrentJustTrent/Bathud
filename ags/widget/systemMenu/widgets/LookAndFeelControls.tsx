@@ -5,23 +5,30 @@ import {SystemMenuWindowName} from "../SystemMenuWindow";
 import Pango from "gi://Pango?version=1.0";
 import {createScaledTexture} from "../../utils/images";
 import Divider from "../../common/Divider";
-import {config, selectedBar, selectedTheme, variableConfig} from "../../../config/config";
+import {
+    availableConfigs,
+    selectedBar,
+    selectedConfig,
+    setNewConfig,
+    variableConfig
+} from "../../../config/config";
 import RevealerRow from "../../common/RevealerRow";
-import {setBarType, setTheme, setWallpaper} from "../../../config/cachedStates";
+import {setBarType, setWallpaper} from "../../../config/cachedStates";
 import {Bar} from "../../../config/bar";
-import {Theme} from "../../../config/types/derivedTypes";
 import OkButton, {OkButtonSize} from "../../common/OkButton";
+import {Theme} from "../../../config/types/derivedTypes";
+import {ConfigFile} from "../../../config/configFile";
 
 const files: Variable<string[][]> = Variable([])
 const numberOfColumns = 2
 let buttonsEnabled = true
 
-function updateTheme(theme: Theme) {
+function updateTheme(theme: ConfigFile) {
     if (!buttonsEnabled) {
         return
     }
     buttonsEnabled = false
-    setTheme(theme, () => {
+    setNewConfig(theme, () => {
         buttonsEnabled = true
     })
 }
@@ -40,10 +47,10 @@ function chunkIntoColumns<T>(arr: T[], numCols: number): T[][] {
 }
 
 function updateFiles(theme: Theme) {
-    if (theme.wallpaperDir === "") {
+    if (theme.wallpaperDir.get() === "") {
         return
     }
-    execAsync(["bash", "-c", `ls ${theme.wallpaperDir}`])
+    execAsync(["bash", "-c", `ls ${theme.wallpaperDir.get()}`])
         .catch((error) => {
             console.error(error)
         })
@@ -170,14 +177,14 @@ function ThemeButton(
         theme
     }:
     {
-        theme: Theme,
+        theme: ConfigFile,
     }
 ) {
     return <OkButton
         size={OkButtonSize.XL}
         label={theme.icon}
         offset={theme.pixelOffset}
-        selected={selectedTheme((t) => t === theme)}
+        selected={selectedConfig((t) => t === theme)}
         onClicked={() => {
             updateTheme(theme)
         }}/>
@@ -197,8 +204,10 @@ function ThemeOptions() {
             marginEnd={22}
             vertical={false}
             spacing={10}>
-            {config.themes.map((theme) => {
-                return <ThemeButton theme={theme}/>
+            {availableConfigs().as((configs) => {
+                return configs.map((config) => {
+                    return <ThemeButton theme={config}/>
+                })
             })}
         </box>
     })
@@ -297,7 +306,7 @@ function WallpaperColumn(
                 return <box/>
             }
             return filesList[column].map((file) => {
-                const path = `${selectedTheme.get()?.wallpaperDir}/${file}`
+                const path = `${variableConfig.theme.wallpaperDir.get()}/${file}`
                 // 140x70 is a magic number that scales well and doesn't cause unwanted expansion of the scroll window
                 const texture = createScaledTexture(140, 70, path)
 
@@ -340,20 +349,16 @@ function NightLight() {
 }
 
 export default function () {
-    selectedTheme.subscribe((theme) => {
+    selectedConfig.subscribe((theme) => {
         if (theme != null) {
-            updateFiles(theme)
+            updateFiles(variableConfig.theme)
         }
     })
-    updateFiles(selectedTheme.get())
+    updateFiles(variableConfig.theme)
 
     return <RevealerRow
-        icon={selectedTheme((theme) => {
-            return theme?.icon ?? ""
-        })}
-        iconOffset={selectedTheme((theme) => {
-            return theme.pixelOffset
-        })}
+        icon={variableConfig.theme.icon()}
+        iconOffset={variableConfig.theme.pixelOffset()}
         windowName={SystemMenuWindowName}
         content={
             <label
@@ -367,15 +372,21 @@ export default function () {
             <box
                 marginTop={10}
                 vertical={true}>
-                {config.themes.length > 1 && <box
-                    vertical={true}>
-                    <ThemeOptions/>
-                    <Divider
-                        marginStart={20}
-                        marginEnd={20}
-                        marginTop={10}
-                        marginBottom={10}/>
-                </box>}
+                {availableConfigs().as((availConfigs) => {
+                    if (availConfigs.length > 1) {
+                        return <box
+                            vertical={true}>
+                            <ThemeOptions/>
+                            <Divider
+                                marginStart={20}
+                                marginEnd={20}
+                                marginTop={10}
+                                marginBottom={10}/>
+                        </box>
+                    } else {
+                        return <box/>
+                    }
+                })}
                 <BarPositionOptions/>
                 <box marginTop={20}/>
                 <NightLight/>
