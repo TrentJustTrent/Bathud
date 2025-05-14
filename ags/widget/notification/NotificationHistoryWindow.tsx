@@ -1,64 +1,90 @@
-import {config, selectedBar} from "../../config/config";
+import {selectedBar, variableConfig} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import {Bar} from "../../config/bar";
 import NotificationHistory from "../systemMenu/widgets/NotificationHistory";
 
 
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
+import {Variable} from "astal";
 
 export const NotificationHistoryWindowName = "notificationHistoryWindow"
 
 export default function () {
+
+    const topExpand = Variable.derive([
+        selectedBar,
+        variableConfig.verticalBar.centerWidgets,
+        variableConfig.verticalBar.bottomWidgets,
+    ], (bar, center, bottom) => {
+        switch (bar) {
+            case Bar.BOTTOM:
+                return true
+            case Bar.LEFT:
+            case Bar.RIGHT:
+                return center.includes(BarWidget.NOTIFICATION_HISTORY)
+                    || bottom.includes(BarWidget.NOTIFICATION_HISTORY)
+            default: return false
+        }
+    })
+
+    const bottomExpand = Variable.derive([
+        selectedBar,
+        variableConfig.verticalBar.centerWidgets,
+        variableConfig.verticalBar.topWidgets,
+    ], (bar, center, top) => {
+        switch (bar) {
+            case Bar.TOP:
+                return true
+            case Bar.LEFT:
+            case Bar.RIGHT:
+                return center.includes(BarWidget.NOTIFICATION_HISTORY)
+                    || top.includes(BarWidget.NOTIFICATION_HISTORY)
+            default: return false
+        }
+    })
+
+    const leftExpand = Variable.derive([
+        selectedBar,
+        variableConfig.horizontalBar.centerWidgets,
+        variableConfig.horizontalBar.rightWidgets,
+    ], (bar, center, right) => {
+        switch (bar) {
+            case Bar.RIGHT:
+                return true
+            case Bar.TOP:
+            case Bar.BOTTOM:
+                return center.includes(BarWidget.NOTIFICATION_HISTORY)
+                    || right.includes(BarWidget.NOTIFICATION_HISTORY)
+            default: return false
+        }
+    })
+
+    const rightExpand = Variable.derive([
+        selectedBar,
+        variableConfig.horizontalBar.centerWidgets,
+        variableConfig.horizontalBar.leftWidgets,
+    ], (bar, center, left) => {
+        switch (bar) {
+            case Bar.LEFT:
+                return true
+            case Bar.TOP:
+            case Bar.BOTTOM:
+                return center.includes(BarWidget.NOTIFICATION_HISTORY)
+                    || left.includes(BarWidget.NOTIFICATION_HISTORY)
+            default: return false
+        }
+    })
+
     return <ScrimScrollWindow
-        monitor={config.mainMonitor}
+        monitor={variableConfig.mainMonitor()}
         windowName={NotificationHistoryWindowName}
-        topExpand={selectedBar((bar) => {
-            switch (bar) {
-                case Bar.BOTTOM:
-                    return true
-                case Bar.LEFT:
-                case Bar.RIGHT:
-                    return config.verticalBar.centerWidgets.includes(BarWidget.NOTIFICATION_HISTORY)
-                        || config.verticalBar.bottomWidgets.includes(BarWidget.NOTIFICATION_HISTORY)
-                default: return false
-            }
-        })}
-        bottomExpand={selectedBar((bar) => {
-            switch (bar) {
-                case Bar.TOP:
-                    return true
-                case Bar.LEFT:
-                case Bar.RIGHT:
-                    return config.verticalBar.centerWidgets.includes(BarWidget.NOTIFICATION_HISTORY)
-                        || config.verticalBar.topWidgets.includes(BarWidget.NOTIFICATION_HISTORY)
-                default: return false
-            }
-        })}
-        leftExpand={selectedBar((bar) => {
-            switch (bar) {
-                case Bar.RIGHT:
-                    return true
-                case Bar.TOP:
-                case Bar.BOTTOM:
-                    return config.horizontalBar.centerWidgets.includes(BarWidget.NOTIFICATION_HISTORY)
-                        || config.horizontalBar.rightWidgets.includes(BarWidget.NOTIFICATION_HISTORY)
-                default: return false
-            }
-        })}
-        rightExpand={selectedBar((bar) => {
-            switch (bar) {
-                case Bar.LEFT:
-                    return true
-                case Bar.TOP:
-                case Bar.BOTTOM:
-                    return config.horizontalBar.centerWidgets.includes(BarWidget.NOTIFICATION_HISTORY)
-                        || config.horizontalBar.leftWidgets.includes(BarWidget.NOTIFICATION_HISTORY)
-                default: return false
-            }
-        })}
+        topExpand={topExpand()}
+        bottomExpand={bottomExpand()}
+        leftExpand={leftExpand()}
+        rightExpand={rightExpand()}
         contentWidth={400}
-        width={config.horizontalBar.minimumWidth}
-        height={config.verticalBar.minimumHeight}
+        width={variableConfig.horizontalBar.minimumWidth()}
+        height={variableConfig.verticalBar.minimumHeight()}
         content={
             <box
                 marginTop={20}
