@@ -1,13 +1,17 @@
-import {config, selectedBar} from "../../config/config";
+import {selectedBar, variableConfig} from "../../config/config";
 import {Bar} from "../../config/bar";
-import {Binding} from "astal";
+import {Binding, Variable} from "astal";
 
 import {WaveformPosition} from "../../config/schema/definitions/barWidgets";
 
 export function getCavaFlipStartValue(vertical: boolean): Binding<boolean> {
-    return selectedBar().as((bar): boolean => {
+    return Variable.derive([
+        selectedBar,
+        variableConfig.verticalBar.cava_waveform.position,
+        variableConfig.horizontalBar.cava_waveform.position,
+    ], (bar, vPosition, hPosition) => {
         if (vertical) {
-            switch (config.verticalBar.cava_waveform.position) {
+            switch (vPosition) {
                 case WaveformPosition.START:
                     return true
                 case WaveformPosition.END:
@@ -18,7 +22,7 @@ export function getCavaFlipStartValue(vertical: boolean): Binding<boolean> {
                     return bar !== Bar.LEFT
             }
         } else {
-            switch (config.horizontalBar.cava_waveform.position) {
+            switch (hPosition) {
                 case WaveformPosition.START:
                     return true
                 case WaveformPosition.END:
@@ -29,5 +33,5 @@ export function getCavaFlipStartValue(vertical: boolean): Binding<boolean> {
                     return bar !== Bar.TOP
             }
         }
-    })
+    })()
 }

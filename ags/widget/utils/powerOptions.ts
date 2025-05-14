@@ -1,22 +1,22 @@
-import {config} from "../../config/config";
+import {variableConfig} from "../../config/config";
 import ConfirmationDialog from "../common/ConfirmationDialog";
 import {execAsync} from "astal/process";
 
 export function logout() {
-    if (config.systemCommands.logoutConfirmationEnabled) {
+    if (variableConfig.systemCommands.logoutConfirmationEnabled.get()) {
         ConfirmationDialog(
             "Are you sure you want to log out?",
             "Log out",
             "Cancel",
             () => {
-                execAsync(config.systemCommands.logout)
+                execAsync(variableConfig.systemCommands.logout.get())
                     .catch((error) => {
                         console.error(error)
                     })
             }
         )
     } else {
-        execAsync(config.systemCommands.logout)
+        execAsync(variableConfig.systemCommands.logout.get())
             .catch((error) => {
                 console.error(error)
             })
@@ -24,20 +24,20 @@ export function logout() {
 }
 
 export function lock() {
-    if (config.systemCommands.lockConfirmationEnabled) {
+    if (variableConfig.systemCommands.lockConfirmationEnabled.get()) {
         ConfirmationDialog(
             "Are you sure you want to lock the device?",
             "Lock",
             "Cancel",
             () => {
-                execAsync(config.systemCommands.lock)
+                execAsync(variableConfig.systemCommands.lock.get())
                     .catch((error) => {
                         console.error(error)
                     })
             }
         )
     } else {
-        execAsync(config.systemCommands.lock)
+        execAsync(variableConfig.systemCommands.lock.get())
             .catch((error) => {
                 console.error(error)
             })
@@ -45,20 +45,20 @@ export function lock() {
 }
 
 export function restart() {
-    if (config.systemCommands.restartConfirmationEnabled) {
+    if (variableConfig.systemCommands.restartConfirmationEnabled.get()) {
         ConfirmationDialog(
             "Are you sure you want to restart?",
             "Restart",
             "Cancel",
             () => {
-                execAsync(config.systemCommands.restart)
+                execAsync(variableConfig.systemCommands.restart.get())
                     .catch((error) => {
                         console.error(error)
                     })
             }
         )
     } else {
-        execAsync(config.systemCommands.restart)
+        execAsync(variableConfig.systemCommands.restart.get())
             .catch((error) => {
                 console.error(error)
             })
@@ -66,20 +66,20 @@ export function restart() {
 }
 
 export function shutdown() {
-    if (config.systemCommands.shutdownConfirmationEnabled) {
+    if (variableConfig.systemCommands.shutdownConfirmationEnabled.get()) {
         ConfirmationDialog(
             "Are you sure you want to shut down?",
             "Shut down",
             "Cancel",
             () => {
-                execAsync(config.systemCommands.shutdown)
+                execAsync(variableConfig.systemCommands.shutdown.get())
                     .catch((error) => {
                         console.error(error)
                     })
             }
         )
     } else {
-        execAsync(config.systemCommands.shutdown)
+        execAsync(variableConfig.systemCommands.shutdown.get())
             .catch((error) => {
                 console.error(error)
             })

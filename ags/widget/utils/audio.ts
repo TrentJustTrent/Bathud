@@ -1,6 +1,6 @@
 import Wp from "gi://AstalWp"
 import {execAsync} from "astal/process";
-import {config, projectDir} from "../../config/config";
+import {projectDir, variableConfig} from "../../config/config";
 
 export function getVolumeIcon(speaker?: Wp.Endpoint) {
     let volume = speaker?.volume
@@ -92,9 +92,9 @@ export function decreaseVolume() {
 }
 
 export function playVolumeTick() {
-    if (config.sounds.playVolumeChangingSound) {
-        let path = config.sounds.volumeChangingSoundPath !== ""
-            ? config.sounds.volumeChangingSoundPath
+    if (variableConfig.sounds.playVolumeChangingSound.get()) {
+        let path = variableConfig.sounds.volumeChangingSoundPath.get() !== ""
+            ? variableConfig.sounds.volumeChangingSoundPath.get()
             : `${projectDir}/sounds/audio-volume-change.oga`
         execAsync(`bash -c "play ${path}"`)
             .catch((error) => {
@@ -104,9 +104,9 @@ export function playVolumeTick() {
 }
 
 export function playCameraShutter() {
-    if (config.sounds.playScreenshotSound) {
-        let path = config.sounds.screenshotSoundPath !== ""
-            ? config.sounds.screenshotSoundPath
+    if (variableConfig.sounds.playScreenshotSound.get()) {
+        let path = variableConfig.sounds.screenshotSoundPath.get() !== ""
+            ? variableConfig.sounds.screenshotSoundPath.get()
             : `${projectDir}/sounds/camera-shutter.ogg`
         execAsync(`bash -c "play ${path}"`)
             .catch((error) => {
@@ -116,9 +116,9 @@ export function playCameraShutter() {
 }
 
 export function playBatteryWarning() {
-    if (config.sounds.playLowBatteryWarningSound) {
-        let path = config.sounds.lowBatteryWarningSoundPath !== ""
-            ? config.sounds.lowBatteryWarningSoundPath
+    if (variableConfig.sounds.playLowBatteryWarningSound.get()) {
+        let path = variableConfig.sounds.lowBatteryWarningSoundPath.get() !== ""
+            ? variableConfig.sounds.lowBatteryWarningSoundPath.get()
             : `${projectDir}/sounds/battery-low.ogg`
         execAsync(`bash -c "play ${path}"`)
             .catch((error) => {
@@ -128,9 +128,9 @@ export function playBatteryWarning() {
 }
 
 export function playPowerPlug() {
-    if (config.sounds.playChargingSound) {
-        let path = config.sounds.chargingPlugInSoundPath !== ""
-            ? config.sounds.chargingPlugInSoundPath
+    if (variableConfig.sounds.playChargingSound.get()) {
+        let path = variableConfig.sounds.chargingPlugInSoundPath.get() !== ""
+            ? variableConfig.sounds.chargingPlugInSoundPath.get()
             : `${projectDir}/sounds/power-plug.ogg`
         execAsync(`bash -c "play ${path}"`)
             .catch((error) => {
@@ -140,9 +140,9 @@ export function playPowerPlug() {
 }
 
 export function playPowerUnplug() {
-    if (config.sounds.playChargingSound) {
-        let path = config.sounds.chargingUnplugSoundPath !== ""
-            ? config.sounds.chargingUnplugSoundPath
+    if (variableConfig.sounds.playChargingSound.get()) {
+        let path = variableConfig.sounds.chargingUnplugSoundPath.get() !== ""
+            ? variableConfig.sounds.chargingUnplugSoundPath.get()
             : `${projectDir}/sounds/power-unplug.ogg`
         execAsync(`bash -c "play ${path}"`)
             .catch((error) => {
