@@ -1,5 +1,5 @@
 import {readFile} from "astal/file";
-import {homeDir, projectDir, selectedBar, variableConfig} from "./config";
+import {projectDir, selectedBar, variableConfig} from "./config";
 import {execAsync} from "astal/process";
 import {App} from "astal/gtk4";
 import {GLib} from "astal";
@@ -21,8 +21,8 @@ if [[ -f "${variableConfig.wallpaperUpdateScript.get()}" ]]; then
     ${variableConfig.wallpaperUpdateScript.get()} ${path}
     
     # cache the name of the selected wallpaper
-    mkdir -p ${homeDir}/.cache/OkPanel/wallpaper
-    echo "${path}" > ${homeDir}/.cache/OkPanel/wallpaper/${variableConfig.theme.name.get()}
+    mkdir -p ${GLib.get_home_dir()}/.cache/OkPanel/wallpaper
+    echo "${path}" > ${GLib.get_home_dir()}/.cache/OkPanel/wallpaper/${variableConfig.theme.name.get()}
 fi
 
     '`).catch((error) => {
@@ -45,7 +45,7 @@ fi
 # if the update wallpaper script exists
 if [[ -f "${variableConfig.wallpaperUpdateScript.get()}" ]]; then
     # if there is a cached wallpaper for this theme, then set it
-    WALLPAPER_CACHE_PATH="${homeDir}/.cache/OkPanel/wallpaper/${theme.name.get()}"
+    WALLPAPER_CACHE_PATH="${GLib.get_home_dir()}/.cache/OkPanel/wallpaper/${theme.name.get()}"
     # Check if the file exists and is non-empty
     if [[ -s "$WALLPAPER_CACHE_PATH" ]]; then
         # Read the wallpaper path from the file
@@ -98,7 +98,7 @@ export function restoreSavedState() {
 }
 
 function restoreBar() {
-    const details = readFile(`${homeDir}/.cache/OkPanel/savedBar`).trim()
+    const details = readFile(`${GLib.get_home_dir()}/.cache/OkPanel/savedBar`).trim()
 
     if (details.trim() === "") {
         return
@@ -121,31 +121,11 @@ function restoreBar() {
 
 function saveBar() {
     execAsync(`bash -c '
-mkdir -p ${homeDir}/.cache/OkPanel
-echo "${selectedBar.get()}" > ${homeDir}/.cache/OkPanel/savedBar
+mkdir -p ${GLib.get_home_dir()}/.cache/OkPanel
+echo "${selectedBar.get()}" > ${GLib.get_home_dir()}/.cache/OkPanel/savedBar
     '`).catch((error) => {
         console.error(error)
     })
-}
-
-function cacheTheme(theme: Theme) {
-    const homeDir = GLib.get_home_dir()
-    const dirPath = `${homeDir}/.cache/OkPanel`
-    const filePath = `${dirPath}/theme`
-
-    // Ensure the directory exists
-    const dir = Gio.File.new_for_path(dirPath)
-    if (!dir.query_exists(null)) {
-        dir.make_directory_with_parents(null)
-    }
-
-    // Write the file
-    const file = Gio.File.new_for_path(filePath)
-    const outputStream = file.replace(null, false, Gio.FileCreateFlags.REPLACE_DESTINATION, null)
-
-    const data = JSON.stringify(theme, null, 2)
-    outputStream.write(data, null)
-    outputStream.close(null)
 }
 
 export function saveConfig(name: string) {

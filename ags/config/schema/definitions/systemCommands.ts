@@ -4,12 +4,11 @@ export const systemCommandsSchema = {
     name: 'systemCommands',
     type: 'object',
     description: 'Shell commands executed by power options.',
-    required: true,
     children: [
         {
             name: 'logout',
             type: 'string',
-            required: true,
+            default: 'uwsm stop',
             description: 'Command to log the current user out.',
         },
         {
@@ -21,7 +20,7 @@ export const systemCommandsSchema = {
         {
             name: 'lock',
             type: 'string',
-            required: true,
+            default: 'uwsm app -- hyprlock',
             description: 'Command to lock the screen.',
         },
         {
@@ -33,7 +32,7 @@ export const systemCommandsSchema = {
         {
             name: 'restart',
             type: 'string',
-            required: true,
+            default: 'systemctl reboot',
             description: 'Command to reboot the machine.',
         },
         {
@@ -45,7 +44,7 @@ export const systemCommandsSchema = {
         {
             name: 'shutdown',
             type: 'string',
-            required: true,
+            default: 'systemctl poweroff',
             description: 'Command to shut down the machine safely.',
         },
         {

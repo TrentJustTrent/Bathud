@@ -172,14 +172,7 @@ function BarPositionOptions() {
     </box>
 }
 
-function ThemeButton(
-    {
-        theme
-    }:
-    {
-        theme: ConfigFile,
-    }
-) {
+function ThemeButton({theme}: {theme: ConfigFile}) {
     return <OkButton
         size={OkButtonSize.XL}
         label={theme.icon}
@@ -357,8 +350,8 @@ export default function () {
     updateFiles(variableConfig.theme)
 
     return <RevealerRow
-        icon={variableConfig.theme.icon()}
-        iconOffset={variableConfig.theme.pixelOffset()}
+        icon={variableConfig.icon()}
+        iconOffset={variableConfig.iconOffset()}
         windowName={SystemMenuWindowName}
         content={
             <label

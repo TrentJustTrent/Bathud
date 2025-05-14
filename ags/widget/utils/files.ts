@@ -16,5 +16,6 @@ export function listFilenamesInDir(path: string): string[] {
     }
 
     enumerator.close(null);
+    filenames.sort()
     return filenames;
 }

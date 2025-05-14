@@ -2,6 +2,10 @@ import {Field} from "../schema/primitiveDefinitions";
 import {SchemaToType, VariableSchemaToType} from "../types/typeGeneration";
 import {Variable} from "astal";
 
+/**
+ * This function will take a Schema object and turn it into a new, nearly identical object,
+ * but the leaf values will be wrapped in a reactive object.
+ */
 export function wrapConfigInVariables<T extends readonly Field[]>(
     schema: T,
     config: SchemaToType<T>
@@ -28,6 +32,9 @@ export function wrapConfigInVariables<T extends readonly Field[]>(
     return result;
 }
 
+/**
+ * This function updates all the reactive values in the wrapped object to match the newConfig values.
+ */
 export function updateVariablesFromConfig<T extends readonly Field[]>(
     schema: T,
     wrapped: VariableSchemaToType<T>,

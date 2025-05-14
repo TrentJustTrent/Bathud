@@ -1,5 +1,5 @@
 export type ConfigFile = {
-    name: string
+    fileName: string
     icon: string
     pixelOffset: number
 }

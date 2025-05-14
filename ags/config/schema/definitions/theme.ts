@@ -12,20 +12,6 @@ export const themeSchema = {
             description: 'Theme name.',
         },
         {
-            name: 'icon',
-            type: 'string',
-            required: true,
-            description: 'Icon (glyph) representing the theme in lists.',
-        },
-        {
-            name: 'pixelOffset',
-            type: 'number',
-            default: 0,
-            description: 'Icon offset (‑10 … 10).',
-            withinConstraints: (value) => value >= -10 && value <= 10,
-            constraintDescription: 'Must be between -10 and 10'
-        },
-        {
             name: 'wallpaperDir',
             type: 'string',
             default: '',

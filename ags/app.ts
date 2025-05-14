@@ -9,12 +9,11 @@ import Screenshare, {ScreenshareWindowName, updateResponse, updateWindows} from 
 import VerticalBar from "./widget/bar/VerticalBar";
 import HorizontalBar from "./widget/bar/HorizontalBar";
 import {decreaseVolume, increaseVolume, muteVolume} from "./widget/utils/audio";
-import {parseTheme} from "./config/themeParser";
 import Scrim from "./widget/common/Scrim";
 import {toggleWindow} from "./widget/utils/windows";
 import Hyprland from "gi://AstalHyprland"
-import {restoreSavedState, setThemeBasic} from "./config/cachedStates";
-import {setHomeDir, setProjectDir} from "./config/config";
+import {restoreSavedState} from "./config/cachedStates";
+import {setProjectDir} from "./config/config";
 import ClipboardManager from "./widget/clipboardManager/ClipboardManager";
 import NotificationHistoryWindow from "./widget/notification/NotificationHistoryWindow";
 
@@ -25,7 +24,6 @@ App.start({
     css: "/tmp/OkPanel/style.css",
     main(...args: Array<string>) {
         setProjectDir(args[0])
-        setHomeDir(args[1])
         restoreSavedState()
 
         VerticalBar()
@@ -54,11 +52,7 @@ App.start({
         })
     },
     requestHandler(request: string, res: (response: any) => void) {
-        if (request.startsWith("theme")) {
-            const theme = parseTheme(request)
-            setThemeBasic(theme)
-            res("ags theme applied")
-        } else if (request === "appLauncher") {
+        if (request === "appLauncher") {
             toggleWindow(AppLauncherWindowName)
             res("app launcher toggled")
         } else if (request === "screenshot") {

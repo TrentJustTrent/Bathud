@@ -5,10 +5,23 @@ import {notificationsSchema} from "./notifications";
 import {horizontalBarSchema, verticalBarSchema} from "./bars";
 import {systemMenuSchema} from "./systemMenu";
 import {systemCommandsSchema} from "./systemCommands";
-import {themesSchema} from "./themes";
 import {themeSchema} from "./theme";
 
 export const CONFIG_SCHEMA = [
+    {
+        name: 'icon',
+        type: 'string',
+        default: '',
+        description: 'Icon (glyph) representing this config file.',
+    },
+    {
+        name: 'iconOffset',
+        type: 'number',
+        default: 0,
+        description: 'Icon offset (‑10 … 10).',
+        withinConstraints: (value) => value >= -10 && value <= 10,
+        constraintDescription: 'Must be between -10 and 10'
+    },
     {
         name: 'buttonBorderRadius',
         type: 'number',
@@ -64,17 +77,10 @@ export const CONFIG_SCHEMA = [
         default: 5000,
         description: 'The temperature of the night light.'
     },
-    // {
-    //     name: 'polkitAgentEnabled',
-    //     type: 'boolean',
-    //     default: 'true',
-    //     description: 'Makes OkPanel your polkit agent'
-    // },
     soundsSchema,
     windowsSchema,
     notificationsSchema,
     systemCommandsSchema,
-    themesSchema,
     themeSchema,
     systemMenuSchema,
     horizontalBarSchema,
