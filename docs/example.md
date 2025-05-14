@@ -2,6 +2,9 @@
 
 ```
 # ───────────── General settings ─────────────
+icon            = 󰌪
+iconOffset      = 1
+
 largeButtonBorderRadius = 16
 
 themeUpdateScript      = "/home/john/workspace/scripts/setTheme.sh"
@@ -66,48 +69,20 @@ systemCommands {
     shutdown = systemctl poweroff
 }
 
-# ───────────── Themes ─────────────
-themes = [
+# ───────────── Theme ─────────────
+theme {
+    name         = nord
+    wallpaperDir = /home/john/workspace/Varda-Theme/themes/nord/wallpaper
 
-    {
-        name         = everforest
-        icon         = 󰌪
-        pixelOffset  = 1
-        wallpaperDir = /home/john/workspace/Pictures/wallpaper/everforest
-        
-        colors {
-            background    = #1E2326
-            foreground    = #D3C6AA
-            primary       = #7A8478
-            buttonPrimary = #384B55
-            sliderTrough  = #2E383C
-            hover         = #2E383C
-            warning       = #E67E80
-            barBorder     = #7A8478
-            windowBorder  = #D3C6AA
-            alertBorder   = #7A8478
-        }
+    colors {
+        background    = #2e3440
+        foreground    = #d8dee9
+        primary       = #81a1c1
+        buttonPrimary = #5e81ac
+        warning       = #BF616A
+        barBorder     = #81a1c1
+        windowBorder  = #d8dee9
+        alertBorder   = #81a1c1
     }
-    
-    {
-        name         = nord
-        icon         = 
-        pixelOffset  = 2
-        wallpaperDir = /home/john/workspace/Pictures/wallpaper/nord
-        
-        colors {
-            background    = #2e3440
-            foreground    = #d8dee9
-            primary       = #81a1c1
-            buttonPrimary = #5e81ac
-            sliderTrough  = #4c566a
-            hover         = #4c566a
-            warning       = #BF616A
-            barBorder     = #81a1c1
-            windowBorder  = #d8dee9
-            alertBorder   = #81a1c1
-        }
-    }
-    
-]
+}
 ```

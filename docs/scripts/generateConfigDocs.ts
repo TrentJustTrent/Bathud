@@ -2,13 +2,9 @@ import { writeFileSync } from "fs";
 import { CONFIG_SCHEMA } from "../../ags/config/schema/definitions/root";
 import { Field } from "../../ags/config/schema/primitiveDefinitions"
 
-const INTRO = `# Configure
+const INTRO = `# Configuration Schema
 
-Create a config file and place it in the config directory like so
-
-\`\`\`
-~/.config/OkPanel/okpanel.conf
-\`\`\`
+Here you will find the definitions of all available configurations
 
 ## Config values
 
