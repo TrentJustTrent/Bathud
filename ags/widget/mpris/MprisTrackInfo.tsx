@@ -1,9 +1,9 @@
 import {Player} from "../utils/mpris";
 import {Gtk} from "astal/gtk4";
 import VerticalLabel from "../common/VerticalLabel";
-import {Binding} from "astal";
+import {Binding, Variable} from "astal";
 import {truncateString} from "../utils/strings";
-import {config} from "../../config/config";
+import {variableConfig} from "../../config/config";
 
 import {alignmentToGtk} from "../utils/configHelper";
 
@@ -18,42 +18,55 @@ export default function (
         flipped: Binding<boolean>,
     }
 ) {
-    const title = player.title(t =>
-        t ? truncateString(
-            t,
-            vertical ? config.verticalBar.mpris_track_info.textLength : config.horizontalBar.mpris_track_info.textLength
-        ) : "Unknown Track")
+    const title = Variable.derive([
+        player.title,
+        variableConfig.verticalBar.mpris_track_info.textLength,
+        variableConfig.horizontalBar.mpris_track_info.textLength,
+    ], (title, vLength, hLength) => {
+        return title ? truncateString(
+            title,
+            vertical ? vLength : hLength
+        ) : "Unknown Track"
+    })
 
-    const artist = player.artist(a =>
-        a ?  truncateString(
-            a,
-            vertical ? config.verticalBar.mpris_track_info.textLength : config.horizontalBar.mpris_track_info.textLength
-        ) : "Unknown Artist")
+    const artist = Variable.derive([
+        player.artist,
+        variableConfig.verticalBar.mpris_track_info.textLength,
+        variableConfig.horizontalBar.mpris_track_info.textLength,
+    ], (artist, vLength, hLength) => {
+        return artist ?  truncateString(
+            artist,
+            vertical ? vLength : hLength
+        ) : "Unknown Artist"
+    })
 
     return <box>
         {vertical &&
             <box
                 hexpand={true}>
                 {flipped.as((isFlipped) => {
+                    const alignment: Binding<Gtk.Align> = variableConfig.verticalBar.mpris_track_info.textAlignment().as((align) =>
+                        alignmentToGtk(align)
+                    )
                     if (isFlipped) {
                         return <box
                             hexpand={true}
                             halign={Gtk.Align.CENTER}
                             vertical={false}
-                            heightRequest={config.verticalBar.mpris_track_info.minimumLength}>
+                            heightRequest={variableConfig.verticalBar.mpris_track_info.minimumLength()}>
                             <VerticalLabel
-                                text={artist}
+                                text={artist()}
                                 fontSize={14}
                                 flipped={isFlipped}
                                 bold={false}
-                                alignment={alignmentToGtk(config.verticalBar.mpris_track_info.textAlignment)}
+                                alignment={alignment}
                             />
                             <VerticalLabel
-                                text={title}
+                                text={title()}
                                 fontSize={14}
                                 flipped={isFlipped}
                                 bold={true}
-                                alignment={alignmentToGtk(config.verticalBar.mpris_track_info.textAlignment)}
+                                alignment={alignment}
                             />
                         </box>
                     } else {
@@ -61,20 +74,20 @@ export default function (
                             hexpand={true}
                             halign={Gtk.Align.CENTER}
                             vertical={false}
-                            heightRequest={config.verticalBar.mpris_track_info.minimumLength}>
+                            heightRequest={variableConfig.verticalBar.mpris_track_info.minimumLength()}>
                             <VerticalLabel
-                                text={title}
+                                text={title()}
                                 fontSize={14}
                                 flipped={isFlipped}
                                 bold={true}
-                                alignment={alignmentToGtk(config.verticalBar.mpris_track_info.textAlignment)}
+                                alignment={alignment}
                             />
                             <VerticalLabel
-                                text={artist}
+                                text={artist()}
                                 fontSize={14}
                                 flipped={isFlipped}
                                 bold={false}
-                                alignment={alignmentToGtk(config.verticalBar.mpris_track_info.textAlignment)}
+                                alignment={alignment}
                             />
                         </box>
                     }
@@ -84,15 +97,15 @@ export default function (
         {!vertical &&
             <box
                 vertical={true}
-                widthRequest={config.horizontalBar.mpris_track_info.minimumLength}>
+                widthRequest={variableConfig.horizontalBar.mpris_track_info.minimumLength()}>
                 <label
                     cssClasses={["labelSmallBold"]}
-                    halign={alignmentToGtk(config.horizontalBar.mpris_track_info.textAlignment)}
-                    label={title}/>
+                    halign={variableConfig.horizontalBar.mpris_track_info.textAlignment().as((a) => alignmentToGtk(a))}
+                    label={title()}/>
                 <label
                     cssClasses={["labelSmall"]}
-                    halign={alignmentToGtk(config.horizontalBar.mpris_track_info.textAlignment)}
-                    label={artist}/>
+                    halign={variableConfig.horizontalBar.mpris_track_info.textAlignment().as((a) => alignmentToGtk(a))}
+                    label={artist()}/>
             </box>
         }
     </box>

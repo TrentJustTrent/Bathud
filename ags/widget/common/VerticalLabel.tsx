@@ -2,7 +2,7 @@ import Cairo from "cairo";
 import {Gtk} from "astal/gtk4";
 import {selectedTheme, variableConfig} from "../../config/config";
 import {hexToRgba} from "../utils/strings";
-import {Binding} from "astal";
+import {Binding, Variable} from "astal";
 import {isBinding} from "../utils/bindings";
 
 export default function (
@@ -11,7 +11,7 @@ export default function (
         fontSize,
         flipped,
         bold,
-        alignment = Gtk.Align.CENTER,
+        alignment,
         minimumHeight = 0,
     }:
     {
@@ -19,18 +19,22 @@ export default function (
         fontSize: number,
         flipped: boolean | Binding<boolean>,
         bold: boolean,
-        alignment?: Gtk.Align,
+        alignment: Binding<Gtk.Align>,
         minimumHeight?: number,
     }
 ) {
+    const variableParams = Variable.derive([
+        variableConfig.font,
+        alignment
+    ])
     return <box>
-        {variableConfig.font().as((font) => {
+        {variableParams().as(([font, align]) => {
             return <VerticalLabelInternal
                 text={text}
                 fontSize={fontSize}
                 flipped={flipped}
                 bold={bold}
-                alignment={alignment}
+                alignment={align}
                 minimumHeight={minimumHeight}
                 font={font}/>
         })}
