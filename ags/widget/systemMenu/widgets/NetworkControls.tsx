@@ -6,9 +6,7 @@ import {execAsync} from "astal/process"
 import {SystemMenuWindowName} from "../SystemMenuWindow";
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
-import {config} from "../../../config/config";
 import OkButton from "../../common/OkButton";
-
 const wifiConnections = Variable<string[]>([])
 const inactiveWifiConnections = Variable<string[]>([])
 const activeWifiConnections = Variable<string[]>([])
@@ -628,8 +626,8 @@ export default function () {
                             }}/>
                     </box>
                 })}
-                {config.systemMenu.enableVpnControls && <VpnActiveConnections/>}
-                {config.systemMenu.enableVpnControls && <VpnConnections/>}
+                <VpnActiveConnections/>
+                <VpnConnections/>
                 {network.wifi && <WifiConnections connections={inactiveWifiConnections}/>}
                 {network.wifi && <WifiScannedConnections/>}
             </box>

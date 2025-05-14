@@ -52,11 +52,5 @@ export const systemMenuSchema = {
                 SystemMenuWidget.NOTIFICATION_HISTORY
             ]
         ),
-        {
-            name: 'enableVpnControls',
-            type: 'boolean',
-            default: true,
-            description: 'Show quick‑toggle VPN controls inside the network widget.',
-        },
     ],
 } as const satisfies Field

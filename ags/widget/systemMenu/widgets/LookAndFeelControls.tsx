@@ -5,7 +5,7 @@ import {SystemMenuWindowName} from "../SystemMenuWindow";
 import Pango from "gi://Pango?version=1.0";
 import {createScaledTexture} from "../../utils/images";
 import Divider from "../../common/Divider";
-import {config, selectedBar, selectedTheme} from "../../../config/config";
+import {config, selectedBar, selectedTheme, variableConfig} from "../../../config/config";
 import RevealerRow from "../../common/RevealerRow";
 import {setBarType, setTheme, setWallpaper} from "../../../config/cachedStates";
 import {Bar} from "../../../config/bar";
@@ -122,7 +122,7 @@ function animateScroll(
 }
 
 function enableNightLight() {
-    execAsync(`hyprctl hyprsunset temperature ${config.nightLightTemperature}`)
+    execAsync(`hyprctl hyprsunset temperature ${variableConfig.nightLightTemperature.get()}`)
         .catch((error) => {
             console.error(error)
         })
