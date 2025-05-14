@@ -1,6 +1,6 @@
 import EndpointControls from "./widgets/EndpointControls";
 import Wp from "gi://AstalWp"
-import {bind} from "astal"
+import {bind, Variable} from "astal"
 import {getMicrophoneIcon, getVolumeIcon} from "../utils/audio";
 import PowerOptions from "./widgets/PowerOptions";
 import MediaPlayers from "./widgets/MediaPlayers";
@@ -8,7 +8,7 @@ import NotificationHistory from "./widgets/NotificationHistory";
 import NetworkControls from "./widgets/NetworkControls";
 import BluetoothControls from "./widgets/BluetoothControls";
 import LookAndFeelControls from "./widgets/LookAndFeelControls";
-import {config, selectedBar} from "../../config/config";
+import {selectedBar, variableConfig} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import {Bar} from "../../config/bar";
 import PowerProfileControls from "./widgets/PowerProfileControls";
@@ -54,56 +54,81 @@ export function addWidgets(widgets: SystemMenuWidget[]) {
 }
 
 export default function () {
+
+    const topExpand = Variable.derive([
+        selectedBar,
+        variableConfig.verticalBar.centerWidgets,
+        variableConfig.verticalBar.bottomWidgets,
+    ], (bar, center, bottom) => {
+        switch (bar) {
+            case Bar.BOTTOM:
+                return true
+            case Bar.LEFT:
+            case Bar.RIGHT:
+                return center.includes(BarWidget.MENU)
+                    || bottom.includes(BarWidget.MENU)
+            default: return false
+        }
+    })
+
+    const bottomExpand = Variable.derive([
+        selectedBar,
+        variableConfig.verticalBar.centerWidgets,
+        variableConfig.verticalBar.topWidgets,
+    ], (bar, center, top) => {
+        switch (bar) {
+            case Bar.TOP:
+                return true
+            case Bar.LEFT:
+            case Bar.RIGHT:
+                return center.includes(BarWidget.MENU)
+                    || top.includes(BarWidget.MENU)
+            default: return false
+        }
+    })
+
+    const leftExpand = Variable.derive([
+        selectedBar,
+        variableConfig.horizontalBar.centerWidgets,
+        variableConfig.horizontalBar.rightWidgets,
+    ], (bar, center, right) => {
+        switch (bar) {
+            case Bar.RIGHT:
+                return true
+            case Bar.TOP:
+            case Bar.BOTTOM:
+                return center.includes(BarWidget.MENU)
+                    || right.includes(BarWidget.MENU)
+            default: return false
+        }
+    })
+
+    const rightExpand = Variable.derive([
+        selectedBar,
+        variableConfig.horizontalBar.centerWidgets,
+        variableConfig.horizontalBar.leftWidgets,
+    ], (bar, center, left) => {
+        switch (bar) {
+            case Bar.LEFT:
+                return true
+            case Bar.TOP:
+            case Bar.BOTTOM:
+                return center.includes(BarWidget.MENU)
+                    || left.includes(BarWidget.MENU)
+            default: return false
+        }
+    })
+
     return <ScrimScrollWindow
-        monitor={config.mainMonitor}
+        monitor={variableConfig.mainMonitor()}
         windowName={SystemMenuWindowName}
-        topExpand={selectedBar((bar) => {
-            switch (bar) {
-                case Bar.BOTTOM:
-                    return true
-                case Bar.LEFT:
-                case Bar.RIGHT:
-                    return config.verticalBar.centerWidgets.includes(BarWidget.MENU)
-                        || config.verticalBar.bottomWidgets.includes(BarWidget.MENU)
-                default: return false
-            }
-        })}
-        bottomExpand={selectedBar((bar) => {
-            switch (bar) {
-                case Bar.TOP:
-                    return true
-                case Bar.LEFT:
-                case Bar.RIGHT:
-                    return config.verticalBar.centerWidgets.includes(BarWidget.MENU)
-                        || config.verticalBar.topWidgets.includes(BarWidget.MENU)
-                default: return false
-            }
-        })}
-        leftExpand={selectedBar((bar) => {
-            switch (bar) {
-                case Bar.RIGHT:
-                    return true
-                case Bar.TOP:
-                case Bar.BOTTOM:
-                    return config.horizontalBar.centerWidgets.includes(BarWidget.MENU)
-                        || config.horizontalBar.rightWidgets.includes(BarWidget.MENU)
-                default: return false
-            }
-        })}
-        rightExpand={selectedBar((bar) => {
-            switch (bar) {
-                case Bar.LEFT:
-                    return true
-                case Bar.TOP:
-                case Bar.BOTTOM:
-                    return config.horizontalBar.centerWidgets.includes(BarWidget.MENU)
-                        || config.horizontalBar.leftWidgets.includes(BarWidget.MENU)
-                default: return false
-            }
-        })}
+        topExpand={topExpand()}
+        bottomExpand={bottomExpand()}
+        leftExpand={leftExpand()}
+        rightExpand={rightExpand()}
         contentWidth={400}
-        width={config.horizontalBar.minimumWidth}
-        height={config.verticalBar.minimumHeight}
+        width={variableConfig.horizontalBar.minimumWidth()}
+        height={variableConfig.verticalBar.minimumHeight()}
         content={
             <box
                 marginTop={20}
@@ -112,7 +137,9 @@ export default function () {
                 marginBottom={20}
                 vertical={true}
                 spacing={10}>
-                {addWidgets(config.systemMenu.widgets)}
+                {variableConfig.systemMenu.widgets().as((widgets) => {
+                    return addWidgets(widgets)
+                })}
             </box>
         }
     />
