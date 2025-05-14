@@ -172,15 +172,18 @@ export function parseConf(text: string): Record<string, any> {
 export function validateAndApplyDefaults<T>(
     raw: Record<string, any>,
     schema: Field[],
-    path: string = ""
+    path: string = "",
+    defaults?: Record<string, any>
 ): T {
     const out: any = {};
-    const recurse = (r: any, s: Field[], path: string): any => validateAndApplyDefaults(r ?? {}, s, path);
+    const recurse = (r: any, s: Field[], path: string, d?: Record<string, any>): any =>
+        validateAndApplyDefaults(r ?? {}, s, path, d);
 
     for (const f of schema) {
         const key = f.name;
         const rawValue = raw?.[key];
-        const value = f.transformation ? f.transformation(rawValue) : rawValue
+        const defaultValue = defaults?.[key];
+        const value = f.transformation ? f.transformation(rawValue) : rawValue;
         let keyPath
         if (path === "") {
             keyPath = key
@@ -188,17 +191,19 @@ export function validateAndApplyDefaults<T>(
             keyPath = `${path}.${key}`
         }
 
-        if (value !== undefined && f.withinConstraints !== undefined && !f.withinConstraints(value)) {
+        const resolvedValue = value !== undefined ? value : defaultValue;
+
+        if (resolvedValue !== undefined && f.withinConstraints !== undefined && !f.withinConstraints(resolvedValue)) {
             throw new Error(
-                `Invalid config value for ${keyPath}: ${value}; ${f.constraintDescription}`
+                `Invalid config value for ${keyPath}: ${resolvedValue}; ${f.constraintDescription}`
             )
         }
 
         // ── Missing key ─────────────────────────────────────────────
-        if (value === undefined) {
+        if (resolvedValue === undefined) {
             if (f.type === 'object') {
                 // Even if not explicitly provided, build object from child defaults
-                out[key] = recurse({}, f.children ?? [], keyPath);
+                out[key] = recurse({}, f.children ?? [], keyPath, defaultValue);
                 continue;
             }
             if (f.default !== undefined) {
@@ -215,27 +220,27 @@ export function validateAndApplyDefaults<T>(
             case 'string':
             case 'number':
             case 'boolean':
-                out[key] = castPrimitive(String(value), f.type);
+                out[key] = castPrimitive(String(resolvedValue), f.type);
                 break;
 
             case 'color':
-                if (!isHexColor(value)) throw new Error(`Invalid config value for ${keyPath}: ${value}`)
-                out[key] = castPrimitive(String(value), f.type);
+                if (!isHexColor(resolvedValue)) throw new Error(`Invalid config value for ${keyPath}: ${resolvedValue}`)
+                out[key] = castPrimitive(String(resolvedValue), f.type);
                 break;
 
             case 'enum':
-                if (!f.enumValues!.includes(value)) throw new Error(`Invalid config value for ${keyPath}: ${value}`);
-                out[key] = value;
+                if (!f.enumValues!.includes(resolvedValue)) throw new Error(`Invalid config value for ${keyPath}: ${resolvedValue}`);
+                out[key] = resolvedValue;
                 break;
 
             case 'object':
-                out[key] = recurse(value, f.children ?? [], keyPath);
+                out[key] = recurse(resolvedValue, f.children ?? [], keyPath, defaultValue);
                 break;
 
             case 'array': {
-                if (!Array.isArray(value)) throw new Error(`Expected array for config value ${keyPath}`);
+                if (!Array.isArray(resolvedValue)) throw new Error(`Expected array for config value ${keyPath}`);
                 const item = f.item!;
-                out[key] = value.map((v) => {
+                out[key] = resolvedValue.map((v) => {
                     if (item.type === 'enum') {
                         if (!item.enumValues!.includes(v)) throw new Error(`Invalid config value in ${keyPath}: ${v}`);
                         return v;
@@ -253,8 +258,8 @@ export function validateAndApplyDefaults<T>(
 // ────────────────────────────────────────────────────────────────────────────
 // Public helper – load & validate config from file
 // ────────────────────────────────────────────────────────────────────────────
-export function loadConfig(path: string): Config {
+export function loadConfig(path: string, defaults?: Record<string, any>): Config {
     const text = readFile(path) ?? "";
     const raw = parseConf(text);
-    return validateAndApplyDefaults(raw, CONFIG_SCHEMA);
+    return validateAndApplyDefaults(raw, CONFIG_SCHEMA, "", defaults);
 }

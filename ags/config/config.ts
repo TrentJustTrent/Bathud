@@ -15,10 +15,17 @@ const homePath = GLib.get_home_dir()
 // Order matters for these variables.  No touchy
 export const availableConfigs = Variable(getAvailableConfigs())
 export const selectedConfig = Variable(getSelectedConfig())
-export let config: Config = (() => {
-    return loadConfig(`${homePath}/.config/OkPanel/${selectedConfig.get().fileName}`)
+let defaultConfigValues: Config | undefined = ((): Config | undefined => {
+    if (GLib.file_test(`${homePath}/.config/OkPanel/okpanel.conf`, GLib.FileTest.EXISTS)) {
+        return loadConfig(`${homePath}/.config/OkPanel/okpanel.conf`)
+    } else {
+        return undefined
+    }
 })()
-export const variableConfig: VariableConfig = (() => {
+export let config: Config = ((): Config => {
+    return loadConfig(`${homePath}/.config/OkPanel/${selectedConfig.get().fileName}`, defaultConfigValues)
+})()
+export const variableConfig: VariableConfig = ((): VariableConfig => {
     return wrapConfigInVariables(CONFIG_SCHEMA, config)
 })()
 export const selectedBar = Variable(Bar.LEFT)
@@ -35,6 +42,11 @@ function monitorAvailableConfigs() {
         switch (event) {
             case Gio.FileMonitorEvent.CREATED:
                 console.log(`config file created: ${fileName}`)
+                if (fileName === "okpanel.conf") {
+                    updateDefaultValues()
+                    monitorDefaultsConfig()
+                    break
+                }
                 const newConfig = loadConfig(`${homePath}/.config/OkPanel/${fileName}`)
                 availableConfigs.set(availableConfigs.get().concat({
                     fileName: fileName,
@@ -44,6 +56,11 @@ function monitorAvailableConfigs() {
                 break
             case Gio.FileMonitorEvent.DELETED:
                 console.log(`config file deleted: ${fileName}`)
+                if (fileName === "okpanel.conf") {
+                    updateDefaultValues()
+                    disableDefaultsConfigMonitor()
+                    break
+                }
                 availableConfigs.set(availableConfigs.get().filter((conf) => conf.fileName === fileName))
                 break
         }
@@ -72,9 +89,38 @@ function monitorSelectedConfig() {
 
 monitorSelectedConfig()
 
+let defaultsMonitor: Gio.FileMonitor | null = null
+
+function monitorDefaultsConfig() {
+    if (defaultsMonitor !== null) {
+        defaultsMonitor.cancel()
+    }
+    if (!GLib.file_test(`${homePath}/.config/OkPanel/okpanel.conf`, GLib.FileTest.EXISTS)) {
+        return
+    }
+    defaultsMonitor = monitorFile(`${homePath}/.config/OkPanel/okpanel.conf`, (file, event) => {
+        switch (event) {
+            case Gio.FileMonitorEvent.CHANGED:
+                console.log(`defaults config file changed`)
+                updateDefaultValues()
+                break
+        }
+    })
+}
+
+monitorDefaultsConfig()
+
+function disableDefaultsConfigMonitor() {
+    if (defaultsMonitor !== null) {
+        defaultsMonitor.cancel()
+        defaultsMonitor = null
+    }
+}
+
 function getAvailableConfigs(): ConfigFile[] {
     const files = listFilenamesInDir(`${homePath}/.config/OkPanel`)
         .filter((name) => name.includes(".conf"))
+        .filter((name) => name !== "okpanel.conf")
     const configs: ConfigFile[] = []
     files.forEach((file) => {
         console.log(`Found config: ${file}`)
@@ -100,12 +146,22 @@ function getSelectedConfig(): ConfigFile {
 }
 
 export function setNewConfig(configFile: ConfigFile, onFinished: () => void) {
-    config = loadConfig(`${homePath}/.config/OkPanel/${configFile.fileName}`)
+    config = loadConfig(`${homePath}/.config/OkPanel/${configFile.fileName}`, defaultConfigValues)
     updateVariablesFromConfig(CONFIG_SCHEMA, variableConfig, config)
     saveConfig(configFile.fileName)
     selectedConfig.set(configFile)
     monitorSelectedConfig()
     setTheme(variableConfig.theme, onFinished)
+}
+
+function updateDefaultValues() {
+    if (GLib.file_test(`${homePath}/.config/OkPanel/okpanel.conf`, GLib.FileTest.EXISTS)) {
+        defaultConfigValues = loadConfig(`${homePath}/.config/OkPanel/okpanel.conf`)
+    } else {
+        defaultConfigValues = undefined
+    }
+    config = loadConfig(`${homePath}/.config/OkPanel/${selectedConfig.get().fileName}`, defaultConfigValues)
+    updateVariablesFromConfig(CONFIG_SCHEMA, variableConfig, config)
 }
 
 export function setProjectDir(dir: string) {
