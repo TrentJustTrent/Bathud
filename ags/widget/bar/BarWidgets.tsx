@@ -12,11 +12,11 @@ import Bluetooth from "gi://AstalBluetooth"
 import {activeVpnConnections} from "../systemMenu/widgets/NetworkControls";
 import {isRecording, ScreenshotWindowName} from "../screenshot/Screenshot";
 import Divider from "../common/Divider";
-import {config, selectedBar} from "../../config/config";
+import {selectedBar, variableConfig} from "../../config/config";
 import Tray from "gi://AstalTray"
 import {toggleWindow} from "../utils/windows";
 import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
-import {ClipboardManagerWindowName} from "../clipboardManager/ClipboardManager";
+import {ClipboardManagerWindowName, startCliphist} from "../clipboardManager/ClipboardManager";
 import PowerProfiles from "gi://AstalPowerProfiles"
 import {getPowerProfileIconBinding} from "../utils/powerProfile";
 import CavaWaveform from "../cava/CavaWaveform";
@@ -57,41 +57,62 @@ function groupByProperty(
 
 function Workspaces({vertical}: { vertical: boolean }) {
     const hypr = Hyprland.get_default()
-    let activeIconSize
-    if ((vertical && config.verticalBar.workspaces.largeActive) ||
-        !vertical && config.horizontalBar.workspaces.largeActive) {
-        activeIconSize = OkButtonSize.LARGE
-    } else {
-        activeIconSize = OkButtonSize.SMALL
-    }
 
-    let activeIcon
-    if (vertical) {
-        activeIcon = config.verticalBar.workspaces.activeIcon
-    } else {
-        activeIcon = config.horizontalBar.workspaces.activeIcon
-    }
+    const activeIconSize = Variable.derive([
+        variableConfig.verticalBar.workspaces.largeActive,
+        variableConfig.horizontalBar.workspaces.largeActive,
+    ], (verticalLargeActive, horizontalLargeActive) => {
+        if ((vertical && verticalLargeActive) ||
+            !vertical && horizontalLargeActive) {
+            return OkButtonSize.LARGE
+        } else {
+            return OkButtonSize.SMALL
+        }
+    })
 
-    let activeOffset: number
-    if (vertical) {
-        activeOffset = config.verticalBar.workspaces.activeOffset
-    } else {
-        activeOffset = config.horizontalBar.workspaces.activeOffset
-    }
+    const activeIcon = Variable.derive([
+        variableConfig.verticalBar.workspaces.activeIcon,
+        variableConfig.horizontalBar.workspaces.activeIcon
+    ], (vIcon, hIcon) => {
+        if (vertical) {
+            return vIcon
+        } else {
+            return hIcon
+        }
+    })
 
-    let inactiveIcon
-    if (vertical) {
-        inactiveIcon = config.verticalBar.workspaces.inactiveIcon
-    } else {
-        inactiveIcon = config.horizontalBar.workspaces.inactiveIcon
-    }
+    const activeOffset = Variable.derive([
+        variableConfig.verticalBar.workspaces.activeOffset,
+        variableConfig.horizontalBar.workspaces.activeOffset,
+    ], (vOffset, hOffset) => {
+        if (vertical) {
+            return vOffset
+        } else {
+            return hOffset
+        }
+    })
 
-    let inactiveOffset: number
-    if (vertical) {
-        inactiveOffset = config.verticalBar.workspaces.inactiveOffset
-    } else {
-        inactiveOffset = config.horizontalBar.workspaces.inactiveOffset
-    }
+    const inactiveIcon = Variable.derive([
+        variableConfig.verticalBar.workspaces.inactiveIcon,
+        variableConfig.horizontalBar.workspaces.inactiveIcon
+    ], (vIcon, hIcon) => {
+        if (vertical) {
+            return vIcon
+        } else {
+            return hIcon
+        }
+    })
+
+    const inactiveOffset = Variable.derive([
+        variableConfig.verticalBar.workspaces.inactiveOffset,
+        variableConfig.horizontalBar.workspaces.inactiveOffset,
+    ], (vOffset, hOffset) => {
+        if (vertical) {
+            return vOffset
+        } else {
+            return hOffset
+        }
+    })
 
     return <box
         vertical={vertical}>
@@ -112,10 +133,10 @@ function Workspaces({vertical}: { vertical: boolean }) {
                         return bind(workspace.monitor, "activeWorkspace").as((activeWorkspace) => {
                             const isActive = activeWorkspace?.id === workspace.id
                             return <OkButton
-                                offset={isActive ? activeOffset : inactiveOffset}
+                                offset={isActive ? activeOffset() : inactiveOffset()}
                                 hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
-                                label={isActive ? activeIcon : inactiveIcon}
-                                size={isActive ? activeIconSize : OkButtonSize.SMALL}
+                                label={isActive ? activeIcon() : inactiveIcon()}
+                                size={isActive ? activeIconSize() : OkButtonSize.SMALL}
                                 onClicked={() => {
                                     hypr.dispatch("workspace", `${workspace.id}`)
                                 }}/>
@@ -251,42 +272,69 @@ function BatteryIndicator({vertical}: { vertical: boolean }) {
 }
 
 function MenuButton({vertical}: { vertical: boolean }) {
-    let offset: number
-    if (vertical) {
-        offset = config.verticalBar.menu.iconOffset
-    } else {
-        offset = config.horizontalBar.menu.iconOffset
-    }
+    const offset = Variable.derive([
+        variableConfig.verticalBar.menu.iconOffset,
+        variableConfig.horizontalBar.menu.iconOffset,
+    ], (vOffset, hOffset) => {
+        if (vertical) {
+            return vOffset
+        } else {
+            return hOffset
+        }
+    })
+
+    const label = Variable.derive([
+        variableConfig.verticalBar.menu.icon,
+        variableConfig.horizontalBar.menu.icon,
+    ], (vIcon, hIcon) => {
+        if (vertical) {
+            return vIcon
+        } else {
+            return hIcon
+        }
+    })
 
     return <OkButton
-        offset={offset}
+        offset={offset()}
         hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
-        label={vertical ? config.verticalBar.menu.icon : config.horizontalBar.menu.icon}
+        label={label()}
         onClicked={() => {
             toggleWindow(SystemMenuWindowName)
         }}/>
 }
 
 function IntegratedTray({vertical}: { vertical: boolean }) {
-    if ((vertical && config.verticalBar.tray.collapsable) ||
-        !vertical && config.horizontalBar.tray.collapsable) {
-        const revealed = Variable(false)
-        return <box
-            vertical={vertical}>
-            <revealer
-                revealChild={revealed()}>
-                <TrayContent vertical={vertical}/>
-            </revealer>
-            <OkButton
-                offset={1}
-                visible={bind(tray, "items").as((items) => items.length > 0)}
-                label={"󱊔"}
-                onClicked={() => {
-                    revealed.set(!revealed.get())
-                }}/>
-        </box>
-    }
-    return <TrayContent vertical={vertical}/>
+    const collapsable = Variable.derive([
+        variableConfig.verticalBar.tray.collapsable,
+        variableConfig.horizontalBar.tray.collapsable,
+    ], (vCollapse, hCollapse) => {
+        return !!((vertical && vCollapse) ||
+            (!vertical && hCollapse));
+    })
+
+    return <box>
+        {collapsable().as((collapse) => {
+            if (collapse) {
+                const revealed = Variable(false)
+                return <box
+                    vertical={vertical}>
+                    <revealer
+                        revealChild={revealed()}>
+                        <TrayContent vertical={vertical}/>
+                    </revealer>
+                    <OkButton
+                        offset={1}
+                        visible={bind(tray, "items").as((items) => items.length > 0)}
+                        label={"󱊔"}
+                        onClicked={() => {
+                            revealed.set(!revealed.get())
+                        }}/>
+                </box>
+            } else {
+                return <TrayContent vertical={vertical}/>
+            }
+        })}
+    </box>
 }
 
 function TrayContent({vertical}: { vertical: boolean }) {
@@ -341,6 +389,7 @@ function ScreenshotButton({vertical}: { vertical: boolean }) {
 }
 
 function ClipboardManagerButton({vertical}: { vertical: boolean }) {
+    startCliphist()
     return <OkButton
         hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         label=""
@@ -373,9 +422,9 @@ function CavaBars({vertical}: { vertical: boolean }) {
                 marginBottom={vertical ? 20 : 0}
                 vertical={vertical}
                 flipStart={getCavaFlipStartValue(vertical)}
-                intensity={vertical ? config.verticalBar.cava_waveform.intensityMultiplier : config.horizontalBar.cava_waveform.intensityMultiplier}
-                expand={vertical ? config.verticalBar.cava_waveform.expanded : config.horizontalBar.cava_waveform.expanded}
-                length={vertical ? config.verticalBar.cava_waveform.length : config.horizontalBar.cava_waveform.length}
+                intensity={vertical ? variableConfig.verticalBar.cava_waveform.intensityMultiplier() : variableConfig.horizontalBar.cava_waveform.intensityMultiplier()}
+                expand={vertical ? variableConfig.verticalBar.cava_waveform.expanded() : variableConfig.horizontalBar.cava_waveform.expanded()}
+                length={vertical ? variableConfig.verticalBar.cava_waveform.length() : variableConfig.horizontalBar.cava_waveform.length()}
                 size={40}/>
         })}
     </box>
@@ -509,13 +558,13 @@ function ShutdownButton({vertical}: { vertical: boolean }) {
 }
 
 export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
-    const schema = isVertical ? config.verticalBar : config.horizontalBar
+    const schema = isVertical ? variableConfig.verticalBar : variableConfig.horizontalBar
     return widgets.map((widget) => {
         return <box
-            marginTop={schema[widget].marginTop}
-            marginBottom={schema[widget].marginBottom}
-            marginStart={schema[widget].marginStart}
-            marginEnd={schema[widget].marginEnd}>
+            marginTop={schema[widget].marginTop()}
+            marginBottom={schema[widget].marginBottom()}
+            marginStart={schema[widget].marginStart()}
+            marginEnd={schema[widget].marginEnd()}>
             {getWidget(widget, isVertical)}
         </box>
     })

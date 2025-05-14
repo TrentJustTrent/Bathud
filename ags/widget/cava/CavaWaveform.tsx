@@ -1,7 +1,7 @@
 import {Gtk} from "astal/gtk4";
 import Cairo from 'gi://cairo';
 import AstalCava from "gi://AstalCava"
-import {bind, Binding} from "astal";
+import {bind, Binding, Variable} from "astal";
 import {selectedTheme} from "../../config/config";
 import {isBinding} from "../utils/bindings";
 import { timeout } from "astal/time"
@@ -60,10 +60,10 @@ function setBars(cava: AstalCava.Cava, length: number) {
 type Params = {
     vertical?: boolean,
     flipStart?: boolean | Binding<boolean>,
-    length?: number,
+    length?: number | Binding<number>,
     size?: number,
-    expand?: boolean,
-    intensity?: number,
+    expand?: boolean | Binding<boolean>,
+    intensity?: number | Binding<number>,
     marginTop?: number,
     marginBottom?: number,
     marginStart?: number,
@@ -97,6 +97,56 @@ export default function(
         marginStart,
         marginEnd,
     }: Params
+) {
+
+    const parameters = Variable.derive([
+        typeof length === 'number' ? Variable(length) : length,
+        typeof expand === 'boolean' ? Variable(expand) : expand,
+        typeof intensity === 'number' ? Variable(intensity) : intensity,
+    ])
+    return <box>
+        {parameters().as(([length, expand, intensity]) => {
+            return <CavaWaveformInternal
+                vertical={vertical}
+                flipStart={flipStart}
+                length={length}
+                size={size}
+                expand={expand}
+                intensity={intensity}
+                marginTop={marginTop}
+                marginBottom={marginBottom}
+                marginStart={marginStart}
+                marginEnd={marginEnd}/>
+        })}
+    </box>
+}
+
+type InternalParams = {
+    vertical?: boolean,
+    flipStart?: boolean | Binding<boolean>,
+    length?: number,
+    size?: number,
+    expand?: boolean,
+    intensity?: number,
+    marginTop?: number,
+    marginBottom?: number,
+    marginStart?: number,
+    marginEnd?: number,
+}
+
+function CavaWaveformInternal(
+    {
+        vertical = false,
+        flipStart = false,
+        length = 0,
+        size = 0,
+        expand = false,
+        intensity = 1,
+        marginTop,
+        marginBottom,
+        marginStart,
+        marginEnd,
+    }: InternalParams
 ) {
     const cava = new AstalCava.Cava()
     cava.input = AstalCava.Input.PULSE

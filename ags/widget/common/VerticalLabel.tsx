@@ -1,6 +1,6 @@
 import Cairo from "cairo";
 import {Gtk} from "astal/gtk4";
-import {config, selectedTheme} from "../../config/config";
+import {selectedTheme, variableConfig} from "../../config/config";
 import {hexToRgba} from "../utils/strings";
 import {Binding} from "astal";
 import {isBinding} from "../utils/bindings";
@@ -21,6 +21,40 @@ export default function (
         bold: boolean,
         alignment?: Gtk.Align,
         minimumHeight?: number,
+    }
+) {
+    return <box>
+        {variableConfig.font().as((font) => {
+            return <VerticalLabelInternal
+                text={text}
+                fontSize={fontSize}
+                flipped={flipped}
+                bold={bold}
+                alignment={alignment}
+                minimumHeight={minimumHeight}
+                font={font}/>
+        })}
+    </box>
+}
+
+function VerticalLabelInternal(
+    {
+        text,
+        fontSize,
+        flipped,
+        bold,
+        alignment = Gtk.Align.CENTER,
+        minimumHeight = 0,
+        font,
+    }:
+    {
+        text: string | Binding<string>,
+        fontSize: number,
+        flipped: boolean | Binding<boolean>,
+        bold: boolean,
+        alignment?: Gtk.Align,
+        minimumHeight?: number,
+        font: string
     }
 ) {
     const area = new Gtk.DrawingArea()
@@ -65,7 +99,7 @@ export default function (
         // @ts-ignore
         cr.setSourceRGBA(r, g, b, a)
         // @ts-ignore
-        cr.selectFontFace(config.font, Cairo.FontSlant.NORMAL, bold ? Cairo.FontWeight.BOLD : Cairo.FontWeight.NORMAL)// @ts-ignore
+        cr.selectFontFace(font, Cairo.FontSlant.NORMAL, bold ? Cairo.FontWeight.BOLD : Cairo.FontWeight.NORMAL)// @ts-ignore
         cr.setFontSize(fontSize)
 
         // @ts-ignore

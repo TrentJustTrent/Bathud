@@ -1,13 +1,13 @@
 import {App, Astal, Gdk, Gtk} from "astal/gtk4";
-import {Binding} from "astal";
-import {config, selectedBar} from "../../config/config";
+import {Binding, Variable} from "astal";
+import {selectedBar, variableConfig} from "../../config/config";
 import {hideAllWindows} from "../utils/windows";
 
 
 import {Bar} from "../../config/bar";
 
 type Params = {
-    monitor: number;
+    monitor: number | Binding<number>;
     windowName: string,
     anchor?: Binding<Astal.WindowAnchor> | Astal.WindowAnchor,
     topExpand: Binding<boolean> | boolean,
@@ -15,16 +15,20 @@ type Params = {
     rightExpand: Binding<boolean> | boolean,
     leftExpand: Binding<boolean> | boolean,
     contentWidth: number,
-    width?: number,
-    height?: number,
+    width?: number | Binding<number>,
+    height?: number | Binding<number>,
     content?: JSX.Element;
 }
 
-const defaultAnchor = selectedBar((bar) => {
+const defaultAnchor = Variable.derive([
+    selectedBar,
+    variableConfig.horizontalBar.expanded,
+    variableConfig.verticalBar.expanded,
+], (bar, hExpanded, vExpanded) => {
     switch (bar) {
         case Bar.TOP:
         case Bar.BOTTOM:
-            if (config.horizontalBar.expanded) {
+            if (hExpanded) {
                 return Astal.WindowAnchor.TOP
                     | Astal.WindowAnchor.RIGHT
                     | Astal.WindowAnchor.BOTTOM
@@ -33,14 +37,14 @@ const defaultAnchor = selectedBar((bar) => {
             return Astal.WindowAnchor.TOP
                 | Astal.WindowAnchor.BOTTOM
         case Bar.LEFT:
-            if (!config.verticalBar.expanded) {
+            if (!vExpanded) {
                 return Astal.WindowAnchor.LEFT
             }
             return Astal.WindowAnchor.TOP
                 | Astal.WindowAnchor.LEFT
                 | Astal.WindowAnchor.BOTTOM
         case Bar.RIGHT:
-            if (!config.verticalBar.expanded) {
+            if (!vExpanded) {
                 return Astal.WindowAnchor.RIGHT
             }
             return Astal.WindowAnchor.TOP
@@ -53,7 +57,7 @@ export default function(
     {
         monitor,
         windowName,
-        anchor = defaultAnchor,
+        anchor = defaultAnchor(),
         topExpand,
         bottomExpand,
         rightExpand,
@@ -72,7 +76,7 @@ export default function(
         monitor={monitor}
         name={windowName}
         anchor={anchor}
-        margin={config.windows.gaps}
+        margin={variableConfig.windows.gaps()}
         exclusivity={Astal.Exclusivity.NORMAL}
         layer={Astal.Layer.OVERLAY}
         cssClasses={["transparentBackground"]}

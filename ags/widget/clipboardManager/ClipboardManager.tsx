@@ -1,4 +1,4 @@
-import {config, projectDir, selectedBar} from "../../config/config";
+import {projectDir, selectedBar, variableConfig} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import {Bar} from "../../config/bar";
 import {bind, Variable} from "astal";
@@ -6,13 +6,13 @@ import {execAsync} from "astal/process";
 import {App, Gtk} from "astal/gtk4";
 import {hideAllWindows} from "../utils/windows";
 import Divider from "../common/Divider";
-import {insertNewlines} from "../utils/strings";
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
 import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
 import AsyncClipboardPicture from "./AsyncClipboardPicture";
 import AsyncClipboardLabel from "./AsyncClipboardLabel";
 
 export const ClipboardManagerWindowName = "clipboardManagerWindow"
+let cliphistStarted = false
 
 type Entry = {
     number: number;
@@ -33,19 +33,11 @@ function getImageType(entry: Entry): string | null {
     }
 }
 
-function startCliphist() {
-    // If the widget isn't on the bar, don't start cliphist
-    if (
-        !config.horizontalBar.leftWidgets.includes(BarWidget.CLIPBOARD_MANAGER) &&
-        !config.horizontalBar.centerWidgets.includes(BarWidget.CLIPBOARD_MANAGER) &&
-        !config.horizontalBar.rightWidgets.includes(BarWidget.CLIPBOARD_MANAGER) &&
-        !config.verticalBar.topWidgets.includes(BarWidget.CLIPBOARD_MANAGER) &&
-        !config.verticalBar.centerWidgets.includes(BarWidget.CLIPBOARD_MANAGER) &&
-        !config.verticalBar.bottomWidgets.includes(BarWidget.CLIPBOARD_MANAGER)
-    ) {
+export function startCliphist() {
+    if (cliphistStarted) {
         return
     }
-
+    cliphistStarted = true
     console.log("Starting cliphist...")
 
     // text
@@ -123,7 +115,6 @@ function wipeHistory() {
 }
 
 export default function () {
-    startCliphist()
     updateClipboardEntries()
 
     setTimeout(() => {
@@ -134,56 +125,80 @@ export default function () {
         })
     }, 1_000)
 
+    const topExpand = Variable.derive([
+        selectedBar,
+        variableConfig.verticalBar.centerWidgets,
+        variableConfig.verticalBar.bottomWidgets,
+    ], (bar, center, bottom) => {
+        switch (bar) {
+            case Bar.BOTTOM:
+                return true
+            case Bar.LEFT:
+            case Bar.RIGHT:
+                return center.includes(BarWidget.CLIPBOARD_MANAGER)
+                    || bottom.includes(BarWidget.CLIPBOARD_MANAGER)
+            default: return false
+        }
+    })
+
+    const bottomExpand = Variable.derive([
+        selectedBar,
+        variableConfig.verticalBar.centerWidgets,
+        variableConfig.verticalBar.topWidgets,
+    ], (bar, center, top) => {
+        switch (bar) {
+            case Bar.TOP:
+                return true
+            case Bar.LEFT:
+            case Bar.RIGHT:
+                return center.includes(BarWidget.CLIPBOARD_MANAGER)
+                    || top.includes(BarWidget.CLIPBOARD_MANAGER)
+            default: return false
+        }
+    })
+
+    const leftExpand = Variable.derive([
+        selectedBar,
+        variableConfig.horizontalBar.centerWidgets,
+        variableConfig.horizontalBar.rightWidgets,
+    ], (bar, center, right) => {
+        switch (bar) {
+            case Bar.RIGHT:
+                return true
+            case Bar.TOP:
+            case Bar.BOTTOM:
+                return center.includes(BarWidget.CLIPBOARD_MANAGER)
+                    || right.includes(BarWidget.CLIPBOARD_MANAGER)
+            default: return false
+        }
+    })
+
+    const rightExpand = Variable.derive([
+        selectedBar,
+        variableConfig.horizontalBar.centerWidgets,
+        variableConfig.horizontalBar.leftWidgets,
+    ], (bar, center, left) => {
+        switch (bar) {
+            case Bar.LEFT:
+                return true
+            case Bar.TOP:
+            case Bar.BOTTOM:
+                return center.includes(BarWidget.CLIPBOARD_MANAGER)
+                    || left.includes(BarWidget.CLIPBOARD_MANAGER)
+            default: return false
+        }
+    })
+
     return <ScrimScrollWindow
-        monitor={config.mainMonitor}
+        monitor={variableConfig.mainMonitor()}
         windowName={ClipboardManagerWindowName}
-        topExpand={selectedBar((bar) => {
-            switch (bar) {
-                case Bar.BOTTOM:
-                    return true
-                case Bar.LEFT:
-                case Bar.RIGHT:
-                    return config.verticalBar.centerWidgets.includes(BarWidget.CLIPBOARD_MANAGER)
-                        || config.verticalBar.bottomWidgets.includes(BarWidget.CLIPBOARD_MANAGER)
-                default: return false
-            }
-        })}
-        bottomExpand={selectedBar((bar) => {
-            switch (bar) {
-                case Bar.TOP:
-                    return true
-                case Bar.LEFT:
-                case Bar.RIGHT:
-                    return config.verticalBar.centerWidgets.includes(BarWidget.CLIPBOARD_MANAGER)
-                        || config.verticalBar.topWidgets.includes(BarWidget.CLIPBOARD_MANAGER)
-                default: return false
-            }
-        })}
-        leftExpand={selectedBar((bar) => {
-            switch (bar) {
-                case Bar.RIGHT:
-                    return true
-                case Bar.TOP:
-                case Bar.BOTTOM:
-                    return config.horizontalBar.centerWidgets.includes(BarWidget.CLIPBOARD_MANAGER)
-                        || config.horizontalBar.rightWidgets.includes(BarWidget.CLIPBOARD_MANAGER)
-                default: return false
-            }
-        })}
-        rightExpand={selectedBar((bar) => {
-            switch (bar) {
-                case Bar.LEFT:
-                    return true
-                case Bar.TOP:
-                case Bar.BOTTOM:
-                    return config.horizontalBar.centerWidgets.includes(BarWidget.CLIPBOARD_MANAGER)
-                        || config.horizontalBar.leftWidgets.includes(BarWidget.CLIPBOARD_MANAGER)
-                default: return false
-            }
-        })}
+        topExpand={topExpand()}
+        bottomExpand={bottomExpand()}
+        leftExpand={leftExpand()}
+        rightExpand={rightExpand()}
         contentWidth={400}
-        width={config.horizontalBar.minimumWidth}
-        height={config.verticalBar.minimumHeight}
+        width={variableConfig.horizontalBar.minimumWidth()}
+        height={variableConfig.verticalBar.minimumHeight()}
         content={
             <box
                 cssClasses={["clipboardBox"]}

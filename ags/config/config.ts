@@ -1,12 +1,18 @@
 import {exec} from "astal/process";
 import {Variable} from "astal";
-import {loadConfig, validateAndApplyDefaults} from "./configLoader";
+import {loadConfig, validateAndApplyDefaults} from "./parser/configLoader";
 import {Bar} from "./bar";
-import {Config, Theme, themeSchema} from "./schema/derivedTypes";
+import {Config, Theme, themeSchema, VariableConfig} from "./types/derivedTypes";
+import {wrapConfigInVariables} from "./parser/variableWrapper";
+import {CONFIG_SCHEMA} from "./schema/definitions/root";
 
 export const config: Config = (() => {
     const homePath = exec('bash -c "echo $HOME"')
     return loadConfig(`${homePath}/.config/OkPanel/okpanel.conf`)
+})()
+
+export const variableConfig: VariableConfig = (() => {
+    return wrapConfigInVariables(CONFIG_SCHEMA, config)
 })()
 
 export const selectedTheme = Variable<Theme>(

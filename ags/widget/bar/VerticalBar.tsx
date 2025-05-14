@@ -1,108 +1,156 @@
 import {App, Astal, Gtk} from "astal/gtk4"
 import {addWidgets} from "./BarWidgets";
-import {config, selectedBar} from "../../config/config";
-
+import {selectedBar, variableConfig} from "../../config/config";
 import {Bar} from "../../config/bar";
 import CavaWaveform from "../cava/CavaWaveform";
 import {getCavaFlipStartValue} from "../utils/cava";
+import {Variable} from "astal";
 
 export default function () {
+    const marginLeft = Variable.derive([
+        selectedBar,
+        variableConfig.verticalBar.marginOuter,
+        variableConfig.verticalBar.marginInner
+    ], (bar, outer, inner): number => {
+        if (bar === Bar.LEFT) {
+            return outer
+        } else {
+            return inner
+        }
+    })
+
+    const marginRight = Variable.derive([
+        selectedBar,
+        variableConfig.verticalBar.marginOuter,
+        variableConfig.verticalBar.marginInner
+    ], (bar, outer, inner): number => {
+        if (bar === Bar.RIGHT) {
+            return outer
+        } else {
+            return inner
+        }
+    })
+
+    const anchor = Variable.derive([
+        selectedBar,
+        variableConfig.verticalBar.expanded
+    ], (bar, expanded) => {
+        if (bar === Bar.LEFT) {
+            if (!expanded) {
+                return Astal.WindowAnchor.LEFT
+            }
+            return Astal.WindowAnchor.TOP
+                | Astal.WindowAnchor.LEFT
+                | Astal.WindowAnchor.BOTTOM
+        } else {
+            if (!expanded) {
+                return Astal.WindowAnchor.RIGHT
+            }
+            return Astal.WindowAnchor.TOP
+                | Astal.WindowAnchor.RIGHT
+                | Astal.WindowAnchor.BOTTOM
+        }
+    })
+
+    const fullBarCavaEnabled = Variable.derive([
+        variableConfig.verticalBar.fullBarCavaWaveform.enabled,
+        variableConfig.verticalBar.splitSections
+    ], (enabled, split) => {
+        return enabled && !split
+    })
+
     return <window
-        heightRequest={config.verticalBar.minimumHeight}
+        heightRequest={variableConfig.verticalBar.minimumHeight()}
         cssClasses={["transparentBackground"]}
-        monitor={config.mainMonitor}
+        monitor={variableConfig.mainMonitor()}
         visible={selectedBar((bar) => {
             return bar === Bar.LEFT || bar === Bar.RIGHT
         })}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         // this window doesn't like marginStart for some reason
-        marginLeft={selectedBar((bar) => {
-            if (bar === Bar.LEFT) {
-                return config.verticalBar.marginOuter
-            } else {
-                return config.verticalBar.marginInner
-            }
-        })}
-        marginRight={selectedBar((bar) => {
-            if (bar === Bar.RIGHT) {
-                return config.verticalBar.marginOuter
-            } else {
-                return config.verticalBar.marginInner
-            }
-        })}
-        marginTop={config.verticalBar.marginStart}
-        marginBottom={config.verticalBar.marginEnd}
-        anchor={selectedBar((bar) => {
-            if (bar === Bar.LEFT) {
-                if (!config.verticalBar.expanded) {
-                    return Astal.WindowAnchor.LEFT
-                }
-                return Astal.WindowAnchor.TOP
-                    | Astal.WindowAnchor.LEFT
-                    | Astal.WindowAnchor.BOTTOM
-            } else {
-                if (!config.verticalBar.expanded) {
-                    return Astal.WindowAnchor.RIGHT
-                }
-                return Astal.WindowAnchor.TOP
-                    | Astal.WindowAnchor.RIGHT
-                    | Astal.WindowAnchor.BOTTOM
-            }
-        })}
+        marginLeft={marginLeft()}
+        marginRight={marginRight()}
+        marginTop={variableConfig.verticalBar.marginStart()}
+        marginBottom={variableConfig.verticalBar.marginEnd()}
+        anchor={anchor()}
         application={App}>
         <overlay
-            cssClasses={config.verticalBar.splitSections ? ["sideBar"] : ["barWindow", "sidebar"]}>
+            cssClasses={variableConfig.verticalBar.splitSections().as((split) =>
+                split ? ["sideBar"] : ["barWindow", "sideBar"]
+            )}>
             <centerbox
                 type={"overlay measure"}
                 orientation={Gtk.Orientation.VERTICAL}>
                 <box
-                    visible={config.verticalBar.topWidgets.length > 0}
+                    visible={variableConfig.verticalBar.topWidgets().as((widgets) =>
+                        widgets.length > 0
+                    )}
                     vertical={true}
-                    cssClasses={config.verticalBar.splitSections ? ["barWindow"] : []}>
+                    cssClasses={variableConfig.verticalBar.splitSections().as((split) =>
+                        split ? ["barWindow"] : []
+                    )}>
                     <box
                         vertical={true}
-                        marginTop={config.verticalBar.sectionPadding}
-                        marginBottom={config.verticalBar.sectionPadding}
-                        spacing={config.verticalBar.widgetSpacing}>
-                        {addWidgets(config.verticalBar.topWidgets, true)}
+                        marginTop={variableConfig.verticalBar.sectionPadding()}
+                        marginBottom={variableConfig.verticalBar.sectionPadding()}
+                        spacing={variableConfig.verticalBar.widgetSpacing()}>
+                        {variableConfig.verticalBar.topWidgets().as((widgets) =>
+                            addWidgets(widgets, true)
+                        )}
                     </box>
                 </box>
                 <box
-                    visible={config.verticalBar.centerWidgets.length > 0}
+                    visible={variableConfig.verticalBar.centerWidgets().as((widgets) =>
+                        widgets.length > 0
+                    )}
                     vertical={true}
-                    cssClasses={config.verticalBar.splitSections ? ["barWindow"] : []}>
+                    cssClasses={variableConfig.verticalBar.splitSections().as((split) =>
+                        split ? ["barWindow"] : []
+                    )}>
                     <box
                         vertical={true}
-                        marginTop={config.verticalBar.sectionPadding}
-                        marginBottom={config.verticalBar.sectionPadding}
-                        spacing={config.verticalBar.widgetSpacing}>
-                        {addWidgets(config.verticalBar.centerWidgets, true)}
+                        marginTop={variableConfig.verticalBar.sectionPadding()}
+                        marginBottom={variableConfig.verticalBar.sectionPadding()}
+                        spacing={variableConfig.verticalBar.widgetSpacing()}>
+                        {variableConfig.verticalBar.centerWidgets().as((widgets) =>
+                            addWidgets(widgets, true)
+                        )}
                     </box>
                 </box>
                 <box
-                    visible={config.verticalBar.bottomWidgets.length > 0}
+                    visible={variableConfig.verticalBar.bottomWidgets().as((widgets) =>
+                        widgets.length > 0
+                    )}
                     vertical={true}
                     valign={Gtk.Align.END}
-                    cssClasses={config.verticalBar.splitSections ? ["barWindow"] : []}>
+                    cssClasses={variableConfig.verticalBar.splitSections().as((split) =>
+                        split ? ["barWindow"] : []
+                    )}>
                     <box
                         vertical={true}
-                        marginTop={config.verticalBar.sectionPadding}
-                        marginBottom={config.verticalBar.sectionPadding}
-                        spacing={config.verticalBar.widgetSpacing}>
-                        {addWidgets(config.verticalBar.bottomWidgets, true)}
+                        marginTop={variableConfig.verticalBar.sectionPadding()}
+                        marginBottom={variableConfig.verticalBar.sectionPadding()}
+                        spacing={variableConfig.verticalBar.widgetSpacing()}>
+                        {variableConfig.verticalBar.bottomWidgets().as((widgets) =>
+                            addWidgets(widgets, true)
+                        )}
                     </box>
                 </box>
             </centerbox>
             <box>
-                {config.verticalBar.fullBarCavaWaveform.enabled && !config.verticalBar.splitSections &&
-                    <CavaWaveform
-                        vertical={true}
-                        intensity={config.verticalBar.fullBarCavaWaveform.intensityMultiplier}
-                        flipStart={getCavaFlipStartValue(true)}
-                        expand={true}
-                        length={400}
-                        size={40}/>
-                }
+                {fullBarCavaEnabled().as((enabled) => {
+                    if (enabled) {
+                        return <CavaWaveform
+                            vertical={true}
+                            intensity={variableConfig.verticalBar.fullBarCavaWaveform.intensityMultiplier()}
+                            flipStart={getCavaFlipStartValue(true)}
+                            expand={true}
+                            length={400}
+                            size={40}/>
+                    } else {
+                        return <box/>
+                    }
+                })}
             </box>
         </overlay>
     </window>

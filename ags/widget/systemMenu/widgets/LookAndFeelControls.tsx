@@ -9,7 +9,7 @@ import {config, selectedBar, selectedTheme} from "../../../config/config";
 import RevealerRow from "../../common/RevealerRow";
 import {setBarType, setTheme, setWallpaper} from "../../../config/cachedStates";
 import {Bar} from "../../../config/bar";
-import {Theme} from "../../../config/schema/derivedTypes";
+import {Theme} from "../../../config/types/derivedTypes";
 import OkButton, {OkButtonSize} from "../../common/OkButton";
 
 const files: Variable<string[][]> = Variable([])

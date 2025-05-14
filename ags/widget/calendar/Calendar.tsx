@@ -1,10 +1,8 @@
 import {Gtk} from "astal/gtk4"
 import {GLib, Variable} from "astal"
-import {config, selectedBar} from "../../config/config";
+import {selectedBar, variableConfig} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import {Bar} from "../../config/bar";
-
-
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
 
 export const CalendarWindowName = "calendarWindow"
@@ -13,56 +11,80 @@ export default function () {
     const time = Variable<GLib.DateTime>(GLib.DateTime.new_now_local())
         .poll(1000, () => GLib.DateTime.new_now_local())
 
+    const topExpand = Variable.derive([
+        selectedBar,
+        variableConfig.verticalBar.centerWidgets,
+        variableConfig.verticalBar.bottomWidgets,
+    ], (bar, center, bottom) => {
+        switch (bar) {
+            case Bar.BOTTOM:
+                return true
+            case Bar.LEFT:
+            case Bar.RIGHT:
+                return center.includes(BarWidget.CLOCK)
+                    || bottom.includes(BarWidget.CLOCK)
+            default: return false
+        }
+    })
+
+    const bottomExpand = Variable.derive([
+        selectedBar,
+        variableConfig.verticalBar.centerWidgets,
+        variableConfig.verticalBar.topWidgets,
+    ], (bar, center, top) => {
+        switch (bar) {
+            case Bar.TOP:
+                return true
+            case Bar.LEFT:
+            case Bar.RIGHT:
+                return center.includes(BarWidget.CLOCK)
+                    || top.includes(BarWidget.CLOCK)
+            default: return false
+        }
+    })
+
+    const leftExpand = Variable.derive([
+        selectedBar,
+        variableConfig.horizontalBar.centerWidgets,
+        variableConfig.horizontalBar.rightWidgets,
+    ], (bar, center, right) => {
+        switch (bar) {
+            case Bar.RIGHT:
+                return true
+            case Bar.TOP:
+            case Bar.BOTTOM:
+                return center.includes(BarWidget.CLOCK)
+                    || right.includes(BarWidget.CLOCK)
+            default: return false
+        }
+    })
+
+    const rightExpand = Variable.derive([
+        selectedBar,
+        variableConfig.horizontalBar.centerWidgets,
+        variableConfig.horizontalBar.leftWidgets,
+    ], (bar, center, left) => {
+        switch (bar) {
+            case Bar.LEFT:
+                return true
+            case Bar.TOP:
+            case Bar.BOTTOM:
+                return center.includes(BarWidget.CLOCK)
+                    || left.includes(BarWidget.CLOCK)
+            default: return false
+        }
+    })
+
     return <ScrimScrollWindow
-        monitor={config.mainMonitor}
+        monitor={variableConfig.mainMonitor()}
         windowName={CalendarWindowName}
-        topExpand={selectedBar((bar) => {
-            switch (bar) {
-                case Bar.BOTTOM:
-                    return true
-                case Bar.LEFT:
-                case Bar.RIGHT:
-                    return config.verticalBar.centerWidgets.includes(BarWidget.CLOCK)
-                        || config.verticalBar.bottomWidgets.includes(BarWidget.CLOCK)
-                default: return false
-            }
-        })}
-        bottomExpand={selectedBar((bar) => {
-            switch (bar) {
-                case Bar.TOP:
-                    return true
-                case Bar.LEFT:
-                case Bar.RIGHT:
-                    return config.verticalBar.centerWidgets.includes(BarWidget.CLOCK)
-                        || config.verticalBar.topWidgets.includes(BarWidget.CLOCK)
-                default: return false
-            }
-        })}
-        leftExpand={selectedBar((bar) => {
-            switch (bar) {
-                case Bar.RIGHT:
-                    return true
-                case Bar.TOP:
-                case Bar.BOTTOM:
-                    return config.horizontalBar.centerWidgets.includes(BarWidget.CLOCK)
-                        || config.horizontalBar.rightWidgets.includes(BarWidget.CLOCK)
-                default: return false
-            }
-        })}
-        rightExpand={selectedBar((bar) => {
-            switch (bar) {
-                case Bar.LEFT:
-                    return true
-                case Bar.TOP:
-                case Bar.BOTTOM:
-                    return config.horizontalBar.centerWidgets.includes(BarWidget.CLOCK)
-                        || config.horizontalBar.leftWidgets.includes(BarWidget.CLOCK)
-                default: return false
-            }
-        })}
+        topExpand={topExpand()}
+        bottomExpand={bottomExpand()}
+        leftExpand={leftExpand()}
+        rightExpand={rightExpand()}
         contentWidth={340}
-        width={config.horizontalBar.minimumWidth}
-        height={config.verticalBar.minimumHeight}
+        width={variableConfig.horizontalBar.minimumWidth()}
+        height={variableConfig.verticalBar.minimumHeight()}
         content={
             <box
                 cssClasses={["calendarBox"]}

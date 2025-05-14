@@ -1,8 +1,8 @@
 import {readFile} from "astal/file";
-import {Field, PrimitiveType} from "./schema/primitiveDefinitions";
-import {Config} from "./schema/derivedTypes";
+import {Field, PrimitiveType} from "../schema/primitiveDefinitions";
+import {Config} from "../types/derivedTypes";
 
-import {CONFIG_SCHEMA} from "./schema/definitions/root";
+import {CONFIG_SCHEMA} from "../schema/definitions/root";
 
 
 // ───────────────────────── helpers ─────────────────────────

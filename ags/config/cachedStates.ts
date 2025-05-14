@@ -1,11 +1,11 @@
 import {readFile} from "astal/file";
-import {config, homeDir, projectDir, selectedBar, selectedTheme} from "./config";
+import {config, homeDir, projectDir, selectedBar, selectedTheme, variableConfig} from "./config";
 import {execAsync} from "astal/process";
 import {App} from "astal/gtk4";
 import {GLib} from "astal";
 import Gio from "gi://Gio?version=2.0";
 import {Bar} from "./bar";
-import {Theme} from "./schema/derivedTypes";
+import {Theme} from "./types/derivedTypes";
 
 export function setBarType(bar: Bar) {
     selectedBar.set(bar)
@@ -17,9 +17,9 @@ export function setWallpaper(path: string) {
     execAsync(`bash -c '
 
 # if the wallpaper update script exists
-if [[ -f "${config.wallpaperUpdateScript}" ]]; then
+if [[ -f "${variableConfig.wallpaperUpdateScript.get()}" ]]; then
     # call the wallpaper script
-    ${config.wallpaperUpdateScript} ${path}
+    ${variableConfig.wallpaperUpdateScript.get()} ${path}
     
     # cache the name of the selected wallpaper
     mkdir -p ${homeDir}/.cache/OkPanel/wallpaper
@@ -40,13 +40,13 @@ export function setTheme(theme: Theme, onFinished: () => void) {
 ${compileThemeBashScript(theme)}
 
 # if the set theme script exists
-if [[ -f "${config.themeUpdateScript}" ]]; then
+if [[ -f "${variableConfig.themeUpdateScript.get()}" ]]; then
     # call the external update theme 
-    ${config.themeUpdateScript} ${theme.name}
+    ${variableConfig.themeUpdateScript.get()} ${theme.name}
 fi
 
 # if the update wallpaper script exists
-if [[ -f "${config.wallpaperUpdateScript}" ]]; then
+if [[ -f "${variableConfig.wallpaperUpdateScript.get()}" ]]; then
     # if there is a cached wallpaper for this theme, then set it
     WALLPAPER_CACHE_PATH="${homeDir}/.cache/OkPanel/wallpaper/${theme.name}"
     # Check if the file exists and is non-empty
@@ -70,7 +70,7 @@ if [[ -f "${config.wallpaperUpdateScript}" ]]; then
     )"
     fi
     
-    ${config.wallpaperUpdateScript} $WALLPAPER
+    ${variableConfig.wallpaperUpdateScript.get()} $WALLPAPER
 fi
 
     '`).catch((error) => {
@@ -108,7 +108,7 @@ export function restoreSavedState() {
         console.error(e)
     }
     if (savedTheme !== null) {
-        if (config.themes.length > 0) {
+        if (variableConfig.themes.length > 0) {
             // we have a saved theme, and we have configured themes.
             // if the saved theme is not in the configured themes, don't use it.
             const matchingConfigTheme = config.themes.find((theme) => theme.name === savedTheme.name)
@@ -121,7 +121,7 @@ export function restoreSavedState() {
             // we have a saved theme and no configured themes
             selectedTheme.set(savedTheme)
         }
-    } else if (config.themes.length > 0) {
+    } else if (variableConfig.themes.length > 0) {
         // we have no saved themes, but we do have configured themes
         // use the first configured theme
         selectedTheme.set(config.themes[0])
@@ -195,7 +195,7 @@ mkdir -p /tmp/OkPanel
 cp -r "$SOURCE_DIR" "$TARGET_DIR"
 
 cat > "$TARGET_DIR/variables.scss" <<EOF
-\\$font: "${config.font}";
+\\$font: "${variableConfig.font.get()}";
 \\$bg: ${theme.colors.background};
 \\$fg: ${theme.colors.foreground};
 \\$primary: ${theme.colors.primary};
@@ -204,12 +204,12 @@ cat > "$TARGET_DIR/variables.scss" <<EOF
 \\$barBorder: ${theme.colors.barBorder};
 \\$windowBorder: ${theme.colors.windowBorder};
 \\$alertBorder: ${theme.colors.alertBorder};
-\\$gaps: ${config.windows.gaps}px;
-\\$buttonBorderRadius: ${config.buttonBorderRadius}px;
-\\$windowBorderRadius: ${config.windows.borderRadius}px;
-\\$windowBorderWidth: ${config.windows.borderWidth}px;
-\\$largeButtonBorderRadius: ${config.largeButtonBorderRadius}px;
-\\$scrimColor: ${config.scrimColor};
+\\$gaps: ${variableConfig.windows.gaps.get()}px;
+\\$buttonBorderRadius: ${variableConfig.buttonBorderRadius.get()}px;
+\\$windowBorderRadius: ${variableConfig.windows.borderRadius.get()}px;
+\\$windowBorderWidth: ${variableConfig.windows.borderWidth.get()}px;
+\\$largeButtonBorderRadius: ${variableConfig.largeButtonBorderRadius.get()}px;
+\\$scrimColor: ${variableConfig.scrimColor.get()};
 EOF
 
 sass $TARGET_DIR/main.scss /tmp/OkPanel/style.css
