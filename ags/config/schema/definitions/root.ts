@@ -23,18 +23,6 @@ export const CONFIG_SCHEMA = [
         constraintDescription: 'Must be between -10 and 10'
     },
     {
-        name: 'buttonBorderRadius',
-        type: 'number',
-        default: 8,
-        description: 'Border radius (px) used by regular buttons.',
-    },
-    {
-        name: 'largeButtonBorderRadius',
-        type: 'number',
-        default: 16,
-        description: 'Border radius (px) used by large buttons.',
-    },
-    {
         name: 'themeUpdateScript',
         type: 'string',
         description: 'Absolute path to the script run when a theme changes.',
@@ -47,35 +35,16 @@ export const CONFIG_SCHEMA = [
         required: false,
     },
     {
+        name: 'wallpaperDir',
+        type: 'string',
+        default: '',
+        description: 'Directory containing theme wallpapers (may be empty).',
+    },
+    {
         name: 'mainMonitor',
         type: 'number',
         default: 0,
         description: 'Index of the primary monitor (0‑based as reported by Hyprland).',
-    },
-    {
-        name: 'scrimColor',
-        type: 'color',
-        default: '#00000001',
-        description: 'CSS/GTK‑style color used for translucent overlays (RGBA hex).',
-        transformation: (value) => {
-            if (value === "#00000000" || value === "#000000") {
-                return "#00000001"
-            } else {
-                return value
-            }
-        }
-    },
-    {
-        name: 'font',
-        type: 'string',
-        default: 'JetBrainsMono NF',
-        description: 'Default font family used across the panel widgets.',
-    },
-    {
-        name: 'nightLightTemperature',
-        type: 'number',
-        default: 5000,
-        description: 'The temperature of the night light.'
     },
     soundsSchema,
     windowsSchema,

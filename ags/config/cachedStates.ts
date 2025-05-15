@@ -57,13 +57,13 @@ if [[ -f "${variableConfig.wallpaperUpdateScript.get()}" ]]; then
         else
           # Fallback: pick the first .jpg or .png in the wallpaper dir
           WALLPAPER="$(
-            ls -1 "${theme.wallpaperDir.get()}"/*.jpg "${theme.wallpaperDir.get()}"/*.png 2>/dev/null | head -n1
+            ls -1 "${variableConfig.wallpaperDir.get()}"/*.jpg "${variableConfig.wallpaperDir.get()}"/*.png 2>/dev/null | head -n1
           )"
         fi
     else
     # If there is no cached wallpaper path, do the same fallback
     WALLPAPER="$(
-      ls -1 "${theme.wallpaperDir.get()}"/*.jpg "${theme.wallpaperDir.get()}"/*.png 2>/dev/null | head -n1
+      ls -1 "${variableConfig.wallpaperDir.get()}"/*.jpg "${variableConfig.wallpaperDir.get()}"/*.png 2>/dev/null | head -n1
     )"
     fi
     
@@ -160,7 +160,7 @@ mkdir -p /tmp/OkPanel
 cp -r "$SOURCE_DIR" "$TARGET_DIR"
 
 cat > "$TARGET_DIR/variables.scss" <<EOF
-\\$font: "${variableConfig.font.get()}";
+\\$font: "${variableConfig.theme.font.get()}";
 \\$bg: ${theme.colors.background.get()};
 \\$fg: ${theme.colors.foreground.get()};
 \\$primary: ${theme.colors.primary.get()};
@@ -169,12 +169,12 @@ cat > "$TARGET_DIR/variables.scss" <<EOF
 \\$barBorder: ${theme.colors.barBorder.get()};
 \\$windowBorder: ${theme.colors.windowBorder.get()};
 \\$alertBorder: ${theme.colors.alertBorder.get()};
+\\$scrimColor: ${theme.colors.scrimColor.get()};
 \\$gaps: ${variableConfig.windows.gaps.get()}px;
-\\$buttonBorderRadius: ${variableConfig.buttonBorderRadius.get()}px;
+\\$buttonBorderRadius: ${variableConfig.theme.buttonBorderRadius.get()}px;
+\\$largeButtonBorderRadius: ${variableConfig.theme.largeButtonBorderRadius.get()}px;
 \\$windowBorderRadius: ${variableConfig.windows.borderRadius.get()}px;
 \\$windowBorderWidth: ${variableConfig.windows.borderWidth.get()}px;
-\\$largeButtonBorderRadius: ${variableConfig.largeButtonBorderRadius.get()}px;
-\\$scrimColor: ${variableConfig.scrimColor.get()};
 EOF
 
 sass $TARGET_DIR/main.scss /tmp/OkPanel/style.css

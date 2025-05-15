@@ -47,8 +47,8 @@ function chunkIntoColumns<T>(arr: T[], numCols: number): T[][] {
     return columns;
 }
 
-function updateFiles(theme: Theme) {
-    const dir = theme.wallpaperDir.get()
+function updateFiles() {
+    const dir = variableConfig.wallpaperDir.get()
     if (dir === "") {
         return
     }
@@ -122,7 +122,7 @@ function animateScroll(
 }
 
 function enableNightLight() {
-    execAsync(`hyprctl hyprsunset temperature ${variableConfig.nightLightTemperature.get()}`)
+    execAsync(`hyprctl hyprsunset temperature ${variableConfig.theme.nightLightTemperature.get()}`)
         .catch((error) => {
             console.error(error)
         })
@@ -340,10 +340,10 @@ function NightLight() {
 export default function () {
     selectedConfig.subscribe((config) => {
         if (config != undefined) {
-            updateFiles(variableConfig.theme)
+            updateFiles()
         }
     })
-    updateFiles(variableConfig.theme)
+    updateFiles()
 
     return <RevealerRow
         icon={variableConfig.icon()}
