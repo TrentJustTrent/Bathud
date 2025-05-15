@@ -129,7 +129,8 @@ export const themeSchema = {
                         {
                             name: 'foreground',
                             type: 'color',
-                            default: {from: 'theme.colors.foreground'}
+                            default: {from: 'theme.colors.foreground'},
+                            description: 'Foreground color of the widget.'
                         }
                     ],
                 },
