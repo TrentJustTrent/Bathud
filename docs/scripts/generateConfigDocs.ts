@@ -84,7 +84,7 @@ function collectChildren(
 }
 
 function formatTable(rows: Row[]): string[] {
-    const header = ["Name", "Type", "Default", "Required", "Description"];
+    const header = ["Name", "Type", "Default", "Description"];
 
     const widths = header.map((_, i) =>
         Math.max(
