@@ -5,10 +5,9 @@
 icon: "󰌪"
 iconOffset: 1
 
-largeButtonBorderRadius: 16
-
 themeUpdateScript: "/home/john/workspace/scripts/setTheme.sh"
 wallpaperUpdateScript: "/home/john/workspace/scripts/setWallpaper.sh"
+wallpaperDir: /home/john/workspace/Varda-Theme/themes/nord/wallpaper
 
 # ───────────── Horizontal bar ─────────────
 horizontalBar:
@@ -63,8 +62,7 @@ systemCommands:
 # ───────────── Theme ─────────────
 theme:
   name: nord
-  wallpaperDir: /home/john/workspace/Varda-Theme/themes/nord/wallpaper
-
+  largeButtonBorderRadius: 16
   colors:
     background: "#2e3440"
     foreground: "#d8dee9"
