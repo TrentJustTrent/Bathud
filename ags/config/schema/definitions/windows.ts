@@ -9,7 +9,7 @@ export const windowsSchema = {
             name: 'gaps',
             type: 'number',
             default: 5,
-            description: 'Gap (px) between tiled windows.',
+            description: 'Gap (px) between windows.',
         },
         {
             name: 'borderRadius',
