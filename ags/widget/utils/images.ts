@@ -11,33 +11,38 @@ import Gio from "gi://Gio?version=2.0";
  * @param height desired height
  * @param path full path to the file
  */
-export function createScaledTexture(width: number, height: number, path: string) {
-    // Load the image from file
-    let pixbuf: GdkPixbuf.Pixbuf
+export async function createScaledTexture(width: number, height: number, path: string) {
+    const file = Gio.File.new_for_path(path);
+
+    let pixbuf: GdkPixbuf.Pixbuf;
     try {
-        pixbuf = GdkPixbuf.Pixbuf.new_from_file(path)
+        const stream = file.read(null);
+        pixbuf = await new Promise((resolve, reject) => {
+            GdkPixbuf.Pixbuf.new_from_stream_async(stream, null, (obj, res) => {
+                try {
+                    resolve(GdkPixbuf.Pixbuf.new_from_stream_finish(res));
+                } catch (e) {
+                    reject(e);
+                }
+            });
+        });
     } catch (e) {
-        return
+        logError(e);
+        return null;
     }
 
-    // Get original dimensions
-    const originalWidth = pixbuf.get_width()
-    const originalHeight = pixbuf.get_height()
+    const originalWidth = pixbuf.get_width();
+    const originalHeight = pixbuf.get_height();
 
-    // Compute scale factor to ensure the image covers the target area
-    // This uses Math.max so that both dimensions are at least as large as desired
-    const scaleFactor = Math.max(width / originalWidth, height / originalHeight)
-    const newWidth = Math.ceil(originalWidth * scaleFactor)
-    const newHeight = Math.ceil(originalHeight * scaleFactor)
+    const scaleFactor = Math.max(width / originalWidth, height / originalHeight);
+    const newWidth = Math.ceil(originalWidth * scaleFactor);
+    const newHeight = Math.ceil(originalHeight * scaleFactor);
 
-    // Scale the image uniformly
-    const scaled = pixbuf.scale_simple(newWidth, newHeight, GdkPixbuf.InterpType.BILINEAR)!
+    const scaled = pixbuf.scale_simple(newWidth, newHeight, GdkPixbuf.InterpType.BILINEAR)!;
 
-    // Compute offsets to crop the image centered
-    const xOffset = Math.floor((newWidth - width) / 2)
-    const yOffset = Math.floor((newHeight - height) / 2)
-    const cropped = scaled.new_subpixbuf(xOffset, yOffset, width, height)
+    const xOffset = Math.floor((newWidth - width) / 2);
+    const yOffset = Math.floor((newHeight - height) / 2);
+    const cropped = scaled.new_subpixbuf(xOffset, yOffset, width, height);
 
-    // Create a texture from the cropped pixbuf
-    return Gdk.Texture.new_for_pixbuf(cropped)
+    return Gdk.Texture.new_for_pixbuf(cropped);
 }

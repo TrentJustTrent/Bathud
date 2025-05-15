@@ -18,6 +18,7 @@ import {Bar} from "../../../config/bar";
 import OkButton, {OkButtonSize} from "../../common/OkButton";
 import {Theme} from "../../../config/types/derivedTypes";
 import {ConfigFile} from "../../../config/configFile";
+import {listFilenamesInDir} from "../../utils/files";
 
 const files: Variable<string[][]> = Variable([])
 const numberOfColumns = 2
@@ -47,27 +48,19 @@ function chunkIntoColumns<T>(arr: T[], numCols: number): T[][] {
 }
 
 function updateFiles(theme: Theme) {
-    if (theme.wallpaperDir.get() === "") {
+    const dir = theme.wallpaperDir.get()
+    if (dir === "") {
         return
     }
-    execAsync(["bash", "-c", `ls ${theme.wallpaperDir.get()}`])
-        .catch((error) => {
-            console.error(error)
-        })
-        .then((value) => {
-            if (typeof value !== "string") {
-                return
-            }
 
-            files.set(
-                chunkIntoColumns(
-                    value
-                        .split("\n")
-                        .filter((line) => line.includes("jpg") || line.includes("png")),
-                    numberOfColumns
-                )
-            )
-        })
+    files.set(
+        chunkIntoColumns(
+            listFilenamesInDir(dir)
+                .filter((file) => file.includes("jpg") || file.includes("png"))
+                .map((file) => `${dir}/${file}`),
+            numberOfColumns
+        )
+    )
 }
 
 function updateFade(
@@ -299,21 +292,24 @@ function WallpaperColumn(
                 return <box/>
             }
             return filesList[column].map((file) => {
-                const path = `${variableConfig.theme.wallpaperDir.get()}/${file}`
+                const picture = <Gtk.Picture
+                    heightRequest={90}
+                    cssClasses={["wallpaper"]}
+                    keepAspectRatio={true}
+                    contentFit={Gtk.ContentFit.COVER}/>
+
                 // 140x70 is a magic number that scales well and doesn't cause unwanted expansion of the scroll window
-                const texture = createScaledTexture(140, 70, path)
+                createScaledTexture(140, 70, file).then((texture) => {
+                    // @ts-ignore
+                    picture.set_paintable(texture)
+                })
 
                 return <button
                     cssClasses={["wallpaperButton"]}
                     onClicked={() => {
-                        setWallpaper(path)
+                        setWallpaper(file)
                     }}>
-                    <Gtk.Picture
-                        heightRequest={90}
-                        cssClasses={["wallpaper"]}
-                        keepAspectRatio={true}
-                        contentFit={Gtk.ContentFit.COVER}
-                        paintable={texture}/>
+                    {picture}
                 </button>
             })
         })}

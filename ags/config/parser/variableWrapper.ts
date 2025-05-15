@@ -52,17 +52,32 @@ export function updateVariablesFromConfig<T extends readonly Field[]>(
                 newValue as any
             );
         } else if (field.type === 'array' && field.item) {
+            const currentValue = (wrappedValue as Variable<any>).get();
+
             if (field.item.type === 'object') {
+                // Always set because we regenerate wrapped objects
                 const arr = (newValue as any[]).map(item =>
                     wrapConfigInVariables(field.item!.children!, item)
                 );
                 (wrappedValue as Variable<any>).set(arr);
             } else {
-                // Primitive or enum array
-                (wrappedValue as Variable<any>).set(newValue);
+                // Shallow array equality check
+                if (!arraysEqual(currentValue, newValue)) {
+                    (wrappedValue as Variable<any>).set(newValue);
+                }
             }
         } else {
-            (wrappedValue as Variable<any>).set(newValue);
+            const currentValue = (wrappedValue as Variable<any>).get();
+            if (currentValue !== newValue) {
+                (wrappedValue as Variable<any>).set(newValue);
+            }
         }
     }
+}
+
+function arraysEqual(a: any[], b: any[]): boolean {
+    if (a === b) return true;
+    if (!Array.isArray(a) || !Array.isArray(b)) return false;
+    if (a.length !== b.length) return false;
+    return a.every((val, i) => val === b[i]);
 }
