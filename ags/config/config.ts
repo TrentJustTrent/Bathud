@@ -141,7 +141,7 @@ function getAvailableConfigs(): ConfigFile[] {
 }
 
 function getSelectedConfig(): ConfigFile | undefined {
-    if (GLib.file_test(`${homePath}/.cache/OkPanel/okpanel.conf`, GLib.FileTest.EXISTS)) {
+    if (GLib.file_test(`${homePath}/.cache/OkPanel/config`, GLib.FileTest.EXISTS)) {
         const savedConfigString = readFile(`${GLib.get_home_dir()}/.cache/OkPanel/config`).trim()
         const savedConfig = availableConfigs.get().find((config) => config.fileName === savedConfigString)
         if (savedConfig !== undefined) {
