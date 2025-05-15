@@ -6,10 +6,11 @@ import {Variable} from "astal";
 
 type PrimitiveByKind<K extends PrimitiveType> =
     K extends 'string' ? string :
-        K extends 'number' ? number :
-            K extends 'boolean' ? boolean :
-                K extends 'color' ? string :
-                    never
+    K extends 'number' ? number :
+    K extends 'boolean' ? boolean :
+    K extends 'color' ? string :
+    K extends 'icon' ? string :
+    never
 type FieldToProp<F extends Field> =
     F['type'] extends 'object'
         ? SchemaToType<F['children']>
@@ -31,10 +32,11 @@ export type SchemaToType<S extends readonly Field[] | undefined> =
 // ───────────────────────────────────────────────
 type VariableWrappedPrimitiveByKind<K extends PrimitiveType> =
     K extends 'string' ? Variable<string> :
-        K extends 'number' ? Variable<number> :
-            K extends 'boolean' ? Variable<boolean> :
-                K extends 'color' ? Variable<string> :
-                    never
+    K extends 'number' ? Variable<number> :
+    K extends 'boolean' ? Variable<boolean> :
+    K extends 'color' ? Variable<string> :
+    K extends 'icon' ? Variable<string> :
+    never
 
 type VariableFieldToProp<F extends Field> =
     F['type'] extends 'object'
