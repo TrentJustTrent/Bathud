@@ -33,6 +33,8 @@ function getImageType(entry: Entry): string | null {
     }
 }
 
+// starts cliphist.  Defaults are from the ~/.config/cliphist/config file which is
+// created by the okpanel run command.
 export function startCliphist() {
     if (cliphistStarted) {
         return
@@ -54,7 +56,7 @@ export function startCliphist() {
 }
 
 function updateClipboardEntries() {
-    execAsync(["bash", "-c", `CLIPHIST_PREVIEW_WIDTH=500 cliphist list`])
+    execAsync(["bash", "-c", `cliphist list`])
         .catch((error) => {
             console.error(error)
         }).then((value) => {

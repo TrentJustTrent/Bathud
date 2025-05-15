@@ -43,6 +43,13 @@ run_run_command() {
 		nohup hyprsunset -i >/dev/null 2>&1 &
 	fi
 
+
+	if [ ! -f ~/.config/cliphist/config ]; then
+		echo "Setting cliphist defaults in ~/.config/cliphist/config"
+		mkdir -p ~/.config/cliphist
+        echo -e "max-items 25\npreview-width 500" > ~/.config/cliphist/config
+    fi
+
 	# listen for interruptions so we can cleanup properly
 	trap cleanup SIGINT SIGTERM
 
