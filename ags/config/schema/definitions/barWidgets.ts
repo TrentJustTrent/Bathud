@@ -103,6 +103,11 @@ export function barWidgetsSchema(vertical: boolean) { return [
                 default: 1,
                 description: 'Offset of the menu button icon.  Use this if the icon is not centered properly'
             },
+            {
+                name: 'foreground',
+                type: 'color',
+                default: {from: 'theme.colors.foreground'}
+            }
         ],
     },
     {

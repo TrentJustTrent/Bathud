@@ -62,6 +62,7 @@ function buildButtonCssClasses(
 
 export default function(
     {
+        labelCss = [],
         label,
         offset = 0,
         selected,
@@ -89,6 +90,7 @@ export default function(
         onClicked,
     }:
     {
+        labelCss?: string[] | Binding<string[]>
         label: Binding<string> | string,
         offset?: number | Binding<number>,
         selected?: Binding<boolean>,
@@ -134,10 +136,17 @@ export default function(
     } else {
         realBold = bind(Variable(bold))
     }
+    let realLabelCss: Binding<string[]>
+    if (isBinding(labelCss)) {
+        realLabelCss = labelCss
+    } else {
+        realLabelCss = bind(Variable(labelCss))
+    }
     const cssInputs = Variable.derive([
         realWarning,
         realSize,
-        realBold
+        realBold,
+        realLabelCss
     ])
 
     const verticalPadding = 8
@@ -163,7 +172,7 @@ export default function(
         valign={onlyLabel ? valign : Gtk.Align.FILL}
         hexpand={onlyLabel ? hexpand : false}
         vexpand={onlyLabel ? vexpand : false}
-        cssClasses={cssInputs(([warning, size, bold]) => {
+        cssClasses={cssInputs(([warning, size, bold, labelCss]) => {
             const labelClasses: string[] = []
 
             switch (size) {
@@ -184,6 +193,8 @@ export default function(
             if (bold) {
                 labelClasses.push("bold")
             }
+
+            labelClasses.push(...labelCss)
 
             return warning ? labelClasses.concat("colorWarning") : labelClasses
         })}

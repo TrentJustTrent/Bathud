@@ -7,7 +7,7 @@ import {CONFIG_SCHEMA} from "./schema/definitions/root";
 import {listFilenamesInDir} from "../widget/utils/files";
 import {monitorFile, readFile} from "astal/file";
 import Gio from "gi://Gio?version=2.0";
-import {saveConfig, setTheme} from "./cachedStates";
+import {saveConfig, setTheme, setThemeBasic} from "./cachedStates";
 import {ConfigFile} from "./configFile";
 
 const homePath = GLib.get_home_dir()
@@ -15,27 +15,34 @@ const globalConfigFile = "okpanel.yaml"
 
 // Order matters for these variables.  No touchy
 export const availableConfigs = Variable(getAvailableConfigs())
+
 export const selectedConfig = Variable(getSelectedConfig())
+
 let defaultConfigValues: Config | undefined = ((): Config | undefined => {
     if (GLib.file_test(`${homePath}/.config/OkPanel/${globalConfigFile}`, GLib.FileTest.EXISTS)) {
+        console.log(`Loading global default configs`)
         return loadConfig(`${homePath}/.config/OkPanel/${globalConfigFile}`)
     } else {
         return undefined
     }
 })()
+
 export let config: Config = ((): Config => {
     if (selectedConfig.get() === undefined) {
+        console.log(`Loading initial config from default schema values`)
         return validateAndApplyDefaults({}, CONFIG_SCHEMA)
     }
+    console.log(`Loading initial config from: ${selectedConfig.get()?.fileName}`)
     return loadConfig(`${homePath}/.config/OkPanel/${selectedConfig.get()?.fileName}`, defaultConfigValues)
 })()
+
 export const variableConfig: VariableConfig = ((): VariableConfig => {
     return wrapConfigInVariables(CONFIG_SCHEMA, config)
 })()
-export const selectedBar = Variable(Bar.LEFT)
-export let projectDir = ""
 
-console.log(`selected config: ${selectedConfig?.get()?.fileName}`)
+export const selectedBar = Variable(Bar.LEFT)
+
+export let projectDir = ""
 
 function monitorAvailableConfigs() {
     monitorFile(`${homePath}/.config/OkPanel`, (file, event) => {
@@ -87,8 +94,9 @@ function monitorSelectedConfig() {
         switch (event) {
             case Gio.FileMonitorEvent.CHANGED:
                 console.log(`config file changed`)
-                config = loadConfig(`${homePath}/.config/OkPanel/${fileName}`)
+                config = loadConfig(`${homePath}/.config/OkPanel/${fileName}`, defaultConfigValues)
                 updateVariablesFromConfig(CONFIG_SCHEMA, variableConfig, config)
+                setThemeBasic(variableConfig.theme)
                 break
         }
     })
@@ -146,17 +154,21 @@ function getSelectedConfig(): ConfigFile | undefined {
         const savedConfigString = readFile(`${GLib.get_home_dir()}/.cache/OkPanel/config`).trim()
         const savedConfig = availableConfigs.get().find((config) => config.fileName === savedConfigString)
         if (savedConfig !== undefined) {
+            console.log(`Selected config from cache: ${savedConfig.fileName}`)
             return savedConfig
         }
     }
     if (availableConfigs.get().length === 0) {
+        console.log(`No available configs`)
         return undefined
     }
+    console.log(`Selected config: ${availableConfigs.get()[0].fileName}`)
     saveConfig(availableConfigs.get()[0].fileName)
     return availableConfigs.get()[0]
 }
 
 export function setNewConfig(configFile: ConfigFile, onFinished: () => void) {
+    console.log(`Loading config: ${configFile.fileName}`)
     config = loadConfig(`${homePath}/.config/OkPanel/${configFile.fileName}`, defaultConfigValues)
     updateVariablesFromConfig(CONFIG_SCHEMA, variableConfig, config)
     saveConfig(configFile.fileName)
@@ -174,7 +186,7 @@ function updateDefaultValues() {
     }
     // updated in use config
     if (selectedConfig.get() === undefined) {
-        config = validateAndApplyDefaults({}, CONFIG_SCHEMA, "", defaultConfigValues)
+        config = validateAndApplyDefaults({}, CONFIG_SCHEMA, defaultConfigValues)
     } else {
         config = loadConfig(`${homePath}/.config/OkPanel/${selectedConfig.get()?.fileName}`, defaultConfigValues)
     }

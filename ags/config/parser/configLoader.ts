@@ -3,7 +3,6 @@ import {Config} from "../types/derivedTypes";
 import {CONFIG_SCHEMA} from "../schema/definitions/root";
 import {parseYaml} from "./yamlParser";
 
-
 // ───────────────────────── helpers ─────────────────────────
 const stripQuotes = (s: string) => s.replace(/^"|"$/g, '').replace(/^'|'$/g, '');
 
@@ -26,30 +25,42 @@ function isHexColor(value: string): boolean {
     return /^#([0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(value);
 }
 
+function isResolvableDefault(value: any): value is { from: string } {
+    return typeof value === 'object' && value !== null && 'from' in value;
+}
+
 // ───────────────────────── validation ─────────────────────────
 export function validateAndApplyDefaults<T>(
+    record: Record<string, any>,
+    schema: Field[],
+    defaults?: Record<string, any>
+): T {
+    return resolveConfigPaths(validateAndApplyDefaultsInternal(record, schema, "", defaults))
+}
+
+function validateAndApplyDefaultsInternal<T>(
     raw: Record<string, any>,
     schema: Field[],
     path: string = "",
     defaults?: Record<string, any>
 ): T {
     const out: any = {};
-    const recurse = (r: any, s: Field[], path: string, d?: Record<string, any>): any =>
-        validateAndApplyDefaults(r ?? {}, s, path, d);
 
     for (const f of schema) {
         const key = f.name;
         const rawValue = raw?.[key];
         const defaultValue = defaults?.[key];
         const value = f.transformation ? f.transformation(rawValue) : rawValue;
-        let keyPath
-        if (path === "") {
-            keyPath = key
-        } else {
-            keyPath = `${path}.${key}`
-        }
+        let keyPath: string = path === "" ? key : `${path}.${key}`
 
         const resolvedValue = value !== undefined ? value : defaultValue;
+
+        // if there is no value and the default value is a resolvable value (points to another value)
+        // the keep the resolvable default and continue.  Resolving defaults happens in [resolveConfigPaths]
+        if (value === undefined && isResolvableDefault(f.default)) {
+            out[key] = f.default
+            continue
+        }
 
         if (resolvedValue !== undefined && f.withinConstraints !== undefined && !f.withinConstraints(resolvedValue)) {
             throw new Error(
@@ -61,7 +72,7 @@ export function validateAndApplyDefaults<T>(
         if (resolvedValue === undefined) {
             if (f.type === 'object') {
                 // Even if not explicitly provided, build object from child defaults
-                out[key] = recurse({}, f.children ?? [], keyPath, defaultValue);
+                out[key] = validateAndApplyDefaultsInternal({}, f.children ?? [], keyPath, defaultValue);
                 continue;
             }
             if (f.default !== undefined) {
@@ -100,7 +111,8 @@ export function validateAndApplyDefaults<T>(
                 break;
 
             case 'object':
-                out[key] = recurse(resolvedValue, f.children ?? [], keyPath, defaultValue);
+                // don't use resolvedValue here because it has defaults built in.
+                out[key] = validateAndApplyDefaultsInternal(value ?? {}, f.children ?? [], keyPath, defaultValue);
                 break;
 
             case 'array': {
@@ -111,7 +123,10 @@ export function validateAndApplyDefaults<T>(
                         if (!item.enumValues!.includes(v)) throw new Error(`Invalid config value in ${keyPath}: ${v}`);
                         return v;
                     }
-                    if (item.type === 'object') return recurse(v, item.children ?? [], keyPath);
+                    // possible bug here when it comes to resolved defaults.  mapping resolvedValue which takes into account
+                    // default values.  Maybe don't want to do that?  Not a problem at the moment though because
+                    // there are no object[] in the config right now, only primitive[]
+                    if (item.type === 'object') return validateAndApplyDefaultsInternal(v ?? {}, item.children ?? [], keyPath);
                     return castPrimitive(String(v), item.type as PrimitiveType);
                 });
                 break;
@@ -121,10 +136,39 @@ export function validateAndApplyDefaults<T>(
     return out as T;
 }
 
+export function resolveConfigPaths<T>(config: Record<string, any>): T {
+    const resolvePath = (obj: any, path: string): any =>
+        path.split('.').reduce((acc, key) => acc?.[key], obj);
+
+    const resolve = (node: any): any => {
+        if (Array.isArray(node)) {
+            return node.map(resolve);
+        }
+
+        if (typeof node === 'object' && node !== null) {
+            if ('from' in node && typeof node.from === 'string') {
+                const resolved = resolvePath(config, node.from);
+                return resolve(resolved);
+            }
+
+            const out: any = {};
+            for (const key in node) {
+                out[key] = resolve(node[key]);
+            }
+            return out;
+        }
+
+        return node;
+    };
+
+    return resolve(config);
+}
+
+
 // ────────────────────────────────────────────────────────────────────────────
 // Public helper – load & validate config from file
 // ────────────────────────────────────────────────────────────────────────────
 export function loadConfig(path: string, defaults?: Record<string, any>): Config {
-    const raw = parseYaml(path)
-    return validateAndApplyDefaults(raw, CONFIG_SCHEMA, "", defaults);
+    const record = parseYaml(path)
+    return validateAndApplyDefaults(record, CONFIG_SCHEMA, defaults);
 }

@@ -4,6 +4,9 @@
 export type PrimitiveType = 'string' | 'number' | 'boolean' | 'color' | 'icon'
 export type FieldType = PrimitiveType | 'enum' | 'object' | 'array'
 
+export type ConfigPath = string;
+export type ResolvableDefault<T> = T | { from: ConfigPath };
+
 export interface Field<T = any> {
     /** Dot‑notation path/name (object keys re‑use Field.name in children). */
     name: string
@@ -14,7 +17,7 @@ export interface Field<T = any> {
     /** If true, config must provide a value (defaults are still applied). */
     required?: boolean
     /** Default applied when the value is missing. */
-    default?: T
+    default?: ResolvableDefault<T>
     /** Allowed values when type === 'enum'. */
     enumValues?: readonly any[]
     /** Children when type === 'object'. */

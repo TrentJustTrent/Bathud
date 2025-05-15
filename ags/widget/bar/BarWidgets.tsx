@@ -295,6 +295,7 @@ function MenuButton({vertical}: { vertical: boolean }) {
     })
 
     return <OkButton
+        labelCss={["verticalMenuForeground"]}
         offset={offset()}
         hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
         label={label()}

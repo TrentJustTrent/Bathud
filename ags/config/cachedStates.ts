@@ -175,6 +175,8 @@ cat > "$TARGET_DIR/variables.scss" <<EOF
 \\$largeButtonBorderRadius: ${variableConfig.theme.largeButtonBorderRadius.get()}px;
 \\$windowBorderRadius: ${variableConfig.windows.borderRadius.get()}px;
 \\$windowBorderWidth: ${variableConfig.windows.borderWidth.get()}px;
+
+\\$verticalMenuForeground: ${variableConfig.verticalBar.menu.foreground.get()};
 EOF
 
 sass $TARGET_DIR/main.scss /tmp/OkPanel/style.css
