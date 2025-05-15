@@ -11,13 +11,14 @@ import {saveConfig, setTheme} from "./cachedStates";
 import {ConfigFile} from "./configFile";
 
 const homePath = GLib.get_home_dir()
+const globalConfigFile = "okpanel.yaml"
 
 // Order matters for these variables.  No touchy
 export const availableConfigs = Variable(getAvailableConfigs())
 export const selectedConfig = Variable(getSelectedConfig())
 let defaultConfigValues: Config | undefined = ((): Config | undefined => {
-    if (GLib.file_test(`${homePath}/.config/OkPanel/okpanel.conf`, GLib.FileTest.EXISTS)) {
-        return loadConfig(`${homePath}/.config/OkPanel/okpanel.conf`)
+    if (GLib.file_test(`${homePath}/.config/OkPanel/${globalConfigFile}`, GLib.FileTest.EXISTS)) {
+        return loadConfig(`${homePath}/.config/OkPanel/${globalConfigFile}`)
     } else {
         return undefined
     }
@@ -45,7 +46,7 @@ function monitorAvailableConfigs() {
         switch (event) {
             case Gio.FileMonitorEvent.CREATED:
                 console.log(`config file created: ${fileName}`)
-                if (fileName === "okpanel.conf") {
+                if (fileName === globalConfigFile) {
                     updateDefaultValues()
                     monitorDefaultsConfig()
                     break
@@ -59,7 +60,7 @@ function monitorAvailableConfigs() {
                 break
             case Gio.FileMonitorEvent.DELETED:
                 console.log(`config file deleted: ${fileName}`)
-                if (fileName === "okpanel.conf") {
+                if (fileName === globalConfigFile) {
                     updateDefaultValues()
                     disableDefaultsConfigMonitor()
                     break
@@ -101,10 +102,10 @@ function monitorDefaultsConfig() {
     if (defaultsMonitor !== null) {
         defaultsMonitor.cancel()
     }
-    if (!GLib.file_test(`${homePath}/.config/OkPanel/okpanel.conf`, GLib.FileTest.EXISTS)) {
+    if (!GLib.file_test(`${homePath}/.config/OkPanel/${globalConfigFile}`, GLib.FileTest.EXISTS)) {
         return
     }
-    defaultsMonitor = monitorFile(`${homePath}/.config/OkPanel/okpanel.conf`, (file, event) => {
+    defaultsMonitor = monitorFile(`${homePath}/.config/OkPanel/${globalConfigFile}`, (file, event) => {
         switch (event) {
             case Gio.FileMonitorEvent.CHANGED:
                 console.log(`defaults config file changed`)
@@ -125,8 +126,8 @@ function disableDefaultsConfigMonitor() {
 
 function getAvailableConfigs(): ConfigFile[] {
     const files = listFilenamesInDir(`${homePath}/.config/OkPanel`)
-        .filter((name) => name.includes(".conf"))
-        .filter((name) => name !== "okpanel.conf")
+        .filter((name) => name.includes(".yaml"))
+        .filter((name) => name !== globalConfigFile)
     const configs: ConfigFile[] = []
     files.forEach((file) => {
         console.log(`Found config: ${file}`)
@@ -166,8 +167,8 @@ export function setNewConfig(configFile: ConfigFile, onFinished: () => void) {
 
 function updateDefaultValues() {
     // update default values
-    if (GLib.file_test(`${homePath}/.config/OkPanel/okpanel.conf`, GLib.FileTest.EXISTS)) {
-        defaultConfigValues = loadConfig(`${homePath}/.config/OkPanel/okpanel.conf`)
+    if (GLib.file_test(`${homePath}/.config/OkPanel/${globalConfigFile}`, GLib.FileTest.EXISTS)) {
+        defaultConfigValues = loadConfig(`${homePath}/.config/OkPanel/${globalConfigFile}`)
     } else {
         defaultConfigValues = undefined
     }

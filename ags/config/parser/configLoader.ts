@@ -1,8 +1,8 @@
 import {readFile} from "astal/file";
 import {Field, PrimitiveType} from "../schema/primitiveDefinitions";
 import {Config} from "../types/derivedTypes";
-
 import {CONFIG_SCHEMA} from "../schema/definitions/root";
+import {parseYaml} from "./yamlParser";
 
 
 // ───────────────────────── helpers ─────────────────────────
@@ -267,7 +267,7 @@ export function validateAndApplyDefaults<T>(
 // Public helper – load & validate config from file
 // ────────────────────────────────────────────────────────────────────────────
 export function loadConfig(path: string, defaults?: Record<string, any>): Config {
-    const text = readFile(path) ?? "";
-    const raw = parseConf(text);
+    // const text = readFile(path) ?? "";
+    const raw = parseYaml(path)
     return validateAndApplyDefaults(raw, CONFIG_SCHEMA, "", defaults);
 }

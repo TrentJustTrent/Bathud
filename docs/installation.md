@@ -26,6 +26,7 @@ brightnessctl \
 cava \
 cliphist \
 dart-sass \
+go-yq \
 grim \
 gvfs \
 hyprland \
