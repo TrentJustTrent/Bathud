@@ -93,7 +93,7 @@ export const themeSchema = {
                     name: 'scrimColor',
                     type: 'color',
                     default: '#00000001',
-                    description: 'CSS/GTK‑style color used for translucent overlays (RGBA hex).',
+                    description: 'Color used for translucent overlays (RGBA hex).',
                     transformation: (value) => {
                         if (value === "#00000000" || value === "#000000") {
                             return "#00000001"
