@@ -1,4 +1,5 @@
 import {Field} from "../primitiveDefinitions";
+import {BarWidget} from "./barWidgets";
 
 export const themeSchema = {
     name: 'theme',
@@ -100,6 +101,74 @@ export const themeSchema = {
                             return value
                         }
                     }
+                },
+            ],
+        },
+        {
+            name: 'bars',
+            type: 'object',
+            description: 'Theming configurations for the bars.',
+            children: [
+                {
+                    name: BarWidget.MENU,
+                    type: "object",
+                    description: "Theme configuration for the menu bar widget.",
+                    children: [
+                        {
+                            name: 'icon',
+                            type: 'icon',
+                            default: '',
+                            description: 'Icon shown on the menu button (ex: Nerd Font glyph).',
+                        },
+                        {
+                            name: 'iconOffset',
+                            type: 'number',
+                            default: 1,
+                            description: 'Offset of the menu button icon.  Use this if the icon is not centered properly'
+                        },
+                        {
+                            name: 'foreground',
+                            type: 'color',
+                            default: {from: 'theme.colors.foreground'}
+                        }
+                    ],
+                },
+                {
+                    name: BarWidget.WORKSPACES,
+                    type: "object",
+                    description: "Configuration for the workspaces bar widget.",
+                    children: [
+                        {
+                            name: 'largeActive',
+                            type: 'boolean',
+                            default: false,
+                            description: 'Make the active workspace icon larger'
+                        },
+                        {
+                            name: 'activeIcon',
+                            type: 'icon',
+                            default: "",
+                            description: 'Icon of the an active workspace'
+                        },
+                        {
+                            name: 'activeOffset',
+                            type: 'number',
+                            default: 1,
+                            description: 'Offset of the active workspace icon.  Use this if the icon is not centered properly'
+                        },
+                        {
+                            name: 'inactiveIcon',
+                            type: 'icon',
+                            default: "",
+                            description: 'Icon of the an inactive workspace'
+                        },
+                        {
+                            name: 'inactiveOffset',
+                            type: 'number',
+                            default: 1,
+                            description: 'Offset of the active workspace icon.  Use this if the icon is not centered properly'
+                        },
+                    ],
                 },
             ],
         },

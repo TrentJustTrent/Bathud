@@ -58,62 +58,6 @@ function groupByProperty(
 function Workspaces({vertical}: { vertical: boolean }) {
     const hypr = Hyprland.get_default()
 
-    const activeIconSize = Variable.derive([
-        variableConfig.verticalBar.workspaces.largeActive,
-        variableConfig.horizontalBar.workspaces.largeActive,
-    ], (verticalLargeActive, horizontalLargeActive) => {
-        if ((vertical && verticalLargeActive) ||
-            !vertical && horizontalLargeActive) {
-            return OkButtonSize.LARGE
-        } else {
-            return OkButtonSize.SMALL
-        }
-    })
-
-    const activeIcon = Variable.derive([
-        variableConfig.verticalBar.workspaces.activeIcon,
-        variableConfig.horizontalBar.workspaces.activeIcon
-    ], (vIcon, hIcon) => {
-        if (vertical) {
-            return vIcon
-        } else {
-            return hIcon
-        }
-    })
-
-    const activeOffset = Variable.derive([
-        variableConfig.verticalBar.workspaces.activeOffset,
-        variableConfig.horizontalBar.workspaces.activeOffset,
-    ], (vOffset, hOffset) => {
-        if (vertical) {
-            return vOffset
-        } else {
-            return hOffset
-        }
-    })
-
-    const inactiveIcon = Variable.derive([
-        variableConfig.verticalBar.workspaces.inactiveIcon,
-        variableConfig.horizontalBar.workspaces.inactiveIcon
-    ], (vIcon, hIcon) => {
-        if (vertical) {
-            return vIcon
-        } else {
-            return hIcon
-        }
-    })
-
-    const inactiveOffset = Variable.derive([
-        variableConfig.verticalBar.workspaces.inactiveOffset,
-        variableConfig.horizontalBar.workspaces.inactiveOffset,
-    ], (vOffset, hOffset) => {
-        if (vertical) {
-            return vOffset
-        } else {
-            return hOffset
-        }
-    })
-
     return <box
         vertical={vertical}>
         {bind(hypr, "workspaces").as((workspaces) => {
@@ -133,10 +77,13 @@ function Workspaces({vertical}: { vertical: boolean }) {
                         return bind(workspace.monitor, "activeWorkspace").as((activeWorkspace) => {
                             const isActive = activeWorkspace?.id === workspace.id
                             return <OkButton
-                                offset={isActive ? activeOffset() : inactiveOffset()}
+                                offset={isActive ? variableConfig.theme.bars.workspaces.activeOffset() : variableConfig.theme.bars.workspaces.inactiveOffset()}
                                 hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
-                                label={isActive ? activeIcon() : inactiveIcon()}
-                                size={isActive ? activeIconSize() : OkButtonSize.SMALL}
+                                label={isActive ? variableConfig.theme.bars.workspaces.activeIcon() : variableConfig.theme.bars.workspaces.inactiveIcon()}
+                                size={isActive ?
+                                    variableConfig.theme.bars.workspaces.largeActive().as((large) =>
+                                        large ? OkButtonSize.LARGE : OkButtonSize.SMALL)
+                                    : OkButtonSize.SMALL}
                                 onClicked={() => {
                                     hypr.dispatch("workspace", `${workspace.id}`)
                                 }}/>
@@ -272,33 +219,11 @@ function BatteryIndicator({vertical}: { vertical: boolean }) {
 }
 
 function MenuButton({vertical}: { vertical: boolean }) {
-    const offset = Variable.derive([
-        variableConfig.verticalBar.menu.iconOffset,
-        variableConfig.horizontalBar.menu.iconOffset,
-    ], (vOffset, hOffset) => {
-        if (vertical) {
-            return vOffset
-        } else {
-            return hOffset
-        }
-    })
-
-    const label = Variable.derive([
-        variableConfig.verticalBar.menu.icon,
-        variableConfig.horizontalBar.menu.icon,
-    ], (vIcon, hIcon) => {
-        if (vertical) {
-            return vIcon
-        } else {
-            return hIcon
-        }
-    })
-
     return <OkButton
-        labelCss={["verticalMenuForeground"]}
-        offset={offset()}
+        labelCss={["barMenuForeground"]}
+        offset={variableConfig.theme.bars.menu.iconOffset()}
         hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
-        label={label()}
+        label={variableConfig.theme.bars.menu.icon()}
         onClicked={() => {
             toggleWindow(SystemMenuWindowName)
         }}/>
