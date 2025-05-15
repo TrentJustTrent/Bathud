@@ -17,6 +17,10 @@ function mdEscape(s: string): string {
     return s.replace(/\|/g, "\\|").replace(/`/g, "\\`");
 }
 
+function isResolvableDefault(value: any): value is { from: string } {
+    return typeof value === 'object' && value !== null && 'from' in value;
+}
+
 type Row = {
     name: string;
     type: string;
@@ -43,13 +47,15 @@ function collectRow(field: Field): Row {
         name: field.name,
         type: baseType,
         default:
-            field.default === undefined ||
-            field.default === "" ||
-            (Array.isArray(field.default) && field.default.length === 0)
-                ? ""
-                : Array.isArray(field.default)
-                    ? `[${field.default.map(String).join(", ")}]`
-                    : String(field.default),
+            isResolvableDefault(field.default)
+                ? `Inherits from: ${field.default.from}`
+                : field.default === undefined ||
+                    field.default === "" ||
+                    (Array.isArray(field.default) && field.default.length === 0)
+                        ? ""
+                        : Array.isArray(field.default)
+                            ? `[${field.default.map(String).join(", ")}]`
+                            : String(field.default),
         description: mdEscape(field.description ?? ""),
     };
 }
