@@ -228,6 +228,14 @@ export function validateAndApplyDefaults<T>(
                 out[key] = castPrimitive(String(resolvedValue), f.type);
                 break;
 
+            case 'icon':
+                const str = String(resolvedValue).trim();
+                if (Array.from(str).length !== 1) {
+                    throw new Error(`Invalid config value for ${keyPath}: expected a single glyph but got "${resolvedValue}"`);
+                }
+                out[key] = str;
+                break;
+
             case 'enum':
                 if (!f.enumValues!.includes(resolvedValue)) throw new Error(`Invalid config value for ${keyPath}: ${resolvedValue}`);
                 out[key] = resolvedValue;

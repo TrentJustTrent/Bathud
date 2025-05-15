@@ -1,7 +1,7 @@
 // ────────────────────────────────────────────────────────────────────────────
 // 1. Primitive schema definitions
 // ────────────────────────────────────────────────────────────────────────────
-export type PrimitiveType = 'string' | 'number' | 'boolean' | 'color'
+export type PrimitiveType = 'string' | 'number' | 'boolean' | 'color' | 'icon'
 export type FieldType = PrimitiveType | 'enum' | 'object' | 'array'
 
 export interface Field<T = any> {

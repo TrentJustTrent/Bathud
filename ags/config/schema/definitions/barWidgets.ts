@@ -93,7 +93,7 @@ export function barWidgetsSchema(vertical: boolean) { return [
             ...commonFields(),
             {
                 name: 'icon',
-                type: 'string',
+                type: 'icon',
                 default: '',
                 description: 'Icon shown on the menu button (ex: Nerd Font glyph).',
             },
@@ -119,7 +119,7 @@ export function barWidgetsSchema(vertical: boolean) { return [
             },
             {
                 name: 'activeIcon',
-                type: 'string',
+                type: 'icon',
                 default: "",
                 description: 'Icon of the an active workspace'
             },
@@ -131,7 +131,7 @@ export function barWidgetsSchema(vertical: boolean) { return [
             },
             {
                 name: 'inactiveIcon',
-                type: 'string',
+                type: 'icon',
                 default: "",
                 description: 'Icon of the an inactive workspace'
             },

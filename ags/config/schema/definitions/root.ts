@@ -10,7 +10,7 @@ import {themeSchema} from "./theme";
 export const CONFIG_SCHEMA = [
     {
         name: 'icon',
-        type: 'string',
+        type: 'icon',
         default: '',
         description: 'Icon (glyph) representing this config file.',
     },
