@@ -1,4 +1,3 @@
-import {readFile} from "astal/file";
 import {Field, PrimitiveType} from "../schema/primitiveDefinitions";
 import {Config} from "../types/derivedTypes";
 import {CONFIG_SCHEMA} from "../schema/definitions/root";
@@ -23,149 +22,8 @@ function castPrimitive(value: string, target: PrimitiveType) {
     }
 }
 
-function parseInlineValue(raw: string): any {
-    const t = raw.trim();
-    if (/^\[[^\n]*\]$/.test(t)) {
-        const inner = t.slice(1, -1);
-        return inner
-            .split(/,(?=(?:[^'\"]|'[^']*'|"[^"]*")*$)/)
-            .map((s) => stripQuotes(s.trim()))
-            .filter((s) => s !== '');
-    }
-    return t;
-}
-
 function isHexColor(value: string): boolean {
     return /^#([0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(value);
-}
-
-// ───────────────────────── parser ─────────────────────────
-export function parseConf(text: string): Record<string, any> {
-    const root: any = {};
-    const ctxStack: any[] = [root];
-    const typeStack: ('object' | 'array')[] = ['object'];
-
-    const put = (path: string[], value: any) => {
-        let cur = ctxStack[ctxStack.length - 1];
-        path.forEach((k, i) => {
-            if (i === path.length - 1) {
-                cur[k] = value;
-            } else {
-                if (cur[k] == null) cur[k] = {};
-                cur = cur[k];
-            }
-        });
-    };
-
-    const lines = text.split(/\r?\n/);
-    lines.forEach((raw, idx) => {
-        const line = raw.trim();
-        if (!line || line.startsWith('#') || line.startsWith(';')) return;
-
-        const curType = () => typeStack[typeStack.length - 1];
-
-        // Array end ] or ],
-        if (/^],?\s*$/.test(line)) {
-            if (curType() !== 'array') throw new Error(`Unexpected ] at line ${idx + 1}`);
-            ctxStack.pop();
-            typeStack.pop();
-            return;
-        }
-
-        // Object end } or },
-        if (/^},?\s*$/.test(line)) {
-            if (curType() !== 'object') throw new Error(`Unexpected } at line ${idx + 1}`);
-            const finished = ctxStack.pop(); // the object we just closed
-            typeStack.pop();
-            const parent = ctxStack[ctxStack.length - 1];
-            // Push to parent array only if not already present (avoids duplicates)
-            if (Array.isArray(parent) && parent[parent.length - 1] !== finished) {
-                parent.push(finished);
-            } // add to array if parent is array
-            return;
-        }
-
-        // Block open   foo {   or   foo.bar {
-        const openBlock = line.match(/^([\w.]+)\s*{\s*$/);
-        if (openBlock) {
-            const path = openBlock[1].split('.');
-            const obj: any = {};
-            put(path, obj);
-            ctxStack.push(obj);
-            typeStack.push('object');
-            return;
-        }
-
-        // Object assignment start  key = {
-        const objStart = line.match(/^([^=]+?)\s*=\s*{\s*$/);
-        if (objStart) {
-            const path = objStart[1].trim().split('.');
-            const obj: any = {};
-            put(path, obj);
-            ctxStack.push(obj);
-            typeStack.push('object');
-            return;
-        }
-
-        // Array assignment start  key = [
-        const arrayStart = line.match(/^([^=]+?)\s*=\s*\[\s*$/);
-        if (arrayStart) {
-            const path = arrayStart[1].trim().split('.');
-            const arr: any[] = [];
-            put(path, arr);
-            ctxStack.push(arr);
-            typeStack.push('array');
-            return;
-        }
-
-        // Array assignment without '='  e.g., key [
-        const arrayStartNoEq = line.match(/^([\w.]+)\s*\[\s*$/);
-        if (arrayStartNoEq) {
-            const path = arrayStartNoEq[1].split('.');
-            const arr: any[] = [];
-            put(path, arr);
-            ctxStack.push(arr);
-            typeStack.push('array');
-            return;
-        }
-
-        // Object open inside array (anonymous object)
-        if (curType() === 'array' && line.startsWith('{')) {
-            const obj: any = {};
-            ctxStack[ctxStack.length - 1].push(obj);
-            ctxStack.push(obj);
-            typeStack.push('object');
-            return;
-        }
-
-        // Plain value inside array (e.g., identifier, string, number)
-        if (curType() === 'array') {
-            const value = parseInlineValue(line.replace(/,?\s*$/, ''));
-            ctxStack[ctxStack.length - 1].push(value);
-            return;
-        }
-
-        // Shorthand assignment: key [value, value]
-        const shorthandArray = line.match(/^([\w.]+)\s+(\[.*\])$/);
-        if (shorthandArray) {
-            const [, rawKey, rawVal] = shorthandArray;
-            const path = rawKey.trim().split('.');
-            const val = parseInlineValue(rawVal);
-            put(path, val);
-            return;
-        }
-
-        // Regular assignment
-        const kv = line.match(/^([^=]+?)\s*=\s*(.+)$/);
-        if (!kv) throw new Error(`Invalid line ${idx + 1}: ${line}`);
-        const [, rawKey, rawVal] = kv;
-        const path = rawKey.trim().split('.');
-        const val = parseInlineValue(rawVal);
-        put(path, val);
-    });
-
-    if (ctxStack.length !== 1) throw new Error('Unclosed block/array');
-    return root;
 }
 
 // ───────────────────────── validation ─────────────────────────
@@ -267,7 +125,6 @@ export function validateAndApplyDefaults<T>(
 // Public helper – load & validate config from file
 // ────────────────────────────────────────────────────────────────────────────
 export function loadConfig(path: string, defaults?: Record<string, any>): Config {
-    // const text = readFile(path) ?? "";
     const raw = parseYaml(path)
     return validateAndApplyDefaults(raw, CONFIG_SCHEMA, "", defaults);
 }
