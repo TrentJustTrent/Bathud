@@ -141,10 +141,12 @@ function getAvailableConfigs(): ConfigFile[] {
 }
 
 function getSelectedConfig(): ConfigFile | undefined {
-    const savedConfigString = readFile(`${GLib.get_home_dir()}/.cache/OkPanel/config`).trim()
-    const savedConfig = availableConfigs.get().find((config) => config.fileName === savedConfigString)
-    if (savedConfig !== undefined) {
-        return savedConfig
+    if (GLib.file_test(`${homePath}/.config/OkPanel/okpanel.conf`, GLib.FileTest.EXISTS)) {
+        const savedConfigString = readFile(`${GLib.get_home_dir()}/.cache/OkPanel/config`).trim()
+        const savedConfig = availableConfigs.get().find((config) => config.fileName === savedConfigString)
+        if (savedConfig !== undefined) {
+            return savedConfig
+        }
     }
     if (availableConfigs.get().length === 0) {
         return undefined
