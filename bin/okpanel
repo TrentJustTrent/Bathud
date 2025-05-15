@@ -28,6 +28,9 @@ run_run_command() {
 		dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../ags
 	fi
 
+	# make the config file if it doesn't exist so that we can monitor for config changes
+	mkdir -p $HOME/.config/OkPanel
+
 	# Start astal-tray if not already running
 	if ! pgrep -x "astal-tray" > /dev/null; then
 		echo "Starting astal-tray..."

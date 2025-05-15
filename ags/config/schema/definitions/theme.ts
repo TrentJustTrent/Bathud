@@ -27,7 +27,7 @@ export const themeSchema = {
                 {name: 'primary', type: 'color', default: '#7C545F'},
                 {name: 'buttonPrimary', type: 'color', default: '#7C545F'},
                 {name: 'warning', type: 'color', default: '#7C7C54'},
-                {name: 'barBorder', type: 'color', default: '#7C7C54'},
+                {name: 'barBorder', type: 'color', default: '#7C545F'},
                 {name: 'windowBorder', type: 'color', default: '#AFB3BD'},
                 {name: 'alertBorder', type: 'color', default: '#7C545F'},
             ],

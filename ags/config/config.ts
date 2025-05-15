@@ -1,5 +1,5 @@
 import {GLib, Variable} from "astal";
-import {loadConfig} from "./parser/configLoader";
+import {loadConfig, validateAndApplyDefaults} from "./parser/configLoader";
 import {Bar} from "./bar";
 import {Config, VariableConfig} from "./types/derivedTypes";
 import {updateVariablesFromConfig, wrapConfigInVariables} from "./parser/variableWrapper";
@@ -23,7 +23,10 @@ let defaultConfigValues: Config | undefined = ((): Config | undefined => {
     }
 })()
 export let config: Config = ((): Config => {
-    return loadConfig(`${homePath}/.config/OkPanel/${selectedConfig.get().fileName}`, defaultConfigValues)
+    if (selectedConfig.get() === undefined) {
+        return validateAndApplyDefaults({}, CONFIG_SCHEMA)
+    }
+    return loadConfig(`${homePath}/.config/OkPanel/${selectedConfig.get()?.fileName}`, defaultConfigValues)
 })()
 export const variableConfig: VariableConfig = ((): VariableConfig => {
     return wrapConfigInVariables(CONFIG_SCHEMA, config)
@@ -31,7 +34,7 @@ export const variableConfig: VariableConfig = ((): VariableConfig => {
 export const selectedBar = Variable(Bar.LEFT)
 export let projectDir = ""
 
-console.log(`selected config: ${selectedConfig.get().fileName}`)
+console.log(`selected config: ${selectedConfig?.get()?.fileName}`)
 
 function monitorAvailableConfigs() {
     monitorFile(`${homePath}/.config/OkPanel`, (file, event) => {
@@ -75,7 +78,10 @@ function monitorSelectedConfig() {
     if (selectedMonitor !== null) {
         selectedMonitor.cancel()
     }
-    selectedMonitor = monitorFile(`${homePath}/.config/OkPanel/${selectedConfig.get().fileName}`, (file, event) => {
+    if (selectedConfig === undefined) {
+        return
+    }
+    selectedMonitor = monitorFile(`${homePath}/.config/OkPanel/${selectedConfig.get()?.fileName}`, (file, event) => {
         const fileName = GLib.path_get_basename(file)
         switch (event) {
             case Gio.FileMonitorEvent.CHANGED:
@@ -134,13 +140,15 @@ function getAvailableConfigs(): ConfigFile[] {
     return configs
 }
 
-function getSelectedConfig(): ConfigFile {
+function getSelectedConfig(): ConfigFile | undefined {
     const savedConfigString = readFile(`${GLib.get_home_dir()}/.cache/OkPanel/config`).trim()
     const savedConfig = availableConfigs.get().find((config) => config.fileName === savedConfigString)
     if (savedConfig !== undefined) {
         return savedConfig
     }
-    //TODO if there are no available configs, use default values?
+    if (availableConfigs.get().length === 0) {
+        return undefined
+    }
     saveConfig(availableConfigs.get()[0].fileName)
     return availableConfigs.get()[0]
 }
@@ -155,12 +163,18 @@ export function setNewConfig(configFile: ConfigFile, onFinished: () => void) {
 }
 
 function updateDefaultValues() {
+    // update default values
     if (GLib.file_test(`${homePath}/.config/OkPanel/okpanel.conf`, GLib.FileTest.EXISTS)) {
         defaultConfigValues = loadConfig(`${homePath}/.config/OkPanel/okpanel.conf`)
     } else {
         defaultConfigValues = undefined
     }
-    config = loadConfig(`${homePath}/.config/OkPanel/${selectedConfig.get().fileName}`, defaultConfigValues)
+    // updated in use config
+    if (selectedConfig.get() === undefined) {
+        config = validateAndApplyDefaults({}, CONFIG_SCHEMA, "", defaultConfigValues)
+    } else {
+        config = loadConfig(`${homePath}/.config/OkPanel/${selectedConfig.get()?.fileName}`, defaultConfigValues)
+    }
     updateVariablesFromConfig(CONFIG_SCHEMA, variableConfig, config)
 }
 

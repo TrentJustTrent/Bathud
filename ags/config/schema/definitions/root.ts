@@ -11,7 +11,7 @@ export const CONFIG_SCHEMA = [
     {
         name: 'icon',
         type: 'string',
-        default: '',
+        default: '',
         description: 'Icon (glyph) representing this config file.',
     },
     {

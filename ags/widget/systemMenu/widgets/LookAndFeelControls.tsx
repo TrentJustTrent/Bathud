@@ -342,8 +342,8 @@ function NightLight() {
 }
 
 export default function () {
-    selectedConfig.subscribe((theme) => {
-        if (theme != null) {
+    selectedConfig.subscribe((config) => {
+        if (config != undefined) {
             updateFiles(variableConfig.theme)
         }
     })
