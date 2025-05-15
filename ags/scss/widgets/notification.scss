@@ -1,4 +1,5 @@
 @use "../variables" as vars;
+@use "sass:color";
 
 window.NotificationPopups {
   all: unset;
@@ -25,5 +26,5 @@ window.NotificationPopups {
   border-radius: vars.$windowBorderRadius;
   background-color: vars.$bg;
   margin: 5px 0 5px 0;
-  border: 2px solid lighten(vars.$bg, 5%);
+  border: 2px solid color.adjust(vars.$bg, $lightness: 5%);
 }

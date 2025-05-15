@@ -1,4 +1,5 @@
 @use "../variables" as vars;
+@use "sass:color";
 
 .mediaPlayersContainer {
   margin: 0 0 0 0;
@@ -7,7 +8,7 @@
 .mediaPlayer {
   margin-top: 20px;
   background-color: vars.$bg;
-  border: 2px solid lighten(vars.$bg, 5%);
+  border: 2px solid color.adjust(vars.$bg, $lightness: 5%);
   border-radius: vars.$buttonBorderRadius;
   padding: 4px 12px 4px 12px;
 
@@ -19,7 +20,7 @@
     margin: 0 8px 0 8px;
 
     trough {
-      background: lighten(vars.$bg, 5%);
+      background: color.adjust(vars.$bg, $lightness: 5%);
       min-height: 8px;
       border-radius: 8px;
 

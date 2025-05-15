@@ -1,4 +1,5 @@
 @use "../variables" as vars;
+@use "sass:color";
 
 .okButtonClass {
   all: unset;
@@ -7,11 +8,11 @@
 }
 
 .okButtonClass:hover {
-  background-color: lighten(vars.$bg, 5%)
+  background-color: color.adjust(vars.$bg, $lightness: 5%)
 }
 
 .okButtonClassPrimary:hover {
-  background-color: lighten(vars.$buttonPrimary, 5%)
+  background-color: color.adjust(vars.$buttonPrimary, $lightness: 5%)
 }
 
 .okButtonClassSelected {
@@ -29,7 +30,7 @@
 }
 
 .screenshotButton:hover {
-  background-color: lighten(vars.$buttonPrimary, 5%)
+  background-color: color.adjust(vars.$buttonPrimary, $lightness: 5%)
 }
 
 .trayIconButton {
@@ -40,7 +41,7 @@
   }
 
   &:hover {
-    background-color: lighten(vars.$bg, 5%)
+    background-color: color.adjust(vars.$bg, $lightness: 5%)
   }
 }
 
@@ -57,6 +58,6 @@
   }
 
   &:hover {
-    background-color: lighten(vars.$bg, 5%)
+    background-color: color.adjust(vars.$bg, $lightness: 5%)
   }
 }

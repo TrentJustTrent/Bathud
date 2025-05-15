@@ -1,4 +1,5 @@
 @use "../variables" as vars;
+@use "sass:color";
 
 .appLauncher {
   padding: 2px;
@@ -16,7 +17,7 @@
   }
 
   .appButton:hover {
-    background-color: lighten(vars.$bg, 5%)
+    background-color: color.adjust(vars.$bg, $lightness: 5%)
   }
 
   .selectedAppButton {

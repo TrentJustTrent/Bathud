@@ -1,11 +1,12 @@
 @use "../variables" as vars;
+@use "sass:color";
 
 .divider {
-  border: 2px solid lighten(vars.$bg, 5%);
+  border: 2px solid color.adjust(vars.$bg, $lightness: 5%);
   border-radius: 8px;
 }
 
 .dividerThin {
-  border: 1px solid lighten(vars.$bg, 5%);
+  border: 1px solid color.adjust(vars.$bg, $lightness: 5%);
   border-radius: 8px;
 }
