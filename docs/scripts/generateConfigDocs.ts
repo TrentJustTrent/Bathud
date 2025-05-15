@@ -21,7 +21,6 @@ type Row = {
     name: string;
     type: string;
     default: string;
-    required: string;
     description: string;
 };
 
@@ -51,7 +50,6 @@ function collectRow(field: Field): Row {
                 : Array.isArray(field.default)
                     ? `[${field.default.map(String).join(", ")}]`
                     : String(field.default),
-        required: field.required ? "✔" : "x",
         description: mdEscape(field.description ?? ""),
     };
 }
@@ -95,7 +93,6 @@ function formatTable(rows: Row[]): string[] {
                 row.name,
                 row.type,
                 row.default,
-                row.required,
                 row.description,
             ][i]?.length || 0)
         )
@@ -114,7 +111,6 @@ function formatTable(rows: Row[]): string[] {
                 row.name,
                 row.type,
                 row.default,
-                row.required,
                 row.description,
             ])
         );

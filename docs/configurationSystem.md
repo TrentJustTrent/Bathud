@@ -28,14 +28,15 @@ You can define shared settings in a global file:
 
 This file acts as a fallback for all named configurations and is useful for setting values you want consistent across multiple themes or setups.
 
-##  Switching Configurations
+If you only define values in okpanel.conf, and do not use any named configs, those values will apply globally.
 
-You can switch between config files using the Look & Feels widget in the UI.
+## Non Global Configs
 
-⚠ Notes
+Other configuration files can be named anything except `okpanel.conf`.  
+If only one non global file is defined, that is the config that will be used.
+If multiple non global files are defined, you can switch between them in the Look and Feels widget.
 
-- When you select a named config file like nord.conf, the okpanel.conf file will still be used as a fallback.
 
-- If you only define values in okpanel.conf, and do not use any named configs, those values will apply globally.
+## No Config Files
 
-- The okpanel.conf file must be named exactly as shown — no extensions or alternate names.
+If no configuration files are defined, then only the default values will be used.
