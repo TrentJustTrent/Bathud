@@ -170,11 +170,11 @@ cat > "$TARGET_DIR/variables.scss" <<EOF
 \\$windowBorder: ${theme.colors.windowBorder.get()};
 \\$alertBorder: ${theme.colors.alertBorder.get()};
 \\$scrimColor: ${theme.colors.scrimColor.get()};
-\\$gaps: ${variableConfig.windows.gaps.get()}px;
+\\$gaps: ${variableConfig.theme.windows.gaps.get()}px;
 \\$buttonBorderRadius: ${variableConfig.theme.buttonBorderRadius.get()}px;
 \\$largeButtonBorderRadius: ${variableConfig.theme.largeButtonBorderRadius.get()}px;
-\\$windowBorderRadius: ${variableConfig.windows.borderRadius.get()}px;
-\\$windowBorderWidth: ${variableConfig.windows.borderWidth.get()}px;
+\\$windowBorderRadius: ${variableConfig.theme.windows.borderRadius.get()}px;
+\\$windowBorderWidth: ${variableConfig.theme.windows.borderWidth.get()}px;
 
 \\$barMenuForeground: ${variableConfig.theme.bars.menu.foreground.get()};
 EOF

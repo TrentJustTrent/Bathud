@@ -1,4 +1,4 @@
-import {App, Astal, Gdk, Gtk} from "astal/gtk4"
+import {App, Astal, Gtk} from "astal/gtk4"
 import Wp from "gi://AstalWp"
 import {bind, Variable, Binding, GLib} from "astal"
 import {getVolumeIcon, playPowerPlug, playPowerUnplug} from "../utils/audio";

@@ -1,6 +1,5 @@
 import {Field} from "../primitiveDefinitions";
 import {soundsSchema} from "./sounds";
-import {windowsSchema} from "./windows";
 import {notificationsSchema} from "./notifications";
 import {horizontalBarSchema, verticalBarSchema} from "./bars";
 import {systemMenuSchema} from "./systemMenu";
@@ -47,7 +46,6 @@ export const CONFIG_SCHEMA = [
         description: 'Index of the primary monitor (0‑based as reported by Hyprland).',
     },
     soundsSchema,
-    windowsSchema,
     notificationsSchema,
     systemCommandsSchema,
     themeSchema,

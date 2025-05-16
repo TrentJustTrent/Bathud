@@ -148,7 +148,7 @@ export default function () {
                 textEntryBox.text = ""
             }
         }}
-        onKeyPressed={function (self, key) {
+        onKeyPressed={function (_, key) {
             if (key === Gdk.KEY_Escape) {
                 hideAllWindows()
             } else if (key === Gdk.KEY_Down && list.get().length >= selectedIndex.get()) {

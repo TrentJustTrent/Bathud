@@ -1,5 +1,6 @@
 import {Field} from "../primitiveDefinitions";
 import {BarWidget} from "./barWidgets";
+import {windowsSchema} from "./windows";
 
 export const themeSchema = {
     name: 'theme',
@@ -173,5 +174,6 @@ export const themeSchema = {
                 },
             ],
         },
+        windowsSchema,
     ],
 } as const satisfies Field

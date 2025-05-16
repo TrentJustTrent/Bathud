@@ -76,14 +76,14 @@ export default function(
         monitor={monitor}
         name={windowName}
         anchor={anchor}
-        margin={variableConfig.windows.gaps()}
+        margin={variableConfig.theme.windows.gaps()}
         exclusivity={Astal.Exclusivity.NORMAL}
         layer={Astal.Layer.OVERLAY}
         cssClasses={["transparentBackground"]}
         application={App}
         visible={false}
         keymode={Astal.Keymode.ON_DEMAND}
-        onKeyPressed={function (self, key) {
+        onKeyPressed={function (_, key) {
             if (key === Gdk.KEY_Escape) {
                 hideAllWindows()
             }
