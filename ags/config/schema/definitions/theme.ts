@@ -162,7 +162,7 @@ export const themeSchema = {
                             name: 'activeIcon',
                             type: 'icon',
                             default: "",
-                            description: 'Icon of the an active workspace'
+                            description: 'Icon of the active workspace'
                         },
                         {
                             name: 'activeOffset',
@@ -174,7 +174,7 @@ export const themeSchema = {
                             name: 'inactiveIcon',
                             type: 'icon',
                             default: "",
-                            description: 'Icon of the an inactive workspace'
+                            description: 'Icon of the inactive workspace'
                         },
                         {
                             name: 'inactiveOffset',
