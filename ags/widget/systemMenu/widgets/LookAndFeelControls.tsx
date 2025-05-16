@@ -6,19 +6,17 @@ import Pango from "gi://Pango?version=1.0";
 import {createScaledTexture} from "../../utils/images";
 import Divider from "../../common/Divider";
 import {
-    availableConfigs,
-    selectedBar,
+    availableConfigs, ConfigFile,
     selectedConfig,
     setNewConfig,
     variableConfig
 } from "../../../config/config";
 import RevealerRow from "../../common/RevealerRow";
-import {setBarType, setWallpaper} from "../../../config/cachedStates";
-import {Bar} from "../../../config/bar";
+import {Bar, selectedBar, setBarType} from "../../../config/bar";
 import OkButton, {OkButtonSize} from "../../common/OkButton";
 import {Theme} from "../../../config/types/derivedTypes";
-import {ConfigFile} from "../../../config/configFile";
 import {listFilenamesInDir} from "../../utils/files";
+import {setWallpaper} from "../../../config/theme";
 
 const files: Variable<string[][]> = Variable([])
 const numberOfColumns = 2

@@ -1,7 +1,7 @@
 import {App, Astal, Gtk} from "astal/gtk4"
 import {addWidgets} from "./BarWidgets";
-import {selectedBar, variableConfig} from "../../config/config";
-import {Bar} from "../../config/bar";
+import {variableConfig} from "../../config/config";
+import {Bar, selectedBar} from "../../config/bar";
 import CavaWaveform from "../cava/CavaWaveform";
 import {getCavaFlipStartValue} from "../utils/cava";
 import {Variable} from "astal";

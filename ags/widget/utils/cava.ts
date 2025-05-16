@@ -1,5 +1,5 @@
-import {selectedBar, variableConfig} from "../../config/config";
-import {Bar} from "../../config/bar";
+import {variableConfig} from "../../config/config";
+import {Bar, selectedBar} from "../../config/bar";
 import {Binding, Variable} from "astal";
 
 import {WaveformPosition} from "../../config/schema/definitions/barWidgets";

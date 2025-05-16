@@ -7,7 +7,6 @@ import {SchemaToType, VariableSchemaToType} from "./typeGeneration";
 import {CONFIG_SCHEMA} from "../schema/definitions/root";
 
 export type Config = SchemaToType<typeof CONFIG_SCHEMA>
-export type Windows = Config["windows"]
 export type Notifications = Config["notifications"]
 export type HorizontalBar = Config["horizontalBar"]
 export type VerticalBar = Config["verticalBar"]

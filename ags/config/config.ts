@@ -1,14 +1,12 @@
 import {GLib, Variable} from "astal";
 import {loadConfig, validateAndApplyDefaults} from "./parser/configLoader";
-import {Bar} from "./bar";
 import {Config, VariableConfig} from "./types/derivedTypes";
 import {updateVariablesFromConfig, wrapConfigInVariables} from "./parser/variableWrapper";
 import {CONFIG_SCHEMA} from "./schema/definitions/root";
 import {listFilenamesInDir} from "../widget/utils/files";
 import {monitorFile, readFile} from "astal/file";
 import Gio from "gi://Gio?version=2.0";
-import {saveConfig, setTheme, setThemeBasic} from "./cachedStates";
-import {ConfigFile} from "./configFile";
+import {setTheme, setThemeBasic} from "./theme";
 
 const homePath = GLib.get_home_dir()
 const globalConfigFile = "okpanel.yaml"
@@ -39,10 +37,6 @@ export let config: Config = ((): Config => {
 export const variableConfig: VariableConfig = ((): VariableConfig => {
     return wrapConfigInVariables(CONFIG_SCHEMA, config)
 })()
-
-export const selectedBar = Variable(Bar.LEFT)
-
-export let projectDir = ""
 
 function monitorAvailableConfigs() {
     monitorFile(`${homePath}/.config/OkPanel`, (file, event) => {
@@ -90,16 +84,17 @@ function monitorAvailableConfigs() {
 
 monitorAvailableConfigs()
 
-let selectedMonitor: Gio.FileMonitor | null = null
+let selectedConfigFileMonitor: Gio.FileMonitor | null = null
 
+// monitor the selected file separately from available files so that system links work
 function monitorSelectedConfig() {
-    if (selectedMonitor !== null) {
-        selectedMonitor.cancel()
+    if (selectedConfigFileMonitor !== null) {
+        selectedConfigFileMonitor.cancel()
     }
     if (selectedConfig === undefined) {
         return
     }
-    selectedMonitor = monitorFile(`${homePath}/.config/OkPanel/${selectedConfig.get()?.fileName}`, (file, event) => {
+    selectedConfigFileMonitor = monitorFile(`${homePath}/.config/OkPanel/${selectedConfig.get()?.fileName}`, (file, event) => {
         const fileName = GLib.path_get_basename(file)
         switch (event) {
             case Gio.FileMonitorEvent.CHANGED:
@@ -114,16 +109,17 @@ function monitorSelectedConfig() {
 
 monitorSelectedConfig()
 
-let defaultsMonitor: Gio.FileMonitor | null = null
+let defaultsConfigFileMonitor: Gio.FileMonitor | null = null
 
+// monitor the selected file separately from available files so that system links work
 function monitorDefaultsConfig() {
-    if (defaultsMonitor !== null) {
-        defaultsMonitor.cancel()
+    if (defaultsConfigFileMonitor !== null) {
+        defaultsConfigFileMonitor.cancel()
     }
     if (!GLib.file_test(`${homePath}/.config/OkPanel/${globalConfigFile}`, GLib.FileTest.EXISTS)) {
         return
     }
-    defaultsMonitor = monitorFile(`${homePath}/.config/OkPanel/${globalConfigFile}`, (file, event) => {
+    defaultsConfigFileMonitor = monitorFile(`${homePath}/.config/OkPanel/${globalConfigFile}`, (file, event) => {
         switch (event) {
             case Gio.FileMonitorEvent.CHANGED:
                 console.log(`defaults config file changed`)
@@ -136,10 +132,16 @@ function monitorDefaultsConfig() {
 monitorDefaultsConfig()
 
 function disableDefaultsConfigMonitor() {
-    if (defaultsMonitor !== null) {
-        defaultsMonitor.cancel()
-        defaultsMonitor = null
+    if (defaultsConfigFileMonitor !== null) {
+        defaultsConfigFileMonitor.cancel()
+        defaultsConfigFileMonitor = null
     }
+}
+
+export type ConfigFile = {
+    fileName: string
+    icon: string
+    pixelOffset: number
 }
 
 function getAvailableConfigs(): ConfigFile[] {
@@ -157,6 +159,25 @@ function getAvailableConfigs(): ConfigFile[] {
         })
     })
     return configs
+}
+
+export function saveConfig(name: string) {
+    const homeDir = GLib.get_home_dir()
+    const dirPath = `${homeDir}/.cache/OkPanel`
+    const filePath = `${dirPath}/config`
+
+    // Ensure the directory exists
+    const dir = Gio.File.new_for_path(dirPath)
+    if (!dir.query_exists(null)) {
+        dir.make_directory_with_parents(null)
+    }
+
+    // Write the file
+    const file = Gio.File.new_for_path(filePath)
+    const outputStream = file.replace(null, false, Gio.FileCreateFlags.REPLACE_DESTINATION, null)
+
+    outputStream.write(name, null)
+    outputStream.close(null)
 }
 
 function getSelectedConfig(): ConfigFile | undefined {
@@ -203,6 +224,3 @@ function updateDefaultValues() {
     updateVariablesFromConfig(CONFIG_SCHEMA, variableConfig, config)
 }
 
-export function setProjectDir(dir: string) {
-    projectDir = dir
-}

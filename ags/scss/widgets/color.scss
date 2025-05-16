@@ -5,13 +5,9 @@
 }
 
 .colorWarning {
-  color: vars.$warning
+  color: vars.$warning;
 }
 
 .backgroundColorPrimary {
-  background-color: vars.$buttonPrimary
-}
-
-.barMenuForeground {
-  color: vars.$barMenuForeground
+  background-color: vars.$buttonPrimary;
 }

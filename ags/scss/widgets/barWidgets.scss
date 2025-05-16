@@ -1,0 +1,402 @@
+@use "../variables" as vars;
+@use "sass:color";
+
+.barMenuForeground {
+  color: vars.$barMenuForeground;
+}
+
+.barMenuBackground {
+  background-color: vars.$barMenuBackground;
+  border-radius: vars.$barMenuBorderRadius;
+  border-width: vars.$barMenuBorderWidth;
+  border-color: vars.$barMenuBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barMenuBackground, $lightness: 5%);
+  }
+}
+
+.barWorkspacesForeground {
+  color: vars.$barWorkspacesForeground;
+}
+
+.barWorkspacesBackground {
+  background-color: vars.$barWorkspacesBackground;
+  border-radius: vars.$barWorkspacesBorderRadius;
+  border-width: vars.$barWorkspacesBorderWidth;
+  border-color: vars.$barWorkspacesBorderColor;
+  border-style: solid;
+}
+
+.barWorkspaceButtonBackground {
+  background-color: vars.$barWorkspacesBackground;
+
+  &:hover {
+    background-color: color.adjust(vars.$barWorkspacesBackground, $lightness: 5%);
+  }
+}
+
+.barClockForeground {
+  color: vars.$barClockForeground;
+}
+
+.barClockBackground {
+  background-color: vars.$barClockBackground;
+  border-radius: vars.$barClockBorderRadius;
+  border-width: vars.$barClockBorderWidth;
+  border-color: vars.$barClockBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barClockBackground, $lightness: 5%);
+  }
+}
+
+.barAudioOutForeground {
+  color: vars.$barAudioOutForeground;
+}
+
+.barAudioOutBackground {
+  background-color: vars.$barAudioOutBackground;
+  border-radius: vars.$barAudioOutBorderRadius;
+  border-width: vars.$barAudioOutBorderWidth;
+  border-color: vars.$barAudioOutBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barAudioOutBackground, $lightness: 5%);
+  }
+}
+
+.barAudioInForeground {
+  color: vars.$barAudioInForeground;
+}
+
+.barAudioInBackground {
+  background-color: vars.$barAudioInBackground;
+  border-radius: vars.$barAudioInBorderRadius;
+  border-width: vars.$barAudioInBorderWidth;
+  border-color: vars.$barAudioInBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barAudioInBackground, $lightness: 5%);
+  }
+}
+
+.barBluetoothForeground {
+  color: vars.$barBluetoothForeground;
+}
+
+.barBluetoothBackground {
+  background-color: vars.$barBluetoothBackground;
+  border-radius: vars.$barBluetoothBorderRadius;
+  border-width: vars.$barBluetoothBorderWidth;
+  border-color: vars.$barBluetoothBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barBluetoothBackground, $lightness: 5%);
+  }
+}
+
+.barNetworkForeground {
+  color: vars.$barNetworkForeground;
+}
+
+.barNetworkBackground {
+  background-color: vars.$barNetworkBackground;
+  border-radius: vars.$barNetworkBorderRadius;
+  border-width: vars.$barNetworkBorderWidth;
+  border-color: vars.$barNetworkBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barNetworkBackground, $lightness: 5%);
+  }
+}
+
+.barRecordingIndicatorForeground {
+  color: vars.$barRecordingIndicatorForeground;
+}
+
+.barRecordingIndicatorBackground {
+  background-color: vars.$barRecordingIndicatorBackground;
+  border-radius: vars.$barRecordingIndicatorBorderRadius;
+  border-width: vars.$barRecordingIndicatorBorderWidth;
+  border-color: vars.$barRecordingIndicatorBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barRecordingIndicatorBackground, $lightness: 5%);
+  }
+}
+
+.barVpnIndicatorForeground {
+  color: vars.$barVpnIndicatorForeground;
+}
+
+.barVpnIndicatorBackground {
+  background-color: vars.$barVpnIndicatorBackground;
+  border-radius: vars.$barVpnIndicatorBorderRadius;
+  border-width: vars.$barVpnIndicatorBorderWidth;
+  border-color: vars.$barVpnIndicatorBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barVpnIndicatorBackground, $lightness: 5%);
+  }
+}
+
+.barBatteryForeground {
+  color: vars.$barBatteryForeground;
+}
+
+.barBatteryBackground {
+  background-color: vars.$barBatteryBackground;
+  border-radius: vars.$barBatteryBorderRadius;
+  border-width: vars.$barBatteryBorderWidth;
+  border-color: vars.$barBatteryBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barBatteryBackground, $lightness: 5%);
+  }
+}
+
+.barTrayForeground {
+  color: vars.$barTrayForeground;
+}
+
+.barTrayBackground {
+  background-color: vars.$barTrayBackground;
+  border-radius: vars.$barTrayBorderRadius;
+  border-width: vars.$barTrayBorderWidth;
+  border-color: vars.$barTrayBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barTrayBackground, $lightness: 5%);
+  }
+}
+
+.barAppLauncherForeground {
+  color: vars.$barAppLauncherForeground;
+}
+
+.barAppLauncherBackground {
+  background-color: vars.$barAppLauncherBackground;
+  border-radius: vars.$barAppLauncherBorderRadius;
+  border-width: vars.$barAppLauncherBorderWidth;
+  border-color: vars.$barAppLauncherBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barAppLauncherBackground, $lightness: 5%);
+  }
+}
+
+.barScreenshotForeground {
+  color: vars.$barScreenshotForeground;
+}
+
+.barScreenshotBackground {
+  background-color: vars.$barScreenshotBackground;
+  border-radius: vars.$barScreenshotBorderRadius;
+  border-width: vars.$barScreenshotBorderWidth;
+  border-color: vars.$barScreenshotBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barScreenshotBackground, $lightness: 5%);
+  }
+}
+
+.barClipboardManagerForeground {
+  color: vars.$barClipboardManagerForeground;
+}
+
+.barClipboardManagerBackground {
+  background-color: vars.$barClipboardManagerBackground;
+  border-radius: vars.$barClipboardManagerBorderRadius;
+  border-width: vars.$barClipboardManagerBorderWidth;
+  border-color: vars.$barClipboardManagerBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barClipboardManagerBackground, $lightness: 5%);
+  }
+}
+
+.barPowerProfileForeground {
+  color: vars.$barPowerProfileForeground;
+}
+
+.barPowerProfileBackground {
+  background-color: vars.$barPowerProfileBackground;
+  border-radius: vars.$barPowerProfileBorderRadius;
+  border-width: vars.$barPowerProfileBorderWidth;
+  border-color: vars.$barPowerProfileBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barPowerProfileBackground, $lightness: 5%);
+  }
+}
+
+.barCavaWaveformForeground {
+  color: vars.$barCavaWaveformForeground;
+}
+
+.barCavaWaveformBackground {
+  background-color: vars.$barCavaWaveformBackground;
+  border-radius: vars.$barCavaWaveformBorderRadius;
+  border-width: vars.$barCavaWaveformBorderWidth;
+  border-color: vars.$barCavaWaveformBorderColor;
+  border-style: solid;
+}
+
+.barMprisControlsForeground {
+  color: vars.$barMprisControlsForeground;
+}
+
+.barMprisControlsButtonBackground {
+  background-color: vars.$barMprisControlsBackground;
+
+  &:hover {
+    background-color: color.adjust(vars.$barMprisControlsBackground, $lightness: 5%);
+  }
+}
+
+.barMprisControlsBackground {
+  background-color: vars.$barMprisControlsBackground;
+  border-radius: vars.$barMprisControlsBorderRadius;
+  border-width: vars.$barMprisControlsBorderWidth;
+  border-color: vars.$barMprisControlsBorderColor;
+  border-style: solid;
+}
+
+.barMprisTrackInfoForeground {
+  color: vars.$barMprisTrackInfoForeground;
+}
+
+.barMprisTrackInfoBackground {
+  background-color: vars.$barMprisTrackInfoBackground;
+  border-radius: vars.$barMprisTrackInfoBorderRadius;
+  border-width: vars.$barMprisTrackInfoBorderWidth;
+  border-color: vars.$barMprisTrackInfoBorderColor;
+  border-style: solid;
+}
+
+.barMprisPrimaryPlayerSwitcherForeground {
+  color: vars.$barMprisPrimaryPlayerSwitcherForeground;
+}
+
+.barMprisPrimaryPlayerSwitcherBackground {
+  background-color: vars.$barMprisPrimaryPlayerSwitcherBackground;
+  border-radius: vars.$barMprisPrimaryPlayerSwitcherBorderRadius;
+  border-width: vars.$barMprisPrimaryPlayerSwitcherBorderWidth;
+  border-color: vars.$barMprisPrimaryPlayerSwitcherBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barMprisPrimaryPlayerSwitcherBackground, $lightness: 5%);
+  }
+}
+
+.barNotificationHistoryForeground {
+  color: vars.$barNotificationHistoryForeground;
+}
+
+.barNotificationHistoryBackground {
+  background-color: vars.$barNotificationHistoryBackground;
+  border-radius: vars.$barNotificationHistoryBorderRadius;
+  border-width: vars.$barNotificationHistoryBorderWidth;
+  border-color: vars.$barNotificationHistoryBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barNotificationHistoryBackground, $lightness: 5%);
+  }
+}
+
+.barColorPickerForeground {
+  color: vars.$barColorPickerForeground;
+}
+
+.barColorPickerBackground {
+  background-color: vars.$barColorPickerBackground;
+  border-radius: vars.$barColorPickerBorderRadius;
+  border-width: vars.$barColorPickerBorderWidth;
+  border-color: vars.$barColorPickerBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barColorPickerBackground, $lightness: 5%);
+  }
+}
+
+.barLogoutForeground {
+  color: vars.$barLogoutForeground;
+}
+
+.barLogoutBackground {
+  background-color: vars.$barLogoutBackground;
+  border-radius: vars.$barLogoutBorderRadius;
+  border-width: vars.$barLogoutBorderWidth;
+  border-color: vars.$barLogoutBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barLogoutBackground, $lightness: 5%);
+  }
+}
+
+.barLockForeground {
+  color: vars.$barLockForeground;
+}
+
+.barLockBackground {
+  background-color: vars.$barLockBackground;
+  border-radius: vars.$barLockBorderRadius;
+  border-width: vars.$barLockBorderWidth;
+  border-color: vars.$barLockBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barLockBackground, $lightness: 5%);
+  }
+}
+
+.barRestartForeground {
+  color: vars.$barRestartForeground;
+}
+
+.barRestartBackground {
+  background-color: vars.$barRestartBackground;
+  border-radius: vars.$barRestartBorderRadius;
+  border-width: vars.$barRestartBorderWidth;
+  border-color: vars.$barRestartBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barRestartBackground, $lightness: 5%);
+  }
+}
+
+.barShutdownForeground {
+  color: vars.$barShutdownForeground;
+}
+
+.barShutdownBackground {
+  background-color: vars.$barShutdownBackground;
+  border-radius: vars.$barShutdownBorderRadius;
+  border-width: vars.$barShutdownBorderWidth;
+  border-color: vars.$barShutdownBorderColor;
+  border-style: solid;
+
+  &:hover {
+    background-color: color.adjust(vars.$barShutdownBackground, $lightness: 5%);
+  }
+}

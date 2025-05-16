@@ -1,6 +1,6 @@
 import {Field} from "../primitiveDefinitions";
-import {BarWidget} from "./barWidgets";
 import {windowsSchema} from "./windows";
+import {themeBarsSchema} from "./themeBars";
 
 export const themeSchema = {
     name: 'theme',
@@ -93,99 +93,7 @@ export const themeSchema = {
                 },
             ],
         },
-        {
-            name: 'bars',
-            type: 'object',
-            description: 'Theming configurations for the bars.',
-            children: [
-                {
-                    name: 'borderRadius',
-                    type: 'number',
-                    default: 8,
-                    description: 'Corner radius (px) for bars.',
-                },
-                {
-                    name: 'borderWidth',
-                    type: 'number',
-                    default: 2,
-                    description: 'Bar border width (px).',
-                },
-                {
-                    name: 'borderColor',
-                    type: 'color',
-                    default: {from: 'theme.colors.primary'},
-                    description: 'Color of the bar border'
-                },
-                {
-                    name: 'backgroundColor',
-                    type: 'color',
-                    default: {from: 'theme.colors.background'},
-                    description: 'Color of the bar background'
-                },
-                {
-                    name: BarWidget.MENU,
-                    type: "object",
-                    description: "Theme configuration for the menu bar widget.",
-                    children: [
-                        {
-                            name: 'icon',
-                            type: 'icon',
-                            default: '',
-                            description: 'Icon shown on the menu button (ex: Nerd Font glyph).',
-                        },
-                        {
-                            name: 'iconOffset',
-                            type: 'number',
-                            default: 1,
-                            description: 'Offset of the menu button icon.  Use this if the icon is not centered properly'
-                        },
-                        {
-                            name: 'foreground',
-                            type: 'color',
-                            default: {from: 'theme.colors.foreground'},
-                            description: 'Foreground color of the widget.'
-                        }
-                    ],
-                },
-                {
-                    name: BarWidget.WORKSPACES,
-                    type: "object",
-                    description: "Configuration for the workspaces bar widget.",
-                    children: [
-                        {
-                            name: 'largeActive',
-                            type: 'boolean',
-                            default: false,
-                            description: 'Make the active workspace icon larger'
-                        },
-                        {
-                            name: 'activeIcon',
-                            type: 'icon',
-                            default: "",
-                            description: 'Icon of the active workspace'
-                        },
-                        {
-                            name: 'activeOffset',
-                            type: 'number',
-                            default: 1,
-                            description: 'Offset of the active workspace icon.  Use this if the icon is not centered properly'
-                        },
-                        {
-                            name: 'inactiveIcon',
-                            type: 'icon',
-                            default: "",
-                            description: 'Icon of the inactive workspace'
-                        },
-                        {
-                            name: 'inactiveOffset',
-                            type: 'number',
-                            default: 1,
-                            description: 'Offset of the active workspace icon.  Use this if the icon is not centered properly'
-                        },
-                    ],
-                },
-            ],
-        },
+        themeBarsSchema,
         windowsSchema,
     ],
 } as const satisfies Field

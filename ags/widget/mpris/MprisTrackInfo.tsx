@@ -60,6 +60,7 @@ export default function (
                                 flipped={isFlipped}
                                 bold={false}
                                 alignment={alignment}
+                                foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground()}
                             />
                             <VerticalLabel
                                 text={title()}
@@ -67,6 +68,7 @@ export default function (
                                 flipped={isFlipped}
                                 bold={true}
                                 alignment={alignment}
+                                foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground()}
                             />
                         </box>
                     } else {
@@ -81,6 +83,7 @@ export default function (
                                 flipped={isFlipped}
                                 bold={true}
                                 alignment={alignment}
+                                foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground()}
                             />
                             <VerticalLabel
                                 text={artist()}
@@ -88,6 +91,7 @@ export default function (
                                 flipped={isFlipped}
                                 bold={false}
                                 alignment={alignment}
+                                foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground()}
                             />
                         </box>
                     }
@@ -99,11 +103,11 @@ export default function (
                 vertical={true}
                 widthRequest={variableConfig.horizontalBar.mpris_track_info.minimumLength()}>
                 <label
-                    cssClasses={["labelSmallBold"]}
+                    cssClasses={["labelSmallBold", "barMprisTrackInfoForeground"]}
                     halign={variableConfig.horizontalBar.mpris_track_info.textAlignment().as((a) => alignmentToGtk(a))}
                     label={title()}/>
                 <label
-                    cssClasses={["labelSmall"]}
+                    cssClasses={["labelSmall", "barMprisTrackInfoForeground"]}
                     halign={variableConfig.horizontalBar.mpris_track_info.textAlignment().as((a) => alignmentToGtk(a))}
                     label={artist()}/>
             </box>

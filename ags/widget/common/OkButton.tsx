@@ -17,6 +17,7 @@ export enum OkButtonSize {
 }
 
 function buildButtonCssClasses(
+    backgroundCss: string[],
     size: OkButtonSize,
     primary: boolean,
     menuButtonContent?: JSX.Element,
@@ -48,6 +49,7 @@ function buildButtonCssClasses(
         if (primary) {
             buttonClasses.push("okButtonClassPrimary")
         }
+        buttonClasses.push(...backgroundCss)
         return buttonClasses
     }
 
@@ -63,6 +65,7 @@ function buildButtonCssClasses(
 export default function(
     {
         labelCss = [],
+        backgroundCss = [],
         label,
         offset = 0,
         selected,
@@ -90,7 +93,8 @@ export default function(
         onClicked,
     }:
     {
-        labelCss?: string[] | Binding<string[]>
+        labelCss?: string[]
+        backgroundCss?: string[]
         label: Binding<string> | string,
         offset?: number | Binding<number>,
         selected?: Binding<boolean>,
@@ -136,17 +140,10 @@ export default function(
     } else {
         realBold = bind(Variable(bold))
     }
-    let realLabelCss: Binding<string[]>
-    if (isBinding(labelCss)) {
-        realLabelCss = labelCss
-    } else {
-        realLabelCss = bind(Variable(labelCss))
-    }
     const cssInputs = Variable.derive([
         realWarning,
         realSize,
         realBold,
-        realLabelCss
     ])
 
     const verticalPadding = 8
@@ -172,7 +169,7 @@ export default function(
         valign={onlyLabel ? valign : Gtk.Align.FILL}
         hexpand={onlyLabel ? hexpand : false}
         vexpand={onlyLabel ? vexpand : false}
-        cssClasses={cssInputs(([warning, size, bold, labelCss]) => {
+        cssClasses={cssInputs(([warning, size, bold]) => {
             const labelClasses: string[] = []
 
             switch (size) {
@@ -206,11 +203,8 @@ export default function(
         onHoverEnter={onHoverEnter}
         onHoverLeave={onHoverLeave}/>
 
-    if (onlyLabel) {
-        return labelWidget
-    }
-
     const buttonClasses = buildButtonCssClasses(
+        backgroundCss,
         realSize.get(),
         primary,
         menuButtonContent,
@@ -238,6 +232,7 @@ export default function(
     }
 
     return <button
+        sensitive={!onlyLabel}
         widthRequest={widthRequest}
         heightRequest={heightRequest}
         marginTop={marginTop}

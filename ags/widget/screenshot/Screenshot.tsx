@@ -6,9 +6,11 @@ import Pango from "gi://Pango?version=1.0";
 import {playCameraShutter} from "../utils/audio";
 import RevealerRow from "../common/RevealerRow";
 import {hideAllWindows} from "../utils/windows";
-import {projectDir, variableConfig} from "../../config/config";
+import {variableConfig} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import OkButton from "../common/OkButton";
+
+import {projectDir} from "../../app";
 
 export const isRecording = Variable(false)
 

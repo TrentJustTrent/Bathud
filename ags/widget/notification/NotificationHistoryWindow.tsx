@@ -1,6 +1,6 @@
-import {selectedBar, variableConfig} from "../../config/config";
+import {variableConfig} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
-import {Bar} from "../../config/bar";
+import {Bar, selectedBar} from "../../config/bar";
 import NotificationHistory from "../systemMenu/widgets/NotificationHistory";
 
 

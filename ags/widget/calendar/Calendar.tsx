@@ -1,8 +1,8 @@
 import {Gtk} from "astal/gtk4"
 import {GLib, Variable} from "astal"
-import {selectedBar, variableConfig} from "../../config/config";
+import {variableConfig} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
-import {Bar} from "../../config/bar";
+import {Bar, selectedBar} from "../../config/bar";
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
 
 export const CalendarWindowName = "calendarWindow"

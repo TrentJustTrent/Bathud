@@ -68,6 +68,7 @@ type Params = {
     marginBottom?: number,
     marginStart?: number,
     marginEnd?: number,
+    color?: Binding<string>,
 }
 
 /**
@@ -83,6 +84,7 @@ type Params = {
  * @param marginBottom
  * @param marginStart
  * @param marginEnd
+ * @param color
  */
 export default function(
     {
@@ -96,6 +98,7 @@ export default function(
         marginBottom,
         marginStart,
         marginEnd,
+        color = variableConfig.theme.colors.primary(),
     }: Params
 ) {
 
@@ -116,7 +119,8 @@ export default function(
                 marginTop={marginTop}
                 marginBottom={marginBottom}
                 marginStart={marginStart}
-                marginEnd={marginEnd}/>
+                marginEnd={marginEnd}
+                color={color}/>
         })}
     </box>
 }
@@ -132,6 +136,7 @@ type InternalParams = {
     marginBottom?: number,
     marginStart?: number,
     marginEnd?: number,
+    color: Binding<string>
 }
 
 function CavaWaveformInternal(
@@ -146,6 +151,7 @@ function CavaWaveformInternal(
         marginBottom,
         marginStart,
         marginEnd,
+        color,
     }: InternalParams
 ) {
     const cava = new AstalCava.Cava()
@@ -153,9 +159,9 @@ function CavaWaveformInternal(
 
     setBars(cava, length)
 
-    let [r, g, b, a] = hexToRgba(variableConfig.theme.colors.primary.get())
+    let [r, g, b, a] = hexToRgba(color.get())
 
-    variableConfig.theme.colors.primary.subscribe((primaryColor) => {
+    color.subscribe((primaryColor) => {
         [r, g, b, a] = hexToRgba(primaryColor)
     })
 

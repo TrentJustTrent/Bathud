@@ -1,6 +1,6 @@
-import {projectDir, selectedBar, variableConfig} from "../../config/config";
+import {variableConfig} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
-import {Bar} from "../../config/bar";
+import {Bar, selectedBar} from "../../config/bar";
 import {bind, Variable} from "astal";
 import {execAsync} from "astal/process";
 import {App, Gtk} from "astal/gtk4";
@@ -10,6 +10,8 @@ import {BarWidget} from "../../config/schema/definitions/barWidgets";
 import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
 import AsyncClipboardPicture from "./AsyncClipboardPicture";
 import AsyncClipboardLabel from "./AsyncClipboardLabel";
+
+import {projectDir} from "../../app";
 
 export const ClipboardManagerWindowName = "clipboardManagerWindow"
 let cliphistStarted = false

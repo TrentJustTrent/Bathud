@@ -2,7 +2,20 @@ import {LoopStatus, PlaybackStatus, Player, ShuffleStatus} from "../utils/mpris"
 import {Gtk} from "astal/gtk4";
 import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
 
-export default function ({ player, vertical }: { player: Player, vertical: boolean }) {
+export default function (
+    {
+        player,
+        vertical,
+        foregroundCss = [],
+        backgroundCss = [],
+    }:
+    {
+        player: Player,
+        vertical: boolean,
+        foregroundCss?: string[],
+        backgroundCss?: string[],
+    }
+) {
     const playIcon = player.playbackStatus(s =>
         s === PlaybackStatus.Playing
             ? ""
@@ -13,6 +26,8 @@ export default function ({ player, vertical }: { player: Player, vertical: boole
         halign={Gtk.Align.CENTER}
         vertical={vertical}>
         <OkButton
+            labelCss={foregroundCss}
+            backgroundCss={backgroundCss}
             hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
             onClicked={() => {
                 if (player.shuffleStatus.get() === ShuffleStatus.Enabled) {
@@ -30,6 +45,8 @@ export default function ({ player, vertical }: { player: Player, vertical: boole
                 }
             })}/>
         <OkButton
+            labelCss={foregroundCss}
+            backgroundCss={backgroundCss}
             hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
             onClicked={() => {
                 player.previousTrack()
@@ -37,6 +54,8 @@ export default function ({ player, vertical }: { player: Player, vertical: boole
             visible={player.canGoPrevious()}
             label=""/>
         <OkButton
+            labelCss={foregroundCss}
+            backgroundCss={backgroundCss}
             hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
             onClicked={() => {
                 player.playPause()
@@ -44,6 +63,8 @@ export default function ({ player, vertical }: { player: Player, vertical: boole
             visible={player.canControl()}
             label={playIcon}/>
         <OkButton
+            labelCss={foregroundCss}
+            backgroundCss={backgroundCss}
             hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
             onClicked={() => {
                 player.nextTrack()
@@ -51,6 +72,8 @@ export default function ({ player, vertical }: { player: Player, vertical: boole
             visible={player.canGoNext()}
             label=""/>
         <OkButton
+            labelCss={foregroundCss}
+            backgroundCss={backgroundCss}
             hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
             onClicked={() => {
                 if (player.loopStatus.get() === LoopStatus.None) {

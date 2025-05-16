@@ -13,6 +13,7 @@ export default function (
         bold,
         alignment,
         minimumHeight = 0,
+        foregroundColor = variableConfig.theme.colors.foreground(),
     }:
     {
         text: string | Binding<string>,
@@ -21,6 +22,7 @@ export default function (
         bold: boolean,
         alignment: Binding<Gtk.Align>,
         minimumHeight?: number,
+        foregroundColor?: Binding<string>
     }
 ) {
     const variableParams = Variable.derive([
@@ -36,7 +38,8 @@ export default function (
                 bold={bold}
                 alignment={align}
                 minimumHeight={minimumHeight}
-                font={font}/>
+                font={font}
+                foregroundColor={foregroundColor}/>
         })}
     </box>
 }
@@ -50,6 +53,7 @@ function VerticalLabelInternal(
         alignment = Gtk.Align.CENTER,
         minimumHeight = 0,
         font,
+        foregroundColor,
     }:
     {
         text: string | Binding<string>,
@@ -58,7 +62,8 @@ function VerticalLabelInternal(
         bold: boolean,
         alignment?: Gtk.Align,
         minimumHeight?: number,
-        font: string
+        font: string,
+        foregroundColor: Binding<string>
     }
 ) {
     const area = new Gtk.DrawingArea()
@@ -86,9 +91,9 @@ function VerticalLabelInternal(
         realFlipped = flipped
     }
 
-    let [r, g, b, a] = hexToRgba(variableConfig.theme.colors.foreground.get())
+    let [r, g, b, a] = hexToRgba(foregroundColor.get())
 
-    variableConfig.theme.colors.foreground.subscribe((foreground) => {
+    foregroundColor.subscribe((foreground) => {
         [r, g, b, a] = hexToRgba(foreground)
         area.queue_draw()
     })

@@ -24,13 +24,13 @@ export const CONFIG_SCHEMA = [
     {
         name: 'themeUpdateScript',
         type: 'string',
-        description: 'Absolute path to the script run when a theme changes.',
+        description: 'Absolute path to the script run when a theme changes where you can update the theme for the rest of your system.  Theme name is send as an argument to the script.',
         required: false,
     },
     {
         name: 'wallpaperUpdateScript',
         type: 'string',
-        description: 'Absolute path to the script run when the wallpaper changes.',
+        description: 'Absolute path to the script run when the wallpaper changes.  You are responsible for changing you wallpaper.  Wallpaper path is sent as an argument to the script.',
         required: false,
     },
     {
