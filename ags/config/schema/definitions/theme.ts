@@ -73,18 +73,6 @@ export const themeSchema = {
                     description: 'Warning color'
                 },
                 {
-                    name: 'barBorder',
-                    type: 'color',
-                    default: '#7C545F',
-                    description: 'Color of the bar border'
-                },
-                {
-                    name: 'windowBorder',
-                    type: 'color',
-                    default: '#AFB3BD',
-                    description: 'Color of window borders'
-                },
-                {
                     name: 'alertBorder',
                     type: 'color',
                     default: '#7C545F',
@@ -110,6 +98,30 @@ export const themeSchema = {
             type: 'object',
             description: 'Theming configurations for the bars.',
             children: [
+                {
+                    name: 'borderRadius',
+                    type: 'number',
+                    default: 8,
+                    description: 'Corner radius (px) for bars.',
+                },
+                {
+                    name: 'borderWidth',
+                    type: 'number',
+                    default: 2,
+                    description: 'Bar border width (px).',
+                },
+                {
+                    name: 'borderColor',
+                    type: 'color',
+                    default: {from: 'theme.colors.primary'},
+                    description: 'Color of the bar border'
+                },
+                {
+                    name: 'backgroundColor',
+                    type: 'color',
+                    default: {from: 'theme.colors.background'},
+                    description: 'Color of the bar background'
+                },
                 {
                     name: BarWidget.MENU,
                     type: "object",

@@ -23,5 +23,11 @@ export const windowsSchema = {
             default: 2,
             description: 'Window border width (px).',
         },
+        {
+            name: 'borderColor',
+            type: 'color',
+            default: {from: 'theme.colors.foreground'},
+            description: 'Color of window borders'
+        },
     ],
 } as const satisfies Field

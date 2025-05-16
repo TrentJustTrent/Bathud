@@ -166,8 +166,8 @@ cat > "$TARGET_DIR/variables.scss" <<EOF
 \\$primary: ${theme.colors.primary.get()};
 \\$buttonPrimary: ${theme.colors.buttonPrimary.get()};
 \\$warning: ${theme.colors.warning.get()};
-\\$barBorder: ${theme.colors.barBorder.get()};
-\\$windowBorder: ${theme.colors.windowBorder.get()};
+\\$barBorder: ${theme.bars.borderColor.get()};
+\\$windowBorder: ${theme.windows.borderColor.get()};
 \\$alertBorder: ${theme.colors.alertBorder.get()};
 \\$scrimColor: ${theme.colors.scrimColor.get()};
 \\$gaps: ${variableConfig.theme.windows.gaps.get()}px;
@@ -175,7 +175,9 @@ cat > "$TARGET_DIR/variables.scss" <<EOF
 \\$largeButtonBorderRadius: ${variableConfig.theme.largeButtonBorderRadius.get()}px;
 \\$windowBorderRadius: ${variableConfig.theme.windows.borderRadius.get()}px;
 \\$windowBorderWidth: ${variableConfig.theme.windows.borderWidth.get()}px;
-
+\\$barBackgroundColor: ${variableConfig.theme.bars.backgroundColor.get()};
+\\$barBorderRadius: ${variableConfig.theme.bars.borderRadius.get()}px;
+\\$barBorderWidth: ${variableConfig.theme.bars.borderWidth.get()}px;
 \\$barMenuForeground: ${variableConfig.theme.bars.menu.foreground.get()};
 EOF
 
