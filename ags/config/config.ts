@@ -47,12 +47,12 @@ export let projectDir = ""
 function monitorAvailableConfigs() {
     monitorFile(`${homePath}/.config/OkPanel`, (file, event) => {
         const fileName = GLib.path_get_basename(file)
-        if (fileName.split(".").pop() !== "conf") {
+        if (fileName.split(".").pop() !== "yaml") {
             return
         }
         switch (event) {
             case Gio.FileMonitorEvent.CREATED:
-                console.log(`config file created: ${fileName}`)
+                console.log(`Config file created: ${fileName}`)
                 if (fileName === globalConfigFile) {
                     updateDefaultValues()
                     monitorDefaultsConfig()
@@ -66,14 +66,24 @@ function monitorAvailableConfigs() {
                 }))
                 break
             case Gio.FileMonitorEvent.DELETED:
-                console.log(`config file deleted: ${fileName}`)
+                console.log(`Config file deleted: ${fileName}`)
                 if (fileName === globalConfigFile) {
                     updateDefaultValues()
                     disableDefaultsConfigMonitor()
                     break
                 }
-                availableConfigs.set(availableConfigs.get().filter((conf) => conf.fileName === fileName))
+                availableConfigs.set(availableConfigs.get().filter((conf) => conf.fileName !== fileName))
                 break
+            case Gio.FileMonitorEvent.CHANGED:
+                console.log(`Available config file deleted: ${fileName}`)
+                const newC = loadConfig(`${homePath}/.config/OkPanel/${fileName}`)
+                availableConfigs.set(availableConfigs.get()
+                    .filter((conf) => conf.fileName !== fileName)
+                    .concat({
+                        fileName: fileName,
+                        icon: newC.icon,
+                        pixelOffset: newC.iconOffset
+                    }))
         }
     })
 }
@@ -93,7 +103,7 @@ function monitorSelectedConfig() {
         const fileName = GLib.path_get_basename(file)
         switch (event) {
             case Gio.FileMonitorEvent.CHANGED:
-                console.log(`config file changed`)
+                console.log(`Selected config file changed`)
                 config = loadConfig(`${homePath}/.config/OkPanel/${fileName}`, defaultConfigValues)
                 updateVariablesFromConfig(CONFIG_SCHEMA, variableConfig, config)
                 setThemeBasic(variableConfig.theme)
