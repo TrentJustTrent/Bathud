@@ -10,7 +10,7 @@ export enum SystemMenuWidget {
     MPRIS_PLAYERS = "mpris_players",
     POWER_OPTIONS = "power_options",
     NOTIFICATION_HISTORY = "notification_history",
-    GIZMOS = "gizmos",
+    TOOLBOX = "toolbox",
 }
 export const SYSTEM_MENU_WIDGET_VALUES = Object.values(SystemMenuWidget) as readonly SystemMenuWidget[]
 
@@ -34,7 +34,7 @@ export const systemMenuWidgetsArrayField = <N extends string>( //preserve the li
 export const systemMenuSchema = {
     name: 'systemMenu',
     type: 'object',
-    description: 'Extra controls exposed by the menu button.',
+    description: 'System menu configurations.',
     children: [
         systemMenuWidgetsArrayField(
             'widgets',
@@ -44,8 +44,7 @@ export const systemMenuSchema = {
                 SystemMenuWidget.BLUETOOTH,
                 SystemMenuWidget.AUDIO_OUT,
                 SystemMenuWidget.AUDIO_IN,
-                SystemMenuWidget.POWER_PROFILE,
-                SystemMenuWidget.GIZMOS,
+                SystemMenuWidget.TOOLBOX,
                 SystemMenuWidget.LOOK_AND_FEEL,
                 SystemMenuWidget.MPRIS_PLAYERS,
                 SystemMenuWidget.POWER_OPTIONS,

@@ -11,7 +11,6 @@ function ColorPicker() {
     return <box>
         <OkButton
             offset={2}
-            primary={true}
             label=""
             size={OkButtonSize.XL}
             onClicked={() => {
@@ -24,7 +23,6 @@ function ScreenShotGizmo() {
     return <box>
         <OkButton
             offset={4}
-            primary={true}
             label="󰹑"
             size={OkButtonSize.XL}
             onClicked={() => {
@@ -36,7 +34,7 @@ function ScreenShotGizmo() {
 
 export default function () {
     return <RevealerRow
-        icon="󰭆"
+        icon=""
         iconOffset={0}
         windowName={SystemMenuWindowName}
         content={
@@ -45,7 +43,7 @@ export default function () {
                 halign={Gtk.Align.START}
                 hexpand={true}
                 ellipsize={Pango.EllipsizeMode.END}
-                label="Gizmos"/>
+                label="Toolbox"/>
         }
         revealedContent={
             <box

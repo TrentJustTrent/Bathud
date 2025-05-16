@@ -14,7 +14,7 @@ import {Bar} from "../../config/bar";
 import PowerProfileControls from "./widgets/PowerProfileControls";
 import {SystemMenuWidget} from "../../config/schema/definitions/systemMenu";
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
-import Gizmos from "./widgets/Gizmos";
+import Toolbox from "./widgets/Toolbox";
 
 export const SystemMenuWindowName = "systemMenuWindow"
 
@@ -47,8 +47,8 @@ export function addWidgets(widgets: SystemMenuWidget[]) {
                 return <PowerOptions/>
             case SystemMenuWidget.NOTIFICATION_HISTORY:
                 return <NotificationHistory/>
-            case SystemMenuWidget.GIZMOS:
-                return <Gizmos/>
+            case SystemMenuWidget.TOOLBOX:
+                return <Toolbox/>
         }
     })
 }
