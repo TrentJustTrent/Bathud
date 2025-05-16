@@ -24,7 +24,7 @@ export default function (
     }
 ) {
     const variableParams = Variable.derive([
-        variableConfig.font,
+        variableConfig.theme.font,
         alignment
     ])
     return <box>
