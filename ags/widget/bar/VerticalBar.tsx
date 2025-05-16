@@ -145,7 +145,7 @@ export default function () {
                             intensity={variableConfig.verticalBar.fullBarCavaWaveform.intensityMultiplier()}
                             flipStart={getCavaFlipStartValue(true)}
                             expand={true}
-                            length={400}
+                            length={0}
                             size={40}/>
                     } else {
                         return <box/>
