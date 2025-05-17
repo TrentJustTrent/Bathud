@@ -28,7 +28,7 @@ The scrim (transparent background when opening a window that absorbs clicks and 
 okpanel-scrim
 ```
 
-Note: windows that anchor to the bar have a built-in scrim, which can be ignored by using the `ignorezero` rule.
+Note: some windows have a built-in scrim, which can be ignored by using the `ignorezero` rule.
 
 ```
 layerrule = ignorezero, okpanel-system-menu
@@ -53,7 +53,8 @@ layerrule = ignorezero, okpanel-system-menu
 layerrule = ignorezero, okpanel-calendar
 layerrule = ignorezero, okpanel-notification-history
 layerrule = ignorezero, okpanel-clipboard-manager
-
+layerrule = ignorezero, okpanel-screenshot
+layerrule = ignorezero, okpanel-screenshare
 
 layerrule = animation slide top, okpanel-app-launcher
 layerrule = animation slide left, okpanel-system-menu
