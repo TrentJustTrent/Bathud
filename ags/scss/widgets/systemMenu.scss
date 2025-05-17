@@ -1,5 +1,6 @@
 @use "../variables" as vars;
 @use "sass:color";
+@use "../functions" as fun;
 
 .systemMenuVolumeProgress {
   all: unset;
@@ -9,7 +10,7 @@
 
 .systemMenuVolumeProgress trough {
   all: unset;
-  background: color.adjust(vars.$bg, $lightness: 5%);
+  background: fun.smart-lighten(vars.$bg);
   min-height: 8px;
   border-radius: 16px;
 }

@@ -1,5 +1,6 @@
 @use "../variables" as vars;
 @use "sass:color";
+@use "../functions" as fun;
 
 .barMenuForeground {
   color: vars.$barMenuForeground;
@@ -11,10 +12,7 @@
   border-width: vars.$barMenuBorderWidth;
   border-color: vars.$barMenuBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barMenuBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barMenuBackground);
 }
 
 .barWorkspacesForeground {
@@ -30,11 +28,8 @@
 }
 
 .barWorkspaceButtonBackground {
-  background-color: vars.$barWorkspacesBackground;
-
-  &:hover {
-    background-color: color.adjust(vars.$barWorkspacesBackground, $lightness: 5%);
-  }
+  background-color: transparent;
+  @include fun.hoverLighten(vars.$barWorkspacesBackground);
 }
 
 .barClockForeground {
@@ -47,10 +42,7 @@
   border-width: vars.$barClockBorderWidth;
   border-color: vars.$barClockBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barClockBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barClockBackground);
 }
 
 .barAudioOutForeground {
@@ -63,10 +55,7 @@
   border-width: vars.$barAudioOutBorderWidth;
   border-color: vars.$barAudioOutBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barAudioOutBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barAudioOutBackground);
 }
 
 .barAudioInForeground {
@@ -79,10 +68,7 @@
   border-width: vars.$barAudioInBorderWidth;
   border-color: vars.$barAudioInBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barAudioInBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barAudioInBackground);
 }
 
 .barBluetoothForeground {
@@ -95,10 +81,7 @@
   border-width: vars.$barBluetoothBorderWidth;
   border-color: vars.$barBluetoothBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barBluetoothBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barBluetoothBackground);
 }
 
 .barNetworkForeground {
@@ -111,10 +94,7 @@
   border-width: vars.$barNetworkBorderWidth;
   border-color: vars.$barNetworkBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barNetworkBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barNetworkBackground);
 }
 
 .barRecordingIndicatorForeground {
@@ -127,10 +107,7 @@
   border-width: vars.$barRecordingIndicatorBorderWidth;
   border-color: vars.$barRecordingIndicatorBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barRecordingIndicatorBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barRecordingIndicatorBackground);
 }
 
 .barVpnIndicatorForeground {
@@ -143,10 +120,7 @@
   border-width: vars.$barVpnIndicatorBorderWidth;
   border-color: vars.$barVpnIndicatorBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barVpnIndicatorBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barVpnIndicatorBackground);
 }
 
 .barBatteryForeground {
@@ -159,10 +133,7 @@
   border-width: vars.$barBatteryBorderWidth;
   border-color: vars.$barBatteryBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barBatteryBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barBatteryBackground);
 }
 
 .barTrayForeground {
@@ -175,10 +146,7 @@
   border-width: vars.$barTrayBorderWidth;
   border-color: vars.$barTrayBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barTrayBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barTrayBackground);
 }
 
 .barAppLauncherForeground {
@@ -191,10 +159,7 @@
   border-width: vars.$barAppLauncherBorderWidth;
   border-color: vars.$barAppLauncherBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barAppLauncherBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barAppLauncherBackground);
 }
 
 .barScreenshotForeground {
@@ -207,10 +172,7 @@
   border-width: vars.$barScreenshotBorderWidth;
   border-color: vars.$barScreenshotBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barScreenshotBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barScreenshotBackground);
 }
 
 .barClipboardManagerForeground {
@@ -223,10 +185,7 @@
   border-width: vars.$barClipboardManagerBorderWidth;
   border-color: vars.$barClipboardManagerBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barClipboardManagerBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barClipboardManagerBackground);
 }
 
 .barPowerProfileForeground {
@@ -239,10 +198,7 @@
   border-width: vars.$barPowerProfileBorderWidth;
   border-color: vars.$barPowerProfileBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barPowerProfileBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barPowerProfileBackground);
 }
 
 .barCavaWaveformForeground {
@@ -262,11 +218,8 @@
 }
 
 .barMprisControlsButtonBackground {
-  background-color: vars.$barMprisControlsBackground;
-
-  &:hover {
-    background-color: color.adjust(vars.$barMprisControlsBackground, $lightness: 5%);
-  }
+  background-color: transparent;
+  @include fun.hoverLighten(vars.$barMprisControlsBackground);
 }
 
 .barMprisControlsBackground {
@@ -299,10 +252,7 @@
   border-width: vars.$barMprisPrimaryPlayerSwitcherBorderWidth;
   border-color: vars.$barMprisPrimaryPlayerSwitcherBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barMprisPrimaryPlayerSwitcherBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barMprisPrimaryPlayerSwitcherBackground);
 }
 
 .barNotificationHistoryForeground {
@@ -315,10 +265,7 @@
   border-width: vars.$barNotificationHistoryBorderWidth;
   border-color: vars.$barNotificationHistoryBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barNotificationHistoryBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barNotificationHistoryBackground);
 }
 
 .barColorPickerForeground {
@@ -331,10 +278,7 @@
   border-width: vars.$barColorPickerBorderWidth;
   border-color: vars.$barColorPickerBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barColorPickerBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barColorPickerBackground);
 }
 
 .barLogoutForeground {
@@ -347,10 +291,7 @@
   border-width: vars.$barLogoutBorderWidth;
   border-color: vars.$barLogoutBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barLogoutBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barLogoutBackground);
 }
 
 .barLockForeground {
@@ -363,10 +304,7 @@
   border-width: vars.$barLockBorderWidth;
   border-color: vars.$barLockBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barLockBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barLockBackground);
 }
 
 .barRestartForeground {
@@ -379,10 +317,7 @@
   border-width: vars.$barRestartBorderWidth;
   border-color: vars.$barRestartBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barRestartBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barRestartBackground);
 }
 
 .barShutdownForeground {
@@ -395,8 +330,5 @@
   border-width: vars.$barShutdownBorderWidth;
   border-color: vars.$barShutdownBorderColor;
   border-style: solid;
-
-  &:hover {
-    background-color: color.adjust(vars.$barShutdownBackground, $lightness: 5%);
-  }
+  @include fun.hoverLighten(vars.$barShutdownBackground);
 }

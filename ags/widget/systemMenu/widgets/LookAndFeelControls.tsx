@@ -143,6 +143,7 @@ function BarButton(
     }
 ) {
     return <OkButton
+        offset={2}
         size={OkButtonSize.XL}
         selected={selectedBar((bar) => bar === barType)}
         label={icon}
