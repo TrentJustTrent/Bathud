@@ -836,6 +836,7 @@ export default function () {
     updateAudioOptions()
 
     return <ScrimScrollWindow
+        namespace={"okpanel-screenshot"}
         monitor={variableConfig.mainMonitor()}
         anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM}
         windowName={ScreenshotWindowName}

@@ -9,6 +9,7 @@ export default function () {
     const text = Variable("")
 
     return <window
+        namespace={"okpanel-polkit"}
         name={PolkitWindowName}
         application={App}
         layer={Astal.Layer.OVERLAY}

@@ -9,6 +9,7 @@ import {Bar, selectedBar} from "../../config/bar";
 type Params = {
     monitor: number | Binding<number>;
     windowName: string,
+    namespace?: string,
     anchor?: Binding<Astal.WindowAnchor> | Astal.WindowAnchor,
     topExpand: Binding<boolean> | boolean,
     bottomExpand: Binding<boolean> | boolean,
@@ -57,6 +58,7 @@ export default function(
     {
         monitor,
         windowName,
+        namespace,
         anchor = defaultAnchor(),
         topExpand,
         bottomExpand,
@@ -74,6 +76,7 @@ export default function(
         heightRequest={height}
         widthRequest={width}
         monitor={monitor}
+        namespace={namespace}
         name={windowName}
         anchor={anchor}
         margin={variableConfig.theme.windows.gaps()}

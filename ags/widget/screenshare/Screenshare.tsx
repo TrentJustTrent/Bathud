@@ -231,6 +231,7 @@ function Region() {
 
 export default function () {
     return <ScrimScrollWindow
+        namespace={"okpanel-screenshare"}
         monitor={variableConfig.mainMonitor()}
         anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM}
         windowName={ScreenshareWindowName}

@@ -194,6 +194,7 @@ export default function () {
     })
 
     return <ScrimScrollWindow
+        namespace={"okpanel-clipboard-manager"}
         monitor={variableConfig.mainMonitor()}
         windowName={ClipboardManagerWindowName}
         topExpand={topExpand()}

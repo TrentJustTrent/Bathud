@@ -134,6 +134,7 @@ export default function () {
     })
 
     return <window
+        namespace={"okpanel-app-launcher"}
         name={AppLauncherWindowName}
         anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM}
         exclusivity={Astal.Exclusivity.IGNORE}

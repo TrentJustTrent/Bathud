@@ -76,6 +76,7 @@ export default function () {
     })
 
     return <ScrimScrollWindow
+        namespace={"okpanel-calendar"}
         monitor={variableConfig.mainMonitor()}
         windowName={CalendarWindowName}
         topExpand={topExpand()}

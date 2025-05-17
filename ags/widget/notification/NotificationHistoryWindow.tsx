@@ -76,6 +76,7 @@ export default function () {
     })
 
     return <ScrimScrollWindow
+        namespace={"okpanel-notification-history"}
         monitor={variableConfig.mainMonitor()}
         windowName={NotificationHistoryWindowName}
         topExpand={topExpand()}

@@ -120,6 +120,7 @@ export default function () {
     })
 
     return <ScrimScrollWindow
+        namespace={"okpanel-system-menu"}
         monitor={variableConfig.mainMonitor()}
         windowName={SystemMenuWindowName}
         topExpand={topExpand()}

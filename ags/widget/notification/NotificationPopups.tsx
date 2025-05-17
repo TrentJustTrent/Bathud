@@ -117,6 +117,7 @@ export default function NotificationPopups(monitor: Hyprland.Monitor): Astal.Win
     const notifs = new NotificationMap()
 
     return <window
+        namespace={"okpanel-notifications"}
         visible={bind(notifs).as((values) => {
             return values.length !== 0
         })}
