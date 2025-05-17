@@ -28,5 +28,6 @@ nav:
   - Configuration System: configurationSystem.md
   - Configuration Schema: config.md
   - Configuration Example: example.md
+  - Animations and Blur: windowAnimations.md
   - Usage: usage.md
   - Features: features.md
