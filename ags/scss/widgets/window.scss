@@ -9,7 +9,7 @@
 }
 
 .window {
-    background-color: vars.$bg;
+    background-color: vars.$windowBackgroundColor;
     border-radius: vars.$windowBorderRadius;
     border-color: vars.$windowBorder;
     border-width: vars.$windowBorderWidth;
@@ -17,7 +17,7 @@
 }
 
 .alertWindow {
-    background-color: vars.$bg;
+    background-color: vars.$windowBackgroundColor;
     border-radius: vars.$windowBorderRadius;
     border-color: vars.$alertBorder;
     border-width: vars.$windowBorderWidth;

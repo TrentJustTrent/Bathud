@@ -1,5 +1,5 @@
 import {Field} from "../primitiveDefinitions";
-import {windowsSchema} from "./windows";
+import {themeWindowsSchema} from "./themeWindows";
 import {themeBarsSchema} from "./themeBars";
 
 export const themeSchema = {
@@ -94,6 +94,6 @@ export const themeSchema = {
             ],
         },
         themeBarsSchema,
-        windowsSchema,
+        themeWindowsSchema,
     ],
 } as const satisfies Field

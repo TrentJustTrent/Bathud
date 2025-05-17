@@ -1,6 +1,6 @@
 import {Field} from "../primitiveDefinitions";
 
-export const windowsSchema = {
+export const themeWindowsSchema = {
     name: 'windows',
     type: 'object',
     description: 'Global window styling defaults.',
@@ -22,6 +22,12 @@ export const windowsSchema = {
             type: 'number',
             default: 2,
             description: 'Window border width (px).',
+        },
+        {
+            name: 'backgroundColor',
+            type: 'color',
+            default: {from: 'theme.colors.background'},
+            description: 'Color of window backgrounds'
         },
         {
             name: 'borderColor',
