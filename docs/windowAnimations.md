@@ -4,6 +4,8 @@ Animations and blur can be controlled via hyprland layer rules.
 You can read about layer rules [here](https://wiki.hyprland.org/Configuring/Window-Rules/#layer-rules) and 
 animations [here](https://wiki.hyprland.org/Configuring/Animations/#general)
 
+You can also [change the way the blur looks](https://wiki.hyprland.org/Configuring/Variables/#blur).
+
 ## Window namespaces
 
 These are the namespace names of the available windows and bars.
@@ -29,6 +31,7 @@ okpanel-scrim
 ```
 
 Note: windows that anchor to the bar have a built-in scrim, which can be ignored by using the `ignorezero` rule.
+This also means you probably shouldn't use a fully transparent background if you want to blur.
 
 ```
 layerrule = ignorezero, okpanel-system-menu

@@ -16,9 +16,9 @@
 .fadeLeft {
   background-image: linear-gradient(
                   to right,
-                  vars.$bg 0%,
-                  #{color.scale(vars.$bg, $alpha: -0.05%)} 25%,
-                  #{color.scale(vars.$bg, $alpha: -0.3%)} 50%,
+                  #{if(color.alpha(vars.$bg) < 0.5, transparent, vars.$bg)} 0%,
+                  #{if(color.alpha(vars.$bg) < 0.5, transparent, color.scale(vars.$bg, $alpha: -0.05%))} 25%,
+                  #{if(color.alpha(vars.$bg) < 0.5, transparent, color.scale(vars.$bg, $alpha: -0.3%))} 50%,
                   transparent 100%
   );
 }
@@ -26,9 +26,9 @@
 .fadeRight {
   background-image: linear-gradient(
                   to left,
-                  vars.$bg 0%,
-                  #{color.scale(vars.$bg, $alpha: -0.05%)} 25%,
-                  #{color.scale(vars.$bg, $alpha: -0.3%)} 50%,
+                  #{if(color.alpha(vars.$bg) < 0.5, transparent, vars.$bg)} 0%,
+                  #{if(color.alpha(vars.$bg) < 0.5, transparent, color.scale(vars.$bg, $alpha: -0.05%))} 25%,
+                  #{if(color.alpha(vars.$bg) < 0.5, transparent, color.scale(vars.$bg, $alpha: -0.3%))} 50%,
                   transparent 100%
   );
 }
