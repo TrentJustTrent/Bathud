@@ -60,6 +60,7 @@ export default function () {
     })
 
     return <window
+        namespace={"okpanel-horizontal-bar"}
         widthRequest={variableConfig.horizontalBar.minimumWidth()}
         visible={selectedBar((bar) => {
             return bar === Bar.TOP || bar === Bar.BOTTOM

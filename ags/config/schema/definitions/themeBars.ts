@@ -5,13 +5,13 @@ function widgetCommons() { return [
     {
         name: 'foreground',
         type: 'color',
-        default: {from: 'theme.colors.foreground'},
+        default: {from: 'theme.bars.widgetForeground'},
         description: 'Foreground color of the widget.'
     },
     {
         name: 'background',
         type: 'color',
-        default: {from: 'theme.colors.background'},
+        default: {from: 'theme.bars.widgetBackground'},
         description: 'Background color of the widget.'
     },
     {
@@ -62,6 +62,18 @@ export const themeBarsSchema = {
             type: 'color',
             default: {from: 'theme.colors.background'},
             description: 'Color of the bar background'
+        },
+        {
+            name: 'widgetForeground',
+            type: 'color',
+            default: {from: 'theme.colors.foreground'},
+            description: 'Foreground color of the bar widgets.'
+        },
+        {
+            name: 'widgetBackground',
+            type: 'color',
+            default: {from: 'theme.colors.background'},
+            description: 'Background color of the bar widgets.'
         },
         {
             name: 'widgetBorderRadius',

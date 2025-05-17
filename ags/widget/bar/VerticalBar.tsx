@@ -60,6 +60,7 @@ export default function () {
     })
 
     return <window
+        namespace={"okpanel-vertical-bar"}
         heightRequest={variableConfig.verticalBar.minimumHeight()}
         cssClasses={["transparentBackground"]}
         monitor={variableConfig.mainMonitor()}
