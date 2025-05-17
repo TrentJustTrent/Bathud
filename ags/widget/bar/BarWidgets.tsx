@@ -28,18 +28,30 @@ import {Bar, selectedBar} from "../../config/bar";
 import Notifd from "gi://AstalNotifd"
 import {NotificationHistoryWindowName} from "../notification/NotificationHistoryWindow";
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
-import OkButton, {OkButtonHorizontalPadding, OkButtonSize} from "../common/OkButton";
+import OkButton, {OkButtonHorizontalPadding, OkButtonSize, OkButtonVerticalPadding} from "../common/OkButton";
 import {runColorPicker} from "../utils/colorPicker";
 import {lock, logout, restart, shutdown} from "../utils/powerOptions";
 
 const tray = Tray.get_default()
+
+export function getHPadding(vertical: boolean) {
+    return vertical ?
+        variableConfig.verticalBar.compact().as((c) => c ? OkButtonHorizontalPadding.THIN : OkButtonHorizontalPadding.STANDARD)
+        : OkButtonHorizontalPadding.THIN
+}
+
+export function getVPadding(vertical: boolean) {
+    return vertical ? OkButtonVerticalPadding.STANDARD :
+        variableConfig.horizontalBar.compact().as((c) => c ? OkButtonVerticalPadding.THIN : OkButtonVerticalPadding.STANDARD)
+}
 
 function MenuButton({vertical}: { vertical: boolean }) {
     return <OkButton
         labelCss={["barMenuForeground"]}
         backgroundCss={["barMenuBackground"]}
         offset={variableConfig.theme.bars.menu.iconOffset()}
-        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        hpadding={getHPadding(vertical)}
+        vpadding={getVPadding(vertical)}
         label={variableConfig.theme.bars.menu.icon()}
         onClicked={() => {
             toggleWindow(SystemMenuWindowName)
@@ -69,7 +81,6 @@ function groupByProperty(
 
 function Workspaces({vertical}: { vertical: boolean }) {
     const hypr = Hyprland.get_default()
-
     return <box
         cssClasses={["barWorkspacesBackground", "radiusSmall"]}
         vertical={vertical}>
@@ -93,7 +104,8 @@ function Workspaces({vertical}: { vertical: boolean }) {
                                 labelCss={["barWorkspacesForeground"]}
                                 backgroundCss={["barWorkspaceButtonBackground"]}
                                 offset={isActive ? variableConfig.theme.bars.workspaces.activeOffset() : variableConfig.theme.bars.workspaces.inactiveOffset()}
-                                hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+                                hpadding={getHPadding(vertical)}
+                                vpadding={getVPadding(vertical)}
                                 label={isActive ? variableConfig.theme.bars.workspaces.activeIcon() : variableConfig.theme.bars.workspaces.inactiveIcon()}
                                 size={isActive ?
                                     variableConfig.theme.bars.workspaces.largeActive().as((large) =>
@@ -125,8 +137,9 @@ function Clock({vertical}: { vertical: boolean }) {
     return <OkButton
         labelCss={["barClockForeground"]}
         backgroundCss={["barClockBackground"]}
-        hexpand={vertical}
-        hpadding={vertical ? OkButtonHorizontalPadding.NONE : OkButtonHorizontalPadding.THIN}
+        hexpand={true}
+        hpadding={OkButtonHorizontalPadding.NONE}
+        vpadding={getVPadding(vertical)}
         label={time()}
         onClicked={() => {
             toggleWindow(CalendarWindowName)
@@ -137,7 +150,8 @@ function VpnIndicator({vertical}: { vertical: boolean }) {
     return <OkButton
         labelCss={["barVpnIndicatorForeground"]}
         backgroundCss={["barVpnIndicatorBackground"]}
-        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        hpadding={getHPadding(vertical)}
+        vpadding={getVPadding(vertical)}
         label="󰯄"
         visible={activeVpnConnections().as((connections) => {
             return connections.length !== 0
@@ -151,7 +165,8 @@ function ScreenRecordingStopButton({vertical}: { vertical: boolean }) {
         offset={2}
         warning={true}
         label=""
-        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        hpadding={getHPadding(vertical)}
+        vpadding={getVPadding(vertical)}
         visible={isRecording()}
         onClicked={() => {
             execAsync("pkill wf-recorder")
@@ -173,7 +188,8 @@ function AudioOut({vertical}: { vertical: boolean }) {
     return <OkButton
         labelCss={["barAudioOutForeground"]}
         backgroundCss={["barAudioOutBackground"]}
-        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        hpadding={getHPadding(vertical)}
+        vpadding={getVPadding(vertical)}
         label={speakerVar(() => getVolumeIcon(defaultSpeaker))}/>
 }
 
@@ -189,17 +205,20 @@ function AudioIn({vertical}: { vertical: boolean }) {
     return <OkButton
         labelCss={["barAudioInForeground"]}
         backgroundCss={["barAudioInBackground"]}
-        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        hpadding={getHPadding(vertical)}
+        vpadding={getVPadding(vertical)}
         label={micVar(() => getMicrophoneIcon(defaultMicrophone))}/>
 }
 
 function BluetoothIndicator({vertical}: { vertical: boolean }) {
     const bluetooth = Bluetooth.get_default()
+
     return <OkButton
         labelCss={["barBluetoothForeground"]}
         backgroundCss={["barBluetoothBackground"]}
         label="󰂯"
-        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        hpadding={getHPadding(vertical)}
+        vpadding={getVPadding(vertical)}
         visible={bind(bluetooth, "isPowered").as((isPowered) => {
             return isPowered
         })}/>
@@ -210,7 +229,8 @@ function NetworkIndicator({vertical}: { vertical: boolean }) {
         labelCss={["barNetworkForeground"]}
         backgroundCss={["barNetworkBackground"]}
         offset={1}
-        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        hpadding={getHPadding(vertical)}
+        vpadding={getVPadding(vertical)}
         label={getNetworkIconBinding()}/>
 }
 
@@ -227,7 +247,8 @@ function BatteryIndicator({vertical}: { vertical: boolean }) {
     return <OkButton
         labelCss={["barBatteryForeground"]}
         backgroundCss={["barBatteryBackground"]}
-        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        hpadding={getHPadding(vertical)}
+        vpadding={getVPadding(vertical)}
         warning={batteryVar((value) => {
             if (value[0] > 0.04 || battery.state === Battery.State.CHARGING) {
                 if (batteryWarningInterval != null) {
@@ -271,6 +292,8 @@ function IntegratedTray({vertical}: { vertical: boolean }) {
                     <OkButton
                         labelCss={["barTrayForeground"]}
                         backgroundCss={["barTrayBackground"]}
+                        hpadding={getHPadding(vertical)}
+                        vpadding={getVPadding(vertical)}
                         offset={1}
                         visible={bind(tray, "items").as((items) => items.length > 0)}
                         label={"󱊔"}
@@ -321,7 +344,8 @@ function AppLauncherButton({vertical}: { vertical: boolean }) {
     return <OkButton
         labelCss={["barAppLauncherForeground"]}
         backgroundCss={["barAppLauncherBackground"]}
-        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        hpadding={getHPadding(vertical)}
+        vpadding={getVPadding(vertical)}
         label="󰀻"
         onClicked={() => {
             toggleWindow(AppLauncherWindowName)
@@ -333,7 +357,8 @@ function ScreenshotButton({vertical}: { vertical: boolean }) {
         labelCss={["barScreenshotForeground"]}
         backgroundCss={["barScreenshotBackground"]}
         offset={2}
-        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        hpadding={getHPadding(vertical)}
+        vpadding={getVPadding(vertical)}
         label="󰹑"
         onClicked={() => {
             toggleWindow(ScreenshotWindowName)
@@ -345,7 +370,8 @@ function ClipboardManagerButton({vertical}: { vertical: boolean }) {
     return <OkButton
         labelCss={["barClipboardManagerForeground"]}
         backgroundCss={["barClipboardManagerBackground"]}
-        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        hpadding={getHPadding(vertical)}
+        vpadding={getVPadding(vertical)}
         label=""
         onClicked={() => {
             toggleWindow(ClipboardManagerWindowName)
@@ -357,7 +383,8 @@ function PowerProfileIndicator({vertical}: { vertical: boolean }) {
     return <OkButton
         labelCss={["barPowerProfileForeground"]}
         backgroundCss={["barPowerProfileBackground"]}
-        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        hpadding={getHPadding(vertical)}
+        vpadding={getVPadding(vertical)}
         visible={profiles.length !== 0}
         label={getPowerProfileIconBinding()}/>
 }
@@ -374,18 +401,40 @@ function CavaBars({vertical}: { vertical: boolean }) {
                 return <box/>
             }
 
-            return <CavaWaveform
-                color={variableConfig.theme.bars.cava_waveform.foreground()}
-                marginStart={vertical ? 0 : 20}
-                marginEnd={vertical ? 0 : 20}
-                marginTop={vertical ? 20 : 0}
-                marginBottom={vertical ? 20 : 0}
-                vertical={vertical}
-                flipStart={getCavaFlipStartValue(vertical)}
-                intensity={vertical ? variableConfig.verticalBar.cava_waveform.intensityMultiplier() : variableConfig.horizontalBar.cava_waveform.intensityMultiplier()}
-                expand={vertical ? variableConfig.verticalBar.cava_waveform.expanded() : variableConfig.horizontalBar.cava_waveform.expanded()}
-                length={vertical ? variableConfig.verticalBar.cava_waveform.length() : variableConfig.horizontalBar.cava_waveform.length()}
-                size={40}/>
+            const compactFunction = (c: boolean) => {
+                if (c) {
+                    return <CavaWaveform
+                        color={variableConfig.theme.bars.cava_waveform.foreground()}
+                        marginStart={vertical ? 0 : 20}
+                        marginEnd={vertical ? 0 : 20}
+                        marginTop={vertical ? 20 : 0}
+                        marginBottom={vertical ? 20 : 0}
+                        vertical={vertical}
+                        flipStart={getCavaFlipStartValue(vertical)}
+                        intensity={vertical ? variableConfig.verticalBar.cava_waveform.intensityMultiplier() : variableConfig.horizontalBar.cava_waveform.intensityMultiplier()}
+                        expand={vertical ? variableConfig.verticalBar.cava_waveform.expanded() : variableConfig.horizontalBar.cava_waveform.expanded()}
+                        length={vertical ? variableConfig.verticalBar.cava_waveform.length() : variableConfig.horizontalBar.cava_waveform.length()}
+                        size={30}/>
+                } else {
+                    return <CavaWaveform
+                        color={variableConfig.theme.bars.cava_waveform.foreground()}
+                        marginStart={vertical ? 0 : 20}
+                        marginEnd={vertical ? 0 : 20}
+                        marginTop={vertical ? 20 : 0}
+                        marginBottom={vertical ? 20 : 0}
+                        vertical={vertical}
+                        flipStart={getCavaFlipStartValue(vertical)}
+                        intensity={vertical ? variableConfig.verticalBar.cava_waveform.intensityMultiplier() : variableConfig.horizontalBar.cava_waveform.intensityMultiplier()}
+                        expand={vertical ? variableConfig.verticalBar.cava_waveform.expanded() : variableConfig.horizontalBar.cava_waveform.expanded()}
+                        length={vertical ? variableConfig.verticalBar.cava_waveform.length() : variableConfig.horizontalBar.cava_waveform.length()}
+                        size={40}/>
+                }
+            }
+
+            return <box>
+                {vertical ? variableConfig.verticalBar.compact().as((c) => compactFunction(c))
+                    : variableConfig.horizontalBar.compact().as((c) => compactFunction(c))}
+            </box>
         })}
     </box>
 }
@@ -422,6 +471,7 @@ function MprisTrackInfoBarWidget({vertical}: { vertical: boolean }) {
             }
 
             return <MprisTrackInfo
+                compact={vertical ? variableConfig.verticalBar.compact() : variableConfig.horizontalBar.compact()}
                 player={player}
                 vertical={vertical}
                 flipped={selectedBar().as((bar) => {
@@ -444,7 +494,8 @@ function MprisPrimaryPlayerSwitcher({vertical}: { vertical: boolean }) {
                 labelCss={["barMprisPrimaryPlayerSwitcherForeground"]}
                 backgroundCss={["barMprisPrimaryPlayerSwitcherBackground"]}
                 offset={2}
-                hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+                hpadding={getHPadding(vertical)}
+                vpadding={getVPadding(vertical)}
                 label=""
                 onClicked={() => {
                     mpris.rotatePrimaryPlayer()
@@ -465,7 +516,8 @@ function NotificationButton({vertical}: { vertical: boolean }) {
         labelCss={["barNotificationHistoryForeground"]}
         backgroundCss={["barNotificationHistoryBackground"]}
         offset={1}
-        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        hpadding={getHPadding(vertical)}
+        vpadding={getVPadding(vertical)}
         label={derivedNotificationState().as(([notificationsList, doNotDisturb]) => {
             if (doNotDisturb) {
                 return "󰂛"
@@ -485,7 +537,8 @@ function ColorPickerButton({vertical}: { vertical: boolean }) {
         labelCss={["barColorPickerForeground"]}
         backgroundCss={["barColorPickerBackground"]}
         offset={2}
-        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        hpadding={getHPadding(vertical)}
+        vpadding={getVPadding(vertical)}
         label=""
         onClicked={() => {
             runColorPicker().catch((error) => console.log(error))
@@ -496,7 +549,8 @@ function LogoutButton({vertical}: { vertical: boolean }) {
     return <OkButton
         labelCss={["barLogoutForeground"]}
         backgroundCss={["barLogoutBackground"]}
-        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        hpadding={getHPadding(vertical)}
+        vpadding={getVPadding(vertical)}
         label="󰍃"
         onClicked={() => {
             logout()
@@ -507,7 +561,8 @@ function LockButton({vertical}: { vertical: boolean }) {
     return <OkButton
         labelCss={["barLockForeground"]}
         backgroundCss={["barLockBackground"]}
-        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        hpadding={getHPadding(vertical)}
+        vpadding={getVPadding(vertical)}
         label=""
         onClicked={() => {
             lock()
@@ -518,7 +573,8 @@ function RestartButton({vertical}: { vertical: boolean }) {
     return <OkButton
         labelCss={["barRestartForeground"]}
         backgroundCss={["barRestartBackground"]}
-        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        hpadding={getHPadding(vertical)}
+        vpadding={getVPadding(vertical)}
         label=""
         onClicked={() => {
             restart()
@@ -530,7 +586,8 @@ function ShutdownButton({vertical}: { vertical: boolean }) {
         labelCss={["barShutdownForeground"]}
         backgroundCss={["barShutdownBackground"]}
         offset={1}
-        hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+        hpadding={getHPadding(vertical)}
+        vpadding={getVPadding(vertical)}
         label="⏻"
         onClicked={() => {
             shutdown()
