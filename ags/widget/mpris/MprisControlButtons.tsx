@@ -1,6 +1,7 @@
 import {LoopStatus, PlaybackStatus, Player, ShuffleStatus} from "../utils/mpris";
 import {Gtk} from "astal/gtk4";
 import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
+import {getHPadding, getVPadding} from "../bar/BarWidgets";
 
 export default function (
     {
@@ -28,7 +29,8 @@ export default function (
         <OkButton
             labelCss={foregroundCss}
             backgroundCss={backgroundCss}
-            hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+            hpadding={getHPadding(vertical)}
+            vpadding={getVPadding(vertical)}
             onClicked={() => {
                 if (player.shuffleStatus.get() === ShuffleStatus.Enabled) {
                     player.setShuffleStatus(ShuffleStatus.Disabled)
@@ -47,7 +49,8 @@ export default function (
         <OkButton
             labelCss={foregroundCss}
             backgroundCss={backgroundCss}
-            hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+            hpadding={getHPadding(vertical)}
+            vpadding={getVPadding(vertical)}
             onClicked={() => {
                 player.previousTrack()
             }}
@@ -56,7 +59,8 @@ export default function (
         <OkButton
             labelCss={foregroundCss}
             backgroundCss={backgroundCss}
-            hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+            hpadding={getHPadding(vertical)}
+            vpadding={getVPadding(vertical)}
             onClicked={() => {
                 player.playPause()
             }}
@@ -65,7 +69,8 @@ export default function (
         <OkButton
             labelCss={foregroundCss}
             backgroundCss={backgroundCss}
-            hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+            hpadding={getHPadding(vertical)}
+            vpadding={getVPadding(vertical)}
             onClicked={() => {
                 player.nextTrack()
             }}
@@ -74,7 +79,8 @@ export default function (
         <OkButton
             labelCss={foregroundCss}
             backgroundCss={backgroundCss}
-            hpadding={vertical ? OkButtonHorizontalPadding.STANDARD : OkButtonHorizontalPadding.THIN}
+            hpadding={getHPadding(vertical)}
+            vpadding={getVPadding(vertical)}
             onClicked={() => {
                 if (player.loopStatus.get() === LoopStatus.None) {
                     player.setLoopStatus(LoopStatus.Playlist)

@@ -2,8 +2,6 @@ import {App, Astal, Gdk, Gtk} from "astal/gtk4";
 import {Binding, Variable} from "astal";
 import {variableConfig} from "../../config/config";
 import {hideAllWindows} from "../utils/windows";
-
-
 import {Bar, selectedBar} from "../../config/bar";
 
 type Params = {
@@ -21,45 +19,47 @@ type Params = {
     content?: JSX.Element;
 }
 
-const defaultAnchor = Variable.derive([
-    selectedBar,
-    variableConfig.horizontalBar.expanded,
-    variableConfig.verticalBar.expanded,
-], (bar, hExpanded, vExpanded) => {
-    switch (bar) {
-        case Bar.TOP:
-        case Bar.BOTTOM:
-            if (hExpanded) {
+function defaultAnchor(){
+    return Variable.derive([
+        selectedBar,
+        variableConfig.horizontalBar.expanded,
+        variableConfig.verticalBar.expanded,
+    ], (bar, hExpanded, vExpanded) => {
+        switch (bar) {
+            case Bar.TOP:
+            case Bar.BOTTOM:
+                if (hExpanded) {
+                    return Astal.WindowAnchor.TOP
+                        | Astal.WindowAnchor.RIGHT
+                        | Astal.WindowAnchor.BOTTOM
+                        | Astal.WindowAnchor.LEFT
+                }
+                return Astal.WindowAnchor.TOP
+                    | Astal.WindowAnchor.BOTTOM
+            case Bar.LEFT:
+                if (!vExpanded) {
+                    return Astal.WindowAnchor.LEFT
+                }
+                return Astal.WindowAnchor.TOP
+                    | Astal.WindowAnchor.LEFT
+                    | Astal.WindowAnchor.BOTTOM
+            case Bar.RIGHT:
+                if (!vExpanded) {
+                    return Astal.WindowAnchor.RIGHT
+                }
                 return Astal.WindowAnchor.TOP
                     | Astal.WindowAnchor.RIGHT
                     | Astal.WindowAnchor.BOTTOM
-                    | Astal.WindowAnchor.LEFT
-            }
-            return Astal.WindowAnchor.TOP
-                | Astal.WindowAnchor.BOTTOM
-        case Bar.LEFT:
-            if (!vExpanded) {
-                return Astal.WindowAnchor.LEFT
-            }
-            return Astal.WindowAnchor.TOP
-                | Astal.WindowAnchor.LEFT
-                | Astal.WindowAnchor.BOTTOM
-        case Bar.RIGHT:
-            if (!vExpanded) {
-                return Astal.WindowAnchor.RIGHT
-            }
-            return Astal.WindowAnchor.TOP
-                | Astal.WindowAnchor.RIGHT
-                | Astal.WindowAnchor.BOTTOM
-    }
-})
+        }
+    })
+}
 
 export default function(
     {
         monitor,
         windowName,
         namespace,
-        anchor = defaultAnchor(),
+        anchor = defaultAnchor()(),
         topExpand,
         bottomExpand,
         rightExpand,

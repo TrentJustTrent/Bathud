@@ -1,18 +1,16 @@
 @use "../variables" as vars;
 @use "sass:color";
+@use "../functions" as fun;
 
 .okButtonClass {
   all: unset;
   background-color: transparent;
   border: none;
+  @include fun.hoverLighten(vars.$bg);
 }
 
-.okButtonClass:hover {
-  background-color: color.adjust(vars.$bg, $lightness: 5%)
-}
-
-.okButtonClassPrimary:hover {
-  background-color: color.adjust(vars.$buttonPrimary, $lightness: 5%)
+.okButtonClassPrimary {
+  @include fun.hoverLighten(vars.$buttonPrimary);
 }
 
 .okButtonClassSelected {
@@ -27,21 +25,15 @@
   color: vars.$fg;
   border-radius: vars.$buttonBorderRadius;
   padding: 4px 8px 4px 8px;
-}
-
-.screenshotButton:hover {
-  background-color: color.adjust(vars.$buttonPrimary, $lightness: 5%)
+  @include fun.hoverLighten(vars.$buttonPrimary);
 }
 
 .trayIconButton {
+  @include fun.hoverLighten(vars.$bg);
   .toggle {
     all: unset;
     background-color: transparent;
     box-shadow: none;
-  }
-
-  &:hover {
-    background-color: color.adjust(vars.$bg, $lightness: 5%)
   }
 }
 
@@ -51,13 +43,10 @@
   color: vars.$fg;
   border-radius: vars.$buttonBorderRadius;
   padding: 4px 8px 4px 8px;
+  @include fun.hoverLighten(vars.$bg);
 
   .toggle {
     background-color: transparent;
     box-shadow: none;
-  }
-
-  &:hover {
-    background-color: color.adjust(vars.$bg, $lightness: 5%)
   }
 }

@@ -9,6 +9,12 @@ export enum OkButtonHorizontalPadding {
     NONE
 }
 
+export enum OkButtonVerticalPadding {
+    STANDARD,
+    THIN,
+    NONE
+}
+
 export enum OkButtonSize {
     SMALL,
     MEDIUM,
@@ -70,6 +76,7 @@ export default function(
         offset = 0,
         selected,
         hpadding = OkButtonHorizontalPadding.STANDARD,
+        vpadding = OkButtonVerticalPadding.STANDARD,
         size = OkButtonSize.SMALL,
         bold = false,
         warning = false,
@@ -98,7 +105,8 @@ export default function(
         label: Binding<string> | string,
         offset?: number | Binding<number>,
         selected?: Binding<boolean>,
-        hpadding?: OkButtonHorizontalPadding,
+        hpadding?: OkButtonHorizontalPadding | Binding<OkButtonHorizontalPadding>,
+        vpadding?: OkButtonVerticalPadding | Binding<OkButtonVerticalPadding>,
         size?: OkButtonSize | Binding<OkButtonSize>,
         bold?: boolean | Binding<boolean>,
         warning?: boolean | Binding<boolean>,
@@ -146,19 +154,54 @@ export default function(
         realBold,
     ])
 
-    const verticalPadding = 8
+    const labelVerticalMargin = Variable.derive([
+        isBinding(vpadding) ? vpadding : bind(Variable(vpadding))
+    ], (v) => {
+        switch (v) {
+            case OkButtonVerticalPadding.STANDARD:
+                return 8
+            case OkButtonVerticalPadding.THIN:
+                return 4
+            case OkButtonVerticalPadding.NONE:
+                return 0
+        }
+    })
 
-    let horizontalPadding
-    switch (hpadding) {
-        case OkButtonHorizontalPadding.STANDARD:
-            horizontalPadding = 18
-            break
-        case OkButtonHorizontalPadding.THIN:
-            horizontalPadding = 14
-            break
-        case OkButtonHorizontalPadding.NONE:
-            horizontalPadding = 0
-    }
+    const labelMarginStart = Variable.derive([
+        isBinding(offset) ? offset : bind(Variable(offset)),
+        isBinding(hpadding) ? hpadding : bind(Variable(hpadding)),
+    ], (o, h) => {
+        let horizontalPadding
+        switch (h) {
+            case OkButtonHorizontalPadding.STANDARD:
+                horizontalPadding = 18
+                break
+            case OkButtonHorizontalPadding.THIN:
+                horizontalPadding = 14
+                break
+            case OkButtonHorizontalPadding.NONE:
+                horizontalPadding = 0
+        }
+        return horizontalPadding - o
+    })
+
+    const labelMarginEnd = Variable.derive([
+        isBinding(offset) ? offset : bind(Variable(offset)),
+        isBinding(hpadding) ? hpadding : bind(Variable(hpadding)),
+    ], (o, h) => {
+        let horizontalPadding
+        switch (h) {
+            case OkButtonHorizontalPadding.STANDARD:
+                horizontalPadding = 18
+                break
+            case OkButtonHorizontalPadding.THIN:
+                horizontalPadding = 14
+                break
+            case OkButtonHorizontalPadding.NONE:
+                horizontalPadding = 0
+        }
+        return horizontalPadding + o
+    })
 
     const onlyLabel = onClicked === undefined && menuButtonContent === undefined
 
@@ -195,10 +238,10 @@ export default function(
 
             return warning ? labelClasses.concat("colorWarning") : labelClasses
         })}
-        marginTop={verticalPadding}
-        marginBottom={verticalPadding}
-        marginStart={typeof offset === 'number' ? horizontalPadding - offset : offset.as((value) => horizontalPadding - value)}
-        marginEnd={typeof offset === 'number' ? horizontalPadding + offset : offset.as((value) => horizontalPadding + value)}
+        marginTop={labelVerticalMargin()}
+        marginBottom={labelVerticalMargin()}
+        marginStart={labelMarginStart()}
+        marginEnd={labelMarginEnd()}
         label={label}
         onHoverEnter={onHoverEnter}
         onHoverLeave={onHoverLeave}/>

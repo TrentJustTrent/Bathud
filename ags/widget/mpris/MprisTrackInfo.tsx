@@ -1,21 +1,22 @@
 import {Player} from "../utils/mpris";
-import {Gtk} from "astal/gtk4";
 import VerticalLabel from "../common/VerticalLabel";
 import {Binding, Variable} from "astal";
 import {truncateString} from "../utils/strings";
 import {variableConfig} from "../../config/config";
-
 import {alignmentToGtk} from "../utils/configHelper";
+import {Gtk} from "astal/gtk4";
 
 export default function (
     {
         player,
         vertical,
         flipped,
+        compact,
     }: {
         player: Player,
         vertical: boolean,
         flipped: Binding<boolean>,
+        compact: Binding<boolean>,
     }
 ) {
     const title = Variable.derive([
@@ -101,13 +102,16 @@ export default function (
         {!vertical &&
             <box
                 vertical={true}
+                valign={Gtk.Align.CENTER}
                 widthRequest={variableConfig.horizontalBar.mpris_track_info.minimumLength()}>
                 <label
-                    cssClasses={["labelSmallBold", "barMprisTrackInfoForeground"]}
+                    marginStart={8}
+                    cssClasses={["labelSmallBold", "barMprisTrackInfoForeground", "lineHeightCompact"]}
                     halign={variableConfig.horizontalBar.mpris_track_info.textAlignment().as((a) => alignmentToGtk(a))}
                     label={title()}/>
                 <label
-                    cssClasses={["labelSmall", "barMprisTrackInfoForeground"]}
+                    marginStart={8}
+                    cssClasses={["labelSmall", "barMprisTrackInfoForeground", "lineHeightCompact"]}
                     halign={variableConfig.horizontalBar.mpris_track_info.textAlignment().as((a) => alignmentToGtk(a))}
                     label={artist()}/>
             </box>
