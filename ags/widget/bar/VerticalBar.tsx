@@ -6,6 +6,8 @@ import CavaWaveform from "../cava/CavaWaveform";
 import {getCavaFlipStartValue} from "../utils/cava";
 import {Variable} from "astal";
 
+export const verticalBarWindowName = "verticalBar"
+
 export default function () {
     const marginLeft = Variable.derive([
         selectedBar,
@@ -60,6 +62,8 @@ export default function () {
     })
 
     return <window
+        defaultWidth={1} // necessary or resizing doesn't work
+        name={verticalBarWindowName}
         namespace={"okpanel-vertical-bar"}
         heightRequest={variableConfig.verticalBar.minimumHeight()}
         cssClasses={["transparentBackground"]}

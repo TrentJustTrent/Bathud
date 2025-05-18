@@ -52,11 +52,16 @@ layerrule = blur, okpanel-notification-history
 layerrule = blur, okpanel-clipboard-manager
 layerrule = blur, okpanel-alerts
 
+layerrule = ignorezero, okpanel-horizontal-bar
+layerrule = ignorezero, okpanel-vertical-bar
 layerrule = ignorezero, okpanel-system-menu
 layerrule = ignorezero, okpanel-calendar
+layerrule = ignorezero, okpanel-screenshot
+layerrule = ignorezero, okpanel-screenshare
+layerrule = ignorezero, okpanel-notifications
 layerrule = ignorezero, okpanel-notification-history
 layerrule = ignorezero, okpanel-clipboard-manager
-
+layerrule = ignorezero, okpanel-alerts
 
 layerrule = animation slide top, okpanel-app-launcher
 layerrule = animation slide left, okpanel-system-menu
