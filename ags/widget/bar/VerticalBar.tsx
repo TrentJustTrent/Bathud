@@ -62,6 +62,7 @@ export default function () {
     })
 
     return <window
+        defaultHeight={variableConfig.verticalBar.minimumHeight()}
         defaultWidth={1} // necessary or resizing doesn't work
         name={verticalBarWindowName}
         namespace={"okpanel-vertical-bar"}

@@ -138,6 +138,7 @@ export const horizontalBarSchema = {
             type: 'number',
             default: 800,
             description: 'Minimum bar width if not expanded.',
+            transformation: (value) => value < 1 ? 1 : value
         },
         ...commonBarChildrenSchema,
         ...barWidgetsSchema(false),
@@ -188,6 +189,7 @@ export const verticalBarSchema = {
             type: 'number',
             default: 600,
             description: 'Minimum bar height if not expanded.',
+            transformation: (value) => value < 1 ? 1 : value
         },
         ...commonBarChildrenSchema,
         ...barWidgetsSchema(true),
