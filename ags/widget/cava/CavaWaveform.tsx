@@ -59,7 +59,7 @@ function setBars(cava: AstalCava.Cava, length: number) {
 
 type Params = {
     vertical?: boolean,
-    flipStart?: boolean | Binding<boolean>,
+    flipStart: Binding<boolean>,
     length?: number | Binding<number>,
     size?: number,
     expand?: boolean | Binding<boolean>,
@@ -89,7 +89,7 @@ type Params = {
 export default function(
     {
         vertical = false,
-        flipStart = false,
+        flipStart,
         length = 0,
         size = 0,
         expand = false,
@@ -107,7 +107,16 @@ export default function(
         typeof expand === 'boolean' ? Variable(expand) : expand,
         typeof intensity === 'number' ? Variable(intensity) : intensity,
     ])
-    return <box>
+    return <box
+        vexpand={!vertical}
+        hexpand={vertical}>
+        {flipStart.as((flip) => {
+            if (vertical && !flip) {
+                return <box hexpand={true}/>
+            } else {
+                return <box/>
+            }
+        })}
         {parameters().as(([length, expand, intensity]) => {
             return <CavaWaveformInternal
                 vertical={vertical}
@@ -127,7 +136,7 @@ export default function(
 
 type InternalParams = {
     vertical?: boolean,
-    flipStart?: boolean | Binding<boolean>,
+    flipStart: Binding<boolean>,
     length?: number,
     size?: number,
     expand?: boolean,
@@ -142,7 +151,7 @@ type InternalParams = {
 function CavaWaveformInternal(
     {
         vertical = false,
-        flipStart = false,
+        flipStart,
         length = 0,
         size = 0,
         expand = false,
