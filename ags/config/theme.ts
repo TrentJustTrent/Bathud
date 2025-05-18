@@ -124,6 +124,8 @@ cat > "$TARGET_DIR/variables.scss" <<EOF
 \\$windowBorder: ${theme.windows.borderColor.get()};
 \\$windowBackgroundColor: ${theme.windows.backgroundColor.get()};
 
+\\$barWorkspacesInactiveForeground: ${theme.bars.workspaces.inactiveForeground.get()};
+
 ${widgetLines}
 EOF
 

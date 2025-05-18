@@ -19,6 +19,10 @@
   color: vars.$barWorkspacesForeground;
 }
 
+.barWorkspacesInactiveForeground {
+  color: vars.$barWorkspacesInactiveForeground;
+}
+
 .barWorkspacesBackground {
   background-color: vars.$barWorkspacesBackground;
   border-radius: vars.$barWorkspacesBorderRadius;

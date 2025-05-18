@@ -69,7 +69,7 @@ function monitorAvailableConfigs() {
                 availableConfigs.set(availableConfigs.get().filter((conf) => conf.fileName !== fileName))
                 break
             case Gio.FileMonitorEvent.CHANGED:
-                console.log(`Available config file deleted: ${fileName}`)
+                console.log(`Available config file changed: ${fileName}`)
                 const newC = loadConfig(`${homePath}/.config/OkPanel/${fileName}`)
                 availableConfigs.set(availableConfigs.get()
                     .filter((conf) => conf.fileName !== fileName)

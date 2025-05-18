@@ -101,7 +101,7 @@ function Workspaces({vertical}: { vertical: boolean }) {
                         return bind(workspace.monitor, "activeWorkspace").as((activeWorkspace) => {
                             const isActive = activeWorkspace?.id === workspace.id
                             return <OkButton
-                                labelCss={["barWorkspacesForeground"]}
+                                labelCss={isActive ? ["barWorkspacesForeground"] : ["barWorkspacesInactiveForeground"]}
                                 backgroundCss={["barWorkspaceButtonBackground"]}
                                 offset={isActive ? variableConfig.theme.bars.workspaces.activeOffset() : variableConfig.theme.bars.workspaces.inactiveOffset()}
                                 hpadding={getHPadding(vertical)}

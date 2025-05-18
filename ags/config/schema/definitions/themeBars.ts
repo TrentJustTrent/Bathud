@@ -149,6 +149,12 @@ export const themeBarsSchema = {
                     default: 1,
                     description: 'Offset of the active workspace icon.  Use this if the icon is not centered properly'
                 },
+                {
+                    name: 'inactiveForeground',
+                    type: 'color',
+                    default: {from: 'theme.bars.workspaces.foreground'},
+                    description: 'Foreground color of inactive workspaces.'
+                },
             ],
         },
         {
