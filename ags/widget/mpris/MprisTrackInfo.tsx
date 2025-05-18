@@ -55,20 +55,14 @@ export default function (
                             halign={Gtk.Align.CENTER}
                             vertical={false}
                             heightRequest={variableConfig.verticalBar.mpris_track_info.minimumLength()}>
-                            {compact.as((c) => {
-                                if (c) {
-                                    return <box/>
-                                } else {
-                                    return <VerticalLabel
-                                        text={artist()}
-                                        fontSize={14}
-                                        flipped={isFlipped}
-                                        bold={false}
-                                        alignment={alignment}
-                                        foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground()}
-                                    />
-                                }
-                            })}
+                            <VerticalLabel
+                                text={artist()}
+                                fontSize={14}
+                                flipped={isFlipped}
+                                bold={false}
+                                alignment={alignment}
+                                foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground()}
+                            />
                             <VerticalLabel
                                 text={title()}
                                 fontSize={14}
@@ -92,20 +86,14 @@ export default function (
                                 alignment={alignment}
                                 foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground()}
                             />
-                            {compact.as((c) => {
-                                if (c) {
-                                    return <box/>
-                                } else {
-                                    return <VerticalLabel
-                                        text={artist()}
-                                        fontSize={14}
-                                        flipped={isFlipped}
-                                        bold={false}
-                                        alignment={alignment}
-                                        foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground()}
-                                    />
-                                }
-                            })}
+                            <VerticalLabel
+                                text={artist()}
+                                fontSize={14}
+                                flipped={isFlipped}
+                                bold={false}
+                                alignment={alignment}
+                                foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground()}
+                            />
                         </box>
                     }
                 })}
@@ -117,19 +105,15 @@ export default function (
                 valign={Gtk.Align.CENTER}
                 widthRequest={variableConfig.horizontalBar.mpris_track_info.minimumLength()}>
                 <label
-                    cssClasses={["labelSmallBold", "barMprisTrackInfoForeground"]}
+                    marginStart={8}
+                    cssClasses={["labelSmallBold", "barMprisTrackInfoForeground", "lineHeightCompact"]}
                     halign={variableConfig.horizontalBar.mpris_track_info.textAlignment().as((a) => alignmentToGtk(a))}
                     label={title()}/>
-                {compact.as((c) => {
-                    if (c) {
-                        return <box/>
-                    } else {
-                        return <label
-                            cssClasses={["labelSmall", "barMprisTrackInfoForeground"]}
-                            halign={variableConfig.horizontalBar.mpris_track_info.textAlignment().as((a) => alignmentToGtk(a))}
-                            label={artist()}/>
-                    }
-                })}
+                <label
+                    marginStart={8}
+                    cssClasses={["labelSmall", "barMprisTrackInfoForeground", "lineHeightCompact"]}
+                    halign={variableConfig.horizontalBar.mpris_track_info.textAlignment().as((a) => alignmentToGtk(a))}
+                    label={artist()}/>
             </box>
         }
     </box>

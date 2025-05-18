@@ -67,7 +67,7 @@ function VerticalLabelInternal(
     }
 ) {
     const area = new Gtk.DrawingArea()
-    area.set_content_width(fontSize + 6)
+    area.set_content_width(fontSize)
 
     let realText = ""
     if (isBinding(text)) {
@@ -102,7 +102,7 @@ function VerticalLabelInternal(
         // @ts-ignore
         cr.save()
         // @ts-ignore
-        cr.translate(width / 2, height / 2)
+        cr.translate(width, (height / 2) - 8)
         // @ts-ignore
         cr.rotate(realFlipped ? Math.PI / 2 : -Math.PI / 2) // 90 degrees counterclockwise
         // @ts-ignore
