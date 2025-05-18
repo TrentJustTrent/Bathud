@@ -1,5 +1,5 @@
 import {Theme} from "./types/derivedTypes";
-import {variableConfig} from "./config";
+import {selectedConfig, variableConfig} from "./config";
 import {execAsync} from "astal/process";
 import {GLib} from "astal";
 import {App} from "astal/gtk4";
@@ -22,7 +22,7 @@ fi
 # if the update wallpaper script exists
 if [[ -f "${variableConfig.wallpaperUpdateScript.get()}" ]]; then
     # if there is a cached wallpaper for this theme, then set it
-    WALLPAPER_CACHE_PATH="${GLib.get_home_dir()}/.cache/OkPanel/wallpaper/${theme.name.get()}"
+    WALLPAPER_CACHE_PATH="${GLib.get_home_dir()}/.cache/OkPanel/wallpaper/${selectedConfig.get()?.fileName}"
     # Check if the file exists and is non-empty
     if [[ -s "$WALLPAPER_CACHE_PATH" ]]; then
         # Read the wallpaper path from the file
@@ -141,7 +141,7 @@ if [[ -f "${variableConfig.wallpaperUpdateScript.get()}" ]]; then
     
     # cache the name of the selected wallpaper
     mkdir -p ${GLib.get_home_dir()}/.cache/OkPanel/wallpaper
-    echo "${path}" > ${GLib.get_home_dir()}/.cache/OkPanel/wallpaper/${variableConfig.theme.name.get()}
+    echo "${path}" > ${GLib.get_home_dir()}/.cache/OkPanel/wallpaper/${selectedConfig.get()?.fileName}
 fi
 
     '`).catch((error) => {
