@@ -102,7 +102,7 @@ function VerticalLabelInternal(
         // @ts-ignore
         cr.save()
         // @ts-ignore
-        cr.translate(realFlipped ? width / 4 : width, (height / 2) - 8)
+        cr.translate(realFlipped ? width / 4 : width * 3/4, (height / 2) - 8)
         // @ts-ignore
         cr.rotate(realFlipped ? Math.PI / 2 : -Math.PI / 2) // 90 degrees counterclockwise
         // @ts-ignore
