@@ -1,6 +1,7 @@
 import {Field} from "../primitiveDefinitions";
 import {themeWindowsSchema} from "./themeWindows";
 import {themeBarsSchema} from "./themeBars";
+import {themeSystemMenuSchema} from "./themeSystemMenu";
 
 export const themeSchema = {
     name: 'theme',
@@ -95,5 +96,6 @@ export const themeSchema = {
         },
         themeBarsSchema,
         themeWindowsSchema,
+        themeSystemMenuSchema,
     ],
 } as const satisfies Field

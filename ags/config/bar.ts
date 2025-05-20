@@ -1,6 +1,8 @@
 import {readFile} from "astal/file";
 import {GLib, Variable} from "astal";
 import {execAsync} from "astal/process";
+import {hideAllWindows} from "../widget/utils/windows";
+import {variableConfig} from "./config";
 
 export enum Bar {
     LEFT = "left",
@@ -12,8 +14,18 @@ export enum Bar {
 export const selectedBar = Variable(Bar.LEFT)
 
 export function setBarType(bar: Bar) {
+    hideAllWindows()
     selectedBar.set(bar)
     saveBar()
+    execAsync(`bash -c '
+# if the set bar script exists
+if [[ -f "${variableConfig.barUpdateScript.get()}" ]]; then
+    # call the external update theme 
+    ${variableConfig.barUpdateScript.get()} ${selectedBar.get()}
+fi
+    '`).catch((error) => {
+        console.log(error)
+    })
 }
 
 export function restoreBar() {

@@ -14,7 +14,6 @@ import {
 import RevealerRow from "../../common/RevealerRow";
 import {Bar, selectedBar, setBarType} from "../../../config/bar";
 import OkButton, {OkButtonSize} from "../../common/OkButton";
-import {Theme} from "../../../config/types/derivedTypes";
 import {listFilenamesInDir} from "../../utils/files";
 import {setWallpaper} from "../../../config/theme";
 
@@ -180,7 +179,7 @@ function ThemeOptions() {
     let rightGradient: Gtk.Box
     const scrolledWindow = new Gtk.ScrolledWindow({
         hexpand: true,
-        cssClasses: ["visibleScrollWindow"],
+        cssClasses: ["scrollWindow"],
         hscrollbar_policy: Gtk.PolicyType.AUTOMATIC,
         vscrollbar_policy: Gtk.PolicyType.NEVER,
         heightRequest: 50,

@@ -185,6 +185,12 @@ export const verticalBarSchema = {
             ],
         ),
         {
+            name: 'integratedMenu',
+            type: 'boolean',
+            default: false,
+            description: 'If true, the menu will be integrated into the bar.'
+        },
+        {
             name: 'minimumHeight',
             type: 'number',
             default: 600,

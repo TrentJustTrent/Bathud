@@ -6,7 +6,7 @@ An example global config placed at `~/.config/OkPanel/okpanel.yaml`
 These are things that you probably want the same in all your config files (if you use multiple)
 
 ```
-themeUpdateScript: "/home/john/workspace/scripts/setTheme.sh"
+configUpdateScript: "/home/john/workspace/scripts/setTheme.sh"
 wallpaperUpdateScript: "/home/john/workspace/scripts/setWallpaper.sh"
 
 systemCommands:

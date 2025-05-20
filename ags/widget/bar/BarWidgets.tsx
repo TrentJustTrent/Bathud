@@ -31,6 +31,7 @@ import {BarWidget} from "../../config/schema/definitions/barWidgets";
 import OkButton, {OkButtonHorizontalPadding, OkButtonSize, OkButtonVerticalPadding} from "../common/OkButton";
 import {runColorPicker} from "../utils/colorPicker";
 import {lock, logout, restart, shutdown} from "../utils/powerOptions";
+import {integratedMenuRevealed} from "./VerticalBar";
 
 const tray = Tray.get_default()
 
@@ -54,7 +55,11 @@ function MenuButton({vertical}: { vertical: boolean }) {
         vpadding={getVPadding(vertical)}
         label={variableConfig.theme.bars.menu.icon()}
         onClicked={() => {
-            toggleWindow(SystemMenuWindowName)
+            if (variableConfig.verticalBar.integratedMenu.get()) {
+                integratedMenuRevealed.set(!integratedMenuRevealed.get())
+            } else {
+                toggleWindow(SystemMenuWindowName)
+            }
         }}/>
 }
 

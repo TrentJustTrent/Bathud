@@ -15,12 +15,13 @@ import PowerProfileControls from "./widgets/PowerProfileControls";
 import {SystemMenuWidget} from "../../config/schema/definitions/systemMenu";
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
 import Toolbox from "./widgets/Toolbox";
+import Clock from "./widgets/Clock";
 
 export const SystemMenuWindowName = "systemMenuWindow"
 
 const {audio} = Wp.get_default()!
 
-export function addWidgets(widgets: SystemMenuWidget[]) {
+export function addSystemMenuWidgets(widgets: SystemMenuWidget[]) {
     return widgets.map((widget) => {
         switch (widget) {
             case SystemMenuWidget.NETWORK:
@@ -49,6 +50,8 @@ export function addWidgets(widgets: SystemMenuWidget[]) {
                 return <NotificationHistory/>
             case SystemMenuWidget.TOOLBOX:
                 return <Toolbox/>
+            case SystemMenuWidget.CLOCK:
+                return <Clock/>
         }
     })
 }
@@ -139,7 +142,7 @@ export default function () {
                 vertical={true}
                 spacing={10}>
                 {variableConfig.systemMenu.widgets().as((widgets) => {
-                    return addWidgets(widgets)
+                    return addSystemMenuWidgets(widgets)
                 })}
             </box>
         }

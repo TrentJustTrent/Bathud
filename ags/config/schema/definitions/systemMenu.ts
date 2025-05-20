@@ -11,6 +11,7 @@ export enum SystemMenuWidget {
     POWER_OPTIONS = "power_options",
     NOTIFICATION_HISTORY = "notification_history",
     TOOLBOX = "toolbox",
+    CLOCK = "clock",
 }
 export const SYSTEM_MENU_WIDGET_VALUES = Object.values(SystemMenuWidget) as readonly SystemMenuWidget[]
 

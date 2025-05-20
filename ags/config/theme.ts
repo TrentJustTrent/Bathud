@@ -13,10 +13,10 @@ export function setTheme(theme: Theme, onFinished: () => void) {
 # compile the scss in /tmp
 ${compileThemeBashScript(theme)}
 
-# if the set theme script exists
-if [[ -f "${variableConfig.themeUpdateScript.get()}" ]]; then
-    # call the external update theme 
-    ${variableConfig.themeUpdateScript.get()} ${theme.name.get()}
+# if the set config script exists
+if [[ -f "${variableConfig.configUpdateScript.get()}" ]]; then
+    # call the external update theme/config
+    ${variableConfig.configUpdateScript.get()} ${theme.name.get()} ${selectedConfig.get()?.fileName}
 fi
 
 # if the update wallpaper script exists
@@ -103,6 +103,8 @@ cp -r "$SOURCE_DIR" "$TARGET_DIR"
 
 cat > "$TARGET_DIR/variables.scss" <<EOF
 \\$font: "${variableConfig.theme.font.get()}";
+\\$systemMenuClockDayFont: "${variableConfig.theme.systemMenu.clock.dayFont.get()}";
+
 \\$gaps: ${variableConfig.theme.windows.gaps.get()}px;
 \\$barBorderRadius: ${variableConfig.theme.bars.borderRadius.get()}px;
 \\$barBorderWidth: ${variableConfig.theme.bars.borderWidth.get()}px;

@@ -22,15 +22,21 @@ export const CONFIG_SCHEMA = [
         constraintDescription: 'Must be between -10 and 10'
     },
     {
-        name: 'themeUpdateScript',
+        name: 'configUpdateScript',
         type: 'string',
-        description: 'Absolute path to the script run when a theme changes where you can update the theme for the rest of your system.  Theme name is send as an argument to the script.',
+        description: 'Absolute path to the script run when the config changes where you can update the theme and configuration for the rest of your system.  Theme name and config file name are sent as arguments to the script.',
         required: false,
     },
     {
         name: 'wallpaperUpdateScript',
         type: 'string',
         description: 'Absolute path to the script run when the wallpaper changes.  You are responsible for changing you wallpaper.  Wallpaper path is sent as an argument to the script.',
+        required: false,
+    },
+    {
+        name: 'barUpdateScript',
+        type: 'string',
+        description: 'Absolute path to the script run when the bar changes.  Bar type is sent as an argument to the script.',
         required: false,
     },
     {

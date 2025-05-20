@@ -110,7 +110,7 @@ export default function () {
     let textEntryBox: Gtk.Entry | null = null
 
     const scrolledWindow = new Gtk.ScrolledWindow({
-        cssClasses: ["visibleScrollWindow"],
+        cssClasses: ["scrollWindow"],
         vscrollbar_policy: Gtk.PolicyType.AUTOMATIC,
         propagateNaturalHeight: true,
         canFocus: false,
