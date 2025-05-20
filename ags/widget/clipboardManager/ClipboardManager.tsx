@@ -118,6 +118,79 @@ function wipeHistory() {
     })
 }
 
+export function ClipboardManagerContent() {
+    return <box
+        vertical={true}>
+        {clipboardEntries((entries) => {
+            return <box
+                vertical={true}>
+                {entries.length === 0 &&
+                    <label
+                        hexpand={true}
+                        halign={Gtk.Align.CENTER}
+                        label="Empty"
+                        cssClasses={["labelMedium"]}/>
+                }
+                {entries.length > 0 &&
+                    <box
+                        marginBottom={16}>
+                        <OkButton
+                            hexpand={true}
+                            label="Delete all"
+                            primary={true}
+                            onClicked={() => {
+                                wipeHistory()
+                            }}/>
+                    </box>
+                }
+                {entries.map((entry) => {
+                    const imageType = getImageType(entry)
+                    const isImage = imageType !== null
+
+                    let content
+
+                    if (isImage) {
+                        content = <AsyncClipboardPicture
+                            cliphistId={entry.number}/>
+                    } else {
+                        content = <AsyncClipboardLabel
+                            cliphistId={entry.number}/>
+                    }
+
+                    return <box
+                        vertical={true}>
+                        <box
+                            vertical={false}>
+                            {content}
+                            <box
+                                vertical={false}
+                                vexpand={false}>
+                                <OkButton
+                                    hpadding={OkButtonHorizontalPadding.THIN}
+                                    valign={Gtk.Align.START}
+                                    label=""
+                                    onClicked={() => {
+                                        copyEntry(entry)
+                                        hideAllWindows()
+                                    }}/>
+                                <OkButton
+                                    hpadding={OkButtonHorizontalPadding.THIN}
+                                    valign={Gtk.Align.START}
+                                    label=""
+                                    onClicked={() => {
+                                        deleteEntry(entry)
+                                    }}/>
+                            </box>
+                        </box>
+                        <box marginTop={10}/>
+                        {entries[entries.length - 1] !== entry && <Divider marginBottom={10}/>}
+                    </box>
+                })}
+            </box>
+        })}
+    </box>
+}
+
 export default function () {
     updateClipboardEntries()
 
@@ -212,71 +285,7 @@ export default function () {
                     marginBottom={16}
                     cssClasses={["labelMedium"]}
                     label="Clipboard History"/>
-                {clipboardEntries((entries) => {
-                    return <box
-                        vertical={true}>
-                        {entries.length === 0 &&
-                            <label
-                                label="Empty"
-                                cssClasses={["labelMedium"]}/>
-                        }
-                        {entries.length > 0 &&
-                            <box
-                                marginBottom={16}>
-                                <OkButton
-                                    hexpand={true}
-                                    label="Delete all"
-                                    primary={true}
-                                    onClicked={() => {
-                                        wipeHistory()
-                                    }}/>
-                            </box>
-                        }
-                        {entries.map((entry) => {
-                            const imageType = getImageType(entry)
-                            const isImage = imageType !== null
-
-                            let content
-
-                            if (isImage) {
-                                content = <AsyncClipboardPicture
-                                    cliphistId={entry.number}/>
-                            } else {
-                                content = <AsyncClipboardLabel
-                                    cliphistId={entry.number}/>
-                            }
-
-                            return <box
-                                vertical={true}>
-                                <box
-                                    vertical={false}>
-                                    {content}
-                                    <box
-                                        vertical={false}
-                                        vexpand={false}>
-                                        <OkButton
-                                            hpadding={OkButtonHorizontalPadding.THIN}
-                                            valign={Gtk.Align.START}
-                                            label=""
-                                            onClicked={() => {
-                                                copyEntry(entry)
-                                                hideAllWindows()
-                                            }}/>
-                                        <OkButton
-                                            hpadding={OkButtonHorizontalPadding.THIN}
-                                            valign={Gtk.Align.START}
-                                            label=""
-                                            onClicked={() => {
-                                                deleteEntry(entry)
-                                            }}/>
-                                    </box>
-                                </box>
-                                <box marginTop={10}/>
-                                {entries[entries.length - 1] !== entry && <Divider marginBottom={10}/>}
-                            </box>
-                        })}
-                    </box>
-                })}
+                <ClipboardManagerContent/>
             </box>
         }/>
 }

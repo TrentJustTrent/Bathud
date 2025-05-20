@@ -8,6 +8,7 @@ export default function ({cliphistId}: {cliphistId: number}) {
         xalign={0}
         wrap={true}
         hexpand={true}
+        cssClasses={["labelSmall"]}
         label={text()}/>
 
     execAsync(["bash", "-c", `cliphist decode ${cliphistId}`]).catch((error) => {

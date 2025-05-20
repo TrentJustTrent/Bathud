@@ -5,7 +5,7 @@ import {Bar, selectedBar} from "../../config/bar";
 import CavaWaveform from "../cava/CavaWaveform";
 import {getCavaFlipStartValue} from "../utils/cava";
 import {Variable} from "astal";
-import {addSystemMenuWidgets} from "../systemMenu/SystemMenuWindow";
+import {addSystemMenuWidgets, createSystemWidgets} from "../systemMenu/SystemMenuWindow";
 
 export const verticalBarWindowName = "verticalBar"
 
@@ -57,22 +57,29 @@ export default function () {
         }
     })
 
+    const systemJsxWidgets = createSystemWidgets()
+
     const integratedMenu = <revealer
         transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
         visible={variableConfig.verticalBar.integratedMenu()}
         revealChild={integratedMenuRevealed()}>
-        <box
-            widthRequest={400}
-            marginTop={20}
-            marginStart={20}
-            marginEnd={20}
-            marginBottom={20}
-            vertical={true}
-            spacing={10}>
-            {variableConfig.systemMenu.widgets().as((widgets) => {
-                return addSystemMenuWidgets(widgets)
-            })}
-        </box>
+        <Gtk.ScrolledWindow
+            cssClasses={["scrollWindow"]}
+            vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
+            propagateNaturalHeight={true}
+            widthRequest={400}>
+            <box
+                marginTop={20}
+                marginStart={20}
+                marginEnd={20}
+                marginBottom={20}
+                vertical={true}
+                spacing={10}>
+                {variableConfig.systemMenu.widgets().as((widgets) => {
+                    return addSystemMenuWidgets(widgets, systemJsxWidgets)
+                })}
+            </box>
+        </Gtk.ScrolledWindow>
     </revealer>
 
     const fullBarCavaEnabled = Variable.derive([

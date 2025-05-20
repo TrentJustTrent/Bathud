@@ -24,3 +24,8 @@
   border-radius: 16px;
   background: vars.$fg;
 }
+
+.systemMenuRecordingBox {
+  border: 2px solid fun.smart-lighten(vars.$bg);
+  border-radius: vars.$buttonBorderRadius;
+}

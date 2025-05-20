@@ -79,7 +79,6 @@ function MediaPlayer({ player }: { player: Player }) {
 
 export default function () {
     return <box
-        cssClasses={["mediaPlayersContainer"]}
         vertical={true}>
         {mpris.players(players => {
             return players.map(player => (

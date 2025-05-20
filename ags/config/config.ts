@@ -21,7 +21,7 @@ export const selectedConfig = Variable(getSelectedConfig())
 let defaultConfigValues: Config | undefined = ((): Config | undefined => {
     if (GLib.file_test(`${homePath}/.config/OkPanel/${globalConfigFile}`, GLib.FileTest.EXISTS)) {
         console.log(`Loading global default configs`)
-        return loadConfig(`${homePath}/.config/OkPanel/${globalConfigFile}`)
+        return loadConfig(`${homePath}/.config/OkPanel/${globalConfigFile}`, undefined, false)
     } else {
         return undefined
     }
@@ -121,7 +121,7 @@ function monitorDefaultsConfig() {
     if (!GLib.file_test(`${homePath}/.config/OkPanel/${globalConfigFile}`, GLib.FileTest.EXISTS)) {
         return
     }
-    defaultsConfigFileMonitor = monitorFile(`${homePath}/.config/OkPanel/${globalConfigFile}`, (file, event) => {
+    defaultsConfigFileMonitor = monitorFile(`${homePath}/.config/OkPanel/${globalConfigFile}`, (_, event) => {
         switch (event) {
             case Gio.FileMonitorEvent.CHANGED:
                 console.log(`defaults config file changed`)

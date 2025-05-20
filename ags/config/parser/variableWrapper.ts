@@ -1,6 +1,7 @@
 import {Field} from "../schema/primitiveDefinitions";
 import {SchemaToType, VariableSchemaToType} from "../types/typeGeneration";
 import {Variable} from "astal";
+import {timeout} from "astal/time";
 
 /**
  * This function will take a Schema object and turn it into a new, nearly identical object,
@@ -33,6 +34,7 @@ export function wrapConfigInVariables<T extends readonly Field[]>(
 }
 
 let newVarsCount: number = 0
+let listUpdateDelay: number = 10000
 
 /**
  * This function updates all the reactive values in the wrapped object to match the newConfig values.
@@ -45,6 +47,7 @@ export function updateVariablesFromConfig<T extends readonly Field[]>(
 ): void {
     if (root) {
         newVarsCount = 0
+        listUpdateDelay = 10000
     }
     for (const field of schema) {
         const name = field.name;
@@ -78,7 +81,7 @@ export function updateVariablesFromConfig<T extends readonly Field[]>(
             } else {
                 // Shallow array equality check
                 if (!arraysEqual(currentValue, newValue)) {
-                    console.log(`Variable changed: ${name}`)
+                    console.log(`Variable changed: ${name}`);
                     newVarsCount += 1;
                     (wrappedValue as Variable<any>).set(newValue);
                 }
@@ -93,7 +96,7 @@ export function updateVariablesFromConfig<T extends readonly Field[]>(
         }
     }
     if (root) {
-        console.log(`Variables changes: ${newVarsCount}`)
+        console.log(`Variables changed: ${newVarsCount}`)
     }
 }
 

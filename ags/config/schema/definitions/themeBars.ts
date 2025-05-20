@@ -7,11 +7,12 @@ function widgetCommons(
     reactiveBorderRadius: boolean = false,
     reactiveBorderWidth: boolean = false,
     reactiveBorderColor: boolean = false,
+    foregroundDefault: string = 'theme.bars.widgetForeground',
 ) { return [
     {
         name: 'foreground',
         type: 'color',
-        default: {from: 'theme.bars.widgetForeground'},
+        default: {from: foregroundDefault},
         description: 'Foreground color of the widget.',
         reactive: reactiveForeground,
     },
@@ -212,7 +213,14 @@ export const themeBarsSchema = {
             name: BarWidget.RECORDING_INDICATOR,
             type: "object",
             description: "Configuration for the recording_indicator bar widget.",
-            children: [...widgetCommons()],
+            children: [...widgetCommons(
+                false,
+                false,
+                false,
+                false,
+                false,
+                'theme.colors.warning'
+            )],
         },
         {
             name: BarWidget.VPN_INDICATOR,

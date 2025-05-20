@@ -12,6 +12,8 @@ export enum SystemMenuWidget {
     NOTIFICATION_HISTORY = "notification_history",
     TOOLBOX = "toolbox",
     CLOCK = "clock",
+    CLIPBOARD_MANAGER = "clipboard_manager",
+    SCREEN_RECORDING_CONTROLS = "screen_recording_controls",
 }
 export const SYSTEM_MENU_WIDGET_VALUES = Object.values(SystemMenuWidget) as readonly SystemMenuWidget[]
 
@@ -41,12 +43,14 @@ export const systemMenuSchema = {
             'widgets',
             'Widgets inside the system menu',
             [
+                SystemMenuWidget.CLOCK,
                 SystemMenuWidget.NETWORK,
                 SystemMenuWidget.BLUETOOTH,
                 SystemMenuWidget.AUDIO_OUT,
                 SystemMenuWidget.AUDIO_IN,
                 SystemMenuWidget.TOOLBOX,
                 SystemMenuWidget.LOOK_AND_FEEL,
+                SystemMenuWidget.SCREEN_RECORDING_CONTROLS,
                 SystemMenuWidget.MPRIS_PLAYERS,
                 SystemMenuWidget.POWER_OPTIONS,
                 SystemMenuWidget.NOTIFICATION_HISTORY

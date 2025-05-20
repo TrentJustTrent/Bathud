@@ -119,7 +119,7 @@ function animateScroll(
 }
 
 function enableNightLight() {
-    execAsync(`hyprctl hyprsunset temperature ${variableConfig.theme.nightLightTemperature.get()}`)
+    execAsync(`hyprctl hyprsunset temperature ${variableConfig.theme.nightLightTemperature}`)
         .catch((error) => {
             console.error(error)
         })

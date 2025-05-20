@@ -55,7 +55,8 @@ function MenuButton({vertical}: { vertical: boolean }) {
         vpadding={getVPadding(vertical)}
         label={variableConfig.theme.bars.menu.icon()}
         onClicked={() => {
-            if (variableConfig.verticalBar.integratedMenu.get()) {
+            const barIsVertical = selectedBar.get() === Bar.LEFT || selectedBar.get() === Bar.RIGHT
+            if (barIsVertical && variableConfig.verticalBar.integratedMenu.get()) {
                 integratedMenuRevealed.set(!integratedMenuRevealed.get())
             } else {
                 toggleWindow(SystemMenuWindowName)

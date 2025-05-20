@@ -33,14 +33,20 @@ function isResolvableDefault(value: any): value is { from: string } {
 export function validateAndApplyDefaults<T>(
     record: Record<string, any>,
     schema: Field[],
-    defaults?: Record<string, any>
+    defaults?: Record<string, any>,
+    applySchemaDefaults: boolean = true,
 ): T {
-    return resolveConfigPaths(validateAndApplyDefaultsInternal(record, schema, "", defaults))
+    return resolveConfigPaths(validateAndApplyDefaultsInternal(record, schema, applySchemaDefaults, "", defaults))
+}
+
+function resolvePath(obj: any, path: string) {
+    return path.split('.').reduce((acc, key) => acc?.[key], obj);
 }
 
 function validateAndApplyDefaultsInternal<T>(
     raw: Record<string, any>,
     schema: Field[],
+    applySchemaDefaults: boolean,
     path: string = "",
     defaults?: Record<string, any>
 ): T {
@@ -57,7 +63,7 @@ function validateAndApplyDefaultsInternal<T>(
 
         // if there is no value and the default value is a resolvable value (points to another value)
         // the keep the resolvable default and continue.  Resolving defaults happens in [resolveConfigPaths]
-        if (value === undefined && isResolvableDefault(f.default)) {
+        if (resolvedValue === undefined && isResolvableDefault(f.default)) {
             out[key] = f.default
             continue
         }
@@ -72,10 +78,10 @@ function validateAndApplyDefaultsInternal<T>(
         if (resolvedValue === undefined) {
             if (f.type === 'object') {
                 // Even if not explicitly provided, build object from child defaults
-                out[key] = validateAndApplyDefaultsInternal({}, f.children ?? [], keyPath, defaultValue);
+                out[key] = validateAndApplyDefaultsInternal({}, f.children ?? [], applySchemaDefaults, keyPath, defaultValue);
                 continue;
             }
-            if (f.default !== undefined) {
+            if (f.default !== undefined && applySchemaDefaults) {
                 out[key] = f.default;
                 continue;
             }
@@ -112,7 +118,7 @@ function validateAndApplyDefaultsInternal<T>(
 
             case 'object':
                 // don't use resolvedValue here because it has defaults built in.
-                out[key] = validateAndApplyDefaultsInternal(value ?? {}, f.children ?? [], keyPath, defaultValue);
+                out[key] = validateAndApplyDefaultsInternal(value ?? {}, f.children ?? [], applySchemaDefaults, keyPath, defaultValue);
                 break;
 
             case 'array': {
@@ -126,7 +132,7 @@ function validateAndApplyDefaultsInternal<T>(
                     // possible bug here when it comes to resolved defaults.  mapping resolvedValue which takes into account
                     // default values.  Maybe don't want to do that?  Not a problem at the moment though because
                     // there are no object[] in the config right now, only primitive[]
-                    if (item.type === 'object') return validateAndApplyDefaultsInternal(v ?? {}, item.children ?? [], keyPath);
+                    if (item.type === 'object') return validateAndApplyDefaultsInternal(v ?? {}, item.children ?? [], applySchemaDefaults, keyPath);
                     return castPrimitive(String(v), item.type as PrimitiveType);
                 });
                 break;
@@ -168,7 +174,11 @@ export function resolveConfigPaths<T>(config: Record<string, any>): T {
 // ────────────────────────────────────────────────────────────────────────────
 // Public helper – load & validate config from file
 // ────────────────────────────────────────────────────────────────────────────
-export function loadConfig(path: string, defaults?: Record<string, any>): Config {
+export function loadConfig(
+    path: string,
+    defaults?: Record<string, any>,
+    applySchemaDefaults: boolean = true,
+): Config {
     const record = parseYaml(path)
-    return validateAndApplyDefaults(record, CONFIG_SCHEMA, defaults);
+    return validateAndApplyDefaults(record, CONFIG_SCHEMA, defaults, applySchemaDefaults);
 }

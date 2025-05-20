@@ -16,42 +16,90 @@ import {SystemMenuWidget} from "../../config/schema/definitions/systemMenu";
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
 import Toolbox from "./widgets/Toolbox";
 import Clock from "./widgets/Clock";
+import ClipboardManager from "./widgets/ClipboardManager";
+import {startCliphist} from "../clipboardManager/ClipboardManager";
+import ScreenRecording from "./widgets/ScreenRecording";
 
 export const SystemMenuWindowName = "systemMenuWindow"
 
 const {audio} = Wp.get_default()!
 
-export function addSystemMenuWidgets(widgets: SystemMenuWidget[]) {
+export type SystemWidgetsJSX = {
+    network: JSX.Element
+    bluetooth: JSX.Element
+    audioOut: JSX.Element
+    audioIn: JSX.Element
+    powerProfile: JSX.Element
+    lookAndFeel: JSX.Element
+    mpris: JSX.Element
+    powerOptions: JSX.Element
+    notificationHistory: JSX.Element
+    toolbox: JSX.Element
+    clock: JSX.Element
+    clipboardManager: JSX.Element
+    screenRecording: JSX.Element
+}
+
+// Creating new widgets to replace the old ones when switching configs
+// is very cpu intensive and laggy.  This helps to create the widgets
+// and keep them in memory so they can be reused.
+export function createSystemWidgets(): SystemWidgetsJSX {
+    return {
+        network: <NetworkControls/>,
+        bluetooth: <BluetoothControls/>,
+        audioOut: <EndpointControls
+            defaultEndpoint={audio.default_speaker}
+            endpointsBinding={bind(audio, "speakers")}
+            getIcon={getVolumeIcon}/>,
+        audioIn: <EndpointControls
+            defaultEndpoint={audio.default_microphone}
+            endpointsBinding={bind(audio, "microphones")}
+            getIcon={getMicrophoneIcon}/>,
+        powerProfile: <PowerProfileControls/>,
+        lookAndFeel: <LookAndFeelControls/>,
+        mpris: <MediaPlayers/>,
+        powerOptions: <PowerOptions/>,
+        notificationHistory: <NotificationHistory/>,
+        toolbox: <Toolbox/>,
+        clock: <Clock/>,
+        clipboardManager: <ClipboardManager/>,
+        screenRecording: <ScreenRecording/>,
+    }
+}
+
+export function addSystemMenuWidgets(
+    widgets: SystemMenuWidget[],
+    jsxWidgets: SystemWidgetsJSX,
+) {
     return widgets.map((widget) => {
         switch (widget) {
             case SystemMenuWidget.NETWORK:
-                return <NetworkControls/>
+                return jsxWidgets.network
             case SystemMenuWidget.BLUETOOTH:
-                return <BluetoothControls/>
+                return jsxWidgets.bluetooth
             case SystemMenuWidget.AUDIO_OUT:
-                return <EndpointControls
-                    defaultEndpoint={audio.default_speaker}
-                    endpointsBinding={bind(audio, "speakers")}
-                    getIcon={getVolumeIcon}/>
+                return jsxWidgets.audioOut
             case SystemMenuWidget.AUDIO_IN:
-                return <EndpointControls
-                    defaultEndpoint={audio.default_microphone}
-                    endpointsBinding={bind(audio, "microphones")}
-                    getIcon={getMicrophoneIcon}/>
+                return jsxWidgets.audioIn
             case SystemMenuWidget.POWER_PROFILE:
-                return <PowerProfileControls/>
+                return jsxWidgets.powerProfile
             case SystemMenuWidget.LOOK_AND_FEEL:
-                return <LookAndFeelControls/>
+                return jsxWidgets.lookAndFeel
             case SystemMenuWidget.MPRIS_PLAYERS:
-                return <MediaPlayers/>
+                return jsxWidgets.mpris
             case SystemMenuWidget.POWER_OPTIONS:
-                return <PowerOptions/>
+                return jsxWidgets.powerOptions
             case SystemMenuWidget.NOTIFICATION_HISTORY:
-                return <NotificationHistory/>
+                return jsxWidgets.notificationHistory
             case SystemMenuWidget.TOOLBOX:
-                return <Toolbox/>
+                return jsxWidgets.toolbox
             case SystemMenuWidget.CLOCK:
-                return <Clock/>
+                return jsxWidgets.clock
+            case SystemMenuWidget.CLIPBOARD_MANAGER:
+                startCliphist()
+                return jsxWidgets.clipboardManager
+            case SystemMenuWidget.SCREEN_RECORDING_CONTROLS:
+                return jsxWidgets.screenRecording
         }
     })
 }
@@ -122,6 +170,8 @@ export default function () {
         }
     })
 
+    const jsxWidgets = createSystemWidgets()
+
     return <ScrimScrollWindow
         namespace={"okpanel-system-menu"}
         monitor={variableConfig.mainMonitor()}
@@ -142,7 +192,7 @@ export default function () {
                 vertical={true}
                 spacing={10}>
                 {variableConfig.systemMenu.widgets().as((widgets) => {
-                    return addSystemMenuWidgets(widgets)
+                    return addSystemMenuWidgets(widgets, jsxWidgets)
                 })}
             </box>
         }
