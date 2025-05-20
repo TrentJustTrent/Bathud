@@ -103,7 +103,7 @@ function monitorSelectedConfig() {
                 console.log(`Selected config file changed`)
                 config = loadConfig(`${homePath}/.config/OkPanel/${fileName}`, defaultConfigValues)
                 updateVariablesFromConfig(CONFIG_SCHEMA, variableConfig, config)
-                setThemeBasic(variableConfig.theme)
+                setThemeBasic()
                 break
         }
     })
@@ -211,7 +211,7 @@ export function setNewConfig(configFile: ConfigFile, onFinished: () => void) {
     if (!config.verticalBar.integratedMenu) {
         integratedMenuRevealed.set(false)
     }
-    setTheme(variableConfig.theme, onFinished)
+    setTheme(onFinished)
 }
 
 function updateDefaultValues() {

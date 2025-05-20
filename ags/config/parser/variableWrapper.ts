@@ -32,24 +32,37 @@ export function wrapConfigInVariables<T extends readonly Field[]>(
     return result;
 }
 
+let newVarsCount: number = 0
+
 /**
  * This function updates all the reactive values in the wrapped object to match the newConfig values.
  */
 export function updateVariablesFromConfig<T extends readonly Field[]>(
     schema: T,
     wrapped: VariableSchemaToType<T>,
-    newConfig: SchemaToType<T>
+    newConfig: SchemaToType<T>,
+    root: boolean = true,
 ): void {
+    if (root) {
+        newVarsCount = 0
+    }
     for (const field of schema) {
         const name = field.name;
         const newValue = newConfig[name as keyof typeof newConfig];
+
+        if (field.reactive === false) {
+            (wrapped as any)[name] = newValue;
+            continue;
+        }
+
         const wrappedValue = wrapped[name as keyof typeof wrapped];
 
         if (field.type === 'object' && field.children) {
             updateVariablesFromConfig(
                 field.children,
                 wrappedValue as any,
-                newValue as any
+                newValue as any,
+                false,
             );
         } else if (field.type === 'array' && field.item) {
             const currentValue = (wrappedValue as Variable<any>).get();
@@ -59,19 +72,28 @@ export function updateVariablesFromConfig<T extends readonly Field[]>(
                 const arr = (newValue as any[]).map(item =>
                     wrapConfigInVariables(field.item!.children!, item)
                 );
+                console.log(`Variable changed: ${name}`)
+                newVarsCount += 1;
                 (wrappedValue as Variable<any>).set(arr);
             } else {
                 // Shallow array equality check
                 if (!arraysEqual(currentValue, newValue)) {
+                    console.log(`Variable changed: ${name}`)
+                    newVarsCount += 1;
                     (wrappedValue as Variable<any>).set(newValue);
                 }
             }
         } else {
             const currentValue = (wrappedValue as Variable<any>).get();
             if (currentValue !== newValue) {
+                console.log(`Variable changed: ${name}`)
+                newVarsCount += 1;
                 (wrappedValue as Variable<any>).set(newValue);
             }
         }
+    }
+    if (root) {
+        console.log(`Variables changes: ${newVarsCount}`)
     }
 }
 

@@ -13,18 +13,21 @@ export const themeSchema = {
             type: 'string',
             default: 'myTheme',
             description: 'Theme name.  Passed as the first argument to the themeUpdateScript when changing configs.',
+            reactive: false,
         },
         {
             name: 'buttonBorderRadius',
             type: 'number',
             default: 8,
             description: 'Border radius (px) used by regular buttons.',
+            reactive: false,
         },
         {
             name: 'largeButtonBorderRadius',
             type: 'number',
             default: 16,
             description: 'Border radius (px) used by large buttons.',
+            reactive: false,
         },
         {
             name: 'font',
@@ -36,7 +39,8 @@ export const themeSchema = {
             name: 'nightLightTemperature',
             type: 'number',
             default: 5000,
-            description: 'The temperature of the night light.'
+            description: 'The temperature of the night light.',
+            reactive: false,
         },
         {
             name: 'colors',
@@ -47,37 +51,43 @@ export const themeSchema = {
                     name: 'background',
                     type: 'color',
                     default: '#1F2932',
-                    description: 'Background color'
+                    description: 'Background color',
+                    reactive: false,
                 },
                 {
                     name: 'foreground',
                     type: 'color',
                     default: '#AFB3BD',
-                    description: 'Foreground color'
+                    description: 'Foreground color',
+                    reactive: false,
                 },
                 {
                     name: 'primary',
                     type: 'color',
                     default: '#7C545F',
-                    description: 'Primary / accent color'
+                    description: 'Primary / accent color',
+                    reactive: false,
                 },
                 {
                     name: 'buttonPrimary',
                     type: 'color',
                     default: '#7C545F',
-                    description: 'Button color'
+                    description: 'Button color',
+                    reactive: false,
                 },
                 {
                     name: 'warning',
                     type: 'color',
                     default: '#7C7C54',
-                    description: 'Warning color'
+                    description: 'Warning color',
+                    reactive: false,
                 },
                 {
                     name: 'alertBorder',
                     type: 'color',
                     default: '#7C545F',
-                    description: 'Color of alert borders (OSD)'
+                    description: 'Color of alert borders (OSD)',
+                    reactive: false,
                 },
                 {
                     name: 'scrimColor',
@@ -90,7 +100,8 @@ export const themeSchema = {
                         } else {
                             return value
                         }
-                    }
+                    },
+                    reactive: false,
                 },
             ],
         },

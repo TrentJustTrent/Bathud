@@ -16,24 +16,28 @@ export const themeWindowsSchema = {
             type: 'number',
             default: 8,
             description: 'Corner radius (px) for client‑side decorations.',
+            reactive: false,
         },
         {
             name: 'borderWidth',
             type: 'number',
             default: 2,
             description: 'Window border width (px).',
+            reactive: false,
         },
         {
             name: 'backgroundColor',
             type: 'color',
             default: {from: 'theme.colors.background'},
-            description: 'Color of window backgrounds'
+            description: 'Color of window backgrounds',
+            reactive: false,
         },
         {
             name: 'borderColor',
             type: 'color',
             default: {from: 'theme.colors.foreground'},
-            description: 'Color of window borders'
+            description: 'Color of window borders',
+            reactive: false,
         },
     ],
 } as const satisfies Field

@@ -30,4 +30,6 @@ export interface Field<T = any> {
     constraintDescription?: string
     /** Optional value transformation */
     transformation?: (value: T) => T
+    /** Whether to wrap the value in a reactive Variable. Defaults to true. */
+    reactive?: boolean
 }

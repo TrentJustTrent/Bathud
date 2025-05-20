@@ -15,13 +15,14 @@ export const themeSystemMenuSchema = {
                     name: "dayAllCaps",
                     type: 'boolean',
                     default: false,
-                    description: "If the week day name text should be in all caps"
+                    description: "If the week day name text should be in all caps",
                 },
                 {
                     name: "dayFont",
                     type: "string",
                     default: {from: "theme.font"},
-                    description: "Font used for the week day name"
+                    description: "Font used for the week day name",
+                    reactive: false,
                 }
             ]
         }

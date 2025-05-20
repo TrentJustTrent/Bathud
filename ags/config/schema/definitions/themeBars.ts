@@ -1,36 +1,47 @@
 import {Field} from "../primitiveDefinitions";
 import {BarWidget} from "./barWidgets";
 
-function widgetCommons() { return [
+function widgetCommons(
+    reactiveForeground: boolean = false,
+    reactiveBackground: boolean = false,
+    reactiveBorderRadius: boolean = false,
+    reactiveBorderWidth: boolean = false,
+    reactiveBorderColor: boolean = false,
+) { return [
     {
         name: 'foreground',
         type: 'color',
         default: {from: 'theme.bars.widgetForeground'},
-        description: 'Foreground color of the widget.'
+        description: 'Foreground color of the widget.',
+        reactive: reactiveForeground,
     },
     {
         name: 'background',
         type: 'color',
         default: {from: 'theme.bars.widgetBackground'},
-        description: 'Background color of the widget.'
+        description: 'Background color of the widget.',
+        reactive: reactiveBackground,
     },
     {
         name: 'borderRadius',
         type: 'number',
         default: {from: 'theme.bars.widgetBorderRadius'},
         description: 'Corner radius (px) for the widget.',
+        reactive: reactiveBorderRadius,
     },
     {
         name: 'borderWidth',
         type: 'number',
         default: {from: "theme.bars.widgetBorderWidth"},
         description: 'Widget border width (px).',
+        reactive: reactiveBorderWidth,
     },
     {
         name: 'borderColor',
         type: 'color',
         default: {from: 'theme.bars.widgetBorderColor'},
-        description: 'Color of the widget border'
+        description: 'Color of the widget border',
+        reactive: reactiveBorderColor,
     },
 ] as const satisfies Field[] }
 
@@ -44,54 +55,63 @@ export const themeBarsSchema = {
             type: 'number',
             default: 8,
             description: 'Corner radius (px) for bars.',
+            reactive: false,
         },
         {
             name: 'borderWidth',
             type: 'number',
             default: 2,
             description: 'Bar border width (px).',
+            reactive: false,
         },
         {
             name: 'borderColor',
             type: 'color',
             default: {from: 'theme.colors.primary'},
-            description: 'Color of the bar border'
+            description: 'Color of the bar border',
+            reactive: false,
         },
         {
             name: 'backgroundColor',
             type: 'color',
             default: {from: 'theme.colors.background'},
-            description: 'Color of the bar background'
+            description: 'Color of the bar background',
+            reactive: false,
         },
         {
             name: 'widgetForeground',
             type: 'color',
             default: {from: 'theme.colors.foreground'},
-            description: 'Foreground color of the bar widgets.'
+            description: 'Foreground color of the bar widgets.',
+            reactive: false,
         },
         {
             name: 'widgetBackground',
             type: 'color',
             default: {from: 'theme.colors.background'},
-            description: 'Background color of the bar widgets.'
+            description: 'Background color of the bar widgets.',
+            reactive: false,
         },
         {
             name: 'widgetBorderRadius',
             type: 'number',
             default: 8,
             description: 'Corner radius (px) for bar widgets.',
+            reactive: false,
         },
         {
             name: 'widgetBorderWidth',
             type: 'number',
             default: 0,
             description: 'Widget border width (px).',
+            reactive: false,
         },
         {
             name: 'widgetBorderColor',
             type: 'color',
             default: {from: 'theme.colors.primary'},
-            description: 'Color of the widget borders'
+            description: 'Color of the widget borders',
+            reactive: false,
         },
         {
             name: BarWidget.MENU,
@@ -153,7 +173,8 @@ export const themeBarsSchema = {
                     name: 'inactiveForeground',
                     type: 'color',
                     default: {from: 'theme.bars.workspaces.foreground'},
-                    description: 'Foreground color of inactive workspaces.'
+                    description: 'Foreground color of inactive workspaces.',
+                    reactive: false,
                 },
             ],
         },
@@ -239,7 +260,7 @@ export const themeBarsSchema = {
             name: BarWidget.CAVA_WAVEFORM,
             type: "object",
             description: "Configuration for the cava_waveform bar widget.",
-            children: [...widgetCommons()],
+            children: [...widgetCommons(true)],
         },
         {
             name: BarWidget.MPRIS_CONTROLS,
@@ -251,7 +272,7 @@ export const themeBarsSchema = {
             name: BarWidget.MPRIS_TRACK_INFO,
             type: "object",
             description: "Configuration for the mpris_track_info bar widget.",
-            children: [...widgetCommons()],
+            children: [...widgetCommons(true)],
         },
         {
             name: BarWidget.MPRIS_PRIMARY_PLAYER_SWITCHER,

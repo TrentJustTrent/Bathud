@@ -1,26 +1,24 @@
-import {Theme} from "./types/derivedTypes";
-import {selectedConfig, variableConfig} from "./config";
+import {config, selectedConfig} from "./config";
 import {execAsync} from "astal/process";
 import {GLib} from "astal";
 import {App} from "astal/gtk4";
-
 import {projectDir} from "../app";
 import {BarWidget} from "./schema/definitions/barWidgets";
 
-export function setTheme(theme: Theme, onFinished: () => void) {
+export function setTheme(onFinished: () => void) {
     execAsync(`bash -c '
 
 # compile the scss in /tmp
-${compileThemeBashScript(theme)}
+${compileThemeBashScript()}
 
 # if the set config script exists
-if [[ -f "${variableConfig.configUpdateScript.get()}" ]]; then
+if [[ -f "${config.configUpdateScript}" ]]; then
     # call the external update theme/config
-    ${variableConfig.configUpdateScript.get()} ${theme.name.get()} ${selectedConfig.get()?.fileName}
+    ${config.configUpdateScript} ${config.theme.name} ${selectedConfig.get()?.fileName}
 fi
 
 # if the update wallpaper script exists
-if [[ -f "${variableConfig.wallpaperUpdateScript.get()}" ]]; then
+if [[ -f "${config.wallpaperUpdateScript}" ]]; then
     # if there is a cached wallpaper for this theme, then set it
     WALLPAPER_CACHE_PATH="${GLib.get_home_dir()}/.cache/OkPanel/wallpaper/${selectedConfig.get()?.fileName}"
     # Check if the file exists and is non-empty
@@ -34,23 +32,24 @@ if [[ -f "${variableConfig.wallpaperUpdateScript.get()}" ]]; then
         else
           # Fallback: pick the first .jpg or .png in the wallpaper dir
           WALLPAPER="$(
-            ls -1 "${variableConfig.wallpaperDir.get()}"/*.jpg "${variableConfig.wallpaperDir.get()}"/*.png 2>/dev/null | head -n1
+            ls -1 "${config.wallpaperDir}"/*.jpg "${config.wallpaperDir}"/*.png 2>/dev/null | head -n1
           )"
         fi
     else
     # If there is no cached wallpaper path, do the same fallback
     WALLPAPER="$(
-      ls -1 "${variableConfig.wallpaperDir.get()}"/*.jpg "${variableConfig.wallpaperDir.get()}"/*.png 2>/dev/null | head -n1
+      ls -1 "${config.wallpaperDir}"/*.jpg "${config.wallpaperDir}"/*.png 2>/dev/null | head -n1
     )"
     fi
     
-    ${variableConfig.wallpaperUpdateScript.get()} $WALLPAPER
+    ${config.wallpaperUpdateScript} $WALLPAPER
 fi
 
     '`).catch((error) => {
         console.error(error)
     }).finally(() => {
         App.apply_css("/tmp/OkPanel/style.css")
+        console.log(`Theme applied: ${config.theme.name}`)
         onFinished()
     })
 }
@@ -58,10 +57,10 @@ fi
 /**
  * Sets the theme for ags.  Does not call user's external scripts
  */
-export function setThemeBasic(theme: Theme) {
+export function setThemeBasic() {
     execAsync(`bash -c '
 # compile the scss in /tmp
-${compileThemeBashScript(theme)}
+${compileThemeBashScript()}
     '`).catch((error) => {
         console.error(error)
     }).finally(() => {
@@ -76,17 +75,17 @@ function toPascalCase(input: string): string {
         .join("");
 }
 
-function compileThemeBashScript(theme: Theme) {
+function compileThemeBashScript() {
     const widgets = Object.values(BarWidget);
 
     const widgetLines = widgets.map(widget => {
         const pascal = toPascalCase(widget);
         return [
-            `\\$bar${pascal}Foreground: ${variableConfig.theme.bars[widget].foreground.get()};`,
-            `\\$bar${pascal}Background: ${variableConfig.theme.bars[widget].background.get()};`,
-            `\\$bar${pascal}BorderRadius: ${variableConfig.theme.bars[widget].borderRadius.get()}px;`,
-            `\\$bar${pascal}BorderWidth: ${variableConfig.theme.bars[widget].borderWidth.get()}px;`,
-            `\\$bar${pascal}BorderColor: ${variableConfig.theme.bars[widget].borderColor.get()};`,
+            `\\$bar${pascal}Foreground: ${config.theme.bars[widget].foreground};`,
+            `\\$bar${pascal}Background: ${config.theme.bars[widget].background};`,
+            `\\$bar${pascal}BorderRadius: ${config.theme.bars[widget].borderRadius}px;`,
+            `\\$bar${pascal}BorderWidth: ${config.theme.bars[widget].borderWidth}px;`,
+            `\\$bar${pascal}BorderColor: ${config.theme.bars[widget].borderColor};`,
         ].join("\n");
     }).join("\n");
 
@@ -102,31 +101,31 @@ mkdir -p /tmp/OkPanel
 cp -r "$SOURCE_DIR" "$TARGET_DIR"
 
 cat > "$TARGET_DIR/variables.scss" <<EOF
-\\$font: "${variableConfig.theme.font.get()}";
-\\$systemMenuClockDayFont: "${variableConfig.theme.systemMenu.clock.dayFont.get()}";
+\\$font: "${config.theme.font}";
+\\$systemMenuClockDayFont: "${config.theme.systemMenu.clock.dayFont}";
 
-\\$gaps: ${variableConfig.theme.windows.gaps.get()}px;
-\\$barBorderRadius: ${variableConfig.theme.bars.borderRadius.get()}px;
-\\$barBorderWidth: ${variableConfig.theme.bars.borderWidth.get()}px;
-\\$buttonBorderRadius: ${variableConfig.theme.buttonBorderRadius.get()}px;
-\\$windowBorderRadius: ${variableConfig.theme.windows.borderRadius.get()}px;
-\\$windowBorderWidth: ${variableConfig.theme.windows.borderWidth.get()}px;
-\\$largeButtonBorderRadius: ${variableConfig.theme.largeButtonBorderRadius.get()}px;
+\\$gaps: ${config.theme.windows.gaps}px;
+\\$barBorderRadius: ${config.theme.bars.borderRadius}px;
+\\$barBorderWidth: ${config.theme.bars.borderWidth}px;
+\\$buttonBorderRadius: ${config.theme.buttonBorderRadius}px;
+\\$windowBorderRadius: ${config.theme.windows.borderRadius}px;
+\\$windowBorderWidth: ${config.theme.windows.borderWidth}px;
+\\$largeButtonBorderRadius: ${config.theme.largeButtonBorderRadius}px;
 
-\\$bg: ${theme.colors.background.get()};
-\\$fg: ${theme.colors.foreground.get()};
-\\$primary: ${theme.colors.primary.get()};
-\\$buttonPrimary: ${theme.colors.buttonPrimary.get()};
-\\$warning: ${theme.colors.warning.get()};
-\\$alertBorder: ${theme.colors.alertBorder.get()};
-\\$scrimColor: ${theme.colors.scrimColor.get()};
+\\$bg: ${config.theme.colors.background};
+\\$fg: ${config.theme.colors.foreground};
+\\$primary: ${config.theme.colors.primary};
+\\$buttonPrimary: ${config.theme.colors.buttonPrimary};
+\\$warning: ${config.theme.colors.warning};
+\\$alertBorder: ${config.theme.colors.alertBorder};
+\\$scrimColor: ${config.theme.colors.scrimColor};
 
-\\$barBorder: ${theme.bars.borderColor.get()};
-\\$barBackgroundColor: ${variableConfig.theme.bars.backgroundColor.get()};
-\\$windowBorder: ${theme.windows.borderColor.get()};
-\\$windowBackgroundColor: ${theme.windows.backgroundColor.get()};
+\\$barBorder: ${config.theme.bars.borderColor};
+\\$barBackgroundColor: ${config.theme.bars.backgroundColor};
+\\$windowBorder: ${config.theme.windows.borderColor};
+\\$windowBackgroundColor: ${config.theme.windows.backgroundColor};
 
-\\$barWorkspacesInactiveForeground: ${theme.bars.workspaces.inactiveForeground.get()};
+\\$barWorkspacesInactiveForeground: ${config.theme.bars.workspaces.inactiveForeground};
 
 ${widgetLines}
 EOF
@@ -139,9 +138,9 @@ export function setWallpaper(path: string) {
     execAsync(`bash -c '
 
 # if the wallpaper update script exists
-if [[ -f "${variableConfig.wallpaperUpdateScript.get()}" ]]; then
+if [[ -f "${config.wallpaperUpdateScript}" ]]; then
     # call the wallpaper script
-    ${variableConfig.wallpaperUpdateScript.get()} ${path}
+    ${config.wallpaperUpdateScript} ${path}
     
     # cache the name of the selected wallpaper
     mkdir -p ${GLib.get_home_dir()}/.cache/OkPanel/wallpaper

@@ -39,27 +39,29 @@ type VariableWrappedPrimitiveByKind<K extends PrimitiveType> =
     never
 
 type VariableFieldToProp<F extends Field> =
-    F['type'] extends 'object'
-        ? VariableSchemaToType<F['children']>
-        : F['type'] extends 'array'
-            ? F['item'] extends Field
-                ? F['item']['type'] extends 'object'
-                    ? Variable<VariableSchemaToType<F['item']['children']>[]>
-                    : F['item']['type'] extends 'enum'
-                        ? F['item']['enumValues'] extends readonly (infer E)[]
-                            ? Variable<E[]>
-                            : Variable<string[]>
-                        : F['item']['type'] extends PrimitiveType
-                            ? Variable<VariableWrappedPrimitiveByKind<F['item']['type']>[]>
-                            : never
-                : never
-            : F['type'] extends 'enum'
-                ? (F['enumValues'] extends readonly (infer E)[]
-                    ? Variable<E>
-                    : Variable<string>)
-                : F['type'] extends PrimitiveType
-                    ? VariableWrappedPrimitiveByKind<F['type']>
+    F['reactive'] extends false
+        ? FieldToProp<F>
+        : F['type'] extends 'object'
+            ? VariableSchemaToType<F['children']>
+            : F['type'] extends 'array'
+                ? F['item'] extends Field
+                    ? F['item']['type'] extends 'object'
+                        ? Variable<VariableSchemaToType<F['item']['children']>[]>
+                        : F['item']['type'] extends 'enum'
+                            ? F['item']['enumValues'] extends readonly (infer E)[]
+                                ? Variable<E[]>
+                                : Variable<string[]>
+                            : F['item']['type'] extends PrimitiveType
+                                ? Variable<VariableWrappedPrimitiveByKind<F['item']['type']>[]>
+                                : never
                     : never
+                : F['type'] extends 'enum'
+                    ? (F['enumValues'] extends readonly (infer E)[]
+                        ? Variable<E>
+                        : Variable<string>)
+                    : F['type'] extends PrimitiveType
+                        ? VariableWrappedPrimitiveByKind<F['type']>
+                        : never
 
 export type VariableSchemaToType<S extends readonly Field[] | undefined> =
     S extends readonly Field[]

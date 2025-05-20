@@ -12,7 +12,6 @@ import {decreaseVolume, increaseVolume, muteVolume} from "./widget/utils/audio";
 import Scrim from "./widget/common/Scrim";
 import {toggleWindow} from "./widget/utils/windows";
 import Hyprland from "gi://AstalHyprland"
-import {variableConfig} from "./config/config";
 import ClipboardManager from "./widget/clipboardManager/ClipboardManager";
 import NotificationHistoryWindow from "./widget/notification/NotificationHistoryWindow";
 import {setThemeBasic} from "./config/theme";
@@ -25,7 +24,7 @@ App.start({
     css: "/tmp/OkPanel/style.css",
     main(...args: Array<string>) {
         projectDir = args[0]
-        setThemeBasic(variableConfig.theme)
+        setThemeBasic()
         restoreBar()
 
         const hyprland = Hyprland.get_default()
