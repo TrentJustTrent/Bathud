@@ -12,7 +12,7 @@ export const themeSchema = {
             name: 'name',
             type: 'string',
             default: 'myTheme',
-            description: 'Theme name.  Passed as the first argument to the themeUpdateScript when changing configs.',
+            description: 'Theme name.  Passed as the first argument to the configUpdateScript when changing configs.',
             reactive: false,
         },
         {

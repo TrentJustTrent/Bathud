@@ -14,6 +14,7 @@ export enum Bar {
 export const selectedBar = Variable(Bar.LEFT)
 
 export function setBarType(bar: Bar) {
+    console.log(`Setting bar: ${bar}`)
     hideAllWindows()
     selectedBar.set(bar)
     saveBar()
