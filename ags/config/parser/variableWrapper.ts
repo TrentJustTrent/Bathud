@@ -18,23 +18,37 @@ export function wrapConfigInVariables<T extends readonly Field[]>(
             result[field.name] = wrapConfigInVariables(field.children, value as any);
         } else if (field.type === 'array' && field.item) {
             if (field.item.type === 'object') {
-                result[field.name] = new Variable(
-                    (value as any[]).map(item =>
+                if (field.reactive === true || field.reactive === undefined) {
+                    result[field.name] = new Variable(
+                        (value as any[]).map(item =>
+                            wrapConfigInVariables(field.item!.children!, item)
+                        )
+                    );
+                } else {
+                    result[field.name] = (value as any[]).map(item =>
                         wrapConfigInVariables(field.item!.children!, item)
                     )
-                );
+                }
             } else {
-                result[field.name] = new Variable(value);
+                if (field.reactive === true || field.reactive === undefined) {
+                    result[field.name] = new Variable(value);
+                } else {
+                    result[field.name] = value;
+                }
             }
         } else {
-            result[field.name] = new Variable(value);
+            if (field.reactive === true || field.reactive === undefined) {
+                result[field.name] = new Variable(value);
+            } else {
+                result[field.name] = value;
+            }
         }
     }
     return result;
 }
 
-let newVarsCount: number = 0
-let listUpdateDelay: number = 10000
+let variablesChanged: number = 0
+let reactiveVariablesChanged: number = 0
 
 /**
  * This function updates all the reactive values in the wrapped object to match the newConfig values.
@@ -43,29 +57,32 @@ export function updateVariablesFromConfig<T extends readonly Field[]>(
     schema: T,
     wrapped: VariableSchemaToType<T>,
     newConfig: SchemaToType<T>,
-    root: boolean = true,
+    path: string = "",
 ): void {
-    if (root) {
-        newVarsCount = 0
-        listUpdateDelay = 10000
+    if (path === "") {
+        variablesChanged = 0
+        reactiveVariablesChanged = 0
     }
     for (const field of schema) {
         const name = field.name;
         const newValue = newConfig[name as keyof typeof newConfig];
+        const wrappedValue = wrapped[name as keyof typeof wrapped];
 
         if (field.reactive === false) {
-            (wrapped as any)[name] = newValue;
+            if (wrappedValue !== newValue) {
+                console.log(`Variable changed: ${path}${name}`);
+                variablesChanged += 1;
+                (wrapped as any)[name] = newValue;
+            }
             continue;
         }
-
-        const wrappedValue = wrapped[name as keyof typeof wrapped];
 
         if (field.type === 'object' && field.children) {
             updateVariablesFromConfig(
                 field.children,
                 wrappedValue as any,
                 newValue as any,
-                false,
+                `${path}${name}.`,
             );
         } else if (field.type === 'array' && field.item) {
             const currentValue = (wrappedValue as Variable<any>).get();
@@ -75,28 +92,29 @@ export function updateVariablesFromConfig<T extends readonly Field[]>(
                 const arr = (newValue as any[]).map(item =>
                     wrapConfigInVariables(field.item!.children!, item)
                 );
-                console.log(`Variable changed: ${name}`)
-                newVarsCount += 1;
+                console.log(`== Reactive == variable changed: ${path}${name}`)
+                reactiveVariablesChanged += 1;
                 (wrappedValue as Variable<any>).set(arr);
             } else {
                 // Shallow array equality check
                 if (!arraysEqual(currentValue, newValue)) {
-                    console.log(`Variable changed: ${name}`);
-                    newVarsCount += 1;
+                    console.log(`== Reactive == variable changed: ${path}${name}`);
+                    reactiveVariablesChanged += 1;
                     (wrappedValue as Variable<any>).set(newValue);
                 }
             }
         } else {
             const currentValue = (wrappedValue as Variable<any>).get();
             if (currentValue !== newValue) {
-                console.log(`Variable changed: ${name}`)
-                newVarsCount += 1;
+                console.log(`== Reactive == variable changed: ${path}${name}`)
+                reactiveVariablesChanged += 1;
                 (wrappedValue as Variable<any>).set(newValue);
             }
         }
     }
-    if (root) {
-        console.log(`Variables changed: ${newVarsCount}`)
+    if (path === "") {
+        console.log(`Variables changed: ${variablesChanged}`)
+        console.log(`Reactive variables changed: ${reactiveVariablesChanged}`)
     }
 }
 

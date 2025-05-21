@@ -21,12 +21,12 @@ const files: Variable<string[][]> = Variable([])
 const numberOfColumns = 2
 let buttonsEnabled = true
 
-function updateTheme(theme: ConfigFile) {
+function updateConfig(configFile: ConfigFile) {
     if (!buttonsEnabled) {
         return
     }
     buttonsEnabled = false
-    setNewConfig(theme, () => {
+    setNewConfig(configFile, () => {
         buttonsEnabled = true
     })
 }
@@ -163,14 +163,14 @@ function BarPositionOptions() {
     </box>
 }
 
-function ThemeButton({theme}: {theme: ConfigFile}) {
+function ThemeButton({configFile}: {configFile: ConfigFile}) {
     return <OkButton
         size={OkButtonSize.XL}
-        label={theme.icon}
-        offset={theme.pixelOffset}
-        selected={selectedConfig((t) => t === theme)}
+        label={configFile.icon}
+        offset={configFile.pixelOffset}
+        selected={selectedConfig((t) => t === configFile)}
         onClicked={() => {
-            updateTheme(theme)
+            updateConfig(configFile)
         }}/>
 }
 
@@ -190,7 +190,7 @@ function ThemeOptions() {
             spacing={10}>
             {availableConfigs().as((configs) => {
                 return configs.map((config) => {
-                    return <ThemeButton theme={config}/>
+                    return <ThemeButton configFile={config}/>
                 })
             })}
         </box>
