@@ -36,7 +36,7 @@ export default function Notification(props: Props) {
         vertical={true}
         cssClasses={useHistoryCss ?
             ["notificationHistorical"] : urgency(n) === "critical"
-                ? ["notificationCritical"] : ["notification"]}
+                ? ["window", "notificationCritical"] : ["window", "notification"]}
         setup={setup}
         onHoverEnter={onHover}
         onHoverLeave={onHoverLost}>

@@ -1,5 +1,6 @@
 @use "../variables" as vars;
 @use "sass:color";
+@use "../functions" as fun;
 
 window.NotificationPopups {
   all: unset;
@@ -7,16 +8,11 @@ window.NotificationPopups {
 
 .notification {
   min-width: 340px;
-  border-radius: vars.$windowBorderRadius;
-  background-color: vars.$bg;
   margin: vars.$gaps;
-  border: 2px solid vars.$primary;
 }
 
 .notificationCritical {
   min-width: 340px;
-  border-radius: vars.$windowBorderRadius;
-  background-color: vars.$bg;
   margin: vars.$gaps;
   border: 2px solid vars.$warning;
 }
@@ -24,7 +20,7 @@ window.NotificationPopups {
 .notificationHistorical {
   min-width: 0;
   border-radius: vars.$windowBorderRadius;
-  background-color: vars.$bg;
+  background-color: transparent;
   margin: 5px 0 5px 0;
-  border: 2px solid color.adjust(vars.$bg, $lightness: 5%);
+  border: 2px solid fun.smart-lighten(vars.$bg);
 }

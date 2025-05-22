@@ -12,13 +12,14 @@ import {variableConfig} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import {Bar, selectedBar} from "../../config/bar";
 import PowerProfileControls from "./widgets/PowerProfileControls";
-import {SystemMenuWidget} from "../../config/schema/definitions/systemMenu";
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
 import Toolbox from "./widgets/Toolbox";
 import Clock from "./widgets/Clock";
 import ClipboardManager from "./widgets/ClipboardManager";
 import {startCliphist} from "../clipboardManager/ClipboardManager";
 import ScreenRecording from "./widgets/ScreenRecording";
+import Weather from "./widgets/Weather";
+import {SystemMenuWidget} from "../../config/schema/definitions/systemMenuWidgets";
 
 export const SystemMenuWindowName = "systemMenuWindow"
 
@@ -38,6 +39,7 @@ export type SystemWidgetsJSX = {
     clock: JSX.Element
     clipboardManager: JSX.Element
     screenRecording: JSX.Element
+    weather: JSX.Element
 }
 
 // Creating new widgets to replace the old ones when switching configs
@@ -64,6 +66,7 @@ export function createSystemWidgets(): SystemWidgetsJSX {
         clock: <Clock/>,
         clipboardManager: <ClipboardManager/>,
         screenRecording: <ScreenRecording/>,
+        weather: <Weather/>,
     }
 }
 
@@ -100,6 +103,8 @@ export function addSystemMenuWidgets(
                 return jsxWidgets.clipboardManager
             case SystemMenuWidget.SCREEN_RECORDING_CONTROLS:
                 return jsxWidgets.screenRecording
+            case SystemMenuWidget.WEATHER:
+                return jsxWidgets.weather
         }
     })
 }

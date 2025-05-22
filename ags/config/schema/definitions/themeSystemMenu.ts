@@ -1,5 +1,6 @@
 import {Field} from "../primitiveDefinitions";
-import {SystemMenuWidget} from "./systemMenu";
+
+import {SystemMenuWidget} from "./systemMenuWidgets";
 
 export const themeSystemMenuSchema = {
     name: 'systemMenu',

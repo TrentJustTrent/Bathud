@@ -64,6 +64,7 @@ export default function () {
     return <window
         defaultHeight={1} // necessary or resizing doesn't work
         name={horizontalBarWindowName}
+        layer={Astal.Layer.BOTTOM}
         namespace={"okpanel-horizontal-bar"}
         widthRequest={variableConfig.horizontalBar.minimumWidth()}
         visible={selectedBar((bar) => {
