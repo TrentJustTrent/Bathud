@@ -2,7 +2,7 @@ import {Gtk} from "astal/gtk4"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
 import {SystemMenuWindowName} from "../SystemMenuWindow";
-import {Variable} from "astal";
+import {interval, Variable} from "astal";
 import {execAsync} from "astal/process";
 import Divider from "../../common/Divider";
 import {variableConfig} from "../../../config/config";
@@ -183,7 +183,9 @@ export function getWeatherIcon(code: number | null, isDay: boolean = true): stri
 
 
 export default function () {
-    updateWeather()
+    interval(1000 * 60 * 15, () => {
+        updateWeather()
+    })
 
     return <RevealerRow
         icon={weather().as((weather) => {
@@ -215,18 +217,37 @@ export default function () {
                     hexpand={true}
                     homogeneous={true}
                     vertical={false}>
-                    <label
-                        cssClasses={["labelMedium"]}
-                        label={weather().as((weather) =>
-                            `  ${weather.current.humidity?.toString()}%`)}/>
-                    <label
-                        cssClasses={["labelMedium"]}
-                        label={weather().as((weather) =>
-                            `󱩅 ${weather.current.uvIndex?.toString()}`)}/>
-                    <label
-                        cssClasses={["labelMedium"]}
-                        label={weather().as((weather) =>
-                            `  ${weather.current.windSpeed?.toString()} ${variableConfig.systemMenu.weather.speedUnit.get() === SpeedUnits.MPH ? "m/h" : "k/h"}`)}/>
+                    <box
+                        vertical={true}>
+                        <label
+                            cssClasses={["labelMedium"]}
+                            label={weather().as((weather) =>
+                                `  ${weather.current.humidity?.toString()}%`)}/>
+                        <label
+                            cssClasses={["labelSmall"]}
+                            label="Humidity"/>
+                    </box>
+
+                    <box
+                        vertical={true}>
+                        <label
+                            cssClasses={["labelMedium"]}
+                            label={weather().as((weather) =>
+                                `󱩅 ${weather.current.uvIndex?.toString()}`)}/>
+                        <label
+                            cssClasses={["labelSmall"]}
+                            label="UV index"/>
+                    </box>
+                    <box
+                        vertical={true}>
+                        <label
+                            cssClasses={["labelMedium"]}
+                            label={weather().as((weather) =>
+                                `  ${weather.current.windSpeed?.toString()} ${variableConfig.systemMenu.weather.speedUnit.get() === SpeedUnits.MPH ? "m/h" : "k/h"}`)}/>
+                        <label
+                            cssClasses={["labelSmall"]}
+                            label="Wind speed"/>
+                    </box>
                 </box>
                 <Divider/>
                 <label
@@ -241,7 +262,10 @@ export default function () {
                         if (weather.hourly === undefined) {
                             return <box/>
                         }
-                        return weather.hourly.slice(0, 4).map((hourly) => {
+                        const now = new Date()
+                        return weather.hourly
+                            .filter((h) => h.time >= now)
+                            .slice(0, 4).map((hourly) => {
                             return <box
                                 vertical={true}>
                                 <label
@@ -255,7 +279,7 @@ export default function () {
                                     label={`${hourly.temperature}${variableConfig.systemMenu.weather.temperatureUnit.get() === TemperatureUnits.F ? "F" : "C"}`}/>
                                 <label
                                     cssClasses={["labelSmall"]}
-                                    label={`󱩅  ${hourly.uvIndex}`}/>
+                                    label={`󱩅 ${hourly.uvIndex}`}/>
                             </box>
                         })
                     })}
