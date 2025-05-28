@@ -143,7 +143,7 @@ function Clock({vertical}: { vertical: boolean }) {
     return <OkButton
         labelCss={["barClockForeground"]}
         backgroundCss={["barClockBackground"]}
-        hexpand={true}
+        hexpand={vertical}
         hpadding={vertical ? OkButtonHorizontalPadding.NONE : OkButtonHorizontalPadding.THIN}
         vpadding={getVPadding(vertical)}
         label={time()}
