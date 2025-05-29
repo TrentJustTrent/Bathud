@@ -12,7 +12,7 @@ export default function () {
     });
 
     const date = Variable<string>("").poll(1000, () =>
-            GLib.DateTime.new_now_local().format("%-d %B %Y")!
+            GLib.DateTime.new_now_local().format("%m/%d/%Y")!
         // %-d: Day of month (no leading 0), %B: Full month name, %Y: Year
     );
 
