@@ -211,8 +211,19 @@ export default function () {
                     cssClasses={["labelLargeBold"]}/>
                 <label
                     cssClasses={["labelXL"]}
-                    label={weather().as((weather) =>
-                        `${getWeatherIcon(weather.current.weatherCode, weather.current.isDay === 1)}  ${weather.current.temperature?.toString()}${variableConfig.systemMenu.weather.temperatureUnit.get() === TemperatureUnits.F ? "F" : "C"}`)}/>
+                    label={weather().as((weather) => {
+                        const code = weather?.current?.weatherCode;
+                        const isDay = weather?.current?.isDay;
+                        const temp = weather?.current?.temperature;
+                        const unit = variableConfig.systemMenu.weather.temperatureUnit.get();
+
+                        if (code == null || isDay == null || temp == null) {
+                            return "N/A";
+                        }
+
+                        const icon = getWeatherIcon(code, isDay === 1);
+                        return `${icon}  ${temp}${unit === TemperatureUnits.F ? "F" : "C"}`;
+                    })}/>
                 <box
                     hexpand={true}
                     homogeneous={true}
@@ -221,8 +232,11 @@ export default function () {
                         vertical={true}>
                         <label
                             cssClasses={["labelMedium"]}
-                            label={weather().as((weather) =>
-                                `  ${weather.current.humidity?.toString()}%`)}/>
+                            label={weather().as((weather) => {
+                                const humidity = weather?.current?.humidity;
+                                return humidity != null ? `  ${humidity}%` : "N/A";
+                            })}
+                        />
                         <label
                             cssClasses={["labelSmall"]}
                             label="Humidity"/>
@@ -232,8 +246,11 @@ export default function () {
                         vertical={true}>
                         <label
                             cssClasses={["labelMedium"]}
-                            label={weather().as((weather) =>
-                                `󱩅 ${weather.current.uvIndex?.toString()}`)}/>
+                            label={weather().as((weather) => {
+                                const uv = weather?.current?.uvIndex;
+                                return uv != null ? `󱩅 ${uv}` : "N/A";
+                            })}
+                        />
                         <label
                             cssClasses={["labelSmall"]}
                             label="UV index"/>
@@ -242,8 +259,12 @@ export default function () {
                         vertical={true}>
                         <label
                             cssClasses={["labelMedium"]}
-                            label={weather().as((weather) =>
-                                `  ${weather.current.windSpeed?.toString()} ${variableConfig.systemMenu.weather.speedUnit.get() === SpeedUnits.MPH ? "m/h" : "k/h"}`)}/>
+                            label={weather().as((weather) => {
+                                const wind = weather?.current?.windSpeed;
+                                const unit = variableConfig.systemMenu.weather.speedUnit.get() === SpeedUnits.MPH ? "m/h" : "k/h";
+                                return wind != null ? `  ${wind} ${unit}` : "N/A";
+                            })}
+                        />
                         <label
                             cssClasses={["labelSmall"]}
                             label="Wind speed"/>
@@ -276,10 +297,20 @@ export default function () {
                                     label={getWeatherIcon(hourly.weatherCode, hourly.isDay === 1)}/>
                                 <label
                                     cssClasses={["labelSmall"]}
-                                    label={`${hourly.temperature}${variableConfig.systemMenu.weather.temperatureUnit.get() === TemperatureUnits.F ? "F" : "C"}`}/>
+                                    label={
+                                        hourly.temperature != null
+                                            ? `${hourly.temperature}${variableConfig.systemMenu.weather.temperatureUnit.get() === TemperatureUnits.F ? "F" : "C"}`
+                                            : "N/A"
+                                    }
+                                />
                                 <label
                                     cssClasses={["labelSmall"]}
-                                    label={`󱩅 ${hourly.uvIndex}`}/>
+                                    label={
+                                        hourly.uvIndex != null
+                                            ? `󱩅 ${hourly.uvIndex}`
+                                            : "N/A"
+                                    }
+                                />
                             </box>
                         })
                     })}
@@ -308,10 +339,20 @@ export default function () {
                                     label={getWeatherIcon(daily.weatherCode, true)}/>
                                 <label
                                     cssClasses={["labelSmall"]}
-                                    label={`${daily.maxTemp}${variableConfig.systemMenu.weather.temperatureUnit.get() === TemperatureUnits.F ? "F" : "C"}`}/>
+                                    label={
+                                        daily.maxTemp != null
+                                            ? `${daily.maxTemp}${variableConfig.systemMenu.weather.temperatureUnit.get() === TemperatureUnits.F ? "F" : "C"}`
+                                            : "N/A"
+                                    }
+                                />
                                 <label
                                     cssClasses={["labelSmall"]}
-                                    label={`${daily.minTemp}${variableConfig.systemMenu.weather.temperatureUnit.get() === TemperatureUnits.F ? "F" : "C"}`}/>
+                                    label={
+                                        daily.minTemp != null
+                                            ? `${daily.minTemp}${variableConfig.systemMenu.weather.temperatureUnit.get() === TemperatureUnits.F ? "F" : "C"}`
+                                            : "N/A"
+                                    }
+                                />
                             </box>
                         })
                     })}
