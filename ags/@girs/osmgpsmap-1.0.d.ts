@@ -2,6 +2,7 @@
 /// <reference path="./xlib-2.0.d.ts" />
 /// <reference path="./gdk-3.0.d.ts" />
 /// <reference path="./cairo-1.0.d.ts" />
+/// <reference path="./cairo.d.ts" />
 /// <reference path="./gobject-2.0.d.ts" />
 /// <reference path="./glib-2.0.d.ts" />
 /// <reference path="./pango-1.0.d.ts" />
@@ -26,7 +27,7 @@ declare module 'gi://OsmGpsMap?version=1.0' {
     import type Gtk from 'gi://Gtk?version=3.0';
     import type xlib from 'gi://xlib?version=2.0';
     import type Gdk from 'gi://Gdk?version=3.0';
-    import type cairo from 'gi://cairo?version=1.0';
+    import type cairo from 'cairo';
     import type GObject from 'gi://GObject?version=2.0';
     import type GLib from 'gi://GLib?version=2.0';
     import type Pango from 'gi://Pango?version=1.0';
@@ -83,10 +84,74 @@ declare module 'gi://OsmGpsMap?version=1.0' {
         const MAP_CACHE_FRIENDLY: string;
         const MAP_INVALID: number;
         namespace Map {
-            // Signal callback interfaces
-
-            interface Changed {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends Gtk.DrawingArea.SignalSignatures {
+                changed: () => void;
+                'notify::auto-center': (pspec: GObject.ParamSpec) => void;
+                'notify::auto-center-threshold': (pspec: GObject.ParamSpec) => void;
+                'notify::auto-download': (pspec: GObject.ParamSpec) => void;
+                'notify::drag-limit': (pspec: GObject.ParamSpec) => void;
+                'notify::gps-track-highlight-radius': (pspec: GObject.ParamSpec) => void;
+                'notify::gps-track-point-radius': (pspec: GObject.ParamSpec) => void;
+                'notify::gps-track-width': (pspec: GObject.ParamSpec) => void;
+                'notify::image-format': (pspec: GObject.ParamSpec) => void;
+                'notify::latitude': (pspec: GObject.ParamSpec) => void;
+                'notify::longitude': (pspec: GObject.ParamSpec) => void;
+                'notify::map-source': (pspec: GObject.ParamSpec) => void;
+                'notify::map-x': (pspec: GObject.ParamSpec) => void;
+                'notify::map-y': (pspec: GObject.ParamSpec) => void;
+                'notify::max-zoom': (pspec: GObject.ParamSpec) => void;
+                'notify::min-zoom': (pspec: GObject.ParamSpec) => void;
+                'notify::proxy-uri': (pspec: GObject.ParamSpec) => void;
+                'notify::record-trip-history': (pspec: GObject.ParamSpec) => void;
+                'notify::repo-uri': (pspec: GObject.ParamSpec) => void;
+                'notify::show-gps-point': (pspec: GObject.ParamSpec) => void;
+                'notify::show-trip-history': (pspec: GObject.ParamSpec) => void;
+                'notify::tile-cache': (pspec: GObject.ParamSpec) => void;
+                'notify::tile-cache-base': (pspec: GObject.ParamSpec) => void;
+                'notify::tile-zoom-offset': (pspec: GObject.ParamSpec) => void;
+                'notify::tiles-queued': (pspec: GObject.ParamSpec) => void;
+                'notify::user-agent': (pspec: GObject.ParamSpec) => void;
+                'notify::zoom': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -458,6 +523,15 @@ declare module 'gi://OsmGpsMap?version=1.0' {
              */
             get zoom(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Map.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Map.ConstructorProps>, ...args: any[]);
@@ -468,12 +542,21 @@ declare module 'gi://OsmGpsMap?version=1.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'changed', callback: (_source: this) => void): number;
-            connect_after(signal: 'changed', callback: (_source: this) => void): number;
-            emit(signal: 'changed'): void;
+            connect<K extends keyof Map.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Map.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Map.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Map.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Map.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Map.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -860,7 +943,21 @@ declare module 'gi://OsmGpsMap?version=1.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -988,7 +1085,12 @@ declare module 'gi://OsmGpsMap?version=1.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -1138,14 +1240,44 @@ declare module 'gi://OsmGpsMap?version=1.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace MapImage {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::pixbuf': (pspec: GObject.ParamSpec) => void;
+                'notify::point': (pspec: GObject.ParamSpec) => void;
+                'notify::rotation': (pspec: GObject.ParamSpec) => void;
+                'notify::x-align': (pspec: GObject.ParamSpec) => void;
+                'notify::y-align': (pspec: GObject.ParamSpec) => void;
+                'notify::z-order': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -1185,6 +1317,15 @@ declare module 'gi://OsmGpsMap?version=1.0' {
             get zOrder(): number;
             set zOrder(val: number);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: MapImage.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<MapImage.ConstructorProps>, ...args: any[]);
@@ -1192,6 +1333,24 @@ declare module 'gi://OsmGpsMap?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): MapImage;
+
+            // Signals
+
+            connect<K extends keyof MapImage.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MapImage.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof MapImage.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MapImage.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof MapImage.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<MapImage.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1224,6 +1383,21 @@ declare module 'gi://OsmGpsMap?version=1.0' {
         }
 
         namespace MapOsd {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::dpad-radius': (pspec: GObject.ParamSpec) => void;
+                'notify::osd-x': (pspec: GObject.ParamSpec) => void;
+                'notify::osd-y': (pspec: GObject.ParamSpec) => void;
+                'notify::show-coordinates': (pspec: GObject.ParamSpec) => void;
+                'notify::show-copyright': (pspec: GObject.ParamSpec) => void;
+                'notify::show-crosshair': (pspec: GObject.ParamSpec) => void;
+                'notify::show-dpad': (pspec: GObject.ParamSpec) => void;
+                'notify::show-gps-in-dpad': (pspec: GObject.ParamSpec) => void;
+                'notify::show-gps-in-zoom': (pspec: GObject.ParamSpec) => void;
+                'notify::show-scale': (pspec: GObject.ParamSpec) => void;
+                'notify::show-zoom': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, MapLayer.ConstructorProps {
@@ -1368,6 +1542,15 @@ declare module 'gi://OsmGpsMap?version=1.0' {
             get showZoom(): boolean;
             set showZoom(val: boolean);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: MapOsd.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<MapOsd.ConstructorProps>, ...args: any[]);
@@ -1375,6 +1558,24 @@ declare module 'gi://OsmGpsMap?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): MapOsd;
+
+            // Signals
+
+            connect<K extends keyof MapOsd.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MapOsd.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof MapOsd.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MapOsd.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof MapOsd.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<MapOsd.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited methods
             /**
@@ -1538,7 +1739,21 @@ declare module 'gi://OsmGpsMap?version=1.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -1666,7 +1881,12 @@ declare module 'gi://OsmGpsMap?version=1.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -1816,14 +2036,44 @@ declare module 'gi://OsmGpsMap?version=1.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace MapPolygon {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::breakable': (pspec: GObject.ParamSpec) => void;
+                'notify::editable': (pspec: GObject.ParamSpec) => void;
+                'notify::shade-alpha': (pspec: GObject.ParamSpec) => void;
+                'notify::shaded': (pspec: GObject.ParamSpec) => void;
+                'notify::track': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -1857,6 +2107,15 @@ declare module 'gi://OsmGpsMap?version=1.0' {
             get visible(): boolean;
             set visible(val: boolean);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: MapPolygon.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<MapPolygon.ConstructorProps>, ...args: any[]);
@@ -1864,6 +2123,24 @@ declare module 'gi://OsmGpsMap?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): MapPolygon;
+
+            // Signals
+
+            connect<K extends keyof MapPolygon.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MapPolygon.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof MapPolygon.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MapPolygon.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof MapPolygon.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<MapPolygon.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1875,22 +2152,18 @@ declare module 'gi://OsmGpsMap?version=1.0' {
         }
 
         namespace MapTrack {
-            // Signal callback interfaces
-
-            interface PointAdded {
-                (arg1: MapPoint): void;
-            }
-
-            interface PointChanged {
-                (object: number): void;
-            }
-
-            interface PointInserted {
-                (object: number): void;
-            }
-
-            interface PointRemoved {
-                (object: number): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'point-added': (arg0: MapPoint) => void;
+                'point-changed': (arg0: number) => void;
+                'point-inserted': (arg0: number) => void;
+                'point-removed': (arg0: number) => void;
+                'notify::alpha': (pspec: GObject.ParamSpec) => void;
+                'notify::color': (pspec: GObject.ParamSpec) => void;
+                'notify::editable': (pspec: GObject.ParamSpec) => void;
+                'notify::line-width': (pspec: GObject.ParamSpec) => void;
+                'notify::track': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -1925,6 +2198,15 @@ declare module 'gi://OsmGpsMap?version=1.0' {
             get visible(): boolean;
             set visible(val: boolean);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: MapTrack.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<MapTrack.ConstructorProps>, ...args: any[]);
@@ -1935,21 +2217,21 @@ declare module 'gi://OsmGpsMap?version=1.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'point-added', callback: (_source: this, arg1: MapPoint) => void): number;
-            connect_after(signal: 'point-added', callback: (_source: this, arg1: MapPoint) => void): number;
-            emit(signal: 'point-added', arg1: MapPoint): void;
-            connect(signal: 'point-changed', callback: (_source: this, object: number) => void): number;
-            connect_after(signal: 'point-changed', callback: (_source: this, object: number) => void): number;
-            emit(signal: 'point-changed', object: number): void;
-            connect(signal: 'point-inserted', callback: (_source: this, object: number) => void): number;
-            connect_after(signal: 'point-inserted', callback: (_source: this, object: number) => void): number;
-            emit(signal: 'point-inserted', object: number): void;
-            connect(signal: 'point-removed', callback: (_source: this, object: number) => void): number;
-            connect_after(signal: 'point-removed', callback: (_source: this, object: number) => void): number;
-            emit(signal: 'point-removed', object: number): void;
+            connect<K extends keyof MapTrack.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MapTrack.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof MapTrack.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MapTrack.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof MapTrack.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<MapTrack.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 

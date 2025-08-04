@@ -39,33 +39,35 @@ declare module 'gi://GUPnPIgd?version=1.6' {
             SIMPLE_IGD_ERROR_EXTERNAL_ADDRESS,
         }
         namespace SimpleIgd {
-            // Signal callback interfaces
-
-            interface ContextAvailable {
-                (context: GObject.Object): boolean;
-            }
-
-            interface ErrorMappingPort {
-                (
-                    error: GLib.Error,
-                    proto: string,
-                    external_port: number,
-                    local_ip: string,
-                    local_port: number,
-                    description: string,
-                ): void;
-            }
-
-            interface MappedExternalPort {
-                (
-                    proto: string,
-                    external_ip: string,
-                    replaces_external_ip: string,
-                    external_port: number,
-                    local_ip: string,
-                    local_port: number,
-                    description: string,
-                ): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'context-available': (arg0: GObject.Object) => boolean | void;
+                'error-mapping-port': (
+                    arg0: GLib.Error,
+                    arg1: string,
+                    arg2: number,
+                    arg3: string,
+                    arg4: number,
+                    arg5: string,
+                ) => void;
+                'mapped-external-port': (
+                    arg0: string,
+                    arg1: string,
+                    arg2: string,
+                    arg3: number,
+                    arg4: string,
+                    arg5: number,
+                    arg6: string,
+                ) => void;
+                'notify::main-context': (pspec: GObject.ParamSpec) => void;
+                'error-mapping-port::main-context': (
+                    arg0: GLib.Error,
+                    arg1: string,
+                    arg2: number,
+                    arg3: string,
+                    arg4: number,
+                    arg5: string,
+                ) => void;
             }
 
             // Constructor properties interface
@@ -87,6 +89,15 @@ declare module 'gi://GUPnPIgd?version=1.6' {
             get main_context(): any;
             get mainContext(): any;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: SimpleIgd.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<SimpleIgd.ConstructorProps>, ...args: any[]);
@@ -97,84 +108,21 @@ declare module 'gi://GUPnPIgd?version=1.6' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'context-available', callback: (_source: this, context: GObject.Object) => boolean): number;
-            connect_after(
-                signal: 'context-available',
-                callback: (_source: this, context: GObject.Object) => boolean,
+            connect<K extends keyof SimpleIgd.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SimpleIgd.SignalSignatures[K]>,
             ): number;
-            emit(signal: 'context-available', context: GObject.Object): void;
-            connect(
-                signal: 'error-mapping-port',
-                callback: (
-                    _source: this,
-                    error: GLib.Error,
-                    proto: string,
-                    external_port: number,
-                    local_ip: string,
-                    local_port: number,
-                    description: string,
-                ) => void,
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof SimpleIgd.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SimpleIgd.SignalSignatures[K]>,
             ): number;
-            connect_after(
-                signal: 'error-mapping-port',
-                callback: (
-                    _source: this,
-                    error: GLib.Error,
-                    proto: string,
-                    external_port: number,
-                    local_ip: string,
-                    local_port: number,
-                    description: string,
-                ) => void,
-            ): number;
-            emit(
-                signal: 'error-mapping-port',
-                error: GLib.Error,
-                proto: string,
-                external_port: number,
-                local_ip: string,
-                local_port: number,
-                description: string,
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof SimpleIgd.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<SimpleIgd.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
             ): void;
-            connect(
-                signal: 'mapped-external-port',
-                callback: (
-                    _source: this,
-                    proto: string,
-                    external_ip: string,
-                    replaces_external_ip: string,
-                    external_port: number,
-                    local_ip: string,
-                    local_port: number,
-                    description: string,
-                ) => void,
-            ): number;
-            connect_after(
-                signal: 'mapped-external-port',
-                callback: (
-                    _source: this,
-                    proto: string,
-                    external_ip: string,
-                    replaces_external_ip: string,
-                    external_port: number,
-                    local_ip: string,
-                    local_port: number,
-                    description: string,
-                ) => void,
-            ): number;
-            emit(
-                signal: 'mapped-external-port',
-                proto: string,
-                external_ip: string,
-                replaces_external_ip: string,
-                external_port: number,
-                local_ip: string,
-                local_port: number,
-                description: string,
-            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -235,6 +183,11 @@ declare module 'gi://GUPnPIgd?version=1.6' {
         }
 
         namespace SimpleIgdThread {
+            // Signal signatures
+            interface SignalSignatures extends SimpleIgd.SignalSignatures {
+                'notify::main-context': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends SimpleIgd.ConstructorProps {}
@@ -246,6 +199,15 @@ declare module 'gi://GUPnPIgd?version=1.6' {
         class SimpleIgdThread extends SimpleIgd {
             static $gtype: GObject.GType<SimpleIgdThread>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: SimpleIgdThread.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<SimpleIgdThread.ConstructorProps>, ...args: any[]);
@@ -253,6 +215,26 @@ declare module 'gi://GUPnPIgd?version=1.6' {
             _init(...args: any[]): void;
 
             static ['new'](): SimpleIgdThread;
+
+            // Signals
+
+            connect<K extends keyof SimpleIgdThread.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SimpleIgdThread.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof SimpleIgdThread.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SimpleIgdThread.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof SimpleIgdThread.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<SimpleIgdThread.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         type SimpleIgdClass = typeof SimpleIgd;

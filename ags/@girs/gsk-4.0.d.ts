@@ -3,6 +3,7 @@
 /// <reference path="./glib-2.0.d.ts" />
 /// <reference path="./gdk-4.0.d.ts" />
 /// <reference path="./cairo-1.0.d.ts" />
+/// <reference path="./cairo.d.ts" />
 /// <reference path="./pangocairo-1.0.d.ts" />
 /// <reference path="./pango-1.0.d.ts" />
 /// <reference path="./harfbuzz-0.0.d.ts" />
@@ -26,7 +27,7 @@ declare module 'gi://Gsk?version=4.0' {
     import type GObject from 'gi://GObject?version=2.0';
     import type GLib from 'gi://GLib?version=2.0';
     import type Gdk from 'gi://Gdk?version=4.0';
-    import type cairo from 'gi://cairo?version=1.0';
+    import type cairo from 'cairo';
     import type PangoCairo from 'gi://PangoCairo?version=1.0';
     import type Pango from 'gi://Pango?version=1.0';
     import type HarfBuzz from 'gi://HarfBuzz?version=0.0';
@@ -901,6 +902,11 @@ declare module 'gi://Gsk?version=4.0' {
              */
             CONIC,
         }
+        namespace BlendNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
+        }
+
         /**
          * A render node applying a blending function between its two child nodes.
          */
@@ -912,6 +918,24 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](bottom: RenderNode, top: RenderNode, blend_mode: BlendMode): BlendNode;
+
+            // Signals
+
+            connect<K extends keyof BlendNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BlendNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof BlendNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BlendNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof BlendNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<BlendNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -932,6 +956,11 @@ declare module 'gi://Gsk?version=4.0' {
             get_top_child(): RenderNode;
         }
 
+        namespace BlurNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
+        }
+
         /**
          * A render node applying a blur effect to its single child.
          */
@@ -943,6 +972,24 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](child: RenderNode, radius: number): BlurNode;
+
+            // Signals
+
+            connect<K extends keyof BlurNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BlurNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof BlurNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BlurNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof BlurNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<BlurNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -958,6 +1005,11 @@ declare module 'gi://Gsk?version=4.0' {
             get_radius(): number;
         }
 
+        namespace BorderNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
+        }
+
         /**
          * A render node for a border.
          */
@@ -969,6 +1021,24 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](outline: RoundedRect, border_width: number[], border_color: Gdk.RGBA[]): BorderNode;
+
+            // Signals
+
+            connect<K extends keyof BorderNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BorderNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof BorderNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BorderNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof BorderNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<BorderNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -990,6 +1060,12 @@ declare module 'gi://Gsk?version=4.0' {
         }
 
         namespace BroadwayRenderer {
+            // Signal signatures
+            interface SignalSignatures extends Renderer.SignalSignatures {
+                'notify::realized': (pspec: GObject.ParamSpec) => void;
+                'notify::surface': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Renderer.ConstructorProps {}
@@ -1003,6 +1079,15 @@ declare module 'gi://Gsk?version=4.0' {
         class BroadwayRenderer extends Renderer {
             static $gtype: GObject.GType<BroadwayRenderer>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: BroadwayRenderer.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<BroadwayRenderer.ConstructorProps>, ...args: any[]);
@@ -1010,6 +1095,31 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](): BroadwayRenderer;
+
+            // Signals
+
+            connect<K extends keyof BroadwayRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BroadwayRenderer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof BroadwayRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BroadwayRenderer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof BroadwayRenderer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<BroadwayRenderer.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace CairoNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
         }
 
         /**
@@ -1023,6 +1133,24 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](bounds: Graphene.Rect): CairoNode;
+
+            // Signals
+
+            connect<K extends keyof CairoNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CairoNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CairoNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CairoNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CairoNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CairoNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1043,6 +1171,12 @@ declare module 'gi://Gsk?version=4.0' {
         }
 
         namespace CairoRenderer {
+            // Signal signatures
+            interface SignalSignatures extends Renderer.SignalSignatures {
+                'notify::realized': (pspec: GObject.ParamSpec) => void;
+                'notify::surface': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Renderer.ConstructorProps {}
@@ -1057,6 +1191,15 @@ declare module 'gi://Gsk?version=4.0' {
         class CairoRenderer extends Renderer {
             static $gtype: GObject.GType<CairoRenderer>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CairoRenderer.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CairoRenderer.ConstructorProps>, ...args: any[]);
@@ -1064,6 +1207,29 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](): CairoRenderer;
+
+            // Signals
+
+            connect<K extends keyof CairoRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CairoRenderer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CairoRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CairoRenderer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CairoRenderer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CairoRenderer.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace ClipNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
         }
 
         /**
@@ -1078,6 +1244,24 @@ declare module 'gi://Gsk?version=4.0' {
 
             static ['new'](child: RenderNode, clip: Graphene.Rect): ClipNode;
 
+            // Signals
+
+            connect<K extends keyof ClipNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ClipNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ClipNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ClipNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ClipNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ClipNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+
             // Methods
 
             /**
@@ -1090,6 +1274,11 @@ declare module 'gi://Gsk?version=4.0' {
              * @returns a clip rectangle
              */
             get_clip(): Graphene.Rect;
+        }
+
+        namespace ColorMatrixNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
         }
 
         /**
@@ -1107,6 +1296,26 @@ declare module 'gi://Gsk?version=4.0' {
                 color_matrix: Graphene.Matrix,
                 color_offset: Graphene.Vec4,
             ): ColorMatrixNode;
+
+            // Signals
+
+            connect<K extends keyof ColorMatrixNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ColorMatrixNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ColorMatrixNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ColorMatrixNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ColorMatrixNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ColorMatrixNode.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1127,6 +1336,11 @@ declare module 'gi://Gsk?version=4.0' {
             get_color_offset(): Graphene.Vec4;
         }
 
+        namespace ColorNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
+        }
+
         /**
          * A render node for a solid color.
          */
@@ -1139,6 +1353,24 @@ declare module 'gi://Gsk?version=4.0' {
 
             static ['new'](rgba: Gdk.RGBA, bounds: Graphene.Rect): ColorNode;
 
+            // Signals
+
+            connect<K extends keyof ColorNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ColorNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ColorNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ColorNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ColorNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ColorNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+
             // Methods
 
             /**
@@ -1149,6 +1381,11 @@ declare module 'gi://Gsk?version=4.0' {
              * @returns the color of the node
              */
             get_color(): Gdk.RGBA;
+        }
+
+        namespace ConicGradientNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
         }
 
         /**
@@ -1167,6 +1404,26 @@ declare module 'gi://Gsk?version=4.0' {
                 rotation: number,
                 color_stops: ColorStop[],
             ): ConicGradientNode;
+
+            // Signals
+
+            connect<K extends keyof ConicGradientNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ConicGradientNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ConicGradientNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ConicGradientNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ConicGradientNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ConicGradientNode.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1202,6 +1459,11 @@ declare module 'gi://Gsk?version=4.0' {
             get_rotation(): number;
         }
 
+        namespace ContainerNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
+        }
+
         /**
          * A render node that can contain other render nodes.
          */
@@ -1213,6 +1475,24 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](children: RenderNode[]): ContainerNode;
+
+            // Signals
+
+            connect<K extends keyof ContainerNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ContainerNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ContainerNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ContainerNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ContainerNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ContainerNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1229,6 +1509,11 @@ declare module 'gi://Gsk?version=4.0' {
             get_n_children(): number;
         }
 
+        namespace CrossFadeNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
+        }
+
         /**
          * A render node cross fading between two child nodes.
          */
@@ -1240,6 +1525,24 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](start: RenderNode, end: RenderNode, progress: number): CrossFadeNode;
+
+            // Signals
+
+            connect<K extends keyof CrossFadeNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CrossFadeNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CrossFadeNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CrossFadeNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CrossFadeNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CrossFadeNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1260,6 +1563,11 @@ declare module 'gi://Gsk?version=4.0' {
             get_start_child(): RenderNode;
         }
 
+        namespace DebugNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
+        }
+
         /**
          * A render node that emits a debugging message when drawing its
          * child node.
@@ -1272,6 +1580,24 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](child: RenderNode, message: string): DebugNode;
+
+            // Signals
+
+            connect<K extends keyof DebugNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DebugNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DebugNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DebugNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DebugNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DebugNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1287,6 +1613,11 @@ declare module 'gi://Gsk?version=4.0' {
             get_message(): string;
         }
 
+        namespace FillNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
+        }
+
         /**
          * A render node filling the area given by [struct`Gsk`.Path]
          * and [enum`Gsk`.FillRule] with the child node.
@@ -1299,6 +1630,24 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](child: RenderNode, path: Path, fill_rule: FillRule): FillNode;
+
+            // Signals
+
+            connect<K extends keyof FillNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, FillNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof FillNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, FillNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof FillNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<FillNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1321,6 +1670,12 @@ declare module 'gi://Gsk?version=4.0' {
         }
 
         namespace GLRenderer {
+            // Signal signatures
+            interface SignalSignatures extends Renderer.SignalSignatures {
+                'notify::realized': (pspec: GObject.ParamSpec) => void;
+                'notify::surface': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Renderer.ConstructorProps {}
@@ -1334,6 +1689,15 @@ declare module 'gi://Gsk?version=4.0' {
         class GLRenderer extends Renderer {
             static $gtype: GObject.GType<GLRenderer>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: GLRenderer.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<GLRenderer.ConstructorProps>, ...args: any[]);
@@ -1341,9 +1705,33 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](): GLRenderer;
+
+            // Signals
+
+            connect<K extends keyof GLRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GLRenderer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof GLRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GLRenderer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof GLRenderer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<GLRenderer.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace GLShader {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::resource': (pspec: GObject.ParamSpec) => void;
+                'notify::source': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -1483,6 +1871,15 @@ declare module 'gi://Gsk?version=4.0' {
              */
             get source(): GLib.Bytes;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: GLShader.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<GLShader.ConstructorProps>, ...args: any[]);
@@ -1492,6 +1889,24 @@ declare module 'gi://Gsk?version=4.0' {
             static new_from_bytes(sourcecode: GLib.Bytes | Uint8Array): GLShader;
 
             static new_from_resource(resource_path: string): GLShader;
+
+            // Signals
+
+            connect<K extends keyof GLShader.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GLShader.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof GLShader.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GLShader.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof GLShader.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<GLShader.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1632,6 +2047,11 @@ declare module 'gi://Gsk?version=4.0' {
             get_uniform_type(idx: number): GLUniformType;
         }
 
+        namespace GLShaderNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
+        }
+
         /**
          * A render node using a GL shader when drawing its children nodes.
          */
@@ -1648,6 +2068,24 @@ declare module 'gi://Gsk?version=4.0' {
                 args: GLib.Bytes | Uint8Array,
                 children?: RenderNode[] | null,
             ): GLShaderNode;
+
+            // Signals
+
+            connect<K extends keyof GLShaderNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GLShaderNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof GLShaderNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GLShaderNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof GLShaderNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<GLShaderNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1674,6 +2112,11 @@ declare module 'gi://Gsk?version=4.0' {
             get_shader(): GLShader;
         }
 
+        namespace InsetShadowNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
+        }
+
         /**
          * A render node for an inset shadow.
          */
@@ -1692,6 +2135,26 @@ declare module 'gi://Gsk?version=4.0' {
                 spread: number,
                 blur_radius: number,
             ): InsetShadowNode;
+
+            // Signals
+
+            connect<K extends keyof InsetShadowNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, InsetShadowNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof InsetShadowNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, InsetShadowNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof InsetShadowNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<InsetShadowNode.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1730,6 +2193,11 @@ declare module 'gi://Gsk?version=4.0' {
             get_spread(): number;
         }
 
+        namespace LinearGradientNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
+        }
+
         /**
          * A render node for a linear gradient.
          */
@@ -1746,6 +2214,26 @@ declare module 'gi://Gsk?version=4.0' {
                 end: Graphene.Point,
                 color_stops: ColorStop[],
             ): LinearGradientNode;
+
+            // Signals
+
+            connect<K extends keyof LinearGradientNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, LinearGradientNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof LinearGradientNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, LinearGradientNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof LinearGradientNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<LinearGradientNode.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1771,6 +2259,11 @@ declare module 'gi://Gsk?version=4.0' {
             get_start(): Graphene.Point;
         }
 
+        namespace MaskNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
+        }
+
         /**
          * A render node masking one child node with another.
          */
@@ -1782,6 +2275,24 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](source: RenderNode, mask: RenderNode, mask_mode: MaskMode): MaskNode;
+
+            // Signals
+
+            connect<K extends keyof MaskNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MaskNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof MaskNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MaskNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof MaskNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<MaskNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1803,6 +2314,12 @@ declare module 'gi://Gsk?version=4.0' {
         }
 
         namespace NglRenderer {
+            // Signal signatures
+            interface SignalSignatures extends Renderer.SignalSignatures {
+                'notify::realized': (pspec: GObject.ParamSpec) => void;
+                'notify::surface': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Renderer.ConstructorProps {}
@@ -1816,6 +2333,15 @@ declare module 'gi://Gsk?version=4.0' {
         class NglRenderer extends Renderer {
             static $gtype: GObject.GType<NglRenderer>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: NglRenderer.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<NglRenderer.ConstructorProps>, ...args: any[]);
@@ -1823,6 +2349,29 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](): NglRenderer;
+
+            // Signals
+
+            connect<K extends keyof NglRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, NglRenderer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof NglRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, NglRenderer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof NglRenderer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<NglRenderer.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace OpacityNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
         }
 
         /**
@@ -1837,6 +2386,24 @@ declare module 'gi://Gsk?version=4.0' {
 
             static ['new'](child: RenderNode, opacity: number): OpacityNode;
 
+            // Signals
+
+            connect<K extends keyof OpacityNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, OpacityNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof OpacityNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, OpacityNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof OpacityNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<OpacityNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+
             // Methods
 
             /**
@@ -1849,6 +2416,11 @@ declare module 'gi://Gsk?version=4.0' {
              * @returns the opacity factor
              */
             get_opacity(): number;
+        }
+
+        namespace OutsetShadowNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
         }
 
         /**
@@ -1869,6 +2441,26 @@ declare module 'gi://Gsk?version=4.0' {
                 spread: number,
                 blur_radius: number,
             ): OutsetShadowNode;
+
+            // Signals
+
+            connect<K extends keyof OutsetShadowNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, OutsetShadowNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof OutsetShadowNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, OutsetShadowNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof OutsetShadowNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<OutsetShadowNode.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1907,6 +2499,11 @@ declare module 'gi://Gsk?version=4.0' {
             get_spread(): number;
         }
 
+        namespace RadialGradientNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
+        }
+
         /**
          * A render node for a radial gradient.
          */
@@ -1926,6 +2523,26 @@ declare module 'gi://Gsk?version=4.0' {
                 end: number,
                 color_stops: ColorStop[],
             ): RadialGradientNode;
+
+            // Signals
+
+            connect<K extends keyof RadialGradientNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RadialGradientNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof RadialGradientNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RadialGradientNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof RadialGradientNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<RadialGradientNode.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1966,6 +2583,11 @@ declare module 'gi://Gsk?version=4.0' {
             get_vradius(): number;
         }
 
+        namespace RenderNode {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+        }
+
         /**
          * The basic block in a scene graph to be rendered using [class`Gsk`.Renderer].
          *
@@ -1986,6 +2608,24 @@ declare module 'gi://Gsk?version=4.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof RenderNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RenderNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof RenderNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RenderNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof RenderNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<RenderNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -2075,6 +2715,12 @@ declare module 'gi://Gsk?version=4.0' {
         }
 
         namespace Renderer {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::realized': (pspec: GObject.ParamSpec) => void;
+                'notify::surface': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -2109,6 +2755,15 @@ declare module 'gi://Gsk?version=4.0' {
              */
             get surface(): Gdk.Surface;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Renderer.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Renderer.ConstructorProps>, ...args: any[]);
@@ -2116,6 +2771,24 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static new_for_surface(surface: Gdk.Surface): Renderer;
+
+            // Signals
+
+            connect<K extends keyof Renderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Renderer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Renderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Renderer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Renderer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Renderer.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2191,6 +2864,11 @@ declare module 'gi://Gsk?version=4.0' {
             unrealize(): void;
         }
 
+        namespace RepeatNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
+        }
+
         /**
          * A render node repeating its single child node.
          */
@@ -2202,6 +2880,24 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](bounds: Graphene.Rect, child: RenderNode, child_bounds?: Graphene.Rect | null): RepeatNode;
+
+            // Signals
+
+            connect<K extends keyof RepeatNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RepeatNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof RepeatNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RepeatNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof RepeatNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<RepeatNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2215,6 +2911,11 @@ declare module 'gi://Gsk?version=4.0' {
              * @returns a bounding rectangle
              */
             get_child_bounds(): Graphene.Rect;
+        }
+
+        namespace RepeatingLinearGradientNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
         }
 
         /**
@@ -2233,6 +2934,34 @@ declare module 'gi://Gsk?version=4.0' {
                 end: Graphene.Point,
                 color_stops: ColorStop[],
             ): RepeatingLinearGradientNode;
+
+            // Signals
+
+            connect<K extends keyof RepeatingLinearGradientNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RepeatingLinearGradientNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof RepeatingLinearGradientNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RepeatingLinearGradientNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof RepeatingLinearGradientNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<RepeatingLinearGradientNode.SignalSignatures[K]> extends [
+                    any,
+                    ...infer Q,
+                ]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace RepeatingRadialGradientNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
         }
 
         /**
@@ -2254,6 +2983,34 @@ declare module 'gi://Gsk?version=4.0' {
                 end: number,
                 color_stops: ColorStop[],
             ): RepeatingRadialGradientNode;
+
+            // Signals
+
+            connect<K extends keyof RepeatingRadialGradientNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RepeatingRadialGradientNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof RepeatingRadialGradientNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RepeatingRadialGradientNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof RepeatingRadialGradientNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<RepeatingRadialGradientNode.SignalSignatures[K]> extends [
+                    any,
+                    ...infer Q,
+                ]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace RoundedClipNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
         }
 
         /**
@@ -2267,6 +3024,26 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](child: RenderNode, clip: RoundedRect): RoundedClipNode;
+
+            // Signals
+
+            connect<K extends keyof RoundedClipNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RoundedClipNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof RoundedClipNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RoundedClipNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof RoundedClipNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<RoundedClipNode.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2282,6 +3059,11 @@ declare module 'gi://Gsk?version=4.0' {
             get_clip(): RoundedRect;
         }
 
+        namespace ShadowNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
+        }
+
         /**
          * A render node drawing one or more shadows behind its single child node.
          */
@@ -2293,6 +3075,24 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](child: RenderNode, shadows: Shadow[]): ShadowNode;
+
+            // Signals
+
+            connect<K extends keyof ShadowNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ShadowNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ShadowNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ShadowNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ShadowNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ShadowNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2314,6 +3114,11 @@ declare module 'gi://Gsk?version=4.0' {
             get_shadow(i: number): Shadow;
         }
 
+        namespace StrokeNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
+        }
+
         /**
          * A render node that will fill the area determined by stroking the the given
          * [struct`Gsk`.Path] using the [struct`Gsk`.Stroke] attributes.
@@ -2326,6 +3131,24 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](child: RenderNode, path: Path, stroke: Stroke): StrokeNode;
+
+            // Signals
+
+            connect<K extends keyof StrokeNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, StrokeNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof StrokeNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, StrokeNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof StrokeNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<StrokeNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2347,6 +3170,11 @@ declare module 'gi://Gsk?version=4.0' {
             get_stroke(): Stroke;
         }
 
+        namespace SubsurfaceNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
+        }
+
         /**
          * A render node that potentially diverts a part of the scene graph to a subsurface.
          */
@@ -2357,6 +3185,24 @@ declare module 'gi://Gsk?version=4.0' {
 
             _init(...args: any[]): void;
 
+            // Signals
+
+            connect<K extends keyof SubsurfaceNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SubsurfaceNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof SubsurfaceNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SubsurfaceNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof SubsurfaceNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<SubsurfaceNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+
             // Methods
 
             /**
@@ -2364,6 +3210,11 @@ declare module 'gi://Gsk?version=4.0' {
              * @returns the child `GskRenderNode`
              */
             get_child(): RenderNode;
+        }
+
+        namespace TextNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
         }
 
         /**
@@ -2382,6 +3233,24 @@ declare module 'gi://Gsk?version=4.0' {
                 color: Gdk.RGBA,
                 offset: Graphene.Point,
             ): TextNode;
+
+            // Signals
+
+            connect<K extends keyof TextNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TextNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof TextNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TextNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof TextNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<TextNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2420,6 +3289,11 @@ declare module 'gi://Gsk?version=4.0' {
             has_color_glyphs(): boolean;
         }
 
+        namespace TextureNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
+        }
+
         /**
          * A render node for a `GdkTexture`.
          */
@@ -2432,6 +3306,24 @@ declare module 'gi://Gsk?version=4.0' {
 
             static ['new'](texture: Gdk.Texture, bounds: Graphene.Rect): TextureNode;
 
+            // Signals
+
+            connect<K extends keyof TextureNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TextureNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof TextureNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TextureNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof TextureNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<TextureNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+
             // Methods
 
             /**
@@ -2439,6 +3331,11 @@ declare module 'gi://Gsk?version=4.0' {
              * @returns the `GdkTexture`
              */
             get_texture(): Gdk.Texture;
+        }
+
+        namespace TextureScaleNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
         }
 
         /**
@@ -2452,6 +3349,26 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](texture: Gdk.Texture, bounds: Graphene.Rect, filter: ScalingFilter): TextureScaleNode;
+
+            // Signals
+
+            connect<K extends keyof TextureScaleNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TextureScaleNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof TextureScaleNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TextureScaleNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof TextureScaleNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<TextureScaleNode.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2467,6 +3384,11 @@ declare module 'gi://Gsk?version=4.0' {
             get_texture(): Gdk.Texture;
         }
 
+        namespace TransformNode {
+            // Signal signatures
+            interface SignalSignatures extends RenderNode.SignalSignatures {}
+        }
+
         /**
          * A render node applying a `GskTransform` to its single child node.
          */
@@ -2478,6 +3400,24 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](child: RenderNode, transform: Transform): TransformNode;
+
+            // Signals
+
+            connect<K extends keyof TransformNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TransformNode.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof TransformNode.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TransformNode.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof TransformNode.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<TransformNode.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2494,6 +3434,12 @@ declare module 'gi://Gsk?version=4.0' {
         }
 
         namespace VulkanRenderer {
+            // Signal signatures
+            interface SignalSignatures extends Renderer.SignalSignatures {
+                'notify::realized': (pspec: GObject.ParamSpec) => void;
+                'notify::surface': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Renderer.ConstructorProps {}
@@ -2507,6 +3453,15 @@ declare module 'gi://Gsk?version=4.0' {
         class VulkanRenderer extends Renderer {
             static $gtype: GObject.GType<VulkanRenderer>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: VulkanRenderer.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<VulkanRenderer.ConstructorProps>, ...args: any[]);
@@ -2514,6 +3469,24 @@ declare module 'gi://Gsk?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](): VulkanRenderer;
+
+            // Signals
+
+            connect<K extends keyof VulkanRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, VulkanRenderer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof VulkanRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, VulkanRenderer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof VulkanRenderer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<VulkanRenderer.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         type BroadwayRendererClass = typeof BroadwayRenderer;

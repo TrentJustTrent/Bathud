@@ -3087,6 +3087,9 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             USE_BCD,
         }
         namespace Agreement {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -3095,6 +3098,15 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         class Agreement extends GObject.Object {
             static $gtype: GObject.GType<Agreement>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Agreement.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Agreement.ConstructorProps>, ...args: any[]);
@@ -3102,6 +3114,24 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Agreement;
+
+            // Signals
+
+            connect<K extends keyof Agreement.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Agreement.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Agreement.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Agreement.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Agreement.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Agreement.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -3152,6 +3182,9 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         }
 
         namespace AgreementSection {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -3160,6 +3193,15 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         class AgreementSection extends GObject.Object {
             static $gtype: GObject.GType<AgreementSection>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AgreementSection.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<AgreementSection.ConstructorProps>, ...args: any[]);
@@ -3167,6 +3209,26 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): AgreementSection;
+
+            // Signals
+
+            connect<K extends keyof AgreementSection.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AgreementSection.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AgreementSection.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AgreementSection.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AgreementSection.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AgreementSection.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -3207,6 +3269,9 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         }
 
         namespace App {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -3215,6 +3280,15 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         class App extends GObject.Object {
             static $gtype: GObject.GType<App>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: App.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<App.ConstructorProps>, ...args: any[]);
@@ -3222,6 +3296,24 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): App;
+
+            // Signals
+
+            connect<K extends keyof App.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, App.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof App.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, App.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof App.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<App.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -4092,6 +4184,9 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         }
 
         namespace Bundle {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -4100,6 +4195,15 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         class Bundle extends GObject.Object {
             static $gtype: GObject.GType<Bundle>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Bundle.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Bundle.ConstructorProps>, ...args: any[]);
@@ -4107,6 +4211,24 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Bundle;
+
+            // Signals
+
+            connect<K extends keyof Bundle.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Bundle.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Bundle.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Bundle.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Bundle.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Bundle.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -4166,6 +4288,9 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         }
 
         namespace Checksum {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -4174,6 +4299,15 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         class Checksum extends GObject.Object {
             static $gtype: GObject.GType<Checksum>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Checksum.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Checksum.ConstructorProps>, ...args: any[]);
@@ -4181,6 +4315,24 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Checksum;
+
+            // Signals
+
+            connect<K extends keyof Checksum.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Checksum.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Checksum.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Checksum.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Checksum.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Checksum.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -4240,6 +4392,9 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         }
 
         namespace ContentRating {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -4248,6 +4403,15 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         class ContentRating extends GObject.Object {
             static $gtype: GObject.GType<ContentRating>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ContentRating.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ContentRating.ConstructorProps>, ...args: any[]);
@@ -4255,6 +4419,24 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): ContentRating;
+
+            // Signals
+
+            connect<K extends keyof ContentRating.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ContentRating.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ContentRating.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ContentRating.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ContentRating.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ContentRating.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -4385,6 +4567,9 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         }
 
         namespace Format {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -4393,6 +4578,15 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         class Format extends GObject.Object {
             static $gtype: GObject.GType<Format>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Format.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Format.ConstructorProps>, ...args: any[]);
@@ -4400,6 +4594,24 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Format;
+
+            // Signals
+
+            connect<K extends keyof Format.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Format.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Format.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Format.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Format.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Format.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -4446,6 +4658,9 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         }
 
         namespace Icon {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -4454,6 +4669,15 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         class Icon extends GObject.Object {
             static $gtype: GObject.GType<Icon>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Icon.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Icon.ConstructorProps>, ...args: any[]);
@@ -4461,6 +4685,24 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Icon;
+
+            // Signals
+
+            connect<K extends keyof Icon.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Icon.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Icon.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Icon.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Icon.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Icon.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -4585,6 +4827,9 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         }
 
         namespace Image {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -4593,6 +4838,15 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         class Image extends GObject.Object {
             static $gtype: GObject.GType<Image>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Image.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Image.ConstructorProps>, ...args: any[]);
@@ -4600,6 +4854,24 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Image;
+
+            // Signals
+
+            connect<K extends keyof Image.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Image.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Image.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Image.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Image.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Image.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -4740,6 +5012,9 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         }
 
         namespace Launchable {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -4748,6 +5023,15 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         class Launchable extends GObject.Object {
             static $gtype: GObject.GType<Launchable>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Launchable.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Launchable.ConstructorProps>, ...args: any[]);
@@ -4755,6 +5039,24 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Launchable;
+
+            // Signals
+
+            connect<K extends keyof Launchable.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Launchable.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Launchable.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Launchable.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Launchable.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Launchable.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -4794,6 +5096,9 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         }
 
         namespace Problem {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -4802,6 +5107,15 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         class Problem extends GObject.Object {
             static $gtype: GObject.GType<Problem>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Problem.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Problem.ConstructorProps>, ...args: any[]);
@@ -4809,6 +5123,24 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Problem;
+
+            // Signals
+
+            connect<K extends keyof Problem.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Problem.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Problem.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Problem.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Problem.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Problem.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -4853,6 +5185,9 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         }
 
         namespace Provide {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -4861,6 +5196,15 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         class Provide extends GObject.Object {
             static $gtype: GObject.GType<Provide>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Provide.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Provide.ConstructorProps>, ...args: any[]);
@@ -4868,6 +5212,24 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Provide;
+
+            // Signals
+
+            connect<K extends keyof Provide.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Provide.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Provide.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Provide.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Provide.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Provide.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -4907,6 +5269,9 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         }
 
         namespace Release {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -4915,6 +5280,15 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         class Release extends GObject.Object {
             static $gtype: GObject.GType<Release>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Release.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Release.ConstructorProps>, ...args: any[]);
@@ -4922,6 +5296,24 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Release;
+
+            // Signals
+
+            connect<K extends keyof Release.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Release.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Release.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Release.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Release.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Release.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -5104,6 +5496,9 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         }
 
         namespace Require {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -5112,6 +5507,15 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         class Require extends GObject.Object {
             static $gtype: GObject.GType<Require>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Require.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Require.ConstructorProps>, ...args: any[]);
@@ -5119,6 +5523,24 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Require;
+
+            // Signals
+
+            connect<K extends keyof Require.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Require.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Require.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Require.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Require.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Require.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -5200,6 +5622,20 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         }
 
         namespace Review {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::date': (pspec: GObject.ParamSpec) => void;
+                'notify::description': (pspec: GObject.ParamSpec) => void;
+                'notify::flags': (pspec: GObject.ParamSpec) => void;
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+                'notify::locale': (pspec: GObject.ParamSpec) => void;
+                'notify::rating': (pspec: GObject.ParamSpec) => void;
+                'notify::reviewer-id': (pspec: GObject.ParamSpec) => void;
+                'notify::reviewer-name': (pspec: GObject.ParamSpec) => void;
+                'notify::summary': (pspec: GObject.ParamSpec) => void;
+                'notify::version': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -5248,6 +5684,15 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             get version(): string;
             set version(val: string);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Review.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Review.ConstructorProps>, ...args: any[]);
@@ -5255,6 +5700,24 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Review;
+
+            // Signals
+
+            connect<K extends keyof Review.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Review.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Review.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Review.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Review.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Review.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -5402,6 +5865,9 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         }
 
         namespace Screenshot {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -5410,6 +5876,15 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         class Screenshot extends GObject.Object {
             static $gtype: GObject.GType<Screenshot>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Screenshot.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Screenshot.ConstructorProps>, ...args: any[]);
@@ -5417,6 +5892,24 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Screenshot;
+
+            // Signals
+
+            connect<K extends keyof Screenshot.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Screenshot.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Screenshot.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Screenshot.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Screenshot.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Screenshot.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -5517,22 +6010,12 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         }
 
         namespace Store {
-            // Signal callback interfaces
-
-            interface AppAdded {
-                (app: App): void;
-            }
-
-            interface AppChanged {
-                (app: App): void;
-            }
-
-            interface AppRemoved {
-                (app: App): void;
-            }
-
-            interface Changed {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'app-added': (arg0: App) => void;
+                'app-changed': (arg0: App) => void;
+                'app-removed': (arg0: App) => void;
+                changed: () => void;
             }
 
             // Constructor properties interface
@@ -5542,6 +6025,15 @@ declare module 'gi://AppStreamGlib?version=1.0' {
 
         class Store extends GObject.Object {
             static $gtype: GObject.GType<Store>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Store.SignalSignatures;
 
             // Constructors
 
@@ -5553,21 +6045,21 @@ declare module 'gi://AppStreamGlib?version=1.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'app-added', callback: (_source: this, app: App) => void): number;
-            connect_after(signal: 'app-added', callback: (_source: this, app: App) => void): number;
-            emit(signal: 'app-added', app: App): void;
-            connect(signal: 'app-changed', callback: (_source: this, app: App) => void): number;
-            connect_after(signal: 'app-changed', callback: (_source: this, app: App) => void): number;
-            emit(signal: 'app-changed', app: App): void;
-            connect(signal: 'app-removed', callback: (_source: this, app: App) => void): number;
-            connect_after(signal: 'app-removed', callback: (_source: this, app: App) => void): number;
-            emit(signal: 'app-removed', app: App): void;
-            connect(signal: 'changed', callback: (_source: this) => void): number;
-            connect_after(signal: 'changed', callback: (_source: this) => void): number;
-            emit(signal: 'changed'): void;
+            connect<K extends keyof Store.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Store.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Store.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Store.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Store.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Store.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -5991,6 +6483,9 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         }
 
         namespace Suggest {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -5999,6 +6494,15 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         class Suggest extends GObject.Object {
             static $gtype: GObject.GType<Suggest>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Suggest.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Suggest.ConstructorProps>, ...args: any[]);
@@ -6006,6 +6510,24 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Suggest;
+
+            // Signals
+
+            connect<K extends keyof Suggest.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Suggest.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Suggest.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Suggest.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Suggest.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Suggest.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -6045,6 +6567,9 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         }
 
         namespace Translation {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -6053,6 +6578,15 @@ declare module 'gi://AppStreamGlib?version=1.0' {
         class Translation extends GObject.Object {
             static $gtype: GObject.GType<Translation>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Translation.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Translation.ConstructorProps>, ...args: any[]);
@@ -6060,6 +6594,24 @@ declare module 'gi://AppStreamGlib?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Translation;
+
+            // Signals
+
+            connect<K extends keyof Translation.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Translation.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Translation.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Translation.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Translation.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Translation.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 

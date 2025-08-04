@@ -1118,6 +1118,9 @@ declare module 'gi://Gcr?version=4' {
             IMPORTANT,
         }
         namespace AccessDescription {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -1132,11 +1135,40 @@ declare module 'gi://Gcr?version=4' {
         class AccessDescription extends GObject.Object {
             static $gtype: GObject.GType<AccessDescription>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AccessDescription.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<AccessDescription.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof AccessDescription.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AccessDescription.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AccessDescription.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AccessDescription.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AccessDescription.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AccessDescription.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1159,6 +1191,11 @@ declare module 'gi://Gcr?version=4' {
         }
 
         namespace CertificateChain {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::length': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -1207,6 +1244,15 @@ declare module 'gi://Gcr?version=4' {
              */
             get length(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CertificateChain.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CertificateChain.ConstructorProps>, ...args: any[]);
@@ -1214,6 +1260,26 @@ declare module 'gi://Gcr?version=4' {
             _init(...args: any[]): void;
 
             static ['new'](): CertificateChain;
+
+            // Signals
+
+            connect<K extends keyof CertificateChain.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateChain.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CertificateChain.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateChain.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CertificateChain.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CertificateChain.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1448,6 +1514,13 @@ declare module 'gi://Gcr?version=4' {
         }
 
         namespace CertificateExtension {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::critical': (pspec: GObject.ParamSpec) => void;
+                'notify::oid': (pspec: GObject.ParamSpec) => void;
+                'notify::value': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -1486,11 +1559,40 @@ declare module 'gi://Gcr?version=4' {
              */
             get value(): GLib.Bytes;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CertificateExtension.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CertificateExtension.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof CertificateExtension.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtension.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CertificateExtension.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtension.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CertificateExtension.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CertificateExtension.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1517,6 +1619,14 @@ declare module 'gi://Gcr?version=4' {
         }
 
         namespace CertificateExtensionAuthorityInfoAccess {
+            // Signal signatures
+            interface SignalSignatures extends CertificateExtension.SignalSignatures {
+                'notify::n-items': (pspec: GObject.ParamSpec) => void;
+                'notify::critical': (pspec: GObject.ParamSpec) => void;
+                'notify::oid': (pspec: GObject.ParamSpec) => void;
+                'notify::value': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps<A extends GObject.Object = GObject.Object>
@@ -1554,11 +1664,43 @@ declare module 'gi://Gcr?version=4' {
              */
             get nItems(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CertificateExtensionAuthorityInfoAccess.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CertificateExtensionAuthorityInfoAccess.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof CertificateExtensionAuthorityInfoAccess.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionAuthorityInfoAccess.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CertificateExtensionAuthorityInfoAccess.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionAuthorityInfoAccess.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CertificateExtensionAuthorityInfoAccess.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CertificateExtensionAuthorityInfoAccess.SignalSignatures[K]> extends [
+                    any,
+                    ...infer Q,
+                ]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1783,7 +1925,21 @@ declare module 'gi://Gcr?version=4' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -1911,7 +2067,12 @@ declare module 'gi://Gcr?version=4' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -2061,14 +2222,41 @@ declare module 'gi://Gcr?version=4' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace CertificateExtensionAuthorityKeyIdentifier {
+            // Signal signatures
+            interface SignalSignatures extends CertificateExtension.SignalSignatures {
+                'notify::critical': (pspec: GObject.ParamSpec) => void;
+                'notify::oid': (pspec: GObject.ParamSpec) => void;
+                'notify::value': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends CertificateExtension.ConstructorProps {}
@@ -2086,6 +2274,15 @@ declare module 'gi://Gcr?version=4' {
         class CertificateExtensionAuthorityKeyIdentifier extends CertificateExtension {
             static $gtype: GObject.GType<CertificateExtensionAuthorityKeyIdentifier>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CertificateExtensionAuthorityKeyIdentifier.SignalSignatures;
+
             // Constructors
 
             constructor(
@@ -2094,6 +2291,29 @@ declare module 'gi://Gcr?version=4' {
             );
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof CertificateExtensionAuthorityKeyIdentifier.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionAuthorityKeyIdentifier.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CertificateExtensionAuthorityKeyIdentifier.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionAuthorityKeyIdentifier.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CertificateExtensionAuthorityKeyIdentifier.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CertificateExtensionAuthorityKeyIdentifier.SignalSignatures[K]> extends [
+                    any,
+                    ...infer Q,
+                ]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2116,6 +2336,13 @@ declare module 'gi://Gcr?version=4' {
         }
 
         namespace CertificateExtensionBasicConstraints {
+            // Signal signatures
+            interface SignalSignatures extends CertificateExtension.SignalSignatures {
+                'notify::critical': (pspec: GObject.ParamSpec) => void;
+                'notify::oid': (pspec: GObject.ParamSpec) => void;
+                'notify::value': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends CertificateExtension.ConstructorProps {}
@@ -2128,11 +2355,43 @@ declare module 'gi://Gcr?version=4' {
         class CertificateExtensionBasicConstraints extends CertificateExtension {
             static $gtype: GObject.GType<CertificateExtensionBasicConstraints>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CertificateExtensionBasicConstraints.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CertificateExtensionBasicConstraints.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof CertificateExtensionBasicConstraints.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionBasicConstraints.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CertificateExtensionBasicConstraints.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionBasicConstraints.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CertificateExtensionBasicConstraints.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CertificateExtensionBasicConstraints.SignalSignatures[K]> extends [
+                    any,
+                    ...infer Q,
+                ]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2156,6 +2415,14 @@ declare module 'gi://Gcr?version=4' {
         }
 
         namespace CertificateExtensionCertificatePolicies {
+            // Signal signatures
+            interface SignalSignatures extends CertificateExtension.SignalSignatures {
+                'notify::n-items': (pspec: GObject.ParamSpec) => void;
+                'notify::critical': (pspec: GObject.ParamSpec) => void;
+                'notify::oid': (pspec: GObject.ParamSpec) => void;
+                'notify::value': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps<A extends GObject.Object = GObject.Object>
@@ -2189,11 +2456,43 @@ declare module 'gi://Gcr?version=4' {
              */
             get nItems(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CertificateExtensionCertificatePolicies.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CertificateExtensionCertificatePolicies.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof CertificateExtensionCertificatePolicies.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionCertificatePolicies.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CertificateExtensionCertificatePolicies.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionCertificatePolicies.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CertificateExtensionCertificatePolicies.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CertificateExtensionCertificatePolicies.SignalSignatures[K]> extends [
+                    any,
+                    ...infer Q,
+                ]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2416,7 +2715,21 @@ declare module 'gi://Gcr?version=4' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -2544,7 +2857,12 @@ declare module 'gi://Gcr?version=4' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -2694,14 +3012,42 @@ declare module 'gi://Gcr?version=4' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace CertificateExtensionCrlDistributionPoints {
+            // Signal signatures
+            interface SignalSignatures extends CertificateExtension.SignalSignatures {
+                'notify::n-items': (pspec: GObject.ParamSpec) => void;
+                'notify::critical': (pspec: GObject.ParamSpec) => void;
+                'notify::oid': (pspec: GObject.ParamSpec) => void;
+                'notify::value': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps<A extends GObject.Object = GObject.Object>
@@ -2735,6 +3081,15 @@ declare module 'gi://Gcr?version=4' {
              */
             get nItems(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CertificateExtensionCrlDistributionPoints.SignalSignatures;
+
             // Constructors
 
             constructor(
@@ -2743,6 +3098,29 @@ declare module 'gi://Gcr?version=4' {
             );
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof CertificateExtensionCrlDistributionPoints.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionCrlDistributionPoints.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CertificateExtensionCrlDistributionPoints.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionCrlDistributionPoints.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CertificateExtensionCrlDistributionPoints.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CertificateExtensionCrlDistributionPoints.SignalSignatures[K]> extends [
+                    any,
+                    ...infer Q,
+                ]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2967,7 +3345,21 @@ declare module 'gi://Gcr?version=4' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -3095,7 +3487,12 @@ declare module 'gi://Gcr?version=4' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -3245,14 +3642,41 @@ declare module 'gi://Gcr?version=4' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace CertificateExtensionExtendedKeyUsage {
+            // Signal signatures
+            interface SignalSignatures extends CertificateExtension.SignalSignatures {
+                'notify::critical': (pspec: GObject.ParamSpec) => void;
+                'notify::oid': (pspec: GObject.ParamSpec) => void;
+                'notify::value': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends CertificateExtension.ConstructorProps {}
@@ -3268,11 +3692,43 @@ declare module 'gi://Gcr?version=4' {
         class CertificateExtensionExtendedKeyUsage extends CertificateExtension {
             static $gtype: GObject.GType<CertificateExtensionExtendedKeyUsage>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CertificateExtensionExtendedKeyUsage.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CertificateExtensionExtendedKeyUsage.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof CertificateExtensionExtendedKeyUsage.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionExtendedKeyUsage.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CertificateExtensionExtendedKeyUsage.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionExtendedKeyUsage.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CertificateExtensionExtendedKeyUsage.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CertificateExtensionExtendedKeyUsage.SignalSignatures[K]> extends [
+                    any,
+                    ...infer Q,
+                ]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -3289,6 +3745,13 @@ declare module 'gi://Gcr?version=4' {
         }
 
         namespace CertificateExtensionKeyUsage {
+            // Signal signatures
+            interface SignalSignatures extends CertificateExtension.SignalSignatures {
+                'notify::critical': (pspec: GObject.ParamSpec) => void;
+                'notify::oid': (pspec: GObject.ParamSpec) => void;
+                'notify::value': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends CertificateExtension.ConstructorProps {}
@@ -3304,11 +3767,43 @@ declare module 'gi://Gcr?version=4' {
         class CertificateExtensionKeyUsage extends CertificateExtension {
             static $gtype: GObject.GType<CertificateExtensionKeyUsage>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CertificateExtensionKeyUsage.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CertificateExtensionKeyUsage.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof CertificateExtensionKeyUsage.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionKeyUsage.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CertificateExtensionKeyUsage.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionKeyUsage.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CertificateExtensionKeyUsage.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CertificateExtensionKeyUsage.SignalSignatures[K]> extends [
+                    any,
+                    ...infer Q,
+                ]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -3324,6 +3819,11 @@ declare module 'gi://Gcr?version=4' {
         }
 
         namespace CertificateExtensionList {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::n-items': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps<A extends GObject.Object = GObject.Object>
@@ -3348,11 +3848,40 @@ declare module 'gi://Gcr?version=4' {
             get n_items(): number;
             get nItems(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CertificateExtensionList.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CertificateExtensionList.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof CertificateExtensionList.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionList.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CertificateExtensionList.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionList.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CertificateExtensionList.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CertificateExtensionList.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -3583,7 +4112,21 @@ declare module 'gi://Gcr?version=4' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -3711,7 +4254,12 @@ declare module 'gi://Gcr?version=4' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -3861,14 +4409,41 @@ declare module 'gi://Gcr?version=4' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace CertificateExtensionSubjectAltName {
+            // Signal signatures
+            interface SignalSignatures extends CertificateExtension.SignalSignatures {
+                'notify::critical': (pspec: GObject.ParamSpec) => void;
+                'notify::oid': (pspec: GObject.ParamSpec) => void;
+                'notify::value': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps<A extends GObject.Object = GObject.Object>
@@ -3890,11 +4465,43 @@ declare module 'gi://Gcr?version=4' {
         {
             static $gtype: GObject.GType<CertificateExtensionSubjectAltName>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CertificateExtensionSubjectAltName.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CertificateExtensionSubjectAltName.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof CertificateExtensionSubjectAltName.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionSubjectAltName.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CertificateExtensionSubjectAltName.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionSubjectAltName.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CertificateExtensionSubjectAltName.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CertificateExtensionSubjectAltName.SignalSignatures[K]> extends [
+                    any,
+                    ...infer Q,
+                ]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -4117,7 +4724,21 @@ declare module 'gi://Gcr?version=4' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -4245,7 +4866,12 @@ declare module 'gi://Gcr?version=4' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -4395,14 +5021,41 @@ declare module 'gi://Gcr?version=4' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace CertificateExtensionSubjectKeyIdentifier {
+            // Signal signatures
+            interface SignalSignatures extends CertificateExtension.SignalSignatures {
+                'notify::critical': (pspec: GObject.ParamSpec) => void;
+                'notify::oid': (pspec: GObject.ParamSpec) => void;
+                'notify::value': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends CertificateExtension.ConstructorProps {}
@@ -4414,6 +5067,15 @@ declare module 'gi://Gcr?version=4' {
         class CertificateExtensionSubjectKeyIdentifier extends CertificateExtension {
             static $gtype: GObject.GType<CertificateExtensionSubjectKeyIdentifier>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CertificateExtensionSubjectKeyIdentifier.SignalSignatures;
+
             // Constructors
 
             constructor(
@@ -4422,6 +5084,29 @@ declare module 'gi://Gcr?version=4' {
             );
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof CertificateExtensionSubjectKeyIdentifier.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionSubjectKeyIdentifier.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CertificateExtensionSubjectKeyIdentifier.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateExtensionSubjectKeyIdentifier.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CertificateExtensionSubjectKeyIdentifier.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CertificateExtensionSubjectKeyIdentifier.SignalSignatures[K]> extends [
+                    any,
+                    ...infer Q,
+                ]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -4433,6 +5118,13 @@ declare module 'gi://Gcr?version=4' {
         }
 
         namespace CertificateField {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::label': (pspec: GObject.ParamSpec) => void;
+                'notify::section': (pspec: GObject.ParamSpec) => void;
+                'notify::value': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -4451,11 +5143,40 @@ declare module 'gi://Gcr?version=4' {
             get section(): CertificateSection;
             get value(): GObject.Value;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CertificateField.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CertificateField.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof CertificateField.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateField.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CertificateField.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateField.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CertificateField.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CertificateField.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -4485,6 +5206,9 @@ declare module 'gi://Gcr?version=4' {
         }
 
         namespace CertificatePolicy {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps<A extends GObject.Object = GObject.Object>
@@ -4507,11 +5231,40 @@ declare module 'gi://Gcr?version=4' {
         {
             static $gtype: GObject.GType<CertificatePolicy>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CertificatePolicy.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CertificatePolicy.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof CertificatePolicy.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificatePolicy.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CertificatePolicy.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificatePolicy.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CertificatePolicy.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CertificatePolicy.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -4738,7 +5491,21 @@ declare module 'gi://Gcr?version=4' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -4866,7 +5633,12 @@ declare module 'gi://Gcr?version=4' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -5016,14 +5788,37 @@ declare module 'gi://Gcr?version=4' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace CertificatePolicyQualifier {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -5038,11 +5833,40 @@ declare module 'gi://Gcr?version=4' {
         class CertificatePolicyQualifier extends GObject.Object {
             static $gtype: GObject.GType<CertificatePolicyQualifier>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CertificatePolicyQualifier.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CertificatePolicyQualifier.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof CertificatePolicyQualifier.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificatePolicyQualifier.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CertificatePolicyQualifier.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificatePolicyQualifier.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CertificatePolicyQualifier.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CertificatePolicyQualifier.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -5059,6 +5883,11 @@ declare module 'gi://Gcr?version=4' {
         }
 
         namespace CertificateRequest {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::private-key': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -5090,11 +5919,40 @@ declare module 'gi://Gcr?version=4' {
              */
             get privateKey(): Gck.Object;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CertificateRequest.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CertificateRequest.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof CertificateRequest.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateRequest.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CertificateRequest.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateRequest.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CertificateRequest.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CertificateRequest.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -5208,6 +6066,12 @@ declare module 'gi://Gcr?version=4' {
         }
 
         namespace CertificateSection {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::fields': (pspec: GObject.ParamSpec) => void;
+                'notify::label': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -5224,11 +6088,40 @@ declare module 'gi://Gcr?version=4' {
             get fields(): Gio.ListModel;
             get label(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CertificateSection.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CertificateSection.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof CertificateSection.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateSection.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CertificateSection.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateSection.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CertificateSection.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CertificateSection.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -5250,6 +6143,9 @@ declare module 'gi://Gcr?version=4' {
         }
 
         namespace DistributionPoint {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -5267,11 +6163,40 @@ declare module 'gi://Gcr?version=4' {
         class DistributionPoint extends GObject.Object {
             static $gtype: GObject.GType<DistributionPoint>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: DistributionPoint.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<DistributionPoint.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof DistributionPoint.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DistributionPoint.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DistributionPoint.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DistributionPoint.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DistributionPoint.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DistributionPoint.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -5294,6 +6219,9 @@ declare module 'gi://Gcr?version=4' {
         }
 
         namespace GeneralName {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -5306,11 +6234,38 @@ declare module 'gi://Gcr?version=4' {
         class GeneralName extends GObject.Object {
             static $gtype: GObject.GType<GeneralName>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: GeneralName.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<GeneralName.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof GeneralName.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GeneralName.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof GeneralName.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GeneralName.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof GeneralName.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<GeneralName.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -5329,6 +6284,9 @@ declare module 'gi://Gcr?version=4' {
         }
 
         namespace GeneralNames {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps<A extends GObject.Object = GObject.Object>
@@ -5345,11 +6303,38 @@ declare module 'gi://Gcr?version=4' {
         {
             static $gtype: GObject.GType<GeneralNames>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: GeneralNames.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<GeneralNames.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof GeneralNames.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GeneralNames.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof GeneralNames.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GeneralNames.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof GeneralNames.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<GeneralNames.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -5575,7 +6560,21 @@ declare module 'gi://Gcr?version=4' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -5703,7 +6702,12 @@ declare module 'gi://Gcr?version=4' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -5853,22 +6857,41 @@ declare module 'gi://Gcr?version=4' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Parser {
-            // Signal callback interfaces
-
-            interface Authenticate {
-                (count: number): boolean;
-            }
-
-            interface Parsed {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                authenticate: (arg0: number) => boolean | void;
+                parsed: () => void;
+                'notify::parsed-attributes': (pspec: GObject.ParamSpec) => void;
+                'notify::parsed-description': (pspec: GObject.ParamSpec) => void;
+                'notify::parsed-label': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -5935,6 +6958,15 @@ declare module 'gi://Gcr?version=4' {
              */
             get parsedLabel(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Parser.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Parser.ConstructorProps>, ...args: any[]);
@@ -5945,15 +6977,21 @@ declare module 'gi://Gcr?version=4' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'authenticate', callback: (_source: this, count: number) => boolean): number;
-            connect_after(signal: 'authenticate', callback: (_source: this, count: number) => boolean): number;
-            emit(signal: 'authenticate', count: number): void;
-            connect(signal: 'parsed', callback: (_source: this) => void): number;
-            connect_after(signal: 'parsed', callback: (_source: this) => void): number;
-            emit(signal: 'parsed'): void;
+            connect<K extends keyof Parser.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Parser.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Parser.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Parser.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Parser.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Parser.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -6123,6 +7161,19 @@ declare module 'gi://Gcr?version=4' {
         }
 
         namespace Pkcs11Certificate {
+            // Signal signatures
+            interface SignalSignatures extends Gck.Object.SignalSignatures {
+                'notify::attributes': (pspec: GObject.ParamSpec) => void;
+                'notify::handle': (pspec: GObject.ParamSpec) => void;
+                'notify::module': (pspec: GObject.ParamSpec) => void;
+                'notify::session': (pspec: GObject.ParamSpec) => void;
+                'notify::description': (pspec: GObject.ParamSpec) => void;
+                'notify::expiry-date': (pspec: GObject.ParamSpec) => void;
+                'notify::issuer-name': (pspec: GObject.ParamSpec) => void;
+                'notify::label': (pspec: GObject.ParamSpec) => void;
+                'notify::subject-name': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Gck.Object.ConstructorProps, Certificate.ConstructorProps {
@@ -6150,11 +7201,40 @@ declare module 'gi://Gcr?version=4' {
              */
             get attributes(): Gck.Attributes;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Pkcs11Certificate.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Pkcs11Certificate.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Pkcs11Certificate.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Pkcs11Certificate.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Pkcs11Certificate.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Pkcs11Certificate.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Pkcs11Certificate.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Pkcs11Certificate.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -6585,7 +7665,21 @@ declare module 'gi://Gcr?version=4' {
             get_data(key: string): any | null;
             // Conflicted with Gck.Object.get_data
             get_data(...args: never[]): any;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -6713,7 +7807,12 @@ declare module 'gi://Gcr?version=4' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -6863,16 +7962,41 @@ declare module 'gi://Gcr?version=4' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
             // Conflicted with Gck.Object.set
             set(...args: never[]): any;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace SecretExchange {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::protocol': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -6918,6 +8042,15 @@ declare module 'gi://Gcr?version=4' {
              */
             get protocol(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: SecretExchange.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<SecretExchange.ConstructorProps>, ...args: any[]);
@@ -6925,6 +8058,24 @@ declare module 'gi://Gcr?version=4' {
             _init(...args: any[]): void;
 
             static ['new'](protocol?: string | null): SecretExchange;
+
+            // Signals
+
+            connect<K extends keyof SecretExchange.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SecretExchange.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof SecretExchange.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SecretExchange.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof SecretExchange.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<SecretExchange.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -6986,6 +8137,15 @@ declare module 'gi://Gcr?version=4' {
         }
 
         namespace SimpleCertificate {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::description': (pspec: GObject.ParamSpec) => void;
+                'notify::expiry-date': (pspec: GObject.ParamSpec) => void;
+                'notify::issuer-name': (pspec: GObject.ParamSpec) => void;
+                'notify::label': (pspec: GObject.ParamSpec) => void;
+                'notify::subject-name': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, Certificate.ConstructorProps {}
@@ -7001,6 +8161,15 @@ declare module 'gi://Gcr?version=4' {
         class SimpleCertificate extends GObject.Object implements Certificate {
             static $gtype: GObject.GType<SimpleCertificate>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: SimpleCertificate.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<SimpleCertificate.ConstructorProps>, ...args: any[]);
@@ -7008,6 +8177,26 @@ declare module 'gi://Gcr?version=4' {
             _init(...args: any[]): void;
 
             static ['new'](data: Uint8Array | string): SimpleCertificate;
+
+            // Signals
+
+            connect<K extends keyof SimpleCertificate.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SimpleCertificate.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof SimpleCertificate.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SimpleCertificate.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof SimpleCertificate.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<SimpleCertificate.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited properties
             /**
@@ -7349,7 +8538,21 @@ declare module 'gi://Gcr?version=4' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -7477,7 +8680,12 @@ declare module 'gi://Gcr?version=4' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -7627,14 +8835,39 @@ declare module 'gi://Gcr?version=4' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace SshAskpass {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::interaction': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -7656,6 +8889,15 @@ declare module 'gi://Gcr?version=4' {
              */
             get interaction(): Gio.TlsInteraction;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: SshAskpass.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<SshAskpass.ConstructorProps>, ...args: any[]);
@@ -7663,6 +8905,24 @@ declare module 'gi://Gcr?version=4' {
             _init(...args: any[]): void;
 
             static ['new'](interaction: Gio.TlsInteraction): SshAskpass;
+
+            // Signals
+
+            connect<K extends keyof SshAskpass.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SshAskpass.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof SshAskpass.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SshAskpass.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof SshAskpass.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<SshAskpass.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -7683,6 +8943,24 @@ declare module 'gi://Gcr?version=4' {
         }
 
         namespace SystemPrompt {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::bus-name': (pspec: GObject.ParamSpec) => void;
+                'notify::secret-exchange': (pspec: GObject.ParamSpec) => void;
+                'notify::timeout-seconds': (pspec: GObject.ParamSpec) => void;
+                'notify::caller-window': (pspec: GObject.ParamSpec) => void;
+                'notify::cancel-label': (pspec: GObject.ParamSpec) => void;
+                'notify::choice-chosen': (pspec: GObject.ParamSpec) => void;
+                'notify::choice-label': (pspec: GObject.ParamSpec) => void;
+                'notify::continue-label': (pspec: GObject.ParamSpec) => void;
+                'notify::description': (pspec: GObject.ParamSpec) => void;
+                'notify::message': (pspec: GObject.ParamSpec) => void;
+                'notify::password-new': (pspec: GObject.ParamSpec) => void;
+                'notify::password-strength': (pspec: GObject.ParamSpec) => void;
+                'notify::title': (pspec: GObject.ParamSpec) => void;
+                'notify::warning': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -7748,11 +9026,38 @@ declare module 'gi://Gcr?version=4' {
              */
             set timeoutSeconds(val: number);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: SystemPrompt.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<SystemPrompt.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof SystemPrompt.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SystemPrompt.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof SystemPrompt.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SystemPrompt.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof SystemPrompt.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<SystemPrompt.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -8836,7 +10141,21 @@ declare module 'gi://Gcr?version=4' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -8964,7 +10283,12 @@ declare module 'gi://Gcr?version=4' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -9114,18 +10438,39 @@ declare module 'gi://Gcr?version=4' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace SystemPrompter {
-            // Signal callback interfaces
-
-            interface NewPrompt {
-                (): Prompt;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'new-prompt': () => Prompt;
+                'notify::prompt-type': (pspec: GObject.ParamSpec) => void;
+                'notify::prompting': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -9169,6 +10514,15 @@ declare module 'gi://Gcr?version=4' {
              */
             get prompting(): boolean;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: SystemPrompter.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<SystemPrompter.ConstructorProps>, ...args: any[]);
@@ -9179,12 +10533,21 @@ declare module 'gi://Gcr?version=4' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'new-prompt', callback: (_source: this) => Prompt): number;
-            connect_after(signal: 'new-prompt', callback: (_source: this) => Prompt): number;
-            emit(signal: 'new-prompt'): void;
+            connect<K extends keyof SystemPrompter.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SystemPrompter.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof SystemPrompter.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SystemPrompter.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof SystemPrompter.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<SystemPrompter.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 

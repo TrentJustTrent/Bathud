@@ -85,10 +85,23 @@ declare module 'gi://GSSDP?version=1.6' {
         const ALL_RESOURCES: string;
         function error_quark(): GLib.Quark;
         namespace Client {
-            // Signal callback interfaces
-
-            interface MessageReceived {
-                (from_ip: string, from_port: number, type: number, headers: Soup.MessageHeaders): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'message-received': (arg0: string, arg1: number, arg2: number, arg3: Soup.MessageHeaders) => void;
+                'notify::active': (pspec: GObject.ParamSpec) => void;
+                'notify::address': (pspec: GObject.ParamSpec) => void;
+                'notify::address-family': (pspec: GObject.ParamSpec) => void;
+                'notify::boot-id': (pspec: GObject.ParamSpec) => void;
+                'notify::config-id': (pspec: GObject.ParamSpec) => void;
+                'notify::host-ip': (pspec: GObject.ParamSpec) => void;
+                'notify::host-mask': (pspec: GObject.ParamSpec) => void;
+                'notify::interface': (pspec: GObject.ParamSpec) => void;
+                'notify::msearch-port': (pspec: GObject.ParamSpec) => void;
+                'notify::network': (pspec: GObject.ParamSpec) => void;
+                'notify::port': (pspec: GObject.ParamSpec) => void;
+                'notify::server-id': (pspec: GObject.ParamSpec) => void;
+                'notify::socket-ttl': (pspec: GObject.ParamSpec) => void;
+                'notify::uda-version': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -272,6 +285,15 @@ declare module 'gi://GSSDP?version=1.6' {
              */
             get udaVersion(): UDAVersion;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Client.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Client.ConstructorProps>, ...args: any[]);
@@ -293,36 +315,21 @@ declare module 'gi://GSSDP?version=1.6' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(
-                signal: 'message-received',
-                callback: (
-                    _source: this,
-                    from_ip: string,
-                    from_port: number,
-                    type: number,
-                    headers: Soup.MessageHeaders,
-                ) => void,
+            connect<K extends keyof Client.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Client.SignalSignatures[K]>,
             ): number;
-            connect_after(
-                signal: 'message-received',
-                callback: (
-                    _source: this,
-                    from_ip: string,
-                    from_port: number,
-                    type: number,
-                    headers: Soup.MessageHeaders,
-                ) => void,
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Client.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Client.SignalSignatures[K]>,
             ): number;
-            emit(
-                signal: 'message-received',
-                from_ip: string,
-                from_port: number,
-                type: number,
-                headers: Soup.MessageHeaders,
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Client.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Client.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
             ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -635,7 +642,21 @@ declare module 'gi://GSSDP?version=1.6' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -763,7 +784,12 @@ declare module 'gi://GSSDP?version=1.6' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -913,26 +939,43 @@ declare module 'gi://GSSDP?version=1.6' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace ResourceBrowser {
-            // Signal callback interfaces
-
-            interface ResourceAvailable {
-                (usn: string, locations: string[]): void;
-            }
-
-            interface ResourceUnavailable {
-                (usn: string): void;
-            }
-
-            interface ResourceUpdate {
-                (usn: string, boot_id: number, next_boot_id: number): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'resource-available': (arg0: string, arg1: string[]) => void;
+                'resource-unavailable': (arg0: string) => void;
+                'resource-update': (arg0: string, arg1: number, arg2: number) => void;
+                'notify::active': (pspec: GObject.ParamSpec) => void;
+                'notify::client': (pspec: GObject.ParamSpec) => void;
+                'notify::mx': (pspec: GObject.ParamSpec) => void;
+                'notify::target': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -984,6 +1027,15 @@ declare module 'gi://GSSDP?version=1.6' {
             get target(): string;
             set target(val: string);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ResourceBrowser.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ResourceBrowser.ConstructorProps>, ...args: any[]);
@@ -994,30 +1046,23 @@ declare module 'gi://GSSDP?version=1.6' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(
-                signal: 'resource-available',
-                callback: (_source: this, usn: string, locations: string[]) => void,
+            connect<K extends keyof ResourceBrowser.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ResourceBrowser.SignalSignatures[K]>,
             ): number;
-            connect_after(
-                signal: 'resource-available',
-                callback: (_source: this, usn: string, locations: string[]) => void,
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ResourceBrowser.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ResourceBrowser.SignalSignatures[K]>,
             ): number;
-            emit(signal: 'resource-available', usn: string, locations: string[]): void;
-            connect(signal: 'resource-unavailable', callback: (_source: this, usn: string) => void): number;
-            connect_after(signal: 'resource-unavailable', callback: (_source: this, usn: string) => void): number;
-            emit(signal: 'resource-unavailable', usn: string): void;
-            connect(
-                signal: 'resource-update',
-                callback: (_source: this, usn: string, boot_id: number, next_boot_id: number) => void,
-            ): number;
-            connect_after(
-                signal: 'resource-update',
-                callback: (_source: this, usn: string, boot_id: number, next_boot_id: number) => void,
-            ): number;
-            emit(signal: 'resource-update', usn: string, boot_id: number, next_boot_id: number): void;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ResourceBrowser.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ResourceBrowser.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -1070,6 +1115,14 @@ declare module 'gi://GSSDP?version=1.6' {
         }
 
         namespace ResourceGroup {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::available': (pspec: GObject.ParamSpec) => void;
+                'notify::client': (pspec: GObject.ParamSpec) => void;
+                'notify::max-age': (pspec: GObject.ParamSpec) => void;
+                'notify::message-delay': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -1126,6 +1179,15 @@ declare module 'gi://GSSDP?version=1.6' {
             get messageDelay(): number;
             set messageDelay(val: number);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ResourceGroup.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ResourceGroup.ConstructorProps>, ...args: any[]);
@@ -1133,6 +1195,24 @@ declare module 'gi://GSSDP?version=1.6' {
             _init(...args: any[]): void;
 
             static ['new'](client: Client): ResourceGroup;
+
+            // Signals
+
+            connect<K extends keyof ResourceGroup.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ResourceGroup.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ResourceGroup.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ResourceGroup.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ResourceGroup.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ResourceGroup.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 

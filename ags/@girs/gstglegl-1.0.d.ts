@@ -152,6 +152,12 @@ declare module 'gi://GstGLEGL?version=1.0' {
             (image: EGLImage, data?: any | null): void;
         }
         namespace GLDisplayEGL {
+            // Signal signatures
+            interface SignalSignatures extends GstGL.GLDisplay.SignalSignatures {
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GstGL.GLDisplay.ConstructorProps {}
@@ -164,6 +170,15 @@ declare module 'gi://GstGLEGL?version=1.0' {
         class GLDisplayEGL extends GstGL.GLDisplay {
             static $gtype: GObject.GType<GLDisplayEGL>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: GLDisplayEGL.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<GLDisplayEGL.ConstructorProps>, ...args: any[]);
@@ -175,6 +190,24 @@ declare module 'gi://GstGLEGL?version=1.0' {
             static new_surfaceless(): GLDisplayEGL;
 
             static new_with_egl_display(display?: any | null): GLDisplayEGL;
+
+            // Signals
+
+            connect<K extends keyof GLDisplayEGL.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GLDisplayEGL.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof GLDisplayEGL.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GLDisplayEGL.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof GLDisplayEGL.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<GLDisplayEGL.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -223,6 +256,12 @@ declare module 'gi://GstGLEGL?version=1.0' {
         }
 
         namespace GLDisplayEGLDevice {
+            // Signal signatures
+            interface SignalSignatures extends GstGL.GLDisplay.SignalSignatures {
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GstGL.GLDisplay.ConstructorProps {}
@@ -234,6 +273,15 @@ declare module 'gi://GstGLEGL?version=1.0' {
          */
         class GLDisplayEGLDevice extends GstGL.GLDisplay {
             static $gtype: GObject.GType<GLDisplayEGLDevice>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: GLDisplayEGLDevice.SignalSignatures;
 
             // Fields
 
@@ -251,9 +299,35 @@ declare module 'gi://GstGLEGL?version=1.0' {
             static ['new'](...args: never[]): any;
 
             static new_with_egl_device(device?: any | null): GLDisplayEGLDevice;
+
+            // Signals
+
+            connect<K extends keyof GLDisplayEGLDevice.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GLDisplayEGLDevice.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof GLDisplayEGLDevice.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GLDisplayEGLDevice.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof GLDisplayEGLDevice.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<GLDisplayEGLDevice.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace GLMemoryEGLAllocator {
+            // Signal signatures
+            interface SignalSignatures extends GstGL.GLMemoryAllocator.SignalSignatures {
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GstGL.GLMemoryAllocator.ConstructorProps {}
@@ -265,11 +339,40 @@ declare module 'gi://GstGLEGL?version=1.0' {
         class GLMemoryEGLAllocator extends GstGL.GLMemoryAllocator {
             static $gtype: GObject.GType<GLMemoryEGLAllocator>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: GLMemoryEGLAllocator.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<GLMemoryEGLAllocator.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof GLMemoryEGLAllocator.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GLMemoryEGLAllocator.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof GLMemoryEGLAllocator.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GLMemoryEGLAllocator.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof GLMemoryEGLAllocator.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<GLMemoryEGLAllocator.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         /**

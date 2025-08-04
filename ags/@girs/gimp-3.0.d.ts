@@ -1,4 +1,5 @@
 /// <reference path="./cairo-1.0.d.ts" />
+/// <reference path="./cairo.d.ts" />
 /// <reference path="./gobject-2.0.d.ts" />
 /// <reference path="./glib-2.0.d.ts" />
 /// <reference path="./pango-1.0.d.ts" />
@@ -21,7 +22,7 @@
 
 declare module 'gi://Gimp?version=3.0' {
     // Module dependencies
-    import type cairo from 'gi://cairo?version=1.0';
+    import type cairo from 'cairo';
     import type GObject from 'gi://GObject?version=2.0';
     import type GLib from 'gi://GLib?version=2.0';
     import type Pango from 'gi://Pango?version=1.0';
@@ -37,11 +38,27 @@ declare module 'gi://Gimp?version=3.0' {
         // WORKAROUND: As long as ParamObject is not generated
         export class ParamObject extends GObject.ParamSpec {}
 
-        // WORKAROUND: As long as ParamObject is not generated
+        export namespace ParamObject {
+            // Signal signatures
+            interface SignalSignatures extends GObject.ParamSpec.SignalSignatures {}
+        }
+
+        // WORKAROUND: As long as ParamItem is not generated
         export class ParamItem extends GObject.ParamSpec {}
 
-        // WORKAROUND: As long as ParamObject is not generated
+        export namespace ParamItem {
+            // Signal signatures
+            interface SignalSignatures extends GObject.ParamSpec.SignalSignatures {}
+        }
+
+        // WORKAROUND: As long as ParamArray is not generated
         export class ParamArray extends GObject.ParamSpec {}
+
+        export namespace ParamArray {
+            // Signal signatures
+            interface SignalSignatures extends GObject.ParamSpec.SignalSignatures {}
+        }
+
         /**
          * Gimp-3.0
          */
@@ -7287,6 +7304,13 @@ declare module 'gi://Gimp?version=3.0' {
             ALWAYS,
         }
         namespace BatchProcedure {
+            // Signal signatures
+            interface SignalSignatures extends Procedure.SignalSignatures {
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::plug-in': (pspec: GObject.ParamSpec) => void;
+                'notify::procedure-type': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Procedure.ConstructorProps {}
@@ -7307,6 +7331,15 @@ declare module 'gi://Gimp?version=3.0' {
         class BatchProcedure extends Procedure {
             static $gtype: GObject.GType<BatchProcedure>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: BatchProcedure.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<BatchProcedure.ConstructorProps>, ...args: any[]);
@@ -7324,6 +7357,24 @@ declare module 'gi://Gimp?version=3.0' {
             // Conflicted with Gimp.Procedure.new
 
             static ['new'](...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof BatchProcedure.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BatchProcedure.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof BatchProcedure.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BatchProcedure.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof BatchProcedure.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<BatchProcedure.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -7357,6 +7408,11 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace Brush {
+            // Signal signatures
+            interface SignalSignatures extends Resource.SignalSignatures {
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Resource.ConstructorProps, ConfigInterface.ConstructorProps {}
@@ -7368,6 +7424,15 @@ declare module 'gi://Gimp?version=3.0' {
         class Brush extends Resource implements ConfigInterface {
             static $gtype: GObject.GType<Brush>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Brush.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Brush.ConstructorProps>, ...args: any[]);
@@ -7375,6 +7440,24 @@ declare module 'gi://Gimp?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](name: string): Brush;
+
+            // Signals
+
+            connect<K extends keyof Brush.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Brush.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Brush.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Brush.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Brush.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Brush.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -7541,8 +7624,8 @@ declare module 'gi://Gimp?version=3.0' {
             /**
              * Sets the radius of a generated brush.
              *
-             * Sets the radius for a generated brush. Clamps radius to [0.0,
-             * 32767.0]. Returns the clamped value. Returns an error when brush is
+             * Sets the radius for a generated brush. Clamps radius to [0.1,
+             * 4000.0]. Returns the clamped value. Returns an error when brush is
              * non-parametric or not editable.
              * @param radius_in The desired brush radius in pixel.
              * @returns TRUE on success.
@@ -7699,7 +7782,21 @@ declare module 'gi://Gimp?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -7827,7 +7924,12 @@ declare module 'gi://Gimp?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -7977,14 +8079,39 @@ declare module 'gi://Gimp?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Channel {
+            // Signal signatures
+            interface SignalSignatures extends Drawable.SignalSignatures {
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Drawable.ConstructorProps {}
@@ -7995,6 +8122,15 @@ declare module 'gi://Gimp?version=3.0' {
          */
         class Channel extends Drawable {
             static $gtype: GObject.GType<Channel>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Channel.SignalSignatures;
 
             // Constructors
 
@@ -8012,6 +8148,24 @@ declare module 'gi://Gimp?version=3.0' {
             ): Channel;
 
             static new_from_component(image: Image, component: ChannelType, name: string): Channel;
+
+            // Signals
+
+            connect<K extends keyof Channel.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Channel.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Channel.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Channel.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Channel.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Channel.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -8098,10 +8252,9 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace Choice {
-            // Signal callback interfaces
-
-            interface SensitivityChanged {
-                (object: string): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'sensitivity-changed': (arg0: string) => void;
             }
 
             // Constructor properties interface
@@ -8111,6 +8264,15 @@ declare module 'gi://Gimp?version=3.0' {
 
         class Choice extends GObject.Object {
             static $gtype: GObject.GType<Choice>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Choice.SignalSignatures;
 
             // Constructors
 
@@ -8122,12 +8284,21 @@ declare module 'gi://Gimp?version=3.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'sensitivity-changed', callback: (_source: this, object: string) => void): number;
-            connect_after(signal: 'sensitivity-changed', callback: (_source: this, object: string) => void): number;
-            emit(signal: 'sensitivity-changed', object: string): void;
+            connect<K extends keyof Choice.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Choice.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Choice.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Choice.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Choice.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Choice.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -8181,6 +8352,27 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace ColorConfig {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::cmyk-profile': (pspec: GObject.ParamSpec) => void;
+                'notify::display-optimize': (pspec: GObject.ParamSpec) => void;
+                'notify::display-profile': (pspec: GObject.ParamSpec) => void;
+                'notify::display-profile-from-gdk': (pspec: GObject.ParamSpec) => void;
+                'notify::display-rendering-intent': (pspec: GObject.ParamSpec) => void;
+                'notify::display-use-black-point-compensation': (pspec: GObject.ParamSpec) => void;
+                'notify::gray-profile': (pspec: GObject.ParamSpec) => void;
+                'notify::mode': (pspec: GObject.ParamSpec) => void;
+                'notify::out-of-gamut-color': (pspec: GObject.ParamSpec) => void;
+                'notify::rgb-profile': (pspec: GObject.ParamSpec) => void;
+                'notify::show-hsv': (pspec: GObject.ParamSpec) => void;
+                'notify::show-rgb-u8': (pspec: GObject.ParamSpec) => void;
+                'notify::simulation-gamut-check': (pspec: GObject.ParamSpec) => void;
+                'notify::simulation-optimize': (pspec: GObject.ParamSpec) => void;
+                'notify::simulation-profile': (pspec: GObject.ParamSpec) => void;
+                'notify::simulation-rendering-intent': (pspec: GObject.ParamSpec) => void;
+                'notify::simulation-use-black-point-compensation': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, ConfigInterface.ConstructorProps {
@@ -8295,11 +8487,38 @@ declare module 'gi://Gimp?version=3.0' {
             get simulationUseBlackPointCompensation(): boolean;
             set simulationUseBlackPointCompensation(val: boolean);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ColorConfig.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ColorConfig.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ColorConfig.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ColorConfig.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ColorConfig.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ColorConfig.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ColorConfig.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ColorConfig.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -8437,7 +8656,21 @@ declare module 'gi://Gimp?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -8565,7 +8798,12 @@ declare module 'gi://Gimp?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -8715,14 +8953,37 @@ declare module 'gi://Gimp?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace ColorProfile {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -8733,6 +8994,15 @@ declare module 'gi://Gimp?version=3.0' {
          */
         class ColorProfile extends GObject.Object {
             static $gtype: GObject.GType<ColorProfile>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ColorProfile.SignalSignatures;
 
             // Constructors
 
@@ -8757,6 +9027,24 @@ declare module 'gi://Gimp?version=3.0' {
             static new_rgb_srgb(): ColorProfile;
 
             static new_rgb_srgb_linear(): ColorProfile;
+
+            // Signals
+
+            connect<K extends keyof ColorProfile.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ColorProfile.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ColorProfile.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ColorProfile.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ColorProfile.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ColorProfile.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -8860,10 +9148,9 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace ColorTransform {
-            // Signal callback interfaces
-
-            interface Progress {
-                (object: number): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                progress: (arg0: number) => void;
             }
 
             // Constructor properties interface
@@ -8876,6 +9163,15 @@ declare module 'gi://Gimp?version=3.0' {
          */
         class ColorTransform extends GObject.Object {
             static $gtype: GObject.GType<ColorTransform>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ColorTransform.SignalSignatures;
 
             // Constructors
 
@@ -8905,12 +9201,21 @@ declare module 'gi://Gimp?version=3.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'progress', callback: (_source: this, object: number) => void): number;
-            connect_after(signal: 'progress', callback: (_source: this, object: number) => void): number;
-            emit(signal: 'progress', object: number): void;
+            connect<K extends keyof ColorTransform.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ColorTransform.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ColorTransform.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ColorTransform.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ColorTransform.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ColorTransform.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -8963,12 +9268,35 @@ declare module 'gi://Gimp?version=3.0' {
             ): void;
         }
 
+        namespace ConfigPath {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+        }
+
         class ConfigPath {
             static $gtype: GObject.GType<ConfigPath>;
 
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ConfigPath.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ConfigPath.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ConfigPath.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ConfigPath.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ConfigPath.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ConfigPath.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -9016,6 +9344,11 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace Display {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -9033,6 +9366,15 @@ declare module 'gi://Gimp?version=3.0' {
 
             get id(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Display.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Display.ConstructorProps>, ...args: any[]);
@@ -9040,6 +9382,24 @@ declare module 'gi://Gimp?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](image: Image): Display;
+
+            // Signals
+
+            connect<K extends keyof Display.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Display.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Display.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Display.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Display.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Display.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -9125,6 +9485,11 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace Drawable {
+            // Signal signatures
+            interface SignalSignatures extends Item.SignalSignatures {
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Item.ConstructorProps {}
@@ -9136,11 +9501,38 @@ declare module 'gi://Gimp?version=3.0' {
         abstract class Drawable extends Item {
             static $gtype: GObject.GType<Drawable>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Drawable.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Drawable.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Drawable.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Drawable.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Drawable.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Drawable.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Drawable.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Drawable.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -9899,6 +10291,11 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace DrawableFilter {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -9916,6 +10313,15 @@ declare module 'gi://Gimp?version=3.0' {
 
             get id(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: DrawableFilter.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<DrawableFilter.ConstructorProps>, ...args: any[]);
@@ -9923,6 +10329,24 @@ declare module 'gi://Gimp?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](drawable: Drawable, operation_name: string, name?: string | null): DrawableFilter;
+
+            // Signals
+
+            connect<K extends keyof DrawableFilter.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DrawableFilter.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DrawableFilter.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DrawableFilter.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DrawableFilter.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DrawableFilter.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -10060,6 +10484,9 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace DrawableFilterConfig {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -10075,14 +10502,48 @@ declare module 'gi://Gimp?version=3.0' {
         abstract class DrawableFilterConfig extends GObject.Object {
             static $gtype: GObject.GType<DrawableFilterConfig>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: DrawableFilterConfig.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<DrawableFilterConfig.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof DrawableFilterConfig.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DrawableFilterConfig.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DrawableFilterConfig.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DrawableFilterConfig.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DrawableFilterConfig.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DrawableFilterConfig.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace ExportOptions {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::capabilities': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -10112,11 +10573,38 @@ declare module 'gi://Gimp?version=3.0' {
             get capabilities(): ExportCapabilities;
             set capabilities(val: ExportCapabilities);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ExportOptions.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ExportOptions.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ExportOptions.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ExportOptions.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ExportOptions.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ExportOptions.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ExportOptions.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ExportOptions.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -10145,6 +10633,20 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace ExportProcedure {
+            // Signal signatures
+            interface SignalSignatures extends FileProcedure.SignalSignatures {
+                'notify::capabilities': (pspec: GObject.ParamSpec) => void;
+                'notify::supports-comment': (pspec: GObject.ParamSpec) => void;
+                'notify::supports-exif': (pspec: GObject.ParamSpec) => void;
+                'notify::supports-iptc': (pspec: GObject.ParamSpec) => void;
+                'notify::supports-profile': (pspec: GObject.ParamSpec) => void;
+                'notify::supports-thumbnail': (pspec: GObject.ParamSpec) => void;
+                'notify::supports-xmp': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::plug-in': (pspec: GObject.ParamSpec) => void;
+                'notify::procedure-type': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends FileProcedure.ConstructorProps {
@@ -10243,6 +10745,15 @@ declare module 'gi://Gimp?version=3.0' {
             get supportsXmp(): boolean;
             set supportsXmp(val: boolean);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ExportProcedure.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ExportProcedure.ConstructorProps>, ...args: any[]);
@@ -10260,6 +10771,26 @@ declare module 'gi://Gimp?version=3.0' {
             // Conflicted with Gimp.Procedure.new
 
             static ['new'](...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof ExportProcedure.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ExportProcedure.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ExportProcedure.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ExportProcedure.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ExportProcedure.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ExportProcedure.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -10430,6 +10961,13 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace FileProcedure {
+            // Signal signatures
+            interface SignalSignatures extends Procedure.SignalSignatures {
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::plug-in': (pspec: GObject.ParamSpec) => void;
+                'notify::procedure-type': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Procedure.ConstructorProps {}
@@ -10444,11 +10982,38 @@ declare module 'gi://Gimp?version=3.0' {
         abstract class FileProcedure extends Procedure {
             static $gtype: GObject.GType<FileProcedure>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: FileProcedure.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<FileProcedure.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof FileProcedure.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, FileProcedure.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof FileProcedure.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, FileProcedure.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof FileProcedure.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<FileProcedure.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -10569,6 +11134,11 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace Font {
+            // Signal signatures
+            interface SignalSignatures extends Resource.SignalSignatures {
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Resource.ConstructorProps, ConfigInterface.ConstructorProps {}
@@ -10580,11 +11150,38 @@ declare module 'gi://Gimp?version=3.0' {
         class Font extends Resource implements ConfigInterface {
             static $gtype: GObject.GType<Font>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Font.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Font.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Font.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Font.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Font.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Font.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Font.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Font.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -10730,7 +11327,21 @@ declare module 'gi://Gimp?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -10858,7 +11469,12 @@ declare module 'gi://Gimp?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -11008,14 +11624,39 @@ declare module 'gi://Gimp?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Gradient {
+            // Signal signatures
+            interface SignalSignatures extends Resource.SignalSignatures {
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Resource.ConstructorProps, ConfigInterface.ConstructorProps {}
@@ -11027,6 +11668,15 @@ declare module 'gi://Gimp?version=3.0' {
         class Gradient extends Resource implements ConfigInterface {
             static $gtype: GObject.GType<Gradient>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Gradient.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Gradient.ConstructorProps>, ...args: any[]);
@@ -11034,6 +11684,24 @@ declare module 'gi://Gimp?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](name: string): Gradient;
+
+            // Signals
+
+            connect<K extends keyof Gradient.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Gradient.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Gradient.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Gradient.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Gradient.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Gradient.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -11483,7 +12151,21 @@ declare module 'gi://Gimp?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -11611,7 +12293,12 @@ declare module 'gi://Gimp?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -11761,14 +12448,39 @@ declare module 'gi://Gimp?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace GroupLayer {
+            // Signal signatures
+            interface SignalSignatures extends Layer.SignalSignatures {
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Layer.ConstructorProps {}
@@ -11780,6 +12492,15 @@ declare module 'gi://Gimp?version=3.0' {
         class GroupLayer extends Layer {
             static $gtype: GObject.GType<GroupLayer>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: GroupLayer.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<GroupLayer.ConstructorProps>, ...args: any[]);
@@ -11787,6 +12508,24 @@ declare module 'gi://Gimp?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](image: Image, name?: string | null): GroupLayer;
+
+            // Signals
+
+            connect<K extends keyof GroupLayer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GroupLayer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof GroupLayer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GroupLayer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof GroupLayer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<GroupLayer.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -11812,6 +12551,11 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace Image {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -11830,6 +12574,15 @@ declare module 'gi://Gimp?version=3.0' {
 
             get id(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Image.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Image.ConstructorProps>, ...args: any[]);
@@ -11839,6 +12592,24 @@ declare module 'gi://Gimp?version=3.0' {
             static ['new'](width: number, height: number, type: ImageBaseType): Image;
 
             static new_with_precision(width: number, height: number, type: ImageBaseType, precision: Precision): Image;
+
+            // Signals
+
+            connect<K extends keyof Image.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Image.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Image.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Image.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Image.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Image.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -13626,6 +14397,13 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace ImageProcedure {
+            // Signal signatures
+            interface SignalSignatures extends Procedure.SignalSignatures {
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::plug-in': (pspec: GObject.ParamSpec) => void;
+                'notify::procedure-type': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Procedure.ConstructorProps {}
@@ -13650,6 +14428,15 @@ declare module 'gi://Gimp?version=3.0' {
         class ImageProcedure extends Procedure {
             static $gtype: GObject.GType<ImageProcedure>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ImageProcedure.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ImageProcedure.ConstructorProps>, ...args: any[]);
@@ -13666,9 +14453,32 @@ declare module 'gi://Gimp?version=3.0' {
             // Conflicted with Gimp.Procedure.new
 
             static ['new'](...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof ImageProcedure.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ImageProcedure.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ImageProcedure.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ImageProcedure.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ImageProcedure.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ImageProcedure.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace Item {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -13686,11 +14496,38 @@ declare module 'gi://Gimp?version=3.0' {
 
             get id(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Item.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Item.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Item.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Item.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Item.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Item.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Item.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Item.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -14412,6 +15249,11 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace Layer {
+            // Signal signatures
+            interface SignalSignatures extends Drawable.SignalSignatures {
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Drawable.ConstructorProps {}
@@ -14422,6 +15264,15 @@ declare module 'gi://Gimp?version=3.0' {
          */
         class Layer extends Drawable {
             static $gtype: GObject.GType<Layer>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Layer.SignalSignatures;
 
             // Constructors
 
@@ -14460,6 +15311,24 @@ declare module 'gi://Gimp?version=3.0' {
             ): Layer;
 
             static new_from_visible(image: Image, dest_image: Image, name?: string | null): Layer;
+
+            // Signals
+
+            connect<K extends keyof Layer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Layer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Layer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Layer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Layer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Layer.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -14782,6 +15651,11 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace LayerMask {
+            // Signal signatures
+            interface SignalSignatures extends Channel.SignalSignatures {
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Channel.ConstructorProps {}
@@ -14790,11 +15664,38 @@ declare module 'gi://Gimp?version=3.0' {
         class LayerMask extends Channel {
             static $gtype: GObject.GType<LayerMask>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: LayerMask.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<LayerMask.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof LayerMask.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, LayerMask.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof LayerMask.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, LayerMask.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof LayerMask.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<LayerMask.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -14808,6 +15709,13 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace LoadProcedure {
+            // Signal signatures
+            interface SignalSignatures extends FileProcedure.SignalSignatures {
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::plug-in': (pspec: GObject.ParamSpec) => void;
+                'notify::procedure-type': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends FileProcedure.ConstructorProps {}
@@ -14836,6 +15744,15 @@ declare module 'gi://Gimp?version=3.0' {
         class LoadProcedure extends FileProcedure {
             static $gtype: GObject.GType<LoadProcedure>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: LoadProcedure.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<LoadProcedure.ConstructorProps>, ...args: any[]);
@@ -14852,6 +15769,24 @@ declare module 'gi://Gimp?version=3.0' {
             // Conflicted with Gimp.Procedure.new
 
             static ['new'](...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof LoadProcedure.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, LoadProcedure.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof LoadProcedure.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, LoadProcedure.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof LoadProcedure.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<LoadProcedure.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -14889,6 +15824,11 @@ declare module 'gi://Gimp?version=3.0' {
             set_thumbnail_loader(thumbnail_proc: string): void;
         }
 
+        namespace Memsize {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+        }
+
         /**
          * Functions to (de)serialize a given memory size.
          */
@@ -14898,6 +15838,24 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Memsize.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Memsize.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Memsize.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Memsize.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Memsize.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Memsize.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -14918,6 +15876,9 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace Metadata {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -14929,6 +15890,15 @@ declare module 'gi://Gimp?version=3.0' {
         class Metadata extends GObject.Object {
             static $gtype: GObject.GType<Metadata>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Metadata.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Metadata.ConstructorProps>, ...args: any[]);
@@ -14936,6 +15906,24 @@ declare module 'gi://Gimp?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Metadata;
+
+            // Signals
+
+            connect<K extends keyof Metadata.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Metadata.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Metadata.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Metadata.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Metadata.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Metadata.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -15053,6 +16041,12 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace Module {
+            // Signal signatures
+            interface SignalSignatures extends GObject.TypeModule.SignalSignatures {
+                'notify::auto-load': (pspec: GObject.ParamSpec) => void;
+                'notify::on-disk': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -15084,6 +16078,15 @@ declare module 'gi://Gimp?version=3.0' {
             get on_disk(): boolean;
             get onDisk(): boolean;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Module.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Module.ConstructorProps>, ...args: any[]);
@@ -15091,6 +16094,24 @@ declare module 'gi://Gimp?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](file: Gio.File, auto_load: boolean, verbose: boolean): Module;
+
+            // Signals
+
+            connect<K extends keyof Module.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Module.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Module.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Module.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Module.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Module.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -15293,7 +16314,21 @@ declare module 'gi://Gimp?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -15421,7 +16456,12 @@ declare module 'gi://Gimp?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -15571,14 +16611,37 @@ declare module 'gi://Gimp?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace ModuleDB {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps<A extends GObject.Object = GObject.Object>
@@ -15592,6 +16655,15 @@ declare module 'gi://Gimp?version=3.0' {
         class ModuleDB<A extends GObject.Object = GObject.Object> extends GObject.Object implements Gio.ListModel<A> {
             static $gtype: GObject.GType<ModuleDB>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ModuleDB.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ModuleDB.ConstructorProps>, ...args: any[]);
@@ -15599,6 +16671,24 @@ declare module 'gi://Gimp?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](verbose: boolean): ModuleDB;
+
+            // Signals
+
+            connect<K extends keyof ModuleDB.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ModuleDB.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ModuleDB.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ModuleDB.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ModuleDB.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ModuleDB.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -15854,7 +16944,21 @@ declare module 'gi://Gimp?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -15982,7 +17086,12 @@ declare module 'gi://Gimp?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -16132,14 +17241,37 @@ declare module 'gi://Gimp?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace PDB {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -16151,11 +17283,38 @@ declare module 'gi://Gimp?version=3.0' {
         class PDB extends GObject.Object {
             static $gtype: GObject.GType<PDB>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: PDB.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<PDB.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof PDB.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PDB.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof PDB.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PDB.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof PDB.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<PDB.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -16253,6 +17412,11 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace Palette {
+            // Signal signatures
+            interface SignalSignatures extends Resource.SignalSignatures {
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Resource.ConstructorProps, ConfigInterface.ConstructorProps {}
@@ -16264,6 +17428,15 @@ declare module 'gi://Gimp?version=3.0' {
         class Palette extends Resource implements ConfigInterface {
             static $gtype: GObject.GType<Palette>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Palette.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Palette.ConstructorProps>, ...args: any[]);
@@ -16271,6 +17444,24 @@ declare module 'gi://Gimp?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](name: string): Palette;
+
+            // Signals
+
+            connect<K extends keyof Palette.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Palette.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Palette.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Palette.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Palette.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Palette.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -16534,7 +17725,21 @@ declare module 'gi://Gimp?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -16662,7 +17867,12 @@ declare module 'gi://Gimp?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -16812,11 +18022,36 @@ declare module 'gi://Gimp?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
+        }
+
+        namespace ParamBrush {
+            // Signal signatures
+            interface SignalSignatures extends ParamResource.SignalSignatures {}
         }
 
         class ParamBrush extends ParamResource {
@@ -16825,6 +18060,29 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ParamBrush.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamBrush.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ParamBrush.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamBrush.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ParamBrush.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ParamBrush.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace ParamChannel {
+            // Signal signatures
+            interface SignalSignatures extends ParamDrawable.SignalSignatures {}
         }
 
         class ParamChannel extends ParamDrawable {
@@ -16833,6 +18091,29 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ParamChannel.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamChannel.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ParamChannel.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamChannel.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ParamChannel.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ParamChannel.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace ParamColor {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
         }
 
         class ParamColor extends ParamObject {
@@ -16841,6 +18122,29 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ParamColor.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamColor.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ParamColor.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamColor.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ParamColor.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ParamColor.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace ParamDoubleArray {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
         }
 
         class ParamDoubleArray extends ParamArray {
@@ -16849,6 +18153,31 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ParamDoubleArray.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamDoubleArray.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ParamDoubleArray.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamDoubleArray.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ParamDoubleArray.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ParamDoubleArray.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace ParamDrawable {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
         }
 
         class ParamDrawable extends ParamItem {
@@ -16857,6 +18186,29 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ParamDrawable.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamDrawable.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ParamDrawable.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamDrawable.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ParamDrawable.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ParamDrawable.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace ParamFile {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
         }
 
         class ParamFile extends ParamObject {
@@ -16865,6 +18217,29 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ParamFile.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamFile.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ParamFile.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamFile.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ParamFile.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ParamFile.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace ParamFont {
+            // Signal signatures
+            interface SignalSignatures extends ParamResource.SignalSignatures {}
         }
 
         class ParamFont extends ParamResource {
@@ -16873,6 +18248,29 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ParamFont.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamFont.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ParamFont.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamFont.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ParamFont.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ParamFont.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace ParamGradient {
+            // Signal signatures
+            interface SignalSignatures extends ParamResource.SignalSignatures {}
         }
 
         class ParamGradient extends ParamResource {
@@ -16881,6 +18279,29 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ParamGradient.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamGradient.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ParamGradient.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamGradient.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ParamGradient.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ParamGradient.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace ParamGroupLayer {
+            // Signal signatures
+            interface SignalSignatures extends ParamLayer.SignalSignatures {}
         }
 
         class ParamGroupLayer extends ParamLayer {
@@ -16889,6 +18310,31 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ParamGroupLayer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamGroupLayer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ParamGroupLayer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamGroupLayer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ParamGroupLayer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ParamGroupLayer.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace ParamInt32Array {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
         }
 
         class ParamInt32Array extends ParamArray {
@@ -16897,6 +18343,31 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ParamInt32Array.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamInt32Array.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ParamInt32Array.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamInt32Array.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ParamInt32Array.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ParamInt32Array.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace ParamLayer {
+            // Signal signatures
+            interface SignalSignatures extends ParamDrawable.SignalSignatures {}
         }
 
         class ParamLayer extends ParamDrawable {
@@ -16905,6 +18376,29 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ParamLayer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamLayer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ParamLayer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamLayer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ParamLayer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ParamLayer.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace ParamLayerMask {
+            // Signal signatures
+            interface SignalSignatures extends ParamChannel.SignalSignatures {}
         }
 
         class ParamLayerMask extends ParamChannel {
@@ -16913,6 +18407,29 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ParamLayerMask.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamLayerMask.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ParamLayerMask.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamLayerMask.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ParamLayerMask.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ParamLayerMask.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace ParamPalette {
+            // Signal signatures
+            interface SignalSignatures extends ParamResource.SignalSignatures {}
         }
 
         class ParamPalette extends ParamResource {
@@ -16921,6 +18438,29 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ParamPalette.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamPalette.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ParamPalette.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamPalette.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ParamPalette.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ParamPalette.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace ParamPath {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
         }
 
         class ParamPath extends ParamItem {
@@ -16929,6 +18469,29 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ParamPath.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamPath.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ParamPath.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamPath.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ParamPath.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ParamPath.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace ParamPattern {
+            // Signal signatures
+            interface SignalSignatures extends ParamResource.SignalSignatures {}
         }
 
         class ParamPattern extends ParamResource {
@@ -16937,6 +18500,29 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ParamPattern.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamPattern.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ParamPattern.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamPattern.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ParamPattern.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ParamPattern.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace ParamResource {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
         }
 
         class ParamResource extends ParamObject {
@@ -16945,6 +18531,29 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ParamResource.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamResource.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ParamResource.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamResource.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ParamResource.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ParamResource.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace ParamSelection {
+            // Signal signatures
+            interface SignalSignatures extends ParamChannel.SignalSignatures {}
         }
 
         class ParamSelection extends ParamChannel {
@@ -16953,6 +18562,29 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ParamSelection.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamSelection.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ParamSelection.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamSelection.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ParamSelection.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ParamSelection.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace ParamTextLayer {
+            // Signal signatures
+            interface SignalSignatures extends ParamLayer.SignalSignatures {}
         }
 
         class ParamTextLayer extends ParamLayer {
@@ -16961,6 +18593,29 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ParamTextLayer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamTextLayer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ParamTextLayer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamTextLayer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ParamTextLayer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ParamTextLayer.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+        }
+
+        namespace ParamUnit {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
         }
 
         class ParamUnit extends ParamObject {
@@ -16969,9 +18624,32 @@ declare module 'gi://Gimp?version=3.0' {
             // Constructors
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ParamUnit.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamUnit.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ParamUnit.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ParamUnit.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ParamUnit.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ParamUnit.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace Path {
+            // Signal signatures
+            interface SignalSignatures extends Item.SignalSignatures {
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Item.ConstructorProps {}
@@ -16983,6 +18661,15 @@ declare module 'gi://Gimp?version=3.0' {
         class Path extends Item {
             static $gtype: GObject.GType<Path>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Path.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Path.ConstructorProps>, ...args: any[]);
@@ -16992,6 +18679,24 @@ declare module 'gi://Gimp?version=3.0' {
             static ['new'](image: Image, name: string): Path;
 
             static new_from_text_layer(image: Image, layer: Layer): Path;
+
+            // Signals
+
+            connect<K extends keyof Path.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Path.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Path.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Path.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Path.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Path.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -17254,6 +18959,11 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace Pattern {
+            // Signal signatures
+            interface SignalSignatures extends Resource.SignalSignatures {
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Resource.ConstructorProps, ConfigInterface.ConstructorProps {}
@@ -17265,11 +18975,38 @@ declare module 'gi://Gimp?version=3.0' {
         class Pattern extends Resource implements ConfigInterface {
             static $gtype: GObject.GType<Pattern>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Pattern.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Pattern.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Pattern.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Pattern.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Pattern.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Pattern.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Pattern.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Pattern.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -17430,7 +19167,21 @@ declare module 'gi://Gimp?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -17558,7 +19309,12 @@ declare module 'gi://Gimp?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -17708,14 +19464,41 @@ declare module 'gi://Gimp?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace PlugIn {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::program-name': (pspec: GObject.ParamSpec) => void;
+                'notify::read-channel': (pspec: GObject.ParamSpec) => void;
+                'notify::write-channel': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -17811,11 +19594,38 @@ declare module 'gi://Gimp?version=3.0' {
              */
             get writeChannel(): GLib.IOChannel;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: PlugIn.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<PlugIn.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof PlugIn.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PlugIn.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof PlugIn.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PlugIn.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof PlugIn.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<PlugIn.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -18065,6 +19875,13 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace Procedure {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::plug-in': (pspec: GObject.ParamSpec) => void;
+                'notify::procedure-type': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -18096,6 +19913,15 @@ declare module 'gi://Gimp?version=3.0' {
             get procedure_type(): PDBProcType;
             get procedureType(): PDBProcType;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Procedure.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Procedure.ConstructorProps>, ...args: any[]);
@@ -18109,6 +19935,24 @@ declare module 'gi://Gimp?version=3.0' {
                 run_func: RunFunc,
                 run_data_destroy?: GLib.DestroyNotify | null,
             ): Procedure;
+
+            // Signals
+
+            connect<K extends keyof Procedure.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Procedure.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Procedure.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Procedure.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Procedure.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Procedure.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -20023,6 +21867,11 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace ProcedureConfig {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::procedure': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -20050,11 +21899,40 @@ declare module 'gi://Gimp?version=3.0' {
 
             get procedure(): Procedure;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ProcedureConfig.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ProcedureConfig.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ProcedureConfig.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ProcedureConfig.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ProcedureConfig.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ProcedureConfig.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ProcedureConfig.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ProcedureConfig.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -20142,6 +22020,11 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace Resource {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, ConfigInterface.ConstructorProps {
@@ -20159,11 +22042,38 @@ declare module 'gi://Gimp?version=3.0' {
 
             get id(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Resource.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Resource.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Resource.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Resource.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Resource.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Resource.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Resource.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Resource.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -20447,7 +22357,21 @@ declare module 'gi://Gimp?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -20575,7 +22499,12 @@ declare module 'gi://Gimp?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -20725,14 +22654,39 @@ declare module 'gi://Gimp?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Selection {
+            // Signal signatures
+            interface SignalSignatures extends Channel.SignalSignatures {
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Channel.ConstructorProps {}
@@ -20744,11 +22698,38 @@ declare module 'gi://Gimp?version=3.0' {
         class Selection extends Channel {
             static $gtype: GObject.GType<Selection>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Selection.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Selection.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Selection.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Selection.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Selection.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Selection.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Selection.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Selection.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -20913,6 +22894,11 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace TextLayer {
+            // Signal signatures
+            interface SignalSignatures extends Layer.SignalSignatures {
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Layer.ConstructorProps {}
@@ -20924,6 +22910,15 @@ declare module 'gi://Gimp?version=3.0' {
         class TextLayer extends Layer {
             static $gtype: GObject.GType<TextLayer>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: TextLayer.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<TextLayer.ConstructorProps>, ...args: any[]);
@@ -20934,6 +22929,24 @@ declare module 'gi://Gimp?version=3.0' {
             // Conflicted with Gimp.Layer.new
 
             static ['new'](...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof TextLayer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TextLayer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof TextLayer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TextLayer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof TextLayer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<TextLayer.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -21202,6 +23215,13 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace ThumbnailProcedure {
+            // Signal signatures
+            interface SignalSignatures extends Procedure.SignalSignatures {
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::plug-in': (pspec: GObject.ParamSpec) => void;
+                'notify::procedure-type': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Procedure.ConstructorProps {}
@@ -21209,6 +23229,15 @@ declare module 'gi://Gimp?version=3.0' {
 
         class ThumbnailProcedure extends Procedure {
             static $gtype: GObject.GType<ThumbnailProcedure>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ThumbnailProcedure.SignalSignatures;
 
             // Constructors
 
@@ -21226,9 +23255,39 @@ declare module 'gi://Gimp?version=3.0' {
             // Conflicted with Gimp.Procedure.new
 
             static ['new'](...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof ThumbnailProcedure.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ThumbnailProcedure.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ThumbnailProcedure.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ThumbnailProcedure.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ThumbnailProcedure.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ThumbnailProcedure.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace Unit {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::abbreviation': (pspec: GObject.ParamSpec) => void;
+                'notify::digits': (pspec: GObject.ParamSpec) => void;
+                'notify::factor': (pspec: GObject.ParamSpec) => void;
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::symbol': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -21257,6 +23316,15 @@ declare module 'gi://Gimp?version=3.0' {
             get name(): string;
             get symbol(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Unit.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Unit.ConstructorProps>, ...args: any[]);
@@ -21264,6 +23332,24 @@ declare module 'gi://Gimp?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](name: string, factor: number, digits: number, symbol: string, abbreviation: string): Unit;
+
+            // Signals
+
+            connect<K extends keyof Unit.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Unit.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Unit.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Unit.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Unit.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Unit.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -21432,6 +23518,13 @@ declare module 'gi://Gimp?version=3.0' {
         }
 
         namespace VectorLoadProcedure {
+            // Signal signatures
+            interface SignalSignatures extends LoadProcedure.SignalSignatures {
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::plug-in': (pspec: GObject.ParamSpec) => void;
+                'notify::procedure-type': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends LoadProcedure.ConstructorProps {}
@@ -21456,6 +23549,15 @@ declare module 'gi://Gimp?version=3.0' {
         class VectorLoadProcedure extends LoadProcedure {
             static $gtype: GObject.GType<VectorLoadProcedure>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: VectorLoadProcedure.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<VectorLoadProcedure.ConstructorProps>, ...args: any[]);
@@ -21473,6 +23575,26 @@ declare module 'gi://Gimp?version=3.0' {
             // Conflicted with Gimp.LoadProcedure.new
 
             static ['new'](...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof VectorLoadProcedure.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, VectorLoadProcedure.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof VectorLoadProcedure.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, VectorLoadProcedure.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof VectorLoadProcedure.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<VectorLoadProcedure.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 

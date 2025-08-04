@@ -730,6 +730,11 @@ declare module 'gi://Gegl?version=0.4' {
             BAKE_ANIM,
         }
         namespace AudioFragment {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::string': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -744,6 +749,15 @@ declare module 'gi://Gegl?version=0.4' {
 
             get string(): string;
             set string(val: string);
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AudioFragment.SignalSignatures;
 
             // Fields
 
@@ -762,6 +776,24 @@ declare module 'gi://Gegl?version=0.4' {
                 max_samples: number,
             ): AudioFragment;
 
+            // Signals
+
+            connect<K extends keyof AudioFragment.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AudioFragment.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AudioFragment.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AudioFragment.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AudioFragment.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AudioFragment.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+
             // Methods
 
             get_channel_layout(): number;
@@ -779,10 +811,28 @@ declare module 'gi://Gegl?version=0.4' {
         }
 
         namespace Buffer {
-            // Signal callback interfaces
-
-            interface Changed {
-                (object: Rectangle): void;
+            // Signal signatures
+            interface SignalSignatures extends TileHandler.SignalSignatures {
+                changed: (arg0: Rectangle) => void;
+                'notify::abyss-height': (pspec: GObject.ParamSpec) => void;
+                'notify::abyss-width': (pspec: GObject.ParamSpec) => void;
+                'notify::abyss-x': (pspec: GObject.ParamSpec) => void;
+                'notify::abyss-y': (pspec: GObject.ParamSpec) => void;
+                'notify::backend': (pspec: GObject.ParamSpec) => void;
+                'notify::format': (pspec: GObject.ParamSpec) => void;
+                'notify::height': (pspec: GObject.ParamSpec) => void;
+                'notify::initialized': (pspec: GObject.ParamSpec) => void;
+                'notify::path': (pspec: GObject.ParamSpec) => void;
+                'notify::pixels': (pspec: GObject.ParamSpec) => void;
+                'notify::px-size': (pspec: GObject.ParamSpec) => void;
+                'notify::shift-x': (pspec: GObject.ParamSpec) => void;
+                'notify::shift-y': (pspec: GObject.ParamSpec) => void;
+                'notify::tile-height': (pspec: GObject.ParamSpec) => void;
+                'notify::tile-width': (pspec: GObject.ParamSpec) => void;
+                'notify::width': (pspec: GObject.ParamSpec) => void;
+                'notify::x': (pspec: GObject.ParamSpec) => void;
+                'notify::y': (pspec: GObject.ParamSpec) => void;
+                'notify::source': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -856,6 +906,15 @@ declare module 'gi://Gegl?version=0.4' {
             get y(): number;
             set y(val: number);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Buffer.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Buffer.ConstructorProps>, ...args: any[]);
@@ -868,12 +927,21 @@ declare module 'gi://Gegl?version=0.4' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'changed', callback: (_source: this, object: Rectangle) => void): number;
-            connect_after(signal: 'changed', callback: (_source: this, object: Rectangle) => void): number;
-            emit(signal: 'changed', object: Rectangle): void;
+            connect<K extends keyof Buffer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Buffer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Buffer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Buffer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Buffer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Buffer.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -1097,6 +1165,11 @@ declare module 'gi://Gegl?version=0.4' {
         }
 
         namespace Color {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::string': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -1112,6 +1185,15 @@ declare module 'gi://Gegl?version=0.4' {
             get string(): string;
             set string(val: string);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Color.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Color.ConstructorProps>, ...args: any[]);
@@ -1119,6 +1201,24 @@ declare module 'gi://Gegl?version=0.4' {
             _init(...args: any[]): void;
 
             static ['new'](string: string): Color;
+
+            // Signals
+
+            connect<K extends keyof Color.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Color.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Color.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Color.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Color.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Color.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1244,6 +1344,22 @@ declare module 'gi://Gegl?version=0.4' {
         }
 
         namespace Config {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::application-license': (pspec: GObject.ParamSpec) => void;
+                'notify::chunk-size': (pspec: GObject.ParamSpec) => void;
+                'notify::mipmap-rendering': (pspec: GObject.ParamSpec) => void;
+                'notify::quality': (pspec: GObject.ParamSpec) => void;
+                'notify::queue-size': (pspec: GObject.ParamSpec) => void;
+                'notify::swap': (pspec: GObject.ParamSpec) => void;
+                'notify::swap-compression': (pspec: GObject.ParamSpec) => void;
+                'notify::threads': (pspec: GObject.ParamSpec) => void;
+                'notify::tile-cache-size': (pspec: GObject.ParamSpec) => void;
+                'notify::tile-height': (pspec: GObject.ParamSpec) => void;
+                'notify::tile-width': (pspec: GObject.ParamSpec) => void;
+                'notify::use-opencl': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -1319,14 +1435,44 @@ declare module 'gi://Gegl?version=0.4' {
             get useOpencl(): boolean;
             set useOpencl(val: boolean);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Config.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Config.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Config.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Config.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Config.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Config.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Config.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Config.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace Curve {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -1334,6 +1480,15 @@ declare module 'gi://Gegl?version=0.4' {
 
         class Curve extends GObject.Object {
             static $gtype: GObject.GType<Curve>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Curve.SignalSignatures;
 
             // Constructors
 
@@ -1344,6 +1499,24 @@ declare module 'gi://Gegl?version=0.4' {
             static ['new'](y_min: number, y_max: number): Curve;
 
             static new_default(): Curve;
+
+            // Signals
+
+            connect<K extends keyof Curve.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Curve.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Curve.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Curve.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Curve.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Curve.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1392,6 +1565,24 @@ declare module 'gi://Gegl?version=0.4' {
         }
 
         namespace MetadataHash {
+            // Signal signatures
+            interface SignalSignatures extends MetadataStore.SignalSignatures {
+                'notify::artist': (pspec: GObject.ParamSpec) => void;
+                'notify::comment': (pspec: GObject.ParamSpec) => void;
+                'notify::copyright': (pspec: GObject.ParamSpec) => void;
+                'notify::description': (pspec: GObject.ParamSpec) => void;
+                'notify::disclaimer': (pspec: GObject.ParamSpec) => void;
+                'notify::file-module-name': (pspec: GObject.ParamSpec) => void;
+                'notify::resolution-unit': (pspec: GObject.ParamSpec) => void;
+                'notify::resolution-x': (pspec: GObject.ParamSpec) => void;
+                'notify::resolution-y': (pspec: GObject.ParamSpec) => void;
+                'notify::software': (pspec: GObject.ParamSpec) => void;
+                'notify::source': (pspec: GObject.ParamSpec) => void;
+                'notify::timestamp': (pspec: GObject.ParamSpec) => void;
+                'notify::title': (pspec: GObject.ParamSpec) => void;
+                'notify::warning': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends MetadataStore.ConstructorProps, Metadata.ConstructorProps {}
@@ -1400,6 +1591,15 @@ declare module 'gi://Gegl?version=0.4' {
         class MetadataHash extends MetadataStore implements Metadata {
             static $gtype: GObject.GType<MetadataHash>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: MetadataHash.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<MetadataHash.ConstructorProps>, ...args: any[]);
@@ -1407,6 +1607,24 @@ declare module 'gi://Gegl?version=0.4' {
             _init(...args: any[]): void;
 
             static ['new'](): MetadataHash;
+
+            // Signals
+
+            connect<K extends keyof MetadataHash.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MetadataHash.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof MetadataHash.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MetadataHash.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof MetadataHash.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<MetadataHash.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited methods
             /**
@@ -1664,7 +1882,21 @@ declare module 'gi://Gegl?version=0.4' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -1794,7 +2026,12 @@ declare module 'gi://Gegl?version=0.4' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -1944,34 +2181,97 @@ declare module 'gi://Gegl?version=0.4' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace MetadataStore {
-            // Signal callback interfaces
-
-            interface Changed {
-                (pspec: GObject.ParamSpec): void;
-            }
-
-            interface GenerateValue {
-                (pspec: GObject.ParamSpec, value: GObject.Value | any): boolean;
-            }
-
-            interface Mapped {
-                (file_module: string, exclude_unmapped: boolean): void;
-            }
-
-            interface ParseValue {
-                (pspec: GObject.ParamSpec, value: GObject.Value | any): boolean;
-            }
-
-            interface Unmapped {
-                (file_module: string, local_name: string): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                changed: (arg0: GObject.ParamSpec) => void;
+                'generate-value': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                mapped: (arg0: string, arg1: boolean) => void;
+                'parse-value': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                unmapped: (arg0: string, arg1: string) => void;
+                'notify::artist': (pspec: GObject.ParamSpec) => void;
+                'notify::comment': (pspec: GObject.ParamSpec) => void;
+                'notify::copyright': (pspec: GObject.ParamSpec) => void;
+                'notify::description': (pspec: GObject.ParamSpec) => void;
+                'notify::disclaimer': (pspec: GObject.ParamSpec) => void;
+                'notify::file-module-name': (pspec: GObject.ParamSpec) => void;
+                'notify::resolution-unit': (pspec: GObject.ParamSpec) => void;
+                'notify::resolution-x': (pspec: GObject.ParamSpec) => void;
+                'notify::resolution-y': (pspec: GObject.ParamSpec) => void;
+                'notify::software': (pspec: GObject.ParamSpec) => void;
+                'notify::source': (pspec: GObject.ParamSpec) => void;
+                'notify::timestamp': (pspec: GObject.ParamSpec) => void;
+                'notify::title': (pspec: GObject.ParamSpec) => void;
+                'notify::warning': (pspec: GObject.ParamSpec) => void;
+                'changed::artist': (arg0: GObject.ParamSpec) => void;
+                'changed::comment': (arg0: GObject.ParamSpec) => void;
+                'changed::copyright': (arg0: GObject.ParamSpec) => void;
+                'changed::description': (arg0: GObject.ParamSpec) => void;
+                'changed::disclaimer': (arg0: GObject.ParamSpec) => void;
+                'changed::file-module-name': (arg0: GObject.ParamSpec) => void;
+                'changed::resolution-unit': (arg0: GObject.ParamSpec) => void;
+                'changed::resolution-x': (arg0: GObject.ParamSpec) => void;
+                'changed::resolution-y': (arg0: GObject.ParamSpec) => void;
+                'changed::software': (arg0: GObject.ParamSpec) => void;
+                'changed::source': (arg0: GObject.ParamSpec) => void;
+                'changed::timestamp': (arg0: GObject.ParamSpec) => void;
+                'changed::title': (arg0: GObject.ParamSpec) => void;
+                'changed::warning': (arg0: GObject.ParamSpec) => void;
+                'generate-value::artist': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'generate-value::comment': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'generate-value::copyright': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'generate-value::description': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'generate-value::disclaimer': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'generate-value::file-module-name': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'generate-value::resolution-unit': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'generate-value::resolution-x': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'generate-value::resolution-y': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'generate-value::software': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'generate-value::source': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'generate-value::timestamp': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'generate-value::title': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'generate-value::warning': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'parse-value::artist': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'parse-value::comment': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'parse-value::copyright': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'parse-value::description': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'parse-value::disclaimer': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'parse-value::file-module-name': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'parse-value::resolution-unit': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'parse-value::resolution-x': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'parse-value::resolution-y': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'parse-value::software': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'parse-value::source': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'parse-value::timestamp': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'parse-value::title': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
+                'parse-value::warning': (arg0: GObject.ParamSpec, arg1: GObject.Value) => boolean | void;
             }
 
             // Constructor properties interface
@@ -2096,6 +2396,15 @@ declare module 'gi://Gegl?version=0.4' {
             get warning(): string;
             set warning(val: string);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: MetadataStore.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<MetadataStore.ConstructorProps>, ...args: any[]);
@@ -2104,48 +2413,21 @@ declare module 'gi://Gegl?version=0.4' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'changed', callback: (_source: this, pspec: GObject.ParamSpec) => void): number;
-            connect_after(signal: 'changed', callback: (_source: this, pspec: GObject.ParamSpec) => void): number;
-            emit(signal: 'changed', pspec: GObject.ParamSpec): void;
-            connect(
-                signal: 'generate-value',
-                callback: (_source: this, pspec: GObject.ParamSpec, value: GObject.Value) => boolean,
+            connect<K extends keyof MetadataStore.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MetadataStore.SignalSignatures[K]>,
             ): number;
-            connect_after(
-                signal: 'generate-value',
-                callback: (_source: this, pspec: GObject.ParamSpec, value: GObject.Value) => boolean,
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof MetadataStore.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MetadataStore.SignalSignatures[K]>,
             ): number;
-            emit(signal: 'generate-value', pspec: GObject.ParamSpec, value: GObject.Value | any): void;
-            connect(
-                signal: 'mapped',
-                callback: (_source: this, file_module: string, exclude_unmapped: boolean) => void,
-            ): number;
-            connect_after(
-                signal: 'mapped',
-                callback: (_source: this, file_module: string, exclude_unmapped: boolean) => void,
-            ): number;
-            emit(signal: 'mapped', file_module: string, exclude_unmapped: boolean): void;
-            connect(
-                signal: 'parse-value',
-                callback: (_source: this, pspec: GObject.ParamSpec, value: GObject.Value) => boolean,
-            ): number;
-            connect_after(
-                signal: 'parse-value',
-                callback: (_source: this, pspec: GObject.ParamSpec, value: GObject.Value) => boolean,
-            ): number;
-            emit(signal: 'parse-value', pspec: GObject.ParamSpec, value: GObject.Value | any): void;
-            connect(
-                signal: 'unmapped',
-                callback: (_source: this, file_module: string, local_name: string) => void,
-            ): number;
-            connect_after(
-                signal: 'unmapped',
-                callback: (_source: this, file_module: string, local_name: string) => void,
-            ): number;
-            emit(signal: 'unmapped', file_module: string, local_name: string): void;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof MetadataStore.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<MetadataStore.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -2655,7 +2937,21 @@ declare module 'gi://Gegl?version=0.4' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -2769,7 +3065,12 @@ declare module 'gi://Gegl?version=0.4' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -2919,26 +3220,46 @@ declare module 'gi://Gegl?version=0.4' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Node {
-            // Signal callback interfaces
-
-            interface Computed {
-                (object: Rectangle): void;
-            }
-
-            interface Invalidated {
-                (object: Rectangle): void;
-            }
-
-            interface Progress {
-                (object: number): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                computed: (arg0: Rectangle) => void;
+                invalidated: (arg0: Rectangle) => void;
+                progress: (arg0: number) => void;
+                'notify::cache-policy': (pspec: GObject.ParamSpec) => void;
+                'notify::dont-cache': (pspec: GObject.ParamSpec) => void;
+                'notify::gegl-operation': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::operation': (pspec: GObject.ParamSpec) => void;
+                'notify::passthrough': (pspec: GObject.ParamSpec) => void;
+                'notify::use-opencl': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -2986,6 +3307,15 @@ declare module 'gi://Gegl?version=0.4' {
             get useOpencl(): boolean;
             set useOpencl(val: boolean);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Node.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Node.ConstructorProps>, ...args: any[]);
@@ -3002,14 +3332,21 @@ declare module 'gi://Gegl?version=0.4' {
 
             // Signals
 
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect_after(signal: 'computed', callback: (_source: this, object: Rectangle) => void): number;
-            emit(signal: 'computed', object: Rectangle): void;
-            connect_after(signal: 'invalidated', callback: (_source: this, object: Rectangle) => void): number;
-            emit(signal: 'invalidated', object: Rectangle): void;
-            connect_after(signal: 'progress', callback: (_source: this, object: number) => void): number;
-            emit(signal: 'progress', object: number): void;
+            connect<K extends keyof Node.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Node.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Node.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Node.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Node.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Node.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -3213,8 +3550,6 @@ declare module 'gi://Gegl?version=0.4' {
              * @param value a GValue containing the value to be set in the property.
              */
             set_property(property_name: string, value: GObject.Value | any): void;
-            // Conflicted with GObject.Object.set_property
-            set_property(...args: never[]): any;
             /**
              * Sets the right value in animated properties of this node and all its
              * dependendcies to be the specified time position.
@@ -3243,6 +3578,9 @@ declare module 'gi://Gegl?version=0.4' {
         }
 
         namespace Operation {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -3251,11 +3589,38 @@ declare module 'gi://Gegl?version=0.4' {
         class Operation extends GObject.Object {
             static $gtype: GObject.GType<Operation>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Operation.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Operation.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Operation.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Operation.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Operation.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Operation.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Operation.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Operation.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -3273,10 +3638,9 @@ declare module 'gi://Gegl?version=0.4' {
         }
 
         namespace Path {
-            // Signal callback interfaces
-
-            interface Changed {
-                (object?: any | null): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                changed: (arg0: any | null) => void;
             }
 
             // Constructor properties interface
@@ -3286,6 +3650,15 @@ declare module 'gi://Gegl?version=0.4' {
 
         class Path extends GObject.Object {
             static $gtype: GObject.GType<Path>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Path.SignalSignatures;
 
             // Constructors
 
@@ -3299,12 +3672,21 @@ declare module 'gi://Gegl?version=0.4' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'changed', callback: (_source: this, object: any | null) => void): number;
-            connect_after(signal: 'changed', callback: (_source: this, object: any | null) => void): number;
-            emit(signal: 'changed', object?: any | null): void;
+            connect<K extends keyof Path.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Path.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Path.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Path.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Path.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Path.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -3442,6 +3824,14 @@ declare module 'gi://Gegl?version=0.4' {
         }
 
         namespace Processor {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::chunksize': (pspec: GObject.ParamSpec) => void;
+                'notify::node': (pspec: GObject.ParamSpec) => void;
+                'notify::progress': (pspec: GObject.ParamSpec) => void;
+                'notify::rectangle': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -3464,11 +3854,38 @@ declare module 'gi://Gegl?version=0.4' {
             get rectangle(): any;
             set rectangle(val: any);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Processor.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Processor.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Processor.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Processor.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Processor.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Processor.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Processor.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Processor.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -3503,6 +3920,31 @@ declare module 'gi://Gegl?version=0.4' {
         }
 
         namespace Stats {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::active-threads': (pspec: GObject.ParamSpec) => void;
+                'notify::assigned-threads': (pspec: GObject.ParamSpec) => void;
+                'notify::scratch-total': (pspec: GObject.ParamSpec) => void;
+                'notify::swap-busy': (pspec: GObject.ParamSpec) => void;
+                'notify::swap-file-size': (pspec: GObject.ParamSpec) => void;
+                'notify::swap-queue-full': (pspec: GObject.ParamSpec) => void;
+                'notify::swap-queue-stalls': (pspec: GObject.ParamSpec) => void;
+                'notify::swap-queued-total': (pspec: GObject.ParamSpec) => void;
+                'notify::swap-read-total': (pspec: GObject.ParamSpec) => void;
+                'notify::swap-reading': (pspec: GObject.ParamSpec) => void;
+                'notify::swap-total': (pspec: GObject.ParamSpec) => void;
+                'notify::swap-total-uncompressed': (pspec: GObject.ParamSpec) => void;
+                'notify::swap-write-total': (pspec: GObject.ParamSpec) => void;
+                'notify::swap-writing': (pspec: GObject.ParamSpec) => void;
+                'notify::tile-alloc-total': (pspec: GObject.ParamSpec) => void;
+                'notify::tile-cache-hits': (pspec: GObject.ParamSpec) => void;
+                'notify::tile-cache-misses': (pspec: GObject.ParamSpec) => void;
+                'notify::tile-cache-total': (pspec: GObject.ParamSpec) => void;
+                'notify::tile-cache-total-max': (pspec: GObject.ParamSpec) => void;
+                'notify::tile-cache-total-uncompressed': (pspec: GObject.ParamSpec) => void;
+                'notify::zoom-total': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -3599,14 +4041,51 @@ declare module 'gi://Gegl?version=0.4' {
             get zoom_total(): number;
             get zoomTotal(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Stats.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Stats.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Stats.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Stats.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Stats.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Stats.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Stats.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Stats.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace TileBackend {
+            // Signal signatures
+            interface SignalSignatures extends TileSource.SignalSignatures {
+                'notify::flush-on-destroy': (pspec: GObject.ParamSpec) => void;
+                'notify::format': (pspec: GObject.ParamSpec) => void;
+                'notify::px-size': (pspec: GObject.ParamSpec) => void;
+                'notify::tile-height': (pspec: GObject.ParamSpec) => void;
+                'notify::tile-size': (pspec: GObject.ParamSpec) => void;
+                'notify::tile-width': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends TileSource.ConstructorProps {
@@ -3643,11 +4122,38 @@ declare module 'gi://Gegl?version=0.4' {
             get tile_width(): number;
             get tileWidth(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: TileBackend.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<TileBackend.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof TileBackend.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TileBackend.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof TileBackend.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TileBackend.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof TileBackend.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<TileBackend.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -3688,6 +4194,11 @@ declare module 'gi://Gegl?version=0.4' {
         }
 
         namespace TileHandler {
+            // Signal signatures
+            interface SignalSignatures extends TileSource.SignalSignatures {
+                'notify::source': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends TileSource.ConstructorProps {
@@ -3703,11 +4214,38 @@ declare module 'gi://Gegl?version=0.4' {
             get source(): GObject.Object;
             set source(val: GObject.Object);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: TileHandler.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<TileHandler.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof TileHandler.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TileHandler.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof TileHandler.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TileHandler.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof TileHandler.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<TileHandler.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -3719,6 +4257,9 @@ declare module 'gi://Gegl?version=0.4' {
         }
 
         namespace TileSource {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -3726,6 +4267,15 @@ declare module 'gi://Gegl?version=0.4' {
 
         class TileSource extends GObject.Object {
             static $gtype: GObject.GType<TileSource>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: TileSource.SignalSignatures;
 
             // Fields
 
@@ -3737,6 +4287,24 @@ declare module 'gi://Gegl?version=0.4' {
             constructor(properties?: Partial<TileSource.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof TileSource.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TileSource.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof TileSource.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TileSource.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof TileSource.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<TileSource.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         type AudioFragmentClass = typeof AudioFragment;

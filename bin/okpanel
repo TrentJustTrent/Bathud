@@ -54,7 +54,7 @@ run_run_command() {
 	trap cleanup SIGINT SIGTERM
 
 	echo "Starting ags..."
-	ags run --gtk4 -d $dir -a $dir
+	ags run -g 4 -d $dir $dir
 }
 
 cleanup() {

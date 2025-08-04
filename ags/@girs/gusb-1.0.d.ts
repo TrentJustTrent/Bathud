@@ -264,6 +264,9 @@ declare module 'gi://GUsb?version=1.0' {
             BIND_KERNEL_DRIVER,
         }
         namespace BosDescriptor {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -272,11 +275,38 @@ declare module 'gi://GUsb?version=1.0' {
         class BosDescriptor extends GObject.Object {
             static $gtype: GObject.GType<BosDescriptor>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: BosDescriptor.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<BosDescriptor.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof BosDescriptor.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BosDescriptor.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof BosDescriptor.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BosDescriptor.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof BosDescriptor.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<BosDescriptor.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -293,18 +323,13 @@ declare module 'gi://GUsb?version=1.0' {
         }
 
         namespace Context {
-            // Signal callback interfaces
-
-            interface DeviceAdded {
-                (device: Device): void;
-            }
-
-            interface DeviceChanged {
-                (device: Device): void;
-            }
-
-            interface DeviceRemoved {
-                (device: Device): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'device-added': (arg0: Device) => void;
+                'device-changed': (arg0: Device) => void;
+                'device-removed': (arg0: Device) => void;
+                'notify::debug-level': (pspec: GObject.ParamSpec) => void;
+                'notify::libusb-context': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -329,6 +354,15 @@ declare module 'gi://GUsb?version=1.0' {
             get libusb_context(): any;
             get libusbContext(): any;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Context.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Context.ConstructorProps>, ...args: any[]);
@@ -339,18 +373,21 @@ declare module 'gi://GUsb?version=1.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'device-added', callback: (_source: this, device: Device) => void): number;
-            connect_after(signal: 'device-added', callback: (_source: this, device: Device) => void): number;
-            emit(signal: 'device-added', device: Device): void;
-            connect(signal: 'device-changed', callback: (_source: this, device: Device) => void): number;
-            connect_after(signal: 'device-changed', callback: (_source: this, device: Device) => void): number;
-            emit(signal: 'device-changed', device: Device): void;
-            connect(signal: 'device-removed', callback: (_source: this, device: Device) => void): number;
-            connect_after(signal: 'device-removed', callback: (_source: this, device: Device) => void): number;
-            emit(signal: 'device-removed', device: Device): void;
+            connect<K extends keyof Context.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Context.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Context.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Context.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Context.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Context.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -681,7 +718,21 @@ declare module 'gi://GUsb?version=1.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -809,7 +860,12 @@ declare module 'gi://GUsb?version=1.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -959,14 +1015,41 @@ declare module 'gi://GUsb?version=1.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Device {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::context': (pspec: GObject.ParamSpec) => void;
+                'notify::libusb-device': (pspec: GObject.ParamSpec) => void;
+                'notify::platform-id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, Gio.Initable.ConstructorProps {
@@ -989,11 +1072,38 @@ declare module 'gi://GUsb?version=1.0' {
             set platform_id(val: string);
             set platformId(val: string);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Device.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Device.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Device.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Device.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Device.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Device.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Device.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Device.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -1741,7 +1851,21 @@ declare module 'gi://GUsb?version=1.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -1869,7 +1993,12 @@ declare module 'gi://GUsb?version=1.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -2019,14 +2148,37 @@ declare module 'gi://GUsb?version=1.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace DeviceEvent {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -2035,11 +2187,38 @@ declare module 'gi://GUsb?version=1.0' {
         class DeviceEvent extends GObject.Object {
             static $gtype: GObject.GType<DeviceEvent>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: DeviceEvent.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<DeviceEvent.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof DeviceEvent.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DeviceEvent.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DeviceEvent.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DeviceEvent.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DeviceEvent.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DeviceEvent.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2071,14 +2250,11 @@ declare module 'gi://GUsb?version=1.0' {
         }
 
         namespace DeviceList {
-            // Signal callback interfaces
-
-            interface DeviceAdded {
-                (device: Device): void;
-            }
-
-            interface DeviceRemoved {
-                (device: Device): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'device-added': (arg0: Device) => void;
+                'device-removed': (arg0: Device) => void;
+                'notify::context': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -2095,6 +2271,15 @@ declare module 'gi://GUsb?version=1.0' {
 
             get context(): Context;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: DeviceList.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<DeviceList.ConstructorProps>, ...args: any[]);
@@ -2105,15 +2290,21 @@ declare module 'gi://GUsb?version=1.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'device-added', callback: (_source: this, device: Device) => void): number;
-            connect_after(signal: 'device-added', callback: (_source: this, device: Device) => void): number;
-            emit(signal: 'device-added', device: Device): void;
-            connect(signal: 'device-removed', callback: (_source: this, device: Device) => void): number;
-            connect_after(signal: 'device-removed', callback: (_source: this, device: Device) => void): number;
-            emit(signal: 'device-removed', device: Device): void;
+            connect<K extends keyof DeviceList.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DeviceList.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DeviceList.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DeviceList.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DeviceList.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DeviceList.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -2144,6 +2335,9 @@ declare module 'gi://GUsb?version=1.0' {
         }
 
         namespace Endpoint {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -2152,11 +2346,38 @@ declare module 'gi://GUsb?version=1.0' {
         class Endpoint extends GObject.Object {
             static $gtype: GObject.GType<Endpoint>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Endpoint.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Endpoint.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Endpoint.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Endpoint.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Endpoint.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Endpoint.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Endpoint.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Endpoint.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2208,6 +2429,9 @@ declare module 'gi://GUsb?version=1.0' {
         }
 
         namespace Interface {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -2216,11 +2440,38 @@ declare module 'gi://GUsb?version=1.0' {
         class Interface extends GObject.Object {
             static $gtype: GObject.GType<Interface>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Interface.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Interface.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Interface.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Interface.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Interface.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Interface.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Interface.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Interface.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 

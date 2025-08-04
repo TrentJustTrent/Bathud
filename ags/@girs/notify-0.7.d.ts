@@ -170,10 +170,16 @@ declare module 'gi://Notify?version=0.7' {
             (notification: Notification, action: string): void;
         }
         namespace Notification {
-            // Signal callback interfaces
-
-            interface Closed {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                closed: () => void;
+                'notify::app-icon': (pspec: GObject.ParamSpec) => void;
+                'notify::app-name': (pspec: GObject.ParamSpec) => void;
+                'notify::body': (pspec: GObject.ParamSpec) => void;
+                'notify::closed-reason': (pspec: GObject.ParamSpec) => void;
+                'notify::icon-name': (pspec: GObject.ParamSpec) => void;
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+                'notify::summary': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -266,6 +272,15 @@ declare module 'gi://Notify?version=0.7' {
             get summary(): string;
             set summary(val: string);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Notification.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Notification.ConstructorProps>, ...args: any[]);
@@ -276,12 +291,21 @@ declare module 'gi://Notify?version=0.7' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'closed', callback: (_source: this) => void): number;
-            connect_after(signal: 'closed', callback: (_source: this) => void): number;
-            emit(signal: 'closed'): void;
+            connect<K extends keyof Notification.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Notification.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Notification.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Notification.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Notification.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Notification.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 

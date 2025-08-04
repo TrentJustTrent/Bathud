@@ -1,4 +1,5 @@
 /// <reference path="./cairo-1.0.d.ts" />
+/// <reference path="./cairo.d.ts" />
 /// <reference path="./gobject-2.0.d.ts" />
 /// <reference path="./glib-2.0.d.ts" />
 /// <reference path="./gio-2.0.d.ts" />
@@ -15,7 +16,7 @@
 
 declare module 'gi://Poppler?version=0.18' {
     // Module dependencies
-    import type cairo from 'gi://cairo?version=1.0';
+    import type cairo from 'cairo';
     import type GObject from 'gi://GObject?version=2.0';
     import type GLib from 'gi://GLib?version=2.0';
     import type Gio from 'gi://Gio?version=2.0';
@@ -1677,6 +1678,9 @@ declare module 'gi://Poppler?version=0.18' {
             DIRECTION_RTL,
         }
         namespace Annot {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -1685,11 +1689,38 @@ declare module 'gi://Poppler?version=0.18' {
         class Annot extends GObject.Object {
             static $gtype: GObject.GType<Annot>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Annot.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Annot.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Annot.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Annot.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Annot.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Annot.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Annot.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Annot.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1777,13 +1808,30 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace AnnotCircle {
+            // Signal signatures
+            interface SignalSignatures extends AnnotMarkup.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends AnnotMarkup.ConstructorProps {}
         }
 
+        /**
+         * An annotation for circle.
+         *
+         * Since 25.06 this type supports g_autoptr
+         */
         class AnnotCircle extends AnnotMarkup {
             static $gtype: GObject.GType<AnnotCircle>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AnnotCircle.SignalSignatures;
 
             // Constructors
 
@@ -1792,6 +1840,24 @@ declare module 'gi://Poppler?version=0.18' {
             _init(...args: any[]): void;
 
             static ['new'](doc: Document, rect: Rectangle): AnnotCircle;
+
+            // Signals
+
+            connect<K extends keyof AnnotCircle.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotCircle.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AnnotCircle.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotCircle.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AnnotCircle.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AnnotCircle.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1808,19 +1874,56 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace AnnotFileAttachment {
+            // Signal signatures
+            interface SignalSignatures extends AnnotMarkup.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends AnnotMarkup.ConstructorProps {}
         }
 
+        /**
+         * An annotation for file attachment.
+         *
+         * Since 25.06 this type supports g_autoptr
+         */
         class AnnotFileAttachment extends AnnotMarkup {
             static $gtype: GObject.GType<AnnotFileAttachment>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AnnotFileAttachment.SignalSignatures;
 
             // Constructors
 
             constructor(properties?: Partial<AnnotFileAttachment.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof AnnotFileAttachment.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotFileAttachment.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AnnotFileAttachment.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotFileAttachment.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AnnotFileAttachment.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AnnotFileAttachment.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1838,13 +1941,30 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace AnnotFreeText {
+            // Signal signatures
+            interface SignalSignatures extends AnnotMarkup.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends AnnotMarkup.ConstructorProps {}
         }
 
+        /**
+         * An annotation for free text.
+         *
+         * Since 25.06 this type supports g_autoptr
+         */
         class AnnotFreeText extends AnnotMarkup {
             static $gtype: GObject.GType<AnnotFreeText>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AnnotFreeText.SignalSignatures;
 
             // Constructors
 
@@ -1853,6 +1973,24 @@ declare module 'gi://Poppler?version=0.18' {
             _init(...args: any[]): void;
 
             static ['new'](doc: Document, rect: Rectangle): AnnotFreeText;
+
+            // Signals
+
+            connect<K extends keyof AnnotFreeText.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotFreeText.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AnnotFreeText.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotFreeText.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AnnotFreeText.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AnnotFreeText.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1889,14 +2027,99 @@ declare module 'gi://Poppler?version=0.18' {
             set_font_desc(font_desc: FontDescription): void;
         }
 
-        namespace AnnotLine {
+        namespace AnnotInk {
+            // Signal signatures
+            interface SignalSignatures extends AnnotMarkup.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends AnnotMarkup.ConstructorProps {}
         }
 
+        class AnnotInk extends AnnotMarkup {
+            static $gtype: GObject.GType<AnnotInk>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AnnotInk.SignalSignatures;
+
+            // Constructors
+
+            constructor(properties?: Partial<AnnotInk.ConstructorProps>, ...args: any[]);
+
+            _init(...args: any[]): void;
+
+            static ['new'](doc: Document, rect: Rectangle): AnnotInk;
+
+            // Signals
+
+            connect<K extends keyof AnnotInk.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotInk.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AnnotInk.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotInk.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AnnotInk.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AnnotInk.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+
+            // Methods
+
+            /**
+             * Each element of the return value is a path.
+             * @returns a GSList of PopplerPath
+             */
+            get_ink_list(): Path[];
+            /**
+             * Each element of `ink_list` is a path. The annotation must have
+             * already been added to a page, otherwise the annotation may be
+             * wrongly positioned if the page is rotated or has a cropbox.
+             *
+             * This function computes and set the appropriate smallest rectangle
+             * area that contains all the points of `ink_list`. Setting the rectangle
+             * afterwards with #poppler_annot_set_rectangle should not be done
+             * to preserve scaling and positioning.
+             * @param ink_list a list of #PopplerPath
+             */
+            set_ink_list(ink_list: Path[]): void;
+        }
+
+        namespace AnnotLine {
+            // Signal signatures
+            interface SignalSignatures extends AnnotMarkup.SignalSignatures {}
+
+            // Constructor properties interface
+
+            interface ConstructorProps extends AnnotMarkup.ConstructorProps {}
+        }
+
+        /**
+         * An annotation for line.
+         *
+         * Since 25.06 this type supports g_autoptr
+         */
         class AnnotLine extends AnnotMarkup {
             static $gtype: GObject.GType<AnnotLine>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AnnotLine.SignalSignatures;
 
             // Constructors
 
@@ -1905,6 +2128,24 @@ declare module 'gi://Poppler?version=0.18' {
             _init(...args: any[]): void;
 
             static ['new'](doc: Document, rect: Rectangle, start: Point, end: Point): AnnotLine;
+
+            // Signals
+
+            connect<K extends keyof AnnotLine.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotLine.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AnnotLine.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotLine.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AnnotLine.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AnnotLine.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1917,19 +2158,54 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace AnnotMarkup {
+            // Signal signatures
+            interface SignalSignatures extends Annot.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends Annot.ConstructorProps {}
         }
 
+        /**
+         * An annotation for markup.
+         *
+         * Since 25.06 this type supports g_autoptr
+         */
         class AnnotMarkup extends Annot {
             static $gtype: GObject.GType<AnnotMarkup>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AnnotMarkup.SignalSignatures;
 
             // Constructors
 
             constructor(properties?: Partial<AnnotMarkup.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof AnnotMarkup.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotMarkup.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AnnotMarkup.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotMarkup.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AnnotMarkup.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AnnotMarkup.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2012,19 +2288,54 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace AnnotMovie {
+            // Signal signatures
+            interface SignalSignatures extends Annot.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends Annot.ConstructorProps {}
         }
 
+        /**
+         * An annotation for movie.
+         *
+         * Since 25.06 this type supports g_autoptr
+         */
         class AnnotMovie extends Annot {
             static $gtype: GObject.GType<AnnotMovie>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AnnotMovie.SignalSignatures;
 
             // Constructors
 
             constructor(properties?: Partial<AnnotMovie.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof AnnotMovie.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotMovie.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AnnotMovie.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotMovie.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AnnotMovie.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AnnotMovie.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2041,19 +2352,54 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace AnnotScreen {
+            // Signal signatures
+            interface SignalSignatures extends Annot.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends Annot.ConstructorProps {}
         }
 
+        /**
+         * An annotation for screen.
+         *
+         * Since 25.06 this type supports g_autoptr
+         */
         class AnnotScreen extends Annot {
             static $gtype: GObject.GType<AnnotScreen>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AnnotScreen.SignalSignatures;
 
             // Constructors
 
             constructor(properties?: Partial<AnnotScreen.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof AnnotScreen.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotScreen.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AnnotScreen.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotScreen.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AnnotScreen.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AnnotScreen.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2065,13 +2411,30 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace AnnotSquare {
+            // Signal signatures
+            interface SignalSignatures extends AnnotMarkup.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends AnnotMarkup.ConstructorProps {}
         }
 
+        /**
+         * An annotation for square.
+         *
+         * Since 25.06 this type supports g_autoptr
+         */
         class AnnotSquare extends AnnotMarkup {
             static $gtype: GObject.GType<AnnotSquare>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AnnotSquare.SignalSignatures;
 
             // Constructors
 
@@ -2080,6 +2443,24 @@ declare module 'gi://Poppler?version=0.18' {
             _init(...args: any[]): void;
 
             static ['new'](doc: Document, rect: Rectangle): AnnotSquare;
+
+            // Signals
+
+            connect<K extends keyof AnnotSquare.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotSquare.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AnnotSquare.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotSquare.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AnnotSquare.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AnnotSquare.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2096,13 +2477,30 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace AnnotStamp {
+            // Signal signatures
+            interface SignalSignatures extends AnnotMarkup.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends AnnotMarkup.ConstructorProps {}
         }
 
+        /**
+         * An annotation for stamp.
+         *
+         * Since 25.06 this type supports g_autoptr
+         */
         class AnnotStamp extends AnnotMarkup {
             static $gtype: GObject.GType<AnnotStamp>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AnnotStamp.SignalSignatures;
 
             // Constructors
 
@@ -2111,6 +2509,24 @@ declare module 'gi://Poppler?version=0.18' {
             _init(...args: any[]): void;
 
             static ['new'](doc: Document, rect: Rectangle): AnnotStamp;
+
+            // Signals
+
+            connect<K extends keyof AnnotStamp.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotStamp.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AnnotStamp.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotStamp.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AnnotStamp.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AnnotStamp.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2129,13 +2545,30 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace AnnotText {
+            // Signal signatures
+            interface SignalSignatures extends AnnotMarkup.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends AnnotMarkup.ConstructorProps {}
         }
 
+        /**
+         * An annotation for text.
+         *
+         * Since 25.06 this type supports g_autoptr
+         */
         class AnnotText extends AnnotMarkup {
             static $gtype: GObject.GType<AnnotText>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AnnotText.SignalSignatures;
 
             // Constructors
 
@@ -2144,6 +2577,24 @@ declare module 'gi://Poppler?version=0.18' {
             _init(...args: any[]): void;
 
             static ['new'](doc: Document, rect: Rectangle): AnnotText;
+
+            // Signals
+
+            connect<K extends keyof AnnotText.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotText.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AnnotText.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotText.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AnnotText.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AnnotText.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2205,13 +2656,30 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace AnnotTextMarkup {
+            // Signal signatures
+            interface SignalSignatures extends AnnotMarkup.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends AnnotMarkup.ConstructorProps {}
         }
 
+        /**
+         * An annotation for text markup.
+         *
+         * Since 25.06 this type supports g_autoptr
+         */
         class AnnotTextMarkup extends AnnotMarkup {
             static $gtype: GObject.GType<AnnotTextMarkup>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AnnotTextMarkup.SignalSignatures;
 
             // Constructors
 
@@ -2226,6 +2694,26 @@ declare module 'gi://Poppler?version=0.18' {
             static new_strikeout(doc: Document, rect: Rectangle, quadrilaterals: Quadrilateral[]): AnnotTextMarkup;
 
             static new_underline(doc: Document, rect: Rectangle, quadrilaterals: Quadrilateral[]): AnnotTextMarkup;
+
+            // Signals
+
+            connect<K extends keyof AnnotTextMarkup.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotTextMarkup.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AnnotTextMarkup.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AnnotTextMarkup.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AnnotTextMarkup.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AnnotTextMarkup.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2244,13 +2732,28 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace Attachment {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
         }
 
+        /**
+         * Since 25.06 this type supports g_autoptr
+         */
         class Attachment extends GObject.Object {
             static $gtype: GObject.GType<Attachment>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Attachment.SignalSignatures;
 
             // Fields
 
@@ -2266,6 +2769,24 @@ declare module 'gi://Poppler?version=0.18' {
             constructor(properties?: Partial<Attachment.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Attachment.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Attachment.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Attachment.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Attachment.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Attachment.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Attachment.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2306,6 +2827,37 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace Document {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::author': (pspec: GObject.ParamSpec) => void;
+                'notify::creation-date': (pspec: GObject.ParamSpec) => void;
+                'notify::creation-datetime': (pspec: GObject.ParamSpec) => void;
+                'notify::creator': (pspec: GObject.ParamSpec) => void;
+                'notify::format': (pspec: GObject.ParamSpec) => void;
+                'notify::format-major': (pspec: GObject.ParamSpec) => void;
+                'notify::format-minor': (pspec: GObject.ParamSpec) => void;
+                'notify::keywords': (pspec: GObject.ParamSpec) => void;
+                'notify::linearized': (pspec: GObject.ParamSpec) => void;
+                'notify::metadata': (pspec: GObject.ParamSpec) => void;
+                'notify::mod-date': (pspec: GObject.ParamSpec) => void;
+                'notify::mod-datetime': (pspec: GObject.ParamSpec) => void;
+                'notify::page-layout': (pspec: GObject.ParamSpec) => void;
+                'notify::page-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::permissions': (pspec: GObject.ParamSpec) => void;
+                'notify::print-duplex': (pspec: GObject.ParamSpec) => void;
+                'notify::print-n-copies': (pspec: GObject.ParamSpec) => void;
+                'notify::print-ncopies': (pspec: GObject.ParamSpec) => void;
+                'notify::print-scaling': (pspec: GObject.ParamSpec) => void;
+                'notify::producer': (pspec: GObject.ParamSpec) => void;
+                'notify::subject': (pspec: GObject.ParamSpec) => void;
+                'notify::subtype': (pspec: GObject.ParamSpec) => void;
+                'notify::subtype-conformance': (pspec: GObject.ParamSpec) => void;
+                'notify::subtype-part': (pspec: GObject.ParamSpec) => void;
+                'notify::subtype-string': (pspec: GObject.ParamSpec) => void;
+                'notify::title': (pspec: GObject.ParamSpec) => void;
+                'notify::viewer-preferences': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -2353,6 +2905,11 @@ declare module 'gi://Poppler?version=0.18' {
             }
         }
 
+        /**
+         * A poppler document.
+         *
+         * Since 25.06 this type supports g_autoptr
+         */
         class Document extends GObject.Object {
             static $gtype: GObject.GType<Document>;
 
@@ -2519,6 +3076,15 @@ declare module 'gi://Poppler?version=0.18' {
             get viewer_preferences(): ViewerPreferences;
             get viewerPreferences(): ViewerPreferences;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Document.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Document.ConstructorProps>, ...args: any[]);
@@ -2545,6 +3111,24 @@ declare module 'gi://Poppler?version=0.18' {
                 password?: string | null,
                 cancellable?: Gio.Cancellable | null,
             ): Document;
+
+            // Signals
+
+            connect<K extends keyof Document.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Document.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Document.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Document.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Document.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Document.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2929,6 +3513,9 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace FontInfo {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -2942,6 +3529,15 @@ declare module 'gi://Poppler?version=0.18' {
         class FontInfo extends GObject.Object {
             static $gtype: GObject.GType<FontInfo>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: FontInfo.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<FontInfo.ConstructorProps>, ...args: any[]);
@@ -2949,6 +3545,24 @@ declare module 'gi://Poppler?version=0.18' {
             _init(...args: any[]): void;
 
             static ['new'](document: Document): FontInfo;
+
+            // Signals
+
+            connect<K extends keyof FontInfo.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, FontInfo.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof FontInfo.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, FontInfo.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof FontInfo.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<FontInfo.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2982,19 +3596,54 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace FormField {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
         }
 
+        /**
+         * A #PopplerDocument form field.
+         *
+         * Since 25.06 this type supports g_autoptr
+         */
         class FormField extends GObject.Object {
             static $gtype: GObject.GType<FormField>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: FormField.SignalSignatures;
 
             // Constructors
 
             constructor(properties?: Partial<FormField.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof FormField.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, FormField.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof FormField.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, FormField.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof FormField.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<FormField.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -3224,19 +3873,54 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace Layer {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
         }
 
+        /**
+         * A #PopplerDocument layer.
+         *
+         * Since 25.06 this type supports g_autoptr
+         */
         class Layer extends GObject.Object {
             static $gtype: GObject.GType<Layer>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Layer.SignalSignatures;
 
             // Constructors
 
             constructor(properties?: Partial<Layer.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Layer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Layer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Layer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Layer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Layer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Layer.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -3274,6 +3958,9 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace Media {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -3282,11 +3969,38 @@ declare module 'gi://Poppler?version=0.18' {
         class Media extends GObject.Object {
             static $gtype: GObject.GType<Media>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Media.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Media.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Media.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Media.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Media.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Media.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Media.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Media.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -3357,19 +4071,54 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace Movie {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
         }
 
+        /**
+         * A #PopplerDocument movie.
+         *
+         * Since 25.06 this type supports g_autoptr
+         */
         class Movie extends GObject.Object {
             static $gtype: GObject.GType<Movie>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Movie.SignalSignatures;
 
             // Constructors
 
             constructor(properties?: Partial<Movie.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Movie.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Movie.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Movie.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Movie.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Movie.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Movie.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -3437,6 +4186,9 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace PSFile {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -3444,6 +4196,15 @@ declare module 'gi://Poppler?version=0.18' {
 
         class PSFile extends GObject.Object {
             static $gtype: GObject.GType<PSFile>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: PSFile.SignalSignatures;
 
             // Constructors
 
@@ -3454,6 +4215,24 @@ declare module 'gi://Poppler?version=0.18' {
             static ['new'](document: Document, filename: string, first_page: number, n_pages: number): PSFile;
 
             static new_fd(document: Document, fd: number, first_page: number, n_pages: number): PSFile;
+
+            // Signals
+
+            connect<K extends keyof PSFile.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PSFile.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof PSFile.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PSFile.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof PSFile.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<PSFile.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -3477,6 +4256,11 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace Page {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::label': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -3484,6 +4268,11 @@ declare module 'gi://Poppler?version=0.18' {
             }
         }
 
+        /**
+         * A #PopplerDocument page.
+         *
+         * Since 25.06 this type supports g_autoptr
+         */
         class Page extends GObject.Object {
             static $gtype: GObject.GType<Page>;
 
@@ -3494,11 +4283,38 @@ declare module 'gi://Poppler?version=0.18' {
              */
             get label(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Page.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Page.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Page.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Page.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Page.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Page.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Page.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Page.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -3847,19 +4663,56 @@ declare module 'gi://Poppler?version=0.18' {
         }
 
         namespace StructureElement {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
         }
 
+        /**
+         * A #PopplerDocument structure element.
+         *
+         * Since 25.06 this type supports g_autoptr
+         */
         class StructureElement extends GObject.Object {
             static $gtype: GObject.GType<StructureElement>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: StructureElement.SignalSignatures;
 
             // Constructors
 
             constructor(properties?: Partial<StructureElement.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof StructureElement.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, StructureElement.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof StructureElement.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, StructureElement.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof StructureElement.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<StructureElement.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -4446,6 +5299,11 @@ declare module 'gi://Poppler?version=0.18' {
             _init(...args: any[]): void;
         }
 
+        /**
+         * An annotation for callout line.
+         *
+         * Since 25.06 this type supports g_autoptr
+         */
         class AnnotCalloutLine {
             static $gtype: GObject.GType<AnnotCalloutLine>;
 
@@ -5089,6 +5947,34 @@ declare module 'gi://Poppler?version=0.18' {
              * Frees the given #PopplerPageTransition
              */
             free(): void;
+        }
+
+        class Path {
+            static $gtype: GObject.GType<Path>;
+
+            // Constructors
+
+            constructor(points: Point, n_points: number);
+            _init(...args: any[]): void;
+
+            static new_from_array(points: Point, n_points: number): Path;
+
+            // Methods
+
+            /**
+             * Creates a copy of `path`.
+             * @returns a new allocated copy of @path
+             */
+            copy(): Path;
+            /**
+             * Frees the given #PopplerPath.
+             */
+            free(): void;
+            /**
+             * Returns the array of points of `path`.
+             * @returns all the points of @path
+             */
+            get_points(): Point[];
         }
 
         /**

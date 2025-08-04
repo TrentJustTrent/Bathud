@@ -1510,10 +1510,9 @@ declare module 'gi://OSTree?version=1.0' {
             SYNTHETIC,
         }
         namespace AsyncProgress {
-            // Signal callback interfaces
-
-            interface Changed {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                changed: () => void;
             }
 
             // Constructor properties interface
@@ -1523,6 +1522,15 @@ declare module 'gi://OSTree?version=1.0' {
 
         class AsyncProgress extends GObject.Object {
             static $gtype: GObject.GType<AsyncProgress>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AsyncProgress.SignalSignatures;
 
             // Constructors
 
@@ -1534,12 +1542,21 @@ declare module 'gi://OSTree?version=1.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'changed', callback: (_source: this) => void): number;
-            connect_after(signal: 'changed', callback: (_source: this) => void): number;
-            emit(signal: 'changed'): void;
+            connect<K extends keyof AsyncProgress.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AsyncProgress.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AsyncProgress.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AsyncProgress.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AsyncProgress.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AsyncProgress.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -1602,6 +1619,9 @@ declare module 'gi://OSTree?version=1.0' {
         }
 
         namespace BootconfigParser {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -1610,6 +1630,15 @@ declare module 'gi://OSTree?version=1.0' {
         class BootconfigParser extends GObject.Object {
             static $gtype: GObject.GType<BootconfigParser>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: BootconfigParser.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<BootconfigParser.ConstructorProps>, ...args: any[]);
@@ -1617,6 +1646,26 @@ declare module 'gi://OSTree?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): BootconfigParser;
+
+            // Signals
+
+            connect<K extends keyof BootconfigParser.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BootconfigParser.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof BootconfigParser.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BootconfigParser.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof BootconfigParser.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<BootconfigParser.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1628,6 +1677,8 @@ declare module 'gi://OSTree?version=1.0' {
              */
             get(key: string): string | null;
             get_overlay_initrds(): string[] | null;
+            get_tries_done(): number;
+            get_tries_left(): number;
             parse(path: Gio.File, cancellable?: Gio.Cancellable | null): boolean;
             /**
              * Initialize a bootconfig from the given file.
@@ -1655,6 +1706,9 @@ declare module 'gi://OSTree?version=1.0' {
         }
 
         namespace ContentWriter {
+            // Signal signatures
+            interface SignalSignatures extends Gio.OutputStream.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends Gio.OutputStream.ConstructorProps {}
@@ -1663,11 +1717,38 @@ declare module 'gi://OSTree?version=1.0' {
         class ContentWriter extends Gio.OutputStream {
             static $gtype: GObject.GType<ContentWriter>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ContentWriter.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ContentWriter.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ContentWriter.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ContentWriter.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ContentWriter.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ContentWriter.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ContentWriter.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ContentWriter.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1680,6 +1761,9 @@ declare module 'gi://OSTree?version=1.0' {
         }
 
         namespace Deployment {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -1687,6 +1771,15 @@ declare module 'gi://OSTree?version=1.0' {
 
         class Deployment extends GObject.Object {
             static $gtype: GObject.GType<Deployment>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Deployment.SignalSignatures;
 
             // Constructors
 
@@ -1702,6 +1795,24 @@ declare module 'gi://OSTree?version=1.0' {
                 bootcsum: string | null,
                 bootserial: number,
             ): Deployment;
+
+            // Signals
+
+            connect<K extends keyof Deployment.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Deployment.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Deployment.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Deployment.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Deployment.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Deployment.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -1752,6 +1863,7 @@ declare module 'gi://OSTree?version=1.0' {
              * @returns `TRUE` if deployment will not be subject to GC
              */
             is_pinned(): boolean;
+            is_soft_reboot_target(): boolean;
             is_staged(): boolean;
             /**
              * Set or clear the bootloader configuration.
@@ -1777,6 +1889,9 @@ declare module 'gi://OSTree?version=1.0' {
         }
 
         namespace GpgVerifyResult {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, Gio.Initable.ConstructorProps {}
@@ -1785,11 +1900,40 @@ declare module 'gi://OSTree?version=1.0' {
         class GpgVerifyResult extends GObject.Object implements Gio.Initable {
             static $gtype: GObject.GType<GpgVerifyResult>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: GpgVerifyResult.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<GpgVerifyResult.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof GpgVerifyResult.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GpgVerifyResult.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof GpgVerifyResult.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GpgVerifyResult.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof GpgVerifyResult.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<GpgVerifyResult.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -2110,7 +2254,21 @@ declare module 'gi://OSTree?version=1.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -2238,7 +2396,12 @@ declare module 'gi://OSTree?version=1.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -2388,14 +2551,37 @@ declare module 'gi://OSTree?version=1.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace MutableTree {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -2406,6 +2592,15 @@ declare module 'gi://OSTree?version=1.0' {
          */
         class MutableTree extends GObject.Object {
             static $gtype: GObject.GType<MutableTree>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: MutableTree.SignalSignatures;
 
             // Constructors
 
@@ -2418,6 +2613,24 @@ declare module 'gi://OSTree?version=1.0' {
             static new_from_checksum(repo: Repo, contents_checksum: string, metadata_checksum: string): MutableTree;
 
             static new_from_commit(repo: Repo, rev: string): MutableTree;
+
+            // Signals
+
+            connect<K extends keyof MutableTree.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MutableTree.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof MutableTree.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MutableTree.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof MutableTree.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<MutableTree.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2484,10 +2697,12 @@ declare module 'gi://OSTree?version=1.0' {
         }
 
         namespace Repo {
-            // Signal callback interfaces
-
-            interface GpgVerifyResult {
-                (checksum: string, result: GpgVerifyResult): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'gpg-verify-result': (arg0: string, arg1: GpgVerifyResult) => void;
+                'notify::path': (pspec: GObject.ParamSpec) => void;
+                'notify::remotes-config-dir': (pspec: GObject.ParamSpec) => void;
+                'notify::sysroot-path': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -2552,6 +2767,15 @@ declare module 'gi://OSTree?version=1.0' {
              */
             get sysrootPath(): Gio.File;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Repo.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Repo.ConstructorProps>, ...args: any[]);
@@ -2566,18 +2790,21 @@ declare module 'gi://OSTree?version=1.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(
-                signal: 'gpg-verify-result',
-                callback: (_source: this, checksum: string, result: GpgVerifyResult) => void,
+            connect<K extends keyof Repo.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Repo.SignalSignatures[K]>,
             ): number;
-            connect_after(
-                signal: 'gpg-verify-result',
-                callback: (_source: this, checksum: string, result: GpgVerifyResult) => void,
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Repo.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Repo.SignalSignatures[K]>,
             ): number;
-            emit(signal: 'gpg-verify-result', checksum: string, result: GpgVerifyResult): void;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Repo.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Repo.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -4590,9 +4817,18 @@ declare module 'gi://OSTree?version=1.0' {
             ): [boolean, string];
             /**
              * Save `new_config` in place of this repository's config file.
+             *
+             * Note: This will not validate many elements of the configuration.
+             * Prefer `ostree_repo_write_config_and_reload`.
              * @param new_config Overwrite the config file with this data
              */
             write_config(new_config: GLib.KeyFile): boolean;
+            /**
+             * Save `new_config` in place of this repository's config file and reload.
+             * The config will be validated.
+             * @param new_config Overwrite the config file with this data, and reload
+             */
+            write_config_and_reload(new_config: GLib.KeyFile): boolean;
             /**
              * Store the content object streamed as `object_input,`
              * with total length `length`.  The actual checksum will
@@ -4881,6 +5117,9 @@ declare module 'gi://OSTree?version=1.0' {
         }
 
         namespace RepoFile {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, Gio.File.ConstructorProps {}
@@ -4889,11 +5128,38 @@ declare module 'gi://OSTree?version=1.0' {
         class RepoFile extends GObject.Object implements Gio.File {
             static $gtype: GObject.GType<RepoFile>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: RepoFile.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<RepoFile.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof RepoFile.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RepoFile.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof RepoFile.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RepoFile.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof RepoFile.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<RepoFile.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -9941,7 +10207,21 @@ declare module 'gi://OSTree?version=1.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -10069,7 +10349,12 @@ declare module 'gi://OSTree?version=1.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -10219,14 +10504,37 @@ declare module 'gi://OSTree?version=1.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace RepoFinderAvahi {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, RepoFinder.ConstructorProps {}
@@ -10235,6 +10543,15 @@ declare module 'gi://OSTree?version=1.0' {
         class RepoFinderAvahi extends GObject.Object implements RepoFinder {
             static $gtype: GObject.GType<RepoFinderAvahi>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: RepoFinderAvahi.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<RepoFinderAvahi.ConstructorProps>, ...args: any[]);
@@ -10242,6 +10559,26 @@ declare module 'gi://OSTree?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](context?: GLib.MainContext | null): RepoFinderAvahi;
+
+            // Signals
+
+            connect<K extends keyof RepoFinderAvahi.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RepoFinderAvahi.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof RepoFinderAvahi.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RepoFinderAvahi.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof RepoFinderAvahi.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<RepoFinderAvahi.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -10540,7 +10877,21 @@ declare module 'gi://OSTree?version=1.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -10668,7 +11019,12 @@ declare module 'gi://OSTree?version=1.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -10818,14 +11174,37 @@ declare module 'gi://OSTree?version=1.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace RepoFinderConfig {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, RepoFinder.ConstructorProps {}
@@ -10834,6 +11213,15 @@ declare module 'gi://OSTree?version=1.0' {
         class RepoFinderConfig extends GObject.Object implements RepoFinder {
             static $gtype: GObject.GType<RepoFinderConfig>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: RepoFinderConfig.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<RepoFinderConfig.ConstructorProps>, ...args: any[]);
@@ -10841,6 +11229,26 @@ declare module 'gi://OSTree?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): RepoFinderConfig;
+
+            // Signals
+
+            connect<K extends keyof RepoFinderConfig.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RepoFinderConfig.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof RepoFinderConfig.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RepoFinderConfig.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof RepoFinderConfig.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<RepoFinderConfig.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited methods
             /**
@@ -11105,7 +11513,21 @@ declare module 'gi://OSTree?version=1.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -11233,7 +11655,12 @@ declare module 'gi://OSTree?version=1.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -11383,14 +11810,39 @@ declare module 'gi://OSTree?version=1.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace RepoFinderMount {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::monitor': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, RepoFinder.ConstructorProps {
@@ -11408,6 +11860,15 @@ declare module 'gi://OSTree?version=1.0' {
              */
             get monitor(): Gio.VolumeMonitor;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: RepoFinderMount.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<RepoFinderMount.ConstructorProps>, ...args: any[]);
@@ -11415,6 +11876,26 @@ declare module 'gi://OSTree?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](monitor?: Gio.VolumeMonitor | null): RepoFinderMount;
+
+            // Signals
+
+            connect<K extends keyof RepoFinderMount.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RepoFinderMount.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof RepoFinderMount.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RepoFinderMount.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof RepoFinderMount.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<RepoFinderMount.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited methods
             /**
@@ -11679,7 +12160,21 @@ declare module 'gi://OSTree?version=1.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -11807,7 +12302,12 @@ declare module 'gi://OSTree?version=1.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -11957,14 +12457,37 @@ declare module 'gi://OSTree?version=1.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace RepoFinderOverride {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, RepoFinder.ConstructorProps {}
@@ -11973,6 +12496,15 @@ declare module 'gi://OSTree?version=1.0' {
         class RepoFinderOverride extends GObject.Object implements RepoFinder {
             static $gtype: GObject.GType<RepoFinderOverride>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: RepoFinderOverride.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<RepoFinderOverride.ConstructorProps>, ...args: any[]);
@@ -11980,6 +12512,26 @@ declare module 'gi://OSTree?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): RepoFinderOverride;
+
+            // Signals
+
+            connect<K extends keyof RepoFinderOverride.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RepoFinderOverride.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof RepoFinderOverride.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RepoFinderOverride.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof RepoFinderOverride.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<RepoFinderOverride.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -12253,7 +12805,21 @@ declare module 'gi://OSTree?version=1.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -12381,7 +12947,12 @@ declare module 'gi://OSTree?version=1.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -12531,14 +13102,40 @@ declare module 'gi://OSTree?version=1.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace SePolicy {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::path': (pspec: GObject.ParamSpec) => void;
+                'notify::rootfs-dfd': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, Gio.Initable.ConstructorProps {
@@ -12557,6 +13154,15 @@ declare module 'gi://OSTree?version=1.0' {
             get rootfs_dfd(): number;
             get rootfsDfd(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: SePolicy.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<SePolicy.ConstructorProps>, ...args: any[]);
@@ -12568,6 +13174,24 @@ declare module 'gi://OSTree?version=1.0' {
             static new_at(rootfs_dfd: number, cancellable?: Gio.Cancellable | null): SePolicy;
 
             static new_from_commit(repo: Repo, rev: string, cancellable?: Gio.Cancellable | null): SePolicy;
+
+            // Signals
+
+            connect<K extends keyof SePolicy.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SePolicy.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof SePolicy.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SePolicy.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof SePolicy.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<SePolicy.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -12821,7 +13445,21 @@ declare module 'gi://OSTree?version=1.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -12949,7 +13587,12 @@ declare module 'gi://OSTree?version=1.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -13099,18 +13742,38 @@ declare module 'gi://OSTree?version=1.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Sysroot {
-            // Signal callback interfaces
-
-            interface JournalMsg {
-                (msg: string): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'journal-msg': (arg0: string) => void;
+                'notify::path': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -13127,6 +13790,15 @@ declare module 'gi://OSTree?version=1.0' {
 
             get path(): Gio.File;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Sysroot.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Sysroot.ConstructorProps>, ...args: any[]);
@@ -13139,12 +13811,21 @@ declare module 'gi://OSTree?version=1.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'journal-msg', callback: (_source: this, msg: string) => void): number;
-            connect_after(signal: 'journal-msg', callback: (_source: this, msg: string) => void): number;
-            emit(signal: 'journal-msg', msg: string): void;
+            connect<K extends keyof Sysroot.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Sysroot.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Sysroot.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Sysroot.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Sysroot.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Sysroot.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -13183,6 +13864,12 @@ declare module 'gi://OSTree?version=1.0' {
                 cancellable?: Gio.Cancellable | null,
             ): [boolean, number, number, number];
             /**
+             * If there is a soft reboot queued in /run/nextroot, clear it. If one
+             * is not queued, this function successfully does nothing.
+             * @param cancellable Cancellable
+             */
+            clear_soft_reboot(cancellable?: Gio.Cancellable | null): boolean;
+            /**
              * Older version of ostree_sysroot_stage_tree_with_options().
              * @param osname osname to use for merge deployment
              * @param revision Checksum to add
@@ -13220,6 +13907,15 @@ declare module 'gi://OSTree?version=1.0' {
                 opts: SysrootDeployTreeOpts | null,
                 cancellable?: Gio.Cancellable | null,
             ): [boolean, Deployment];
+            /**
+             * Checks if the given deployment can be soft-rebooted to from the currently
+             * booted deployment. A soft-reboot is generally only possible if both the
+             * currently booted deployment and the target `deployment` use the same kernel
+             * (i.e., have the same boot checksum).
+             * @param deployment The #OstreeDeployment to check for soft-reboot compatibility.
+             * @returns %TRUE if a soft-reboot is possible to the target deployment, %FALSE otherwise.
+             */
+            deployment_can_soft_reboot(deployment: Deployment): boolean;
             /**
              * Prepare the specified deployment for a kexec.
              * @param deployment Deployment to prepare a kexec for
@@ -13276,6 +13972,18 @@ declare module 'gi://OSTree?version=1.0' {
              * @param is_pinned Whether or not deployment will be automatically GC'd
              */
             deployment_set_pinned(deployment: Deployment, is_pinned: boolean): boolean;
+            /**
+             * Prepare the specified deployment for a systemd soft-reboot by creating a new
+             * root with it at `/run/nextroot`.
+             * @param deployment Deployment to prepare /run/nextroot
+             * @param allow_kernel_skew Continue even if there is a kernel mismatch
+             * @param cancellable Cancellable
+             */
+            deployment_set_soft_reboot(
+                deployment: Deployment,
+                allow_kernel_skew: boolean,
+                cancellable?: Gio.Cancellable | null,
+            ): boolean;
             /**
              * Configure the target deployment `deployment` such that it
              * is writable.  There are multiple modes, essentially differing
@@ -13609,6 +14317,13 @@ declare module 'gi://OSTree?version=1.0' {
         }
 
         namespace SysrootUpgrader {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::flags': (pspec: GObject.ParamSpec) => void;
+                'notify::osname': (pspec: GObject.ParamSpec) => void;
+                'notify::sysroot': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, Gio.Initable.ConstructorProps {
@@ -13626,6 +14341,15 @@ declare module 'gi://OSTree?version=1.0' {
             get flags(): SysrootUpgraderFlags;
             get osname(): string;
             get sysroot(): Sysroot;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: SysrootUpgrader.SignalSignatures;
 
             // Constructors
 
@@ -13647,6 +14371,26 @@ declare module 'gi://OSTree?version=1.0' {
                 flags: SysrootUpgraderFlags,
                 cancellable?: Gio.Cancellable | null,
             ): SysrootUpgrader;
+
+            // Signals
+
+            connect<K extends keyof SysrootUpgrader.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SysrootUpgrader.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof SysrootUpgrader.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SysrootUpgrader.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof SysrootUpgrader.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<SysrootUpgrader.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -13916,7 +14660,21 @@ declare module 'gi://OSTree?version=1.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -14044,7 +14802,12 @@ declare module 'gi://OSTree?version=1.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -14194,11 +14957,31 @@ declare module 'gi://OSTree?version=1.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         type AsyncProgressClass = typeof AsyncProgress;

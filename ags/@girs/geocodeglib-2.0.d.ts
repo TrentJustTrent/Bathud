@@ -316,6 +316,14 @@ declare module 'gi://GeocodeGlib?version=2.0' {
          */
         function error_quark(): GLib.Quark;
         namespace BoundingBox {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::left': (pspec: GObject.ParamSpec) => void;
+                'notify::right': (pspec: GObject.ParamSpec) => void;
+                'notify::top': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -352,6 +360,15 @@ declare module 'gi://GeocodeGlib?version=2.0' {
              */
             get top(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: BoundingBox.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<BoundingBox.ConstructorProps>, ...args: any[]);
@@ -359,6 +376,24 @@ declare module 'gi://GeocodeGlib?version=2.0' {
             _init(...args: any[]): void;
 
             static ['new'](top: number, bottom: number, left: number, right: number): BoundingBox;
+
+            // Signals
+
+            connect<K extends keyof BoundingBox.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BoundingBox.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof BoundingBox.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BoundingBox.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof BoundingBox.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<BoundingBox.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -394,6 +429,13 @@ declare module 'gi://GeocodeGlib?version=2.0' {
         }
 
         namespace Forward {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::answer-count': (pspec: GObject.ParamSpec) => void;
+                'notify::bounded': (pspec: GObject.ParamSpec) => void;
+                'notify::search-area': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -446,6 +488,15 @@ declare module 'gi://GeocodeGlib?version=2.0' {
             get searchArea(): BoundingBox;
             set searchArea(val: BoundingBox);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Forward.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Forward.ConstructorProps>, ...args: any[]);
@@ -455,6 +506,24 @@ declare module 'gi://GeocodeGlib?version=2.0' {
             static new_for_params(params: { [key: string]: any } | GLib.HashTable<string, GObject.Value>): Forward;
 
             static new_for_string(str: string): Forward;
+
+            // Signals
+
+            connect<K extends keyof Forward.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Forward.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Forward.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Forward.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Forward.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Forward.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -549,6 +618,17 @@ declare module 'gi://GeocodeGlib?version=2.0' {
         }
 
         namespace Location {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::accuracy': (pspec: GObject.ParamSpec) => void;
+                'notify::altitude': (pspec: GObject.ParamSpec) => void;
+                'notify::crs': (pspec: GObject.ParamSpec) => void;
+                'notify::description': (pspec: GObject.ParamSpec) => void;
+                'notify::latitude': (pspec: GObject.ParamSpec) => void;
+                'notify::longitude': (pspec: GObject.ParamSpec) => void;
+                'notify::timestamp': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -609,6 +689,15 @@ declare module 'gi://GeocodeGlib?version=2.0' {
              */
             get timestamp(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Location.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Location.ConstructorProps>, ...args: any[]);
@@ -623,6 +712,24 @@ declare module 'gi://GeocodeGlib?version=2.0' {
                 accuracy: number,
                 description: string,
             ): Location;
+
+            // Signals
+
+            connect<K extends keyof Location.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Location.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Location.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Location.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Location.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Location.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -718,6 +825,9 @@ declare module 'gi://GeocodeGlib?version=2.0' {
         }
 
         namespace MockBackend {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, Backend.ConstructorProps {}
@@ -730,6 +840,15 @@ declare module 'gi://GeocodeGlib?version=2.0' {
         class MockBackend extends GObject.Object implements Backend {
             static $gtype: GObject.GType<MockBackend>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: MockBackend.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<MockBackend.ConstructorProps>, ...args: any[]);
@@ -737,6 +856,24 @@ declare module 'gi://GeocodeGlib?version=2.0' {
             _init(...args: any[]): void;
 
             static ['new'](): MockBackend;
+
+            // Signals
+
+            connect<K extends keyof MockBackend.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MockBackend.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof MockBackend.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MockBackend.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof MockBackend.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<MockBackend.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1205,7 +1342,21 @@ declare module 'gi://GeocodeGlib?version=2.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -1333,7 +1484,12 @@ declare module 'gi://GeocodeGlib?version=2.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -1483,14 +1639,41 @@ declare module 'gi://GeocodeGlib?version=2.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Nominatim {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::base-url': (pspec: GObject.ParamSpec) => void;
+                'notify::maintainer-email-address': (pspec: GObject.ParamSpec) => void;
+                'notify::user-agent': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, Backend.ConstructorProps {
@@ -1565,6 +1748,15 @@ declare module 'gi://GeocodeGlib?version=2.0' {
             get userAgent(): string;
             set userAgent(val: string);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Nominatim.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Nominatim.ConstructorProps>, ...args: any[]);
@@ -1572,6 +1764,24 @@ declare module 'gi://GeocodeGlib?version=2.0' {
             _init(...args: any[]): void;
 
             static ['new'](base_url: string, maintainer_email_address: string): Nominatim;
+
+            // Signals
+
+            connect<K extends keyof Nominatim.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Nominatim.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Nominatim.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Nominatim.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Nominatim.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Nominatim.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -1992,7 +2202,21 @@ declare module 'gi://GeocodeGlib?version=2.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -2120,7 +2344,12 @@ declare module 'gi://GeocodeGlib?version=2.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -2270,14 +2499,57 @@ declare module 'gi://GeocodeGlib?version=2.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Place {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::administrative-area': (pspec: GObject.ParamSpec) => void;
+                'notify::area': (pspec: GObject.ParamSpec) => void;
+                'notify::bounding-box': (pspec: GObject.ParamSpec) => void;
+                'notify::building': (pspec: GObject.ParamSpec) => void;
+                'notify::continent': (pspec: GObject.ParamSpec) => void;
+                'notify::country': (pspec: GObject.ParamSpec) => void;
+                'notify::country-code': (pspec: GObject.ParamSpec) => void;
+                'notify::county': (pspec: GObject.ParamSpec) => void;
+                'notify::icon': (pspec: GObject.ParamSpec) => void;
+                'notify::location': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::osm-id': (pspec: GObject.ParamSpec) => void;
+                'notify::osm-type': (pspec: GObject.ParamSpec) => void;
+                'notify::place-type': (pspec: GObject.ParamSpec) => void;
+                'notify::postal-code': (pspec: GObject.ParamSpec) => void;
+                'notify::state': (pspec: GObject.ParamSpec) => void;
+                'notify::street': (pspec: GObject.ParamSpec) => void;
+                'notify::street-address': (pspec: GObject.ParamSpec) => void;
+                'notify::town': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -2452,6 +2724,15 @@ declare module 'gi://GeocodeGlib?version=2.0' {
             get town(): string;
             set town(val: string);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Place.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Place.ConstructorProps>, ...args: any[]);
@@ -2461,6 +2742,24 @@ declare module 'gi://GeocodeGlib?version=2.0' {
             static ['new'](name: string, place_type: PlaceType): Place;
 
             static new_with_location(name: string, place_type: PlaceType, location: Location): Place;
+
+            // Signals
+
+            connect<K extends keyof Place.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Place.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Place.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Place.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Place.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Place.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2649,6 +2948,9 @@ declare module 'gi://GeocodeGlib?version=2.0' {
         }
 
         namespace Reverse {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -2660,6 +2962,15 @@ declare module 'gi://GeocodeGlib?version=2.0' {
         class Reverse extends GObject.Object {
             static $gtype: GObject.GType<Reverse>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Reverse.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Reverse.ConstructorProps>, ...args: any[]);
@@ -2667,6 +2978,24 @@ declare module 'gi://GeocodeGlib?version=2.0' {
             _init(...args: any[]): void;
 
             static new_for_location(location: Location): Reverse;
+
+            // Signals
+
+            connect<K extends keyof Reverse.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Reverse.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Reverse.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Reverse.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Reverse.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Reverse.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 

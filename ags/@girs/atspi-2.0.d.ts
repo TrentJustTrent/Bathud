@@ -2353,14 +2353,10 @@ declare module 'gi://Atspi?version=2.0' {
             ALL_WINDOWS,
         }
         namespace Accessible {
-            // Signal callback interfaces
-
-            interface ModeChanged {
-                (arg1: number, why: string): void;
-            }
-
-            interface RegionChanged {
-                (arg1: number, arg2: number): void;
+            // Signal signatures
+            interface SignalSignatures extends Object.SignalSignatures {
+                'mode-changed': (arg0: number, arg1: string) => void;
+                'region-changed': (arg0: number, arg1: number) => void;
             }
 
             // Constructor properties interface
@@ -2406,6 +2402,15 @@ declare module 'gi://Atspi?version=2.0' {
         {
             static $gtype: GObject.GType<Accessible>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Accessible.SignalSignatures;
+
             // Fields
 
             accessible_parent: Accessible;
@@ -2425,18 +2430,21 @@ declare module 'gi://Atspi?version=2.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'mode-changed', callback: (_source: this, arg1: number, why: string) => void): number;
-            connect_after(signal: 'mode-changed', callback: (_source: this, arg1: number, why: string) => void): number;
-            emit(signal: 'mode-changed', arg1: number, why: string): void;
-            connect(signal: 'region-changed', callback: (_source: this, arg1: number, arg2: number) => void): number;
-            connect_after(
-                signal: 'region-changed',
-                callback: (_source: this, arg1: number, arg2: number) => void,
+            connect<K extends keyof Accessible.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Accessible.SignalSignatures[K]>,
             ): number;
-            emit(signal: 'region-changed', arg1: number, arg2: number): void;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Accessible.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Accessible.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Accessible.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Accessible.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -3862,7 +3870,21 @@ declare module 'gi://Atspi?version=2.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -3990,7 +4012,12 @@ declare module 'gi://Atspi?version=2.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -4140,14 +4167,37 @@ declare module 'gi://Atspi?version=2.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Application {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -4162,6 +4212,15 @@ declare module 'gi://Atspi?version=2.0' {
          */
         class Application extends GObject.Object {
             static $gtype: GObject.GType<Application>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Application.SignalSignatures;
 
             // Fields
 
@@ -4178,9 +4237,32 @@ declare module 'gi://Atspi?version=2.0' {
             constructor(properties?: Partial<Application.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Application.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Application.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Application.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Application.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Application.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Application.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace Device {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::app-id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -4207,6 +4289,15 @@ declare module 'gi://Atspi?version=2.0' {
              */
             get appId(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Device.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Device.ConstructorProps>, ...args: any[]);
@@ -4216,6 +4307,24 @@ declare module 'gi://Atspi?version=2.0' {
             static ['new'](): Device;
 
             static new_full(app_id?: string | null): Device;
+
+            // Signals
+
+            connect<K extends keyof Device.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Device.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Device.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Device.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Device.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Device.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -4416,6 +4525,11 @@ declare module 'gi://Atspi?version=2.0' {
         }
 
         namespace DeviceA11yManager {
+            // Signal signatures
+            interface SignalSignatures extends Device.SignalSignatures {
+                'notify::app-id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Device.ConstructorProps {}
@@ -4423,6 +4537,15 @@ declare module 'gi://Atspi?version=2.0' {
 
         class DeviceA11yManager extends Device {
             static $gtype: GObject.GType<DeviceA11yManager>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: DeviceA11yManager.SignalSignatures;
 
             // Constructors
 
@@ -4433,9 +4556,34 @@ declare module 'gi://Atspi?version=2.0' {
             static try_new(): DeviceA11yManager;
 
             static try_new_full(app_id?: string | null): DeviceA11yManager;
+
+            // Signals
+
+            connect<K extends keyof DeviceA11yManager.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DeviceA11yManager.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DeviceA11yManager.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DeviceA11yManager.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DeviceA11yManager.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DeviceA11yManager.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace DeviceLegacy {
+            // Signal signatures
+            interface SignalSignatures extends Device.SignalSignatures {
+                'notify::app-id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Device.ConstructorProps {}
@@ -4443,6 +4591,15 @@ declare module 'gi://Atspi?version=2.0' {
 
         class DeviceLegacy extends Device {
             static $gtype: GObject.GType<DeviceLegacy>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: DeviceLegacy.SignalSignatures;
 
             // Constructors
 
@@ -4453,9 +4610,30 @@ declare module 'gi://Atspi?version=2.0' {
             static ['new'](): DeviceLegacy;
 
             static new_full(app_id?: string | null): DeviceLegacy;
+
+            // Signals
+
+            connect<K extends keyof DeviceLegacy.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DeviceLegacy.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DeviceLegacy.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DeviceLegacy.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DeviceLegacy.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DeviceLegacy.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace DeviceListener {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -4463,6 +4641,15 @@ declare module 'gi://Atspi?version=2.0' {
 
         class DeviceListener extends GObject.Object {
             static $gtype: GObject.GType<DeviceListener>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: DeviceListener.SignalSignatures;
 
             // Fields
 
@@ -4476,6 +4663,24 @@ declare module 'gi://Atspi?version=2.0' {
             _init(...args: any[]): void;
 
             static ['new'](callback?: DeviceListenerCB | null): DeviceListener;
+
+            // Signals
+
+            connect<K extends keyof DeviceListener.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DeviceListener.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DeviceListener.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DeviceListener.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DeviceListener.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DeviceListener.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -4497,6 +4702,11 @@ declare module 'gi://Atspi?version=2.0' {
         }
 
         namespace DeviceX11 {
+            // Signal signatures
+            interface SignalSignatures extends Device.SignalSignatures {
+                'notify::app-id': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Device.ConstructorProps {}
@@ -4504,6 +4714,15 @@ declare module 'gi://Atspi?version=2.0' {
 
         class DeviceX11 extends Device {
             static $gtype: GObject.GType<DeviceX11>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: DeviceX11.SignalSignatures;
 
             // Constructors
 
@@ -4514,9 +4733,30 @@ declare module 'gi://Atspi?version=2.0' {
             static ['new'](): DeviceX11;
 
             static new_full(app_id?: string | null): DeviceX11;
+
+            // Signals
+
+            connect<K extends keyof DeviceX11.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DeviceX11.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DeviceX11.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DeviceX11.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DeviceX11.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DeviceX11.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace EventListener {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -4534,6 +4774,15 @@ declare module 'gi://Atspi?version=2.0' {
         class EventListener extends GObject.Object {
             static $gtype: GObject.GType<EventListener>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: EventListener.SignalSignatures;
+
             // Fields
 
             callback: EventListenerCB;
@@ -4547,6 +4796,24 @@ declare module 'gi://Atspi?version=2.0' {
             _init(...args: any[]): void;
 
             static ['new'](callback: EventListenerCB): EventListener;
+
+            // Signals
+
+            connect<K extends keyof EventListener.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, EventListener.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof EventListener.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, EventListener.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof EventListener.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<EventListener.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -4691,6 +4958,9 @@ declare module 'gi://Atspi?version=2.0' {
         }
 
         namespace Hyperlink {
+            // Signal signatures
+            interface SignalSignatures extends Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends Object.ConstructorProps {}
@@ -4711,11 +4981,38 @@ declare module 'gi://Atspi?version=2.0' {
         class Hyperlink extends Object {
             static $gtype: GObject.GType<Hyperlink>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Hyperlink.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Hyperlink.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Hyperlink.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Hyperlink.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Hyperlink.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Hyperlink.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Hyperlink.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Hyperlink.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -4766,6 +5063,9 @@ declare module 'gi://Atspi?version=2.0' {
         }
 
         namespace MatchRule {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -4777,6 +5077,15 @@ declare module 'gi://Atspi?version=2.0' {
          */
         class MatchRule extends GObject.Object {
             static $gtype: GObject.GType<MatchRule>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: MatchRule.SignalSignatures;
 
             // Fields
 
@@ -4806,9 +5115,30 @@ declare module 'gi://Atspi?version=2.0' {
                 interfacematchtype: CollectionMatchType,
                 invert: boolean,
             ): MatchRule;
+
+            // Signals
+
+            connect<K extends keyof MatchRule.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MatchRule.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof MatchRule.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MatchRule.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof MatchRule.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<MatchRule.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace Object {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -4816,6 +5146,15 @@ declare module 'gi://Atspi?version=2.0' {
 
         class Object extends GObject.Object {
             static $gtype: GObject.GType<Object>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Object.SignalSignatures;
 
             // Fields
 
@@ -4827,9 +5166,30 @@ declare module 'gi://Atspi?version=2.0' {
             constructor(properties?: Partial<Object.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Object.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Object.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Object.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Object.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Object.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Object.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace Relation {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -4846,6 +5206,15 @@ declare module 'gi://Atspi?version=2.0' {
         class Relation extends GObject.Object {
             static $gtype: GObject.GType<Relation>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Relation.SignalSignatures;
+
             // Fields
 
             relation_type: RelationType;
@@ -4856,6 +5225,24 @@ declare module 'gi://Atspi?version=2.0' {
             constructor(properties?: Partial<Relation.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Relation.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Relation.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Relation.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Relation.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Relation.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Relation.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -4880,6 +5267,9 @@ declare module 'gi://Atspi?version=2.0' {
         }
 
         namespace StateSet {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -4891,6 +5281,15 @@ declare module 'gi://Atspi?version=2.0' {
          */
         class StateSet extends GObject.Object {
             static $gtype: GObject.GType<StateSet>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: StateSet.SignalSignatures;
 
             // Fields
 
@@ -4904,6 +5303,24 @@ declare module 'gi://Atspi?version=2.0' {
             _init(...args: any[]): void;
 
             static ['new'](states: StateType[]): StateSet;
+
+            // Signals
+
+            connect<K extends keyof StateSet.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, StateSet.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof StateSet.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, StateSet.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof StateSet.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<StateSet.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 

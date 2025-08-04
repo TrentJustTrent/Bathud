@@ -1758,6 +1758,16 @@ declare module 'gi://Soup?version=3.0' {
             IPV6_ONLY,
         }
         namespace Auth {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::authority': (pspec: GObject.ParamSpec) => void;
+                'notify::is-authenticated': (pspec: GObject.ParamSpec) => void;
+                'notify::is-cancelled': (pspec: GObject.ParamSpec) => void;
+                'notify::is-for-proxy': (pspec: GObject.ParamSpec) => void;
+                'notify::realm': (pspec: GObject.ParamSpec) => void;
+                'notify::scheme-name': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -1834,6 +1844,15 @@ declare module 'gi://Soup?version=3.0' {
              */
             get schemeName(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Auth.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Auth.ConstructorProps>, ...args: any[]);
@@ -1841,6 +1860,24 @@ declare module 'gi://Soup?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](type: GObject.GType, msg: Message, auth_header: string): Auth;
+
+            // Signals
+
+            connect<K extends keyof Auth.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Auth.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Auth.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Auth.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Auth.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Auth.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -1995,6 +2032,16 @@ declare module 'gi://Soup?version=3.0' {
         }
 
         namespace AuthBasic {
+            // Signal signatures
+            interface SignalSignatures extends Auth.SignalSignatures {
+                'notify::authority': (pspec: GObject.ParamSpec) => void;
+                'notify::is-authenticated': (pspec: GObject.ParamSpec) => void;
+                'notify::is-cancelled': (pspec: GObject.ParamSpec) => void;
+                'notify::is-for-proxy': (pspec: GObject.ParamSpec) => void;
+                'notify::realm': (pspec: GObject.ParamSpec) => void;
+                'notify::scheme-name': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Auth.ConstructorProps {}
@@ -2010,14 +2057,51 @@ declare module 'gi://Soup?version=3.0' {
         class AuthBasic extends Auth {
             static $gtype: GObject.GType<AuthBasic>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AuthBasic.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<AuthBasic.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof AuthBasic.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AuthBasic.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AuthBasic.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AuthBasic.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AuthBasic.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AuthBasic.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace AuthDigest {
+            // Signal signatures
+            interface SignalSignatures extends Auth.SignalSignatures {
+                'notify::authority': (pspec: GObject.ParamSpec) => void;
+                'notify::is-authenticated': (pspec: GObject.ParamSpec) => void;
+                'notify::is-cancelled': (pspec: GObject.ParamSpec) => void;
+                'notify::is-for-proxy': (pspec: GObject.ParamSpec) => void;
+                'notify::realm': (pspec: GObject.ParamSpec) => void;
+                'notify::scheme-name': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Auth.ConstructorProps {}
@@ -2033,14 +2117,51 @@ declare module 'gi://Soup?version=3.0' {
         class AuthDigest extends Auth {
             static $gtype: GObject.GType<AuthDigest>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AuthDigest.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<AuthDigest.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof AuthDigest.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AuthDigest.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AuthDigest.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AuthDigest.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AuthDigest.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AuthDigest.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace AuthDomain {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::filter': (pspec: GObject.ParamSpec) => void;
+                'notify::filter-data': (pspec: GObject.ParamSpec) => void;
+                'notify::generic-auth-callback': (pspec: GObject.ParamSpec) => void;
+                'notify::generic-auth-data': (pspec: GObject.ParamSpec) => void;
+                'notify::proxy': (pspec: GObject.ParamSpec) => void;
+                'notify::realm': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -2124,11 +2245,38 @@ declare module 'gi://Soup?version=3.0' {
              */
             get realm(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AuthDomain.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<AuthDomain.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof AuthDomain.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AuthDomain.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AuthDomain.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AuthDomain.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AuthDomain.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AuthDomain.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -2278,6 +2426,18 @@ declare module 'gi://Soup?version=3.0' {
         }
 
         namespace AuthDomainBasic {
+            // Signal signatures
+            interface SignalSignatures extends AuthDomain.SignalSignatures {
+                'notify::auth-callback': (pspec: GObject.ParamSpec) => void;
+                'notify::auth-data': (pspec: GObject.ParamSpec) => void;
+                'notify::filter': (pspec: GObject.ParamSpec) => void;
+                'notify::filter-data': (pspec: GObject.ParamSpec) => void;
+                'notify::generic-auth-callback': (pspec: GObject.ParamSpec) => void;
+                'notify::generic-auth-data': (pspec: GObject.ParamSpec) => void;
+                'notify::proxy': (pspec: GObject.ParamSpec) => void;
+                'notify::realm': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends AuthDomain.ConstructorProps {
@@ -2320,11 +2480,40 @@ declare module 'gi://Soup?version=3.0' {
             get authData(): any;
             set authData(val: any);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AuthDomainBasic.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<AuthDomainBasic.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof AuthDomainBasic.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AuthDomainBasic.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AuthDomainBasic.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AuthDomainBasic.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AuthDomainBasic.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AuthDomainBasic.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2346,6 +2535,18 @@ declare module 'gi://Soup?version=3.0' {
         }
 
         namespace AuthDomainDigest {
+            // Signal signatures
+            interface SignalSignatures extends AuthDomain.SignalSignatures {
+                'notify::auth-callback': (pspec: GObject.ParamSpec) => void;
+                'notify::auth-data': (pspec: GObject.ParamSpec) => void;
+                'notify::filter': (pspec: GObject.ParamSpec) => void;
+                'notify::filter-data': (pspec: GObject.ParamSpec) => void;
+                'notify::generic-auth-callback': (pspec: GObject.ParamSpec) => void;
+                'notify::generic-auth-data': (pspec: GObject.ParamSpec) => void;
+                'notify::proxy': (pspec: GObject.ParamSpec) => void;
+                'notify::realm': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends AuthDomain.ConstructorProps {
@@ -2388,11 +2589,40 @@ declare module 'gi://Soup?version=3.0' {
             get authData(): any;
             set authData(val: any);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AuthDomainDigest.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<AuthDomainDigest.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof AuthDomainDigest.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AuthDomainDigest.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AuthDomainDigest.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AuthDomainDigest.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AuthDomainDigest.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AuthDomainDigest.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -2438,6 +2668,9 @@ declare module 'gi://Soup?version=3.0' {
         }
 
         namespace AuthManager {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, SessionFeature.ConstructorProps {}
@@ -2465,11 +2698,38 @@ declare module 'gi://Soup?version=3.0' {
         class AuthManager extends GObject.Object implements SessionFeature {
             static $gtype: GObject.GType<AuthManager>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AuthManager.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<AuthManager.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof AuthManager.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AuthManager.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AuthManager.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AuthManager.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AuthManager.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AuthManager.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2611,7 +2871,21 @@ declare module 'gi://Soup?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -2739,7 +3013,12 @@ declare module 'gi://Soup?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -2889,14 +3168,44 @@ declare module 'gi://Soup?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace AuthNTLM {
+            // Signal signatures
+            interface SignalSignatures extends Auth.SignalSignatures {
+                'notify::authority': (pspec: GObject.ParamSpec) => void;
+                'notify::is-authenticated': (pspec: GObject.ParamSpec) => void;
+                'notify::is-cancelled': (pspec: GObject.ParamSpec) => void;
+                'notify::is-for-proxy': (pspec: GObject.ParamSpec) => void;
+                'notify::realm': (pspec: GObject.ParamSpec) => void;
+                'notify::scheme-name': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Auth.ConstructorProps {}
@@ -2912,14 +3221,51 @@ declare module 'gi://Soup?version=3.0' {
         class AuthNTLM extends Auth {
             static $gtype: GObject.GType<AuthNTLM>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AuthNTLM.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<AuthNTLM.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof AuthNTLM.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AuthNTLM.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AuthNTLM.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AuthNTLM.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AuthNTLM.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AuthNTLM.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace AuthNegotiate {
+            // Signal signatures
+            interface SignalSignatures extends Auth.SignalSignatures {
+                'notify::authority': (pspec: GObject.ParamSpec) => void;
+                'notify::is-authenticated': (pspec: GObject.ParamSpec) => void;
+                'notify::is-cancelled': (pspec: GObject.ParamSpec) => void;
+                'notify::is-for-proxy': (pspec: GObject.ParamSpec) => void;
+                'notify::realm': (pspec: GObject.ParamSpec) => void;
+                'notify::scheme-name': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Auth.ConstructorProps {}
@@ -2940,11 +3286,38 @@ declare module 'gi://Soup?version=3.0' {
         class AuthNegotiate extends Auth {
             static $gtype: GObject.GType<AuthNegotiate>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AuthNegotiate.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<AuthNegotiate.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof AuthNegotiate.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AuthNegotiate.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AuthNegotiate.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AuthNegotiate.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AuthNegotiate.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AuthNegotiate.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -2959,6 +3332,12 @@ declare module 'gi://Soup?version=3.0' {
         }
 
         namespace Cache {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::cache-dir': (pspec: GObject.ParamSpec) => void;
+                'notify::cache-type': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, SessionFeature.ConstructorProps {
@@ -2994,6 +3373,15 @@ declare module 'gi://Soup?version=3.0' {
              */
             get cacheType(): CacheType;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Cache.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Cache.ConstructorProps>, ...args: any[]);
@@ -3001,6 +3389,24 @@ declare module 'gi://Soup?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](cache_dir: string | null, cache_type: CacheType): Cache;
+
+            // Signals
+
+            connect<K extends keyof Cache.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Cache.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Cache.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Cache.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Cache.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Cache.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -3171,7 +3577,21 @@ declare module 'gi://Soup?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -3299,7 +3719,12 @@ declare module 'gi://Soup?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -3449,14 +3874,37 @@ declare module 'gi://Soup?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace ContentDecoder {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, SessionFeature.ConstructorProps {}
@@ -3491,11 +3939,38 @@ declare module 'gi://Soup?version=3.0' {
         class ContentDecoder extends GObject.Object implements SessionFeature {
             static $gtype: GObject.GType<ContentDecoder>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ContentDecoder.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ContentDecoder.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof ContentDecoder.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ContentDecoder.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ContentDecoder.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ContentDecoder.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ContentDecoder.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ContentDecoder.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited methods
             /**
@@ -3615,7 +4090,21 @@ declare module 'gi://Soup?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -3743,7 +4232,12 @@ declare module 'gi://Soup?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -3893,14 +4387,37 @@ declare module 'gi://Soup?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace ContentSniffer {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, SessionFeature.ConstructorProps {}
@@ -3919,6 +4436,15 @@ declare module 'gi://Soup?version=3.0' {
         class ContentSniffer extends GObject.Object implements SessionFeature {
             static $gtype: GObject.GType<ContentSniffer>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ContentSniffer.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ContentSniffer.ConstructorProps>, ...args: any[]);
@@ -3926,6 +4452,24 @@ declare module 'gi://Soup?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](): ContentSniffer;
+
+            // Signals
+
+            connect<K extends keyof ContentSniffer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ContentSniffer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ContentSniffer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ContentSniffer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ContentSniffer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ContentSniffer.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -4058,7 +4602,21 @@ declare module 'gi://Soup?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -4186,7 +4744,12 @@ declare module 'gi://Soup?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -4336,18 +4899,39 @@ declare module 'gi://Soup?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace CookieJar {
-            // Signal callback interfaces
-
-            interface Changed {
-                (old_cookie?: Cookie | null, new_cookie?: Cookie | null): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                changed: (arg0: Cookie | null, arg1: Cookie | null) => void;
+                'notify::accept-policy': (pspec: GObject.ParamSpec) => void;
+                'notify::read-only': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -4395,6 +4979,15 @@ declare module 'gi://Soup?version=3.0' {
              */
             get readOnly(): boolean;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CookieJar.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CookieJar.ConstructorProps>, ...args: any[]);
@@ -4405,18 +4998,21 @@ declare module 'gi://Soup?version=3.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(
-                signal: 'changed',
-                callback: (_source: this, old_cookie: Cookie | null, new_cookie: Cookie | null) => void,
+            connect<K extends keyof CookieJar.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CookieJar.SignalSignatures[K]>,
             ): number;
-            connect_after(
-                signal: 'changed',
-                callback: (_source: this, old_cookie: Cookie | null, new_cookie: Cookie | null) => void,
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CookieJar.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CookieJar.SignalSignatures[K]>,
             ): number;
-            emit(signal: 'changed', old_cookie?: Cookie | null, new_cookie?: Cookie | null): void;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CookieJar.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CookieJar.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -4708,7 +5304,21 @@ declare module 'gi://Soup?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -4836,7 +5446,12 @@ declare module 'gi://Soup?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -4986,14 +5601,41 @@ declare module 'gi://Soup?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace CookieJarDB {
+            // Signal signatures
+            interface SignalSignatures extends CookieJar.SignalSignatures {
+                'notify::filename': (pspec: GObject.ParamSpec) => void;
+                'notify::accept-policy': (pspec: GObject.ParamSpec) => void;
+                'notify::read-only': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends CookieJar.ConstructorProps, SessionFeature.ConstructorProps {
@@ -5021,6 +5663,15 @@ declare module 'gi://Soup?version=3.0' {
              */
             get filename(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CookieJarDB.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CookieJarDB.ConstructorProps>, ...args: any[]);
@@ -5031,6 +5682,24 @@ declare module 'gi://Soup?version=3.0' {
             // Conflicted with Soup.CookieJar.new
 
             static ['new'](...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof CookieJarDB.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CookieJarDB.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CookieJarDB.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CookieJarDB.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CookieJarDB.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CookieJarDB.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited methods
             /**
@@ -5150,7 +5819,21 @@ declare module 'gi://Soup?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -5278,7 +5961,12 @@ declare module 'gi://Soup?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -5428,14 +6116,41 @@ declare module 'gi://Soup?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace CookieJarText {
+            // Signal signatures
+            interface SignalSignatures extends CookieJar.SignalSignatures {
+                'notify::filename': (pspec: GObject.ParamSpec) => void;
+                'notify::accept-policy': (pspec: GObject.ParamSpec) => void;
+                'notify::read-only': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends CookieJar.ConstructorProps, SessionFeature.ConstructorProps {
@@ -5459,6 +6174,15 @@ declare module 'gi://Soup?version=3.0' {
              */
             get filename(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CookieJarText.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CookieJarText.ConstructorProps>, ...args: any[]);
@@ -5469,6 +6193,24 @@ declare module 'gi://Soup?version=3.0' {
             // Conflicted with Soup.CookieJar.new
 
             static ['new'](...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof CookieJarText.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CookieJarText.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CookieJarText.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CookieJarText.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CookieJarText.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CookieJarText.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited methods
             /**
@@ -5588,7 +6330,21 @@ declare module 'gi://Soup?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -5716,7 +6472,12 @@ declare module 'gi://Soup?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -5866,18 +6627,37 @@ declare module 'gi://Soup?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace HSTSEnforcer {
-            // Signal callback interfaces
-
-            interface Changed {
-                (old_policy: HSTSPolicy, new_policy: HSTSPolicy): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                changed: (arg0: HSTSPolicy, arg1: HSTSPolicy) => void;
             }
 
             // Constructor properties interface
@@ -5912,6 +6692,15 @@ declare module 'gi://Soup?version=3.0' {
         class HSTSEnforcer extends GObject.Object implements SessionFeature {
             static $gtype: GObject.GType<HSTSEnforcer>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: HSTSEnforcer.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<HSTSEnforcer.ConstructorProps>, ...args: any[]);
@@ -5922,18 +6711,21 @@ declare module 'gi://Soup?version=3.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(
-                signal: 'changed',
-                callback: (_source: this, old_policy: HSTSPolicy, new_policy: HSTSPolicy) => void,
+            connect<K extends keyof HSTSEnforcer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, HSTSEnforcer.SignalSignatures[K]>,
             ): number;
-            connect_after(
-                signal: 'changed',
-                callback: (_source: this, old_policy: HSTSPolicy, new_policy: HSTSPolicy) => void,
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof HSTSEnforcer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, HSTSEnforcer.SignalSignatures[K]>,
             ): number;
-            emit(signal: 'changed', old_policy: HSTSPolicy, new_policy: HSTSPolicy): void;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof HSTSEnforcer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<HSTSEnforcer.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -6118,7 +6910,21 @@ declare module 'gi://Soup?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -6246,7 +7052,12 @@ declare module 'gi://Soup?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -6396,14 +7207,39 @@ declare module 'gi://Soup?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace HSTSEnforcerDB {
+            // Signal signatures
+            interface SignalSignatures extends HSTSEnforcer.SignalSignatures {
+                'notify::filename': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends HSTSEnforcer.ConstructorProps, SessionFeature.ConstructorProps {
@@ -6427,6 +7263,15 @@ declare module 'gi://Soup?version=3.0' {
              */
             get filename(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: HSTSEnforcerDB.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<HSTSEnforcerDB.ConstructorProps>, ...args: any[]);
@@ -6437,6 +7282,24 @@ declare module 'gi://Soup?version=3.0' {
             // Conflicted with Soup.HSTSEnforcer.new
 
             static ['new'](...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof HSTSEnforcerDB.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, HSTSEnforcerDB.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof HSTSEnforcerDB.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, HSTSEnforcerDB.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof HSTSEnforcerDB.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<HSTSEnforcerDB.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited methods
             /**
@@ -6556,7 +7419,21 @@ declare module 'gi://Soup?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -6684,7 +7561,12 @@ declare module 'gi://Soup?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -6834,14 +7716,40 @@ declare module 'gi://Soup?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Logger {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::level': (pspec: GObject.ParamSpec) => void;
+                'notify::max-body-size': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, SessionFeature.ConstructorProps {
@@ -6936,6 +7844,15 @@ declare module 'gi://Soup?version=3.0' {
             get maxBodySize(): number;
             set maxBodySize(val: number);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Logger.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Logger.ConstructorProps>, ...args: any[]);
@@ -6943,6 +7860,24 @@ declare module 'gi://Soup?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](level: LoggerLogLevel): Logger;
+
+            // Signals
+
+            connect<K extends keyof Logger.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Logger.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Logger.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Logger.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Logger.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Logger.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -7101,7 +8036,21 @@ declare module 'gi://Soup?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -7229,7 +8178,12 @@ declare module 'gi://Soup?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -7379,82 +8333,71 @@ declare module 'gi://Soup?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Message {
-            // Signal callback interfaces
-
-            interface AcceptCertificate {
-                (tls_peer_certificate: Gio.TlsCertificate, tls_peer_errors: Gio.TlsCertificateFlags): boolean;
-            }
-
-            interface Authenticate {
-                (auth: Auth, retrying: boolean): boolean;
-            }
-
-            interface ContentSniffed {
-                (type: string, params: { [key: string]: any } | GLib.HashTable<string, string>): void;
-            }
-
-            interface Finished {
-                (): void;
-            }
-
-            interface GotBody {
-                (): void;
-            }
-
-            interface GotBodyData {
-                (chunk_size: number): void;
-            }
-
-            interface GotHeaders {
-                (): void;
-            }
-
-            interface GotInformational {
-                (): void;
-            }
-
-            interface HstsEnforced {
-                (): void;
-            }
-
-            interface NetworkEvent {
-                (event: Gio.SocketClientEvent, connection: Gio.IOStream): void;
-            }
-
-            interface RequestCertificate {
-                (tls_connection: Gio.TlsClientConnection): boolean;
-            }
-
-            interface RequestCertificatePassword {
-                (tls_password: Gio.TlsPassword): boolean;
-            }
-
-            interface Restarted {
-                (): void;
-            }
-
-            interface Starting {
-                (): void;
-            }
-
-            interface WroteBody {
-                (): void;
-            }
-
-            interface WroteBodyData {
-                (chunk_size: number): void;
-            }
-
-            interface WroteHeaders {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'accept-certificate': (arg0: Gio.TlsCertificate, arg1: Gio.TlsCertificateFlags) => boolean | void;
+                authenticate: (arg0: Auth, arg1: boolean) => boolean | void;
+                'content-sniffed': (arg0: string, arg1: GLib.HashTable<string, string>) => void;
+                finished: () => void;
+                'got-body': () => void;
+                'got-body-data': (arg0: number) => void;
+                'got-headers': () => void;
+                'got-informational': () => void;
+                'hsts-enforced': () => void;
+                'network-event': (arg0: Gio.SocketClientEvent, arg1: Gio.IOStream) => void;
+                'request-certificate': (arg0: Gio.TlsClientConnection) => boolean | void;
+                'request-certificate-password': (arg0: Gio.TlsPassword) => boolean | void;
+                restarted: () => void;
+                starting: () => void;
+                'wrote-body': () => void;
+                'wrote-body-data': (arg0: number) => void;
+                'wrote-headers': () => void;
+                'notify::first-party': (pspec: GObject.ParamSpec) => void;
+                'notify::flags': (pspec: GObject.ParamSpec) => void;
+                'notify::http-version': (pspec: GObject.ParamSpec) => void;
+                'notify::is-options-ping': (pspec: GObject.ParamSpec) => void;
+                'notify::is-top-level-navigation': (pspec: GObject.ParamSpec) => void;
+                'notify::method': (pspec: GObject.ParamSpec) => void;
+                'notify::priority': (pspec: GObject.ParamSpec) => void;
+                'notify::reason-phrase': (pspec: GObject.ParamSpec) => void;
+                'notify::remote-address': (pspec: GObject.ParamSpec) => void;
+                'notify::request-headers': (pspec: GObject.ParamSpec) => void;
+                'notify::response-headers': (pspec: GObject.ParamSpec) => void;
+                'notify::site-for-cookies': (pspec: GObject.ParamSpec) => void;
+                'notify::status-code': (pspec: GObject.ParamSpec) => void;
+                'notify::tls-ciphersuite-name': (pspec: GObject.ParamSpec) => void;
+                'notify::tls-peer-certificate': (pspec: GObject.ParamSpec) => void;
+                'notify::tls-peer-certificate-errors': (pspec: GObject.ParamSpec) => void;
+                'notify::tls-protocol-version': (pspec: GObject.ParamSpec) => void;
+                'notify::uri': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -7680,6 +8623,15 @@ declare module 'gi://Soup?version=3.0' {
             get uri(): GLib.Uri;
             set uri(val: GLib.Uri);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Message.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Message.ConstructorProps>, ...args: any[]);
@@ -7698,112 +8650,21 @@ declare module 'gi://Soup?version=3.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(
-                signal: 'accept-certificate',
-                callback: (
-                    _source: this,
-                    tls_peer_certificate: Gio.TlsCertificate,
-                    tls_peer_errors: Gio.TlsCertificateFlags,
-                ) => boolean,
+            connect<K extends keyof Message.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Message.SignalSignatures[K]>,
             ): number;
-            connect_after(
-                signal: 'accept-certificate',
-                callback: (
-                    _source: this,
-                    tls_peer_certificate: Gio.TlsCertificate,
-                    tls_peer_errors: Gio.TlsCertificateFlags,
-                ) => boolean,
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Message.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Message.SignalSignatures[K]>,
             ): number;
-            emit(
-                signal: 'accept-certificate',
-                tls_peer_certificate: Gio.TlsCertificate,
-                tls_peer_errors: Gio.TlsCertificateFlags,
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Message.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Message.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
             ): void;
-            connect(
-                signal: 'authenticate',
-                callback: (_source: this, auth: Auth, retrying: boolean) => boolean,
-            ): number;
-            connect_after(
-                signal: 'authenticate',
-                callback: (_source: this, auth: Auth, retrying: boolean) => boolean,
-            ): number;
-            emit(signal: 'authenticate', auth: Auth, retrying: boolean): void;
-            connect(
-                signal: 'content-sniffed',
-                callback: (_source: this, type: string, params: GLib.HashTable<string, string>) => void,
-            ): number;
-            connect_after(
-                signal: 'content-sniffed',
-                callback: (_source: this, type: string, params: GLib.HashTable<string, string>) => void,
-            ): number;
-            emit(
-                signal: 'content-sniffed',
-                type: string,
-                params: { [key: string]: any } | GLib.HashTable<string, string>,
-            ): void;
-            connect(signal: 'finished', callback: (_source: this) => void): number;
-            connect_after(signal: 'finished', callback: (_source: this) => void): number;
-            emit(signal: 'finished'): void;
-            connect(signal: 'got-body', callback: (_source: this) => void): number;
-            connect_after(signal: 'got-body', callback: (_source: this) => void): number;
-            emit(signal: 'got-body'): void;
-            connect(signal: 'got-body-data', callback: (_source: this, chunk_size: number) => void): number;
-            connect_after(signal: 'got-body-data', callback: (_source: this, chunk_size: number) => void): number;
-            emit(signal: 'got-body-data', chunk_size: number): void;
-            connect(signal: 'got-headers', callback: (_source: this) => void): number;
-            connect_after(signal: 'got-headers', callback: (_source: this) => void): number;
-            emit(signal: 'got-headers'): void;
-            connect(signal: 'got-informational', callback: (_source: this) => void): number;
-            connect_after(signal: 'got-informational', callback: (_source: this) => void): number;
-            emit(signal: 'got-informational'): void;
-            connect(signal: 'hsts-enforced', callback: (_source: this) => void): number;
-            connect_after(signal: 'hsts-enforced', callback: (_source: this) => void): number;
-            emit(signal: 'hsts-enforced'): void;
-            connect(
-                signal: 'network-event',
-                callback: (_source: this, event: Gio.SocketClientEvent, connection: Gio.IOStream) => void,
-            ): number;
-            connect_after(
-                signal: 'network-event',
-                callback: (_source: this, event: Gio.SocketClientEvent, connection: Gio.IOStream) => void,
-            ): number;
-            emit(signal: 'network-event', event: Gio.SocketClientEvent, connection: Gio.IOStream): void;
-            connect(
-                signal: 'request-certificate',
-                callback: (_source: this, tls_connection: Gio.TlsClientConnection) => boolean,
-            ): number;
-            connect_after(
-                signal: 'request-certificate',
-                callback: (_source: this, tls_connection: Gio.TlsClientConnection) => boolean,
-            ): number;
-            emit(signal: 'request-certificate', tls_connection: Gio.TlsClientConnection): void;
-            connect(
-                signal: 'request-certificate-password',
-                callback: (_source: this, tls_password: Gio.TlsPassword) => boolean,
-            ): number;
-            connect_after(
-                signal: 'request-certificate-password',
-                callback: (_source: this, tls_password: Gio.TlsPassword) => boolean,
-            ): number;
-            emit(signal: 'request-certificate-password', tls_password: Gio.TlsPassword): void;
-            connect(signal: 'restarted', callback: (_source: this) => void): number;
-            connect_after(signal: 'restarted', callback: (_source: this) => void): number;
-            emit(signal: 'restarted'): void;
-            connect(signal: 'starting', callback: (_source: this) => void): number;
-            connect_after(signal: 'starting', callback: (_source: this) => void): number;
-            emit(signal: 'starting'): void;
-            connect(signal: 'wrote-body', callback: (_source: this) => void): number;
-            connect_after(signal: 'wrote-body', callback: (_source: this) => void): number;
-            emit(signal: 'wrote-body'): void;
-            connect(signal: 'wrote-body-data', callback: (_source: this, chunk_size: number) => void): number;
-            connect_after(signal: 'wrote-body-data', callback: (_source: this, chunk_size: number) => void): number;
-            emit(signal: 'wrote-body-data', chunk_size: number): void;
-            connect(signal: 'wrote-headers', callback: (_source: this) => void): number;
-            connect_after(signal: 'wrote-headers', callback: (_source: this) => void): number;
-            emit(signal: 'wrote-headers'): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -8112,6 +8973,13 @@ declare module 'gi://Soup?version=3.0' {
         }
 
         namespace MultipartInputStream {
+            // Signal signatures
+            interface SignalSignatures extends Gio.FilterInputStream.SignalSignatures {
+                'notify::message': (pspec: GObject.ParamSpec) => void;
+                'notify::base-stream': (pspec: GObject.ParamSpec) => void;
+                'notify::close-base-stream': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -8144,6 +9012,15 @@ declare module 'gi://Soup?version=3.0' {
              */
             get message(): Message;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: MultipartInputStream.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<MultipartInputStream.ConstructorProps>, ...args: any[]);
@@ -8151,6 +9028,26 @@ declare module 'gi://Soup?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](msg: Message, base_stream: Gio.InputStream): MultipartInputStream;
+
+            // Signals
+
+            connect<K extends keyof MultipartInputStream.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MultipartInputStream.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof MultipartInputStream.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, MultipartInputStream.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof MultipartInputStream.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<MultipartInputStream.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -9103,22 +10000,17 @@ declare module 'gi://Soup?version=3.0' {
         }
 
         namespace Server {
-            // Signal callback interfaces
-
-            interface RequestAborted {
-                (message: ServerMessage): void;
-            }
-
-            interface RequestFinished {
-                (message: ServerMessage): void;
-            }
-
-            interface RequestRead {
-                (message: ServerMessage): void;
-            }
-
-            interface RequestStarted {
-                (message: ServerMessage): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'request-aborted': (arg0: ServerMessage) => void;
+                'request-finished': (arg0: ServerMessage) => void;
+                'request-read': (arg0: ServerMessage) => void;
+                'request-started': (arg0: ServerMessage) => void;
+                'notify::raw-paths': (pspec: GObject.ParamSpec) => void;
+                'notify::server-header': (pspec: GObject.ParamSpec) => void;
+                'notify::tls-auth-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::tls-certificate': (pspec: GObject.ParamSpec) => void;
+                'notify::tls-database': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -9339,6 +10231,15 @@ declare module 'gi://Soup?version=3.0' {
             get tlsDatabase(): Gio.TlsDatabase;
             set tlsDatabase(val: Gio.TlsDatabase);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Server.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Server.ConstructorProps>, ...args: any[]);
@@ -9347,24 +10248,21 @@ declare module 'gi://Soup?version=3.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'request-aborted', callback: (_source: this, message: ServerMessage) => void): number;
-            connect_after(signal: 'request-aborted', callback: (_source: this, message: ServerMessage) => void): number;
-            emit(signal: 'request-aborted', message: ServerMessage): void;
-            connect(signal: 'request-finished', callback: (_source: this, message: ServerMessage) => void): number;
-            connect_after(
-                signal: 'request-finished',
-                callback: (_source: this, message: ServerMessage) => void,
+            connect<K extends keyof Server.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Server.SignalSignatures[K]>,
             ): number;
-            emit(signal: 'request-finished', message: ServerMessage): void;
-            connect(signal: 'request-read', callback: (_source: this, message: ServerMessage) => void): number;
-            connect_after(signal: 'request-read', callback: (_source: this, message: ServerMessage) => void): number;
-            emit(signal: 'request-read', message: ServerMessage): void;
-            connect(signal: 'request-started', callback: (_source: this, message: ServerMessage) => void): number;
-            connect_after(signal: 'request-started', callback: (_source: this, message: ServerMessage) => void): number;
-            emit(signal: 'request-started', message: ServerMessage): void;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Server.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Server.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Server.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Server.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -9703,54 +10601,22 @@ declare module 'gi://Soup?version=3.0' {
         }
 
         namespace ServerMessage {
-            // Signal callback interfaces
-
-            interface AcceptCertificate {
-                (tls_peer_certificate: Gio.TlsCertificate, tls_peer_errors: Gio.TlsCertificateFlags): boolean;
-            }
-
-            interface Connected {
-                (): void;
-            }
-
-            interface Disconnected {
-                (): void;
-            }
-
-            interface Finished {
-                (): void;
-            }
-
-            interface GotBody {
-                (): void;
-            }
-
-            interface GotChunk {
-                (chunk: GLib.Bytes | Uint8Array): void;
-            }
-
-            interface GotHeaders {
-                (): void;
-            }
-
-            interface WroteBody {
-                (): void;
-            }
-
-            interface WroteBodyData {
-                (chunk_size: number): void;
-            }
-
-            interface WroteChunk {
-                (): void;
-            }
-
-            interface WroteHeaders {
-                (): void;
-            }
-
-            interface WroteInformational {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'accept-certificate': (arg0: Gio.TlsCertificate, arg1: Gio.TlsCertificateFlags) => boolean | void;
+                connected: () => void;
+                disconnected: () => void;
+                finished: () => void;
+                'got-body': () => void;
+                'got-chunk': (arg0: GLib.Bytes) => void;
+                'got-headers': () => void;
+                'wrote-body': () => void;
+                'wrote-body-data': (arg0: number) => void;
+                'wrote-chunk': () => void;
+                'wrote-headers': () => void;
+                'wrote-informational': () => void;
+                'notify::tls-peer-certificate': (pspec: GObject.ParamSpec) => void;
+                'notify::tls-peer-certificate-errors': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -9799,6 +10665,15 @@ declare module 'gi://Soup?version=3.0' {
              */
             get tlsPeerCertificateErrors(): Gio.TlsCertificateFlags;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ServerMessage.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ServerMessage.ConstructorProps>, ...args: any[]);
@@ -9807,63 +10682,21 @@ declare module 'gi://Soup?version=3.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(
-                signal: 'accept-certificate',
-                callback: (
-                    _source: this,
-                    tls_peer_certificate: Gio.TlsCertificate,
-                    tls_peer_errors: Gio.TlsCertificateFlags,
-                ) => boolean,
+            connect<K extends keyof ServerMessage.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ServerMessage.SignalSignatures[K]>,
             ): number;
-            connect_after(
-                signal: 'accept-certificate',
-                callback: (
-                    _source: this,
-                    tls_peer_certificate: Gio.TlsCertificate,
-                    tls_peer_errors: Gio.TlsCertificateFlags,
-                ) => boolean,
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ServerMessage.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ServerMessage.SignalSignatures[K]>,
             ): number;
-            emit(
-                signal: 'accept-certificate',
-                tls_peer_certificate: Gio.TlsCertificate,
-                tls_peer_errors: Gio.TlsCertificateFlags,
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ServerMessage.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ServerMessage.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
             ): void;
-            connect(signal: 'connected', callback: (_source: this) => void): number;
-            connect_after(signal: 'connected', callback: (_source: this) => void): number;
-            emit(signal: 'connected'): void;
-            connect(signal: 'disconnected', callback: (_source: this) => void): number;
-            connect_after(signal: 'disconnected', callback: (_source: this) => void): number;
-            emit(signal: 'disconnected'): void;
-            connect(signal: 'finished', callback: (_source: this) => void): number;
-            connect_after(signal: 'finished', callback: (_source: this) => void): number;
-            emit(signal: 'finished'): void;
-            connect(signal: 'got-body', callback: (_source: this) => void): number;
-            connect_after(signal: 'got-body', callback: (_source: this) => void): number;
-            emit(signal: 'got-body'): void;
-            connect(signal: 'got-chunk', callback: (_source: this, chunk: GLib.Bytes) => void): number;
-            connect_after(signal: 'got-chunk', callback: (_source: this, chunk: GLib.Bytes) => void): number;
-            emit(signal: 'got-chunk', chunk: GLib.Bytes | Uint8Array): void;
-            connect(signal: 'got-headers', callback: (_source: this) => void): number;
-            connect_after(signal: 'got-headers', callback: (_source: this) => void): number;
-            emit(signal: 'got-headers'): void;
-            connect(signal: 'wrote-body', callback: (_source: this) => void): number;
-            connect_after(signal: 'wrote-body', callback: (_source: this) => void): number;
-            emit(signal: 'wrote-body'): void;
-            connect(signal: 'wrote-body-data', callback: (_source: this, chunk_size: number) => void): number;
-            connect_after(signal: 'wrote-body-data', callback: (_source: this, chunk_size: number) => void): number;
-            emit(signal: 'wrote-body-data', chunk_size: number): void;
-            connect(signal: 'wrote-chunk', callback: (_source: this) => void): number;
-            connect_after(signal: 'wrote-chunk', callback: (_source: this) => void): number;
-            emit(signal: 'wrote-chunk'): void;
-            connect(signal: 'wrote-headers', callback: (_source: this) => void): number;
-            connect_after(signal: 'wrote-headers', callback: (_source: this) => void): number;
-            emit(signal: 'wrote-headers'): void;
-            connect(signal: 'wrote-informational', callback: (_source: this) => void): number;
-            connect_after(signal: 'wrote-informational', callback: (_source: this) => void): number;
-            emit(signal: 'wrote-informational'): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -10029,14 +10862,22 @@ declare module 'gi://Soup?version=3.0' {
         }
 
         namespace Session {
-            // Signal callback interfaces
-
-            interface RequestQueued {
-                (msg: Message): void;
-            }
-
-            interface RequestUnqueued {
-                (msg: Message): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'request-queued': (arg0: Message) => void;
+                'request-unqueued': (arg0: Message) => void;
+                'notify::accept-language': (pspec: GObject.ParamSpec) => void;
+                'notify::accept-language-auto': (pspec: GObject.ParamSpec) => void;
+                'notify::idle-timeout': (pspec: GObject.ParamSpec) => void;
+                'notify::local-address': (pspec: GObject.ParamSpec) => void;
+                'notify::max-conns': (pspec: GObject.ParamSpec) => void;
+                'notify::max-conns-per-host': (pspec: GObject.ParamSpec) => void;
+                'notify::proxy-resolver': (pspec: GObject.ParamSpec) => void;
+                'notify::remote-connectable': (pspec: GObject.ParamSpec) => void;
+                'notify::timeout': (pspec: GObject.ParamSpec) => void;
+                'notify::tls-database': (pspec: GObject.ParamSpec) => void;
+                'notify::tls-interaction': (pspec: GObject.ParamSpec) => void;
+                'notify::user-agent': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -10355,6 +11196,15 @@ declare module 'gi://Soup?version=3.0' {
             get userAgent(): string;
             set userAgent(val: string);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Session.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Session.ConstructorProps>, ...args: any[]);
@@ -10365,15 +11215,21 @@ declare module 'gi://Soup?version=3.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'request-queued', callback: (_source: this, msg: Message) => void): number;
-            connect_after(signal: 'request-queued', callback: (_source: this, msg: Message) => void): number;
-            emit(signal: 'request-queued', msg: Message): void;
-            connect(signal: 'request-unqueued', callback: (_source: this, msg: Message) => void): number;
-            connect_after(signal: 'request-unqueued', callback: (_source: this, msg: Message) => void): number;
-            emit(signal: 'request-unqueued', msg: Message): void;
+            connect<K extends keyof Session.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Session.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Session.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Session.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Session.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Session.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -11028,26 +11884,23 @@ declare module 'gi://Soup?version=3.0' {
         }
 
         namespace WebsocketConnection {
-            // Signal callback interfaces
-
-            interface Closed {
-                (): void;
-            }
-
-            interface Closing {
-                (): void;
-            }
-
-            interface Error {
-                (error: GLib.Error): void;
-            }
-
-            interface Message {
-                (type: number, message: GLib.Bytes | Uint8Array): void;
-            }
-
-            interface Pong {
-                (message: GLib.Bytes | Uint8Array): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                closed: () => void;
+                closing: () => void;
+                error: (arg0: GLib.Error) => void;
+                message: (arg0: number, arg1: GLib.Bytes) => void;
+                pong: (arg0: GLib.Bytes) => void;
+                'notify::connection-type': (pspec: GObject.ParamSpec) => void;
+                'notify::extensions': (pspec: GObject.ParamSpec) => void;
+                'notify::io-stream': (pspec: GObject.ParamSpec) => void;
+                'notify::keepalive-interval': (pspec: GObject.ParamSpec) => void;
+                'notify::keepalive-pong-timeout': (pspec: GObject.ParamSpec) => void;
+                'notify::max-incoming-payload-size': (pspec: GObject.ParamSpec) => void;
+                'notify::origin': (pspec: GObject.ParamSpec) => void;
+                'notify::protocol': (pspec: GObject.ParamSpec) => void;
+                'notify::state': (pspec: GObject.ParamSpec) => void;
+                'notify::uri': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -11196,6 +12049,15 @@ declare module 'gi://Soup?version=3.0' {
              */
             get uri(): GLib.Uri;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: WebsocketConnection.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<WebsocketConnection.ConstructorProps>, ...args: any[]);
@@ -11213,27 +12075,23 @@ declare module 'gi://Soup?version=3.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'closed', callback: (_source: this) => void): number;
-            connect_after(signal: 'closed', callback: (_source: this) => void): number;
-            emit(signal: 'closed'): void;
-            connect(signal: 'closing', callback: (_source: this) => void): number;
-            connect_after(signal: 'closing', callback: (_source: this) => void): number;
-            emit(signal: 'closing'): void;
-            connect(signal: 'error', callback: (_source: this, error: GLib.Error) => void): number;
-            connect_after(signal: 'error', callback: (_source: this, error: GLib.Error) => void): number;
-            emit(signal: 'error', error: GLib.Error): void;
-            connect(signal: 'message', callback: (_source: this, type: number, message: GLib.Bytes) => void): number;
-            connect_after(
-                signal: 'message',
-                callback: (_source: this, type: number, message: GLib.Bytes) => void,
+            connect<K extends keyof WebsocketConnection.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, WebsocketConnection.SignalSignatures[K]>,
             ): number;
-            emit(signal: 'message', type: number, message: GLib.Bytes | Uint8Array): void;
-            connect(signal: 'pong', callback: (_source: this, message: GLib.Bytes) => void): number;
-            connect_after(signal: 'pong', callback: (_source: this, message: GLib.Bytes) => void): number;
-            emit(signal: 'pong', message: GLib.Bytes | Uint8Array): void;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof WebsocketConnection.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, WebsocketConnection.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof WebsocketConnection.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<WebsocketConnection.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -11381,6 +12239,9 @@ declare module 'gi://Soup?version=3.0' {
         }
 
         namespace WebsocketExtension {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -11394,11 +12255,40 @@ declare module 'gi://Soup?version=3.0' {
         abstract class WebsocketExtension extends GObject.Object {
             static $gtype: GObject.GType<WebsocketExtension>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: WebsocketExtension.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<WebsocketExtension.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof WebsocketExtension.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, WebsocketExtension.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof WebsocketExtension.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, WebsocketExtension.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof WebsocketExtension.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<WebsocketExtension.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -11507,6 +12397,9 @@ declare module 'gi://Soup?version=3.0' {
         }
 
         namespace WebsocketExtensionDeflate {
+            // Signal signatures
+            interface SignalSignatures extends WebsocketExtension.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends WebsocketExtension.ConstructorProps {}
@@ -11522,14 +12415,46 @@ declare module 'gi://Soup?version=3.0' {
         class WebsocketExtensionDeflate extends WebsocketExtension {
             static $gtype: GObject.GType<WebsocketExtensionDeflate>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: WebsocketExtensionDeflate.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<WebsocketExtensionDeflate.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof WebsocketExtensionDeflate.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, WebsocketExtensionDeflate.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof WebsocketExtensionDeflate.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, WebsocketExtensionDeflate.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof WebsocketExtensionDeflate.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<WebsocketExtensionDeflate.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace WebsocketExtensionManager {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, SessionFeature.ConstructorProps {}
@@ -11548,11 +12473,40 @@ declare module 'gi://Soup?version=3.0' {
         class WebsocketExtensionManager extends GObject.Object implements SessionFeature {
             static $gtype: GObject.GType<WebsocketExtensionManager>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: WebsocketExtensionManager.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<WebsocketExtensionManager.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof WebsocketExtensionManager.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, WebsocketExtensionManager.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof WebsocketExtensionManager.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, WebsocketExtensionManager.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof WebsocketExtensionManager.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<WebsocketExtensionManager.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited methods
             /**
@@ -11672,7 +12626,21 @@ declare module 'gi://Soup?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -11800,7 +12768,12 @@ declare module 'gi://Soup?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -11950,11 +12923,31 @@ declare module 'gi://Soup?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         type AuthClass = typeof Auth;

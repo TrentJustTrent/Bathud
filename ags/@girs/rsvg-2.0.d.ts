@@ -1,4 +1,5 @@
 /// <reference path="./cairo-1.0.d.ts" />
+/// <reference path="./cairo.d.ts" />
 /// <reference path="./gobject-2.0.d.ts" />
 /// <reference path="./glib-2.0.d.ts" />
 /// <reference path="./gio-2.0.d.ts" />
@@ -16,7 +17,7 @@
 
 declare module 'gi://Rsvg?version=2.0' {
     // Module dependencies
-    import type cairo from 'gi://cairo?version=1.0';
+    import type cairo from 'cairo';
     import type GObject from 'gi://GObject?version=2.0';
     import type GLib from 'gi://GLib?version=2.0';
     import type Gio from 'gi://Gio?version=2.0';
@@ -327,6 +328,21 @@ declare module 'gi://Rsvg?version=2.0' {
             FLAG_KEEP_IMAGE_DATA,
         }
         namespace Handle {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::base-uri': (pspec: GObject.ParamSpec) => void;
+                'notify::desc': (pspec: GObject.ParamSpec) => void;
+                'notify::dpi-x': (pspec: GObject.ParamSpec) => void;
+                'notify::dpi-y': (pspec: GObject.ParamSpec) => void;
+                'notify::em': (pspec: GObject.ParamSpec) => void;
+                'notify::ex': (pspec: GObject.ParamSpec) => void;
+                'notify::flags': (pspec: GObject.ParamSpec) => void;
+                'notify::height': (pspec: GObject.ParamSpec) => void;
+                'notify::metadata': (pspec: GObject.ParamSpec) => void;
+                'notify::title': (pspec: GObject.ParamSpec) => void;
+                'notify::width': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -597,6 +613,15 @@ declare module 'gi://Rsvg?version=2.0' {
              */
             get width(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Handle.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Handle.ConstructorProps>, ...args: any[]);
@@ -623,6 +648,24 @@ declare module 'gi://Rsvg?version=2.0' {
             ): Handle;
 
             static new_with_flags(flags: HandleFlags): Handle;
+
+            // Signals
+
+            connect<K extends keyof Handle.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Handle.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Handle.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Handle.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Handle.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Handle.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 

@@ -423,6 +423,11 @@ declare module 'gi://Tracker?version=3.0' {
             ANONYMOUS_BNODES,
         }
         namespace Batch {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::connection': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -459,11 +464,38 @@ declare module 'gi://Tracker?version=3.0' {
              */
             get connection(): SparqlConnection;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Batch.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Batch.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Batch.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Batch.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Batch.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Batch.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Batch.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Batch.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -580,6 +612,14 @@ declare module 'gi://Tracker?version=3.0' {
         }
 
         namespace Endpoint {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::allowed-graphs': (pspec: GObject.ParamSpec) => void;
+                'notify::allowed-services': (pspec: GObject.ParamSpec) => void;
+                'notify::readonly': (pspec: GObject.ParamSpec) => void;
+                'notify::sparql-connection': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -670,11 +710,38 @@ declare module 'gi://Tracker?version=3.0' {
              */
             get sparqlConnection(): SparqlConnection;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Endpoint.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Endpoint.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Endpoint.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Endpoint.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Endpoint.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Endpoint.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Endpoint.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Endpoint.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -752,10 +819,15 @@ declare module 'gi://Tracker?version=3.0' {
         }
 
         namespace EndpointDBus {
-            // Signal callback interfaces
-
-            interface BlockCall {
-                (object: string): boolean;
+            // Signal signatures
+            interface SignalSignatures extends Endpoint.SignalSignatures {
+                'block-call': (arg0: string) => boolean | void;
+                'notify::dbus-connection': (pspec: GObject.ParamSpec) => void;
+                'notify::object-path': (pspec: GObject.ParamSpec) => void;
+                'notify::allowed-graphs': (pspec: GObject.ParamSpec) => void;
+                'notify::allowed-services': (pspec: GObject.ParamSpec) => void;
+                'notify::readonly': (pspec: GObject.ParamSpec) => void;
+                'notify::sparql-connection': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -833,6 +905,15 @@ declare module 'gi://Tracker?version=3.0' {
              */
             get objectPath(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: EndpointDBus.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<EndpointDBus.ConstructorProps>, ...args: any[]);
@@ -848,12 +929,21 @@ declare module 'gi://Tracker?version=3.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'block-call', callback: (_source: this, object: string) => boolean): number;
-            connect_after(signal: 'block-call', callback: (_source: this, object: string) => boolean): number;
-            emit(signal: 'block-call', object: string): void;
+            connect<K extends keyof EndpointDBus.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, EndpointDBus.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof EndpointDBus.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, EndpointDBus.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof EndpointDBus.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<EndpointDBus.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited methods
             /**
@@ -1058,7 +1148,21 @@ declare module 'gi://Tracker?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -1186,7 +1290,12 @@ declare module 'gi://Tracker?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -1336,18 +1445,43 @@ declare module 'gi://Tracker?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace EndpointHttp {
-            // Signal callback interfaces
-
-            interface BlockRemoteAddress {
-                (address: Gio.SocketAddress): boolean;
+            // Signal signatures
+            interface SignalSignatures extends Endpoint.SignalSignatures {
+                'block-remote-address': (arg0: Gio.SocketAddress) => boolean | void;
+                'notify::http-certificate': (pspec: GObject.ParamSpec) => void;
+                'notify::http-port': (pspec: GObject.ParamSpec) => void;
+                'notify::allowed-graphs': (pspec: GObject.ParamSpec) => void;
+                'notify::allowed-services': (pspec: GObject.ParamSpec) => void;
+                'notify::readonly': (pspec: GObject.ParamSpec) => void;
+                'notify::sparql-connection': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -1423,6 +1557,15 @@ declare module 'gi://Tracker?version=3.0' {
              */
             get httpPort(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: EndpointHttp.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<EndpointHttp.ConstructorProps>, ...args: any[]);
@@ -1438,18 +1581,21 @@ declare module 'gi://Tracker?version=3.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(
-                signal: 'block-remote-address',
-                callback: (_source: this, address: Gio.SocketAddress) => boolean,
+            connect<K extends keyof EndpointHttp.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, EndpointHttp.SignalSignatures[K]>,
             ): number;
-            connect_after(
-                signal: 'block-remote-address',
-                callback: (_source: this, address: Gio.SocketAddress) => boolean,
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof EndpointHttp.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, EndpointHttp.SignalSignatures[K]>,
             ): number;
-            emit(signal: 'block-remote-address', address: Gio.SocketAddress): void;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof EndpointHttp.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<EndpointHttp.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited methods
             /**
@@ -1654,7 +1800,21 @@ declare module 'gi://Tracker?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -1782,7 +1942,12 @@ declare module 'gi://Tracker?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -1932,14 +2097,37 @@ declare module 'gi://Tracker?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace NamespaceManager {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -1961,6 +2149,15 @@ declare module 'gi://Tracker?version=3.0' {
         class NamespaceManager extends GObject.Object {
             static $gtype: GObject.GType<NamespaceManager>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: NamespaceManager.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<NamespaceManager.ConstructorProps>, ...args: any[]);
@@ -1968,6 +2165,26 @@ declare module 'gi://Tracker?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](): NamespaceManager;
+
+            // Signals
+
+            connect<K extends keyof NamespaceManager.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, NamespaceManager.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof NamespaceManager.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, NamespaceManager.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof NamespaceManager.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<NamespaceManager.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -2039,10 +2256,10 @@ declare module 'gi://Tracker?version=3.0' {
         }
 
         namespace Notifier {
-            // Signal callback interfaces
-
-            interface Events {
-                (service: string, graph: string, events: NotifierEvent[]): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                events: (arg0: string, arg1: string, arg2: NotifierEvent[]) => void;
+                'notify::connection': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -2095,6 +2312,15 @@ declare module 'gi://Tracker?version=3.0' {
              */
             get connection(): SparqlConnection;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Notifier.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Notifier.ConstructorProps>, ...args: any[]);
@@ -2103,18 +2329,21 @@ declare module 'gi://Tracker?version=3.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(
-                signal: 'events',
-                callback: (_source: this, service: string, graph: string, events: NotifierEvent[]) => void,
+            connect<K extends keyof Notifier.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Notifier.SignalSignatures[K]>,
             ): number;
-            connect_after(
-                signal: 'events',
-                callback: (_source: this, service: string, graph: string, events: NotifierEvent[]) => void,
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Notifier.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Notifier.SignalSignatures[K]>,
             ): number;
-            emit(signal: 'events', service: string, graph: string, events: NotifierEvent[]): void;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Notifier.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Notifier.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2157,6 +2386,11 @@ declare module 'gi://Tracker?version=3.0' {
         }
 
         namespace Resource {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::identifier': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -2207,6 +2441,15 @@ declare module 'gi://Tracker?version=3.0' {
             get identifier(): string;
             set identifier(val: string);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Resource.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Resource.ConstructorProps>, ...args: any[]);
@@ -2214,6 +2457,24 @@ declare module 'gi://Tracker?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](identifier?: string | null): Resource;
+
+            // Signals
+
+            connect<K extends keyof Resource.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Resource.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Resource.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Resource.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Resource.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Resource.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -2613,6 +2874,9 @@ declare module 'gi://Tracker?version=3.0' {
         }
 
         namespace SparqlConnection {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -2682,6 +2946,15 @@ declare module 'gi://Tracker?version=3.0' {
         abstract class SparqlConnection extends GObject.Object {
             static $gtype: GObject.GType<SparqlConnection>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: SparqlConnection.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<SparqlConnection.ConstructorProps>, ...args: any[]);
@@ -2706,6 +2979,26 @@ declare module 'gi://Tracker?version=3.0' {
             static new_finish(result: Gio.AsyncResult): SparqlConnection;
 
             static remote_new(uri_base: string): SparqlConnection;
+
+            // Signals
+
+            connect<K extends keyof SparqlConnection.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SparqlConnection.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof SparqlConnection.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SparqlConnection.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof SparqlConnection.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<SparqlConnection.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -3417,6 +3710,12 @@ declare module 'gi://Tracker?version=3.0' {
         }
 
         namespace SparqlCursor {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::connection': (pspec: GObject.ParamSpec) => void;
+                'notify::n-columns': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -3471,11 +3770,38 @@ declare module 'gi://Tracker?version=3.0' {
              */
             get nColumns(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: SparqlCursor.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<SparqlCursor.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof SparqlCursor.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SparqlCursor.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof SparqlCursor.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SparqlCursor.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof SparqlCursor.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<SparqlCursor.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -3655,6 +3981,12 @@ declare module 'gi://Tracker?version=3.0' {
         }
 
         namespace SparqlStatement {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::connection': (pspec: GObject.ParamSpec) => void;
+                'notify::sparql': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -3709,11 +4041,40 @@ declare module 'gi://Tracker?version=3.0' {
              */
             get sparql(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: SparqlStatement.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<SparqlStatement.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof SparqlStatement.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SparqlStatement.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof SparqlStatement.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SparqlStatement.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof SparqlStatement.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<SparqlStatement.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
