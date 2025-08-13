@@ -1,22 +1,23 @@
-import {GLib, Variable} from "astal";
+import {Variable} from "./Variable";
 import {loadConfig, validateAndApplyDefaults} from "./parser/configLoader";
 import {Config, VariableConfig} from "./types/derivedTypes";
 import {updateVariablesFromConfig, wrapConfigInVariables} from "./parser/variableWrapper";
 import {CONFIG_SCHEMA} from "./schema/definitions/root";
 import {listFilenamesInDir} from "../widget/utils/files";
-import {monitorFile, readFile} from "astal/file";
+import {monitorFile, readFile} from "ags/file";
 import Gio from "gi://Gio?version=2.0";
 import {setTheme, setThemeBasic} from "./theme";
 import {hideAllWindows} from "../widget/utils/windows";
 import {integratedMenuRevealed} from "../widget/bar/VerticalBar";
+import GLib from "gi://GLib?version=2.0";
 
 const homePath = GLib.get_home_dir()
 const globalConfigFile = "okpanel.yaml"
 
 // Order matters for these variables.  No touchy
-export const availableConfigs = Variable(getAvailableConfigs())
+export const availableConfigs = new Variable(getAvailableConfigs())
 
-export const selectedConfig = Variable(getSelectedConfig())
+export const selectedConfig = new Variable(getSelectedConfig())
 
 let defaultConfigValues: Config | undefined = ((): Config | undefined => {
     if (GLib.file_test(`${homePath}/.config/OkPanel/${globalConfigFile}`, GLib.FileTest.EXISTS)) {

@@ -1,8 +1,9 @@
-import {readFile} from "astal/file";
-import {GLib, Variable} from "astal";
-import {execAsync} from "astal/process";
+import {readFile} from "ags/file";
+import {Variable} from "./Variable";
+import {execAsync} from "ags/process";
 import {hideAllWindows} from "../widget/utils/windows";
 import {variableConfig} from "./config";
+import GLib from "gi://GLib?version=2.0";
 
 export enum Bar {
     LEFT = "left",
@@ -11,7 +12,7 @@ export enum Bar {
     BOTTOM = "bottom",
 }
 
-export const selectedBar = Variable(Bar.LEFT)
+export const selectedBar = new Variable(Bar.LEFT)
 
 export function setBarType(bar: Bar) {
     console.log(`Setting bar: ${bar}`)

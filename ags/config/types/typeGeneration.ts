@@ -2,7 +2,7 @@
 //  Type‑generation helpers – compile‑time only
 // ───────────────────────────────────────────────
 import {Field, PrimitiveType} from "../schema/primitiveDefinitions";
-import {Variable} from "astal";
+import {Variable} from "../Variable";
 
 type PrimitiveByKind<K extends PrimitiveType> =
     K extends 'string' ? string :
