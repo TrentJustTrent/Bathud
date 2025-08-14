@@ -1,4 +1,4 @@
-import {Gtk} from "astal/gtk4";
+import {Gtk} from "ags/gtk4";
 import {Alignment} from "../../config/schema/definitions/barWidgets";
 
 export function alignmentToGtk(alignment: Alignment) {
