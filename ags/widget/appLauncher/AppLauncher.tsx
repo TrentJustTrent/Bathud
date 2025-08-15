@@ -4,7 +4,7 @@ import Pango from "gi://Pango?version=1.0";
 import {hideAllWindows} from "../utils/windows";
 import {Gdk, Gtk} from "ags/gtk4";
 import Astal from "gi://Astal?version=4.0";
-import {createComputed, createState, With, For, Accessor} from "ags";
+import {createComputed, createState, For, Accessor} from "ags";
 
 export const AppLauncherWindowName = "appLauncher"
 
