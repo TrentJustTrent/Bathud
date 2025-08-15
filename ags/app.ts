@@ -3,14 +3,14 @@ import App from "ags/gtk4/app"
 // import SystemMenuWindow from "./widget/systemMenu/SystemMenuWindow";
 import {VolumeAlert, BrightnessAlert, ChargingAlertSound} from "./widget/alerts/Alerts";
 // import NotificationPopups from "./widget/notification/NotificationPopups";
-// import AppLauncher, {AppLauncherWindowName} from "./widget/appLauncher/AppLauncher";
+import AppLauncher, {AppLauncherWindowName} from "./widget/appLauncher/AppLauncher";
 // import Screenshot, {ScreenshotWindowName} from "./widget/screenshot/Screenshot";
 // import Screenshare, {ScreenshareWindowName, updateResponse, updateWindows} from "./widget/screenshare/Screenshare";
 // import VerticalBar from "./widget/bar/VerticalBar";
 // import HorizontalBar from "./widget/bar/HorizontalBar";
 import {decreaseVolume, increaseVolume, muteVolume} from "./widget/utils/audio";
 // import Scrim from "./widget/common/Scrim";
-// import {toggleWindow} from "./widget/utils/windows";
+import {toggleWindow} from "./widget/utils/windows";
 import Hyprland from "gi://AstalHyprland"
 // import ClipboardManager from "./widget/clipboardManager/ClipboardManager";
 // import NotificationHistoryWindow from "./widget/notification/NotificationHistoryWindow";
@@ -35,7 +35,7 @@ App.start({
         // Calendar()
         // SystemMenuWindow()
         ChargingAlertSound()
-        // AppLauncher()
+        AppLauncher()
         // Screenshot()
         // Screenshare()
         // ClipboardManager()
@@ -65,6 +65,9 @@ App.start({
         } else if (request.startsWith("mute")) {
             muteVolume()
             res("mute")
+        } else if (request === "appLauncher") {
+            toggleWindow(AppLauncherWindowName)
+            res("app launcher toggled")
         }
         // if (request === "appLauncher") {
         //     toggleWindow(AppLauncherWindowName)
