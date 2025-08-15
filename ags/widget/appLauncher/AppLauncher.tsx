@@ -4,7 +4,7 @@ import Pango from "gi://Pango?version=1.0";
 import {hideAllWindows} from "../utils/windows";
 import {Gdk, Gtk} from "ags/gtk4";
 import Astal from "gi://Astal?version=4.0";
-import {createComputed, createState, With, For} from "ags";
+import {createComputed, createState, With, For, Accessor} from "ags";
 
 export const AppLauncherWindowName = "appLauncher"
 
@@ -14,7 +14,7 @@ function launchApp(app: Apps.Application) {
 
 interface AppButtonProps {
     app: Apps.Application;
-    isSelected: boolean;
+    isSelected: Accessor<boolean>;
 }
 
 function ensureChildVisible(scrolledWindow: Gtk.ScrolledWindow, index: number): void {
@@ -41,7 +41,7 @@ function ensureChildVisible(scrolledWindow: Gtk.ScrolledWindow, index: number): 
 function AppButton({ app, isSelected }: AppButtonProps) {
     return <button
         canFocus={false}
-        cssClasses={isSelected ? ["selectedAppButton"] : ["appButton"]}
+        class={isSelected(s => s ? "selectedAppButton" : "appButton")}
         onClicked={() => {
             hideAllWindows()
             launchApp(app)
@@ -114,49 +114,34 @@ export default function () {
     ])
     let textEntryBox: Gtk.Entry | null = null
 
-    const scrolledWindow = new Gtk.ScrolledWindow({
-        cssClasses: ["scrollWindow"],
-        vscrollbar_policy: Gtk.PolicyType.AUTOMATIC,
-        propagateNaturalHeight: true,
-        canFocus: false,
-        child: <box spacing={6} orientation={Gtk.Orientation.VERTICAL}>
-            <With value={selectedIndex}>
-                {(si) =>
-                    <box>
-                        {list.get().map((app, index) => (
-                            <AppButton
-                                app={app}
-                                isSelected={index === si}/>
-                        ))}
-                    </box>
-                }
-            </With>
-            {/*<With value={listBinding}>*/}
-            {/*    {([apps, selectedIndex]) =>*/}
-            {/*        {apps.map((app, index) => (*/}
-            {/*            <AppButton*/}
-            {/*                app={app}*/}
-            {/*                isSelected={index === selectedIndex}/>*/}
-            {/*        ))}*/}
-            {/*    }*/}
-            {/*</With>*/}
-            {/*{listBinding(value => value[0].map((app, index) => (*/}
-            {/*    <AppButton*/}
-            {/*        app={app}*/}
-            {/*        isSelected={index === value[1]}/>*/}
-            {/*)))}*/}
-            <box
-                halign={CENTER}
-                orientation={Gtk.Orientation.VERTICAL}
-                marginBottom={8}
-                visible={list.as(l => l.length === 0)}>
-                <label
-                    cssClasses={["labelSmall"]}
-                    label="No match found"/>
+    const scrolledWindow = (
+        <Gtk.ScrolledWindow
+            class="scrollWindow"
+            vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
+            propagateNaturalHeight={true}
+            canFocus={false}
+        >
+            <box spacing={6} orientation={Gtk.Orientation.VERTICAL}>
+                <For each={list}>
+                    {(app, index) =>
+                        <AppButton
+                            app={app}
+                            isSelected={selectedIndex(s => index.get() === s)}/>
+                    }
+                </For>
+                <box
+                    halign={CENTER}
+                    orientation={Gtk.Orientation.VERTICAL}
+                    marginBottom={8}
+                    visible={list.as(l => l.length === 0)}>
+                    <label
+                        cssClasses={["labelSmall"]}
+                        label="No match found"/>
+                </box>
+                <box/>
             </box>
-            <box/>
-        </box>
-    })
+        </Gtk.ScrolledWindow>
+    ) as Gtk.ScrolledWindow
 
     return <window
         namespace={"okpanel-app-launcher"}
@@ -174,22 +159,27 @@ export default function () {
                 textEntryBox.text = ""
             }
         }}
-        //TODO
-        // onKeyPressed={function (_, key) {
-        //     if (key === Gdk.KEY_Escape) {
-        //         hideAllWindows()
-        //     } else if (key === Gdk.KEY_Down && list.get().length >= selectedIndex.get()) {
-        //         selectedIndex.set(selectedIndex.get() + 1)
-        //         ensureChildVisible(scrolledWindow, selectedIndex.get())
-        //     } else if (key === Gdk.KEY_Up && selectedIndex.get() != 0) {
-        //         selectedIndex.set(selectedIndex.get() - 1)
-        //         ensureChildVisible(scrolledWindow, selectedIndex.get())
-        //     }
-        // }}
         cssClasses={["transparentBackground"]}
         marginTop={200}
         marginBottom={200}
-        visible={false}>
+        visible={false}
+        $={(self) => {
+            let keyController = new Gtk.EventControllerKey()
+
+            keyController.connect("key-pressed", (_, key) => {
+                if (key === Gdk.KEY_Escape) {
+                    hideAllWindows()
+                } else if (key === Gdk.KEY_Down && list.get().length >= selectedIndex.get()) {
+                    selectedIndexSetter(selectedIndex.get() + 1)
+                    ensureChildVisible(scrolledWindow, selectedIndex.get())
+                } else if (key === Gdk.KEY_Up && selectedIndex.get() != 0) {
+                    selectedIndexSetter(selectedIndex.get() - 1)
+                    ensureChildVisible(scrolledWindow, selectedIndex.get())
+                }
+            })
+
+            self.add_controller(keyController)
+        }}>
         <box
             orientation={Gtk.Orientation.VERTICAL}>
             <box
