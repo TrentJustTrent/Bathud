@@ -1,7 +1,7 @@
 import App from "ags/gtk4/app"
 // import Calendar from "./widget/calendar/Calendar"
 // import SystemMenuWindow from "./widget/systemMenu/SystemMenuWindow";
-import {VolumeAlert} from "./widget/alerts/Alerts";
+import {VolumeAlert, BrightnessAlert, ChargingAlertSound} from "./widget/alerts/Alerts";
 // import NotificationPopups from "./widget/notification/NotificationPopups";
 // import AppLauncher, {AppLauncherWindowName} from "./widget/appLauncher/AppLauncher";
 // import Screenshot, {ScreenshotWindowName} from "./widget/screenshot/Screenshot";
@@ -34,7 +34,7 @@ App.start({
         // HorizontalBar()
         // Calendar()
         // SystemMenuWindow()
-        // ChargingAlertSound()
+        ChargingAlertSound()
         // AppLauncher()
         // Screenshot()
         // Screenshare()
@@ -43,17 +43,17 @@ App.start({
         //
         hyprland.monitors.map((monitor) => {
             VolumeAlert(monitor)
-            // BrightnessAlert(monitor)
+            BrightnessAlert(monitor)
             // NotificationPopups(monitor)
             // Scrim(monitor)
         })
-        //
-        // hyprland.connect("monitor-added", (_, monitor) => {
-        //     App.add_window(VolumeAlert(monitor))
-        //     App.add_window(BrightnessAlert(monitor))
-        //     App.add_window(NotificationPopups(monitor))
-        //     App.add_window(Scrim(monitor))
-        // })
+
+        hyprland.connect("monitor-added", (_, monitor) => {
+            App.add_window(VolumeAlert(monitor))
+            App.add_window(BrightnessAlert(monitor))
+            // App.add_window(NotificationPopups(monitor))
+            // App.add_window(Scrim(monitor))
+        })
     },
     requestHandler(request: string, res: (response: any) => void) {
         if (request.startsWith("volume-up")) {
