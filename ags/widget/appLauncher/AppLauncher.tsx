@@ -123,11 +123,15 @@ export default function () {
         >
             <box spacing={6} orientation={Gtk.Orientation.VERTICAL}>
                 <For each={list}>
-                    {(app, index) =>
-                        <AppButton
+                    {(app, index) => {
+                        let indexes = createComputed([
+                            selectedIndex,
+                            index
+                        ])
+                        return <AppButton
                             app={app}
-                            isSelected={selectedIndex(s => index.get() === s)}/>
-                    }
+                            isSelected={indexes(s => s[1] === s[0])}/>
+                    }}
                 </For>
                 <box
                     halign={CENTER}
@@ -169,7 +173,7 @@ export default function () {
             keyController.connect("key-pressed", (_, key) => {
                 if (key === Gdk.KEY_Escape) {
                     hideAllWindows()
-                } else if (key === Gdk.KEY_Down && list.get().length >= selectedIndex.get()) {
+                } else if (key === Gdk.KEY_Down && list.get().length - 1 > selectedIndex.get()) {
                     selectedIndexSetter(selectedIndex.get() + 1)
                     ensureChildVisible(scrolledWindow, selectedIndex.get())
                 } else if (key === Gdk.KEY_Up && selectedIndex.get() != 0) {
