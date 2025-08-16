@@ -12,9 +12,11 @@
 //
 // import {projectDir} from "../../app";
 //
-// export const isRecording = Variable(false)
-//
-// export const ScreenshotWindowName = "screenshotWindow"
+import {createState} from "ags";
+
+export const [isRecording, isRecordingSetter] = createState(false)
+
+export const ScreenshotWindowName = "screenshotWindow"
 //
 // type AudioSource = {
 //     name: string;

@@ -21,7 +21,7 @@
 // import Weather from "./widgets/Weather";
 // import {SystemMenuWidget} from "../../config/schema/definitions/systemMenuWidgets";
 //
-// export const SystemMenuWindowName = "systemMenuWindow"
+export const SystemMenuWindowName = "systemMenuWindow"
 //
 // const {audio} = Wp.get_default()!
 //

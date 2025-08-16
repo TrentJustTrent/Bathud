@@ -108,10 +108,6 @@ export default function () {
         }
         hideAllWindows()
     }
-    const listBinding = createComputed([
-        list,
-        selectedIndex
-    ])
     let textEntryBox: Gtk.Entry | null = null
 
     const scrolledWindow = (

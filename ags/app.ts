@@ -6,7 +6,7 @@ import {VolumeAlert, BrightnessAlert, ChargingAlertSound} from "./widget/alerts/
 import AppLauncher, {AppLauncherWindowName} from "./widget/appLauncher/AppLauncher";
 // import Screenshot, {ScreenshotWindowName} from "./widget/screenshot/Screenshot";
 // import Screenshare, {ScreenshareWindowName, updateResponse, updateWindows} from "./widget/screenshare/Screenshare";
-// import VerticalBar from "./widget/bar/VerticalBar";
+import VerticalBar from "./widget/bar/VerticalBar";
 // import HorizontalBar from "./widget/bar/HorizontalBar";
 import {decreaseVolume, increaseVolume, muteVolume} from "./widget/utils/audio";
 // import Scrim from "./widget/common/Scrim";
@@ -30,7 +30,7 @@ App.start({
 
         const hyprland = Hyprland.get_default()
 
-        // VerticalBar()
+        VerticalBar()
         // HorizontalBar()
         // Calendar()
         // SystemMenuWindow()
@@ -68,10 +68,9 @@ App.start({
         } else if (request === "appLauncher") {
             toggleWindow(AppLauncherWindowName)
             res("app launcher toggled")
+        } else {
+            res("command not found")
         }
-        // if (request === "appLauncher") {
-        //     toggleWindow(AppLauncherWindowName)
-        //     res("app launcher toggled")
         // } else if (request === "screenshot") {
         //     toggleWindow(ScreenshotWindowName)
         //     res("screenshot toggled")
@@ -79,17 +78,5 @@ App.start({
         //     updateWindows(request)
         //     updateResponse(res)
         //     toggleWindow(ScreenshareWindowName)
-        // } else if (request.startsWith("volume-up")) {
-        //     increaseVolume()
-        //     res("volume up")
-        // } else if (request.startsWith("volume-down")) {
-        //     decreaseVolume()
-        //     res("volume down")
-        // } else if (request.startsWith("mute")) {
-        //     muteVolume()
-        //     res("mute")
-        // } else {
-        //     res("command not found")
-        // }
     }
 })
