@@ -25,7 +25,7 @@ export default function (
 
     return <box
         halign={Gtk.Align.CENTER}
-        orientation={Gtk.Orientation.VERTICAL}>
+        orientation={vertical ? Gtk.Orientation.VERTICAL : Gtk.Orientation.HORIZONTAL}>
         <OkButton
             labelCss={foregroundCss}
             backgroundCss={backgroundCss}

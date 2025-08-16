@@ -2,7 +2,7 @@ import EndpointControls from "./widgets/EndpointControls";
 import Wp from "gi://AstalWp"
 import {getMicrophoneIcon, getVolumeIcon} from "../utils/audio";
 // import PowerOptions from "./widgets/PowerOptions";
-// import MediaPlayers from "./widgets/MediaPlayers";
+import MediaPlayers from "./widgets/MediaPlayers";
 import NotificationHistory from "./widgets/NotificationHistory";
 import NetworkControls from "./widgets/NetworkControls";
 import BluetoothControls from "./widgets/BluetoothControls";
@@ -33,7 +33,7 @@ export type SystemWidgetsJSX = {
     audioIn: JSX.Element
     // powerProfile: JSX.Element
     lookAndFeel: JSX.Element
-    // mpris: JSX.Element
+    mpris: JSX.Element
     // powerOptions: JSX.Element
     notificationHistory: JSX.Element
     // toolbox: JSX.Element
@@ -60,7 +60,7 @@ export function createSystemWidgets(): SystemWidgetsJSX {
             getIcon={getMicrophoneIcon}/>,
         // powerProfile: <PowerProfileControls/>,
         lookAndFeel: <LookAndFeelControls/>,
-        // mpris: <MediaPlayers/>,
+        mpris: <MediaPlayers/>,
         // powerOptions: <PowerOptions/>,
         notificationHistory: <NotificationHistory/>,
         // toolbox: <Toolbox/>,
@@ -94,10 +94,10 @@ export function addSystemMenuWidgets(
                 return jsxWidgets.audioIn as Gtk.Widget
             case SystemMenuWidget.LOOK_AND_FEEL:
                 return jsxWidgets.lookAndFeel as Gtk.Widget
+            case SystemMenuWidget.MPRIS_PLAYERS:
+                return jsxWidgets.mpris as Gtk.Widget
             case SystemMenuWidget.POWER_PROFILE:
                 // return jsxWidgets.powerProfile as Gtk.Widget
-            case SystemMenuWidget.MPRIS_PLAYERS:
-                // return jsxWidgets.mpris as Gtk.Widget
             case SystemMenuWidget.POWER_OPTIONS:
                 // return jsxWidgets.powerOptions as Gtk.Widget
             case SystemMenuWidget.TOOLBOX:

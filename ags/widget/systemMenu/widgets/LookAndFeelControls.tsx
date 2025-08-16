@@ -251,6 +251,8 @@ function ThemeOptions() {
                 canTarget={false}
                 canFocus={false}
                 opacity={0}
+                //TODO
+                // type={"overlay clip"}
                 widthRequest={50}
                 halign={Gtk.Align.START}
                 hexpand={false}
@@ -261,6 +263,8 @@ function ThemeOptions() {
             <box
                 canTarget={false}
                 canFocus={false}
+                //TODO
+                // type={"overlay clip"}
                 widthRequest={50}
                 halign={Gtk.Align.END}
                 hexpand={false}
