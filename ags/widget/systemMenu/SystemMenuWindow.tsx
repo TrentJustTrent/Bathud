@@ -5,7 +5,7 @@ import Wp from "gi://AstalWp"
 // import MediaPlayers from "./widgets/MediaPlayers";
 import NotificationHistory from "./widgets/NotificationHistory";
 import NetworkControls from "./widgets/NetworkControls";
-// import BluetoothControls from "./widgets/BluetoothControls";
+import BluetoothControls from "./widgets/BluetoothControls";
 // import LookAndFeelControls from "./widgets/LookAndFeelControls";
 import {variableConfig} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
@@ -28,7 +28,7 @@ const {audio} = Wp.get_default()!
 
 export type SystemWidgetsJSX = {
     network: JSX.Element
-    // bluetooth: JSX.Element
+    bluetooth: JSX.Element
     // audioOut: JSX.Element
     // audioIn: JSX.Element
     // powerProfile: JSX.Element
@@ -49,7 +49,7 @@ export type SystemWidgetsJSX = {
 export function createSystemWidgets(): SystemWidgetsJSX {
     return {
         network: <NetworkControls/>,
-        // bluetooth: <BluetoothControls/>,
+        bluetooth: <BluetoothControls/>,
         // audioOut: <EndpointControls
         //     defaultEndpoint={audio.default_speaker}
         //     endpointsBinding={bind(audio, "speakers")}
@@ -82,30 +82,30 @@ export function addSystemMenuWidgets(
             case SystemMenuWidget.NOTIFICATION_HISTORY:
                 return jsxWidgets.notificationHistory as Gtk.Widget
             case SystemMenuWidget.BLUETOOTH:
-                // return jsxWidgets.bluetooth
+                return jsxWidgets.bluetooth as Gtk.Widget
             case SystemMenuWidget.AUDIO_OUT:
-                // return jsxWidgets.audioOut
+                // return jsxWidgets.audioOut as Gtk.Widget
             case SystemMenuWidget.AUDIO_IN:
-                // return jsxWidgets.audioIn
+                // return jsxWidgets.audioIn as Gtk.Widget
             case SystemMenuWidget.POWER_PROFILE:
-                // return jsxWidgets.powerProfile
+                // return jsxWidgets.powerProfile as Gtk.Widget
             case SystemMenuWidget.LOOK_AND_FEEL:
-                // return jsxWidgets.lookAndFeel
+                // return jsxWidgets.lookAndFeel as Gtk.Widget
             case SystemMenuWidget.MPRIS_PLAYERS:
-                // return jsxWidgets.mpris
+                // return jsxWidgets.mpris as Gtk.Widget
             case SystemMenuWidget.POWER_OPTIONS:
-                // return jsxWidgets.powerOptions
+                // return jsxWidgets.powerOptions as Gtk.Widget
             case SystemMenuWidget.TOOLBOX:
-                // return jsxWidgets.toolbox
+                // return jsxWidgets.toolbox as Gtk.Widget
             case SystemMenuWidget.CLOCK:
-                // return jsxWidgets.clock
+                // return jsxWidgets.clock as Gtk.Widget
             case SystemMenuWidget.CLIPBOARD_MANAGER:
                 // startCliphist()
-                // return jsxWidgets.clipboardManager
+                // return jsxWidgets.clipboardManager as Gtk.Widget
             case SystemMenuWidget.SCREEN_RECORDING_CONTROLS:
-                // return jsxWidgets.screenRecording
+                // return jsxWidgets.screenRecording as Gtk.Widget
             case SystemMenuWidget.WEATHER:
-                // return jsxWidgets.weather
+                // return jsxWidgets.weather as Gtk.Widget
         }
         return <box/> as Gtk.Widget
     })
