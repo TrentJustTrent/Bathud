@@ -59,32 +59,17 @@ export default function () {
 
     const systemJsxWidgets = createSystemWidgets()
 
-    const integratedMenu = <revealer
-        transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
-        visible={variableConfig.verticalBar.integratedMenu.asAccessor()}
-        revealChild={integratedMenuRevealed}>
-        <Gtk.ScrolledWindow
-            cssClasses={["scrollWindow"]}
-            vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
-            propagateNaturalHeight={true}
-            widthRequest={400}>
-            <box
-                marginTop={20}
-                marginStart={20}
-                marginEnd={20}
-                marginBottom={20}
-                orientation={Gtk.Orientation.VERTICAL}
-                spacing={10}>
-                <With value={variableConfig.systemMenu.widgets.asAccessor()}>
-                    {(widgets) => {
-                        return <box orientation={Gtk.Orientation.VERTICAL}>
-                            {addSystemMenuWidgets(widgets, systemJsxWidgets)}
-                        </box>
-                    }}
-                </With>
-            </box>
-        </Gtk.ScrolledWindow>
-    </revealer>
+    let box: Gtk.Box | null = null
+    let integratedMenu: Gtk.Widget | null = null
+    let mainBar: Gtk.Widget | null = null
+
+    selectedBar.asAccessor().subscribe(() => {
+        if (selectedBar.get() === Bar.LEFT) {
+            box?.reorder_child_after(mainBar!, integratedMenu)
+        } else if (selectedBar.get() === Bar.RIGHT) {
+            box?.reorder_child_after(integratedMenu!, mainBar)
+        }
+    })
 
     return <window
         defaultHeight={variableConfig.verticalBar.minimumHeight.asAccessor()}
@@ -110,18 +95,44 @@ export default function () {
             orientation={Gtk.Orientation.HORIZONTAL}
             cssClasses={variableConfig.verticalBar.splitSections.asAccessor().as((split) =>
                 split ? ["sideBar"] : ["barWindow", "sideBar"]
-            )}>
-            <With value={selectedBar.asAccessor()}>
-                {(bar) => {
-                    if (bar === Bar.LEFT) {
-                        return integratedMenu
-                    } else {
-                        return <box/>
-                    }
-                }}
-            </With>
+            )}
+            $={(self) => {
+                box = self
+            }}>
+            <revealer
+                transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
+                visible={variableConfig.verticalBar.integratedMenu.asAccessor()}
+                revealChild={integratedMenuRevealed}
+                $={(self) => {
+                    integratedMenu = self
+                }}>
+                <Gtk.ScrolledWindow
+                    cssClasses={["scrollWindow"]}
+                    vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
+                    propagateNaturalHeight={true}
+                    widthRequest={400}>
+                    <box
+                        marginTop={20}
+                        marginStart={20}
+                        marginEnd={20}
+                        marginBottom={20}
+                        orientation={Gtk.Orientation.VERTICAL}
+                        spacing={10}>
+                        <With value={variableConfig.systemMenu.widgets.asAccessor()}>
+                            {(widgets) => {
+                                return <box orientation={Gtk.Orientation.VERTICAL}>
+                                    {addSystemMenuWidgets(widgets, systemJsxWidgets)}
+                                </box>
+                            }}
+                        </With>
+                    </box>
+                </Gtk.ScrolledWindow>
+            </revealer>
             <centerbox
                 orientation={Gtk.Orientation.VERTICAL}
+                $={(self) => {
+                    mainBar = self
+                }}
                 startWidget={
                     <box
                         visible={variableConfig.verticalBar.topWidgets.asAccessor().as((widgets) =>
@@ -189,15 +200,6 @@ export default function () {
                         </box>
                     </box> as Gtk.Widget
                 }/>
-            <With value={selectedBar.asAccessor()}>
-                {(bar) => {
-                    if (bar === Bar.RIGHT) {
-                        return integratedMenu
-                    } else {
-                        return <box/>
-                    }
-                }}
-            </With>
         </box>
     </window>
 }

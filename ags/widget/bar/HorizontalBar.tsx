@@ -74,6 +74,9 @@ export default function () {
         application={App}>
         <centerbox
             orientation={Gtk.Orientation.HORIZONTAL}
+            cssClasses={variableConfig.horizontalBar.splitSections.asAccessor().as((split) =>
+                split ? ["topBar"] : ["barWindow", "topBar"]
+            )}
             startWidget={
                 <box
                     visible={variableConfig.horizontalBar.leftWidgets.asAccessor().as((widgets) =>
