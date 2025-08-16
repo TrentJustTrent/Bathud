@@ -2,7 +2,7 @@ import App from "ags/gtk4/app"
 import Calendar from "./widget/calendar/Calendar"
 import SystemMenuWindow from "./widget/systemMenu/SystemMenuWindow";
 import {VolumeAlert, BrightnessAlert, ChargingAlertSound} from "./widget/alerts/Alerts";
-// import NotificationPopups from "./widget/notification/NotificationPopups";
+import NotificationPopups from "./widget/notification/NotificationPopups";
 import AppLauncher, {AppLauncherWindowName} from "./widget/appLauncher/AppLauncher";
 // import Screenshot, {ScreenshotWindowName} from "./widget/screenshot/Screenshot";
 // import Screenshare, {ScreenshareWindowName, updateResponse, updateWindows} from "./widget/screenshare/Screenshare";
@@ -13,7 +13,7 @@ import Scrim from "./widget/common/Scrim";
 import {toggleWindow} from "./widget/utils/windows";
 import Hyprland from "gi://AstalHyprland"
 import ClipboardManager from "./widget/clipboardManager/ClipboardManager";
-// import NotificationHistoryWindow from "./widget/notification/NotificationHistoryWindow";
+import NotificationHistoryWindow from "./widget/notification/NotificationHistoryWindow";
 import {setThemeBasic} from "./config/theme";
 import {restoreBar} from "./config/bar";
 
@@ -39,19 +39,19 @@ App.start({
         // Screenshot()
         // Screenshare()
         ClipboardManager()
-        // NotificationHistoryWindow()
-        //
+        NotificationHistoryWindow()
+
         hyprland.monitors.map((monitor) => {
             VolumeAlert(monitor)
             BrightnessAlert(monitor)
-            // NotificationPopups(monitor)
-            // Scrim(monitor)
+            NotificationPopups(monitor)
+            Scrim(monitor)
         })
 
         hyprland.connect("monitor-added", (_, monitor) => {
             App.add_window(VolumeAlert(monitor))
             App.add_window(BrightnessAlert(monitor))
-            // App.add_window(NotificationPopups(monitor))
+            App.add_window(NotificationPopups(monitor))
             App.add_window(Scrim(monitor))
         })
     },
