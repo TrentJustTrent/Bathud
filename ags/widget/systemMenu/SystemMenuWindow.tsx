@@ -6,7 +6,7 @@ import {getMicrophoneIcon, getVolumeIcon} from "../utils/audio";
 import NotificationHistory from "./widgets/NotificationHistory";
 import NetworkControls from "./widgets/NetworkControls";
 import BluetoothControls from "./widgets/BluetoothControls";
-// import LookAndFeelControls from "./widgets/LookAndFeelControls";
+import LookAndFeelControls from "./widgets/LookAndFeelControls";
 import {variableConfig} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import {Bar, selectedBar} from "../../config/bar";
@@ -32,7 +32,7 @@ export type SystemWidgetsJSX = {
     audioOut: JSX.Element
     audioIn: JSX.Element
     // powerProfile: JSX.Element
-    // lookAndFeel: JSX.Element
+    lookAndFeel: JSX.Element
     // mpris: JSX.Element
     // powerOptions: JSX.Element
     notificationHistory: JSX.Element
@@ -59,7 +59,7 @@ export function createSystemWidgets(): SystemWidgetsJSX {
             endpointsBinding={createBinding(audio, "microphones")}
             getIcon={getMicrophoneIcon}/>,
         // powerProfile: <PowerProfileControls/>,
-        // lookAndFeel: <LookAndFeelControls/>,
+        lookAndFeel: <LookAndFeelControls/>,
         // mpris: <MediaPlayers/>,
         // powerOptions: <PowerOptions/>,
         notificationHistory: <NotificationHistory/>,
@@ -92,10 +92,10 @@ export function addSystemMenuWidgets(
                 return jsxWidgets.audioOut as Gtk.Widget
             case SystemMenuWidget.AUDIO_IN:
                 return jsxWidgets.audioIn as Gtk.Widget
+            case SystemMenuWidget.LOOK_AND_FEEL:
+                return jsxWidgets.lookAndFeel as Gtk.Widget
             case SystemMenuWidget.POWER_PROFILE:
                 // return jsxWidgets.powerProfile as Gtk.Widget
-            case SystemMenuWidget.LOOK_AND_FEEL:
-                // return jsxWidgets.lookAndFeel as Gtk.Widget
             case SystemMenuWidget.MPRIS_PLAYERS:
                 // return jsxWidgets.mpris as Gtk.Widget
             case SystemMenuWidget.POWER_OPTIONS:
