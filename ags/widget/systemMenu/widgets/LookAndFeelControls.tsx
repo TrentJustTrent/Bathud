@@ -243,37 +243,43 @@ function ThemeOptions() {
 
     scrolledWindow.add_controller(scrollController);
 
+    const overlay = new Gtk.Overlay(
+        {
+            child: scrolledWindow
+        }
+    )
+
+    overlay.add_overlay(
+        <box
+            canTarget={false}
+            canFocus={false}
+            opacity={0}
+            widthRequest={50}
+            halign={Gtk.Align.START}
+            hexpand={false}
+            cssClasses={["fadeLeft"]}
+            $={(self) => {
+                leftGradient = self
+            }}/> as Gtk.Widget
+    )
+
+    overlay.add_overlay(
+        <box
+            canTarget={false}
+            canFocus={false}
+            widthRequest={50}
+            halign={Gtk.Align.END}
+            hexpand={false}
+            cssClasses={["fadeRight"]}
+            $={(self) => {
+                rightGradient = self
+            }}/> as Gtk.Widget
+    )
+
     return <box
         hexpand={true}
         orientation={Gtk.Orientation.HORIZONTAL}>
-        <overlay>
-            <box
-                canTarget={false}
-                canFocus={false}
-                opacity={0}
-                //TODO
-                // type={"overlay clip"}
-                widthRequest={50}
-                halign={Gtk.Align.START}
-                hexpand={false}
-                cssClasses={["fadeLeft"]}
-                $={(self) => {
-                    leftGradient = self
-                }}/>
-            <box
-                canTarget={false}
-                canFocus={false}
-                //TODO
-                // type={"overlay clip"}
-                widthRequest={50}
-                halign={Gtk.Align.END}
-                hexpand={false}
-                cssClasses={["fadeRight"]}
-                $={(self) => {
-                    rightGradient = self
-                }}/>
-            {scrolledWindow}
-        </overlay>
+        {overlay}
     </box>
 }
 

@@ -19,7 +19,7 @@ import {startCliphist} from "../clipboardManager/ClipboardManager";
 import ScreenRecording from "./widgets/ScreenRecording";
 import Weather from "./widgets/Weather";
 import {SystemMenuWidget} from "../../config/schema/definitions/systemMenuWidgets";
-import {createBinding, createComputed, For, With} from "ags";
+import {createBinding, createComputed, With} from "ags";
 import {Gtk} from "ags/gtk4";
 
 export const SystemMenuWindowName = "systemMenuWindow"
