@@ -13,7 +13,7 @@ import Divider from "../common/Divider";
 import {variableConfig} from "../../config/config";
 import Tray from "gi://AstalTray"
 import {toggleWindow} from "../utils/windows";
-// import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
+import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
 import {ClipboardManagerWindowName, startCliphist} from "../clipboardManager/ClipboardManager";
 import PowerProfiles from "gi://AstalPowerProfiles"
 import {getPowerProfileIconBinding} from "../utils/powerProfile";
@@ -24,7 +24,7 @@ import MprisControlButtons from "../mpris/MprisControlButtons";
 import MprisTrackInfo from "../mpris/MprisTrackInfo";
 import {Bar, selectedBar} from "../../config/bar";
 import Notifd from "gi://AstalNotifd"
-// import {NotificationHistoryWindowName} from "../notification/NotificationHistoryWindow";
+import {NotificationHistoryWindowName} from "../notification/NotificationHistoryWindow";
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
 import Gtk from "gi://Gtk?version=4.0";
 import OkButton, {OkButtonHorizontalPadding, OkButtonSize, OkButtonVerticalPadding} from "../common/OkButton";
@@ -391,8 +391,7 @@ function AppLauncherButton({vertical}: { vertical: boolean }) {
         vpadding={getVPadding(vertical)}
         label="󰀻"
         onClicked={() => {
-            //TODO
-            // toggleWindow(AppLauncherWindowName)
+            toggleWindow(AppLauncherWindowName)
         }}/>
 }
 
@@ -405,8 +404,7 @@ function ScreenshotButton({vertical}: { vertical: boolean }) {
         vpadding={getVPadding(vertical)}
         label="󰹑"
         onClicked={() => {
-            //TODO
-            // toggleWindow(ScreenshotWindowName)
+            toggleWindow(ScreenshotWindowName)
         }}/>
 }
 
@@ -587,8 +585,7 @@ function NotificationButton({vertical}: { vertical: boolean }) {
             }
         })}
         onClicked={() => {
-            //TODO
-            // toggleWindow(NotificationHistoryWindowName)
+            toggleWindow(NotificationHistoryWindowName)
         }}/>
 }
 
@@ -666,7 +663,7 @@ export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
         </box>
     })
 }
-//
+
 function getWidget(widget: BarWidget, isVertical: boolean) {
     switch (widget) {
         case BarWidget.MENU:
@@ -720,5 +717,4 @@ function getWidget(widget: BarWidget, isVertical: boolean) {
         case BarWidget.COLOR_PICKER:
             return <ColorPickerButton vertical={isVertical}/>
     }
-    return <box/>
 }

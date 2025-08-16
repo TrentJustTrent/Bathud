@@ -5,7 +5,7 @@ import {VolumeAlert, BrightnessAlert, ChargingAlertSound} from "./widget/alerts/
 import NotificationPopups from "./widget/notification/NotificationPopups";
 import AppLauncher, {AppLauncherWindowName} from "./widget/appLauncher/AppLauncher";
 // import Screenshot, {ScreenshotWindowName} from "./widget/screenshot/Screenshot";
-// import Screenshare, {ScreenshareWindowName, updateResponse, updateWindows} from "./widget/screenshare/Screenshare";
+import Screenshare, {ScreenshareWindowName, updateResponse, updateWindows} from "./widget/screenshare/Screenshare";
 import VerticalBar from "./widget/bar/VerticalBar";
 import HorizontalBar from "./widget/bar/HorizontalBar";
 import {decreaseVolume, increaseVolume, muteVolume} from "./widget/utils/audio";
@@ -37,7 +37,7 @@ App.start({
         ChargingAlertSound()
         AppLauncher()
         // Screenshot()
-        // Screenshare()
+        Screenshare()
         ClipboardManager()
         NotificationHistoryWindow()
 
@@ -68,15 +68,15 @@ App.start({
         } else if (request === "appLauncher") {
             toggleWindow(AppLauncherWindowName)
             res("app launcher toggled")
+        } else if (request.startsWith("screenshare")) {
+            updateWindows(request)
+            updateResponse(res)
+            toggleWindow(ScreenshareWindowName)
         } else {
             res("command not found")
         }
         // } else if (request === "screenshot") {
         //     toggleWindow(ScreenshotWindowName)
         //     res("screenshot toggled")
-        // } else if (request.startsWith("screenshare")) {
-        //     updateWindows(request)
-        //     updateResponse(res)
-        //     toggleWindow(ScreenshareWindowName)
     }
 })

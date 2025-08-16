@@ -4,11 +4,11 @@ import {scrimsVisibleSetter} from "../common/Scrim";
 import {CalendarWindowName} from "../calendar/Calendar";
 import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
 import Astal from "gi://Astal?version=4.0";
-// import {ScreenshareWindowName} from "../screenshare/Screenshare";
-// import {ScreenshotWindowName} from "../screenshot/Screenshot";
+import {ScreenshareWindowName} from "../screenshare/Screenshare";
+import {ScreenshotWindowName} from "../screenshot/Screenshot";
 import {ClipboardManagerWindowName} from "../clipboardManager/ClipboardManager";
 // import {PolkitWindowName} from "../polkit/PolkitPopup";
-// import {NotificationHistoryWindowName} from "../notification/NotificationHistoryWindow";
+import {NotificationHistoryWindowName} from "../notification/NotificationHistoryWindow";
 
 const openedOneOffWindows: Astal.Window[] = []
 
@@ -25,14 +25,13 @@ export function toggleWindow(windowName: string) {
 export function hideAllWindows() {
     const windows = App.get_windows().filter((window) => {
         return window.name === AppLauncherWindowName ||
-        //TODO
             window.name === SystemMenuWindowName ||
             window.name === CalendarWindowName ||
-            // window.name === ScreenshareWindowName ||
-            // window.name === ScreenshotWindowName ||
-            window.name === ClipboardManagerWindowName
+            window.name === ScreenshareWindowName ||
+            window.name === ScreenshotWindowName ||
+            window.name === ClipboardManagerWindowName ||
             // window.name === PolkitWindowName ||
-            // window.name === NotificationHistoryWindowName
+            window.name === NotificationHistoryWindowName
     })
     windows.forEach((window) => {
         window.hide()
