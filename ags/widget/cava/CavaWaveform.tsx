@@ -167,7 +167,7 @@ function CavaWaveformInternal(
     }: InternalParams
 ) {
     const cava = new AstalCava.Cava()
-    cava.input = AstalCava.Input.PULSE
+    cava.input = AstalCava.Input.PIPEWIRE
 
     setBars(cava, length)
 
