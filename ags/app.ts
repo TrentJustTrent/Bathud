@@ -23,7 +23,6 @@ App.start({
     instanceName: "OkPanel",
     css: "/tmp/OkPanel/style.css",
     main(...args: Array<string>) {
-        console.log(args)
         projectDir = args[0]
         setThemeBasic()
         restoreBar()
