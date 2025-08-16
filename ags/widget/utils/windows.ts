@@ -1,12 +1,12 @@
 import App from "ags/gtk4/app"
 import {SystemMenuWindowName} from "../systemMenu/SystemMenuWindow";
-import {scrimsVisible, scrimsVisibleSetter} from "../common/Scrim";
-// import {CalendarWindowName} from "../calendar/Calendar";
+import {scrimsVisibleSetter} from "../common/Scrim";
+import {CalendarWindowName} from "../calendar/Calendar";
 import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
 import Astal from "gi://Astal?version=4.0";
 // import {ScreenshareWindowName} from "../screenshare/Screenshare";
 // import {ScreenshotWindowName} from "../screenshot/Screenshot";
-// import {ClipboardManagerWindowName} from "../clipboardManager/ClipboardManager";
+import {ClipboardManagerWindowName} from "../clipboardManager/ClipboardManager";
 // import {PolkitWindowName} from "../polkit/PolkitPopup";
 // import {NotificationHistoryWindowName} from "../notification/NotificationHistoryWindow";
 
@@ -26,11 +26,11 @@ export function hideAllWindows() {
     const windows = App.get_windows().filter((window) => {
         return window.name === AppLauncherWindowName ||
         //TODO
-            window.name === SystemMenuWindowName
-            // window.name === CalendarWindowName ||
+            window.name === SystemMenuWindowName ||
+            window.name === CalendarWindowName ||
             // window.name === ScreenshareWindowName ||
             // window.name === ScreenshotWindowName ||
-            // window.name === ClipboardManagerWindowName ||
+            window.name === ClipboardManagerWindowName
             // window.name === PolkitWindowName ||
             // window.name === NotificationHistoryWindowName
     })

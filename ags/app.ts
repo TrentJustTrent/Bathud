@@ -1,5 +1,5 @@
 import App from "ags/gtk4/app"
-// import Calendar from "./widget/calendar/Calendar"
+import Calendar from "./widget/calendar/Calendar"
 import SystemMenuWindow from "./widget/systemMenu/SystemMenuWindow";
 import {VolumeAlert, BrightnessAlert, ChargingAlertSound} from "./widget/alerts/Alerts";
 // import NotificationPopups from "./widget/notification/NotificationPopups";
@@ -12,7 +12,7 @@ import {decreaseVolume, increaseVolume, muteVolume} from "./widget/utils/audio";
 import Scrim from "./widget/common/Scrim";
 import {toggleWindow} from "./widget/utils/windows";
 import Hyprland from "gi://AstalHyprland"
-// import ClipboardManager from "./widget/clipboardManager/ClipboardManager";
+import ClipboardManager from "./widget/clipboardManager/ClipboardManager";
 // import NotificationHistoryWindow from "./widget/notification/NotificationHistoryWindow";
 import {setThemeBasic} from "./config/theme";
 import {restoreBar} from "./config/bar";
@@ -32,13 +32,13 @@ App.start({
 
         VerticalBar()
         HorizontalBar()
-        // Calendar()
+        Calendar()
         SystemMenuWindow()
         ChargingAlertSound()
         AppLauncher()
         // Screenshot()
         // Screenshare()
-        // ClipboardManager()
+        ClipboardManager()
         // NotificationHistoryWindow()
         //
         hyprland.monitors.map((monitor) => {

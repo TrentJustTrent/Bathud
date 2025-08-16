@@ -1,5 +1,5 @@
 import Hyprland from "gi://AstalHyprland"
-// import {CalendarWindowName} from "../calendar/Calendar"
+import {CalendarWindowName} from "../calendar/Calendar"
 import Wp from "gi://AstalWp"
 import Battery from "gi://AstalBattery"
 import {getMicrophoneIcon, getVolumeIcon, playBatteryWarning} from "../utils/audio"
@@ -14,7 +14,7 @@ import {variableConfig} from "../../config/config";
 import Tray from "gi://AstalTray"
 import {toggleWindow} from "../utils/windows";
 // import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
-// import {ClipboardManagerWindowName, startCliphist} from "../clipboardManager/ClipboardManager";
+import {ClipboardManagerWindowName, startCliphist} from "../clipboardManager/ClipboardManager";
 import PowerProfiles from "gi://AstalPowerProfiles"
 import {getPowerProfileIconBinding} from "../utils/powerProfile";
 import CavaWaveform from "../cava/CavaWaveform";
@@ -183,8 +183,7 @@ function Clock({vertical}: { vertical: boolean }) {
         vpadding={getVPadding(vertical)}
         label={time}
         onClicked={() => {
-            //TODO
-            // toggleWindow(CalendarWindowName)
+            toggleWindow(CalendarWindowName)
         }}/>
 }
 
@@ -412,8 +411,7 @@ function ScreenshotButton({vertical}: { vertical: boolean }) {
 }
 
 function ClipboardManagerButton({vertical}: { vertical: boolean }) {
-    //TODO
-    // startCliphist()
+    startCliphist()
     return <OkButton
         labelCss={["barClipboardManagerForeground"]}
         backgroundCss={["barClipboardManagerBackground"]}
@@ -421,8 +419,7 @@ function ClipboardManagerButton({vertical}: { vertical: boolean }) {
         vpadding={getVPadding(vertical)}
         label=""
         onClicked={() => {
-            //TODO
-            // toggleWindow(ClipboardManagerWindowName)
+            toggleWindow(ClipboardManagerWindowName)
         }}/>
 }
 
