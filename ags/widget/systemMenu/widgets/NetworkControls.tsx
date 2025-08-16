@@ -619,7 +619,7 @@ export default function () {
                 marginTop={10}
                 orientation={Gtk.Orientation.VERTICAL}
                 spacing={12}>
-                <With value={createBinding(network.wifi, "activeAccessPoint")}>
+                {network.wifi && <With value={createBinding(network.wifi, "activeAccessPoint")}>
                     {(activeAccessPoint: AstalNetwork.AccessPoint) => {
                         return <box
                             hexpand={true}
@@ -634,7 +634,7 @@ export default function () {
                                 }}/>
                         </box>
                     }}
-                </With>
+                </With>}
                 <VpnActiveConnections/>
                 <VpnConnections/>
                 {network.wifi && <WifiConnections/>}
@@ -642,8 +642,8 @@ export default function () {
             </box>
         }
         setup={(revealed) => {
-            revealed.subscribe(() => {
-                if (revealed.get()) {
+            revealed[0].subscribe(() => {
+                if (revealed[0].get()) {
                     network.wifi?.scan()
                 }
             })

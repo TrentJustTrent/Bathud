@@ -1,10 +1,10 @@
 // import EndpointControls from "./widgets/EndpointControls";
 import Wp from "gi://AstalWp"
-import {getMicrophoneIcon, getVolumeIcon} from "../utils/audio";
+// import {getMicrophoneIcon, getVolumeIcon} from "../utils/audio";
 // import PowerOptions from "./widgets/PowerOptions";
 // import MediaPlayers from "./widgets/MediaPlayers";
-// import NotificationHistory from "./widgets/NotificationHistory";
-// import NetworkControls from "./widgets/NetworkControls";
+import NotificationHistory from "./widgets/NotificationHistory";
+import NetworkControls from "./widgets/NetworkControls";
 // import BluetoothControls from "./widgets/BluetoothControls";
 // import LookAndFeelControls from "./widgets/LookAndFeelControls";
 import {variableConfig} from "../../config/config";
@@ -15,7 +15,7 @@ import {BarWidget} from "../../config/schema/definitions/barWidgets";
 // import Toolbox from "./widgets/Toolbox";
 // import Clock from "./widgets/Clock";
 // import ClipboardManager from "./widgets/ClipboardManager";
-// import {startCliphist} from "../clipboardManager/ClipboardManager";
+import {startCliphist} from "../clipboardManager/ClipboardManager";
 // import ScreenRecording from "./widgets/ScreenRecording";
 // import Weather from "./widgets/Weather";
 import {SystemMenuWidget} from "../../config/schema/definitions/systemMenuWidgets";
@@ -26,9 +26,8 @@ export const SystemMenuWindowName = "systemMenuWindow"
 
 const {audio} = Wp.get_default()!
 
-//TODO
 export type SystemWidgetsJSX = {
-    // network: JSX.Element
+    network: JSX.Element
     // bluetooth: JSX.Element
     // audioOut: JSX.Element
     // audioIn: JSX.Element
@@ -36,7 +35,7 @@ export type SystemWidgetsJSX = {
     // lookAndFeel: JSX.Element
     // mpris: JSX.Element
     // powerOptions: JSX.Element
-    // notificationHistory: JSX.Element
+    notificationHistory: JSX.Element
     // toolbox: JSX.Element
     // clock: JSX.Element
     // clipboardManager: JSX.Element
@@ -49,7 +48,7 @@ export type SystemWidgetsJSX = {
 // and keep them in memory so they can be reused.
 export function createSystemWidgets(): SystemWidgetsJSX {
     return {
-        // network: <NetworkControls/>,
+        network: <NetworkControls/>,
         // bluetooth: <BluetoothControls/>,
         // audioOut: <EndpointControls
         //     defaultEndpoint={audio.default_speaker}
@@ -63,7 +62,7 @@ export function createSystemWidgets(): SystemWidgetsJSX {
         // lookAndFeel: <LookAndFeelControls/>,
         // mpris: <MediaPlayers/>,
         // powerOptions: <PowerOptions/>,
-        // notificationHistory: <NotificationHistory/>,
+        notificationHistory: <NotificationHistory/>,
         // toolbox: <Toolbox/>,
         // clock: <Clock/>,
         // clipboardManager: <ClipboardManager/>,
@@ -79,7 +78,9 @@ export function addSystemMenuWidgets(
     return widgets.map((widget) => {
         switch (widget) {
             case SystemMenuWidget.NETWORK:
-                // return jsxWidgets.network
+                return jsxWidgets.network as Gtk.Widget
+            case SystemMenuWidget.NOTIFICATION_HISTORY:
+                return jsxWidgets.notificationHistory as Gtk.Widget
             case SystemMenuWidget.BLUETOOTH:
                 // return jsxWidgets.bluetooth
             case SystemMenuWidget.AUDIO_OUT:
@@ -94,8 +95,6 @@ export function addSystemMenuWidgets(
                 // return jsxWidgets.mpris
             case SystemMenuWidget.POWER_OPTIONS:
                 // return jsxWidgets.powerOptions
-            case SystemMenuWidget.NOTIFICATION_HISTORY:
-                // return jsxWidgets.notificationHistory
             case SystemMenuWidget.TOOLBOX:
                 // return jsxWidgets.toolbox
             case SystemMenuWidget.CLOCK:
