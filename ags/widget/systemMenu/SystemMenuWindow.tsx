@@ -1,7 +1,7 @@
 import EndpointControls from "./widgets/EndpointControls";
 import Wp from "gi://AstalWp"
 import {getMicrophoneIcon, getVolumeIcon} from "../utils/audio";
-// import PowerOptions from "./widgets/PowerOptions";
+import PowerOptions from "./widgets/PowerOptions";
 import MediaPlayers from "./widgets/MediaPlayers";
 import NotificationHistory from "./widgets/NotificationHistory";
 import NetworkControls from "./widgets/NetworkControls";
@@ -10,13 +10,13 @@ import LookAndFeelControls from "./widgets/LookAndFeelControls";
 import {variableConfig} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import {Bar, selectedBar} from "../../config/bar";
-// import PowerProfileControls from "./widgets/PowerProfileControls";
+import PowerProfileControls from "./widgets/PowerProfileControls";
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
-// import Toolbox from "./widgets/Toolbox";
+import Toolbox from "./widgets/Toolbox";
 import Clock from "./widgets/Clock";
 import ClipboardManager from "./widgets/ClipboardManager";
 import {startCliphist} from "../clipboardManager/ClipboardManager";
-// import ScreenRecording from "./widgets/ScreenRecording";
+import ScreenRecording from "./widgets/ScreenRecording";
 // import Weather from "./widgets/Weather";
 import {SystemMenuWidget} from "../../config/schema/definitions/systemMenuWidgets";
 import {createBinding, createComputed, For, With} from "ags";
@@ -31,15 +31,15 @@ export type SystemWidgetsJSX = {
     bluetooth: JSX.Element
     audioOut: JSX.Element
     audioIn: JSX.Element
-    // powerProfile: JSX.Element
+    powerProfile: JSX.Element
     lookAndFeel: JSX.Element
     mpris: JSX.Element
-    // powerOptions: JSX.Element
+    powerOptions: JSX.Element
     notificationHistory: JSX.Element
-    // toolbox: JSX.Element
+    toolbox: JSX.Element
     clock: JSX.Element
     clipboardManager: JSX.Element
-    // screenRecording: JSX.Element
+    screenRecording: JSX.Element
     // weather: JSX.Element
 }
 
@@ -58,15 +58,15 @@ export function createSystemWidgets(): SystemWidgetsJSX {
             defaultEndpoint={audio.default_microphone}
             endpointsBinding={createBinding(audio, "microphones")}
             getIcon={getMicrophoneIcon}/>,
-        // powerProfile: <PowerProfileControls/>,
+        powerProfile: <PowerProfileControls/>,
         lookAndFeel: <LookAndFeelControls/>,
         mpris: <MediaPlayers/>,
-        // powerOptions: <PowerOptions/>,
+        powerOptions: <PowerOptions/>,
         notificationHistory: <NotificationHistory/>,
-        // toolbox: <Toolbox/>,
+        toolbox: <Toolbox/>,
         clock: <Clock/>,
         clipboardManager: <ClipboardManager/>,
-        // screenRecording: <ScreenRecording/>,
+        screenRecording: <ScreenRecording/>,
         // weather: <Weather/>,
     }
 }
@@ -97,14 +97,13 @@ export function addSystemMenuWidgets(
             case SystemMenuWidget.MPRIS_PLAYERS:
                 return jsxWidgets.mpris as Gtk.Widget
             case SystemMenuWidget.POWER_PROFILE:
-                // return jsxWidgets.powerProfile as Gtk.Widget
+                return jsxWidgets.powerProfile as Gtk.Widget
             case SystemMenuWidget.POWER_OPTIONS:
-                // return jsxWidgets.powerOptions as Gtk.Widget
+                return jsxWidgets.powerOptions as Gtk.Widget
             case SystemMenuWidget.TOOLBOX:
-                // return jsxWidgets.toolbox as Gtk.Widget
-
+                return jsxWidgets.toolbox as Gtk.Widget
             case SystemMenuWidget.SCREEN_RECORDING_CONTROLS:
-                // return jsxWidgets.screenRecording as Gtk.Widget
+                return jsxWidgets.screenRecording as Gtk.Widget
             case SystemMenuWidget.WEATHER:
                 // return jsxWidgets.weather as Gtk.Widget
         }
