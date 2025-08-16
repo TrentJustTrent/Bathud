@@ -1,6 +1,6 @@
-import {App, Astal, Gdk, Gtk} from "astal/gtk4"
-import {execAsync} from "astal/process"
-import {bind, Variable, GLib} from "astal"
+import {Astal, Gtk} from "ags/gtk4"
+import App from "ags/gtk4/app"
+import {execAsync} from "ags/process"
 import Divider from "../common/Divider";
 import Pango from "gi://Pango?version=1.0";
 import {playCameraShutter} from "../utils/audio";
@@ -9,10 +9,11 @@ import {hideAllWindows} from "../utils/windows";
 import {variableConfig} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import OkButton from "../common/OkButton";
-
 import {projectDir} from "../../app";
+import {createState, Setter, createBinding, For} from "ags";
+import GLib from "gi://GLib?version=2.0";
 
-export const isRecording = Variable(false)
+export const [isRecording, isRecordingSetter] = createState(false)
 
 export const ScreenshotWindowName = "screenshotWindow"
 
@@ -35,7 +36,7 @@ enum SaveType {
 
 const saveTypeValues = (Object.values(SaveType) as SaveType[]).filter((v): v is SaveType => typeof v === "number")
 
-const audioOptions = Variable<AudioSource[]>([])
+const [audioOptions, audioOptionsSetter] = createState<AudioSource[]>([])
 const codecs: Codec[] = [
     {
         display: "H264",
@@ -183,7 +184,7 @@ function updateAudioOptions() {
             }
         }
 
-        audioOptions.set(result)
+        audioOptionsSetter(result)
     })
 }
 
@@ -312,7 +313,7 @@ function ScreenshotButton(
         marginEnd={8}
         onClicked={onClicked}>
         <box
-            vertical={true}>
+            orientation={Gtk.Orientation.VERTICAL}>
             <label
                 cssClasses={["screenShotLabel"]}
                 label={icon}/>
@@ -323,13 +324,13 @@ function ScreenshotButton(
 }
 
 function ScreenShots() {
-    const delay = Variable(0)
-    const saveType = Variable(SaveType.BOTH)
-    let delayRevealed: Variable<boolean> | null = null
-    let saveTypeRevealed: Variable<boolean> | null = null
+    const [delay, delaySetter] = createState(0)
+    const [saveType, saveTypeSetter] = createState(SaveType.BOTH)
+    let delayRevealedSetter: Setter<boolean> | null = null
+    let saveTypeRevealedSetter: Setter<boolean> | null = null
 
     return <box
-        vertical={true}>
+        orientation={Gtk.Orientation.VERTICAL}>
         <label
             cssClasses={["labelLargeBold"]}
             marginBottom={8}
@@ -339,7 +340,7 @@ function ScreenShots() {
             iconOffset={0}
             windowName={ScreenshotWindowName}
             setup={(revealed) => {
-                delayRevealed = revealed
+                delayRevealedSetter = revealed[1]
             }}
             content={
                 <label
@@ -347,7 +348,7 @@ function ScreenShots() {
                     halign={Gtk.Align.START}
                     hexpand={true}
                     ellipsize={Pango.EllipsizeMode.END}
-                    label={delay().as((value) => {
+                    label={delay.as((value) => {
                         if (value === 1) {
                             return `Delay: ${value} second`
                         }
@@ -356,7 +357,7 @@ function ScreenShots() {
             }
             revealedContent={
                 <box
-                    vertical={true}>
+                    orientation={Gtk.Orientation.VERTICAL}>
                     {delayOptions.map((value) => {
                         return <OkButton
                             hexpand={true}
@@ -364,20 +365,22 @@ function ScreenShots() {
                             ellipsize={Pango.EllipsizeMode.END}
                             label={`󰔛  ${value} seconds`}
                             onClicked={() => {
-                                delay.set(value)
-                                delayRevealed?.set(false)
+                                delaySetter(value)
+                                if (delayRevealedSetter !== null) {
+                                    delayRevealedSetter(false)
+                                }
                             }}/>
                     })}
                 </box>
             }/>
         <RevealerRow
-            icon={saveType().as((value) => {
+            icon={saveType.as((value) => {
                 return getSaveTypeIcon(value)
             })}
             iconOffset={0}
             windowName={ScreenshotWindowName}
             setup={(revealed) => {
-                saveTypeRevealed = revealed
+                saveTypeRevealedSetter = revealed[1]
             }}
             content={
                 <label
@@ -385,13 +388,13 @@ function ScreenShots() {
                     halign={Gtk.Align.START}
                     hexpand={true}
                     ellipsize={Pango.EllipsizeMode.END}
-                    label={saveType().as((value) => {
+                    label={saveType.as((value) => {
                         return getSaveTypeLabel(value)
                     })}/>
             }
             revealedContent={
                 <box
-                    vertical={true}>
+                    orientation={Gtk.Orientation.VERTICAL}>
                     {saveTypeValues.map((value) => {
                         let label = `${getSaveTypeIcon(value)}  ${getSaveTypeLabel(value)}`
                         return <OkButton
@@ -400,15 +403,17 @@ function ScreenShots() {
                             ellipsize={Pango.EllipsizeMode.END}
                             label={label}
                             onClicked={() => {
-                                saveType.set(value)
-                                saveTypeRevealed?.set(false)
+                                saveTypeSetter(value)
+                                if (saveTypeRevealedSetter !== null) {
+                                    saveTypeRevealedSetter(false)
+                                }
                             }}/>
                     })}
                 </box>
             }/>
         <box
             marginTop={8}
-            vertical={false}>
+            orientation={Gtk.Orientation.HORIZONTAL}>
             <ScreenshotButton
                 icon={""}
                 label={"All"}
@@ -528,23 +533,23 @@ function ScreenShots() {
 }
 
 function ScreenRecording() {
-    const selectedAudio = Variable<AudioSource | null>(null)
-    const selectedCodec = Variable(codecs[0])
-    const selectedEncodingPreset = Variable("medium")
-    const selectedCrfQuality = Variable(20)
+    const [selectedAudio, selectedAudioSetter] = createState<AudioSource | null>(null)
+    const [selectedCodec, selectedCodecSetter] = createState(codecs[0])
+    const [selectedEncodingPreset, selectedEncodingPresetSetter] = createState("medium")
+    const [selectedCrfQuality, selectedCrfQualitySetter] = createState(20)
 
-    let audioRevealed: Variable<boolean> | null = null
-    let codecRevealed: Variable<boolean> | null = null
-    let encodingRevealed: Variable<boolean> | null = null
-    let crfRevealed: Variable<boolean> | null = null
+    let audioRevealedSetter: Setter<boolean> | null = null
+    let codecRevealedSetter: Setter<boolean> | null = null
+    let encodingRevealedSetter: Setter<boolean> | null = null
+    let crfRevealedSetter: Setter<boolean> | null = null
 
     setTimeout(() => {
-        bind(App.get_window(ScreenshotWindowName)!, "visible").subscribe((visible) => {
-            if (!visible) {
-                selectedAudio.set(null)
-                selectedCodec.set(codecs[0])
-                selectedEncodingPreset.set("medium")
-                selectedCrfQuality.set(20)
+        createBinding(App.get_window(ScreenshotWindowName)!, "visible").subscribe(() => {
+            if (!App.get_window(ScreenshotWindowName)?.visible) {
+                selectedAudioSetter(null)
+                selectedCodecSetter(codecs[0])
+                selectedEncodingPresetSetter("medium")
+                selectedCrfQualitySetter(20)
             } else {
                 updateAudioOptions()
             }
@@ -553,13 +558,13 @@ function ScreenRecording() {
 
 
     return <box
-        vertical={true}>
+        orientation={Gtk.Orientation.VERTICAL}>
         <label
             cssClasses={["labelLargeBold"]}
             marginBottom={8}
             label="Screen Record"/>
         <RevealerRow
-            icon={selectedAudio().as((value) => {
+            icon={selectedAudio.as((value) => {
                 if (value === null) {
                     return "󰝟"
                 } else {
@@ -569,7 +574,7 @@ function ScreenRecording() {
             iconOffset={0}
             windowName={ScreenshotWindowName}
             setup={(revealed) => {
-                audioRevealed = revealed
+                audioRevealedSetter = revealed[1]
             }}
             content={
                 <label
@@ -577,7 +582,7 @@ function ScreenRecording() {
                     halign={Gtk.Align.START}
                     hexpand={true}
                     ellipsize={Pango.EllipsizeMode.END}
-                    label={selectedAudio().as((value) => {
+                    label={selectedAudio.as((value) => {
                         if (value === null) {
                             return "No Audio"
                         } else {
@@ -587,29 +592,33 @@ function ScreenRecording() {
             }
             revealedContent={
                 <box
-                    vertical={true}>
+                    orientation={Gtk.Orientation.VERTICAL}>
                     <OkButton
                         hexpand={true}
                         labelHalign={Gtk.Align.START}
                         ellipsize={Pango.EllipsizeMode.END}
                         label={`󰝟  No Audio`}
                         onClicked={() => {
-                            selectedAudio.set(null)
-                            audioRevealed?.set(false)
+                            selectedAudioSetter(null)
+                            if (audioRevealedSetter !== null) {
+                                audioRevealedSetter(false)
+                            }
                         }}/>
-                    {audioOptions().as((options) => {
-                        return options.map((option) => {
+                    <For each={audioOptions}>
+                        {(option) => {
                             return <OkButton
                                 hexpand={true}
                                 labelHalign={Gtk.Align.START}
                                 ellipsize={Pango.EllipsizeMode.END}
                                 label={`${option.isMonitor ? "󰕾" : ""}  ${option.description}`}
                                 onClicked={() => {
-                                    selectedAudio.set(option)
-                                    audioRevealed?.set(false)
+                                    selectedAudioSetter(option)
+                                    if (audioRevealedSetter !== null) {
+                                        audioRevealedSetter(false)
+                                    }
                                 }}/>
-                        })
-                    })}
+                        }}
+                    </For>
                 </box>
             }
         />
@@ -618,7 +627,7 @@ function ScreenRecording() {
             iconOffset={0}
             windowName={ScreenshotWindowName}
             setup={(revealed) => {
-                codecRevealed = revealed
+                codecRevealedSetter = revealed[1]
             }}
             content={
                 <label
@@ -626,13 +635,13 @@ function ScreenRecording() {
                     halign={Gtk.Align.START}
                     hexpand={true}
                     ellipsize={Pango.EllipsizeMode.END}
-                    label={selectedCodec().as((value) => {
+                    label={selectedCodec.as((value) => {
                         return `${value.display} codec`
                     })}/>
             }
             revealedContent={
                 <box
-                    vertical={true}>
+                    orientation={Gtk.Orientation.VERTICAL}>
                     {codecs.map((value) => {
                         return <OkButton
                             hexpand={true}
@@ -640,21 +649,23 @@ function ScreenRecording() {
                             ellipsize={Pango.EllipsizeMode.END}
                             label={`󰕧  ${value.display}`}
                             onClicked={() => {
-                                selectedCodec.set(value)
-                                codecRevealed?.set(false)
+                                selectedCodecSetter(value)
+                                if (codecRevealedSetter !== null) {
+                                    codecRevealedSetter(false)
+                                }
                             }}/>
                     })}
                 </box>
             }
         />
         <RevealerRow
-            icon={selectedEncodingPreset().as((value) => {
+            icon={selectedEncodingPreset.as((value) => {
                 return getEncodingPresetIcon(value)
             })}
             iconOffset={0}
             windowName={ScreenshotWindowName}
             setup={(revealed) => {
-                encodingRevealed = revealed
+                encodingRevealedSetter = revealed[1]
             }}
             content={
                 <label
@@ -662,13 +673,13 @@ function ScreenRecording() {
                     halign={Gtk.Align.START}
                     hexpand={true}
                     ellipsize={Pango.EllipsizeMode.END}
-                    label={selectedEncodingPreset().as((value) => {
+                    label={selectedEncodingPreset.as((value) => {
                         return `${value.charAt(0).toUpperCase() + value.slice(1)} encoding speed`
                     })}/>
             }
             revealedContent={
                 <box
-                    vertical={true}>
+                    orientation={Gtk.Orientation.VERTICAL}>
                     {h264EncodingPresets.map((value) => {
                         return <OkButton
                             hexpand={true}
@@ -676,21 +687,23 @@ function ScreenRecording() {
                             ellipsize={Pango.EllipsizeMode.END}
                             label={`${getEncodingPresetIcon(value)}  ${value.charAt(0).toUpperCase() + value.slice(1)}`}
                             onClicked={() => {
-                                selectedEncodingPreset.set(value)
-                                encodingRevealed?.set(false)
+                                selectedEncodingPresetSetter(value)
+                                if (encodingRevealedSetter !== null) {
+                                    encodingRevealedSetter(false)
+                                }
                             }}/>
                     })}
                 </box>
             }
         />
         <RevealerRow
-            icon={selectedCrfQuality().as((value) => {
+            icon={selectedCrfQuality.as((value) => {
                 return getCrfQualityIcon(value)
             })}
             iconOffset={0}
             windowName={ScreenshotWindowName}
             setup={(revealed) => {
-                crfRevealed = revealed
+                crfRevealedSetter = revealed[1]
             }}
             content={
                 <label
@@ -698,13 +711,13 @@ function ScreenRecording() {
                     halign={Gtk.Align.START}
                     hexpand={true}
                     ellipsize={Pango.EllipsizeMode.END}
-                    label={selectedCrfQuality().as((value) => {
+                    label={selectedCrfQuality.as((value) => {
                         return `${value} CRF`
                     })}/>
             }
             revealedContent={
                 <box
-                    vertical={true}>
+                    orientation={Gtk.Orientation.VERTICAL}>
                     {crfQualityValues.map((value) => {
                         return <OkButton
                             hexpand={true}
@@ -712,21 +725,23 @@ function ScreenRecording() {
                             ellipsize={Pango.EllipsizeMode.END}
                             label={`${getCrfQualityIcon(value)}  ${value}`}
                             onClicked={() => {
-                                selectedCrfQuality.set(value)
-                                crfRevealed?.set(false)
+                                selectedCrfQualitySetter(value)
+                                if (crfRevealedSetter !== null) {
+                                    crfRevealedSetter(false)
+                                }
                             }}/>
                     })}
                 </box>
             }
         />
         <box
-            vertical={false}
+            orientation={Gtk.Orientation.HORIZONTAL}
             marginTop={8}>
             <ScreenshotButton
                 icon={""}
                 label={"All"}
                 onClicked={() => {
-                    isRecording.set(true)
+                    isRecordingSetter(true)
                     const time = GLib.DateTime.new_now_local().format("%Y_%m_%d_%H_%M_%S")!
                     const path = `${screenRecordingDir}/${time}_record.mp4`
                     const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
@@ -745,7 +760,7 @@ function ScreenRecording() {
                     ).catch((error) => {
                         console.error(error)
                     }).finally(() => {
-                        isRecording.set(false)
+                        isRecordingSetter(false)
                         showScreenRecordingNotification(path)
                     })
                 }}/>
@@ -753,7 +768,7 @@ function ScreenRecording() {
                 icon={"󰹑"}
                 label={"Monitor"}
                 onClicked={() => {
-                    isRecording.set(true)
+                    isRecordingSetter(true)
                     const time = GLib.DateTime.new_now_local().format("%Y_%m_%d_%H_%M_%S")!
                     const path = `${screenRecordingDir}/${time}_record.mp4`
                     const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
@@ -771,7 +786,7 @@ function ScreenRecording() {
                     ).catch((error) => {
                         console.error(error)
                     }).finally(() => {
-                        isRecording.set(false)
+                        isRecordingSetter(false)
                         showScreenRecordingNotification(path)
                     })
                 }}/>
@@ -779,7 +794,7 @@ function ScreenRecording() {
                 icon={""}
                 label={"Window"}
                 onClicked={() => {
-                    isRecording.set(true)
+                    isRecordingSetter(true)
                     const time = GLib.DateTime.new_now_local().format("%Y_%m_%d_%H_%M_%S")!
                     const path = `${screenRecordingDir}/${time}_record.mp4`
                     const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
@@ -797,7 +812,7 @@ function ScreenRecording() {
                     ).catch((error) => {
                         console.error(error)
                     }).finally(() => {
-                        isRecording.set(false)
+                        isRecordingSetter(false)
                         showScreenRecordingNotification(path)
                     })
                 }}/>
@@ -805,7 +820,7 @@ function ScreenRecording() {
                 icon={""}
                 label={"Area"}
                 onClicked={() => {
-                    isRecording.set(true)
+                    isRecordingSetter(true)
                     const time = GLib.DateTime.new_now_local().format("%Y_%m_%d_%H_%M_%S")!
                     const path = `${screenRecordingDir}/${time}_record.mp4`
                     const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
@@ -823,7 +838,7 @@ function ScreenRecording() {
                     ).catch((error) => {
                         console.error(error)
                     }).finally(() => {
-                        isRecording.set(false)
+                        isRecordingSetter(false)
                         showScreenRecordingNotification(path)
                     })
                 }}/>
@@ -837,7 +852,7 @@ export default function () {
 
     return <ScrimScrollWindow
         namespace={"okpanel-screenshot"}
-        monitor={variableConfig.mainMonitor()}
+        monitor={variableConfig.mainMonitor.asAccessor()}
         anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM}
         windowName={ScreenshotWindowName}
         topExpand={true}
@@ -847,7 +862,7 @@ export default function () {
         contentWidth={560}
         content={
             <box
-                vertical={true}
+                orientation={Gtk.Orientation.VERTICAL}
                 marginTop={20}
                 marginBottom={20}
                 marginStart={20}

@@ -1,6 +1,7 @@
 /// <reference path="./xlib-2.0.d.ts" />
 /// <reference path="./pango-1.0.d.ts" />
 /// <reference path="./cairo-1.0.d.ts" />
+/// <reference path="./cairo.d.ts" />
 /// <reference path="./gobject-2.0.d.ts" />
 /// <reference path="./glib-2.0.d.ts" />
 /// <reference path="./harfbuzz-0.0.d.ts" />
@@ -23,7 +24,7 @@ declare module 'gi://GdkX11?version=2.0' {
     // Module dependencies
     import type xlib from 'gi://xlib?version=2.0';
     import type Pango from 'gi://Pango?version=1.0';
-    import type cairo from 'gi://cairo?version=1.0';
+    import type cairo from 'cairo';
     import type GObject from 'gi://GObject?version=2.0';
     import type GLib from 'gi://GLib?version=2.0';
     import type HarfBuzz from 'gi://HarfBuzz?version=0.0';

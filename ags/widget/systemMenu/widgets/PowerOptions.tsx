@@ -1,11 +1,11 @@
-import {Gtk} from "astal/gtk4"
+import {Gtk} from "ags/gtk4"
 import {hideAllWindows} from "../../utils/windows";
 import OkButton, {OkButtonSize} from "../../common/OkButton";
 import {lock, logout, restart, shutdown} from "../../utils/powerOptions";
 
 export default function () {
     return <box
-        vertical={false}
+        orientation={Gtk.Orientation.HORIZONTAL}
         halign={Gtk.Align.CENTER}
         spacing={12}>
         <OkButton

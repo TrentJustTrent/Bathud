@@ -1,9 +1,9 @@
 import Cairo from "cairo";
-import {Gtk} from "astal/gtk4";
+import {Gtk} from "ags/gtk4";
 import {variableConfig} from "../../config/config";
 import {hexToRgba} from "../utils/strings";
-import {Binding, Variable} from "astal";
-import {isBinding} from "../utils/bindings";
+import {isAccessor} from "../utils/bindings";
+import {Accessor, createComputed, With} from "ags";
 
 export default function (
     {
@@ -13,34 +13,36 @@ export default function (
         bold,
         alignment,
         minimumHeight = 0,
-        foregroundColor = variableConfig.theme.colors.foreground(),
+        foregroundColor = variableConfig.theme.colors.foreground.asAccessor(),
     }:
     {
-        text: string | Binding<string>,
+        text: string | Accessor<string>,
         fontSize: number,
-        flipped: boolean | Binding<boolean>,
+        flipped: boolean | Accessor<boolean>,
         bold: boolean,
-        alignment: Binding<Gtk.Align>,
+        alignment: Accessor<Gtk.Align>,
         minimumHeight?: number,
-        foregroundColor?: Binding<string>
+        foregroundColor?: Accessor<string>
     }
 ) {
-    const variableParams = Variable.derive([
-        variableConfig.theme.font,
+    const variableParams = createComputed([
+        variableConfig.theme.font.asAccessor(),
         alignment
     ])
     return <box>
-        {variableParams().as(([font, align]) => {
-            return <VerticalLabelInternal
-                text={text}
-                fontSize={fontSize}
-                flipped={flipped}
-                bold={bold}
-                alignment={align}
-                minimumHeight={minimumHeight}
-                font={font}
-                foregroundColor={foregroundColor}/>
-        })}
+        <With value={variableParams}>
+            {([font, align]) => {
+                return <VerticalLabelInternal
+                    text={text}
+                    fontSize={fontSize}
+                    flipped={flipped}
+                    bold={bold}
+                    alignment={align}
+                    minimumHeight={minimumHeight}
+                    font={font}
+                    foregroundColor={foregroundColor}/>
+            }}
+        </With>
     </box>
 }
 
@@ -56,23 +58,23 @@ function VerticalLabelInternal(
         foregroundColor,
     }:
     {
-        text: string | Binding<string>,
+        text: string | Accessor<string>,
         fontSize: number,
-        flipped: boolean | Binding<boolean>,
+        flipped: boolean | Accessor<boolean>,
         bold: boolean,
         alignment?: Gtk.Align,
         minimumHeight?: number,
         font: string,
-        foregroundColor: Binding<string>
+        foregroundColor: Accessor<string>
     }
 ) {
     const area = new Gtk.DrawingArea()
     area.set_content_width(fontSize)
 
     let realText = ""
-    if (isBinding(text)) {
-        text.subscribe((value) => {
-            realText = value
+    if (isAccessor(text)) {
+        text.subscribe(() => {
+            realText = text.get()
             area.queue_draw()
         })
         realText = text.get()
@@ -81,9 +83,9 @@ function VerticalLabelInternal(
     }
 
     let realFlipped = false
-    if (isBinding(flipped)) {
-        flipped.subscribe((value) => {
-            realFlipped = value
+    if (isAccessor(flipped)) {
+        flipped.subscribe(() => {
+            realFlipped = flipped.get()
             area.queue_draw()
         })
         realFlipped = flipped.get()
@@ -93,8 +95,8 @@ function VerticalLabelInternal(
 
     let [r, g, b, a] = hexToRgba(foregroundColor.get())
 
-    foregroundColor.subscribe((foreground) => {
-        [r, g, b, a] = hexToRgba(foreground)
+    foregroundColor.subscribe(() => {
+        [r, g, b, a] = hexToRgba(foregroundColor.get())
         area.queue_draw()
     })
 

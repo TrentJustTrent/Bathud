@@ -1002,46 +1002,22 @@ declare module 'gi://Colord?version=1.0' {
             ALL,
         }
         namespace Client {
-            // Signal callback interfaces
-
-            interface Changed {
-                (): void;
-            }
-
-            interface DeviceAdded {
-                (device: Device): void;
-            }
-
-            interface DeviceChanged {
-                (device: Device): void;
-            }
-
-            interface DeviceRemoved {
-                (device: Device): void;
-            }
-
-            interface ProfileAdded {
-                (profile: Profile): void;
-            }
-
-            interface ProfileChanged {
-                (profile: Profile): void;
-            }
-
-            interface ProfileRemoved {
-                (profile: Profile): void;
-            }
-
-            interface SensorAdded {
-                (sensor: Sensor): void;
-            }
-
-            interface SensorChanged {
-                (sensor: Sensor): void;
-            }
-
-            interface SensorRemoved {
-                (sensor: Sensor): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                changed: () => void;
+                'device-added': (arg0: Device) => void;
+                'device-changed': (arg0: Device) => void;
+                'device-removed': (arg0: Device) => void;
+                'profile-added': (arg0: Profile) => void;
+                'profile-changed': (arg0: Profile) => void;
+                'profile-removed': (arg0: Profile) => void;
+                'sensor-added': (arg0: Sensor) => void;
+                'sensor-changed': (arg0: Sensor) => void;
+                'sensor-removed': (arg0: Sensor) => void;
+                'notify::connected': (pspec: GObject.ParamSpec) => void;
+                'notify::daemon-version': (pspec: GObject.ParamSpec) => void;
+                'notify::system-model': (pspec: GObject.ParamSpec) => void;
+                'notify::system-vendor': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -1091,6 +1067,15 @@ declare module 'gi://Colord?version=1.0' {
              */
             get systemVendor(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Client.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Client.ConstructorProps>, ...args: any[]);
@@ -1101,28 +1086,21 @@ declare module 'gi://Colord?version=1.0' {
 
             // Signals
 
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect_after(signal: 'changed', callback: (_source: this) => void): number;
-            emit(signal: 'changed'): void;
-            connect_after(signal: 'device-added', callback: (_source: this, device: Device) => void): number;
-            emit(signal: 'device-added', device: Device): void;
-            connect_after(signal: 'device-changed', callback: (_source: this, device: Device) => void): number;
-            emit(signal: 'device-changed', device: Device): void;
-            connect_after(signal: 'device-removed', callback: (_source: this, device: Device) => void): number;
-            emit(signal: 'device-removed', device: Device): void;
-            connect_after(signal: 'profile-added', callback: (_source: this, profile: Profile) => void): number;
-            emit(signal: 'profile-added', profile: Profile): void;
-            connect_after(signal: 'profile-changed', callback: (_source: this, profile: Profile) => void): number;
-            emit(signal: 'profile-changed', profile: Profile): void;
-            connect_after(signal: 'profile-removed', callback: (_source: this, profile: Profile) => void): number;
-            emit(signal: 'profile-removed', profile: Profile): void;
-            connect_after(signal: 'sensor-added', callback: (_source: this, sensor: Sensor) => void): number;
-            emit(signal: 'sensor-added', sensor: Sensor): void;
-            connect_after(signal: 'sensor-changed', callback: (_source: this, sensor: Sensor) => void): number;
-            emit(signal: 'sensor-changed', sensor: Sensor): void;
-            connect_after(signal: 'sensor-removed', callback: (_source: this, sensor: Sensor) => void): number;
-            emit(signal: 'sensor-removed', sensor: Sensor): void;
+            connect<K extends keyof Client.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Client.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Client.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Client.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Client.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Client.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -2029,10 +2007,27 @@ declare module 'gi://Colord?version=1.0' {
         }
 
         namespace Device {
-            // Signal callback interfaces
-
-            interface Changed {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                changed: () => void;
+                'notify::colorspace': (pspec: GObject.ParamSpec) => void;
+                'notify::connected': (pspec: GObject.ParamSpec) => void;
+                'notify::created': (pspec: GObject.ParamSpec) => void;
+                'notify::embedded': (pspec: GObject.ParamSpec) => void;
+                'notify::enabled': (pspec: GObject.ParamSpec) => void;
+                'notify::format': (pspec: GObject.ParamSpec) => void;
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+                'notify::kind': (pspec: GObject.ParamSpec) => void;
+                'notify::mode': (pspec: GObject.ParamSpec) => void;
+                'notify::model': (pspec: GObject.ParamSpec) => void;
+                'notify::modified': (pspec: GObject.ParamSpec) => void;
+                'notify::object-path': (pspec: GObject.ParamSpec) => void;
+                'notify::owner': (pspec: GObject.ParamSpec) => void;
+                'notify::profiling-inhibitors': (pspec: GObject.ParamSpec) => void;
+                'notify::scope': (pspec: GObject.ParamSpec) => void;
+                'notify::seat': (pspec: GObject.ParamSpec) => void;
+                'notify::serial': (pspec: GObject.ParamSpec) => void;
+                'notify::vendor': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -2143,6 +2138,15 @@ declare module 'gi://Colord?version=1.0' {
              */
             get vendor(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Device.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Device.ConstructorProps>, ...args: any[]);
@@ -2155,10 +2159,21 @@ declare module 'gi://Colord?version=1.0' {
 
             // Signals
 
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect_after(signal: 'changed', callback: (_source: this) => void): number;
-            emit(signal: 'changed'): void;
+            connect<K extends keyof Device.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Device.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Device.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Device.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Device.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Device.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -2838,6 +2853,9 @@ declare module 'gi://Colord?version=1.0' {
         }
 
         namespace Edid {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -2846,6 +2864,15 @@ declare module 'gi://Colord?version=1.0' {
         class Edid extends GObject.Object {
             static $gtype: GObject.GType<Edid>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Edid.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Edid.ConstructorProps>, ...args: any[]);
@@ -2853,6 +2880,24 @@ declare module 'gi://Colord?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Edid;
+
+            // Signals
+
+            connect<K extends keyof Edid.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Edid.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Edid.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Edid.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Edid.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Edid.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -2941,6 +2986,22 @@ declare module 'gi://Colord?version=1.0' {
         }
 
         namespace Icc {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::blue': (pspec: GObject.ParamSpec) => void;
+                'notify::can-delete': (pspec: GObject.ParamSpec) => void;
+                'notify::checksum': (pspec: GObject.ParamSpec) => void;
+                'notify::colorspace': (pspec: GObject.ParamSpec) => void;
+                'notify::filename': (pspec: GObject.ParamSpec) => void;
+                'notify::green': (pspec: GObject.ParamSpec) => void;
+                'notify::kind': (pspec: GObject.ParamSpec) => void;
+                'notify::red': (pspec: GObject.ParamSpec) => void;
+                'notify::size': (pspec: GObject.ParamSpec) => void;
+                'notify::temperature': (pspec: GObject.ParamSpec) => void;
+                'notify::version': (pspec: GObject.ParamSpec) => void;
+                'notify::white': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -2982,6 +3043,15 @@ declare module 'gi://Colord?version=1.0' {
             set version(val: number);
             get white(): ColorXYZ;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Icc.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Icc.ConstructorProps>, ...args: any[]);
@@ -2989,6 +3059,24 @@ declare module 'gi://Colord?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Icc;
+
+            // Signals
+
+            connect<K extends keyof Icc.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Icc.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Icc.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Icc.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Icc.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Icc.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -3378,6 +3466,17 @@ declare module 'gi://Colord?version=1.0' {
         }
 
         namespace It8 {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::instrument': (pspec: GObject.ParamSpec) => void;
+                'notify::kind': (pspec: GObject.ParamSpec) => void;
+                'notify::normalized': (pspec: GObject.ParamSpec) => void;
+                'notify::originator': (pspec: GObject.ParamSpec) => void;
+                'notify::reference': (pspec: GObject.ParamSpec) => void;
+                'notify::spectral': (pspec: GObject.ParamSpec) => void;
+                'notify::title': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -3426,6 +3525,15 @@ declare module 'gi://Colord?version=1.0' {
              */
             get title(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: It8.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<It8.ConstructorProps>, ...args: any[]);
@@ -3435,6 +3543,24 @@ declare module 'gi://Colord?version=1.0' {
             static ['new'](): It8;
 
             static new_with_kind(kind: It8Kind): It8;
+
+            // Signals
+
+            connect<K extends keyof It8.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, It8.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof It8.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, It8.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof It8.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<It8.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -3624,10 +3750,24 @@ declare module 'gi://Colord?version=1.0' {
         }
 
         namespace Profile {
-            // Signal callback interfaces
-
-            interface Changed {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                changed: () => void;
+                'notify::colorspace': (pspec: GObject.ParamSpec) => void;
+                'notify::connected': (pspec: GObject.ParamSpec) => void;
+                'notify::created': (pspec: GObject.ParamSpec) => void;
+                'notify::filename': (pspec: GObject.ParamSpec) => void;
+                'notify::format': (pspec: GObject.ParamSpec) => void;
+                'notify::has-vcgt': (pspec: GObject.ParamSpec) => void;
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+                'notify::is-system-wide': (pspec: GObject.ParamSpec) => void;
+                'notify::kind': (pspec: GObject.ParamSpec) => void;
+                'notify::object-path': (pspec: GObject.ParamSpec) => void;
+                'notify::owner': (pspec: GObject.ParamSpec) => void;
+                'notify::qualifier': (pspec: GObject.ParamSpec) => void;
+                'notify::scope': (pspec: GObject.ParamSpec) => void;
+                'notify::title': (pspec: GObject.ParamSpec) => void;
+                'notify::warnings': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -3734,6 +3874,15 @@ declare module 'gi://Colord?version=1.0' {
              */
             get warnings(): string[];
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Profile.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Profile.ConstructorProps>, ...args: any[]);
@@ -3746,10 +3895,21 @@ declare module 'gi://Colord?version=1.0' {
 
             // Signals
 
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect_after(signal: 'changed', callback: (_source: this) => void): number;
-            emit(signal: 'changed'): void;
+            connect<K extends keyof Profile.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Profile.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Profile.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Profile.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Profile.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Profile.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -4042,10 +4202,21 @@ declare module 'gi://Colord?version=1.0' {
         }
 
         namespace Sensor {
-            // Signal callback interfaces
-
-            interface ButtonPressed {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'button-pressed': () => void;
+                'notify::connected': (pspec: GObject.ParamSpec) => void;
+                'notify::embedded': (pspec: GObject.ParamSpec) => void;
+                'notify::id': (pspec: GObject.ParamSpec) => void;
+                'notify::kind': (pspec: GObject.ParamSpec) => void;
+                'notify::locked': (pspec: GObject.ParamSpec) => void;
+                'notify::mode': (pspec: GObject.ParamSpec) => void;
+                'notify::model': (pspec: GObject.ParamSpec) => void;
+                'notify::native': (pspec: GObject.ParamSpec) => void;
+                'notify::object-path': (pspec: GObject.ParamSpec) => void;
+                'notify::serial': (pspec: GObject.ParamSpec) => void;
+                'notify::state': (pspec: GObject.ParamSpec) => void;
+                'notify::vendor': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -4127,6 +4298,15 @@ declare module 'gi://Colord?version=1.0' {
              */
             get vendor(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Sensor.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Sensor.ConstructorProps>, ...args: any[]);
@@ -4139,10 +4319,21 @@ declare module 'gi://Colord?version=1.0' {
 
             // Signals
 
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect_after(signal: 'button-pressed', callback: (_source: this) => void): number;
-            emit(signal: 'button-pressed'): void;
+            connect<K extends keyof Sensor.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Sensor.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Sensor.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Sensor.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Sensor.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Sensor.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 

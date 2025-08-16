@@ -2,6 +2,7 @@
 /// <reference path="./xlib-2.0.d.ts" />
 /// <reference path="./gdk-3.0.d.ts" />
 /// <reference path="./cairo-1.0.d.ts" />
+/// <reference path="./cairo.d.ts" />
 /// <reference path="./gobject-2.0.d.ts" />
 /// <reference path="./glib-2.0.d.ts" />
 /// <reference path="./pango-1.0.d.ts" />
@@ -27,7 +28,7 @@ declare module 'gi://ColordGtk?version=1.0' {
     import type Gtk from 'gi://Gtk?version=3.0';
     import type xlib from 'gi://xlib?version=2.0';
     import type Gdk from 'gi://Gdk?version=3.0';
-    import type cairo from 'gi://cairo?version=1.0';
+    import type cairo from 'cairo';
     import type GObject from 'gi://GObject?version=2.0';
     import type GLib from 'gi://GLib?version=2.0';
     import type Pango from 'gi://Pango?version=1.0';
@@ -66,6 +67,50 @@ declare module 'gi://ColordGtk?version=1.0' {
         const GTK_MICRO_VERSION: number;
         const GTK_MINOR_VERSION: number;
         namespace SampleWidget {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.DrawingArea.SignalSignatures {
+                'notify::color': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -84,6 +129,15 @@ declare module 'gi://ColordGtk?version=1.0' {
             get color(): Colord.ColorRGB;
             set color(val: Colord.ColorRGB);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: SampleWidget.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<SampleWidget.ConstructorProps>, ...args: any[]);
@@ -91,6 +145,24 @@ declare module 'gi://ColordGtk?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): SampleWidget;
+
+            // Signals
+
+            connect<K extends keyof SampleWidget.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SampleWidget.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof SampleWidget.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SampleWidget.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof SampleWidget.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<SampleWidget.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -218,7 +290,21 @@ declare module 'gi://ColordGtk?version=1.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -346,7 +432,12 @@ declare module 'gi://ColordGtk?version=1.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -496,14 +587,113 @@ declare module 'gi://ColordGtk?version=1.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace SampleWindow {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Window.SignalSignatures {
+                'notify::accept-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::application': (pspec: GObject.ParamSpec) => void;
+                'notify::attached-to': (pspec: GObject.ParamSpec) => void;
+                'notify::decorated': (pspec: GObject.ParamSpec) => void;
+                'notify::default-height': (pspec: GObject.ParamSpec) => void;
+                'notify::default-width': (pspec: GObject.ParamSpec) => void;
+                'notify::deletable': (pspec: GObject.ParamSpec) => void;
+                'notify::destroy-with-parent': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-map': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::gravity': (pspec: GObject.ParamSpec) => void;
+                'notify::has-resize-grip': (pspec: GObject.ParamSpec) => void;
+                'notify::has-toplevel-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::hide-titlebar-when-maximized': (pspec: GObject.ParamSpec) => void;
+                'notify::icon': (pspec: GObject.ParamSpec) => void;
+                'notify::icon-name': (pspec: GObject.ParamSpec) => void;
+                'notify::is-active': (pspec: GObject.ParamSpec) => void;
+                'notify::is-maximized': (pspec: GObject.ParamSpec) => void;
+                'notify::mnemonics-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::modal': (pspec: GObject.ParamSpec) => void;
+                'notify::resizable': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-grip-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::role': (pspec: GObject.ParamSpec) => void;
+                'notify::screen': (pspec: GObject.ParamSpec) => void;
+                'notify::skip-pager-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::skip-taskbar-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::startup-id': (pspec: GObject.ParamSpec) => void;
+                'notify::title': (pspec: GObject.ParamSpec) => void;
+                'notify::transient-for': (pspec: GObject.ParamSpec) => void;
+                'notify::type': (pspec: GObject.ParamSpec) => void;
+                'notify::type-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::urgency-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::window-position': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -515,6 +705,15 @@ declare module 'gi://ColordGtk?version=1.0' {
         class SampleWindow extends Gtk.Window implements Atk.ImplementorIface, Gtk.Buildable {
             static $gtype: GObject.GType<SampleWindow>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: SampleWindow.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<SampleWindow.ConstructorProps>, ...args: any[]);
@@ -522,6 +721,24 @@ declare module 'gi://ColordGtk?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](): SampleWindow;
+
+            // Signals
+
+            connect<K extends keyof SampleWindow.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SampleWindow.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof SampleWindow.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SampleWindow.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof SampleWindow.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<SampleWindow.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -654,7 +871,21 @@ declare module 'gi://ColordGtk?version=1.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -782,7 +1013,12 @@ declare module 'gi://ColordGtk?version=1.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -932,18 +1168,38 @@ declare module 'gi://ColordGtk?version=1.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Window {
-            // Signal callback interfaces
-
-            interface Changed {
-                (profile: Colord.Profile): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                changed: (arg0: Colord.Profile) => void;
+                'notify::profile': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -960,6 +1216,15 @@ declare module 'gi://ColordGtk?version=1.0' {
 
             get Profile(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Window.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Window.ConstructorProps>, ...args: any[]);
@@ -970,12 +1235,21 @@ declare module 'gi://ColordGtk?version=1.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'changed', callback: (_source: this, profile: Colord.Profile) => void): number;
-            connect_after(signal: 'changed', callback: (_source: this, profile: Colord.Profile) => void): number;
-            emit(signal: 'changed', profile: Colord.Profile): void;
+            connect<K extends keyof Window.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Window.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Window.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Window.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Window.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Window.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 

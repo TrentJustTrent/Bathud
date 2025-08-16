@@ -1,6 +1,6 @@
 import {variableConfig} from "../../config/config";
 import ConfirmationDialog from "../common/ConfirmationDialog";
-import {execAsync} from "astal/process";
+import {execAsync} from "ags/process";
 
 export function logout() {
     if (variableConfig.systemCommands.logoutConfirmationEnabled.get()) {

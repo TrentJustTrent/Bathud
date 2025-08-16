@@ -1,129 +1,49 @@
-import {Astal, Gtk} from "astal/gtk4"
-import Notifd from "gi://AstalNotifd"
+import {Astal, Gtk} from "ags/gtk4"
 import Notification from "./Notification"
-import {type Subscribable} from "astal/binding"
-import {bind, GLib, Variable} from "astal"
 import {variableConfig} from "../../config/config";
 import Hyprland from "gi://AstalHyprland"
-
-
 import {NotificationsPosition} from "../../config/schema/definitions/notifications";
+import GLib from "gi://GLib?version=2.0";
+import {createState, For, onCleanup} from "ags";
+import AstalNotifd from "gi://AstalNotifd?version=0.1";
 
 // see comment below in constructor
 const TIMEOUT_DELAY = 7_000
 
-// The purpose if this class is to replace Variable<Array<Widget>>
-// with a Map<number, Widget> type in order to track notification widgets
-// by their id, while making it conviniently bindable as an array
-class NotificationMap implements Subscribable {
-    // the underlying map to keep track of id widget pairs
-    private map: Map<number, Gtk.Widget> = new Map()
-
-    // it makes sense to use a Variable under the hood and use its
-    // reactivity implementation instead of keeping track of subscribers ourselves
-    private var: Variable<Array<Gtk.Widget>> = Variable([])
-
-    // notify subscribers to rerender when state changes
-    private notifiy() {
-        this.var.set([...this.map.values()].reverse())
-    }
-
-    constructor() {
-        const notifd = Notifd.get_default()
-
-        /**
-         * uncomment this if you want to
-         * ignore timeout by senders and enforce our own timeout
-         * note that if the notification has any actions
-         * they might not work, since the sender already treats them as resolved
-         */
-        // notifd.ignoreTimeout = true
-
-        notifd.connect("notified", (_, id) => {
-            let hideTimeout: GLib.Source | null = null
-
-            if (notifd.dontDisturb) {
-                return
-            }
-
-            this.set(id, Notification({
-                notification: notifd.get_notification(id)!,
-
-                // once hovering over the notification is done
-                // destroy the widget without calling notification.dismiss()
-                // so that it acts as a "popup" and we can still display it
-                // in a notification center like widget
-                // but clicking on the close button will close it
-                onHoverLost: () => {
-                    hideTimeout = setTimeout(() => {
-                        this.delete(id)
-                        hideTimeout?.destroy()
-                        hideTimeout = null
-                    }, TIMEOUT_DELAY)
-                },
-                onHover() {
-                    hideTimeout?.destroy()
-                    hideTimeout = null
-                },
-
-                // notifd by default does not close notifications
-                // until user input or the timeout specified by sender
-                // which we set to ignore above
-                setup: () => {
-                    hideTimeout = setTimeout(() => {
-                        this.delete(id)
-                        hideTimeout?.destroy()
-                        hideTimeout = null
-                    }, TIMEOUT_DELAY)
-                },
-                useHistoryCss: false
-            }))
-        })
-
-        // notifications can be closed by the outside before
-        // any user input, which have to be handled too
-        notifd.connect("resolved", (_, id) => {
-            this.delete(id)
-        })
-    }
-
-    private set(key: number, value: Gtk.Widget) {
-        // in case of replacecment destroy previous widget
-        // destroy doesn't exist in GTK 3.  Just commenting out
-        // this.map.get(key)?.destroy()
-        this.map.set(key, value)
-        this.notifiy()
-    }
-
-    private delete(key: number) {
-        // destroy doesn't exist in GTK 3.  Just commenting out
-        // this.map.get(key)?.destroy()
-        this.map.delete(key)
-        this.notifiy()
-    }
-
-    // needed by the Subscribable interface
-    get() {
-        return this.var.get()
-    }
-
-    // needed by the Subscribable interface
-    subscribe(callback: (list: Array<Gtk.Widget>) => void) {
-        return this.var.subscribe(callback)
-    }
-}
-
 export default function NotificationPopups(monitor: Hyprland.Monitor): Astal.Window {
-    const notifs = new NotificationMap()
+    const notifd = AstalNotifd.get_default()
+
+    const [notifications, setNotifications] = createState(
+        new Array<AstalNotifd.Notification>(),
+    )
+
+    const notifiedHandler = notifd.connect("notified", (_, id, replaced) => {
+        const notification = notifd.get_notification(id)
+
+        if (replaced && notifications.get().some((n) => n.id === id)) {
+            setNotifications((ns) => ns.map((n) => (n.id === id ? notification : n)))
+        } else {
+            setNotifications((ns) => [notification, ...ns])
+        }
+    })
+
+    const resolvedHandler = notifd.connect("resolved", (_, id) => {
+        setNotifications((ns) => ns.filter((n) => n.id !== id))
+    })
+
+    onCleanup(() => {
+        notifd.disconnect(notifiedHandler)
+        notifd.disconnect(resolvedHandler)
+    })
 
     return <window
         namespace={"okpanel-notifications"}
-        visible={bind(notifs).as((values) => {
+        visible={notifications.as((values) => {
             return values.length !== 0
         })}
         cssClasses={["NotificationPopups"]}
         monitor={monitor.id}
-        exclusivity={variableConfig.notifications.respectExclusive().as((exclusive) => {
+        exclusivity={variableConfig.notifications.respectExclusive.asAccessor().as((exclusive) => {
             if (exclusive) {
                 return Astal.Exclusivity.NORMAL
             } else {
@@ -131,7 +51,7 @@ export default function NotificationPopups(monitor: Hyprland.Monitor): Astal.Win
             }
         })}
         layer={Astal.Layer.OVERLAY}
-        anchor={variableConfig.notifications.position().as((position) => {
+        anchor={variableConfig.notifications.position.asAccessor().as((position) => {
             if (position === NotificationsPosition.LEFT) {
                 return Astal.WindowAnchor.TOP | Astal.WindowAnchor.LEFT
             } else if (position === NotificationsPosition.RIGHT) {
@@ -141,8 +61,35 @@ export default function NotificationPopups(monitor: Hyprland.Monitor): Astal.Win
             }
         })}>
         <box
-            vertical={true}>
-            {bind(notifs)}
+            orientation={Gtk.Orientation.VERTICAL}>
+            <For each={notifications}>
+                {(notification: AstalNotifd.Notification) => {
+                    let hideTimeout: GLib.Source | null = null
+                    return <Notification
+                        setup={(self) => {
+                            hideTimeout = setTimeout(() => {
+                                notification.dismiss()
+                                hideTimeout?.destroy()
+                                hideTimeout = null
+                            }, TIMEOUT_DELAY)
+                            const motion = new Gtk.EventControllerMotion();
+                            motion.connect("enter", () => {
+                                hideTimeout?.destroy()
+                                hideTimeout = null
+                            });
+                            motion.connect("leave", () => {
+                                hideTimeout = setTimeout(() => {
+                                    notification.dismiss()
+                                    hideTimeout?.destroy()
+                                    hideTimeout = null
+                                }, TIMEOUT_DELAY)
+                            });
+                            self.add_controller(motion);
+                        }}
+                        notification={notification}
+                        useHistoryCss={false}/>
+                }}
+            </For>
         </box>
     </window> as Astal.Window
 }

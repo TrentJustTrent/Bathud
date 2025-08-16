@@ -971,6 +971,25 @@ declare module 'gi://Secret?version=1' {
             LOAD_COLLECTIONS,
         }
         namespace Collection {
+            // Signal signatures
+            interface SignalSignatures extends Gio.DBusProxy.SignalSignatures {
+                'notify::created': (pspec: GObject.ParamSpec) => void;
+                'notify::flags': (pspec: GObject.ParamSpec) => void;
+                'notify::label': (pspec: GObject.ParamSpec) => void;
+                'notify::locked': (pspec: GObject.ParamSpec) => void;
+                'notify::modified': (pspec: GObject.ParamSpec) => void;
+                'notify::service': (pspec: GObject.ParamSpec) => void;
+                'notify::g-bus-type': (pspec: GObject.ParamSpec) => void;
+                'notify::g-connection': (pspec: GObject.ParamSpec) => void;
+                'notify::g-default-timeout': (pspec: GObject.ParamSpec) => void;
+                'notify::g-flags': (pspec: GObject.ParamSpec) => void;
+                'notify::g-interface-info': (pspec: GObject.ParamSpec) => void;
+                'notify::g-interface-name': (pspec: GObject.ParamSpec) => void;
+                'notify::g-name': (pspec: GObject.ParamSpec) => void;
+                'notify::g-name-owner': (pspec: GObject.ParamSpec) => void;
+                'notify::g-object-path': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -1048,11 +1067,38 @@ declare module 'gi://Secret?version=1' {
              */
             get service(): Service;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Collection.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Collection.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Collection.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Collection.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Collection.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Collection.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Collection.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Collection.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -1948,7 +1994,21 @@ declare module 'gi://Secret?version=1' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -2076,7 +2136,12 @@ declare module 'gi://Secret?version=1' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -2226,14 +2291,54 @@ declare module 'gi://Secret?version=1' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Item {
+            // Signal signatures
+            interface SignalSignatures extends Gio.DBusProxy.SignalSignatures {
+                'notify::flags': (pspec: GObject.ParamSpec) => void;
+                'notify::locked': (pspec: GObject.ParamSpec) => void;
+                'notify::service': (pspec: GObject.ParamSpec) => void;
+                'notify::g-bus-type': (pspec: GObject.ParamSpec) => void;
+                'notify::g-connection': (pspec: GObject.ParamSpec) => void;
+                'notify::g-default-timeout': (pspec: GObject.ParamSpec) => void;
+                'notify::g-flags': (pspec: GObject.ParamSpec) => void;
+                'notify::g-interface-info': (pspec: GObject.ParamSpec) => void;
+                'notify::g-interface-name': (pspec: GObject.ParamSpec) => void;
+                'notify::g-name': (pspec: GObject.ParamSpec) => void;
+                'notify::g-name-owner': (pspec: GObject.ParamSpec) => void;
+                'notify::g-object-path': (pspec: GObject.ParamSpec) => void;
+                'notify::attributes': (pspec: GObject.ParamSpec) => void;
+                'notify::created': (pspec: GObject.ParamSpec) => void;
+                'notify::label': (pspec: GObject.ParamSpec) => void;
+                'notify::modified': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -2299,11 +2404,38 @@ declare module 'gi://Secret?version=1' {
              */
             get service(): Service;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Item.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Item.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Item.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Item.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Item.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Item.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Item.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Item.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -3330,7 +3462,21 @@ declare module 'gi://Secret?version=1' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -3458,7 +3604,12 @@ declare module 'gi://Secret?version=1' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -3608,14 +3759,47 @@ declare module 'gi://Secret?version=1' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Prompt {
+            // Signal signatures
+            interface SignalSignatures extends Gio.DBusProxy.SignalSignatures {
+                'notify::g-bus-type': (pspec: GObject.ParamSpec) => void;
+                'notify::g-connection': (pspec: GObject.ParamSpec) => void;
+                'notify::g-default-timeout': (pspec: GObject.ParamSpec) => void;
+                'notify::g-flags': (pspec: GObject.ParamSpec) => void;
+                'notify::g-interface-info': (pspec: GObject.ParamSpec) => void;
+                'notify::g-interface-name': (pspec: GObject.ParamSpec) => void;
+                'notify::g-name': (pspec: GObject.ParamSpec) => void;
+                'notify::g-name-owner': (pspec: GObject.ParamSpec) => void;
+                'notify::g-object-path': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -3644,11 +3828,38 @@ declare module 'gi://Secret?version=1' {
         class Prompt extends Gio.DBusProxy implements Gio.AsyncInitable<Prompt>, Gio.DBusInterface, Gio.Initable {
             static $gtype: GObject.GType<Prompt>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Prompt.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Prompt.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Prompt.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Prompt.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Prompt.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Prompt.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Prompt.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Prompt.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -4220,7 +4431,21 @@ declare module 'gi://Secret?version=1' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -4348,7 +4573,12 @@ declare module 'gi://Secret?version=1' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -4498,14 +4728,48 @@ declare module 'gi://Secret?version=1' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Service {
+            // Signal signatures
+            interface SignalSignatures extends Gio.DBusProxy.SignalSignatures {
+                'notify::g-bus-type': (pspec: GObject.ParamSpec) => void;
+                'notify::g-connection': (pspec: GObject.ParamSpec) => void;
+                'notify::g-default-timeout': (pspec: GObject.ParamSpec) => void;
+                'notify::g-flags': (pspec: GObject.ParamSpec) => void;
+                'notify::g-interface-info': (pspec: GObject.ParamSpec) => void;
+                'notify::g-interface-name': (pspec: GObject.ParamSpec) => void;
+                'notify::g-name': (pspec: GObject.ParamSpec) => void;
+                'notify::g-name-owner': (pspec: GObject.ParamSpec) => void;
+                'notify::g-object-path': (pspec: GObject.ParamSpec) => void;
+                'notify::flags': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -4563,11 +4827,38 @@ declare module 'gi://Secret?version=1' {
         {
             static $gtype: GObject.GType<Service>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Service.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Service.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Service.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Service.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Service.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Service.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Service.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Service.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -6338,7 +6629,21 @@ declare module 'gi://Secret?version=1' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -6466,7 +6771,12 @@ declare module 'gi://Secret?version=1' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -6616,11 +6926,31 @@ declare module 'gi://Secret?version=1' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         type BackendInterface = typeof Backend;

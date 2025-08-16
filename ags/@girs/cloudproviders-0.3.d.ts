@@ -63,6 +63,16 @@ declare module 'gi://CloudProviders?version=0.3' {
          */
         function dbus_provider_override_properties(klass: typeof GObject.Object, property_id_begin: number): number;
         namespace Account {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::action-group': (pspec: GObject.ParamSpec) => void;
+                'notify::icon': (pspec: GObject.ParamSpec) => void;
+                'notify::menu-model': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::path': (pspec: GObject.ParamSpec) => void;
+                'notify::status-details': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -99,6 +109,15 @@ declare module 'gi://CloudProviders?version=0.3' {
             get status_details(): string;
             get statusDetails(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Account.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Account.ConstructorProps>, ...args: any[]);
@@ -106,6 +125,24 @@ declare module 'gi://CloudProviders?version=0.3' {
             _init(...args: any[]): void;
 
             static ['new'](proxy: Gio.DBusProxy): Account;
+
+            // Signals
+
+            connect<K extends keyof Account.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Account.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Account.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Account.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Account.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Account.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -148,6 +185,18 @@ declare module 'gi://CloudProviders?version=0.3' {
         }
 
         namespace AccountExporter {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::action-group': (pspec: GObject.ParamSpec) => void;
+                'notify::bus-name': (pspec: GObject.ParamSpec) => void;
+                'notify::icon': (pspec: GObject.ParamSpec) => void;
+                'notify::menu-model': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::path': (pspec: GObject.ParamSpec) => void;
+                'notify::provider': (pspec: GObject.ParamSpec) => void;
+                'notify::status-details': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -193,6 +242,15 @@ declare module 'gi://CloudProviders?version=0.3' {
             get statusDetails(): string;
             set statusDetails(val: string);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AccountExporter.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<AccountExporter.ConstructorProps>, ...args: any[]);
@@ -200,6 +258,26 @@ declare module 'gi://CloudProviders?version=0.3' {
             _init(...args: any[]): void;
 
             static ['new'](provider: ProviderExporter, bus_name: string): AccountExporter;
+
+            // Signals
+
+            connect<K extends keyof AccountExporter.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AccountExporter.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AccountExporter.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AccountExporter.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AccountExporter.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AccountExporter.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -225,10 +303,9 @@ declare module 'gi://CloudProviders?version=0.3' {
         }
 
         namespace Collector {
-            // Signal callback interfaces
-
-            interface ProvidersChanged {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'providers-changed': () => void;
             }
 
             // Constructor properties interface
@@ -245,6 +322,15 @@ declare module 'gi://CloudProviders?version=0.3' {
         class Collector extends GObject.Object {
             static $gtype: GObject.GType<Collector>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Collector.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Collector.ConstructorProps>, ...args: any[]);
@@ -253,12 +339,21 @@ declare module 'gi://CloudProviders?version=0.3' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'providers-changed', callback: (_source: this) => void): number;
-            connect_after(signal: 'providers-changed', callback: (_source: this) => void): number;
-            emit(signal: 'providers-changed'): void;
+            connect<K extends keyof Collector.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Collector.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Collector.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Collector.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Collector.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Collector.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -274,6 +369,24 @@ declare module 'gi://CloudProviders?version=0.3' {
         }
 
         namespace DbusAccountProxy {
+            // Signal signatures
+            interface SignalSignatures extends Gio.DBusProxy.SignalSignatures {
+                'notify::g-bus-type': (pspec: GObject.ParamSpec) => void;
+                'notify::g-connection': (pspec: GObject.ParamSpec) => void;
+                'notify::g-default-timeout': (pspec: GObject.ParamSpec) => void;
+                'notify::g-flags': (pspec: GObject.ParamSpec) => void;
+                'notify::g-interface-info': (pspec: GObject.ParamSpec) => void;
+                'notify::g-interface-name': (pspec: GObject.ParamSpec) => void;
+                'notify::g-name': (pspec: GObject.ParamSpec) => void;
+                'notify::g-name-owner': (pspec: GObject.ParamSpec) => void;
+                'notify::g-object-path': (pspec: GObject.ParamSpec) => void;
+                'notify::icon': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::path': (pspec: GObject.ParamSpec) => void;
+                'notify::status': (pspec: GObject.ParamSpec) => void;
+                'notify::status-details': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -292,6 +405,15 @@ declare module 'gi://CloudProviders?version=0.3' {
             implements DbusAccount, Gio.AsyncInitable<DbusAccountProxy>, Gio.DBusInterface, Gio.Initable
         {
             static $gtype: GObject.GType<DbusAccountProxy>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: DbusAccountProxy.SignalSignatures;
 
             // Constructors
 
@@ -327,6 +449,26 @@ declare module 'gi://CloudProviders?version=0.3' {
             // Conflicted with Gio.DBusProxy.new_sync
 
             static new_sync(...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof DbusAccountProxy.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DbusAccountProxy.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DbusAccountProxy.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DbusAccountProxy.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DbusAccountProxy.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DbusAccountProxy.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -861,7 +1003,21 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -989,7 +1145,12 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -1139,14 +1300,44 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace DbusAccountSkeleton {
+            // Signal signatures
+            interface SignalSignatures extends Gio.DBusInterfaceSkeleton.SignalSignatures {
+                'notify::g-flags': (pspec: GObject.ParamSpec) => void;
+                'notify::icon': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::path': (pspec: GObject.ParamSpec) => void;
+                'notify::status': (pspec: GObject.ParamSpec) => void;
+                'notify::status-details': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -1161,6 +1352,15 @@ declare module 'gi://CloudProviders?version=0.3' {
         class DbusAccountSkeleton extends Gio.DBusInterfaceSkeleton implements DbusAccount, Gio.DBusInterface {
             static $gtype: GObject.GType<DbusAccountSkeleton>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: DbusAccountSkeleton.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<DbusAccountSkeleton.ConstructorProps>, ...args: any[]);
@@ -1168,6 +1368,26 @@ declare module 'gi://CloudProviders?version=0.3' {
             _init(...args: any[]): void;
 
             static ['new'](): DbusAccountSkeleton;
+
+            // Signals
+
+            connect<K extends keyof DbusAccountSkeleton.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DbusAccountSkeleton.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DbusAccountSkeleton.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DbusAccountSkeleton.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DbusAccountSkeleton.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DbusAccountSkeleton.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited properties
             /**
@@ -1365,7 +1585,21 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -1493,7 +1727,12 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -1643,14 +1882,47 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace DbusObjectManagerClient {
+            // Signal signatures
+            interface SignalSignatures extends Gio.DBusObjectManagerClient.SignalSignatures {
+                'notify::bus-type': (pspec: GObject.ParamSpec) => void;
+                'notify::connection': (pspec: GObject.ParamSpec) => void;
+                'notify::flags': (pspec: GObject.ParamSpec) => void;
+                'notify::get-proxy-type-destroy-notify': (pspec: GObject.ParamSpec) => void;
+                'notify::get-proxy-type-func': (pspec: GObject.ParamSpec) => void;
+                'notify::get-proxy-type-user-data': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::name-owner': (pspec: GObject.ParamSpec) => void;
+                'notify::object-path': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -1668,6 +1940,15 @@ declare module 'gi://CloudProviders?version=0.3' {
             implements Gio.AsyncInitable<DbusObjectManagerClient>, Gio.DBusObjectManager, Gio.Initable
         {
             static $gtype: GObject.GType<DbusObjectManagerClient>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: DbusObjectManagerClient.SignalSignatures;
 
             // Constructors
 
@@ -1703,6 +1984,26 @@ declare module 'gi://CloudProviders?version=0.3' {
             // Conflicted with Gio.DBusObjectManagerClient.new_sync
 
             static new_sync(...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof DbusObjectManagerClient.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DbusObjectManagerClient.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DbusObjectManagerClient.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DbusObjectManagerClient.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DbusObjectManagerClient.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DbusObjectManagerClient.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -2238,7 +2539,21 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -2366,7 +2681,12 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -2516,14 +2836,42 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace DbusObjectProxy {
+            // Signal signatures
+            interface SignalSignatures extends Gio.DBusObjectProxy.SignalSignatures {
+                'notify::g-connection': (pspec: GObject.ParamSpec) => void;
+                'notify::g-object-path': (pspec: GObject.ParamSpec) => void;
+                'notify::account': (pspec: GObject.ParamSpec) => void;
+                'notify::provider': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -2538,6 +2886,15 @@ declare module 'gi://CloudProviders?version=0.3' {
         class DbusObjectProxy extends Gio.DBusObjectProxy implements DbusObject, Gio.DBusObject {
             static $gtype: GObject.GType<DbusObjectProxy>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: DbusObjectProxy.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<DbusObjectProxy.ConstructorProps>, ...args: any[]);
@@ -2545,6 +2902,26 @@ declare module 'gi://CloudProviders?version=0.3' {
             _init(...args: any[]): void;
 
             static ['new'](connection: Gio.DBusConnection, object_path: string): DbusObjectProxy;
+
+            // Signals
+
+            connect<K extends keyof DbusObjectProxy.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DbusObjectProxy.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DbusObjectProxy.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DbusObjectProxy.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DbusObjectProxy.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DbusObjectProxy.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited properties
             /**
@@ -2731,7 +3108,21 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -2859,7 +3250,12 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -3009,14 +3405,41 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace DbusObjectSkeleton {
+            // Signal signatures
+            interface SignalSignatures extends Gio.DBusObjectSkeleton.SignalSignatures {
+                'notify::g-object-path': (pspec: GObject.ParamSpec) => void;
+                'notify::account': (pspec: GObject.ParamSpec) => void;
+                'notify::provider': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -3031,6 +3454,15 @@ declare module 'gi://CloudProviders?version=0.3' {
         class DbusObjectSkeleton extends Gio.DBusObjectSkeleton implements DbusObject, Gio.DBusObject {
             static $gtype: GObject.GType<DbusObjectSkeleton>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: DbusObjectSkeleton.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<DbusObjectSkeleton.ConstructorProps>, ...args: any[]);
@@ -3038,6 +3470,26 @@ declare module 'gi://CloudProviders?version=0.3' {
             _init(...args: any[]): void;
 
             static ['new'](object_path: string): DbusObjectSkeleton;
+
+            // Signals
+
+            connect<K extends keyof DbusObjectSkeleton.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DbusObjectSkeleton.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DbusObjectSkeleton.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DbusObjectSkeleton.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DbusObjectSkeleton.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DbusObjectSkeleton.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -3237,7 +3689,21 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -3365,7 +3831,12 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -3515,14 +3986,48 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace DbusProviderProxy {
+            // Signal signatures
+            interface SignalSignatures extends Gio.DBusProxy.SignalSignatures {
+                'notify::g-bus-type': (pspec: GObject.ParamSpec) => void;
+                'notify::g-connection': (pspec: GObject.ParamSpec) => void;
+                'notify::g-default-timeout': (pspec: GObject.ParamSpec) => void;
+                'notify::g-flags': (pspec: GObject.ParamSpec) => void;
+                'notify::g-interface-info': (pspec: GObject.ParamSpec) => void;
+                'notify::g-interface-name': (pspec: GObject.ParamSpec) => void;
+                'notify::g-name': (pspec: GObject.ParamSpec) => void;
+                'notify::g-name-owner': (pspec: GObject.ParamSpec) => void;
+                'notify::g-object-path': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -3541,6 +4046,15 @@ declare module 'gi://CloudProviders?version=0.3' {
             implements DbusProvider, Gio.AsyncInitable<DbusProviderProxy>, Gio.DBusInterface, Gio.Initable
         {
             static $gtype: GObject.GType<DbusProviderProxy>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: DbusProviderProxy.SignalSignatures;
 
             // Constructors
 
@@ -3576,6 +4090,26 @@ declare module 'gi://CloudProviders?version=0.3' {
             // Conflicted with Gio.DBusProxy.new_sync
 
             static new_sync(...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof DbusProviderProxy.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DbusProviderProxy.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DbusProviderProxy.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DbusProviderProxy.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DbusProviderProxy.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DbusProviderProxy.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -4075,7 +4609,21 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -4203,7 +4751,12 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -4353,14 +4906,40 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace DbusProviderSkeleton {
+            // Signal signatures
+            interface SignalSignatures extends Gio.DBusInterfaceSkeleton.SignalSignatures {
+                'notify::g-flags': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -4375,6 +4954,15 @@ declare module 'gi://CloudProviders?version=0.3' {
         class DbusProviderSkeleton extends Gio.DBusInterfaceSkeleton implements DbusProvider, Gio.DBusInterface {
             static $gtype: GObject.GType<DbusProviderSkeleton>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: DbusProviderSkeleton.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<DbusProviderSkeleton.ConstructorProps>, ...args: any[]);
@@ -4382,6 +4970,26 @@ declare module 'gi://CloudProviders?version=0.3' {
             _init(...args: any[]): void;
 
             static ['new'](): DbusProviderSkeleton;
+
+            // Signals
+
+            connect<K extends keyof DbusProviderSkeleton.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DbusProviderSkeleton.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DbusProviderSkeleton.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DbusProviderSkeleton.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DbusProviderSkeleton.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DbusProviderSkeleton.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited properties
             /**
@@ -4544,7 +5152,21 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -4672,7 +5294,12 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -4822,22 +5449,39 @@ declare module 'gi://CloudProviders?version=0.3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Provider {
-            // Signal callback interfaces
-
-            interface AccountsChanged {
-                (): void;
-            }
-
-            interface Removed {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'accounts-changed': () => void;
+                removed: () => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -4859,6 +5503,15 @@ declare module 'gi://CloudProviders?version=0.3' {
 
             get name(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Provider.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Provider.ConstructorProps>, ...args: any[]);
@@ -4869,15 +5522,21 @@ declare module 'gi://CloudProviders?version=0.3' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'accounts-changed', callback: (_source: this) => void): number;
-            connect_after(signal: 'accounts-changed', callback: (_source: this) => void): number;
-            emit(signal: 'accounts-changed'): void;
-            connect(signal: 'removed', callback: (_source: this) => void): number;
-            connect_after(signal: 'removed', callback: (_source: this) => void): number;
-            emit(signal: 'removed'): void;
+            connect<K extends keyof Provider.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Provider.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Provider.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Provider.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Provider.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Provider.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -4886,6 +5545,14 @@ declare module 'gi://CloudProviders?version=0.3' {
         }
 
         namespace ProviderExporter {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::bus': (pspec: GObject.ParamSpec) => void;
+                'notify::bus-name': (pspec: GObject.ParamSpec) => void;
+                'notify::bus-path': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -4916,6 +5583,15 @@ declare module 'gi://CloudProviders?version=0.3' {
             get name(): string;
             set name(val: string);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ProviderExporter.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ProviderExporter.ConstructorProps>, ...args: any[]);
@@ -4923,6 +5599,26 @@ declare module 'gi://CloudProviders?version=0.3' {
             _init(...args: any[]): void;
 
             static ['new'](bus: Gio.DBusConnection, bus_name: string, bus_path: string): ProviderExporter;
+
+            // Signals
+
+            connect<K extends keyof ProviderExporter.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ProviderExporter.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ProviderExporter.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ProviderExporter.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ProviderExporter.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ProviderExporter.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 

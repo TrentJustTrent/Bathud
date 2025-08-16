@@ -1,11 +1,14 @@
-import {App, Astal, Gtk} from "astal/gtk4"
+import App from "ags/gtk4/app"
+import {Accessor, createBinding, createComputed} from "ags"
 import Wp from "gi://AstalWp"
-import {bind, Variable, Binding, GLib} from "astal"
 import {getVolumeIcon, playPowerPlug, playPowerUnplug} from "../utils/audio";
 import Brightness from "../utils/connectables/brightness";
 import {getBrightnessIcon} from "../utils/brightness";
 import Battery from "gi://AstalBattery"
 import Hyprland from "gi://AstalHyprland"
+import GLib from "gi://GLib?version=2.0";
+import Astal from "gi://Astal?version=4.0";
+import Gtk from "gi://Gtk?version=4.0";
 
 const VolumeAlertName = "volumeAlert"
 const BrightnessAlertName = "brightnessAlert"
@@ -19,16 +22,17 @@ export function AlertWindow(
         showVariable,
         monitor
     }: {
-        iconLabel: Binding<string>,
+        iconLabel: Accessor<string>,
         label: string,
-        sliderValue: Binding<number>,
+        sliderValue: Accessor<number>,
         windowName: string,
-        showVariable: Variable<any>
+        showVariable: Accessor<any>
         monitor: Hyprland.Monitor
     }
 ): Astal.Window {
     let windowVisibilityTimeout: GLib.Source | null = null
 
+    //@ts-ignore
     return <window
         namespace={"okpanel-alerts"}
         monitor={monitor.id}
@@ -40,7 +44,7 @@ export function AlertWindow(
         cssClasses={["window"]}
         margin_bottom={100}
         visible={false}
-        setup={(self) => {
+        $={(self: Astal.Window) => {
             let canShow = false
             setTimeout(() => {
                 canShow = true
@@ -61,11 +65,7 @@ export function AlertWindow(
             })
         }}>
         <box
-            vertical={true}>
-
-        </box>
-        <box
-            vertical={false}
+            orientation={Gtk.Orientation.HORIZONTAL}
             marginBottom={18}
             marginTop={18}
             marginStart={5}
@@ -77,7 +77,7 @@ export function AlertWindow(
                 cssClasses={["alertIcon"]}
                 label={iconLabel}/>
             <box
-                vertical={true}
+                orientation={Gtk.Orientation.VERTICAL}
                 marginStart={10}
                 valign={Gtk.Align.CENTER}>
                 <label
@@ -87,7 +87,7 @@ export function AlertWindow(
                 <slider
                     marginTop={2}
                     marginEnd={20}
-                    cssClasses={["alertProgress"]}
+                    class="alertProgress"
                     hexpand={true}
                     value={sliderValue}/>
             </box>
@@ -98,21 +98,21 @@ export function AlertWindow(
 export function VolumeAlert(monitor: Hyprland.Monitor): Astal.Window {
     const defaultSpeaker = Wp.get_default()!.audio.default_speaker
 
-    const speakerVar = Variable.derive([
-        bind(defaultSpeaker, "description"),
-        bind(defaultSpeaker, "volume"),
-        bind(defaultSpeaker, "mute")
+    const speakerVar = createComputed([
+        createBinding(defaultSpeaker, "description"),
+        createBinding(defaultSpeaker, "volume"),
+        createBinding(defaultSpeaker, "mute")
     ])
 
-    const showVariable = Variable.derive([
-        bind(defaultSpeaker, "volume"),
-        bind(defaultSpeaker, "mute")
+    const showVariable = createComputed([
+        createBinding(defaultSpeaker, "volume"),
+        createBinding(defaultSpeaker, "mute")
     ])
 
     return <AlertWindow
         iconLabel={speakerVar(() => getVolumeIcon(defaultSpeaker))}
         label="Volume"
-        sliderValue={bind(defaultSpeaker, "volume")}
+        sliderValue={createBinding(defaultSpeaker, "volume")}
         windowName={VolumeAlertName}
         showVariable={showVariable}
         monitor={monitor}/> as Astal.Window
@@ -121,16 +121,16 @@ export function VolumeAlert(monitor: Hyprland.Monitor): Astal.Window {
 export function BrightnessAlert(monitor: Hyprland.Monitor): Astal.Window {
     const brightness = Brightness.get_default()
 
-    const showVariable = Variable.derive([
-        bind(brightness, "screen")
+    const showVariable = createComputed([
+        createBinding(brightness, "screen")
     ])
-    
+
     return <AlertWindow
-        iconLabel={bind(brightness, "screen").as(() => {
+        iconLabel={createBinding(brightness, "screen").as(() => {
             return getBrightnessIcon(brightness)
         })}
         label="Brightness"
-        sliderValue={bind(brightness, "screen")}
+        sliderValue={createBinding(brightness, "screen")}
         windowName={BrightnessAlertName}
         showVariable={showVariable}
         monitor={monitor}/> as  Astal.Window
@@ -150,8 +150,8 @@ export function ChargingAlertSound() {
         })
 
     if (linePowerDevice !== null && linePowerDevice !== undefined) {
-        bind(linePowerDevice, "online").subscribe((online) => {
-            if (online) {
+        createBinding(linePowerDevice, "online").subscribe(() => {
+            if (linePowerDevice.online) {
                 playPowerPlug()
             } else {
                 playPowerUnplug()

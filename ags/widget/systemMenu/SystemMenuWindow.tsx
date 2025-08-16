@@ -1,6 +1,5 @@
 import EndpointControls from "./widgets/EndpointControls";
 import Wp from "gi://AstalWp"
-import {bind, Variable} from "astal"
 import {getMicrophoneIcon, getVolumeIcon} from "../utils/audio";
 import PowerOptions from "./widgets/PowerOptions";
 import MediaPlayers from "./widgets/MediaPlayers";
@@ -20,6 +19,8 @@ import {startCliphist} from "../clipboardManager/ClipboardManager";
 import ScreenRecording from "./widgets/ScreenRecording";
 import Weather from "./widgets/Weather";
 import {SystemMenuWidget} from "../../config/schema/definitions/systemMenuWidgets";
+import {createBinding, createComputed, With} from "ags";
+import {Gtk} from "ags/gtk4";
 
 export const SystemMenuWindowName = "systemMenuWindow"
 
@@ -51,11 +52,11 @@ export function createSystemWidgets(): SystemWidgetsJSX {
         bluetooth: <BluetoothControls/>,
         audioOut: <EndpointControls
             defaultEndpoint={audio.default_speaker}
-            endpointsBinding={bind(audio, "speakers")}
+            endpointsBinding={createBinding(audio, "speakers")}
             getIcon={getVolumeIcon}/>,
         audioIn: <EndpointControls
             defaultEndpoint={audio.default_microphone}
-            endpointsBinding={bind(audio, "microphones")}
+            endpointsBinding={createBinding(audio, "microphones")}
             getIcon={getMicrophoneIcon}/>,
         powerProfile: <PowerProfileControls/>,
         lookAndFeel: <LookAndFeelControls/>,
@@ -73,48 +74,49 @@ export function createSystemWidgets(): SystemWidgetsJSX {
 export function addSystemMenuWidgets(
     widgets: SystemMenuWidget[],
     jsxWidgets: SystemWidgetsJSX,
-) {
+): Gtk.Widget[] {
     return widgets.map((widget) => {
         switch (widget) {
             case SystemMenuWidget.NETWORK:
-                return jsxWidgets.network
-            case SystemMenuWidget.BLUETOOTH:
-                return jsxWidgets.bluetooth
-            case SystemMenuWidget.AUDIO_OUT:
-                return jsxWidgets.audioOut
-            case SystemMenuWidget.AUDIO_IN:
-                return jsxWidgets.audioIn
-            case SystemMenuWidget.POWER_PROFILE:
-                return jsxWidgets.powerProfile
-            case SystemMenuWidget.LOOK_AND_FEEL:
-                return jsxWidgets.lookAndFeel
-            case SystemMenuWidget.MPRIS_PLAYERS:
-                return jsxWidgets.mpris
-            case SystemMenuWidget.POWER_OPTIONS:
-                return jsxWidgets.powerOptions
+                return jsxWidgets.network as Gtk.Widget
             case SystemMenuWidget.NOTIFICATION_HISTORY:
-                return jsxWidgets.notificationHistory
-            case SystemMenuWidget.TOOLBOX:
-                return jsxWidgets.toolbox
-            case SystemMenuWidget.CLOCK:
-                return jsxWidgets.clock
+                return jsxWidgets.notificationHistory as Gtk.Widget
+            case SystemMenuWidget.BLUETOOTH:
+                return jsxWidgets.bluetooth as Gtk.Widget
             case SystemMenuWidget.CLIPBOARD_MANAGER:
                 startCliphist()
-                return jsxWidgets.clipboardManager
+                return jsxWidgets.clipboardManager as Gtk.Widget
+            case SystemMenuWidget.CLOCK:
+                return jsxWidgets.clock as Gtk.Widget
+            case SystemMenuWidget.AUDIO_OUT:
+                return jsxWidgets.audioOut as Gtk.Widget
+            case SystemMenuWidget.AUDIO_IN:
+                return jsxWidgets.audioIn as Gtk.Widget
+            case SystemMenuWidget.LOOK_AND_FEEL:
+                return jsxWidgets.lookAndFeel as Gtk.Widget
+            case SystemMenuWidget.MPRIS_PLAYERS:
+                return jsxWidgets.mpris as Gtk.Widget
+            case SystemMenuWidget.POWER_PROFILE:
+                return jsxWidgets.powerProfile as Gtk.Widget
+            case SystemMenuWidget.POWER_OPTIONS:
+                return jsxWidgets.powerOptions as Gtk.Widget
+            case SystemMenuWidget.TOOLBOX:
+                return jsxWidgets.toolbox as Gtk.Widget
             case SystemMenuWidget.SCREEN_RECORDING_CONTROLS:
-                return jsxWidgets.screenRecording
+                return jsxWidgets.screenRecording as Gtk.Widget
             case SystemMenuWidget.WEATHER:
-                return jsxWidgets.weather
+                return jsxWidgets.weather as Gtk.Widget
         }
+        return <box/> as Gtk.Widget
     })
 }
 
 export default function () {
 
-    const topExpand = Variable.derive([
-        selectedBar,
-        variableConfig.verticalBar.centerWidgets,
-        variableConfig.verticalBar.bottomWidgets,
+    const topExpand = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.verticalBar.centerWidgets.asAccessor(),
+        variableConfig.verticalBar.bottomWidgets.asAccessor(),
     ], (bar, center, bottom) => {
         switch (bar) {
             case Bar.BOTTOM:
@@ -127,10 +129,10 @@ export default function () {
         }
     })
 
-    const bottomExpand = Variable.derive([
-        selectedBar,
-        variableConfig.verticalBar.centerWidgets,
-        variableConfig.verticalBar.topWidgets,
+    const bottomExpand = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.verticalBar.centerWidgets.asAccessor(),
+        variableConfig.verticalBar.topWidgets.asAccessor(),
     ], (bar, center, top) => {
         switch (bar) {
             case Bar.TOP:
@@ -143,10 +145,10 @@ export default function () {
         }
     })
 
-    const leftExpand = Variable.derive([
-        selectedBar,
-        variableConfig.horizontalBar.centerWidgets,
-        variableConfig.horizontalBar.rightWidgets,
+    const leftExpand = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.horizontalBar.centerWidgets.asAccessor(),
+        variableConfig.horizontalBar.rightWidgets.asAccessor(),
     ], (bar, center, right) => {
         switch (bar) {
             case Bar.RIGHT:
@@ -159,10 +161,10 @@ export default function () {
         }
     })
 
-    const rightExpand = Variable.derive([
-        selectedBar,
-        variableConfig.horizontalBar.centerWidgets,
-        variableConfig.horizontalBar.leftWidgets,
+    const rightExpand = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.horizontalBar.centerWidgets.asAccessor(),
+        variableConfig.horizontalBar.leftWidgets.asAccessor(),
     ], (bar, center, left) => {
         switch (bar) {
             case Bar.LEFT:
@@ -179,26 +181,30 @@ export default function () {
 
     return <ScrimScrollWindow
         namespace={"okpanel-system-menu"}
-        monitor={variableConfig.mainMonitor()}
+        monitor={variableConfig.mainMonitor.asAccessor()}
         windowName={SystemMenuWindowName}
-        topExpand={topExpand()}
-        bottomExpand={bottomExpand()}
-        leftExpand={leftExpand()}
-        rightExpand={rightExpand()}
+        topExpand={topExpand}
+        bottomExpand={bottomExpand}
+        leftExpand={leftExpand}
+        rightExpand={rightExpand}
         contentWidth={400}
-        width={variableConfig.horizontalBar.minimumWidth()}
-        height={variableConfig.verticalBar.minimumHeight()}
+        width={variableConfig.horizontalBar.minimumWidth.asAccessor()}
+        height={variableConfig.verticalBar.minimumHeight.asAccessor()}
         content={
             <box
                 marginTop={20}
                 marginStart={20}
                 marginEnd={20}
                 marginBottom={20}
-                vertical={true}
+                orientation={Gtk.Orientation.VERTICAL}
                 spacing={10}>
-                {variableConfig.systemMenu.widgets().as((widgets) => {
-                    return addSystemMenuWidgets(widgets, jsxWidgets)
-                })}
+                <With value={variableConfig.systemMenu.widgets.asAccessor()}>
+                    {(widgets) => {
+                        return <box orientation={Gtk.Orientation.VERTICAL}>
+                            {addSystemMenuWidgets(widgets, jsxWidgets)}
+                        </box>
+                    }}
+                </With>
             </box>
         }
     />

@@ -1,13 +1,13 @@
-import {Astal, Gtk} from "astal/gtk4"
-import {bind, Variable} from "astal"
+import {Astal, Gtk} from "ags/gtk4"
 import Hyprland from "gi://AstalHyprland"
-import {execAsync} from "astal/process"
+import {execAsync} from "ags/process"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../common/RevealerRow";
 import {hideAllWindows} from "../utils/windows";
 import {variableConfig} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import OkButton, {OkButtonSize} from "../common/OkButton";
+import {createBinding, createState, For, With} from "ags";
 
 export const ScreenshareWindowName = "screenshareWindow"
 
@@ -17,7 +17,7 @@ export function updateResponse(res: (response: any) => void) {
     response = res
 }
 
-const screenShareWindows = Variable<Program[]>([])
+const [screenShareWindows, screenShareWindowsSetter] = createState<Program[]>([])
 
 type ScreenShareWindow = {
     windowId: string;
@@ -69,11 +69,17 @@ function groupByWindowProgram(windows: ScreenShareWindow[]): Program[] {
         group.windows.push(window);
     });
 
-    return grouped;
+    return grouped.sort((a, b) => {
+        if (a.name > b.name) {
+            return 1
+        } else {
+            return -1
+        }
+    });
 }
 
 export function updateWindows(input: string) {
-    screenShareWindows.set(groupByWindowProgram(parseScreenShareString(input)))
+    screenShareWindowsSetter(groupByWindowProgram(parseScreenShareString(input)))
 }
 
 function Monitors() {
@@ -94,24 +100,23 @@ function Monitors() {
             <box
                 marginTop={8}
                 marginBottom={8}
-                vertical={true}
+                orientation={Gtk.Orientation.VERTICAL}
                 spacing={12}>
-                {bind(hyprland, "monitors").as((monitors) => {
-                    return monitors.map((monitor) => {
-                            return <OkButton
-                                size={OkButtonSize.MEDIUM}
-                                bold={true}
-                                hexpand={true}
-                                primary={true}
-                                labelHalign={Gtk.Align.START}
-                                label={monitor.name}
-                                onClicked={() => {
-                                    response(`[SELECTION]/screen:${monitor.name}`)
-                                    hideAllWindows()
-                                }}/>
-                        }
-                    )
-                })}
+                <For each={createBinding(hyprland, "monitors")}>
+                    {(monitor: Hyprland.Monitor) => {
+                        return <OkButton
+                            size={OkButtonSize.MEDIUM}
+                            bold={true}
+                            hexpand={true}
+                            primary={true}
+                            labelHalign={Gtk.Align.START}
+                            label={monitor.name}
+                            onClicked={() => {
+                                response(`[SELECTION]/screen:${monitor.name}`)
+                                hideAllWindows()
+                            }}/>
+                    }}
+                </For>
             </box>
         }
     />
@@ -133,51 +138,43 @@ function Windows() {
             <box
                 marginTop={8}
                 marginBottom={8}
-                vertical={true}
+                orientation={Gtk.Orientation.VERTICAL}
                 spacing={12}>
-                {screenShareWindows((programs) => {
-                    return programs
-                        .sort((a, b) => {
-                            if (a.name > b.name) {
-                                return 1
-                            } else {
-                                return -1
+                <For each={screenShareWindows}>
+                    {(program) => {
+                        return <box
+                            orientation={Gtk.Orientation.VERTICAL}
+                            spacing={6}>
+                            <label
+                                halign={Gtk.Align.CENTER}
+                                cssClasses={["labelLargeBold"]}
+                                label={program.name}/>
+                            {program.windows
+                                .sort((a, b) => {
+                                    if (a.instanceTitle > b.instanceTitle) {
+                                        return 1
+                                    } else {
+                                        return -1
+                                    }
+                                })
+                                .map((instance) => {
+                                    return <OkButton
+                                        size={OkButtonSize.MEDIUM}
+                                        bold={true}
+                                        primary={true}
+                                        hexpand={true}
+                                        labelHalign={Gtk.Align.START}
+                                        label={`${instance.instanceTitle}`}
+                                        ellipsize={Pango.EllipsizeMode.END}
+                                        onClicked={() => {
+                                            response(`[SELECTION]/window:${instance.windowId}`)
+                                            hideAllWindows()
+                                        }}/>
+                                })
                             }
-                        })
-                        .map((program) => {
-                            return <box
-                                vertical={true}
-                                spacing={6}>
-                                <label
-                                    halign={Gtk.Align.CENTER}
-                                    cssClasses={["labelLargeBold"]}
-                                    label={program.name}/>
-                                {program.windows
-                                    .sort((a, b) => {
-                                        if (a.instanceTitle > b.instanceTitle) {
-                                            return 1
-                                        } else {
-                                            return -1
-                                        }
-                                    })
-                                    .map((instance) => {
-                                        return <OkButton
-                                            size={OkButtonSize.MEDIUM}
-                                            bold={true}
-                                            primary={true}
-                                            hexpand={true}
-                                            labelHalign={Gtk.Align.START}
-                                            label={`${instance.instanceTitle}`}
-                                            ellipsize={Pango.EllipsizeMode.END}
-                                            onClicked={() => {
-                                                response(`[SELECTION]/window:${instance.windowId}`)
-                                                hideAllWindows()
-                                            }}/>
-                                    })
-                                }
-                            </box>
-                        })
-                })}
+                        </box>
+                    }}
+                </For>
             </box>
         }
     />
@@ -232,7 +229,7 @@ function Region() {
 export default function () {
     return <ScrimScrollWindow
         namespace={"okpanel-screenshare"}
-        monitor={variableConfig.mainMonitor()}
+        monitor={variableConfig.mainMonitor.asAccessor()}
         anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM}
         windowName={ScreenshareWindowName}
         topExpand={true}
@@ -242,7 +239,7 @@ export default function () {
         contentWidth={560}
         content={
             <box
-                vertical={true}
+                orientation={Gtk.Orientation.VERTICAL}
                 marginStart={10}
                 marginBottom={10}
                 marginTop={20}

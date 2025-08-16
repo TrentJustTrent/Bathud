@@ -2,6 +2,7 @@
 /// <reference path="./xlib-2.0.d.ts" />
 /// <reference path="./gdk-3.0.d.ts" />
 /// <reference path="./cairo-1.0.d.ts" />
+/// <reference path="./cairo.d.ts" />
 /// <reference path="./gobject-2.0.d.ts" />
 /// <reference path="./glib-2.0.d.ts" />
 /// <reference path="./pango-1.0.d.ts" />
@@ -26,7 +27,7 @@ declare module 'gi://Gspell?version=1' {
     import type Gtk from 'gi://Gtk?version=3.0';
     import type xlib from 'gi://xlib?version=2.0';
     import type Gdk from 'gi://Gdk?version=3.0';
-    import type cairo from 'gi://cairo?version=1.0';
+    import type cairo from 'cairo';
     import type GObject from 'gi://GObject?version=2.0';
     import type GLib from 'gi://GLib?version=2.0';
     import type Pango from 'gi://Pango?version=1.0';
@@ -79,18 +80,12 @@ declare module 'gi://Gspell?version=1' {
         function language_get_default(): Language | null;
         function language_lookup(language_code: string): Language | null;
         namespace Checker {
-            // Signal callback interfaces
-
-            interface SessionCleared {
-                (): void;
-            }
-
-            interface WordAddedToPersonal {
-                (word: string): void;
-            }
-
-            interface WordAddedToSession {
-                (word: string): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'session-cleared': () => void;
+                'word-added-to-personal': (arg0: string) => void;
+                'word-added-to-session': (arg0: string) => void;
+                'notify::language': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -111,6 +106,15 @@ declare module 'gi://Gspell?version=1' {
             get language(): Language;
             set language(val: Language);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Checker.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Checker.ConstructorProps>, ...args: any[]);
@@ -121,18 +125,21 @@ declare module 'gi://Gspell?version=1' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'session-cleared', callback: (_source: this) => void): number;
-            connect_after(signal: 'session-cleared', callback: (_source: this) => void): number;
-            emit(signal: 'session-cleared'): void;
-            connect(signal: 'word-added-to-personal', callback: (_source: this, word: string) => void): number;
-            connect_after(signal: 'word-added-to-personal', callback: (_source: this, word: string) => void): number;
-            emit(signal: 'word-added-to-personal', word: string): void;
-            connect(signal: 'word-added-to-session', callback: (_source: this, word: string) => void): number;
-            connect_after(signal: 'word-added-to-session', callback: (_source: this, word: string) => void): number;
-            emit(signal: 'word-added-to-session', word: string): void;
+            connect<K extends keyof Checker.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Checker.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Checker.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Checker.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Checker.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Checker.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -198,6 +205,87 @@ declare module 'gi://Gspell?version=1' {
         }
 
         namespace CheckerDialog {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Dialog.SignalSignatures {
+                'notify::spell-navigator': (pspec: GObject.ParamSpec) => void;
+                'notify::use-header-bar': (pspec: GObject.ParamSpec) => void;
+                'notify::accept-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::application': (pspec: GObject.ParamSpec) => void;
+                'notify::attached-to': (pspec: GObject.ParamSpec) => void;
+                'notify::decorated': (pspec: GObject.ParamSpec) => void;
+                'notify::default-height': (pspec: GObject.ParamSpec) => void;
+                'notify::default-width': (pspec: GObject.ParamSpec) => void;
+                'notify::deletable': (pspec: GObject.ParamSpec) => void;
+                'notify::destroy-with-parent': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-map': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::gravity': (pspec: GObject.ParamSpec) => void;
+                'notify::has-resize-grip': (pspec: GObject.ParamSpec) => void;
+                'notify::has-toplevel-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::hide-titlebar-when-maximized': (pspec: GObject.ParamSpec) => void;
+                'notify::icon': (pspec: GObject.ParamSpec) => void;
+                'notify::icon-name': (pspec: GObject.ParamSpec) => void;
+                'notify::is-active': (pspec: GObject.ParamSpec) => void;
+                'notify::is-maximized': (pspec: GObject.ParamSpec) => void;
+                'notify::mnemonics-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::modal': (pspec: GObject.ParamSpec) => void;
+                'notify::resizable': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-grip-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::role': (pspec: GObject.ParamSpec) => void;
+                'notify::screen': (pspec: GObject.ParamSpec) => void;
+                'notify::skip-pager-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::skip-taskbar-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::startup-id': (pspec: GObject.ParamSpec) => void;
+                'notify::title': (pspec: GObject.ParamSpec) => void;
+                'notify::transient-for': (pspec: GObject.ParamSpec) => void;
+                'notify::type': (pspec: GObject.ParamSpec) => void;
+                'notify::type-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::urgency-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::window-position': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -223,6 +311,15 @@ declare module 'gi://Gspell?version=1' {
              */
             get spellNavigator(): Navigator;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CheckerDialog.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CheckerDialog.ConstructorProps>, ...args: any[]);
@@ -233,6 +330,24 @@ declare module 'gi://Gspell?version=1' {
             // Conflicted with Gtk.Dialog.new
 
             static ['new'](...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof CheckerDialog.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CheckerDialog.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CheckerDialog.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CheckerDialog.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CheckerDialog.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CheckerDialog.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -356,7 +471,21 @@ declare module 'gi://Gspell?version=1' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -484,7 +613,12 @@ declare module 'gi://Gspell?version=1' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -634,14 +768,40 @@ declare module 'gi://Gspell?version=1' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Entry {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::entry': (pspec: GObject.ParamSpec) => void;
+                'notify::inline-spell-checking': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -679,11 +839,38 @@ declare module 'gi://Gspell?version=1' {
             get inlineSpellChecking(): boolean;
             set inlineSpellChecking(val: boolean);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Entry.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Entry.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Entry.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Entry.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Entry.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Entry.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Entry.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Entry.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -744,6 +931,12 @@ declare module 'gi://Gspell?version=1' {
         }
 
         namespace EntryBuffer {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::buffer': (pspec: GObject.ParamSpec) => void;
+                'notify::spell-checker': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -773,11 +966,38 @@ declare module 'gi://Gspell?version=1' {
             get spellChecker(): Checker;
             set spellChecker(val: Checker);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: EntryBuffer.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<EntryBuffer.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof EntryBuffer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, EntryBuffer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof EntryBuffer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, EntryBuffer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof EntryBuffer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<EntryBuffer.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -802,6 +1022,67 @@ declare module 'gi://Gspell?version=1' {
         }
 
         namespace LanguageChooserButton {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Button.SignalSignatures {
+                'notify::always-show-image': (pspec: GObject.ParamSpec) => void;
+                'notify::image': (pspec: GObject.ParamSpec) => void;
+                'notify::image-position': (pspec: GObject.ParamSpec) => void;
+                'notify::label': (pspec: GObject.ParamSpec) => void;
+                'notify::relief': (pspec: GObject.ParamSpec) => void;
+                'notify::use-stock': (pspec: GObject.ParamSpec) => void;
+                'notify::use-underline': (pspec: GObject.ParamSpec) => void;
+                'notify::xalign': (pspec: GObject.ParamSpec) => void;
+                'notify::yalign': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+                'notify::language': (pspec: GObject.ParamSpec) => void;
+                'notify::language-code': (pspec: GObject.ParamSpec) => void;
+                'notify::action-name': (pspec: GObject.ParamSpec) => void;
+                'notify::action-target': (pspec: GObject.ParamSpec) => void;
+                'notify::related-action': (pspec: GObject.ParamSpec) => void;
+                'notify::use-action-appearance': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -819,6 +1100,15 @@ declare module 'gi://Gspell?version=1' {
         {
             static $gtype: GObject.GType<LanguageChooserButton>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: LanguageChooserButton.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<LanguageChooserButton.ConstructorProps>, ...args: any[]);
@@ -829,6 +1119,26 @@ declare module 'gi://Gspell?version=1' {
             // Conflicted with Gtk.Button.new
 
             static ['new'](...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof LanguageChooserButton.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, LanguageChooserButton.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof LanguageChooserButton.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, LanguageChooserButton.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof LanguageChooserButton.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<LanguageChooserButton.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited properties
             /**
@@ -1586,7 +1896,21 @@ declare module 'gi://Gspell?version=1' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -1714,7 +2038,12 @@ declare module 'gi://Gspell?version=1' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -1864,11 +2193,31 @@ declare module 'gi://Gspell?version=1' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
             /**
              * For widgets that can be “activated” (buttons, menu items, etc.)
              * this function activates them. Activation is what happens when you
@@ -5346,6 +5695,88 @@ declare module 'gi://Gspell?version=1' {
         }
 
         namespace LanguageChooserDialog {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Dialog.SignalSignatures {
+                'notify::use-header-bar': (pspec: GObject.ParamSpec) => void;
+                'notify::accept-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::application': (pspec: GObject.ParamSpec) => void;
+                'notify::attached-to': (pspec: GObject.ParamSpec) => void;
+                'notify::decorated': (pspec: GObject.ParamSpec) => void;
+                'notify::default-height': (pspec: GObject.ParamSpec) => void;
+                'notify::default-width': (pspec: GObject.ParamSpec) => void;
+                'notify::deletable': (pspec: GObject.ParamSpec) => void;
+                'notify::destroy-with-parent': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-map': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::gravity': (pspec: GObject.ParamSpec) => void;
+                'notify::has-resize-grip': (pspec: GObject.ParamSpec) => void;
+                'notify::has-toplevel-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::hide-titlebar-when-maximized': (pspec: GObject.ParamSpec) => void;
+                'notify::icon': (pspec: GObject.ParamSpec) => void;
+                'notify::icon-name': (pspec: GObject.ParamSpec) => void;
+                'notify::is-active': (pspec: GObject.ParamSpec) => void;
+                'notify::is-maximized': (pspec: GObject.ParamSpec) => void;
+                'notify::mnemonics-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::modal': (pspec: GObject.ParamSpec) => void;
+                'notify::resizable': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-grip-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::role': (pspec: GObject.ParamSpec) => void;
+                'notify::screen': (pspec: GObject.ParamSpec) => void;
+                'notify::skip-pager-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::skip-taskbar-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::startup-id': (pspec: GObject.ParamSpec) => void;
+                'notify::title': (pspec: GObject.ParamSpec) => void;
+                'notify::transient-for': (pspec: GObject.ParamSpec) => void;
+                'notify::type': (pspec: GObject.ParamSpec) => void;
+                'notify::type-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::urgency-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::window-position': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+                'notify::language': (pspec: GObject.ParamSpec) => void;
+                'notify::language-code': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -5357,6 +5788,15 @@ declare module 'gi://Gspell?version=1' {
 
         class LanguageChooserDialog extends Gtk.Dialog implements Atk.ImplementorIface, LanguageChooser, Gtk.Buildable {
             static $gtype: GObject.GType<LanguageChooserDialog>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: LanguageChooserDialog.SignalSignatures;
 
             // Constructors
 
@@ -5372,6 +5812,26 @@ declare module 'gi://Gspell?version=1' {
             // Conflicted with Gtk.Dialog.new
 
             static ['new'](...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof LanguageChooserDialog.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, LanguageChooserDialog.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof LanguageChooserDialog.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, LanguageChooserDialog.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof LanguageChooserDialog.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<LanguageChooserDialog.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited properties
             /**
@@ -5526,7 +5986,21 @@ declare module 'gi://Gspell?version=1' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -5654,7 +6128,12 @@ declare module 'gi://Gspell?version=1' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -5804,14 +6283,39 @@ declare module 'gi://Gspell?version=1' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace NavigatorTextView {
+            // Signal signatures
+            interface SignalSignatures extends GObject.InitiallyUnowned.SignalSignatures {
+                'notify::view': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.InitiallyUnowned.ConstructorProps, Navigator.ConstructorProps {
@@ -5830,11 +6334,40 @@ declare module 'gi://Gspell?version=1' {
              */
             get view(): Gtk.TextView;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: NavigatorTextView.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<NavigatorTextView.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof NavigatorTextView.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, NavigatorTextView.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof NavigatorTextView.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, NavigatorTextView.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof NavigatorTextView.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<NavigatorTextView.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -5901,6 +6434,12 @@ declare module 'gi://Gspell?version=1' {
         }
 
         namespace TextBuffer {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::buffer': (pspec: GObject.ParamSpec) => void;
+                'notify::spell-checker': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -5930,11 +6469,38 @@ declare module 'gi://Gspell?version=1' {
             get spellChecker(): Checker;
             set spellChecker(val: Checker);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: TextBuffer.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<TextBuffer.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof TextBuffer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TextBuffer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof TextBuffer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TextBuffer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof TextBuffer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<TextBuffer.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -5959,6 +6525,13 @@ declare module 'gi://Gspell?version=1' {
         }
 
         namespace TextView {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::enable-language-menu': (pspec: GObject.ParamSpec) => void;
+                'notify::inline-spell-checking': (pspec: GObject.ParamSpec) => void;
+                'notify::view': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -6002,11 +6575,38 @@ declare module 'gi://Gspell?version=1' {
              */
             get view(): Gtk.TextView;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: TextView.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<TextView.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof TextView.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TextView.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof TextView.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TextView.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof TextView.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<TextView.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 

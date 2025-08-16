@@ -1,11 +1,11 @@
-import {Gtk} from "astal/gtk4";
+import {Gtk} from "ags/gtk4";
 import Cairo from 'gi://cairo';
 import AstalCava from "gi://AstalCava"
-import {bind, Binding, Variable} from "astal";
 import {variableConfig} from "../../config/config";
-import {isBinding} from "../utils/bindings";
-import { timeout } from "astal/time"
+import {isAccessor} from "../utils/bindings";
+import { timeout } from "ags/time"
 import {hexToRgba} from "../utils/strings";
+import {Accessor, createBinding, createComputed, createState, With} from "ags";
 
 function getCoordinate(
     value: number,
@@ -59,16 +59,16 @@ function setBars(cava: AstalCava.Cava, length: number) {
 
 type Params = {
     vertical?: boolean,
-    flipStart: Binding<boolean>,
-    length?: number | Binding<number>,
+    flipStart: Accessor<boolean>,
+    length?: number | Accessor<number>,
     size?: number,
-    expand?: boolean | Binding<boolean>,
-    intensity?: number | Binding<number>,
+    expand?: boolean | Accessor<boolean>,
+    intensity?: number | Accessor<number>,
     marginTop?: number,
     marginBottom?: number,
     marginStart?: number,
     marginEnd?: number,
-    color?: Binding<string>,
+    color?: Accessor<string>,
 }
 
 /**
@@ -98,45 +98,48 @@ export default function(
         marginBottom,
         marginStart,
         marginEnd,
-        color = variableConfig.theme.colors.primary(),
+        color = variableConfig.theme.colors.primary.asAccessor(),
     }: Params
 ) {
-
-    const parameters = Variable.derive([
-        typeof length === 'number' ? Variable(length) : length,
-        typeof expand === 'boolean' ? Variable(expand) : expand,
-        typeof intensity === 'number' ? Variable(intensity) : intensity,
+    const parameters = createComputed([
+        typeof length === 'number' ? createState(length)[0] : length,
+        typeof expand === 'boolean' ? createState(expand)[0] : expand,
+        typeof intensity === 'number' ? createState(intensity)[0] : intensity,
     ])
     return <box
         vexpand={!vertical}
         hexpand={vertical}>
-        {flipStart.as((flip) => {
-            if (vertical && !flip) {
-                return <box hexpand={true}/>
-            } else {
-                return <box/>
-            }
-        })}
-        {parameters().as(([length, expand, intensity]) => {
-            return <CavaWaveformInternal
-                vertical={vertical}
-                flipStart={flipStart}
-                length={length}
-                size={size}
-                expand={expand}
-                intensity={intensity}
-                marginTop={marginTop}
-                marginBottom={marginBottom}
-                marginStart={marginStart}
-                marginEnd={marginEnd}
-                color={color}/>
-        })}
+        <With value={flipStart}>
+            {(flip) => {
+                if (vertical && !flip) {
+                    return <box hexpand={true}/>
+                } else {
+                    return <box/>
+                }
+            }}
+        </With>
+        <With value={parameters}>
+            {([length, expand, intensity]) => {
+                return <CavaWaveformInternal
+                    vertical={vertical}
+                    flipStart={flipStart}
+                    length={length}
+                    size={size}
+                    expand={expand}
+                    intensity={intensity}
+                    marginTop={marginTop}
+                    marginBottom={marginBottom}
+                    marginStart={marginStart}
+                    marginEnd={marginEnd}
+                    color={color}/>
+            }}
+        </With>
     </box>
 }
 
 type InternalParams = {
     vertical?: boolean,
-    flipStart: Binding<boolean>,
+    flipStart: Accessor<boolean>,
     length?: number,
     size?: number,
     expand?: boolean,
@@ -145,7 +148,7 @@ type InternalParams = {
     marginBottom?: number,
     marginStart?: number,
     marginEnd?: number,
-    color: Binding<string>
+    color: Accessor<string>
 }
 
 function CavaWaveformInternal(
@@ -170,8 +173,8 @@ function CavaWaveformInternal(
 
     let [r, g, b, a] = hexToRgba(color.get())
 
-    color.subscribe((primaryColor) => {
-        [r, g, b, a] = hexToRgba(primaryColor)
+    color.subscribe(() => {
+        [r, g, b, a] = hexToRgba(color.get())
     })
 
     const drawing = new Gtk.DrawingArea({
@@ -190,7 +193,7 @@ function CavaWaveformInternal(
         const drawLength = vertical ? drawHeight : drawWidth
         const drawSize = vertical ? drawWidth : drawHeight
         let flip: boolean
-        if (isBinding(flipStart)) {
+        if (isAccessor(flipStart)) {
             flip = flipStart.get()
         } else {
             flip = flipStart
@@ -246,7 +249,7 @@ function CavaWaveformInternal(
             }
         })
 
-        unsubscribe = bind(cava, "values").subscribe(() => {
+        unsubscribe = createBinding(cava, "values").subscribe(() => {
             drawing.queue_draw()
         })
     })

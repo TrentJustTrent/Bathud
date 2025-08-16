@@ -1,7 +1,5 @@
 import GdkPixbuf from "gi://GdkPixbuf?version=2.0";
-import {Gdk, Gtk} from "astal/gtk4";
-import {GLib} from "astal";
-import {exec} from "astal/process";
+import {Gdk} from "ags/gtk4";
 import Gio from "gi://Gio?version=2.0";
 
 /**

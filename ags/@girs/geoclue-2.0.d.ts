@@ -85,6 +85,25 @@ declare module 'gi://Geoclue?version=2.0' {
             AUTO_DELETE,
         }
         namespace ClientProxy {
+            // Signal signatures
+            interface SignalSignatures extends Gio.DBusProxy.SignalSignatures {
+                'notify::g-bus-type': (pspec: GObject.ParamSpec) => void;
+                'notify::g-connection': (pspec: GObject.ParamSpec) => void;
+                'notify::g-default-timeout': (pspec: GObject.ParamSpec) => void;
+                'notify::g-flags': (pspec: GObject.ParamSpec) => void;
+                'notify::g-interface-info': (pspec: GObject.ParamSpec) => void;
+                'notify::g-interface-name': (pspec: GObject.ParamSpec) => void;
+                'notify::g-name': (pspec: GObject.ParamSpec) => void;
+                'notify::g-name-owner': (pspec: GObject.ParamSpec) => void;
+                'notify::g-object-path': (pspec: GObject.ParamSpec) => void;
+                'notify::active': (pspec: GObject.ParamSpec) => void;
+                'notify::desktop-id': (pspec: GObject.ParamSpec) => void;
+                'notify::distance-threshold': (pspec: GObject.ParamSpec) => void;
+                'notify::location': (pspec: GObject.ParamSpec) => void;
+                'notify::requested-accuracy-level': (pspec: GObject.ParamSpec) => void;
+                'notify::time-threshold': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -103,6 +122,15 @@ declare module 'gi://Geoclue?version=2.0' {
             implements Client, Gio.AsyncInitable<ClientProxy>, Gio.DBusInterface, Gio.Initable
         {
             static $gtype: GObject.GType<ClientProxy>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ClientProxy.SignalSignatures;
 
             // Constructors
 
@@ -138,6 +166,24 @@ declare module 'gi://Geoclue?version=2.0' {
             // Conflicted with Gio.DBusProxy.new_sync
 
             static new_sync(...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof ClientProxy.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ClientProxy.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ClientProxy.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ClientProxy.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ClientProxy.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ClientProxy.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -917,7 +963,21 @@ declare module 'gi://Geoclue?version=2.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -1045,7 +1105,12 @@ declare module 'gi://Geoclue?version=2.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -1195,14 +1260,45 @@ declare module 'gi://Geoclue?version=2.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace ClientSkeleton {
+            // Signal signatures
+            interface SignalSignatures extends Gio.DBusInterfaceSkeleton.SignalSignatures {
+                'notify::g-flags': (pspec: GObject.ParamSpec) => void;
+                'notify::active': (pspec: GObject.ParamSpec) => void;
+                'notify::desktop-id': (pspec: GObject.ParamSpec) => void;
+                'notify::distance-threshold': (pspec: GObject.ParamSpec) => void;
+                'notify::location': (pspec: GObject.ParamSpec) => void;
+                'notify::requested-accuracy-level': (pspec: GObject.ParamSpec) => void;
+                'notify::time-threshold': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -1217,6 +1313,15 @@ declare module 'gi://Geoclue?version=2.0' {
         class ClientSkeleton extends Gio.DBusInterfaceSkeleton implements Client, Gio.DBusInterface {
             static $gtype: GObject.GType<ClientSkeleton>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ClientSkeleton.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ClientSkeleton.ConstructorProps>, ...args: any[]);
@@ -1224,6 +1329,24 @@ declare module 'gi://Geoclue?version=2.0' {
             _init(...args: any[]): void;
 
             static ['new'](): ClientSkeleton;
+
+            // Signals
+
+            connect<K extends keyof ClientSkeleton.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ClientSkeleton.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ClientSkeleton.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ClientSkeleton.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ClientSkeleton.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ClientSkeleton.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited properties
             /**
@@ -1577,7 +1700,21 @@ declare module 'gi://Geoclue?version=2.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -1705,7 +1842,12 @@ declare module 'gi://Geoclue?version=2.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -1855,14 +1997,55 @@ declare module 'gi://Geoclue?version=2.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace LocationProxy {
+            // Signal signatures
+            interface SignalSignatures extends Gio.DBusProxy.SignalSignatures {
+                'notify::g-bus-type': (pspec: GObject.ParamSpec) => void;
+                'notify::g-connection': (pspec: GObject.ParamSpec) => void;
+                'notify::g-default-timeout': (pspec: GObject.ParamSpec) => void;
+                'notify::g-flags': (pspec: GObject.ParamSpec) => void;
+                'notify::g-interface-info': (pspec: GObject.ParamSpec) => void;
+                'notify::g-interface-name': (pspec: GObject.ParamSpec) => void;
+                'notify::g-name': (pspec: GObject.ParamSpec) => void;
+                'notify::g-name-owner': (pspec: GObject.ParamSpec) => void;
+                'notify::g-object-path': (pspec: GObject.ParamSpec) => void;
+                'notify::accuracy': (pspec: GObject.ParamSpec) => void;
+                'notify::altitude': (pspec: GObject.ParamSpec) => void;
+                'notify::description': (pspec: GObject.ParamSpec) => void;
+                'notify::heading': (pspec: GObject.ParamSpec) => void;
+                'notify::latitude': (pspec: GObject.ParamSpec) => void;
+                'notify::longitude': (pspec: GObject.ParamSpec) => void;
+                'notify::speed': (pspec: GObject.ParamSpec) => void;
+                'notify::timestamp': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -1881,6 +2064,15 @@ declare module 'gi://Geoclue?version=2.0' {
             implements Location, Gio.AsyncInitable<LocationProxy>, Gio.DBusInterface, Gio.Initable
         {
             static $gtype: GObject.GType<LocationProxy>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: LocationProxy.SignalSignatures;
 
             // Constructors
 
@@ -1916,6 +2108,24 @@ declare module 'gi://Geoclue?version=2.0' {
             // Conflicted with Gio.DBusProxy.new_sync
 
             static new_sync(...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof LocationProxy.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, LocationProxy.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof LocationProxy.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, LocationProxy.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof LocationProxy.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<LocationProxy.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -2464,7 +2674,21 @@ declare module 'gi://Geoclue?version=2.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -2592,7 +2816,12 @@ declare module 'gi://Geoclue?version=2.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -2742,14 +2971,47 @@ declare module 'gi://Geoclue?version=2.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace LocationSkeleton {
+            // Signal signatures
+            interface SignalSignatures extends Gio.DBusInterfaceSkeleton.SignalSignatures {
+                'notify::g-flags': (pspec: GObject.ParamSpec) => void;
+                'notify::accuracy': (pspec: GObject.ParamSpec) => void;
+                'notify::altitude': (pspec: GObject.ParamSpec) => void;
+                'notify::description': (pspec: GObject.ParamSpec) => void;
+                'notify::heading': (pspec: GObject.ParamSpec) => void;
+                'notify::latitude': (pspec: GObject.ParamSpec) => void;
+                'notify::longitude': (pspec: GObject.ParamSpec) => void;
+                'notify::speed': (pspec: GObject.ParamSpec) => void;
+                'notify::timestamp': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -2764,6 +3026,15 @@ declare module 'gi://Geoclue?version=2.0' {
         class LocationSkeleton extends Gio.DBusInterfaceSkeleton implements Location, Gio.DBusInterface {
             static $gtype: GObject.GType<LocationSkeleton>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: LocationSkeleton.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<LocationSkeleton.ConstructorProps>, ...args: any[]);
@@ -2771,6 +3042,26 @@ declare module 'gi://Geoclue?version=2.0' {
             _init(...args: any[]): void;
 
             static ['new'](): LocationSkeleton;
+
+            // Signals
+
+            connect<K extends keyof LocationSkeleton.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, LocationSkeleton.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof LocationSkeleton.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, LocationSkeleton.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof LocationSkeleton.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<LocationSkeleton.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited properties
             /**
@@ -2982,7 +3273,21 @@ declare module 'gi://Geoclue?version=2.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -3110,7 +3415,12 @@ declare module 'gi://Geoclue?version=2.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -3260,14 +3570,49 @@ declare module 'gi://Geoclue?version=2.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace ManagerProxy {
+            // Signal signatures
+            interface SignalSignatures extends Gio.DBusProxy.SignalSignatures {
+                'notify::g-bus-type': (pspec: GObject.ParamSpec) => void;
+                'notify::g-connection': (pspec: GObject.ParamSpec) => void;
+                'notify::g-default-timeout': (pspec: GObject.ParamSpec) => void;
+                'notify::g-flags': (pspec: GObject.ParamSpec) => void;
+                'notify::g-interface-info': (pspec: GObject.ParamSpec) => void;
+                'notify::g-interface-name': (pspec: GObject.ParamSpec) => void;
+                'notify::g-name': (pspec: GObject.ParamSpec) => void;
+                'notify::g-name-owner': (pspec: GObject.ParamSpec) => void;
+                'notify::g-object-path': (pspec: GObject.ParamSpec) => void;
+                'notify::available-accuracy-level': (pspec: GObject.ParamSpec) => void;
+                'notify::in-use': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -3286,6 +3631,15 @@ declare module 'gi://Geoclue?version=2.0' {
             implements Manager, Gio.AsyncInitable<ManagerProxy>, Gio.DBusInterface, Gio.Initable
         {
             static $gtype: GObject.GType<ManagerProxy>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ManagerProxy.SignalSignatures;
 
             // Constructors
 
@@ -3321,6 +3675,24 @@ declare module 'gi://Geoclue?version=2.0' {
             // Conflicted with Gio.DBusProxy.new_sync
 
             static new_sync(...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof ManagerProxy.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ManagerProxy.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ManagerProxy.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ManagerProxy.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ManagerProxy.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ManagerProxy.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -4098,7 +4470,21 @@ declare module 'gi://Geoclue?version=2.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -4226,7 +4612,12 @@ declare module 'gi://Geoclue?version=2.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -4376,14 +4767,41 @@ declare module 'gi://Geoclue?version=2.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace ManagerSkeleton {
+            // Signal signatures
+            interface SignalSignatures extends Gio.DBusInterfaceSkeleton.SignalSignatures {
+                'notify::g-flags': (pspec: GObject.ParamSpec) => void;
+                'notify::available-accuracy-level': (pspec: GObject.ParamSpec) => void;
+                'notify::in-use': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -4398,6 +4816,15 @@ declare module 'gi://Geoclue?version=2.0' {
         class ManagerSkeleton extends Gio.DBusInterfaceSkeleton implements Manager, Gio.DBusInterface {
             static $gtype: GObject.GType<ManagerSkeleton>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ManagerSkeleton.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ManagerSkeleton.ConstructorProps>, ...args: any[]);
@@ -4405,6 +4832,26 @@ declare module 'gi://Geoclue?version=2.0' {
             _init(...args: any[]): void;
 
             static ['new'](): ManagerSkeleton;
+
+            // Signals
+
+            connect<K extends keyof ManagerSkeleton.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ManagerSkeleton.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ManagerSkeleton.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ManagerSkeleton.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ManagerSkeleton.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ManagerSkeleton.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited properties
             /**
@@ -4845,7 +5292,21 @@ declare module 'gi://Geoclue?version=2.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -4973,7 +5434,12 @@ declare module 'gi://Geoclue?version=2.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -5123,14 +5589,44 @@ declare module 'gi://Geoclue?version=2.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Simple {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::accuracy-level': (pspec: GObject.ParamSpec) => void;
+                'notify::client': (pspec: GObject.ParamSpec) => void;
+                'notify::desktop-id': (pspec: GObject.ParamSpec) => void;
+                'notify::distance-threshold': (pspec: GObject.ParamSpec) => void;
+                'notify::location': (pspec: GObject.ParamSpec) => void;
+                'notify::time-threshold': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, Gio.AsyncInitable.ConstructorProps {
@@ -5210,6 +5706,15 @@ declare module 'gi://Geoclue?version=2.0' {
              */
             get timeThreshold(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Simple.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Simple.ConstructorProps>, ...args: any[]);
@@ -5236,6 +5741,24 @@ declare module 'gi://Geoclue?version=2.0' {
                 distance_threshold: number,
                 cancellable?: Gio.Cancellable | null,
             ): Simple;
+
+            // Signals
+
+            connect<K extends keyof Simple.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Simple.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Simple.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Simple.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Simple.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Simple.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -5609,7 +6132,21 @@ declare module 'gi://Geoclue?version=2.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -5737,7 +6274,12 @@ declare module 'gi://Geoclue?version=2.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -5887,11 +6429,31 @@ declare module 'gi://Geoclue?version=2.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         type ClientIface = typeof Client;

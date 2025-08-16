@@ -1,9 +1,9 @@
 import {config, selectedConfig} from "./config";
-import {execAsync} from "astal/process";
-import {GLib} from "astal";
-import {App} from "astal/gtk4";
+import {execAsync} from "ags/process";
 import {projectDir} from "../app";
 import {BarWidget} from "./schema/definitions/barWidgets";
+import GLib from "gi://GLib?version=2.0";
+import App from "ags/gtk4/app"
 
 export function setTheme(onFinished: () => void) {
     execAsync(`bash -c '

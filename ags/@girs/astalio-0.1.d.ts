@@ -202,6 +202,20 @@ declare module 'gi://AstalIO?version=0.1' {
          */
         function monitor_file(path: string, callback: GObject.Closure): Gio.FileMonitor | null;
         namespace Daemon {
+            // Signal signatures
+            interface SignalSignatures extends Gio.Application.SignalSignatures {
+                'notify::action-group': (pspec: GObject.ParamSpec) => void;
+                'notify::application-id': (pspec: GObject.ParamSpec) => void;
+                'notify::flags': (pspec: GObject.ParamSpec) => void;
+                'notify::inactivity-timeout': (pspec: GObject.ParamSpec) => void;
+                'notify::is-busy': (pspec: GObject.ParamSpec) => void;
+                'notify::is-registered': (pspec: GObject.ParamSpec) => void;
+                'notify::is-remote': (pspec: GObject.ParamSpec) => void;
+                'notify::resource-base-path': (pspec: GObject.ParamSpec) => void;
+                'notify::version': (pspec: GObject.ParamSpec) => void;
+                'notify::instance-name': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Gio.Application.ConstructorProps, Application.ConstructorProps {}
@@ -210,6 +224,15 @@ declare module 'gi://AstalIO?version=0.1' {
         class Daemon extends Gio.Application implements Application {
             static $gtype: GObject.GType<Daemon>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Daemon.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Daemon.ConstructorProps>, ...args: any[]);
@@ -217,6 +240,24 @@ declare module 'gi://AstalIO?version=0.1' {
             _init(...args: any[]): void;
 
             static ['new'](): Daemon;
+
+            // Signals
+
+            connect<K extends keyof Daemon.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Daemon.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Daemon.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Daemon.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Daemon.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Daemon.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -372,7 +413,21 @@ declare module 'gi://AstalIO?version=0.1' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -500,7 +555,12 @@ declare module 'gi://AstalIO?version=0.1' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -650,26 +710,40 @@ declare module 'gi://AstalIO?version=0.1' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Process {
-            // Signal callback interfaces
-
-            interface Stdout {
-                (out: string): void;
-            }
-
-            interface Stderr {
-                (err: string): void;
-            }
-
-            interface Exit {
-                (code: number, terminated: boolean): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                stdout: (arg0: string) => void;
+                stderr: (arg0: string) => void;
+                exit: (arg0: number, arg1: boolean) => void;
+                'notify::argv': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -689,6 +763,15 @@ declare module 'gi://AstalIO?version=0.1' {
 
             get argv(): string[];
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Process.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Process.ConstructorProps>, ...args: any[]);
@@ -699,18 +782,21 @@ declare module 'gi://AstalIO?version=0.1' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'stdout', callback: (_source: this, out: string) => void): number;
-            connect_after(signal: 'stdout', callback: (_source: this, out: string) => void): number;
-            emit(signal: 'stdout', out: string): void;
-            connect(signal: 'stderr', callback: (_source: this, err: string) => void): number;
-            connect_after(signal: 'stderr', callback: (_source: this, err: string) => void): number;
-            emit(signal: 'stderr', err: string): void;
-            connect(signal: 'exit', callback: (_source: this, code: number, terminated: boolean) => void): number;
-            connect_after(signal: 'exit', callback: (_source: this, code: number, terminated: boolean) => void): number;
-            emit(signal: 'exit', code: number, terminated: boolean): void;
+            connect<K extends keyof Process.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Process.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Process.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Process.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Process.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Process.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -788,14 +874,10 @@ declare module 'gi://AstalIO?version=0.1' {
         }
 
         namespace Time {
-            // Signal callback interfaces
-
-            interface Now {
-                (): void;
-            }
-
-            interface Cancelled {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                now: () => void;
+                cancelled: () => void;
             }
 
             // Constructor properties interface
@@ -808,6 +890,15 @@ declare module 'gi://AstalIO?version=0.1' {
          */
         class Time extends GObject.Object {
             static $gtype: GObject.GType<Time>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Time.SignalSignatures;
 
             // Constructors
 
@@ -825,15 +916,21 @@ declare module 'gi://AstalIO?version=0.1' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'now', callback: (_source: this) => void): number;
-            connect_after(signal: 'now', callback: (_source: this) => void): number;
-            emit(signal: 'now'): void;
-            connect(signal: 'cancelled', callback: (_source: this) => void): number;
-            connect_after(signal: 'cancelled', callback: (_source: this) => void): number;
-            emit(signal: 'cancelled'): void;
+            connect<K extends keyof Time.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Time.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Time.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Time.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Time.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Time.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -864,18 +961,11 @@ declare module 'gi://AstalIO?version=0.1' {
         }
 
         namespace VariableBase {
-            // Signal callback interfaces
-
-            interface Changed {
-                (): void;
-            }
-
-            interface Dropped {
-                (): void;
-            }
-
-            interface Error {
-                (err: string): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                changed: () => void;
+                dropped: () => void;
+                error: (arg0: string) => void;
             }
 
             // Constructor properties interface
@@ -885,6 +975,15 @@ declare module 'gi://AstalIO?version=0.1' {
 
         class VariableBase extends GObject.Object {
             static $gtype: GObject.GType<VariableBase>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: VariableBase.SignalSignatures;
 
             // Constructors
 
@@ -896,18 +995,21 @@ declare module 'gi://AstalIO?version=0.1' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'changed', callback: (_source: this) => void): number;
-            connect_after(signal: 'changed', callback: (_source: this) => void): number;
-            emit(signal: 'changed'): void;
-            connect(signal: 'dropped', callback: (_source: this) => void): number;
-            connect_after(signal: 'dropped', callback: (_source: this) => void): number;
-            emit(signal: 'dropped'): void;
-            connect(signal: 'error', callback: (_source: this, err: string) => void): number;
-            connect_after(signal: 'error', callback: (_source: this, err: string) => void): number;
-            emit(signal: 'error', err: string): void;
+            connect<K extends keyof VariableBase.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, VariableBase.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof VariableBase.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, VariableBase.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof VariableBase.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<VariableBase.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -917,6 +1019,11 @@ declare module 'gi://AstalIO?version=0.1' {
         }
 
         namespace Variable {
+            // Signal signatures
+            interface SignalSignatures extends VariableBase.SignalSignatures {
+                'notify::value': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends VariableBase.ConstructorProps {
@@ -932,6 +1039,15 @@ declare module 'gi://AstalIO?version=0.1' {
             get value(): GObject.Value;
             set value(val: GObject.Value);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Variable.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Variable.ConstructorProps>, ...args: any[]);
@@ -942,6 +1058,24 @@ declare module 'gi://AstalIO?version=0.1' {
             // Conflicted with AstalIO.VariableBase.new
 
             static ['new'](...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof Variable.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Variable.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Variable.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Variable.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Variable.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Variable.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 

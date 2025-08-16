@@ -4,6 +4,7 @@
 /// <reference path="./gmodule-2.0.d.ts" />
 /// <reference path="./gdk-4.0.d.ts" />
 /// <reference path="./cairo-1.0.d.ts" />
+/// <reference path="./cairo.d.ts" />
 /// <reference path="./pangocairo-1.0.d.ts" />
 /// <reference path="./pango-1.0.d.ts" />
 /// <reference path="./harfbuzz-0.0.d.ts" />
@@ -26,7 +27,7 @@ declare module 'gi://Gly?version=1' {
     import type GLib from 'gi://GLib?version=2.0';
     import type GModule from 'gi://GModule?version=2.0';
     import type Gdk from 'gi://Gdk?version=4.0';
-    import type cairo from 'gi://cairo?version=1.0';
+    import type cairo from 'cairo';
     import type PangoCairo from 'gi://PangoCairo?version=1.0';
     import type Pango from 'gi://Pango?version=1.0';
     import type HarfBuzz from 'gi://HarfBuzz?version=0.0';
@@ -235,6 +236,9 @@ declare module 'gi://Gly?version=1' {
          */
         function memory_format_is_premultiplied(memory_format: MemoryFormat | null): boolean;
         namespace Frame {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -246,11 +250,38 @@ declare module 'gi://Gly?version=1' {
         class Frame extends GObject.Object {
             static $gtype: GObject.GType<Frame>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Frame.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Frame.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Frame.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Frame.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Frame.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Frame.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Frame.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Frame.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -289,6 +320,9 @@ declare module 'gi://Gly?version=1' {
         }
 
         namespace Image {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -300,11 +334,38 @@ declare module 'gi://Gly?version=1' {
         class Image extends GObject.Object {
             static $gtype: GObject.GType<Image>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Image.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Image.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Image.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Image.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Image.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Image.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Image.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Image.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -364,6 +425,13 @@ declare module 'gi://Gly?version=1' {
         }
 
         namespace Loader {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::cancellable': (pspec: GObject.ParamSpec) => void;
+                'notify::file': (pspec: GObject.ParamSpec) => void;
+                'notify::sandbox-selector': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -411,6 +479,15 @@ declare module 'gi://Gly?version=1' {
             get sandboxSelector(): SandboxSelector;
             set sandboxSelector(val: SandboxSelector);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Loader.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Loader.ConstructorProps>, ...args: any[]);
@@ -418,6 +495,24 @@ declare module 'gi://Gly?version=1' {
             _init(...args: any[]): void;
 
             static ['new'](file: Gio.File): Loader;
+
+            // Signals
+
+            connect<K extends keyof Loader.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Loader.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Loader.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Loader.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Loader.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Loader.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 

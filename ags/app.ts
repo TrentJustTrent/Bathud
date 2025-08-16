@@ -1,7 +1,7 @@
-import {App} from "astal/gtk4"
+import App from "ags/gtk4/app"
 import Calendar from "./widget/calendar/Calendar"
 import SystemMenuWindow from "./widget/systemMenu/SystemMenuWindow";
-import {BrightnessAlert, ChargingAlertSound, VolumeAlert} from "./widget/alerts/Alerts";
+import {VolumeAlert, BrightnessAlert, ChargingAlertSound} from "./widget/alerts/Alerts";
 import NotificationPopups from "./widget/notification/NotificationPopups";
 import AppLauncher, {AppLauncherWindowName} from "./widget/appLauncher/AppLauncher";
 import Screenshot, {ScreenshotWindowName} from "./widget/screenshot/Screenshot";
@@ -23,6 +23,7 @@ App.start({
     instanceName: "OkPanel",
     css: "/tmp/OkPanel/style.css",
     main(...args: Array<string>) {
+        console.log(args)
         projectDir = args[0]
         setThemeBasic()
         restoreBar()
@@ -55,17 +56,7 @@ App.start({
         })
     },
     requestHandler(request: string, res: (response: any) => void) {
-        if (request === "appLauncher") {
-            toggleWindow(AppLauncherWindowName)
-            res("app launcher toggled")
-        } else if (request === "screenshot") {
-            toggleWindow(ScreenshotWindowName)
-            res("screenshot toggled")
-        } else if (request.startsWith("screenshare")) {
-            updateWindows(request)
-            updateResponse(res)
-            toggleWindow(ScreenshareWindowName)
-        } else if (request.startsWith("volume-up")) {
+        if (request.startsWith("volume-up")) {
             increaseVolume()
             res("volume up")
         } else if (request.startsWith("volume-down")) {
@@ -74,6 +65,16 @@ App.start({
         } else if (request.startsWith("mute")) {
             muteVolume()
             res("mute")
+        } else if (request === "appLauncher") {
+            toggleWindow(AppLauncherWindowName)
+            res("app launcher toggled")
+        } else if (request.startsWith("screenshare")) {
+            updateWindows(request)
+            updateResponse(res)
+            toggleWindow(ScreenshareWindowName)
+        } else if (request === "screenshot") {
+            toggleWindow(ScreenshotWindowName)
+            res("screenshot toggled")
         } else {
             res("command not found")
         }

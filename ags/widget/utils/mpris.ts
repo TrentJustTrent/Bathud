@@ -1,5 +1,8 @@
 import Gio from "gi://Gio?version=2.0";
-import {GLib, interval, Variable, AstalIO} from "astal";
+import {createState} from "ags";
+import AstalIO from "gi://AstalIO?version=0.1";
+import {interval} from "ags/time"
+import GLib from "gi://GLib?version=2.0";
 
 // Define a PlaybackStatus enum for the player's playback status.
 export enum PlaybackStatus {
@@ -29,16 +32,16 @@ export class Player {
     proxy: Gio.DBusProxy | null;
     isPrimaryPlayer: boolean
 
-    playbackStatus: Variable<PlaybackStatus | null> = Variable(null);
-    position: Variable<number> = Variable(0);
-    trackLength: Variable<number> = Variable(0);
-    title: Variable<string | null> = Variable(null);
-    artist: Variable<string | null> = Variable(null);
-    shuffleStatus: Variable<ShuffleStatus | null> = Variable(null);
-    canGoPrevious: Variable<boolean> = Variable(false);
-    canGoNext: Variable<boolean> = Variable(false);
-    loopStatus: Variable<LoopStatus | null> = Variable(null);
-    canControl: Variable<boolean> = Variable(false);
+    playbackStatus = createState<PlaybackStatus | null>(null);
+    position = createState(0);
+    trackLength = createState(0);
+    title = createState<string | null>(null);
+    artist = createState<string | null>(null);
+    shuffleStatus = createState<ShuffleStatus | null>(null);
+    canGoPrevious = createState(false);
+    canGoNext = createState(false);
+    loopStatus = createState<LoopStatus | null>(null);
+    canControl = createState(false);
 
     positionInterval: AstalIO.Time | null;
 
@@ -74,7 +77,7 @@ export class Player {
                             // @ts-ignore
                             let posVariant = result.deep_unpack()[0];
                             let pos = posVariant.deep_unpack() as number / 1000000;
-                            this.position.set(pos);
+                            this.position[1](pos);
                         } catch (e) {
                             log("Failed to update position: " + e);
                         }
@@ -117,37 +120,37 @@ export class Player {
             try {
                 let meta: any = metaVariant.deep_unpack();
                 if (meta["xesam:title"]) {
-                    this.title.set(meta["xesam:title"].deep_unpack());
+                    this.title[1](meta["xesam:title"].deep_unpack());
                 } else {
-                    this.title.set(null)
+                    this.title[1](null)
                 }
                 if (meta["xesam:artist"]) {
                     // xesam:artist is usually an array of strings.
                     if (Array.isArray(meta["xesam:artist"].deep_unpack())) {
-                        this.artist.set(meta["xesam:artist"].deep_unpack().join(", "));
+                        this.artist[1](meta["xesam:artist"].deep_unpack().join(", "));
                     } else {
-                        this.artist.set(meta["xesam:artist"].deep_unpack());
+                        this.artist[1](meta["xesam:artist"].deep_unpack());
                     }
                 } else {
-                    this.artist.set(null);
+                    this.artist[1](null);
                 }
                 // Extract track length from metadata.
                 if (meta["mpris:length"]) {
                     let lengthNumber = meta["mpris:length"].deep_unpack() as number / 1000000;
-                    this.trackLength.set(lengthNumber);
+                    this.trackLength[1](lengthNumber);
                 } else {
-                    this.trackLength.set(0);
+                    this.trackLength[1](0);
                 }
             } catch (e) {
                 log("Could not unpack metadata: " + e);
-                this.title.set(null);
-                this.artist.set(null);
-                this.trackLength.set(0);
+                this.title[1](null);
+                this.artist[1](null);
+                this.trackLength[1](0);
             }
         } else {
-            this.title.set(null);
-            this.artist.set(null);
-            this.trackLength.set(0);
+            this.title[1](null);
+            this.artist[1](null);
+            this.trackLength[1](0);
         }
 
         // Update playbackStatus.
@@ -155,12 +158,12 @@ export class Player {
         if (pbVar) {
             try {
                 let pbStr = pbVar.deep_unpack() as string;
-                this.playbackStatus.set(pbStr as PlaybackStatus);
+                this.playbackStatus[1](pbStr as PlaybackStatus);
             } catch (e) {
-                this.playbackStatus.set(null);
+                this.playbackStatus[1](null);
             }
         } else {
-            this.playbackStatus.set(null);
+            this.playbackStatus[1](null);
         }
 
         // Update position.
@@ -168,12 +171,12 @@ export class Player {
         if (posVar) {
             try {
                 let posNumber = posVar.deep_unpack() as number / 1000000;
-                this.position.set(posNumber);
+                this.position[1](posNumber);
             } catch (e) {
-                this.position.set(0);
+                this.position[1](0);
             }
         } else {
-            this.position.set(0);
+            this.position[1](0);
         }
 
         // Shuffle.
@@ -181,12 +184,12 @@ export class Player {
         if (shuffleVar) {
             try {
                 let shuffleBool = shuffleVar.deep_unpack() as boolean;
-                this.shuffleStatus.set(shuffleBool ? ShuffleStatus.Enabled : ShuffleStatus.Disabled);
+                this.shuffleStatus[1](shuffleBool ? ShuffleStatus.Enabled : ShuffleStatus.Disabled);
             } catch (e) {
-                this.shuffleStatus.set(ShuffleStatus.Unsupported);
+                this.shuffleStatus[1](ShuffleStatus.Unsupported);
             }
         } else {
-            this.shuffleStatus.set(ShuffleStatus.Unsupported);
+            this.shuffleStatus[1](ShuffleStatus.Unsupported);
         }
 
         // CanGoPrevious.
@@ -194,12 +197,12 @@ export class Player {
         if (canGoPrevVar) {
             try {
                 let canGoPrev = canGoPrevVar.deep_unpack() as boolean;
-                this.canGoPrevious.set(canGoPrev);
+                this.canGoPrevious[1](canGoPrev);
             } catch (e) {
-                this.canGoPrevious.set(false);
+                this.canGoPrevious[1](false);
             }
         } else {
-            this.canGoPrevious.set(false);
+            this.canGoPrevious[1](false);
         }
 
         // CanGoNext.
@@ -207,12 +210,12 @@ export class Player {
         if (canGoNextVar) {
             try {
                 let canGoNext = canGoNextVar.deep_unpack() as boolean;
-                this.canGoNext.set(canGoNext);
+                this.canGoNext[1](canGoNext);
             } catch (e) {
-                this.canGoNext.set(false);
+                this.canGoNext[1](false);
             }
         } else {
-            this.canGoNext.set(false);
+            this.canGoNext[1](false);
         }
 
         // LoopStatus.
@@ -220,12 +223,12 @@ export class Player {
         if (loopVar) {
             try {
                 let loopStr = loopVar.deep_unpack() as string;
-                this.loopStatus.set(loopStr as LoopStatus);
+                this.loopStatus[1](loopStr as LoopStatus);
             } catch (e) {
-                this.loopStatus.set(LoopStatus.Unsupported);
+                this.loopStatus[1](LoopStatus.Unsupported);
             }
         } else {
-            this.loopStatus.set(LoopStatus.Unsupported);
+            this.loopStatus[1](LoopStatus.Unsupported);
         }
 
         // CanControl.
@@ -233,12 +236,12 @@ export class Player {
         if (canControlVar) {
             try {
                 let canControl = canControlVar.deep_unpack() as boolean;
-                this.canControl.set(canControl);
+                this.canControl[1](canControl);
             } catch (e) {
-                this.canControl.set(false);
+                this.canControl[1](false);
             }
         } else {
-            this.canControl.set(false);
+            this.canControl[1](false);
         }
 
         this._notifyPropertiesUpdated();
@@ -252,88 +255,88 @@ export class Player {
             try {
                 let meta: any = metaVariant.deep_unpack();
                 if (meta["xesam:title"]) {
-                    this.title.set(meta["xesam:title"].deep_unpack());
+                    this.title[1](meta["xesam:title"].deep_unpack());
                 } else {
-                    this.title.set(null)
+                    this.title[1](null)
                 }
                 if (meta["xesam:artist"]) {
                     if (Array.isArray(meta["xesam:artist"].deep_unpack())) {
-                        this.artist.set(meta["xesam:artist"].deep_unpack().join(", "));
+                        this.artist[1](meta["xesam:artist"].deep_unpack().join(", "));
                     } else {
-                        this.artist.set(meta["xesam:artist"].deep_unpack());
+                        this.artist[1](meta["xesam:artist"].deep_unpack());
                     }
                 } else {
-                    this.artist.set(null);
+                    this.artist[1](null);
                 }
                 // Extract track length from metadata.
                 if (meta["mpris:length"]) {
                     let lengthNumber = meta["mpris:length"].deep_unpack() as number / 1000000;
-                    this.trackLength.set(lengthNumber);
+                    this.trackLength[1](lengthNumber);
                 } else {
-                    this.trackLength.set(0);
+                    this.trackLength[1](0);
                 }
             } catch (e) {
                 log("Could not unpack metadata in onPropertiesChanged: " + e);
-                this.title.set(null);
-                this.artist.set(null);
-                this.trackLength.set(0);
+                this.title[1](null);
+                this.artist[1](null);
+                this.trackLength[1](0);
             }
         }
         if ("PlaybackStatus" in dict) {
             try {
                 let pbStr = dict["PlaybackStatus"].deep_unpack() as string;
-                this.playbackStatus.set(pbStr as PlaybackStatus);
+                this.playbackStatus[1](pbStr as PlaybackStatus);
             } catch (e) {
-                this.playbackStatus.set(null);
+                this.playbackStatus[1](null);
             }
         }
         if ("Position" in dict) {
             try {
                 let posNumber = dict["Position"].deep_unpack() as number;
-                this.position.set(posNumber);
+                this.position[1](posNumber);
             } catch (e) {
-                this.position.set(0);
+                this.position[1](0);
             }
         }
         if ("Shuffle" in dict) {
             try {
                 let shuffleBool = dict["Shuffle"].deep_unpack() as boolean;
-                this.shuffleStatus.set(shuffleBool ? ShuffleStatus.Enabled : ShuffleStatus.Disabled);
+                this.shuffleStatus[1](shuffleBool ? ShuffleStatus.Enabled : ShuffleStatus.Disabled);
             } catch (e) {
-                this.shuffleStatus.set(ShuffleStatus.Unsupported);
+                this.shuffleStatus[1](ShuffleStatus.Unsupported);
             }
         }
         if ("CanGoPrevious" in dict) {
             try {
                 let canGoPrev = dict["CanGoPrevious"].deep_unpack() as boolean;
-                this.canGoPrevious.set(canGoPrev);
+                this.canGoPrevious[1](canGoPrev);
             } catch (e) {
-                this.canGoPrevious.set(false);
+                this.canGoPrevious[1](false);
             }
         }
         if ("CanGoNext" in dict) {
             try {
                 let canGoNext = dict["CanGoNext"].deep_unpack() as boolean;
-                this.canGoNext.set(canGoNext);
+                this.canGoNext[1](canGoNext);
             } catch (e) {
-                this.canGoNext.set(false);
+                this.canGoNext[1](false);
             }
         }
         if ("LoopStatus" in dict) {
             try {
                 let loopStr = dict["LoopStatus"].deep_unpack() as string;
-                this.loopStatus.set(loopStr as LoopStatus);
+                this.loopStatus[1](loopStr as LoopStatus);
             } catch (e) {
-                this.loopStatus.set(LoopStatus.Unsupported);
+                this.loopStatus[1](LoopStatus.Unsupported);
             }
         }
 
         if ("CanControl" in dict) {
             try {
                 let canControl = dict["CanControl"].deep_unpack() as boolean;
-                this.canControl.set(canControl);
+                this.canControl[1](canControl);
             } catch (e) {
-                this.canControl.set(false);
+                this.canControl[1](false);
             }
         }
 
@@ -394,7 +397,7 @@ export class Player {
                 try {
                     proxy?.call_finish(res);
                     // Optionally update the local reactive variable.
-                    this.shuffleStatus.set(status);
+                    this.shuffleStatus[1](status);
                     console.log(`Shuffle status set to ${status}`);
                 } catch (e) {
                     console.error("Error setting shuffle status: " + e);
@@ -426,7 +429,7 @@ export class Player {
                 try {
                     proxy?.call_finish(res);
                     // Update the local reactive variable if the call succeeds.
-                    this.loopStatus.set(status);
+                    this.loopStatus[1](status);
                     console.log(`Loop status set to ${status}`);
                 } catch (e) {
                     console.error("Error setting loop status: " + e);
@@ -502,7 +505,7 @@ export class Player {
                 }
             }
         );
-        this.playbackStatus.set(this.playbackStatus.get() === PlaybackStatus.Playing ? PlaybackStatus.Paused : PlaybackStatus.Playing)
+        this.playbackStatus[1](this.playbackStatus[0].get() === PlaybackStatus.Playing ? PlaybackStatus.Paused : PlaybackStatus.Playing)
     }
 
     public setPosition(newPosition: number): void {
@@ -563,7 +566,7 @@ export class Player {
             }
         );
 
-        this.position.set(newPosition)
+        this.position[1](newPosition)
     }
 }
 
@@ -580,7 +583,7 @@ export class Mpris {
         return Mpris._instance;
     }
 
-    players: Variable<Player[]> = Variable([]);
+    players = createState<Player[]>([]);
 
     constructor() {
         // Watch for NameOwnerChanged signals so we detect players appearing/disappearing.
@@ -591,7 +594,7 @@ export class Mpris {
     }
 
     public rotatePrimaryPlayer(): void {
-        const players = this.players.get();
+        const players = this.players[0].get();
 
         // Don't rotate if 0 or 1 player
         if (players.length <= 1) return;
@@ -609,7 +612,7 @@ export class Mpris {
         players[nextIndex].isPrimaryPlayer = true;
 
         // Update the reactive list (to notify bindings)
-        this.players.set([...players]);
+        this.players[1]([...players]);
     }
 
     private _loadExistingPlayers(): void {
@@ -667,11 +670,11 @@ export class Mpris {
     }
 
     private _addPlayer(busName: string): void {
-        if (!this.players.get().find((player) => player.busName === busName)) {
+        if (!this.players[0].get().find((player) => player.busName === busName)) {
             log("Adding player: " + busName);
             try {
-                let player = new Player(busName, this.players.length === 0);
-                this.players.set(this.players.get().concat(player))
+                let player = new Player(busName, this.players[0].length === 0);
+                this.players[1](this.players[0].get().concat(player))
             } catch (e) {
                 console.error(e, "Failed to add player: " + busName)
             }
@@ -680,12 +683,12 @@ export class Mpris {
 
     private _removePlayer(busName: string): void {
         log("Removing player: " + busName)
-        const player = this.players.get().find((player) => player.busName === busName)
+        const player = this.players[0].get().find((player) => player.busName === busName)
         player?.destroy()
-        const newList = this.players.get().filter((player) => player.busName !== busName)
+        const newList = this.players[0].get().filter((player) => player.busName !== busName)
         if (newList.length !== 0 && player?.isPrimaryPlayer) {
             newList[0].isPrimaryPlayer = true
         }
-        this.players.set(newList)
+        this.players[1](newList)
     }
 }

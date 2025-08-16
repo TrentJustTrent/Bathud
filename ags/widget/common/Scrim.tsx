@@ -1,9 +1,11 @@
-import {App, Astal, Gdk, Gtk} from "astal/gtk4";
-import {Variable} from "astal";
+import App from "ags/gtk4/app"
 import {hideAllWindows} from "../utils/windows";
 import Hyprland from "gi://AstalHyprland"
+import {createState} from "ags";
+import Astal from "gi://Astal?version=4.0";
+import {Gtk} from "ags/gtk4";
 
-export const scrimsVisible = Variable(false)
+export const [scrimsVisible, scrimsVisibleSetter] = createState(false)
 
 export default function (monitor: Hyprland.Monitor): Astal.Window {
     return <window
@@ -14,8 +16,8 @@ export default function (monitor: Hyprland.Monitor): Astal.Window {
         layer={Astal.Layer.OVERLAY}
         cssClasses={["scrimBackground"]}
         application={App}
-        visible={scrimsVisible()}
-        setup={(self) => {
+        visible={scrimsVisible}
+        $={(self) => {
             const gesture = new Gtk.GestureClick()
             gesture.connect('pressed', (_gesture, n_press, x, y) => {
                 hideAllWindows()

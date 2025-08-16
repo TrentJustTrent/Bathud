@@ -114,10 +114,13 @@ declare module 'gi://Avahi?version=0.6' {
         }
         function error_quark(): GLib.Quark;
         namespace Client {
-            // Signal callback interfaces
-
-            interface StateChanged {
-                (object: ClientState): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'state-changed': (arg0: ClientState) => void;
+                'notify::flags': (pspec: GObject.ParamSpec) => void;
+                'notify::state': (pspec: GObject.ParamSpec) => void;
+                'state-changed::flags': (arg0: ClientState) => void;
+                'state-changed::state': (arg0: ClientState) => void;
             }
 
             // Constructor properties interface
@@ -136,6 +139,15 @@ declare module 'gi://Avahi?version=0.6' {
             get flags(): ClientFlags;
             get state(): ClientState;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Client.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Client.ConstructorProps>, ...args: any[]);
@@ -146,12 +158,21 @@ declare module 'gi://Avahi?version=0.6' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'state-changed', callback: (_source: this, object: ClientState) => void): number;
-            connect_after(signal: 'state-changed', callback: (_source: this, object: ClientState) => void): number;
-            emit(signal: 'state-changed', object: ClientState): void;
+            connect<K extends keyof Client.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Client.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Client.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Client.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Client.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Client.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -160,10 +181,11 @@ declare module 'gi://Avahi?version=0.6' {
         }
 
         namespace EntryGroup {
-            // Signal callback interfaces
-
-            interface StateChanged {
-                (object: EntryGroupState): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'state-changed': (arg0: EntryGroupState) => void;
+                'notify::state': (pspec: GObject.ParamSpec) => void;
+                'state-changed::state': (arg0: EntryGroupState) => void;
             }
 
             // Constructor properties interface
@@ -180,6 +202,15 @@ declare module 'gi://Avahi?version=0.6' {
 
             get state(): EntryGroupState;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: EntryGroup.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<EntryGroup.ConstructorProps>, ...args: any[]);
@@ -190,12 +221,21 @@ declare module 'gi://Avahi?version=0.6' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'state-changed', callback: (_source: this, object: EntryGroupState) => void): number;
-            connect_after(signal: 'state-changed', callback: (_source: this, object: EntryGroupState) => void): number;
-            emit(signal: 'state-changed', object: EntryGroupState): void;
+            connect<K extends keyof EntryGroup.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, EntryGroup.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof EntryGroup.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, EntryGroup.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof EntryGroup.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<EntryGroup.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -224,44 +264,37 @@ declare module 'gi://Avahi?version=0.6' {
         }
 
         namespace RecordBrowser {
-            // Signal callback interfaces
-
-            interface AllForNow {
-                (): void;
-            }
-
-            interface CacheExhausted {
-                (): void;
-            }
-
-            interface Failure {
-                (object?: any | null): void;
-            }
-
-            interface NewRecord {
-                (
-                    object: number,
-                    p0: Protocol,
-                    p1: string,
-                    p2: number,
-                    p3: number,
-                    p4: any | null,
-                    p5: number,
-                    p6: LookupResultFlags,
-                ): void;
-            }
-
-            interface RemovedRecord {
-                (
-                    object: number,
-                    p0: Protocol,
-                    p1: string,
-                    p2: number,
-                    p3: number,
-                    p4: any | null,
-                    p5: number,
-                    p6: LookupResultFlags,
-                ): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'all-for-now': () => void;
+                'cache-exhausted': () => void;
+                failure: (arg0: any | null) => void;
+                'new-record': (
+                    arg0: number,
+                    arg1: Protocol,
+                    arg2: string,
+                    arg3: number,
+                    arg4: number,
+                    arg5: any | null,
+                    arg6: number,
+                    arg7: LookupResultFlags,
+                ) => void;
+                'removed-record': (
+                    arg0: number,
+                    arg1: Protocol,
+                    arg2: string,
+                    arg3: number,
+                    arg4: number,
+                    arg5: any | null,
+                    arg6: number,
+                    arg7: LookupResultFlags,
+                ) => void;
+                'notify::class': (pspec: GObject.ParamSpec) => void;
+                'notify::flags': (pspec: GObject.ParamSpec) => void;
+                'notify::interface': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::protocol': (pspec: GObject.ParamSpec) => void;
+                'notify::type': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -294,6 +327,15 @@ declare module 'gi://Avahi?version=0.6' {
             get type(): number;
             set type(val: number);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: RecordBrowser.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<RecordBrowser.ConstructorProps>, ...args: any[]);
@@ -313,96 +355,21 @@ declare module 'gi://Avahi?version=0.6' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'all-for-now', callback: (_source: this) => void): number;
-            connect_after(signal: 'all-for-now', callback: (_source: this) => void): number;
-            emit(signal: 'all-for-now'): void;
-            connect(signal: 'cache-exhausted', callback: (_source: this) => void): number;
-            connect_after(signal: 'cache-exhausted', callback: (_source: this) => void): number;
-            emit(signal: 'cache-exhausted'): void;
-            connect(signal: 'failure', callback: (_source: this, object: any | null) => void): number;
-            connect_after(signal: 'failure', callback: (_source: this, object: any | null) => void): number;
-            emit(signal: 'failure', object?: any | null): void;
-            connect(
-                signal: 'new-record',
-                callback: (
-                    _source: this,
-                    object: number,
-                    p0: Protocol,
-                    p1: string,
-                    p2: number,
-                    p3: number,
-                    p4: any | null,
-                    p5: number,
-                    p6: LookupResultFlags,
-                ) => void,
+            connect<K extends keyof RecordBrowser.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RecordBrowser.SignalSignatures[K]>,
             ): number;
-            connect_after(
-                signal: 'new-record',
-                callback: (
-                    _source: this,
-                    object: number,
-                    p0: Protocol,
-                    p1: string,
-                    p2: number,
-                    p3: number,
-                    p4: any | null,
-                    p5: number,
-                    p6: LookupResultFlags,
-                ) => void,
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof RecordBrowser.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RecordBrowser.SignalSignatures[K]>,
             ): number;
-            emit(
-                signal: 'new-record',
-                object: number,
-                p0: Protocol,
-                p1: string,
-                p2: number,
-                p3: number,
-                p4: any | null,
-                p5: number,
-                p6: LookupResultFlags,
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof RecordBrowser.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<RecordBrowser.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
             ): void;
-            connect(
-                signal: 'removed-record',
-                callback: (
-                    _source: this,
-                    object: number,
-                    p0: Protocol,
-                    p1: string,
-                    p2: number,
-                    p3: number,
-                    p4: any | null,
-                    p5: number,
-                    p6: LookupResultFlags,
-                ) => void,
-            ): number;
-            connect_after(
-                signal: 'removed-record',
-                callback: (
-                    _source: this,
-                    object: number,
-                    p0: Protocol,
-                    p1: string,
-                    p2: number,
-                    p3: number,
-                    p4: any | null,
-                    p5: number,
-                    p6: LookupResultFlags,
-                ) => void,
-            ): number;
-            emit(
-                signal: 'removed-record',
-                object: number,
-                p0: Protocol,
-                p1: string,
-                p2: number,
-                p3: number,
-                p4: any | null,
-                p5: number,
-                p6: LookupResultFlags,
-            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -410,26 +377,32 @@ declare module 'gi://Avahi?version=0.6' {
         }
 
         namespace ServiceBrowser {
-            // Signal callback interfaces
-
-            interface AllForNow {
-                (): void;
-            }
-
-            interface CacheExhausted {
-                (): void;
-            }
-
-            interface Failure {
-                (object?: any | null): void;
-            }
-
-            interface NewService {
-                (object: number, p0: Protocol, p1: string, p2: string, p3: string, p4: LookupResultFlags): void;
-            }
-
-            interface RemovedService {
-                (object: number, p0: Protocol, p1: string, p2: string, p3: string, p4: LookupResultFlags): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'all-for-now': () => void;
+                'cache-exhausted': () => void;
+                failure: (arg0: any | null) => void;
+                'new-service': (
+                    arg0: number,
+                    arg1: Protocol,
+                    arg2: string,
+                    arg3: string,
+                    arg4: string,
+                    arg5: LookupResultFlags,
+                ) => void;
+                'removed-service': (
+                    arg0: number,
+                    arg1: Protocol,
+                    arg2: string,
+                    arg3: string,
+                    arg4: string,
+                    arg5: LookupResultFlags,
+                ) => void;
+                'notify::domain': (pspec: GObject.ParamSpec) => void;
+                'notify::flags': (pspec: GObject.ParamSpec) => void;
+                'notify::interface': (pspec: GObject.ParamSpec) => void;
+                'notify::protocol': (pspec: GObject.ParamSpec) => void;
+                'notify::type': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -459,6 +432,15 @@ declare module 'gi://Avahi?version=0.6' {
             get type(): string;
             set type(val: string);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ServiceBrowser.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ServiceBrowser.ConstructorProps>, ...args: any[]);
@@ -477,84 +459,21 @@ declare module 'gi://Avahi?version=0.6' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'all-for-now', callback: (_source: this) => void): number;
-            connect_after(signal: 'all-for-now', callback: (_source: this) => void): number;
-            emit(signal: 'all-for-now'): void;
-            connect(signal: 'cache-exhausted', callback: (_source: this) => void): number;
-            connect_after(signal: 'cache-exhausted', callback: (_source: this) => void): number;
-            emit(signal: 'cache-exhausted'): void;
-            connect(signal: 'failure', callback: (_source: this, object: any | null) => void): number;
-            connect_after(signal: 'failure', callback: (_source: this, object: any | null) => void): number;
-            emit(signal: 'failure', object?: any | null): void;
-            connect(
-                signal: 'new-service',
-                callback: (
-                    _source: this,
-                    object: number,
-                    p0: Protocol,
-                    p1: string,
-                    p2: string,
-                    p3: string,
-                    p4: LookupResultFlags,
-                ) => void,
+            connect<K extends keyof ServiceBrowser.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ServiceBrowser.SignalSignatures[K]>,
             ): number;
-            connect_after(
-                signal: 'new-service',
-                callback: (
-                    _source: this,
-                    object: number,
-                    p0: Protocol,
-                    p1: string,
-                    p2: string,
-                    p3: string,
-                    p4: LookupResultFlags,
-                ) => void,
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ServiceBrowser.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ServiceBrowser.SignalSignatures[K]>,
             ): number;
-            emit(
-                signal: 'new-service',
-                object: number,
-                p0: Protocol,
-                p1: string,
-                p2: string,
-                p3: string,
-                p4: LookupResultFlags,
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ServiceBrowser.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ServiceBrowser.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
             ): void;
-            connect(
-                signal: 'removed-service',
-                callback: (
-                    _source: this,
-                    object: number,
-                    p0: Protocol,
-                    p1: string,
-                    p2: string,
-                    p3: string,
-                    p4: LookupResultFlags,
-                ) => void,
-            ): number;
-            connect_after(
-                signal: 'removed-service',
-                callback: (
-                    _source: this,
-                    object: number,
-                    p0: Protocol,
-                    p1: string,
-                    p2: string,
-                    p3: string,
-                    p4: LookupResultFlags,
-                ) => void,
-            ): number;
-            emit(
-                signal: 'removed-service',
-                object: number,
-                p0: Protocol,
-                p1: string,
-                p2: string,
-                p3: string,
-                p4: LookupResultFlags,
-            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -562,25 +481,28 @@ declare module 'gi://Avahi?version=0.6' {
         }
 
         namespace ServiceResolver {
-            // Signal callback interfaces
-
-            interface Failure {
-                (object?: any | null): void;
-            }
-
-            interface Found {
-                (
-                    object: number,
-                    p0: Protocol,
-                    p1: string,
-                    p2: string,
-                    p3: string,
-                    p4: string,
-                    p5: any | null,
-                    p6: number,
-                    p7: any | null,
-                    p8: LookupResultFlags,
-                ): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                failure: (arg0: any | null) => void;
+                found: (
+                    arg0: number,
+                    arg1: Protocol,
+                    arg2: string,
+                    arg3: string,
+                    arg4: string,
+                    arg5: string,
+                    arg6: any | null,
+                    arg7: number,
+                    arg8: any | null,
+                    arg9: LookupResultFlags,
+                ) => void;
+                'notify::aprotocol': (pspec: GObject.ParamSpec) => void;
+                'notify::domain': (pspec: GObject.ParamSpec) => void;
+                'notify::flags': (pspec: GObject.ParamSpec) => void;
+                'notify::interface': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::protocol': (pspec: GObject.ParamSpec) => void;
+                'notify::type': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -616,6 +538,15 @@ declare module 'gi://Avahi?version=0.6' {
             get type(): string;
             set type(val: string);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ServiceResolver.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ServiceResolver.ConstructorProps>, ...args: any[]);
@@ -634,57 +565,23 @@ declare module 'gi://Avahi?version=0.6' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'failure', callback: (_source: this, object: any | null) => void): number;
-            connect_after(signal: 'failure', callback: (_source: this, object: any | null) => void): number;
-            emit(signal: 'failure', object?: any | null): void;
-            connect(
-                signal: 'found',
-                callback: (
-                    _source: this,
-                    object: number,
-                    p0: Protocol,
-                    p1: string,
-                    p2: string,
-                    p3: string,
-                    p4: string,
-                    p5: any | null,
-                    p6: number,
-                    p7: any | null,
-                    p8: LookupResultFlags,
-                ) => void,
+            connect<K extends keyof ServiceResolver.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ServiceResolver.SignalSignatures[K]>,
             ): number;
-            connect_after(
-                signal: 'found',
-                callback: (
-                    _source: this,
-                    object: number,
-                    p0: Protocol,
-                    p1: string,
-                    p2: string,
-                    p3: string,
-                    p4: string,
-                    p5: any | null,
-                    p6: number,
-                    p7: any | null,
-                    p8: LookupResultFlags,
-                ) => void,
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ServiceResolver.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ServiceResolver.SignalSignatures[K]>,
             ): number;
-            emit(
-                signal: 'found',
-                object: number,
-                p0: Protocol,
-                p1: string,
-                p2: string,
-                p3: string,
-                p4: string,
-                p5: any | null,
-                p6: number,
-                p7: any | null,
-                p8: LookupResultFlags,
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ServiceResolver.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ServiceResolver.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
             ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 

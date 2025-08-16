@@ -1,21 +1,21 @@
-import {App, Astal, Gtk} from "astal/gtk4"
+import App from "ags/gtk4/app"
 import {addWidgets} from "./BarWidgets";
 import {variableConfig} from "../../config/config";
 import {Bar, selectedBar} from "../../config/bar";
-import CavaWaveform from "../cava/CavaWaveform";
-import {getCavaFlipStartValue} from "../utils/cava";
-import {Variable} from "astal";
+import Astal from "gi://Astal?version=4.0";
+import {Gtk} from "ags/gtk4";
+import {createComputed, createState, With} from "ags"
 import {addSystemMenuWidgets, createSystemWidgets} from "../systemMenu/SystemMenuWindow";
 
 export const verticalBarWindowName = "verticalBar"
 
-export const integratedMenuRevealed = Variable(false)
+export const [integratedMenuRevealed, integratedMenuRevealedSetting] = createState(false)
 
 export default function () {
-    const marginLeft = Variable.derive([
-        selectedBar,
-        variableConfig.verticalBar.marginOuter,
-        variableConfig.verticalBar.marginInner
+    const marginLeft = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.verticalBar.marginOuter.asAccessor(),
+        variableConfig.verticalBar.marginInner.asAccessor()
     ], (bar, outer, inner): number => {
         if (bar === Bar.LEFT) {
             return outer
@@ -24,10 +24,10 @@ export default function () {
         }
     })
 
-    const marginRight = Variable.derive([
-        selectedBar,
-        variableConfig.verticalBar.marginOuter,
-        variableConfig.verticalBar.marginInner
+    const marginRight = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.verticalBar.marginOuter.asAccessor(),
+        variableConfig.verticalBar.marginInner.asAccessor()
     ], (bar, outer, inner): number => {
         if (bar === Bar.RIGHT) {
             return outer
@@ -36,9 +36,9 @@ export default function () {
         }
     })
 
-    const anchor = Variable.derive([
-        selectedBar,
-        variableConfig.verticalBar.expanded
+    const anchor = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.verticalBar.expanded.asAccessor()
     ], (bar, expanded) => {
         if (bar === Bar.LEFT) {
             if (!expanded) {
@@ -59,151 +59,147 @@ export default function () {
 
     const systemJsxWidgets = createSystemWidgets()
 
-    const integratedMenu = <revealer
-        transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
-        visible={variableConfig.verticalBar.integratedMenu()}
-        revealChild={integratedMenuRevealed()}>
-        <Gtk.ScrolledWindow
-            cssClasses={["scrollWindow"]}
-            vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
-            propagateNaturalHeight={true}
-            widthRequest={400}>
-            <box
-                marginTop={20}
-                marginStart={20}
-                marginEnd={20}
-                marginBottom={20}
-                vertical={true}
-                spacing={10}>
-                {variableConfig.systemMenu.widgets().as((widgets) => {
-                    return addSystemMenuWidgets(widgets, systemJsxWidgets)
-                })}
-            </box>
-        </Gtk.ScrolledWindow>
-    </revealer>
+    let box: Gtk.Box | null = null
+    let integratedMenu: Gtk.Widget | null = null
+    let mainBar: Gtk.Widget | null = null
 
-    const fullBarCavaEnabled = Variable.derive([
-        variableConfig.verticalBar.fullBarCavaWaveform.enabled,
-        variableConfig.verticalBar.splitSections
-    ], (enabled, split) => {
-        return enabled && !split
+    selectedBar.asAccessor().subscribe(() => {
+        if (selectedBar.get() === Bar.LEFT) {
+            box?.reorder_child_after(mainBar!, integratedMenu)
+        } else if (selectedBar.get() === Bar.RIGHT) {
+            box?.reorder_child_after(integratedMenu!, mainBar)
+        }
     })
 
     return <window
-        defaultHeight={variableConfig.verticalBar.minimumHeight()}
+        defaultHeight={variableConfig.verticalBar.minimumHeight.asAccessor()}
         defaultWidth={1} // necessary or resizing doesn't work
         name={verticalBarWindowName}
         layer={Astal.Layer.BOTTOM}
         namespace={"okpanel-vertical-bar"}
-        heightRequest={variableConfig.verticalBar.minimumHeight()}
+        heightRequest={variableConfig.verticalBar.minimumHeight.asAccessor()}
         cssClasses={["transparentBackground"]}
-        monitor={variableConfig.mainMonitor()}
-        visible={selectedBar((bar) => {
-            return bar === Bar.LEFT || bar === Bar.RIGHT
-        })}
+        monitor={variableConfig.mainMonitor.asAccessor()}
+        visible={selectedBar.asAccessor()(bar =>
+            bar === Bar.LEFT || bar === Bar.RIGHT
+        )}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         // this window doesn't like marginStart for some reason
-        marginLeft={marginLeft()}
-        marginRight={marginRight()}
-        marginTop={variableConfig.verticalBar.marginStart()}
-        marginBottom={variableConfig.verticalBar.marginEnd()}
-        anchor={anchor()}
+        marginLeft={marginLeft}
+        marginRight={marginRight}
+        marginTop={variableConfig.verticalBar.marginStart.asAccessor()}
+        marginBottom={variableConfig.verticalBar.marginEnd.asAccessor()}
+        anchor={anchor}
         application={App}>
         <box
-            vertical={false}
-            cssClasses={variableConfig.verticalBar.splitSections().as((split) =>
+            orientation={Gtk.Orientation.HORIZONTAL}
+            cssClasses={variableConfig.verticalBar.splitSections.asAccessor().as((split) =>
                 split ? ["sideBar"] : ["barWindow", "sideBar"]
-            )}>
-            {selectedBar().as((bar) => {
-                if (bar === Bar.LEFT) {
-                    return integratedMenu
-                } else {
-                    return <box/>
+            )}
+            $={(self) => {
+                box = self
+            }}>
+            <revealer
+                transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
+                visible={variableConfig.verticalBar.integratedMenu.asAccessor()}
+                revealChild={integratedMenuRevealed}
+                $={(self) => {
+                    integratedMenu = self
+                }}>
+                <Gtk.ScrolledWindow
+                    cssClasses={["scrollWindow"]}
+                    vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
+                    propagateNaturalHeight={true}
+                    widthRequest={400}>
+                    <box
+                        marginTop={20}
+                        marginStart={20}
+                        marginEnd={20}
+                        marginBottom={20}
+                        orientation={Gtk.Orientation.VERTICAL}
+                        spacing={10}>
+                        <With value={variableConfig.systemMenu.widgets.asAccessor()}>
+                            {(widgets) => {
+                                return <box orientation={Gtk.Orientation.VERTICAL}>
+                                    {addSystemMenuWidgets(widgets, systemJsxWidgets)}
+                                </box>
+                            }}
+                        </With>
+                    </box>
+                </Gtk.ScrolledWindow>
+            </revealer>
+            <centerbox
+                orientation={Gtk.Orientation.VERTICAL}
+                $={(self) => {
+                    mainBar = self
+                }}
+                startWidget={
+                    <box
+                        visible={variableConfig.verticalBar.topWidgets.asAccessor().as((widgets) =>
+                            widgets.length > 0
+                        )}
+                        orientation={Gtk.Orientation.VERTICAL}
+                        cssClasses={variableConfig.verticalBar.splitSections.asAccessor().as((split) =>
+                            split ? ["barWindow"] : []
+                        )}>
+                        <box
+                            orientation={Gtk.Orientation.VERTICAL}
+                            marginTop={variableConfig.verticalBar.sectionPadding.asAccessor()}
+                            marginBottom={variableConfig.verticalBar.sectionPadding.asAccessor()}
+                            spacing={variableConfig.verticalBar.widgetSpacing.asAccessor()}>
+                            <With value={variableConfig.verticalBar.topWidgets.asAccessor()}>
+                                {widgets => <box orientation={Gtk.Orientation.VERTICAL}>
+                                    {addWidgets(widgets, true)}
+                                </box>}
+                            </With>
+                        </box>
+                    </box> as Gtk.Widget
                 }
-            })}
-            <overlay>
-                <centerbox
-                    type={"overlay measure"}
-                    orientation={Gtk.Orientation.VERTICAL}>
+                centerWidget={
                     <box
-                        visible={variableConfig.verticalBar.topWidgets().as((widgets) =>
+                        visible={variableConfig.verticalBar.centerWidgets.asAccessor().as((widgets) =>
                             widgets.length > 0
                         )}
-                        vertical={true}
-                        cssClasses={variableConfig.verticalBar.splitSections().as((split) =>
+                        orientation={Gtk.Orientation.VERTICAL}
+                        cssClasses={variableConfig.verticalBar.splitSections.asAccessor().as((split) =>
                             split ? ["barWindow"] : []
                         )}>
                         <box
-                            vertical={true}
-                            marginTop={variableConfig.verticalBar.sectionPadding()}
-                            marginBottom={variableConfig.verticalBar.sectionPadding()}
-                            spacing={variableConfig.verticalBar.widgetSpacing()}>
-                            {variableConfig.verticalBar.topWidgets().as((widgets) =>
-                                addWidgets(widgets, true)
-                            )}
+                            orientation={Gtk.Orientation.VERTICAL}
+                            marginTop={variableConfig.verticalBar.sectionPadding.asAccessor()}
+                            marginBottom={variableConfig.verticalBar.sectionPadding.asAccessor()}
+                            spacing={variableConfig.verticalBar.widgetSpacing.asAccessor()}>
+                            <With value={variableConfig.verticalBar.centerWidgets.asAccessor()}>
+                                {widgets => <box orientation={Gtk.Orientation.VERTICAL}>
+                                    {addWidgets(widgets, true)}
+                                </box>}
+                            </With>
                         </box>
-                    </box>
+                    </box> as Gtk.Widget
+                }
+                endWidget={
                     <box
-                        visible={variableConfig.verticalBar.centerWidgets().as((widgets) =>
+                        visible={variableConfig.verticalBar.bottomWidgets.asAccessor().as((widgets) =>
                             widgets.length > 0
                         )}
-                        vertical={true}
-                        cssClasses={variableConfig.verticalBar.splitSections().as((split) =>
-                            split ? ["barWindow"] : []
-                        )}>
-                        <box
-                            vertical={true}
-                            marginTop={variableConfig.verticalBar.sectionPadding()}
-                            marginBottom={variableConfig.verticalBar.sectionPadding()}
-                            spacing={variableConfig.verticalBar.widgetSpacing()}>
-                            {variableConfig.verticalBar.centerWidgets().as((widgets) =>
-                                addWidgets(widgets, true)
-                            )}
-                        </box>
-                    </box>
-                    <box
-                        visible={variableConfig.verticalBar.bottomWidgets().as((widgets) =>
-                            widgets.length > 0
-                        )}
-                        vertical={true}
+                        orientation={Gtk.Orientation.VERTICAL}
                         valign={Gtk.Align.END}
-                        cssClasses={variableConfig.verticalBar.splitSections().as((split) =>
+                        cssClasses={variableConfig.verticalBar.splitSections.asAccessor().as((split) =>
                             split ? ["barWindow"] : []
                         )}>
                         <box
-                            vertical={true}
-                            marginTop={variableConfig.verticalBar.sectionPadding()}
-                            marginBottom={variableConfig.verticalBar.sectionPadding()}
-                            spacing={variableConfig.verticalBar.widgetSpacing()}>
-                            {variableConfig.verticalBar.bottomWidgets().as((widgets) =>
-                                addWidgets(widgets, true)
-                            )}
+                            orientation={Gtk.Orientation.VERTICAL}
+                            marginTop={variableConfig.verticalBar.sectionPadding.asAccessor()}
+                            marginBottom={variableConfig.verticalBar.sectionPadding.asAccessor()}
+                            spacing={variableConfig.verticalBar.widgetSpacing.asAccessor()}>
+                            <With value={variableConfig.verticalBar.bottomWidgets.asAccessor()}>
+                                {widgets => <box orientation={Gtk.Orientation.VERTICAL}>
+                                    {addWidgets(widgets, true)}
+                                </box>}
+                            </With>
                         </box>
-                    </box>
-                </centerbox>
-                <box>
-                    {fullBarCavaEnabled().as((enabled) => {
-                        if (enabled) {
-                            return <CavaWaveform
-                                vertical={true}
-                                intensity={variableConfig.verticalBar.fullBarCavaWaveform.intensityMultiplier()}
-                                flipStart={getCavaFlipStartValue(true)}
-                                expand={true}
-                                length={10}
-                                size={40}/>
-                        } else {
-                            return <box/>
-                        }
-                    })}
-                </box>
-            </overlay>
-            {selectedBar().as((bar) => {
-                if (bar === Bar.RIGHT) {
-                    return integratedMenu
-                } else {
-                    return <box/>
-                }
-            })}
+                    </box> as Gtk.Widget
+                }/>
         </box>
     </window>
 }

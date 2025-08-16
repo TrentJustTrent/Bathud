@@ -379,6 +379,12 @@ declare module 'gi://Gck?version=2' {
             FOR_ANY,
         }
         namespace Enumerator {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::chained': (pspec: GObject.ParamSpec) => void;
+                'notify::interaction': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -414,11 +420,38 @@ declare module 'gi://Gck?version=2' {
             get interaction(): Gio.TlsInteraction;
             set interaction(val: Gio.TlsInteraction);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Enumerator.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Enumerator.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Enumerator.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Enumerator.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Enumerator.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Enumerator.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Enumerator.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Enumerator.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -531,6 +564,12 @@ declare module 'gi://Gck?version=2' {
         }
 
         namespace Module {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::functions': (pspec: GObject.ParamSpec) => void;
+                'notify::path': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -566,11 +605,38 @@ declare module 'gi://Gck?version=2' {
              */
             get path(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Module.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Module.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Module.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Module.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Module.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Module.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Module.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Module.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -646,6 +712,13 @@ declare module 'gi://Gck?version=2' {
         }
 
         namespace Object {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::handle': (pspec: GObject.ParamSpec) => void;
+                'notify::module': (pspec: GObject.ParamSpec) => void;
+                'notify::session': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -682,6 +755,15 @@ declare module 'gi://Gck?version=2' {
              */
             get session(): Session;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Object.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Object.ConstructorProps>, ...args: any[]);
@@ -689,6 +771,24 @@ declare module 'gi://Gck?version=2' {
             _init(...args: any[]): void;
 
             static from_handle(session: Session, object_handle: number): Object;
+
+            // Signals
+
+            connect<K extends keyof Object.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Object.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Object.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Object.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Object.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Object.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1144,6 +1244,16 @@ declare module 'gi://Gck?version=2' {
         }
 
         namespace Password {
+            // Signal signatures
+            interface SignalSignatures extends Gio.TlsPassword.SignalSignatures {
+                'notify::key': (pspec: GObject.ParamSpec) => void;
+                'notify::module': (pspec: GObject.ParamSpec) => void;
+                'notify::token': (pspec: GObject.ParamSpec) => void;
+                'notify::description': (pspec: GObject.ParamSpec) => void;
+                'notify::flags': (pspec: GObject.ParamSpec) => void;
+                'notify::warning': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Gio.TlsPassword.ConstructorProps {
@@ -1180,11 +1290,38 @@ declare module 'gi://Gck?version=2' {
              */
             get token(): Slot;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Password.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Password.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Password.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Password.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Password.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Password.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Password.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Password.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1208,10 +1345,16 @@ declare module 'gi://Gck?version=2' {
         }
 
         namespace Session {
-            // Signal callback interfaces
-
-            interface DiscardHandle {
-                (handle: number): boolean;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'discard-handle': (arg0: number) => boolean | void;
+                'notify::app-data': (pspec: GObject.ParamSpec) => void;
+                'notify::handle': (pspec: GObject.ParamSpec) => void;
+                'notify::interaction': (pspec: GObject.ParamSpec) => void;
+                'notify::module': (pspec: GObject.ParamSpec) => void;
+                'notify::opening-flags': (pspec: GObject.ParamSpec) => void;
+                'notify::options': (pspec: GObject.ParamSpec) => void;
+                'notify::slot': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -1283,6 +1426,15 @@ declare module 'gi://Gck?version=2' {
              */
             get slot(): Slot;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Session.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Session.ConstructorProps>, ...args: any[]);
@@ -1291,12 +1443,21 @@ declare module 'gi://Gck?version=2' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'discard-handle', callback: (_source: this, handle: number) => boolean): number;
-            connect_after(signal: 'discard-handle', callback: (_source: this, handle: number) => boolean): number;
-            emit(signal: 'discard-handle', handle: number): void;
+            connect<K extends keyof Session.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Session.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Session.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Session.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Session.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Session.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -2921,7 +3082,21 @@ declare module 'gi://Gck?version=2' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -3049,7 +3224,12 @@ declare module 'gi://Gck?version=2' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -3199,14 +3379,40 @@ declare module 'gi://Gck?version=2' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace Slot {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::handle': (pspec: GObject.ParamSpec) => void;
+                'notify::module': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -3236,11 +3442,38 @@ declare module 'gi://Gck?version=2' {
              */
             get module(): Module;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Slot.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Slot.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Slot.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Slot.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Slot.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Slot.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Slot.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Slot.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 

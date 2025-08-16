@@ -2,6 +2,7 @@
 /// <reference path="./xlib-2.0.d.ts" />
 /// <reference path="./gdk-3.0.d.ts" />
 /// <reference path="./cairo-1.0.d.ts" />
+/// <reference path="./cairo.d.ts" />
 /// <reference path="./gobject-2.0.d.ts" />
 /// <reference path="./glib-2.0.d.ts" />
 /// <reference path="./pango-1.0.d.ts" />
@@ -28,7 +29,7 @@ declare module 'gi://GcrUi?version=3' {
     import type Gtk from 'gi://Gtk?version=3.0';
     import type xlib from 'gi://xlib?version=2.0';
     import type Gdk from 'gi://Gdk?version=3.0';
-    import type cairo from 'gi://cairo?version=1.0';
+    import type cairo from 'cairo';
     import type GObject from 'gi://GObject?version=2.0';
     import type GLib from 'gi://GLib?version=2.0';
     import type Pango from 'gi://Pango?version=1.0';
@@ -106,6 +107,19 @@ declare module 'gi://GcrUi?version=3' {
          */
         function viewer_new_scrolled(): Viewer;
         namespace CertificateRenderer {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::attributes': (pspec: GObject.ParamSpec) => void;
+                'notify::certificate': (pspec: GObject.ParamSpec) => void;
+                'notify::label': (pspec: GObject.ParamSpec) => void;
+                'notify::description': (pspec: GObject.ParamSpec) => void;
+                'notify::expiry': (pspec: GObject.ParamSpec) => void;
+                'notify::icon': (pspec: GObject.ParamSpec) => void;
+                'notify::issuer': (pspec: GObject.ParamSpec) => void;
+                'notify::markup': (pspec: GObject.ParamSpec) => void;
+                'notify::subject': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -144,6 +158,15 @@ declare module 'gi://GcrUi?version=3' {
             get label(): string;
             set label(val: string);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CertificateRenderer.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CertificateRenderer.ConstructorProps>, ...args: any[]);
@@ -153,6 +176,26 @@ declare module 'gi://GcrUi?version=3' {
             static ['new'](certificate: Gcr.Certificate): CertificateRenderer;
 
             static new_for_attributes(label?: string | null, attrs?: any | null): CertificateRenderer;
+
+            // Signals
+
+            connect<K extends keyof CertificateRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateRenderer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CertificateRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateRenderer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CertificateRenderer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CertificateRenderer.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -552,7 +595,21 @@ declare module 'gi://GcrUi?version=3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -680,7 +737,12 @@ declare module 'gi://GcrUi?version=3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -830,14 +892,82 @@ declare module 'gi://GcrUi?version=3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace CertificateWidget {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Bin.SignalSignatures {
+                'notify::attributes': (pspec: GObject.ParamSpec) => void;
+                'notify::certificate': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -873,6 +1003,15 @@ declare module 'gi://GcrUi?version=3' {
             get certificate(): Gcr.Certificate;
             set certificate(val: Gcr.Certificate);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CertificateWidget.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CertificateWidget.ConstructorProps>, ...args: any[]);
@@ -880,6 +1019,26 @@ declare module 'gi://GcrUi?version=3' {
             _init(...args: any[]): void;
 
             static ['new'](certificate?: Gcr.Certificate | null): CertificateWidget;
+
+            // Signals
+
+            connect<K extends keyof CertificateWidget.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateWidget.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CertificateWidget.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CertificateWidget.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CertificateWidget.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CertificateWidget.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1024,7 +1183,21 @@ declare module 'gi://GcrUi?version=3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -1152,7 +1325,12 @@ declare module 'gi://GcrUi?version=3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -1302,14 +1480,40 @@ declare module 'gi://GcrUi?version=3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace CollectionModel {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::collection': (pspec: GObject.ParamSpec) => void;
+                'notify::columns': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -1352,11 +1556,40 @@ declare module 'gi://GcrUi?version=3' {
             set collection(val: Gcr.Collection);
             get columns(): any;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CollectionModel.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CollectionModel.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof CollectionModel.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CollectionModel.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CollectionModel.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CollectionModel.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CollectionModel.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CollectionModel.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2055,7 +2288,21 @@ declare module 'gi://GcrUi?version=3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -2183,7 +2430,12 @@ declare module 'gi://GcrUi?version=3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -2333,14 +2585,98 @@ declare module 'gi://GcrUi?version=3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace ComboSelector {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.ComboBox.SignalSignatures {
+                'notify::collection': (pspec: GObject.ParamSpec) => void;
+                'notify::active': (pspec: GObject.ParamSpec) => void;
+                'notify::active-id': (pspec: GObject.ParamSpec) => void;
+                'notify::add-tearoffs': (pspec: GObject.ParamSpec) => void;
+                'notify::button-sensitivity': (pspec: GObject.ParamSpec) => void;
+                'notify::cell-area': (pspec: GObject.ParamSpec) => void;
+                'notify::column-span-column': (pspec: GObject.ParamSpec) => void;
+                'notify::entry-text-column': (pspec: GObject.ParamSpec) => void;
+                'notify::has-entry': (pspec: GObject.ParamSpec) => void;
+                'notify::has-frame': (pspec: GObject.ParamSpec) => void;
+                'notify::id-column': (pspec: GObject.ParamSpec) => void;
+                'notify::model': (pspec: GObject.ParamSpec) => void;
+                'notify::popup-fixed-width': (pspec: GObject.ParamSpec) => void;
+                'notify::popup-shown': (pspec: GObject.ParamSpec) => void;
+                'notify::row-span-column': (pspec: GObject.ParamSpec) => void;
+                'notify::tearoff-title': (pspec: GObject.ParamSpec) => void;
+                'notify::wrap-width': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+                'notify::editing-canceled': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -2370,6 +2706,15 @@ declare module 'gi://GcrUi?version=3' {
              */
             get collection(): Gcr.Collection;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ComboSelector.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ComboSelector.ConstructorProps>, ...args: any[]);
@@ -2380,6 +2725,24 @@ declare module 'gi://GcrUi?version=3' {
             // Conflicted with Gtk.ComboBox.new
 
             static ['new'](...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof ComboSelector.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ComboSelector.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ComboSelector.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ComboSelector.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ComboSelector.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ComboSelector.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -3082,7 +3445,21 @@ declare module 'gi://GcrUi?version=3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -3210,7 +3587,12 @@ declare module 'gi://GcrUi?version=3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -3360,11 +3742,31 @@ declare module 'gi://GcrUi?version=3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
             /**
              * For widgets that can be “activated” (buttons, menu items, etc.)
              * this function activates them. Activation is what happens when you
@@ -6842,6 +7244,12 @@ declare module 'gi://GcrUi?version=3' {
         }
 
         namespace FailureRenderer {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::attributes': (pspec: GObject.ParamSpec) => void;
+                'notify::label': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, Renderer.ConstructorProps {
@@ -6863,6 +7271,15 @@ declare module 'gi://GcrUi?version=3' {
             get label(): string;
             set label(val: string);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: FailureRenderer.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<FailureRenderer.ConstructorProps>, ...args: any[]);
@@ -6870,6 +7287,26 @@ declare module 'gi://GcrUi?version=3' {
             _init(...args: any[]): void;
 
             static ['new'](label: string | null, error: GLib.Error): FailureRenderer;
+
+            // Signals
+
+            connect<K extends keyof FailureRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, FailureRenderer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof FailureRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, FailureRenderer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof FailureRenderer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<FailureRenderer.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -7040,7 +7477,21 @@ declare module 'gi://GcrUi?version=3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -7168,7 +7619,12 @@ declare module 'gi://GcrUi?version=3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -7318,22 +7774,93 @@ declare module 'gi://GcrUi?version=3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace ImportButton {
-            // Signal callback interfaces
-
-            interface Imported {
-                (importer: GObject.Object, error: GLib.Error): void;
-            }
-
-            interface Importing {
-                (importer: GObject.Object): void;
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Button.SignalSignatures {
+                imported: (arg0: GObject.Object, arg1: GLib.Error) => void;
+                importing: (arg0: GObject.Object) => void;
+                'notify::always-show-image': (pspec: GObject.ParamSpec) => void;
+                'notify::image': (pspec: GObject.ParamSpec) => void;
+                'notify::image-position': (pspec: GObject.ParamSpec) => void;
+                'notify::label': (pspec: GObject.ParamSpec) => void;
+                'notify::relief': (pspec: GObject.ParamSpec) => void;
+                'notify::use-stock': (pspec: GObject.ParamSpec) => void;
+                'notify::use-underline': (pspec: GObject.ParamSpec) => void;
+                'notify::xalign': (pspec: GObject.ParamSpec) => void;
+                'notify::yalign': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+                'notify::action-name': (pspec: GObject.ParamSpec) => void;
+                'notify::action-target': (pspec: GObject.ParamSpec) => void;
+                'notify::related-action': (pspec: GObject.ParamSpec) => void;
+                'notify::use-action-appearance': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -7359,6 +7886,15 @@ declare module 'gi://GcrUi?version=3' {
         {
             static $gtype: GObject.GType<ImportButton>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ImportButton.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ImportButton.ConstructorProps>, ...args: any[]);
@@ -7372,21 +7908,21 @@ declare module 'gi://GcrUi?version=3' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(
-                signal: 'imported',
-                callback: (_source: this, importer: GObject.Object, error: GLib.Error) => void,
+            connect<K extends keyof ImportButton.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ImportButton.SignalSignatures[K]>,
             ): number;
-            connect_after(
-                signal: 'imported',
-                callback: (_source: this, importer: GObject.Object, error: GLib.Error) => void,
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ImportButton.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ImportButton.SignalSignatures[K]>,
             ): number;
-            emit(signal: 'imported', importer: GObject.Object, error: GLib.Error): void;
-            connect(signal: 'importing', callback: (_source: this, importer: GObject.Object) => void): number;
-            connect_after(signal: 'importing', callback: (_source: this, importer: GObject.Object) => void): number;
-            emit(signal: 'importing', importer: GObject.Object): void;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ImportButton.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ImportButton.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -8133,7 +8669,21 @@ declare module 'gi://GcrUi?version=3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -8261,7 +8811,12 @@ declare module 'gi://GcrUi?version=3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -8411,11 +8966,31 @@ declare module 'gi://GcrUi?version=3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
             /**
              * For widgets that can be “activated” (buttons, menu items, etc.)
              * this function activates them. Activation is what happens when you
@@ -11893,6 +12468,13 @@ declare module 'gi://GcrUi?version=3' {
         }
 
         namespace KeyRenderer {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::object': (pspec: GObject.ParamSpec) => void;
+                'notify::attributes': (pspec: GObject.ParamSpec) => void;
+                'notify::label': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, Renderer.ConstructorProps {
@@ -11911,6 +12493,15 @@ declare module 'gi://GcrUi?version=3' {
             get object(): Gck.Object;
             set object(val: Gck.Object);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: KeyRenderer.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<KeyRenderer.ConstructorProps>, ...args: any[]);
@@ -11918,6 +12509,24 @@ declare module 'gi://GcrUi?version=3' {
             _init(...args: any[]): void;
 
             static ['new'](label?: string | null, attrs?: Gck.Attributes | null): KeyRenderer;
+
+            // Signals
+
+            connect<K extends keyof KeyRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, KeyRenderer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof KeyRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, KeyRenderer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof KeyRenderer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<KeyRenderer.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -12096,7 +12705,21 @@ declare module 'gi://GcrUi?version=3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -12224,7 +12847,12 @@ declare module 'gi://GcrUi?version=3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -12374,14 +13002,81 @@ declare module 'gi://GcrUi?version=3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace KeyWidget {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Bin.SignalSignatures {
+                'notify::attributes': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -12412,6 +13107,15 @@ declare module 'gi://GcrUi?version=3' {
             get attributes(): Gck.Attributes;
             set attributes(val: Gck.Attributes);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: KeyWidget.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<KeyWidget.ConstructorProps>, ...args: any[]);
@@ -12419,6 +13123,24 @@ declare module 'gi://GcrUi?version=3' {
             _init(...args: any[]): void;
 
             static ['new'](attrs?: Gck.Attributes | null): KeyWidget;
+
+            // Signals
+
+            connect<K extends keyof KeyWidget.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, KeyWidget.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof KeyWidget.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, KeyWidget.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof KeyWidget.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<KeyWidget.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -12552,7 +13274,21 @@ declare module 'gi://GcrUi?version=3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -12680,7 +13416,12 @@ declare module 'gi://GcrUi?version=3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -12830,14 +13571,103 @@ declare module 'gi://GcrUi?version=3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace ListSelector {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.TreeView.SignalSignatures {
+                'notify::collection': (pspec: GObject.ParamSpec) => void;
+                'notify::activate-on-single-click': (pspec: GObject.ParamSpec) => void;
+                'notify::enable-grid-lines': (pspec: GObject.ParamSpec) => void;
+                'notify::enable-search': (pspec: GObject.ParamSpec) => void;
+                'notify::enable-tree-lines': (pspec: GObject.ParamSpec) => void;
+                'notify::expander-column': (pspec: GObject.ParamSpec) => void;
+                'notify::fixed-height-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::headers-clickable': (pspec: GObject.ParamSpec) => void;
+                'notify::headers-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::hover-expand': (pspec: GObject.ParamSpec) => void;
+                'notify::hover-selection': (pspec: GObject.ParamSpec) => void;
+                'notify::level-indentation': (pspec: GObject.ParamSpec) => void;
+                'notify::model': (pspec: GObject.ParamSpec) => void;
+                'notify::reorderable': (pspec: GObject.ParamSpec) => void;
+                'notify::rubber-banding': (pspec: GObject.ParamSpec) => void;
+                'notify::rules-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::search-column': (pspec: GObject.ParamSpec) => void;
+                'notify::show-expanders': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-column': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+                'notify::hadjustment': (pspec: GObject.ParamSpec) => void;
+                'notify::hscroll-policy': (pspec: GObject.ParamSpec) => void;
+                'notify::vadjustment': (pspec: GObject.ParamSpec) => void;
+                'notify::vscroll-policy': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -12864,6 +13694,15 @@ declare module 'gi://GcrUi?version=3' {
              */
             get collection(): Gcr.Collection;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ListSelector.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ListSelector.ConstructorProps>, ...args: any[]);
@@ -12874,6 +13713,24 @@ declare module 'gi://GcrUi?version=3' {
             // Conflicted with Gtk.TreeView.new
 
             static ['new'](...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof ListSelector.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ListSelector.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ListSelector.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ListSelector.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ListSelector.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ListSelector.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -13110,7 +13967,21 @@ declare module 'gi://GcrUi?version=3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -13238,7 +14109,12 @@ declare module 'gi://GcrUi?version=3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -13388,14 +14264,128 @@ declare module 'gi://GcrUi?version=3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace PromptDialog {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Dialog.SignalSignatures {
+                'notify::choice-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::confirm-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::password-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::warning-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::use-header-bar': (pspec: GObject.ParamSpec) => void;
+                'notify::accept-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::application': (pspec: GObject.ParamSpec) => void;
+                'notify::attached-to': (pspec: GObject.ParamSpec) => void;
+                'notify::decorated': (pspec: GObject.ParamSpec) => void;
+                'notify::default-height': (pspec: GObject.ParamSpec) => void;
+                'notify::default-width': (pspec: GObject.ParamSpec) => void;
+                'notify::deletable': (pspec: GObject.ParamSpec) => void;
+                'notify::destroy-with-parent': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-map': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::gravity': (pspec: GObject.ParamSpec) => void;
+                'notify::has-resize-grip': (pspec: GObject.ParamSpec) => void;
+                'notify::has-toplevel-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::hide-titlebar-when-maximized': (pspec: GObject.ParamSpec) => void;
+                'notify::icon': (pspec: GObject.ParamSpec) => void;
+                'notify::icon-name': (pspec: GObject.ParamSpec) => void;
+                'notify::is-active': (pspec: GObject.ParamSpec) => void;
+                'notify::is-maximized': (pspec: GObject.ParamSpec) => void;
+                'notify::mnemonics-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::modal': (pspec: GObject.ParamSpec) => void;
+                'notify::resizable': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-grip-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::role': (pspec: GObject.ParamSpec) => void;
+                'notify::screen': (pspec: GObject.ParamSpec) => void;
+                'notify::skip-pager-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::skip-taskbar-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::startup-id': (pspec: GObject.ParamSpec) => void;
+                'notify::title': (pspec: GObject.ParamSpec) => void;
+                'notify::transient-for': (pspec: GObject.ParamSpec) => void;
+                'notify::type': (pspec: GObject.ParamSpec) => void;
+                'notify::type-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::urgency-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::window-position': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+                'notify::caller-window': (pspec: GObject.ParamSpec) => void;
+                'notify::cancel-label': (pspec: GObject.ParamSpec) => void;
+                'notify::choice-chosen': (pspec: GObject.ParamSpec) => void;
+                'notify::choice-label': (pspec: GObject.ParamSpec) => void;
+                'notify::continue-label': (pspec: GObject.ParamSpec) => void;
+                'notify::description': (pspec: GObject.ParamSpec) => void;
+                'notify::message': (pspec: GObject.ParamSpec) => void;
+                'notify::password-new': (pspec: GObject.ParamSpec) => void;
+                'notify::password-strength': (pspec: GObject.ParamSpec) => void;
+                'notify::warning': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -13457,11 +14447,38 @@ declare module 'gi://GcrUi?version=3' {
              */
             get warningVisible(): boolean;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: PromptDialog.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<PromptDialog.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof PromptDialog.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PromptDialog.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof PromptDialog.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PromptDialog.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof PromptDialog.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<PromptDialog.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Inherited properties
             /**
@@ -14127,7 +15144,21 @@ declare module 'gi://GcrUi?version=3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -14255,7 +15286,12 @@ declare module 'gi://GcrUi?version=3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -14405,14 +15441,41 @@ declare module 'gi://GcrUi?version=3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace SecureEntryBuffer {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.EntryBuffer.SignalSignatures {
+                'notify::length': (pspec: GObject.ParamSpec) => void;
+                'notify::max-length': (pspec: GObject.ParamSpec) => void;
+                'notify::text': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Gtk.EntryBuffer.ConstructorProps {}
@@ -14436,6 +15499,15 @@ declare module 'gi://GcrUi?version=3' {
         class SecureEntryBuffer extends Gtk.EntryBuffer {
             static $gtype: GObject.GType<SecureEntryBuffer>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: SecureEntryBuffer.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<SecureEntryBuffer.ConstructorProps>, ...args: any[]);
@@ -14443,9 +15515,99 @@ declare module 'gi://GcrUi?version=3' {
             _init(...args: any[]): void;
 
             static ['new'](): SecureEntryBuffer;
+
+            // Signals
+
+            connect<K extends keyof SecureEntryBuffer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SecureEntryBuffer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof SecureEntryBuffer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, SecureEntryBuffer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof SecureEntryBuffer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<SecureEntryBuffer.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace TreeSelector {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.TreeView.SignalSignatures {
+                'notify::collection': (pspec: GObject.ParamSpec) => void;
+                'notify::columns': (pspec: GObject.ParamSpec) => void;
+                'notify::activate-on-single-click': (pspec: GObject.ParamSpec) => void;
+                'notify::enable-grid-lines': (pspec: GObject.ParamSpec) => void;
+                'notify::enable-search': (pspec: GObject.ParamSpec) => void;
+                'notify::enable-tree-lines': (pspec: GObject.ParamSpec) => void;
+                'notify::expander-column': (pspec: GObject.ParamSpec) => void;
+                'notify::fixed-height-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::headers-clickable': (pspec: GObject.ParamSpec) => void;
+                'notify::headers-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::hover-expand': (pspec: GObject.ParamSpec) => void;
+                'notify::hover-selection': (pspec: GObject.ParamSpec) => void;
+                'notify::level-indentation': (pspec: GObject.ParamSpec) => void;
+                'notify::model': (pspec: GObject.ParamSpec) => void;
+                'notify::reorderable': (pspec: GObject.ParamSpec) => void;
+                'notify::rubber-banding': (pspec: GObject.ParamSpec) => void;
+                'notify::rules-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::search-column': (pspec: GObject.ParamSpec) => void;
+                'notify::show-expanders': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-column': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+                'notify::hadjustment': (pspec: GObject.ParamSpec) => void;
+                'notify::hscroll-policy': (pspec: GObject.ParamSpec) => void;
+                'notify::vadjustment': (pspec: GObject.ParamSpec) => void;
+                'notify::vscroll-policy': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -14476,11 +15638,38 @@ declare module 'gi://GcrUi?version=3' {
              */
             get columns(): any;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: TreeSelector.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<TreeSelector.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof TreeSelector.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TreeSelector.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof TreeSelector.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TreeSelector.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof TreeSelector.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<TreeSelector.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -14717,7 +15906,21 @@ declare module 'gi://GcrUi?version=3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -14845,7 +16048,12 @@ declare module 'gi://GcrUi?version=3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -14995,14 +16203,82 @@ declare module 'gi://GcrUi?version=3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace UnlockOptionsWidget {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Bin.SignalSignatures {
+                'notify::choice': (pspec: GObject.ParamSpec) => void;
+                'notify::ttl': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps
@@ -15034,6 +16310,15 @@ declare module 'gi://GcrUi?version=3' {
             get ttl(): number;
             set ttl(val: number);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: UnlockOptionsWidget.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<UnlockOptionsWidget.ConstructorProps>, ...args: any[]);
@@ -15041,6 +16326,26 @@ declare module 'gi://GcrUi?version=3' {
             _init(...args: any[]): void;
 
             static ['new'](): UnlockOptionsWidget;
+
+            // Signals
+
+            connect<K extends keyof UnlockOptionsWidget.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, UnlockOptionsWidget.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof UnlockOptionsWidget.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, UnlockOptionsWidget.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof UnlockOptionsWidget.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<UnlockOptionsWidget.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -15220,7 +16525,21 @@ declare module 'gi://GcrUi?version=3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -15348,7 +16667,12 @@ declare module 'gi://GcrUi?version=3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -15498,18 +16822,85 @@ declare module 'gi://GcrUi?version=3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace ViewerWidget {
-            // Signal callback interfaces
-
-            interface Added {
-                (renderer: Renderer, parsed: Gcr.Parsed): void;
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Box.SignalSignatures {
+                added: (arg0: Renderer, arg1: Gcr.Parsed) => void;
+                'notify::display-name': (pspec: GObject.ParamSpec) => void;
+                'notify::parser': (pspec: GObject.ParamSpec) => void;
+                'notify::baseline-position': (pspec: GObject.ParamSpec) => void;
+                'notify::homogeneous': (pspec: GObject.ParamSpec) => void;
+                'notify::spacing': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+                'notify::orientation': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -15557,6 +16948,15 @@ declare module 'gi://GcrUi?version=3' {
              */
             get parser(): Gcr.Parser;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: ViewerWidget.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<ViewerWidget.ConstructorProps>, ...args: any[]);
@@ -15567,15 +16967,21 @@ declare module 'gi://GcrUi?version=3' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'added', callback: (_source: this, renderer: Renderer, parsed: Gcr.Parsed) => void): number;
-            connect_after(
-                signal: 'added',
-                callback: (_source: this, renderer: Renderer, parsed: Gcr.Parsed) => void,
+            connect<K extends keyof ViewerWidget.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ViewerWidget.SignalSignatures[K]>,
             ): number;
-            emit(signal: 'added', renderer: Renderer, parsed: Gcr.Parsed): void;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof ViewerWidget.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, ViewerWidget.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof ViewerWidget.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<ViewerWidget.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -15779,7 +17185,21 @@ declare module 'gi://GcrUi?version=3' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -15907,7 +17327,12 @@ declare module 'gi://GcrUi?version=3' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -16057,11 +17482,31 @@ declare module 'gi://GcrUi?version=3' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         type CertificateRendererClass = typeof CertificateRenderer;

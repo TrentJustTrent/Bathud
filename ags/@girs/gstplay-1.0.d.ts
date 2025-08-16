@@ -335,6 +335,29 @@ declare module 'gi://GstPlay?version=1.0' {
          */
         function play_state_get_name(state: PlayState | null): string;
         namespace Play {
+            // Signal signatures
+            interface SignalSignatures extends Gst.Object.SignalSignatures {
+                'notify::audio-video-offset': (pspec: GObject.ParamSpec) => void;
+                'notify::current-audio-track': (pspec: GObject.ParamSpec) => void;
+                'notify::current-subtitle-track': (pspec: GObject.ParamSpec) => void;
+                'notify::current-video-track': (pspec: GObject.ParamSpec) => void;
+                'notify::duration': (pspec: GObject.ParamSpec) => void;
+                'notify::media-info': (pspec: GObject.ParamSpec) => void;
+                'notify::mute': (pspec: GObject.ParamSpec) => void;
+                'notify::pipeline': (pspec: GObject.ParamSpec) => void;
+                'notify::position': (pspec: GObject.ParamSpec) => void;
+                'notify::rate': (pspec: GObject.ParamSpec) => void;
+                'notify::subtitle-video-offset': (pspec: GObject.ParamSpec) => void;
+                'notify::suburi': (pspec: GObject.ParamSpec) => void;
+                'notify::uri': (pspec: GObject.ParamSpec) => void;
+                'notify::video-multiview-flags': (pspec: GObject.ParamSpec) => void;
+                'notify::video-multiview-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::video-renderer': (pspec: GObject.ParamSpec) => void;
+                'notify::volume': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Gst.Object.ConstructorProps {
@@ -449,6 +472,15 @@ declare module 'gi://GstPlay?version=1.0' {
             get volume(): number;
             set volume(val: number);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Play.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Play.ConstructorProps>, ...args: any[]);
@@ -456,6 +488,24 @@ declare module 'gi://GstPlay?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](video_renderer?: PlayVideoRenderer | null): Play;
+
+            // Signals
+
+            connect<K extends keyof Play.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Play.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Play.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Play.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Play.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Play.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -755,6 +805,9 @@ declare module 'gi://GstPlay?version=1.0' {
         }
 
         namespace PlayAudioInfo {
+            // Signal signatures
+            interface SignalSignatures extends PlayStreamInfo.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends PlayStreamInfo.ConstructorProps {}
@@ -766,11 +819,38 @@ declare module 'gi://GstPlay?version=1.0' {
         class PlayAudioInfo extends PlayStreamInfo {
             static $gtype: GObject.GType<PlayAudioInfo>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: PlayAudioInfo.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<PlayAudioInfo.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof PlayAudioInfo.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PlayAudioInfo.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof PlayAudioInfo.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PlayAudioInfo.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof PlayAudioInfo.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<PlayAudioInfo.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -782,6 +862,9 @@ declare module 'gi://GstPlay?version=1.0' {
         }
 
         namespace PlayMediaInfo {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -793,11 +876,38 @@ declare module 'gi://GstPlay?version=1.0' {
         class PlayMediaInfo extends GObject.Object {
             static $gtype: GObject.GType<PlayMediaInfo>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: PlayMediaInfo.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<PlayMediaInfo.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof PlayMediaInfo.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PlayMediaInfo.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof PlayMediaInfo.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PlayMediaInfo.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof PlayMediaInfo.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<PlayMediaInfo.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -825,58 +935,22 @@ declare module 'gi://GstPlay?version=1.0' {
         }
 
         namespace PlaySignalAdapter {
-            // Signal callback interfaces
-
-            interface Buffering {
-                (object: number): void;
-            }
-
-            interface DurationChanged {
-                (object: number): void;
-            }
-
-            interface EndOfStream {
-                (): void;
-            }
-
-            interface Error {
-                (error: GLib.Error, details?: Gst.Structure | null): void;
-            }
-
-            interface MediaInfoUpdated {
-                (object: PlayMediaInfo): void;
-            }
-
-            interface MuteChanged {
-                (object: boolean): void;
-            }
-
-            interface PositionUpdated {
-                (object: number): void;
-            }
-
-            interface SeekDone {
-                (object: number): void;
-            }
-
-            interface StateChanged {
-                (object: PlayState): void;
-            }
-
-            interface UriLoaded {
-                (object: string): void;
-            }
-
-            interface VideoDimensionsChanged {
-                (object: number, p0: number): void;
-            }
-
-            interface VolumeChanged {
-                (object: number): void;
-            }
-
-            interface Warning {
-                (error: GLib.Error, details?: Gst.Structure | null): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                buffering: (arg0: number) => void;
+                'duration-changed': (arg0: number) => void;
+                'end-of-stream': () => void;
+                error: (arg0: GLib.Error, arg1: Gst.Structure | null) => void;
+                'media-info-updated': (arg0: PlayMediaInfo) => void;
+                'mute-changed': (arg0: boolean) => void;
+                'position-updated': (arg0: number) => void;
+                'seek-done': (arg0: number) => void;
+                'state-changed': (arg0: PlayState) => void;
+                'uri-loaded': (arg0: string) => void;
+                'video-dimensions-changed': (arg0: number, arg1: number) => void;
+                'volume-changed': (arg0: number) => void;
+                warning: (arg0: GLib.Error, arg1: Gst.Structure | null) => void;
+                'notify::play': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -893,6 +967,15 @@ declare module 'gi://GstPlay?version=1.0' {
 
             get play(): Play;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: PlaySignalAdapter.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<PlaySignalAdapter.ConstructorProps>, ...args: any[]);
@@ -907,69 +990,23 @@ declare module 'gi://GstPlay?version=1.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'buffering', callback: (_source: this, object: number) => void): number;
-            connect_after(signal: 'buffering', callback: (_source: this, object: number) => void): number;
-            emit(signal: 'buffering', object: number): void;
-            connect(signal: 'duration-changed', callback: (_source: this, object: number) => void): number;
-            connect_after(signal: 'duration-changed', callback: (_source: this, object: number) => void): number;
-            emit(signal: 'duration-changed', object: number): void;
-            connect(signal: 'end-of-stream', callback: (_source: this) => void): number;
-            connect_after(signal: 'end-of-stream', callback: (_source: this) => void): number;
-            emit(signal: 'end-of-stream'): void;
-            connect(
-                signal: 'error',
-                callback: (_source: this, error: GLib.Error, details: Gst.Structure | null) => void,
+            connect<K extends keyof PlaySignalAdapter.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PlaySignalAdapter.SignalSignatures[K]>,
             ): number;
-            connect_after(
-                signal: 'error',
-                callback: (_source: this, error: GLib.Error, details: Gst.Structure | null) => void,
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof PlaySignalAdapter.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PlaySignalAdapter.SignalSignatures[K]>,
             ): number;
-            emit(signal: 'error', error: GLib.Error, details?: Gst.Structure | null): void;
-            connect(signal: 'media-info-updated', callback: (_source: this, object: PlayMediaInfo) => void): number;
-            connect_after(
-                signal: 'media-info-updated',
-                callback: (_source: this, object: PlayMediaInfo) => void,
-            ): number;
-            emit(signal: 'media-info-updated', object: PlayMediaInfo): void;
-            connect(signal: 'mute-changed', callback: (_source: this, object: boolean) => void): number;
-            connect_after(signal: 'mute-changed', callback: (_source: this, object: boolean) => void): number;
-            emit(signal: 'mute-changed', object: boolean): void;
-            connect(signal: 'position-updated', callback: (_source: this, object: number) => void): number;
-            connect_after(signal: 'position-updated', callback: (_source: this, object: number) => void): number;
-            emit(signal: 'position-updated', object: number): void;
-            connect(signal: 'seek-done', callback: (_source: this, object: number) => void): number;
-            connect_after(signal: 'seek-done', callback: (_source: this, object: number) => void): number;
-            emit(signal: 'seek-done', object: number): void;
-            connect(signal: 'state-changed', callback: (_source: this, object: PlayState) => void): number;
-            connect_after(signal: 'state-changed', callback: (_source: this, object: PlayState) => void): number;
-            emit(signal: 'state-changed', object: PlayState): void;
-            connect(signal: 'uri-loaded', callback: (_source: this, object: string) => void): number;
-            connect_after(signal: 'uri-loaded', callback: (_source: this, object: string) => void): number;
-            emit(signal: 'uri-loaded', object: string): void;
-            connect(
-                signal: 'video-dimensions-changed',
-                callback: (_source: this, object: number, p0: number) => void,
-            ): number;
-            connect_after(
-                signal: 'video-dimensions-changed',
-                callback: (_source: this, object: number, p0: number) => void,
-            ): number;
-            emit(signal: 'video-dimensions-changed', object: number, p0: number): void;
-            connect(signal: 'volume-changed', callback: (_source: this, object: number) => void): number;
-            connect_after(signal: 'volume-changed', callback: (_source: this, object: number) => void): number;
-            emit(signal: 'volume-changed', object: number): void;
-            connect(
-                signal: 'warning',
-                callback: (_source: this, error: GLib.Error, details: Gst.Structure | null) => void,
-            ): number;
-            connect_after(
-                signal: 'warning',
-                callback: (_source: this, error: GLib.Error, details: Gst.Structure | null) => void,
-            ): number;
-            emit(signal: 'warning', error: GLib.Error, details?: Gst.Structure | null): void;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof PlaySignalAdapter.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<PlaySignalAdapter.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -977,6 +1014,9 @@ declare module 'gi://GstPlay?version=1.0' {
         }
 
         namespace PlayStreamInfo {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -990,11 +1030,38 @@ declare module 'gi://GstPlay?version=1.0' {
         abstract class PlayStreamInfo extends GObject.Object {
             static $gtype: GObject.GType<PlayStreamInfo>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: PlayStreamInfo.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<PlayStreamInfo.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof PlayStreamInfo.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PlayStreamInfo.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof PlayStreamInfo.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PlayStreamInfo.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof PlayStreamInfo.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<PlayStreamInfo.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1025,6 +1092,9 @@ declare module 'gi://GstPlay?version=1.0' {
         }
 
         namespace PlaySubtitleInfo {
+            // Signal signatures
+            interface SignalSignatures extends PlayStreamInfo.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends PlayStreamInfo.ConstructorProps {}
@@ -1036,11 +1106,40 @@ declare module 'gi://GstPlay?version=1.0' {
         class PlaySubtitleInfo extends PlayStreamInfo {
             static $gtype: GObject.GType<PlaySubtitleInfo>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: PlaySubtitleInfo.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<PlaySubtitleInfo.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof PlaySubtitleInfo.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PlaySubtitleInfo.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof PlaySubtitleInfo.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PlaySubtitleInfo.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof PlaySubtitleInfo.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<PlaySubtitleInfo.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1048,6 +1147,9 @@ declare module 'gi://GstPlay?version=1.0' {
         }
 
         namespace PlayVideoInfo {
+            // Signal signatures
+            interface SignalSignatures extends PlayStreamInfo.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends PlayStreamInfo.ConstructorProps {}
@@ -1059,11 +1161,38 @@ declare module 'gi://GstPlay?version=1.0' {
         class PlayVideoInfo extends PlayStreamInfo {
             static $gtype: GObject.GType<PlayVideoInfo>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: PlayVideoInfo.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<PlayVideoInfo.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof PlayVideoInfo.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PlayVideoInfo.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof PlayVideoInfo.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PlayVideoInfo.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof PlayVideoInfo.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<PlayVideoInfo.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1079,6 +1208,12 @@ declare module 'gi://GstPlay?version=1.0' {
         }
 
         namespace PlayVideoOverlayVideoRenderer {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::video-sink': (pspec: GObject.ParamSpec) => void;
+                'notify::window-handle': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, PlayVideoRenderer.ConstructorProps {
@@ -1103,11 +1238,43 @@ declare module 'gi://GstPlay?version=1.0' {
             get windowHandle(): any;
             set windowHandle(val: any);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: PlayVideoOverlayVideoRenderer.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<PlayVideoOverlayVideoRenderer.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof PlayVideoOverlayVideoRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PlayVideoOverlayVideoRenderer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof PlayVideoOverlayVideoRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PlayVideoOverlayVideoRenderer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof PlayVideoOverlayVideoRenderer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<PlayVideoOverlayVideoRenderer.SignalSignatures[K]> extends [
+                    any,
+                    ...infer Q,
+                ]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -1269,7 +1436,21 @@ declare module 'gi://GstPlay?version=1.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -1397,7 +1578,12 @@ declare module 'gi://GstPlay?version=1.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -1547,11 +1733,31 @@ declare module 'gi://GstPlay?version=1.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         type PlayAudioInfoClass = typeof PlayAudioInfo;

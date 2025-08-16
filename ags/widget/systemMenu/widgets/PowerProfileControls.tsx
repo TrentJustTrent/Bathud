@@ -1,5 +1,4 @@
-import {bind} from "astal"
-import {Gtk} from "astal/gtk4"
+import {Gtk} from "ags/gtk4"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
 import {SystemMenuWindowName} from "../SystemMenuWindow";
@@ -7,6 +6,7 @@ import PowerProfiles from "gi://AstalPowerProfiles"
 import {capitalizeFirstLetter} from "../../utils/strings";
 import {getPowerProfileIconBinding, PowerProfile} from "../../utils/powerProfile";
 import OkButton from "../../common/OkButton";
+import {createBinding} from "ags";
 
 const powerProfiles = PowerProfiles.get_default()
 
@@ -24,7 +24,7 @@ export default function () {
                 halign={Gtk.Align.START}
                 hexpand={true}
                 ellipsize={Pango.EllipsizeMode.END}
-                label={bind(powerProfiles, "activeProfile").as((profile) => {
+                label={createBinding(powerProfiles, "activeProfile").as((profile) => {
                     if (profile === PowerProfile.PowerSaver) {
                         return `Power Profile: ${capitalizeFirstLetter(PowerProfile.PowerSaver)}`
                     } else if (profile === PowerProfile.Balanced) {
@@ -37,13 +37,13 @@ export default function () {
         revealedContent={
             <box
                 marginTop={10}
-                vertical={true}>
+                orientation={Gtk.Orientation.VERTICAL}>
                 {profiles.map((profile) => {
                     return <OkButton
                         hexpand={true}
                         labelHalign={Gtk.Align.START}
                         ellipsize={Pango.EllipsizeMode.END}
-                        label={bind(powerProfiles, "activeProfile").as((activeProfile) => {
+                        label={createBinding(powerProfiles, "activeProfile").as((activeProfile) => {
                             if (activeProfile === profile.profile) {
                                 return `  ${capitalizeFirstLetter(profile.profile)}`
                             } else {

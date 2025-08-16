@@ -1,7 +1,6 @@
 import {Field} from "../schema/primitiveDefinitions";
 import {SchemaToType, VariableSchemaToType} from "../types/typeGeneration";
-import {Variable} from "astal";
-import {timeout} from "astal/time";
+import {Variable} from "../Variable";
 
 /**
  * This function will take a Schema object and turn it into a new, nearly identical object,

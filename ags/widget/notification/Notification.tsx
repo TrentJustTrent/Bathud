@@ -1,9 +1,9 @@
-import { GLib } from "astal"
-import { Gtk } from "astal/gtk4"
+import { Gtk } from "ags/gtk4"
 import Notifd from "gi://AstalNotifd"
 import {insertNewlines} from "../utils/strings";
 import Pango from "gi://Pango?version=1.0";
 import OkButton from "../common/OkButton";
+import GLib from "gi://GLib?version=2.0";
 
 const time = (time: number, format = "%I:%M %p") => GLib.DateTime
     .new_from_unix_local(time)
@@ -22,27 +22,23 @@ const urgency = (n: Notifd.Notification) => {
 
 type Props = {
     setup(self: Gtk.Box): void
-    onHoverLost(self: Gtk.Box): void
-    onHover(self: Gtk.Box): void
     notification: Notifd.Notification
     useHistoryCss: boolean
 }
 
 export default function Notification(props: Props) {
-    const { notification: n, onHoverLost, onHover, setup, useHistoryCss } = props
+    const { notification: n, setup, useHistoryCss } = props
     const { START, END } = Gtk.Align
 
     return <box
-        vertical={true}
+        orientation={Gtk.Orientation.VERTICAL}
         cssClasses={useHistoryCss ?
             ["notificationHistorical"] : urgency(n) === "critical"
                 ? ["window", "notificationCritical"] : ["window", "notification"]}
-        setup={setup}
-        onHoverEnter={onHover}
-        onHoverLeave={onHoverLost}>
+        $={setup}>
         <box
             marginTop={2}
-            vertical={false}>
+            orientation={Gtk.Orientation.HORIZONTAL}>
             <label
                 cssClasses={["labelSmallBold"]}
                 marginStart={8}
@@ -60,7 +56,7 @@ export default function Notification(props: Props) {
                 label=""/>
         </box>
         <box
-            vertical={true}
+            orientation={Gtk.Orientation.VERTICAL}
             marginTop={10}
             marginBottom={10}
             marginStart={10}
@@ -80,7 +76,7 @@ export default function Notification(props: Props) {
         </box>
         {n.get_actions().length > 0 &&
             <box
-                vertical={true}
+                orientation={Gtk.Orientation.VERTICAL}
                 marginTop={4}
                 marginEnd={8}
                 marginBottom={8}

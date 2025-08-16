@@ -1,11 +1,11 @@
 import Wp from "gi://AstalWp"
-import {bind, Binding, Variable} from "astal"
-import {Gtk} from "astal/gtk4"
+import {Gtk} from "ags/gtk4"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
 import {toggleMuteEndpoint} from "../../utils/audio";
 import {SystemMenuWindowName} from "../SystemMenuWindow";
 import OkButton from "../../common/OkButton";
+import {Accessor, createBinding, createComputed, For} from "ags";
 
 /**
  * An Endpoint is either a speaker or microphone
@@ -22,13 +22,13 @@ export default function (
     }: {
         defaultEndpoint: Wp.Endpoint,
         getIcon: (endpoint: Wp.Endpoint) => string,
-        endpointsBinding: Binding<Wp.Endpoint[]>
+        endpointsBinding: Accessor<Wp.Endpoint[]>
     }
 ) {
-    const endpointLabelVar = Variable.derive([
-        bind(defaultEndpoint, "description"),
-        bind(defaultEndpoint, "volume"),
-        bind(defaultEndpoint, "mute")
+    const endpointLabelVar = createComputed([
+        createBinding(defaultEndpoint, "description"),
+        createBinding(defaultEndpoint, "volume"),
+        createBinding(defaultEndpoint, "mute")
     ])
 
     return <RevealerRow
@@ -45,22 +45,22 @@ export default function (
                 onChangeValue={({value}) => {
                     defaultEndpoint.volume = value
                 }}
-                value={bind(defaultEndpoint, "volume")}
+                value={createBinding(defaultEndpoint, "volume")}
             />
         }
         revealedContent={
             <box
                 marginTop={10}
-                vertical={true}>
-                {endpointsBinding.as((endpoints) => {
-                    return endpoints.map((endpoint) => {
+                orientation={Gtk.Orientation.VERTICAL}>
+                <For each={endpointsBinding}>
+                    {(endpoint) => {
                         return <OkButton
                             hexpand={true}
                             onClicked={() => {
                                 endpoint.set_is_default(true)
                             }}
                             ellipsize={Pango.EllipsizeMode.END}
-                            label={bind(endpoint, "isDefault").as((isDefault) => {
+                            label={createBinding(endpoint, "isDefault").as((isDefault) => {
                                 if (isDefault) {
                                     return `  ${endpoint.description}`
                                 } else {
@@ -68,8 +68,8 @@ export default function (
                                 }
                             })}
                             labelHalign={Gtk.Align.START}/>
-                    })
-                })}
+                    }}
+                </For>
             </box>
         }
     />

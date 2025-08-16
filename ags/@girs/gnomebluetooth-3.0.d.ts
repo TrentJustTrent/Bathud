@@ -227,14 +227,17 @@ declare module 'gi://GnomeBluetooth?version=3.0' {
             SPEAKERS,
         }
         namespace Client {
-            // Signal callback interfaces
-
-            interface DeviceAdded {
-                (device: GObject.Object): void;
-            }
-
-            interface DeviceRemoved {
-                (device: string): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'device-added': (arg0: GObject.Object) => void;
+                'device-removed': (arg0: string) => void;
+                'notify::default-adapter': (pspec: GObject.ParamSpec) => void;
+                'notify::default-adapter-address': (pspec: GObject.ParamSpec) => void;
+                'notify::default-adapter-name': (pspec: GObject.ParamSpec) => void;
+                'notify::default-adapter-powered': (pspec: GObject.ParamSpec) => void;
+                'notify::default-adapter-setup-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::default-adapter-state': (pspec: GObject.ParamSpec) => void;
+                'notify::num-adapters': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -325,6 +328,15 @@ declare module 'gi://GnomeBluetooth?version=3.0' {
              */
             get numAdapters(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Client.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Client.ConstructorProps>, ...args: any[]);
@@ -335,15 +347,21 @@ declare module 'gi://GnomeBluetooth?version=3.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'device-added', callback: (_source: this, device: GObject.Object) => void): number;
-            connect_after(signal: 'device-added', callback: (_source: this, device: GObject.Object) => void): number;
-            emit(signal: 'device-added', device: GObject.Object): void;
-            connect(signal: 'device-removed', callback: (_source: this, device: string) => void): number;
-            connect_after(signal: 'device-removed', callback: (_source: this, device: string) => void): number;
-            emit(signal: 'device-removed', device: string): void;
+            connect<K extends keyof Client.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Client.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Client.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Client.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Client.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Client.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -432,6 +450,25 @@ declare module 'gi://GnomeBluetooth?version=3.0' {
         }
 
         namespace Device {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::address': (pspec: GObject.ParamSpec) => void;
+                'notify::alias': (pspec: GObject.ParamSpec) => void;
+                'notify::battery-level': (pspec: GObject.ParamSpec) => void;
+                'notify::battery-percentage': (pspec: GObject.ParamSpec) => void;
+                'notify::battery-type': (pspec: GObject.ParamSpec) => void;
+                'notify::connectable': (pspec: GObject.ParamSpec) => void;
+                'notify::connected': (pspec: GObject.ParamSpec) => void;
+                'notify::icon': (pspec: GObject.ParamSpec) => void;
+                'notify::legacy-pairing': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::paired': (pspec: GObject.ParamSpec) => void;
+                'notify::proxy': (pspec: GObject.ParamSpec) => void;
+                'notify::trusted': (pspec: GObject.ParamSpec) => void;
+                'notify::type': (pspec: GObject.ParamSpec) => void;
+                'notify::uuids': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -500,11 +537,38 @@ declare module 'gi://GnomeBluetooth?version=3.0' {
             get uuids(): string[];
             set uuids(val: string[]);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Device.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Device.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Device.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Device.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Device.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Device.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Device.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Device.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 

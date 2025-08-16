@@ -1,4 +1,5 @@
 /// <reference path="./cairo-1.0.d.ts" />
+/// <reference path="./cairo.d.ts" />
 /// <reference path="./gobject-2.0.d.ts" />
 /// <reference path="./glib-2.0.d.ts" />
 /// <reference path="./pango-1.0.d.ts" />
@@ -19,7 +20,7 @@
 
 declare module 'gi://Gdk?version=2.0' {
     // Module dependencies
-    import type cairo from 'gi://cairo?version=1.0';
+    import type cairo from 'cairo';
     import type GObject from 'gi://GObject?version=2.0';
     import type GLib from 'gi://GLib?version=2.0';
     import type Pango from 'gi://Pango?version=1.0';
@@ -4955,6 +4956,9 @@ declare module 'gi://Gdk?version=2.0' {
             BELOW,
         }
         namespace AppLaunchContext {
+            // Signal signatures
+            interface SignalSignatures extends Gio.AppLaunchContext.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends Gio.AppLaunchContext.ConstructorProps {}
@@ -4963,6 +4967,15 @@ declare module 'gi://Gdk?version=2.0' {
         class AppLaunchContext extends Gio.AppLaunchContext {
             static $gtype: GObject.GType<AppLaunchContext>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: AppLaunchContext.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<AppLaunchContext.ConstructorProps>, ...args: any[]);
@@ -4970,6 +4983,26 @@ declare module 'gi://Gdk?version=2.0' {
             _init(...args: any[]): void;
 
             static ['new'](): AppLaunchContext;
+
+            // Signals
+
+            connect<K extends keyof AppLaunchContext.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AppLaunchContext.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof AppLaunchContext.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, AppLaunchContext.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof AppLaunchContext.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<AppLaunchContext.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -5039,6 +5072,9 @@ declare module 'gi://Gdk?version=2.0' {
         }
 
         namespace Colormap {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -5046,6 +5082,15 @@ declare module 'gi://Gdk?version=2.0' {
 
         class Colormap extends GObject.Object {
             static $gtype: GObject.GType<Colormap>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Colormap.SignalSignatures;
 
             // Fields
 
@@ -5059,6 +5104,24 @@ declare module 'gi://Gdk?version=2.0' {
             _init(...args: any[]): void;
 
             static ['new'](visual: Visual, allocate: boolean): Colormap;
+
+            // Signals
+
+            connect<K extends keyof Colormap.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Colormap.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Colormap.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Colormap.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Colormap.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Colormap.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -5131,6 +5194,9 @@ declare module 'gi://Gdk?version=2.0' {
         }
 
         namespace Device {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -5138,6 +5204,15 @@ declare module 'gi://Gdk?version=2.0' {
 
         class Device extends GObject.Object {
             static $gtype: GObject.GType<Device>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Device.SignalSignatures;
 
             // Fields
 
@@ -5153,6 +5228,24 @@ declare module 'gi://Gdk?version=2.0' {
             constructor(properties?: Partial<Device.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Device.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Device.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Device.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Device.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Device.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Device.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -5239,10 +5332,9 @@ declare module 'gi://Gdk?version=2.0' {
         }
 
         namespace Display {
-            // Signal callback interfaces
-
-            interface Closed {
-                (is_error: boolean): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                closed: (arg0: boolean) => void;
             }
 
             // Constructor properties interface
@@ -5253,6 +5345,15 @@ declare module 'gi://Gdk?version=2.0' {
         class Display extends GObject.Object {
             static $gtype: GObject.GType<Display>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Display.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Display.ConstructorProps>, ...args: any[]);
@@ -5261,12 +5362,21 @@ declare module 'gi://Gdk?version=2.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'closed', callback: (_source: this, is_error: boolean) => void): number;
-            connect_after(signal: 'closed', callback: (_source: this, is_error: boolean) => void): number;
-            emit(signal: 'closed', is_error: boolean): void;
+            connect<K extends keyof Display.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Display.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Display.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Display.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Display.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Display.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -5498,10 +5608,10 @@ declare module 'gi://Gdk?version=2.0' {
         }
 
         namespace DisplayManager {
-            // Signal callback interfaces
-
-            interface DisplayOpened {
-                (display: Display): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'display-opened': (arg0: Display) => void;
+                'notify::default-display': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -5522,6 +5632,15 @@ declare module 'gi://Gdk?version=2.0' {
             get defaultDisplay(): Display;
             set defaultDisplay(val: Display);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: DisplayManager.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<DisplayManager.ConstructorProps>, ...args: any[]);
@@ -5530,12 +5649,21 @@ declare module 'gi://Gdk?version=2.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'display-opened', callback: (_source: this, display: Display) => void): number;
-            connect_after(signal: 'display-opened', callback: (_source: this, display: Display) => void): number;
-            emit(signal: 'display-opened', display: Display): void;
+            connect<K extends keyof DisplayManager.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DisplayManager.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DisplayManager.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DisplayManager.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DisplayManager.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DisplayManager.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -5568,6 +5696,9 @@ declare module 'gi://Gdk?version=2.0' {
         }
 
         namespace DragContext {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -5575,6 +5706,15 @@ declare module 'gi://Gdk?version=2.0' {
 
         class DragContext extends GObject.Object {
             static $gtype: GObject.GType<DragContext>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: DragContext.SignalSignatures;
 
             // Fields
 
@@ -5595,6 +5735,24 @@ declare module 'gi://Gdk?version=2.0' {
             _init(...args: any[]): void;
 
             static ['new'](): DragContext;
+
+            // Signals
+
+            connect<K extends keyof DragContext.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DragContext.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DragContext.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DragContext.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DragContext.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DragContext.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -5647,6 +5805,9 @@ declare module 'gi://Gdk?version=2.0' {
         }
 
         namespace Drawable {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -5655,11 +5816,38 @@ declare module 'gi://Gdk?version=2.0' {
         abstract class Drawable extends GObject.Object {
             static $gtype: GObject.GType<Drawable>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Drawable.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Drawable.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Drawable.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Drawable.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Drawable.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Drawable.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Drawable.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Drawable.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -5819,6 +6007,9 @@ declare module 'gi://Gdk?version=2.0' {
         }
 
         namespace GC {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -5826,6 +6017,15 @@ declare module 'gi://Gdk?version=2.0' {
 
         class GC extends GObject.Object {
             static $gtype: GObject.GType<GC>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: GC.SignalSignatures;
 
             // Fields
 
@@ -5844,6 +6044,24 @@ declare module 'gi://Gdk?version=2.0' {
             static ['new'](drawable: Drawable): GC;
 
             static new_with_values(drawable: Drawable, values: GCValues, values_mask: GCValuesMask): GC;
+
+            // Signals
+
+            connect<K extends keyof GC.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GC.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof GC.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, GC.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof GC.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<GC.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -6086,6 +6304,9 @@ declare module 'gi://Gdk?version=2.0' {
         }
 
         namespace Image {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -6093,6 +6314,15 @@ declare module 'gi://Gdk?version=2.0' {
 
         class Image extends GObject.Object {
             static $gtype: GObject.GType<Image>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Image.SignalSignatures;
 
             // Fields
 
@@ -6115,6 +6345,24 @@ declare module 'gi://Gdk?version=2.0' {
             _init(...args: any[]): void;
 
             static ['new'](type: ImageType, visual: Visual, width: number, height: number): Image;
+
+            // Signals
+
+            connect<K extends keyof Image.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Image.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Image.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Image.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Image.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Image.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -6181,18 +6429,11 @@ declare module 'gi://Gdk?version=2.0' {
         }
 
         namespace Keymap {
-            // Signal callback interfaces
-
-            interface DirectionChanged {
-                (): void;
-            }
-
-            interface KeysChanged {
-                (): void;
-            }
-
-            interface StateChanged {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'direction-changed': () => void;
+                'keys-changed': () => void;
+                'state-changed': () => void;
             }
 
             // Constructor properties interface
@@ -6202,6 +6443,15 @@ declare module 'gi://Gdk?version=2.0' {
 
         class Keymap extends GObject.Object {
             static $gtype: GObject.GType<Keymap>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Keymap.SignalSignatures;
 
             // Fields
 
@@ -6215,18 +6465,21 @@ declare module 'gi://Gdk?version=2.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'direction-changed', callback: (_source: this) => void): number;
-            connect_after(signal: 'direction-changed', callback: (_source: this) => void): number;
-            emit(signal: 'direction-changed'): void;
-            connect(signal: 'keys-changed', callback: (_source: this) => void): number;
-            connect_after(signal: 'keys-changed', callback: (_source: this) => void): number;
-            emit(signal: 'keys-changed'): void;
-            connect(signal: 'state-changed', callback: (_source: this) => void): number;
-            connect_after(signal: 'state-changed', callback: (_source: this) => void): number;
-            emit(signal: 'state-changed'): void;
+            connect<K extends keyof Keymap.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Keymap.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Keymap.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Keymap.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Keymap.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Keymap.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -6400,6 +6653,11 @@ declare module 'gi://Gdk?version=2.0' {
         }
 
         namespace PangoRenderer {
+            // Signal signatures
+            interface SignalSignatures extends Pango.Renderer.SignalSignatures {
+                'notify::screen': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Pango.Renderer.ConstructorProps {
@@ -6434,6 +6692,15 @@ declare module 'gi://Gdk?version=2.0' {
 
             get screen(): Screen;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: PangoRenderer.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<PangoRenderer.ConstructorProps>, ...args: any[]);
@@ -6441,6 +6708,24 @@ declare module 'gi://Gdk?version=2.0' {
             _init(...args: any[]): void;
 
             static ['new'](screen: Screen): PangoRenderer;
+
+            // Signals
+
+            connect<K extends keyof PangoRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PangoRenderer.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof PangoRenderer.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PangoRenderer.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof PangoRenderer.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<PangoRenderer.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -6480,6 +6765,9 @@ declare module 'gi://Gdk?version=2.0' {
         }
 
         namespace Pixmap {
+            // Signal signatures
+            interface SignalSignatures extends Drawable.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends Drawable.ConstructorProps {}
@@ -6487,6 +6775,15 @@ declare module 'gi://Gdk?version=2.0' {
 
         class Pixmap extends Drawable {
             static $gtype: GObject.GType<Pixmap>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Pixmap.SignalSignatures;
 
             // Constructors
 
@@ -6507,6 +6804,24 @@ declare module 'gi://Gdk?version=2.0' {
             ): Pixmap;
 
             static ['new'](drawable: Drawable, width: number, height: number, depth: number): Pixmap;
+
+            // Signals
+
+            connect<K extends keyof Pixmap.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Pixmap.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Pixmap.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Pixmap.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Pixmap.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Pixmap.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -6567,18 +6882,13 @@ declare module 'gi://Gdk?version=2.0' {
         }
 
         namespace Screen {
-            // Signal callback interfaces
-
-            interface CompositedChanged {
-                (): void;
-            }
-
-            interface MonitorsChanged {
-                (): void;
-            }
-
-            interface SizeChanged {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'composited-changed': () => void;
+                'monitors-changed': () => void;
+                'size-changed': () => void;
+                'notify::font-options': (pspec: GObject.ParamSpec) => void;
+                'notify::resolution': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -6602,6 +6912,15 @@ declare module 'gi://Gdk?version=2.0' {
             get resolution(): number;
             set resolution(val: number);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Screen.SignalSignatures;
+
             // Fields
 
             closed: number;
@@ -6617,18 +6936,21 @@ declare module 'gi://Gdk?version=2.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'composited-changed', callback: (_source: this) => void): number;
-            connect_after(signal: 'composited-changed', callback: (_source: this) => void): number;
-            emit(signal: 'composited-changed'): void;
-            connect(signal: 'monitors-changed', callback: (_source: this) => void): number;
-            connect_after(signal: 'monitors-changed', callback: (_source: this) => void): number;
-            emit(signal: 'monitors-changed'): void;
-            connect(signal: 'size-changed', callback: (_source: this) => void): number;
-            connect_after(signal: 'size-changed', callback: (_source: this) => void): number;
-            emit(signal: 'size-changed'): void;
+            connect<K extends keyof Screen.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Screen.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Screen.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Screen.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Screen.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Screen.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -6911,6 +7233,9 @@ declare module 'gi://Gdk?version=2.0' {
         }
 
         namespace Visual {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -6918,6 +7243,15 @@ declare module 'gi://Gdk?version=2.0' {
 
         class Visual extends GObject.Object {
             static $gtype: GObject.GType<Visual>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Visual.SignalSignatures;
 
             // Fields
 
@@ -6941,6 +7275,24 @@ declare module 'gi://Gdk?version=2.0' {
             constructor(properties?: Partial<Visual.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Visual.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Visual.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Visual.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Visual.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Visual.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Visual.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -7047,18 +7399,12 @@ declare module 'gi://Gdk?version=2.0' {
         }
 
         namespace Window {
-            // Signal callback interfaces
-
-            interface FromEmbedder {
-                (embedder_x: number, embedder_y: number, offscreen_x: number, offscreen_y: number): void;
-            }
-
-            interface PickEmbeddedChild {
-                (x: number, y: number): Window;
-            }
-
-            interface ToEmbedder {
-                (offscreen_x: number, offscreen_y: number, embedder_x: number, embedder_y: number): void;
+            // Signal signatures
+            interface SignalSignatures extends Drawable.SignalSignatures {
+                'from-embedder': (arg0: number, arg1: number, arg2: number, arg3: number) => void;
+                'pick-embedded-child': (arg0: number, arg1: number) => Window;
+                'to-embedder': (arg0: number, arg1: number, arg2: number, arg3: number) => void;
+                'notify::cursor': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -7080,6 +7426,15 @@ declare module 'gi://Gdk?version=2.0' {
             get cursor(): Cursor;
             set cursor(val: Cursor);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Window.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Window.ConstructorProps>, ...args: any[]);
@@ -7088,69 +7443,21 @@ declare module 'gi://Gdk?version=2.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(
-                signal: 'from-embedder',
-                callback: (
-                    _source: this,
-                    embedder_x: number,
-                    embedder_y: number,
-                    offscreen_x: number,
-                    offscreen_y: number,
-                ) => void,
+            connect<K extends keyof Window.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Window.SignalSignatures[K]>,
             ): number;
-            connect_after(
-                signal: 'from-embedder',
-                callback: (
-                    _source: this,
-                    embedder_x: number,
-                    embedder_y: number,
-                    offscreen_x: number,
-                    offscreen_y: number,
-                ) => void,
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Window.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Window.SignalSignatures[K]>,
             ): number;
-            emit(
-                signal: 'from-embedder',
-                embedder_x: number,
-                embedder_y: number,
-                offscreen_x: number,
-                offscreen_y: number,
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Window.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Window.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
             ): void;
-            connect(signal: 'pick-embedded-child', callback: (_source: this, x: number, y: number) => Window): number;
-            connect_after(
-                signal: 'pick-embedded-child',
-                callback: (_source: this, x: number, y: number) => Window,
-            ): number;
-            emit(signal: 'pick-embedded-child', x: number, y: number): void;
-            connect(
-                signal: 'to-embedder',
-                callback: (
-                    _source: this,
-                    offscreen_x: number,
-                    offscreen_y: number,
-                    embedder_x: number,
-                    embedder_y: number,
-                ) => void,
-            ): number;
-            connect_after(
-                signal: 'to-embedder',
-                callback: (
-                    _source: this,
-                    offscreen_x: number,
-                    offscreen_y: number,
-                    embedder_x: number,
-                    embedder_y: number,
-                ) => void,
-            ): number;
-            emit(
-                signal: 'to-embedder',
-                offscreen_x: number,
-                offscreen_y: number,
-                embedder_x: number,
-                embedder_y: number,
-            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 

@@ -176,10 +176,10 @@ declare module 'gi://Malcontent?version=0' {
             INTERACTIVE,
         }
         namespace Manager {
-            // Signal callback interfaces
-
-            interface AppFilterChanged {
-                (user_id: number): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'app-filter-changed': (arg0: number) => void;
+                'notify::connection': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -205,6 +205,15 @@ declare module 'gi://Malcontent?version=0' {
              */
             get connection(): Gio.DBusConnection;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Manager.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Manager.ConstructorProps>, ...args: any[]);
@@ -215,12 +224,21 @@ declare module 'gi://Malcontent?version=0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'app-filter-changed', callback: (_source: this, user_id: number) => void): number;
-            connect_after(signal: 'app-filter-changed', callback: (_source: this, user_id: number) => void): number;
-            emit(signal: 'app-filter-changed', user_id: number): void;
+            connect<K extends keyof Manager.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Manager.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Manager.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Manager.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Manager.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Manager.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 

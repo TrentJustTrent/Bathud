@@ -255,6 +255,9 @@ declare module 'gi://GnomeDesktop?version=4.0' {
             (monitor: IdleMonitor, id: number): void;
         }
         namespace DesktopThumbnailFactory {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -263,6 +266,15 @@ declare module 'gi://GnomeDesktop?version=4.0' {
         class DesktopThumbnailFactory extends GObject.Object {
             static $gtype: GObject.GType<DesktopThumbnailFactory>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: DesktopThumbnailFactory.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<DesktopThumbnailFactory.ConstructorProps>, ...args: any[]);
@@ -270,6 +282,26 @@ declare module 'gi://GnomeDesktop?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](size: DesktopThumbnailSize): DesktopThumbnailFactory;
+
+            // Signals
+
+            connect<K extends keyof DesktopThumbnailFactory.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DesktopThumbnailFactory.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof DesktopThumbnailFactory.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, DesktopThumbnailFactory.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof DesktopThumbnailFactory.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<DesktopThumbnailFactory.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -484,6 +516,9 @@ declare module 'gi://GnomeDesktop?version=4.0' {
         }
 
         namespace IdleMonitor {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps, Gio.Initable.ConstructorProps {}
@@ -492,6 +527,15 @@ declare module 'gi://GnomeDesktop?version=4.0' {
         class IdleMonitor extends GObject.Object implements Gio.Initable {
             static $gtype: GObject.GType<IdleMonitor>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: IdleMonitor.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<IdleMonitor.ConstructorProps>, ...args: any[]);
@@ -499,6 +543,24 @@ declare module 'gi://GnomeDesktop?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](): IdleMonitor;
+
+            // Signals
+
+            connect<K extends keyof IdleMonitor.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, IdleMonitor.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof IdleMonitor.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, IdleMonitor.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof IdleMonitor.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<IdleMonitor.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -716,7 +778,21 @@ declare module 'gi://GnomeDesktop?version=4.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -844,7 +920,12 @@ declare module 'gi://GnomeDesktop?version=4.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -994,14 +1075,37 @@ declare module 'gi://GnomeDesktop?version=4.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace PnpIds {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -1010,6 +1114,15 @@ declare module 'gi://GnomeDesktop?version=4.0' {
         class PnpIds extends GObject.Object {
             static $gtype: GObject.GType<PnpIds>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: PnpIds.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<PnpIds.ConstructorProps>, ...args: any[]);
@@ -1017,6 +1130,24 @@ declare module 'gi://GnomeDesktop?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](): PnpIds;
+
+            // Signals
+
+            connect<K extends keyof PnpIds.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PnpIds.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof PnpIds.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, PnpIds.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof PnpIds.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<PnpIds.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1029,6 +1160,14 @@ declare module 'gi://GnomeDesktop?version=4.0' {
         }
 
         namespace WallClock {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::clock': (pspec: GObject.ParamSpec) => void;
+                'notify::force-seconds': (pspec: GObject.ParamSpec) => void;
+                'notify::time-only': (pspec: GObject.ParamSpec) => void;
+                'notify::timezone': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -1081,6 +1220,15 @@ declare module 'gi://GnomeDesktop?version=4.0' {
              */
             get timezone(): GLib.TimeZone;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: WallClock.SignalSignatures;
+
             // Fields
 
             parent_object: GObject.Object;
@@ -1092,6 +1240,24 @@ declare module 'gi://GnomeDesktop?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](): WallClock;
+
+            // Signals
+
+            connect<K extends keyof WallClock.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, WallClock.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof WallClock.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, WallClock.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof WallClock.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<WallClock.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1116,10 +1282,9 @@ declare module 'gi://GnomeDesktop?version=4.0' {
         }
 
         namespace XkbInfo {
-            // Signal callback interfaces
-
-            interface LayoutsChanged {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'layouts-changed': () => void;
             }
 
             // Constructor properties interface
@@ -1129,6 +1294,15 @@ declare module 'gi://GnomeDesktop?version=4.0' {
 
         class XkbInfo extends GObject.Object {
             static $gtype: GObject.GType<XkbInfo>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: XkbInfo.SignalSignatures;
 
             // Fields
 
@@ -1144,12 +1318,21 @@ declare module 'gi://GnomeDesktop?version=4.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'layouts-changed', callback: (_source: this) => void): number;
-            connect_after(signal: 'layouts-changed', callback: (_source: this) => void): number;
-            emit(signal: 'layouts-changed'): void;
+            connect<K extends keyof XkbInfo.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, XkbInfo.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof XkbInfo.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, XkbInfo.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof XkbInfo.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<XkbInfo.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 

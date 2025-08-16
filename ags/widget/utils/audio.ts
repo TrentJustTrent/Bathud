@@ -1,5 +1,5 @@
 import Wp from "gi://AstalWp"
-import {execAsync} from "astal/process";
+import {execAsync} from "ags/process";
 import {variableConfig} from "../../config/config";
 
 import {projectDir} from "../../app";

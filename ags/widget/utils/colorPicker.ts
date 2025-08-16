@@ -1,4 +1,4 @@
-import {execAsync} from "astal/process";
+import {execAsync} from "ags/process";
 import {hideAllWindows} from "./windows";
 import {sleep} from "./async";
 

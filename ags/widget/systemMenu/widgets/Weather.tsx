@@ -1,12 +1,13 @@
-import {Gtk} from "astal/gtk4"
+import {Gtk} from "ags/gtk4"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
 import {SystemMenuWindowName} from "../SystemMenuWindow";
-import {interval, Variable} from "astal";
-import {execAsync} from "astal/process";
+import {execAsync} from "ags/process";
 import Divider from "../../common/Divider";
 import {variableConfig} from "../../../config/config";
 import {SpeedUnits, TemperatureUnits} from "../../../config/schema/definitions/systemMenuWidgets";
+import {createComputed, createState, For, With} from "ags";
+import {interval} from "ags/time";
 
 type HourlyWeather = {
     time: Date;
@@ -36,7 +37,7 @@ type Weather = {
     hourly: HourlyWeather[];
 };
 
-const weather = new Variable<Weather>({
+const [weather, weatherSetter] = createState<Weather>({
     current: {
         temperature: null,
         weatherCode: null,
@@ -97,7 +98,7 @@ function updateWeather() {
                 maxTemp: d.temperature_2m_max[i],
             }));
 
-            weather.set({
+            weatherSetter({
                 current: {
                     temperature: c.temperature_2m ?? null,
                     weatherCode: c.weather_code ?? null,
@@ -187,8 +188,23 @@ export default function () {
         updateWeather()
     })
 
+    const hourlyWeather = createComputed([
+        weather
+    ], (weather) => {
+        const now = new Date()
+        return weather.hourly
+            .filter((h) => h.time >= now)
+            .slice(0, 4)
+    })
+
+    const dailyWeather = createComputed([
+        weather
+    ], (weather) => {
+        return weather.daily.slice(0, 4)
+    })
+
     return <RevealerRow
-        icon={weather().as((weather) => {
+        icon={weather.as((weather) => {
             return getWeatherIcon(weather.current.weatherCode, weather.current.isDay === 1)
         })}
         iconOffset={0}
@@ -204,18 +220,18 @@ export default function () {
         revealedContent={
             <box
                 marginTop={10}
-                vertical={true}
+                orientation={Gtk.Orientation.VERTICAL}
                 spacing={10}>
                 <label
                     label="Now"
                     cssClasses={["labelLargeBold"]}/>
                 <label
                     cssClasses={["labelXL"]}
-                    label={weather().as((weather) => {
+                    label={weather.as((weather) => {
                         const code = weather?.current?.weatherCode;
                         const isDay = weather?.current?.isDay;
                         const temp = weather?.current?.temperature;
-                        const unit = variableConfig.systemMenu.weather.temperatureUnit.get();
+                        const unit = variableConfig.systemMenu.weather.temperatureUnit.asAccessor().get();
 
                         if (code == null || isDay == null || temp == null) {
                             return "N/A";
@@ -227,12 +243,12 @@ export default function () {
                 <box
                     hexpand={true}
                     homogeneous={true}
-                    vertical={false}>
+                    orientation={Gtk.Orientation.HORIZONTAL}>
                     <box
-                        vertical={true}>
+                        orientation={Gtk.Orientation.VERTICAL}>
                         <label
                             cssClasses={["labelMedium"]}
-                            label={weather().as((weather) => {
+                            label={weather.as((weather) => {
                                 const humidity = weather?.current?.humidity;
                                 return humidity != null ? `  ${humidity}%` : "N/A";
                             })}
@@ -243,10 +259,10 @@ export default function () {
                     </box>
 
                     <box
-                        vertical={true}>
+                        orientation={Gtk.Orientation.VERTICAL}>
                         <label
                             cssClasses={["labelMedium"]}
-                            label={weather().as((weather) => {
+                            label={weather.as((weather) => {
                                 const uv = weather?.current?.uvIndex;
                                 return uv != null ? `󱩅 ${uv}` : "N/A";
                             })}
@@ -256,10 +272,10 @@ export default function () {
                             label="UV index"/>
                     </box>
                     <box
-                        vertical={true}>
+                        orientation={Gtk.Orientation.VERTICAL}>
                         <label
                             cssClasses={["labelMedium"]}
-                            label={weather().as((weather) => {
+                            label={weather.as((weather) => {
                                 const wind = weather?.current?.windSpeed;
                                 const unit = variableConfig.systemMenu.weather.speedUnit.get() === SpeedUnits.MPH ? "m/h" : "k/h";
                                 return wind != null ? `  ${wind} ${unit}` : "N/A";
@@ -276,19 +292,13 @@ export default function () {
                     label="Hourly"
                     cssClasses={["labelLargeBold"]}/>
                 <box
-                    vertical={false}
+                    orientation={Gtk.Orientation.HORIZONTAL}
                     hexpand={true}
                     homogeneous={true}>
-                    {weather().as((weather) => {
-                        if (weather.hourly === undefined) {
-                            return <box/>
-                        }
-                        const now = new Date()
-                        return weather.hourly
-                            .filter((h) => h.time >= now)
-                            .slice(0, 4).map((hourly) => {
+                    <For each={hourlyWeather}>
+                        {(hourly) => {
                             return <box
-                                vertical={true}>
+                                orientation={Gtk.Orientation.VERTICAL}>
                                 <label
                                     cssClasses={["labelSmall"]}
                                     label={hourly.time.toLocaleTimeString([], { hour: 'numeric' })}/>
@@ -312,8 +322,8 @@ export default function () {
                                     }
                                 />
                             </box>
-                        })
-                    })}
+                        }}
+                    </For>
                 </box>
                 <Divider/>
                 <label
@@ -321,16 +331,13 @@ export default function () {
                     label="Daily"
                     cssClasses={["labelLargeBold"]}/>
                 <box
-                    vertical={false}
+                    orientation={Gtk.Orientation.HORIZONTAL}
                     hexpand={true}
                     homogeneous={true}>
-                    {weather().as((weather) => {
-                        if (weather.daily === undefined) {
-                            return <box/>
-                        }
-                        return weather.daily.slice(0, 4).map((daily) => {
+                    <For each={dailyWeather}>
+                        {(daily) => {
                             return <box
-                                vertical={true}>
+                                orientation={Gtk.Orientation.VERTICAL}>
                                 <label
                                     cssClasses={["labelSmall"]}
                                     label={daily.time.toLocaleDateString([], { weekday: 'short', timeZone: 'UTC' })}/>
@@ -354,10 +361,9 @@ export default function () {
                                     }
                                 />
                             </box>
-                        })
-                    })}
+                        }}
+                    </For>
                 </box>
-
             </box>
         }
     />

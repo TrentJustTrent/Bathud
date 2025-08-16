@@ -1,17 +1,18 @@
 import {isRecording} from "../../screenshot/Screenshot";
 import OkButton from "../../common/OkButton";
-import {execAsync} from "astal/process";
+import {execAsync} from "ags/process";
+import {Gtk} from "ags/gtk4";
 
 export default function () {
     return <box
-        visible={isRecording()}
+        visible={isRecording}
         cssClasses={["systemMenuRecordingBox"]}>
         <box
             marginStart={20}
             marginEnd={20}
             marginTop={20}
             marginBottom={20}
-            vertical={true}>
+            orientation={Gtk.Orientation.VERTICAL}>
             <box
                 hexpand={true}
                 marginBottom={20}>

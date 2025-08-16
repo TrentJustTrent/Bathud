@@ -562,6 +562,17 @@ declare module 'gi://Flatpak?version=1.0' {
             NO_TRIGGERS,
         }
         namespace BundleRef {
+            // Signal signatures
+            interface SignalSignatures extends Ref.SignalSignatures {
+                'notify::file': (pspec: GObject.ParamSpec) => void;
+                'notify::arch': (pspec: GObject.ParamSpec) => void;
+                'notify::branch': (pspec: GObject.ParamSpec) => void;
+                'notify::collection-id': (pspec: GObject.ParamSpec) => void;
+                'notify::commit': (pspec: GObject.ParamSpec) => void;
+                'notify::kind': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Ref.ConstructorProps {
@@ -579,6 +590,15 @@ declare module 'gi://Flatpak?version=1.0' {
              */
             get file(): Gio.File;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: BundleRef.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<BundleRef.ConstructorProps>, ...args: any[]);
@@ -586,6 +606,24 @@ declare module 'gi://Flatpak?version=1.0' {
             _init(...args: any[]): void;
 
             static ['new'](file: Gio.File): BundleRef;
+
+            // Signals
+
+            connect<K extends keyof BundleRef.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BundleRef.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof BundleRef.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BundleRef.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof BundleRef.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<BundleRef.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -628,6 +666,9 @@ declare module 'gi://Flatpak?version=1.0' {
         }
 
         namespace Installation {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -635,6 +676,15 @@ declare module 'gi://Flatpak?version=1.0' {
 
         class Installation extends GObject.Object {
             static $gtype: GObject.GType<Installation>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Installation.SignalSignatures;
 
             // Constructors
 
@@ -649,6 +699,24 @@ declare module 'gi://Flatpak?version=1.0' {
             static new_system_with_id(id?: string | null, cancellable?: Gio.Cancellable | null): Installation;
 
             static new_user(cancellable?: Gio.Cancellable | null): Installation;
+
+            // Signals
+
+            connect<K extends keyof Installation.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Installation.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Installation.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Installation.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Installation.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Installation.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1449,6 +1517,30 @@ declare module 'gi://Flatpak?version=1.0' {
         }
 
         namespace InstalledRef {
+            // Signal signatures
+            interface SignalSignatures extends Ref.SignalSignatures {
+                'notify::appdata-content-rating': (pspec: GObject.ParamSpec) => void;
+                'notify::appdata-content-rating-type': (pspec: GObject.ParamSpec) => void;
+                'notify::appdata-license': (pspec: GObject.ParamSpec) => void;
+                'notify::appdata-name': (pspec: GObject.ParamSpec) => void;
+                'notify::appdata-summary': (pspec: GObject.ParamSpec) => void;
+                'notify::appdata-version': (pspec: GObject.ParamSpec) => void;
+                'notify::deploy-dir': (pspec: GObject.ParamSpec) => void;
+                'notify::end-of-life': (pspec: GObject.ParamSpec) => void;
+                'notify::end-of-life-rebase': (pspec: GObject.ParamSpec) => void;
+                'notify::installed-size': (pspec: GObject.ParamSpec) => void;
+                'notify::is-current': (pspec: GObject.ParamSpec) => void;
+                'notify::latest-commit': (pspec: GObject.ParamSpec) => void;
+                'notify::origin': (pspec: GObject.ParamSpec) => void;
+                'notify::subpaths': (pspec: GObject.ParamSpec) => void;
+                'notify::arch': (pspec: GObject.ParamSpec) => void;
+                'notify::branch': (pspec: GObject.ParamSpec) => void;
+                'notify::collection-id': (pspec: GObject.ParamSpec) => void;
+                'notify::commit': (pspec: GObject.ParamSpec) => void;
+                'notify::kind': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Ref.ConstructorProps {
@@ -1523,11 +1615,38 @@ declare module 'gi://Flatpak?version=1.0' {
             get subpaths(): string[];
             set subpaths(val: string[]);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: InstalledRef.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<InstalledRef.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof InstalledRef.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, InstalledRef.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof InstalledRef.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, InstalledRef.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof InstalledRef.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<InstalledRef.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1626,6 +1745,9 @@ declare module 'gi://Flatpak?version=1.0' {
         }
 
         namespace Instance {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -1634,11 +1756,38 @@ declare module 'gi://Flatpak?version=1.0' {
         class Instance extends GObject.Object {
             static $gtype: GObject.GType<Instance>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Instance.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Instance.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Instance.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Instance.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Instance.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Instance.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Instance.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Instance.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -1723,6 +1872,16 @@ declare module 'gi://Flatpak?version=1.0' {
         }
 
         namespace Ref {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::arch': (pspec: GObject.ParamSpec) => void;
+                'notify::branch': (pspec: GObject.ParamSpec) => void;
+                'notify::collection-id': (pspec: GObject.ParamSpec) => void;
+                'notify::commit': (pspec: GObject.ParamSpec) => void;
+                'notify::kind': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -1749,11 +1908,38 @@ declare module 'gi://Flatpak?version=1.0' {
             get kind(): RefKind;
             get name(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Ref.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Ref.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof Ref.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Ref.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Ref.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Ref.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Ref.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Ref.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -1811,6 +1997,20 @@ declare module 'gi://Flatpak?version=1.0' {
         }
 
         namespace RelatedRef {
+            // Signal signatures
+            interface SignalSignatures extends Ref.SignalSignatures {
+                'notify::should-autoprune': (pspec: GObject.ParamSpec) => void;
+                'notify::should-delete': (pspec: GObject.ParamSpec) => void;
+                'notify::should-download': (pspec: GObject.ParamSpec) => void;
+                'notify::subpaths': (pspec: GObject.ParamSpec) => void;
+                'notify::arch': (pspec: GObject.ParamSpec) => void;
+                'notify::branch': (pspec: GObject.ParamSpec) => void;
+                'notify::collection-id': (pspec: GObject.ParamSpec) => void;
+                'notify::commit': (pspec: GObject.ParamSpec) => void;
+                'notify::kind': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Ref.ConstructorProps {
@@ -1837,11 +2037,38 @@ declare module 'gi://Flatpak?version=1.0' {
             get shouldDownload(): boolean;
             get subpaths(): string[];
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: RelatedRef.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<RelatedRef.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof RelatedRef.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RelatedRef.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof RelatedRef.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RelatedRef.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof RelatedRef.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<RelatedRef.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1854,6 +2081,12 @@ declare module 'gi://Flatpak?version=1.0' {
         }
 
         namespace Remote {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::type': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -1884,6 +2117,15 @@ declare module 'gi://Flatpak?version=1.0' {
              */
             get type(): RemoteType;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Remote.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Remote.ConstructorProps>, ...args: any[]);
@@ -1893,6 +2135,24 @@ declare module 'gi://Flatpak?version=1.0' {
             static ['new'](name: string): Remote;
 
             static new_from_file(name: string, data: GLib.Bytes | Uint8Array): Remote;
+
+            // Signals
+
+            connect<K extends keyof Remote.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Remote.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Remote.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Remote.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Remote.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Remote.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2144,6 +2404,22 @@ declare module 'gi://Flatpak?version=1.0' {
         }
 
         namespace RemoteRef {
+            // Signal signatures
+            interface SignalSignatures extends Ref.SignalSignatures {
+                'notify::download-size': (pspec: GObject.ParamSpec) => void;
+                'notify::end-of-life': (pspec: GObject.ParamSpec) => void;
+                'notify::end-of-life-rebase': (pspec: GObject.ParamSpec) => void;
+                'notify::installed-size': (pspec: GObject.ParamSpec) => void;
+                'notify::metadata': (pspec: GObject.ParamSpec) => void;
+                'notify::remote-name': (pspec: GObject.ParamSpec) => void;
+                'notify::arch': (pspec: GObject.ParamSpec) => void;
+                'notify::branch': (pspec: GObject.ParamSpec) => void;
+                'notify::collection-id': (pspec: GObject.ParamSpec) => void;
+                'notify::commit': (pspec: GObject.ParamSpec) => void;
+                'notify::kind': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Ref.ConstructorProps {
@@ -2178,11 +2454,38 @@ declare module 'gi://Flatpak?version=1.0' {
             get remote_name(): string;
             get remoteName(): string;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: RemoteRef.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<RemoteRef.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof RemoteRef.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RemoteRef.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof RemoteRef.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, RemoteRef.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof RemoteRef.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<RemoteRef.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -2221,58 +2524,38 @@ declare module 'gi://Flatpak?version=1.0' {
         }
 
         namespace Transaction {
-            // Signal callback interfaces
-
-            interface AddNewRemote {
-                (reason: TransactionRemoteReason, from_id: string, suggested_remote_name: string, url: string): boolean;
-            }
-
-            interface BasicAuthStart {
-                (remote: string, realm: string, options: GLib.Variant, id: number): boolean;
-            }
-
-            interface ChooseRemoteForRef {
-                (for_ref: string, runtime_ref: string, remotes: string[]): number;
-            }
-
-            interface EndOfLifed {
-                (ref: string, reason: string, rebase: string): void;
-            }
-
-            interface EndOfLifedWithRebase {
-                (remote: string, ref: string, reason: string, rebased_to_ref: string, previous_ids: string[]): boolean;
-            }
-
-            interface InstallAuthenticator {
-                (remote: string, authenticator_ref: string): void;
-            }
-
-            interface NewOperation {
-                (operation: TransactionOperation, progress: TransactionProgress): void;
-            }
-
-            interface OperationDone {
-                (operation: TransactionOperation, commit: string | null, result: TransactionResult): void;
-            }
-
-            interface OperationError {
-                (operation: TransactionOperation, error: GLib.Error, details: TransactionErrorDetails): boolean;
-            }
-
-            interface Ready {
-                (): boolean;
-            }
-
-            interface ReadyPreAuth {
-                (): boolean;
-            }
-
-            interface WebflowDone {
-                (options: GLib.Variant, id: number): void;
-            }
-
-            interface WebflowStart {
-                (remote: string, url: string, options: GLib.Variant, id: number): boolean;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'add-new-remote': (
+                    arg0: TransactionRemoteReason,
+                    arg1: string,
+                    arg2: string,
+                    arg3: string,
+                ) => boolean | void;
+                'basic-auth-start': (arg0: string, arg1: string, arg2: GLib.Variant, arg3: number) => boolean | void;
+                'choose-remote-for-ref': (arg0: string, arg1: string, arg2: string[]) => number;
+                'end-of-lifed': (arg0: string, arg1: string, arg2: string) => void;
+                'end-of-lifed-with-rebase': (
+                    arg0: string,
+                    arg1: string,
+                    arg2: string,
+                    arg3: string,
+                    arg4: string[],
+                ) => boolean | void;
+                'install-authenticator': (arg0: string, arg1: string) => void;
+                'new-operation': (arg0: TransactionOperation, arg1: TransactionProgress) => void;
+                'operation-done': (arg0: TransactionOperation, arg1: string | null, arg2: TransactionResult) => void;
+                'operation-error': (
+                    arg0: TransactionOperation,
+                    arg1: GLib.Error,
+                    arg2: TransactionErrorDetails,
+                ) => boolean | void;
+                ready: () => boolean | void;
+                'ready-pre-auth': () => boolean | void;
+                'webflow-done': (arg0: GLib.Variant, arg1: number) => void;
+                'webflow-start': (arg0: string, arg1: string, arg2: GLib.Variant, arg3: number) => boolean | void;
+                'notify::installation': (pspec: GObject.ParamSpec) => void;
+                'notify::no-interaction': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -2308,6 +2591,15 @@ declare module 'gi://Flatpak?version=1.0' {
             get noInteraction(): boolean;
             set noInteraction(val: boolean);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Transaction.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Transaction.ConstructorProps>, ...args: any[]);
@@ -2318,183 +2610,21 @@ declare module 'gi://Flatpak?version=1.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(
-                signal: 'add-new-remote',
-                callback: (
-                    _source: this,
-                    reason: TransactionRemoteReason,
-                    from_id: string,
-                    suggested_remote_name: string,
-                    url: string,
-                ) => boolean,
+            connect<K extends keyof Transaction.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Transaction.SignalSignatures[K]>,
             ): number;
-            connect_after(
-                signal: 'add-new-remote',
-                callback: (
-                    _source: this,
-                    reason: TransactionRemoteReason,
-                    from_id: string,
-                    suggested_remote_name: string,
-                    url: string,
-                ) => boolean,
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Transaction.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Transaction.SignalSignatures[K]>,
             ): number;
-            emit(
-                signal: 'add-new-remote',
-                reason: TransactionRemoteReason,
-                from_id: string,
-                suggested_remote_name: string,
-                url: string,
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Transaction.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Transaction.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
             ): void;
-            connect(
-                signal: 'basic-auth-start',
-                callback: (_source: this, remote: string, realm: string, options: GLib.Variant, id: number) => boolean,
-            ): number;
-            connect_after(
-                signal: 'basic-auth-start',
-                callback: (_source: this, remote: string, realm: string, options: GLib.Variant, id: number) => boolean,
-            ): number;
-            emit(signal: 'basic-auth-start', remote: string, realm: string, options: GLib.Variant, id: number): void;
-            connect(
-                signal: 'choose-remote-for-ref',
-                callback: (_source: this, for_ref: string, runtime_ref: string, remotes: string[]) => number,
-            ): number;
-            connect_after(
-                signal: 'choose-remote-for-ref',
-                callback: (_source: this, for_ref: string, runtime_ref: string, remotes: string[]) => number,
-            ): number;
-            emit(signal: 'choose-remote-for-ref', for_ref: string, runtime_ref: string, remotes: string[]): void;
-            connect(
-                signal: 'end-of-lifed',
-                callback: (_source: this, ref: string, reason: string, rebase: string) => void,
-            ): number;
-            connect_after(
-                signal: 'end-of-lifed',
-                callback: (_source: this, ref: string, reason: string, rebase: string) => void,
-            ): number;
-            emit(signal: 'end-of-lifed', ref: string, reason: string, rebase: string): void;
-            connect(
-                signal: 'end-of-lifed-with-rebase',
-                callback: (
-                    _source: this,
-                    remote: string,
-                    ref: string,
-                    reason: string,
-                    rebased_to_ref: string,
-                    previous_ids: string[],
-                ) => boolean,
-            ): number;
-            connect_after(
-                signal: 'end-of-lifed-with-rebase',
-                callback: (
-                    _source: this,
-                    remote: string,
-                    ref: string,
-                    reason: string,
-                    rebased_to_ref: string,
-                    previous_ids: string[],
-                ) => boolean,
-            ): number;
-            emit(
-                signal: 'end-of-lifed-with-rebase',
-                remote: string,
-                ref: string,
-                reason: string,
-                rebased_to_ref: string,
-                previous_ids: string[],
-            ): void;
-            connect(
-                signal: 'install-authenticator',
-                callback: (_source: this, remote: string, authenticator_ref: string) => void,
-            ): number;
-            connect_after(
-                signal: 'install-authenticator',
-                callback: (_source: this, remote: string, authenticator_ref: string) => void,
-            ): number;
-            emit(signal: 'install-authenticator', remote: string, authenticator_ref: string): void;
-            connect(
-                signal: 'new-operation',
-                callback: (_source: this, operation: TransactionOperation, progress: TransactionProgress) => void,
-            ): number;
-            connect_after(
-                signal: 'new-operation',
-                callback: (_source: this, operation: TransactionOperation, progress: TransactionProgress) => void,
-            ): number;
-            emit(signal: 'new-operation', operation: TransactionOperation, progress: TransactionProgress): void;
-            connect(
-                signal: 'operation-done',
-                callback: (
-                    _source: this,
-                    operation: TransactionOperation,
-                    commit: string | null,
-                    result: TransactionResult,
-                ) => void,
-            ): number;
-            connect_after(
-                signal: 'operation-done',
-                callback: (
-                    _source: this,
-                    operation: TransactionOperation,
-                    commit: string | null,
-                    result: TransactionResult,
-                ) => void,
-            ): number;
-            emit(
-                signal: 'operation-done',
-                operation: TransactionOperation,
-                commit: string | null,
-                result: TransactionResult,
-            ): void;
-            connect(
-                signal: 'operation-error',
-                callback: (
-                    _source: this,
-                    operation: TransactionOperation,
-                    error: GLib.Error,
-                    details: TransactionErrorDetails,
-                ) => boolean,
-            ): number;
-            connect_after(
-                signal: 'operation-error',
-                callback: (
-                    _source: this,
-                    operation: TransactionOperation,
-                    error: GLib.Error,
-                    details: TransactionErrorDetails,
-                ) => boolean,
-            ): number;
-            emit(
-                signal: 'operation-error',
-                operation: TransactionOperation,
-                error: GLib.Error,
-                details: TransactionErrorDetails,
-            ): void;
-            connect(signal: 'ready', callback: (_source: this) => boolean): number;
-            connect_after(signal: 'ready', callback: (_source: this) => boolean): number;
-            emit(signal: 'ready'): void;
-            connect(signal: 'ready-pre-auth', callback: (_source: this) => boolean): number;
-            connect_after(signal: 'ready-pre-auth', callback: (_source: this) => boolean): number;
-            emit(signal: 'ready-pre-auth'): void;
-            connect(
-                signal: 'webflow-done',
-                callback: (_source: this, options: GLib.Variant, id: number) => void,
-            ): number;
-            connect_after(
-                signal: 'webflow-done',
-                callback: (_source: this, options: GLib.Variant, id: number) => void,
-            ): number;
-            emit(signal: 'webflow-done', options: GLib.Variant, id: number): void;
-            connect(
-                signal: 'webflow-start',
-                callback: (_source: this, remote: string, url: string, options: GLib.Variant, id: number) => boolean,
-            ): number;
-            connect_after(
-                signal: 'webflow-start',
-                callback: (_source: this, remote: string, url: string, options: GLib.Variant, id: number) => boolean,
-            ): number;
-            emit(signal: 'webflow-start', remote: string, url: string, options: GLib.Variant, id: number): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -3083,7 +3213,21 @@ declare module 'gi://Flatpak?version=1.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -3211,7 +3355,12 @@ declare module 'gi://Flatpak?version=1.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -3361,14 +3510,37 @@ declare module 'gi://Flatpak?version=1.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace TransactionOperation {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -3377,11 +3549,40 @@ declare module 'gi://Flatpak?version=1.0' {
         class TransactionOperation extends GObject.Object {
             static $gtype: GObject.GType<TransactionOperation>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: TransactionOperation.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<TransactionOperation.ConstructorProps>, ...args: any[]);
 
             _init(...args: any[]): void;
+
+            // Signals
+
+            connect<K extends keyof TransactionOperation.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TransactionOperation.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof TransactionOperation.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TransactionOperation.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof TransactionOperation.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<TransactionOperation.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -3520,10 +3721,9 @@ declare module 'gi://Flatpak?version=1.0' {
         }
 
         namespace TransactionProgress {
-            // Signal callback interfaces
-
-            interface Changed {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                changed: () => void;
             }
 
             // Constructor properties interface
@@ -3534,6 +3734,15 @@ declare module 'gi://Flatpak?version=1.0' {
         class TransactionProgress extends GObject.Object {
             static $gtype: GObject.GType<TransactionProgress>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: TransactionProgress.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<TransactionProgress.ConstructorProps>, ...args: any[]);
@@ -3542,12 +3751,23 @@ declare module 'gi://Flatpak?version=1.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'changed', callback: (_source: this) => void): number;
-            connect_after(signal: 'changed', callback: (_source: this) => void): number;
-            emit(signal: 'changed'): void;
+            connect<K extends keyof TransactionProgress.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TransactionProgress.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof TransactionProgress.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, TransactionProgress.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof TransactionProgress.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<TransactionProgress.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 

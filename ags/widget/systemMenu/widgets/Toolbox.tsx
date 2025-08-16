@@ -1,4 +1,4 @@
-import {Gtk} from "astal/gtk4"
+import {Gtk} from "ags/gtk4"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
 import {SystemMenuWindowName} from "../SystemMenuWindow";
@@ -48,7 +48,7 @@ export default function () {
         revealedContent={
             <box
                 marginTop={10}
-                vertical={false}
+                orientation={Gtk.Orientation.HORIZONTAL}
                 spacing={10}
                 halign={Gtk.Align.CENTER}>
                 <ColorPicker/>

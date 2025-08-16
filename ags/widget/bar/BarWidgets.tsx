@@ -1,4 +1,3 @@
-import {bind, GLib, Variable} from "astal"
 import Hyprland from "gi://AstalHyprland"
 import {CalendarWindowName} from "../calendar/Calendar"
 import Wp from "gi://AstalWp"
@@ -6,7 +5,6 @@ import Battery from "gi://AstalBattery"
 import {getMicrophoneIcon, getVolumeIcon, playBatteryWarning} from "../utils/audio"
 import {getNetworkIconBinding} from "../utils/network"
 import {getBatteryIcon} from "../utils/battery"
-import {execAsync} from "astal/process"
 import {SystemMenuWindowName} from "../systemMenu/SystemMenuWindow";
 import Bluetooth from "gi://AstalBluetooth"
 import {activeVpnConnections} from "../systemMenu/widgets/NetworkControls";
@@ -28,36 +26,41 @@ import {Bar, selectedBar} from "../../config/bar";
 import Notifd from "gi://AstalNotifd"
 import {NotificationHistoryWindowName} from "../notification/NotificationHistoryWindow";
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
+import Gtk from "gi://Gtk?version=4.0";
 import OkButton, {OkButtonHorizontalPadding, OkButtonSize, OkButtonVerticalPadding} from "../common/OkButton";
+import {createBinding, createComputed, createState, For, With} from "ags";
+import {createPoll} from "../../../../../../../usr/share/ags/js/lib/time";
+import GLib from "gi://GLib?version=2.0";
 import {runColorPicker} from "../utils/colorPicker";
 import {lock, logout, restart, shutdown} from "../utils/powerOptions";
-import {integratedMenuRevealed} from "./VerticalBar";
+import {execAsync} from "ags/process";
+import {integratedMenuRevealed, integratedMenuRevealedSetting} from "./VerticalBar";
 
 const tray = Tray.get_default()
 
 export function getHPadding(vertical: boolean) {
     return vertical ?
-        variableConfig.verticalBar.compact().as((c) => c ? OkButtonHorizontalPadding.THIN : OkButtonHorizontalPadding.STANDARD)
+        variableConfig.verticalBar.compact.asAccessor().as((c) => c ? OkButtonHorizontalPadding.THIN : OkButtonHorizontalPadding.STANDARD)
         : OkButtonHorizontalPadding.THIN
 }
 
 export function getVPadding(vertical: boolean) {
     return vertical ? OkButtonVerticalPadding.STANDARD :
-        variableConfig.horizontalBar.compact().as((c) => c ? OkButtonVerticalPadding.THIN : OkButtonVerticalPadding.STANDARD)
+        variableConfig.horizontalBar.compact.asAccessor().as((c) => c ? OkButtonVerticalPadding.THIN : OkButtonVerticalPadding.STANDARD)
 }
 
 function MenuButton({vertical}: { vertical: boolean }) {
     return <OkButton
         labelCss={["barMenuForeground"]}
         backgroundCss={["barMenuBackground"]}
-        offset={variableConfig.theme.bars.menu.iconOffset()}
+        offset={variableConfig.theme.bars.menu.iconOffset.asAccessor()}
         hpadding={getHPadding(vertical)}
         vpadding={getVPadding(vertical)}
-        label={variableConfig.theme.bars.menu.icon()}
+        label={variableConfig.theme.bars.menu.icon.asAccessor()}
         onClicked={() => {
             const barIsVertical = selectedBar.get() === Bar.LEFT || selectedBar.get() === Bar.RIGHT
             if (barIsVertical && variableConfig.verticalBar.integratedMenu.get()) {
-                integratedMenuRevealed.set(!integratedMenuRevealed.get())
+                integratedMenuRevealedSetting(!integratedMenuRevealed.get())
             } else {
                 toggleWindow(SystemMenuWindowName)
             }
@@ -87,44 +90,76 @@ function groupByProperty(
 
 function Workspaces({vertical}: { vertical: boolean }) {
     const hypr = Hyprland.get_default()
+    const hyprlandWorkspaces = createBinding(hypr, "workspaces")
     return <box
         cssClasses={["barWorkspacesBackground", "radiusSmall"]}
-        vertical={vertical}>
-        {bind(hypr, "workspaces").as((workspaces) => {
-            const groupedWorkspaces = groupByProperty(workspaces)
-            return groupedWorkspaces.map((workspaceGroup, index) => {
-                return <box
-                    vertical={vertical}>
-                    {index > 0 && index < groupedWorkspaces.length &&
-                        <Divider
-                            thin={true}
-                            marginStart={4}
-                            marginEnd={4}/>
-                    }
-                    {workspaceGroup.sort((a, b) => {
-                        return a.id - b.id
-                    }).map((workspace: Hyprland.Workspace) => {
-                        return bind(workspace.monitor, "activeWorkspace").as((activeWorkspace) => {
-                            const isActive = activeWorkspace?.id === workspace.id
-                            return <OkButton
-                                labelCss={isActive ? ["barWorkspacesForeground"] : ["barWorkspacesInactiveForeground"]}
-                                backgroundCss={["barWorkspaceButtonBackground"]}
-                                offset={isActive ? variableConfig.theme.bars.workspaces.activeOffset() : variableConfig.theme.bars.workspaces.inactiveOffset()}
-                                hpadding={getHPadding(vertical)}
-                                vpadding={getVPadding(vertical)}
-                                label={isActive ? variableConfig.theme.bars.workspaces.activeIcon() : variableConfig.theme.bars.workspaces.inactiveIcon()}
-                                size={isActive ?
-                                    variableConfig.theme.bars.workspaces.largeActive().as((large) =>
-                                        large ? OkButtonSize.LARGE : OkButtonSize.SMALL)
-                                    : OkButtonSize.SMALL}
-                                onClicked={() => {
-                                    hypr.dispatch("workspace", `${workspace.id}`)
-                                }}/>
-                        })
+        orientation={vertical ? Gtk.Orientation.VERTICAL : Gtk.Orientation.HORIZONTAL}>
+        <With value={hyprlandWorkspaces}>
+            {(workspaces) => {
+                const groupedWorkspaces = groupByProperty(workspaces)
+                return <box>
+                    {groupedWorkspaces.map((workspaceGroup, index) => {
+                        return <box
+                            orientation={vertical ? Gtk.Orientation.VERTICAL : Gtk.Orientation.HORIZONTAL}>
+                            {index > 0 && index < groupedWorkspaces.length &&
+                                <Divider
+                                    thin={true}
+                                    marginStart={4}
+                                    marginEnd={4}/>
+                            }
+                            {workspaceGroup.sort((a, b) => {
+                                return a.id - b.id
+                            }).map((workspace: Hyprland.Workspace) => {
+                                let labelCss = createComputed([
+                                    createBinding(workspace.monitor, "activeWorkspace"),
+                                ], (w: Hyprland.Workspace) => {
+                                    const isActive = w?.id === workspace.id
+                                    return isActive ? ["barWorkspacesForeground"] : ["barWorkspacesInactiveForeground"]
+                                })
+
+                                let offset = createComputed([
+                                    createBinding(workspace.monitor, "activeWorkspace"),
+                                    variableConfig.theme.bars.workspaces.activeOffset.asAccessor(),
+                                    variableConfig.theme.bars.workspaces.inactiveOffset.asAccessor()
+                                ], (w: Hyprland.Workspace, activeOffset, inactiveOffset) => {
+                                    const isActive = w?.id === workspace.id
+                                    return isActive ? activeOffset : inactiveOffset
+                                })
+
+                                let label = createComputed([
+                                    createBinding(workspace.monitor, "activeWorkspace"),
+                                    variableConfig.theme.bars.workspaces.activeIcon.asAccessor(),
+                                    variableConfig.theme.bars.workspaces.inactiveIcon.asAccessor()
+                                ], (w: Hyprland.Workspace, activeIcon, inactiveIcon) => {
+                                    const isActive = w?.id === workspace.id
+                                    return isActive ? activeIcon : inactiveIcon
+                                })
+
+                                let size = createComputed([
+                                    createBinding(workspace.monitor, "activeWorkspace"),
+                                    variableConfig.theme.bars.workspaces.largeActive.asAccessor()
+                                ], (w: Hyprland.Workspace, isLarge) => {
+                                    const isActive = w?.id === workspace.id
+                                    return isActive && isLarge ? OkButtonSize.LARGE : OkButtonSize.SMALL
+                                })
+
+                                return <OkButton
+                                    labelCss={labelCss.get()}
+                                    backgroundCss={["barWorkspaceButtonBackground"]}
+                                    offset={offset}
+                                    hpadding={getHPadding(vertical)}
+                                    vpadding={getVPadding(vertical)}
+                                    label={label}
+                                    size={size}
+                                    onClicked={() => {
+                                        hypr.dispatch("workspace", `${workspace.id}`)
+                                    }}/>
+                            })}
+                        </box>
                     })}
                 </box>
-            })
-        })}
+            }}
+        </With>
     </box>
 }
 
@@ -137,7 +172,7 @@ function Clock({vertical}: { vertical: boolean }) {
         format = "%I:%M"
     }
 
-    const time = Variable<string>("").poll(1000, () =>
+    const time = createPoll("", 1000, () =>
         GLib.DateTime.new_now_local().format(format)!)
 
     return <OkButton
@@ -146,7 +181,7 @@ function Clock({vertical}: { vertical: boolean }) {
         hexpand={vertical}
         hpadding={vertical ? OkButtonHorizontalPadding.NONE : OkButtonHorizontalPadding.THIN}
         vpadding={getVPadding(vertical)}
-        label={time()}
+        label={time}
         onClicked={() => {
             toggleWindow(CalendarWindowName)
         }}/>
@@ -159,7 +194,7 @@ function VpnIndicator({vertical}: { vertical: boolean }) {
         hpadding={getHPadding(vertical)}
         vpadding={getVPadding(vertical)}
         label="󰯄"
-        visible={activeVpnConnections().as((connections) => {
+        visible={activeVpnConnections.as((connections) => {
             return connections.length !== 0
         })}/>
 }
@@ -173,7 +208,7 @@ function ScreenRecordingStopButton({vertical}: { vertical: boolean }) {
         label=""
         hpadding={getHPadding(vertical)}
         vpadding={getVPadding(vertical)}
-        visible={isRecording()}
+        visible={isRecording}
         onClicked={() => {
             execAsync("pkill wf-recorder")
                 .catch((error) => {
@@ -185,10 +220,10 @@ function ScreenRecordingStopButton({vertical}: { vertical: boolean }) {
 function AudioOut({vertical}: { vertical: boolean }) {
     const defaultSpeaker = Wp.get_default()!.audio.default_speaker
 
-    const speakerVar = Variable.derive([
-        bind(defaultSpeaker, "description"),
-        bind(defaultSpeaker, "volume"),
-        bind(defaultSpeaker, "mute")
+    const speakerVar = createComputed([
+        createBinding(defaultSpeaker, "description"),
+        createBinding(defaultSpeaker, "volume"),
+        createBinding(defaultSpeaker, "mute")
     ])
 
     return <OkButton
@@ -202,10 +237,10 @@ function AudioOut({vertical}: { vertical: boolean }) {
 function AudioIn({vertical}: { vertical: boolean }) {
     const {defaultMicrophone} = Wp.get_default()!.audio
 
-    const micVar = Variable.derive([
-        bind(defaultMicrophone, "description"),
-        bind(defaultMicrophone, "volume"),
-        bind(defaultMicrophone, "mute")
+    const micVar = createComputed([
+        createBinding(defaultMicrophone, "description"),
+        createBinding(defaultMicrophone, "volume"),
+        createBinding(defaultMicrophone, "mute")
     ])
 
     return <OkButton
@@ -225,7 +260,7 @@ function BluetoothIndicator({vertical}: { vertical: boolean }) {
         label="󰂯"
         hpadding={getHPadding(vertical)}
         vpadding={getVPadding(vertical)}
-        visible={bind(bluetooth, "isPowered").as((isPowered) => {
+        visible={createBinding(bluetooth, "isPowered").as((isPowered) => {
             return isPowered
         })}/>
 }
@@ -245,9 +280,9 @@ function BatteryIndicator({vertical}: { vertical: boolean }) {
 
     let batteryWarningInterval: GLib.Source | null = null
 
-    const batteryVar = Variable.derive([
-        bind(battery, "percentage"),
-        bind(battery, "state")
+    const batteryVar = createComputed([
+        createBinding(battery, "percentage"),
+        createBinding(battery, "state")
     ])
 
     return <OkButton
@@ -273,53 +308,55 @@ function BatteryIndicator({vertical}: { vertical: boolean }) {
             }
         })}
         label={batteryVar(() => getBatteryIcon(battery))}
-        visible={bind(battery, "isBattery")}/>
+        visible={createBinding(battery, "isBattery")}/>
 }
 
 function IntegratedTray({vertical}: { vertical: boolean }) {
-    const collapsable = Variable.derive([
-        variableConfig.verticalBar.tray.collapsable,
-        variableConfig.horizontalBar.tray.collapsable,
+    const collapsable = createComputed([
+        variableConfig.verticalBar.tray.collapsable.asAccessor(),
+        variableConfig.horizontalBar.tray.collapsable.asAccessor(),
     ], (vCollapse, hCollapse) => {
-        return !!((vertical && vCollapse) ||
+        return ((vertical && vCollapse) ||
             (!vertical && hCollapse));
     })
 
     return <box>
-        {collapsable().as((collapse) => {
-            if (collapse) {
-                const revealed = Variable(false)
-                return <box
-                    vertical={vertical}>
-                    <revealer
-                        revealChild={revealed()}>
-                        <TrayContent vertical={vertical}/>
-                    </revealer>
-                    <OkButton
-                        labelCss={["barTrayForeground"]}
-                        backgroundCss={["barTrayBackground"]}
-                        hpadding={getHPadding(vertical)}
-                        vpadding={getVPadding(vertical)}
-                        offset={1}
-                        visible={bind(tray, "items").as((items) => items.length > 0)}
-                        label={"󱊔"}
-                        onClicked={() => {
-                            revealed.set(!revealed.get())
-                        }}/>
-                </box>
-            } else {
-                return <TrayContent vertical={vertical}/>
-            }
-        })}
+        <With value={collapsable}>
+            {(collapse) => {
+                if (collapse) {
+                    const [revealed, revealedSetter] = createState(false)
+                    return <box
+                        orientation={vertical ? Gtk.Orientation.VERTICAL : Gtk.Orientation.HORIZONTAL}>
+                        <revealer
+                            revealChild={revealed}>
+                            <TrayContent vertical={vertical}/>
+                        </revealer>
+                        <OkButton
+                            labelCss={["barTrayForeground"]}
+                            backgroundCss={["barTrayBackground"]}
+                            hpadding={getHPadding(vertical)}
+                            vpadding={getVPadding(vertical)}
+                            offset={1}
+                            visible={createBinding(tray, "items").as((items) => items.length > 0)}
+                            label={"󱊔"}
+                            onClicked={() => {
+                                revealedSetter(!revealed.get())
+                            }}/>
+                    </box>
+                } else {
+                    return <TrayContent vertical={vertical}/>
+                }
+            }}
+        </With>
     </box>
 }
 
 function TrayContent({vertical}: { vertical: boolean }) {
     return <box
-        vertical={vertical}
-        visible={bind(tray, "items").as((items) => items.length > 0)}>
-        {bind(tray, "items").as((items) => {
-            return items.map((item) => {
+        orientation={vertical ? Gtk.Orientation.VERTICAL : Gtk.Orientation.HORIZONTAL}
+        visible={createBinding(tray, "items").as((items) => items.length > 0)}>
+        <For each={createBinding(tray, "items")}>
+            {(item: Tray.TrayItem) => {
                 if (item.id === null) {
                     return <box/>
                 }
@@ -327,22 +364,22 @@ function TrayContent({vertical}: { vertical: boolean }) {
 
                 const menuButton = <menubutton
                     cssClasses={["trayMenuButton"]}
-                    tooltipMarkup={bind(item, "tooltipMarkup")}
-                    menuModel={bind(item, "menuModel")}
+                    tooltipMarkup={createBinding(item, "tooltipMarkup")}
+                    menuModel={createBinding(item, "menuModel")}
                     onDestroy={() => item.disconnect(ag_handler)}
-                    setup={self => {
+                    $={self => {
                         ag_handler = item.connect("notify::action-group", () => {
                             self.insert_action_group("dbusmenu", item.get_action_group())
                         })
                     }}>
-                    <image gicon={bind(item, "gicon")}/>
-                </menubutton>
+                    <image gicon={createBinding(item, "gicon")}/>
+                </menubutton> as Gtk.MenuButton
 
                 menuButton.insert_action_group("dbusmenu", item.get_action_group())
 
                 return menuButton
-            })
-        })}
+            }}
+        </For>
     </box>
 }
 
@@ -402,48 +439,54 @@ function CavaBars({vertical}: { vertical: boolean }) {
         vexpand={!vertical}
         hexpand={vertical}
         cssClasses={["barCavaWaveformBackground", "radiusSmall"]}>
-        {mpris.players(players => {
-            if (players.length === 0) {
-                return <box/>
-            }
-
-            const compactFunction = (c: boolean) => {
-                if (c) {
-                    return <CavaWaveform
-                        color={variableConfig.theme.bars.cava_waveform.foreground()}
-                        marginStart={vertical ? 0 : 20}
-                        marginEnd={vertical ? 0 : 20}
-                        marginTop={vertical ? 20 : 0}
-                        marginBottom={vertical ? 20 : 0}
-                        vertical={vertical}
-                        flipStart={getCavaFlipStartValue(vertical)}
-                        intensity={vertical ? variableConfig.verticalBar.cava_waveform.intensityMultiplier() : variableConfig.horizontalBar.cava_waveform.intensityMultiplier()}
-                        expand={vertical ? variableConfig.verticalBar.cava_waveform.expanded() : variableConfig.horizontalBar.cava_waveform.expanded()}
-                        length={vertical ? variableConfig.verticalBar.cava_waveform.length() : variableConfig.horizontalBar.cava_waveform.length()}
-                        size={30}/>
-                } else {
-                    return <CavaWaveform
-                        color={variableConfig.theme.bars.cava_waveform.foreground()}
-                        marginStart={vertical ? 0 : 20}
-                        marginEnd={vertical ? 0 : 20}
-                        marginTop={vertical ? 20 : 0}
-                        marginBottom={vertical ? 20 : 0}
-                        vertical={vertical}
-                        flipStart={getCavaFlipStartValue(vertical)}
-                        intensity={vertical ? variableConfig.verticalBar.cava_waveform.intensityMultiplier() : variableConfig.horizontalBar.cava_waveform.intensityMultiplier()}
-                        expand={vertical ? variableConfig.verticalBar.cava_waveform.expanded() : variableConfig.horizontalBar.cava_waveform.expanded()}
-                        length={vertical ? variableConfig.verticalBar.cava_waveform.length() : variableConfig.horizontalBar.cava_waveform.length()}
-                        size={40}/>
+        <With value={mpris.players[0]}>
+            {(players => {
+                if (players.length === 0) {
+                    return <box/>
                 }
-            }
 
-            return <box
-                vexpand={!vertical}
-                hexpand={vertical}>
-                {vertical ? variableConfig.verticalBar.compact().as((c) => compactFunction(c))
-                    : variableConfig.horizontalBar.compact().as((c) => compactFunction(c))}
-            </box>
-        })}
+                const compactFunction = (c: boolean) => {
+                    if (c) {
+                        return <CavaWaveform
+                            color={variableConfig.theme.bars.cava_waveform.foreground.asAccessor()}
+                            marginStart={vertical ? 0 : 20}
+                            marginEnd={vertical ? 0 : 20}
+                            marginTop={vertical ? 20 : 0}
+                            marginBottom={vertical ? 20 : 0}
+                            vertical={vertical}
+                            flipStart={getCavaFlipStartValue(vertical)}
+                            intensity={vertical ? variableConfig.verticalBar.cava_waveform.intensityMultiplier.asAccessor() : variableConfig.horizontalBar.cava_waveform.intensityMultiplier.asAccessor()}
+                            expand={vertical ? variableConfig.verticalBar.cava_waveform.expanded.asAccessor() : variableConfig.horizontalBar.cava_waveform.expanded.asAccessor()}
+                            length={vertical ? variableConfig.verticalBar.cava_waveform.length.asAccessor() : variableConfig.horizontalBar.cava_waveform.length.asAccessor()}
+                            size={30}/>
+                    } else {
+                        return <CavaWaveform
+                            color={variableConfig.theme.bars.cava_waveform.foreground.asAccessor()}
+                            marginStart={vertical ? 0 : 20}
+                            marginEnd={vertical ? 0 : 20}
+                            marginTop={vertical ? 20 : 0}
+                            marginBottom={vertical ? 20 : 0}
+                            vertical={vertical}
+                            flipStart={getCavaFlipStartValue(vertical)}
+                            intensity={vertical ? variableConfig.verticalBar.cava_waveform.intensityMultiplier.asAccessor() : variableConfig.horizontalBar.cava_waveform.intensityMultiplier.asAccessor()}
+                            expand={vertical ? variableConfig.verticalBar.cava_waveform.expanded.asAccessor() : variableConfig.horizontalBar.cava_waveform.expanded.asAccessor()}
+                            length={vertical ? variableConfig.verticalBar.cava_waveform.length.asAccessor() : variableConfig.horizontalBar.cava_waveform.length.asAccessor()}
+                            size={40}/>
+                    }
+                }
+
+                return <box
+                    vexpand={!vertical}
+                    hexpand={vertical}>
+                    {vertical ? <With value={variableConfig.verticalBar.compact.asAccessor()}>
+                        {(c) => compactFunction(c)}
+                    </With>
+                    : <With value={variableConfig.horizontalBar.compact.asAccessor()}>
+                            {(c) => compactFunction(c)}
+                    </With>}
+                </box>
+            })}
+        </With>
     </box>
 }
 
@@ -451,19 +494,21 @@ function MprisControls({vertical}: { vertical: boolean }) {
     const mpris = Mpris.get_default()
     return <box
         cssClasses={["barMprisControlsBackground", "radiusSmall"]}>
-        {mpris.players(players => {
-            const player = players.find((player) => player.isPrimaryPlayer)
+        <With value={mpris.players[0]}>
+            {(players) => {
+                const player = players.find((player) => player.isPrimaryPlayer)
 
-            if (player === undefined) {
-                return <box/>
-            }
+                if (player === undefined) {
+                    return <box/>
+                }
 
-            return <MprisControlButtons
-                player={player}
-                vertical={vertical}
-                foregroundCss={["barMprisControlsForeground"]}
-                backgroundCss={["barMprisControlsButtonBackground"]}/>
-        })}
+                return <MprisControlButtons
+                    player={player}
+                    vertical={vertical}
+                    foregroundCss={["barMprisControlsForeground"]}
+                    backgroundCss={["barMprisControlsButtonBackground"]}/>
+            }}
+        </With>
     </box>
 }
 
@@ -471,21 +516,23 @@ function MprisTrackInfoBarWidget({vertical}: { vertical: boolean }) {
     const mpris = Mpris.get_default()
     return <box
         cssClasses={["barMprisTrackInfoBackground", "radiusSmall"]}>
-        {mpris.players(players => {
-            const player = players.find((player) => player.isPrimaryPlayer)
+        <With value={mpris.players[0]}>
+            {(players) => {
+                const player = players.find((player) => player.isPrimaryPlayer)
 
-            if (player === undefined) {
-                return <box/>
-            }
+                if (player === undefined) {
+                    return <box/>
+                }
 
-            return <MprisTrackInfo
-                compact={vertical ? variableConfig.verticalBar.compact() : variableConfig.horizontalBar.compact()}
-                player={player}
-                vertical={vertical}
-                flipped={selectedBar().as((bar) => {
-                    return bar === Bar.RIGHT
-                })}/>
-        })}
+                return <MprisTrackInfo
+                    compact={vertical ? variableConfig.verticalBar.compact.asAccessor() : variableConfig.horizontalBar.compact.asAccessor()}
+                    player={player}
+                    vertical={vertical}
+                    flipped={selectedBar.asAccessor().as((bar) => {
+                        return bar === Bar.RIGHT
+                    })}/>
+            }}
+        </With>
     </box>
 }
 
@@ -493,31 +540,33 @@ function MprisPrimaryPlayerSwitcher({vertical}: { vertical: boolean }) {
     const mpris = Mpris.get_default()
 
     return <box>
-        {mpris.players(players => {
-            if (players.length <= 1) {
-                return <box/>
-            }
+        <With value={mpris.players[0]}>
+            {(players) => {
+                if (players.length <= 1) {
+                    return <box/>
+                }
 
-            return <OkButton
-                labelCss={["barMprisPrimaryPlayerSwitcherForeground"]}
-                backgroundCss={["barMprisPrimaryPlayerSwitcherBackground"]}
-                offset={2}
-                hpadding={getHPadding(vertical)}
-                vpadding={getVPadding(vertical)}
-                label=""
-                onClicked={() => {
-                    mpris.rotatePrimaryPlayer()
-                }}/>
-        })}
+                return <OkButton
+                    labelCss={["barMprisPrimaryPlayerSwitcherForeground"]}
+                    backgroundCss={["barMprisPrimaryPlayerSwitcherBackground"]}
+                    offset={2}
+                    hpadding={getHPadding(vertical)}
+                    vpadding={getVPadding(vertical)}
+                    label=""
+                    onClicked={() => {
+                        mpris.rotatePrimaryPlayer()
+                    }}/>
+            }}
+        </With>
     </box>
 }
 
 function NotificationButton({vertical}: { vertical: boolean }) {
     const notifications = Notifd.get_default()
 
-    const derivedNotificationState = Variable.derive([
-        bind(notifications, "notifications"),
-        bind(notifications, "dontDisturb")
+    const derivedNotificationState = createComputed([
+        createBinding(notifications, "notifications"),
+        createBinding(notifications, "dontDisturb")
     ])
 
     return <OkButton
@@ -526,7 +575,7 @@ function NotificationButton({vertical}: { vertical: boolean }) {
         offset={1}
         hpadding={getHPadding(vertical)}
         vpadding={getVPadding(vertical)}
-        label={derivedNotificationState().as(([notificationsList, doNotDisturb]) => {
+        label={derivedNotificationState.as(([notificationsList, doNotDisturb]) => {
             if (doNotDisturb) {
                 return "󰂛"
             } else if (notificationsList.length === 0) {
@@ -606,10 +655,10 @@ export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
     const schema = isVertical ? variableConfig.verticalBar : variableConfig.horizontalBar
     return widgets.map((widget) => {
         return <box
-            marginTop={schema[widget].marginTop()}
-            marginBottom={schema[widget].marginBottom()}
-            marginStart={schema[widget].marginStart()}
-            marginEnd={schema[widget].marginEnd()}>
+            marginTop={schema[widget].marginTop.asAccessor()}
+            marginBottom={schema[widget].marginBottom.asAccessor()}
+            marginStart={schema[widget].marginStart.asAccessor()}
+            marginEnd={schema[widget].marginEnd.asAccessor()}>
             {getWidget(widget, isVertical)}
         </box>
     })
@@ -621,22 +670,18 @@ function getWidget(widget: BarWidget, isVertical: boolean) {
             return <MenuButton vertical={isVertical}/>
         case BarWidget.WORKSPACES:
             return <Workspaces vertical={isVertical}/>
-        case BarWidget.BATTERY:
-            return <BatteryIndicator vertical={isVertical}/>
-        case BarWidget.AUDIO_IN:
-            return <AudioIn vertical={isVertical}/>
-        case BarWidget.AUDIO_OUT:
-            return <AudioOut vertical={isVertical}/>
-        case BarWidget.BLUETOOTH:
-            return <BluetoothIndicator vertical={isVertical}/>
         case BarWidget.CLOCK:
             return <Clock vertical={isVertical}/>
+        case BarWidget.AUDIO_OUT:
+            return <AudioOut vertical={isVertical}/>
+        case BarWidget.AUDIO_IN:
+            return <AudioIn vertical={isVertical}/>
+        case BarWidget.BLUETOOTH:
+            return <BluetoothIndicator vertical={isVertical}/>
         case BarWidget.NETWORK:
             return <NetworkIndicator vertical={isVertical}/>
-        case BarWidget.RECORDING_INDICATOR:
-            return <ScreenRecordingStopButton vertical={isVertical}/>
-        case BarWidget.VPN_INDICATOR:
-            return <VpnIndicator vertical={isVertical}/>
+        case BarWidget.BATTERY:
+            return <BatteryIndicator vertical={isVertical}/>
         case BarWidget.TRAY:
             return <IntegratedTray vertical={isVertical}/>
         case BarWidget.APP_LAUNCHER:
@@ -647,8 +692,20 @@ function getWidget(widget: BarWidget, isVertical: boolean) {
             return <ClipboardManagerButton vertical={isVertical}/>
         case BarWidget.POWER_PROFILE:
             return <PowerProfileIndicator vertical={isVertical}/>
+        case BarWidget.LOCK:
+            return <LockButton vertical={isVertical}/>
+        case BarWidget.LOGOUT:
+            return <LogoutButton vertical={isVertical}/>
+        case BarWidget.RESTART:
+            return <RestartButton vertical={isVertical}/>
+        case BarWidget.SHUTDOWN:
+            return <ShutdownButton vertical={isVertical}/>
         case BarWidget.CAVA_WAVEFORM:
             return <CavaBars vertical={isVertical}/>
+        case BarWidget.VPN_INDICATOR:
+            return <VpnIndicator vertical={isVertical}/>
+        case BarWidget.RECORDING_INDICATOR:
+            return <ScreenRecordingStopButton vertical={isVertical}/>
         case BarWidget.MPRIS_CONTROLS:
             return <MprisControls vertical={isVertical}/>
         case BarWidget.MPRIS_TRACK_INFO:
@@ -659,13 +716,5 @@ function getWidget(widget: BarWidget, isVertical: boolean) {
             return <NotificationButton vertical={isVertical}/>
         case BarWidget.COLOR_PICKER:
             return <ColorPickerButton vertical={isVertical}/>
-        case BarWidget.LOCK:
-            return <LockButton vertical={isVertical}/>
-        case BarWidget.LOGOUT:
-            return <LogoutButton vertical={isVertical}/>
-        case BarWidget.RESTART:
-            return <RestartButton vertical={isVertical}/>
-        case BarWidget.SHUTDOWN:
-            return <ShutdownButton vertical={isVertical}/>
     }
 }

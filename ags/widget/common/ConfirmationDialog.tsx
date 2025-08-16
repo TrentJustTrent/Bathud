@@ -1,7 +1,9 @@
-import {App, Astal, Gdk} from "astal/gtk4"
+import App from "ags/gtk4/app"
 import OkButton from "./OkButton";
 import {hideAllWindows, registerWindow} from "../utils/windows";
-import {scrimsVisible} from "./Scrim";
+import {scrimsVisibleSetter} from "./Scrim";
+import Astal from "gi://Astal?version=4.0";
+import {Gdk, Gtk} from "ags/gtk4";
 
 export default function(
     message: string,
@@ -10,7 +12,7 @@ export default function(
     onConfirm: () => void,
 ): Astal.Window {
     let window: Astal.Window
-    scrimsVisible.set(true)
+    scrimsVisibleSetter(true)
 
     return <window
         widthRequest={400}
@@ -21,17 +23,22 @@ export default function(
         cssClasses={["window"]}
         visible={true}
         keymode={Astal.Keymode.ON_DEMAND}
-        onKeyPressed={function (self, key) {
-            if (key === Gdk.KEY_Escape) {
-                hideAllWindows()
-            }
-        }}
-        setup={(self) => {
+        $={(self) => {
             window = self
             registerWindow(self)
+
+            let keyController = new Gtk.EventControllerKey()
+
+            keyController.connect("key-pressed", (_, key) => {
+                if (key === Gdk.KEY_Escape) {
+                    hideAllWindows()
+                }
+            })
+
+            self.add_controller(keyController)
         }}>
         <box
-            vertical={true}>
+            orientation={Gtk.Orientation.VERTICAL}>
             <label
                 marginStart={20}
                 marginEnd={20}
@@ -41,7 +48,7 @@ export default function(
                 label={message}
                 cssClasses={["labelLarge"]}/>
             <box
-                vertical={false}>
+                orientation={Gtk.Orientation.HORIZONTAL}>
                 <OkButton
                     label={deny}
                     hexpand={true}

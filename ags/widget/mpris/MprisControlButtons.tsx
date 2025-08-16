@@ -1,5 +1,5 @@
 import {LoopStatus, PlaybackStatus, Player, ShuffleStatus} from "../utils/mpris";
-import {Gtk} from "astal/gtk4";
+import {Gtk} from "ags/gtk4";
 import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
 import {getHPadding, getVPadding} from "../bar/BarWidgets";
 
@@ -17,7 +17,7 @@ export default function (
         backgroundCss?: string[],
     }
 ) {
-    const playIcon = player.playbackStatus(s =>
+    const playIcon = player.playbackStatus[0](s =>
         s === PlaybackStatus.Playing
             ? ""
             : ""
@@ -25,21 +25,21 @@ export default function (
 
     return <box
         halign={Gtk.Align.CENTER}
-        vertical={vertical}>
+        orientation={vertical ? Gtk.Orientation.VERTICAL : Gtk.Orientation.HORIZONTAL}>
         <OkButton
             labelCss={foregroundCss}
             backgroundCss={backgroundCss}
             hpadding={getHPadding(vertical)}
             vpadding={getVPadding(vertical)}
             onClicked={() => {
-                if (player.shuffleStatus.get() === ShuffleStatus.Enabled) {
+                if (player.shuffleStatus[0].get() === ShuffleStatus.Enabled) {
                     player.setShuffleStatus(ShuffleStatus.Disabled)
                 } else {
                     player.setShuffleStatus(ShuffleStatus.Enabled)
                 }
             }}
-            visible={player.shuffleStatus((shuffle) => shuffle !== ShuffleStatus.Unsupported)}
-            label={player.shuffleStatus((shuffle) => {
+            visible={player.shuffleStatus[0]((shuffle) => shuffle !== ShuffleStatus.Unsupported)}
+            label={player.shuffleStatus[0]((shuffle) => {
                 if (shuffle === ShuffleStatus.Enabled) {
                     return ""
                 } else {
@@ -54,7 +54,7 @@ export default function (
             onClicked={() => {
                 player.previousTrack()
             }}
-            visible={player.canGoPrevious()}
+            visible={player.canGoPrevious[0]}
             label=""/>
         <OkButton
             labelCss={foregroundCss}
@@ -64,7 +64,7 @@ export default function (
             onClicked={() => {
                 player.playPause()
             }}
-            visible={player.canControl()}
+            visible={player.canControl[0]}
             label={playIcon}/>
         <OkButton
             labelCss={foregroundCss}
@@ -74,7 +74,7 @@ export default function (
             onClicked={() => {
                 player.nextTrack()
             }}
-            visible={player.canGoNext()}
+            visible={player.canGoNext[0]}
             label=""/>
         <OkButton
             labelCss={foregroundCss}
@@ -82,16 +82,16 @@ export default function (
             hpadding={getHPadding(vertical)}
             vpadding={getVPadding(vertical)}
             onClicked={() => {
-                if (player.loopStatus.get() === LoopStatus.None) {
+                if (player.loopStatus[0].get() === LoopStatus.None) {
                     player.setLoopStatus(LoopStatus.Playlist)
-                } else if (player.loopStatus.get() === LoopStatus.Playlist) {
+                } else if (player.loopStatus[0].get() === LoopStatus.Playlist) {
                     player.setLoopStatus(LoopStatus.Track)
                 } else {
                     player.setLoopStatus(LoopStatus.None)
                 }
             }}
-            visible={player.loopStatus((status) => status !== LoopStatus.Unsupported)}
-            label={player.loopStatus((status) => {
+            visible={player.loopStatus[0]((status) => status !== LoopStatus.Unsupported)}
+            label={player.loopStatus[0]((status) => {
                 if (status === LoopStatus.None) {
                     return "󰑗"
                 } else if (status === LoopStatus.Playlist) {

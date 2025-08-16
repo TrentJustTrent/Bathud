@@ -5,6 +5,7 @@
 /// <reference path="./glib-2.0.d.ts" />
 /// <reference path="./gdk-4.0.d.ts" />
 /// <reference path="./cairo-1.0.d.ts" />
+/// <reference path="./cairo.d.ts" />
 /// <reference path="./pangocairo-1.0.d.ts" />
 /// <reference path="./pango-1.0.d.ts" />
 /// <reference path="./harfbuzz-0.0.d.ts" />
@@ -30,7 +31,7 @@ declare module 'gi://Gtk4SessionLock?version=1.0' {
     import type GObject from 'gi://GObject?version=2.0';
     import type GLib from 'gi://GLib?version=2.0';
     import type Gdk from 'gi://Gdk?version=4.0';
-    import type cairo from 'gi://cairo?version=1.0';
+    import type cairo from 'cairo';
     import type PangoCairo from 'gi://PangoCairo?version=1.0';
     import type Pango from 'gi://Pango?version=1.0';
     import type HarfBuzz from 'gi://HarfBuzz?version=0.0';
@@ -50,18 +51,11 @@ declare module 'gi://Gtk4SessionLock?version=1.0' {
          */
         function is_supported(): boolean;
         namespace Instance {
-            // Signal callback interfaces
-
-            interface Failed {
-                (): void;
-            }
-
-            interface Locked {
-                (): void;
-            }
-
-            interface Unlocked {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                failed: () => void;
+                locked: () => void;
+                unlocked: () => void;
             }
 
             // Constructor properties interface
@@ -76,6 +70,15 @@ declare module 'gi://Gtk4SessionLock?version=1.0' {
         class Instance extends GObject.Object {
             static $gtype: GObject.GType<Instance>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Instance.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Instance.ConstructorProps>, ...args: any[]);
@@ -86,18 +89,21 @@ declare module 'gi://Gtk4SessionLock?version=1.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'failed', callback: (_source: this) => void): number;
-            connect_after(signal: 'failed', callback: (_source: this) => void): number;
-            emit(signal: 'failed'): void;
-            connect(signal: 'locked', callback: (_source: this) => void): number;
-            connect_after(signal: 'locked', callback: (_source: this) => void): number;
-            emit(signal: 'locked'): void;
-            connect(signal: 'unlocked', callback: (_source: this) => void): number;
-            connect_after(signal: 'unlocked', callback: (_source: this) => void): number;
-            emit(signal: 'unlocked'): void;
+            connect<K extends keyof Instance.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Instance.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Instance.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Instance.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Instance.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Instance.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 

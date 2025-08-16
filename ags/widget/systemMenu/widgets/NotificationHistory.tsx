@@ -1,18 +1,18 @@
 import Notifd from "gi://AstalNotifd"
-import { bind } from "astal"
 import Notification from "../../notification/Notification"
-import {Gtk} from "astal/gtk4"
+import {Gtk} from "ags/gtk4"
 import OkButton from "../../common/OkButton";
+import {createBinding, For, With} from "ags";
 
 export default function() {
     const notifications = Notifd.get_default()
 
     return <box
-        vertical={true}>
+        orientation={Gtk.Orientation.VERTICAL}>
         <box
-            vertical={false}>
+            orientation={Gtk.Orientation.HORIZONTAL}>
             <OkButton
-                label={bind(notifications, "dontDisturb").as((dnd) => {
+                label={createBinding(notifications, "dontDisturb").as((dnd) => {
                     return dnd ? "󰂛" : "󰂚"
                 })}
                 onClicked={() => {
@@ -31,24 +31,25 @@ export default function() {
                     })
                 }}/>
         </box>
-        {bind(notifications, "notifications").as((notificationsList) => {
-            if (notificationsList.length === 0) {
-                return <label
-                    cssClasses={["labelSmall"]}
-                    marginTop={8}
-                    marginBottom={20}
-                    halign={Gtk.Align.CENTER}
-                    label="All caught up"/>
-            } else {
-                return notificationsList.map((notification) => {
-                    return <Notification
-                        setup={() => {}}
-                        onHoverLost={() => {}}
-                        onHover={() => {}}
-                        notification={notification}
-                        useHistoryCss={true}/>
-                })
-            }
-        })}
+        <With value={createBinding(notifications, "notifications")}>
+            {(notificationsList: Notifd.Notification[]) => {
+                if (notificationsList.length === 0) {
+                    return <label
+                        cssClasses={["labelSmall"]}
+                        marginTop={8}
+                        marginBottom={20}
+                        halign={Gtk.Align.CENTER}
+                        label="All caught up"/>
+                }
+            }}
+        </With>
+        <For each={createBinding(notifications, "notifications")}>
+            {(notification: Notifd.Notification) => {
+                return <Notification
+                    setup={() => {}}
+                    notification={notification}
+                    useHistoryCss={true}/>
+            }}
+        </For>
     </box>
 }

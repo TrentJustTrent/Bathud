@@ -1,7 +1,7 @@
-import {bind, Binding, Variable} from "astal";
-import {isBinding} from "../utils/bindings";
-import {Gtk} from "astal/gtk4";
+import {isAccessor} from "../utils/bindings";
 import Pango from "gi://Pango?version=1.0";
+import {Accessor, createComputed, createState} from "ags";
+import {Gtk} from "ags/gtk4";
 
 export enum OkButtonHorizontalPadding {
     STANDARD,
@@ -27,8 +27,8 @@ function buildButtonCssClasses(
     size: OkButtonSize,
     primary: boolean,
     menuButtonContent?: JSX.Element,
-    selected?: Binding<boolean>,
-): string[] | Binding<string[]> {
+    selected?: Accessor<boolean>,
+): string[] | Accessor<string[]> {
     const buttonClasses: string[] = []
 
     switch (size) {
@@ -102,27 +102,27 @@ export default function(
     {
         labelCss?: string[]
         backgroundCss?: string[]
-        label: Binding<string> | string,
-        offset?: number | Binding<number>,
-        selected?: Binding<boolean>,
-        hpadding?: OkButtonHorizontalPadding | Binding<OkButtonHorizontalPadding>,
-        vpadding?: OkButtonVerticalPadding | Binding<OkButtonVerticalPadding>,
-        size?: OkButtonSize | Binding<OkButtonSize>,
-        bold?: boolean | Binding<boolean>,
-        warning?: boolean | Binding<boolean>,
+        label: Accessor<string> | string,
+        offset?: number | Accessor<number>,
+        selected?: Accessor<boolean>,
+        hpadding?: OkButtonHorizontalPadding | Accessor<OkButtonHorizontalPadding>,
+        vpadding?: OkButtonVerticalPadding | Accessor<OkButtonVerticalPadding>,
+        size?: OkButtonSize | Accessor<OkButtonSize>,
+        bold?: boolean | Accessor<boolean>,
+        warning?: boolean | Accessor<boolean>,
         primary?: boolean,
-        visible?: boolean | Binding<boolean>,
+        visible?: boolean | Accessor<boolean>,
         widthRequest?: number,
         heightRequest?: number,
         marginTop?: number,
         marginBottom?: number,
         marginStart?: number,
         marginEnd?: number,
-        hexpand?: boolean | Binding<boolean>,
-        vexpand?: boolean | Binding<boolean>,
-        halign?: Gtk.Align | Binding<Gtk.Align>,
-        valign?: Gtk.Align | Binding<Gtk.Align>,
-        labelHalign?: Gtk.Align | Binding<Gtk.Align>,
+        hexpand?: boolean | Accessor<boolean>,
+        vexpand?: boolean | Accessor<boolean>,
+        halign?: Gtk.Align | Accessor<Gtk.Align>,
+        valign?: Gtk.Align | Accessor<Gtk.Align>,
+        labelHalign?: Gtk.Align | Accessor<Gtk.Align>,
         ellipsize?: Pango.EllipsizeMode,
         menuButtonContent?: JSX.Element,
         onHoverEnter?: () => void,
@@ -130,32 +130,32 @@ export default function(
         onClicked?: () => void
     }
 ) {
-    let realWarning: Binding<boolean>
-    if (isBinding(warning)) {
+    let realWarning: Accessor<boolean>
+    if (isAccessor(warning)) {
         realWarning = warning
     } else {
-        realWarning = bind(Variable(warning))
+        realWarning = createState(warning)[0]
     }
-    let realSize: Binding<OkButtonSize>
-    if (isBinding(size)) {
+    let realSize: Accessor<OkButtonSize>
+    if (isAccessor(size)) {
         realSize = size
     } else {
-        realSize = bind(Variable(size))
+        realSize = createState(size)[0]
     }
-    let realBold: Binding<boolean>
-    if (isBinding(bold)) {
+    let realBold: Accessor<boolean>
+    if (isAccessor(bold)) {
         realBold = bold
     } else {
-        realBold = bind(Variable(bold))
+        realBold = createState(bold)[0]
     }
-    const cssInputs = Variable.derive([
+    const cssInputs = createComputed([
         realWarning,
         realSize,
         realBold,
     ])
 
-    const labelVerticalMargin = Variable.derive([
-        isBinding(vpadding) ? vpadding : bind(Variable(vpadding))
+    const labelVerticalMargin = createComputed([
+        isAccessor(vpadding) ? vpadding : createState(vpadding)[0]
     ], (v) => {
         switch (v) {
             case OkButtonVerticalPadding.STANDARD:
@@ -167,9 +167,9 @@ export default function(
         }
     })
 
-    const labelMarginStart = Variable.derive([
-        isBinding(offset) ? offset : bind(Variable(offset)),
-        isBinding(hpadding) ? hpadding : bind(Variable(hpadding)),
+    const labelMarginStart = createComputed([
+        isAccessor(offset) ? offset : createState(offset)[0],
+        isAccessor(hpadding) ? hpadding : createState(hpadding)[0],
     ], (o, h) => {
         let horizontalPadding
         switch (h) {
@@ -185,9 +185,9 @@ export default function(
         return horizontalPadding - o
     })
 
-    const labelMarginEnd = Variable.derive([
-        isBinding(offset) ? offset : bind(Variable(offset)),
-        isBinding(hpadding) ? hpadding : bind(Variable(hpadding)),
+    const labelMarginEnd = createComputed([
+        isAccessor(offset) ? offset : createState(offset)[0],
+        isAccessor(hpadding) ? hpadding : createState(hpadding)[0],
     ], (o, h) => {
         let horizontalPadding
         switch (h) {
@@ -238,13 +238,17 @@ export default function(
 
             return warning ? labelClasses.concat("colorWarning") : labelClasses
         })}
-        marginTop={labelVerticalMargin()}
-        marginBottom={labelVerticalMargin()}
-        marginStart={labelMarginStart()}
-        marginEnd={labelMarginEnd()}
+        marginTop={labelVerticalMargin}
+        marginBottom={labelVerticalMargin}
+        marginStart={labelMarginStart}
+        marginEnd={labelMarginEnd}
         label={label}
-        onHoverEnter={onHoverEnter}
-        onHoverLeave={onHoverLeave}/>
+        $={(self) => {
+            const motion = new Gtk.EventControllerMotion()
+            motion.connect("enter", () => onHoverEnter?.())
+            motion.connect("leave", () => onHoverLeave?.())
+            self.add_controller(motion)
+        }}/>
 
     const buttonClasses = buildButtonCssClasses(
         backgroundCss,
@@ -268,7 +272,7 @@ export default function(
             vexpand={vexpand}
             visible={visible}
             cssClasses={buttonClasses}
-            onClicked={onClicked}>
+            onActivate={onClicked}>
             {labelWidget}
             {menuButtonContent}
         </menubutton>

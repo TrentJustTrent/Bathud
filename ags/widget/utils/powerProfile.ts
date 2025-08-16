@@ -1,5 +1,5 @@
 import PowerProfiles from "gi://AstalPowerProfiles"
-import {bind} from "astal";
+import {createBinding} from "ags";
 
 export enum PowerProfile {
     PowerSaver = "power-saver",
@@ -10,7 +10,7 @@ export enum PowerProfile {
 export function getPowerProfileIconBinding() {
     const powerProfiles = PowerProfiles.get_default()
 
-    return bind(powerProfiles, "activeProfile").as((profile) => {
+    return createBinding(powerProfiles, "activeProfile").as((profile) => {
         if (profile === PowerProfile.PowerSaver) {
             return "󰾆"
         } else if (profile === PowerProfile.Balanced) {

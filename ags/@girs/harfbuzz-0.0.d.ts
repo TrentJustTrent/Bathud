@@ -2759,7 +2759,7 @@ declare module 'gi://HarfBuzz?version=0.0' {
          * @param glyph The glyph ID
          * @param dfuncs #hb_draw_funcs_t to draw to
          * @param draw_data User data to pass to draw callbacks
-         * @returns `true` if glyph was drawn, `false` otherwise XSince: REPLACEME
+         * @returns `true` if glyph was drawn, `false` otherwise
          */
         function font_draw_glyph_or_fail(
             font: font_t,
@@ -2801,8 +2801,6 @@ declare module 'gi://HarfBuzz?version=0.0' {
         ): void;
         /**
          * Sets the implementation function for #hb_font_draw_glyph_or_fail_func_t.
-         *
-         * XSince: REPLACEME
          * @param ffuncs A font-function structure
          * @param func The callback function to assign
          * @param destroy The function to call when @user_data is not needed anymore
@@ -2924,6 +2922,17 @@ declare module 'gi://HarfBuzz?version=0.0' {
             destroy?: destroy_func_t | null,
         ): void;
         /**
+         * Sets the implementation function for #hb_font_get_glyph_h_origins_func_t.
+         * @param ffuncs A font-function structure
+         * @param func The callback function to assign
+         * @param destroy The function to call when @user_data is not needed anymore
+         */
+        function font_funcs_set_glyph_h_origins_func(
+            ffuncs: font_funcs_t,
+            func: font_get_glyph_h_origins_func_t,
+            destroy?: destroy_func_t | null,
+        ): void;
+        /**
          * Sets the implementation function for #hb_font_get_glyph_name_func_t.
          * @param ffuncs A font-function structure
          * @param func The callback function to assign
@@ -2991,6 +3000,17 @@ declare module 'gi://HarfBuzz?version=0.0' {
             destroy?: destroy_func_t | null,
         ): void;
         /**
+         * Sets the implementation function for #hb_font_get_glyph_v_origins_func_t.
+         * @param ffuncs A font-function structure
+         * @param func The callback function to assign
+         * @param destroy The function to call when @user_data is not needed anymore
+         */
+        function font_funcs_set_glyph_v_origins_func(
+            ffuncs: font_funcs_t,
+            func: font_get_glyph_v_origins_func_t,
+            destroy?: destroy_func_t | null,
+        ): void;
+        /**
          * Sets the implementation function for #hb_font_get_nominal_glyph_func_t.
          * @param ffuncs A font-function structure
          * @param func The callback function to assign
@@ -3025,8 +3045,6 @@ declare module 'gi://HarfBuzz?version=0.0' {
         ): void;
         /**
          * Sets the implementation function for #hb_font_paint_glyph_or_fail_func_t.
-         *
-         * XSince: REPLACEME
          * @param ffuncs A font-function structure
          * @param func The callback function to assign
          * @param destroy The function to call when @user_data is no longer needed
@@ -3229,6 +3247,25 @@ declare module 'gi://HarfBuzz?version=0.0' {
          */
         function font_get_glyph_h_origin(font: font_t, glyph: codepoint_t): [bool_t, position_t, position_t];
         /**
+         * Fetches the (X,Y) coordinates of the origin for requested glyph IDs
+         * in the specified font, for horizontal text segments.
+         * @param font #hb_font_t to work upon
+         * @param count The number of glyph IDs in the sequence queried
+         * @param first_glyph The first glyph ID to query
+         * @param glyph_stride The stride between successive glyph IDs
+         * @param x_stride The stride between successive X coordinates
+         * @param y_stride The stride between successive Y coordinates
+         * @returns `true` if data found, `false` otherwise
+         */
+        function font_get_glyph_h_origins(
+            font: font_t,
+            count: number,
+            first_glyph: codepoint_t,
+            glyph_stride: number,
+            x_stride: number,
+            y_stride: number,
+        ): [bool_t, position_t, position_t];
+        /**
          * Fetches the kerning-adjustment value for a glyph-pair in the specified font.
          *
          * Calls the appropriate direction-specific variant (horizontal
@@ -3327,6 +3364,25 @@ declare module 'gi://HarfBuzz?version=0.0' {
          */
         function font_get_glyph_v_origin(font: font_t, glyph: codepoint_t): [bool_t, position_t, position_t];
         /**
+         * Fetches the (X,Y) coordinates of the origin for requested glyph IDs
+         * in the specified font, for vertical text segments.
+         * @param font #hb_font_t to work upon
+         * @param count The number of glyph IDs in the sequence queried
+         * @param first_glyph The first glyph ID to query
+         * @param glyph_stride The stride between successive glyph IDs
+         * @param x_stride The stride between successive X coordinates
+         * @param y_stride The stride between successive Y coordinates
+         * @returns `true` if data found, `false` otherwise
+         */
+        function font_get_glyph_v_origins(
+            font: font_t,
+            count: number,
+            first_glyph: codepoint_t,
+            glyph_stride: number,
+            x_stride: number,
+            y_stride: number,
+        ): [bool_t, position_t, position_t];
+        /**
          * Fetches the extents for a specified font, for horizontal
          * text segments.
          * @param font #hb_font_t to work upon
@@ -3416,9 +3472,12 @@ declare module 'gi://HarfBuzz?version=0.0' {
          * Fetches the list of variation coordinates (in design-space units) currently
          * set on a font.
          *
-         * Note that this returned array may only contain values for some
-         * (or none) of the axes; omitted axes effectively have their default
-         * values.
+         * <note>Note that if no variation coordinates are set, this function may
+         * return %NULL.</note>
+         *
+         * <note>If variations have been set on the font using normalized coordinates
+         * (i.e. via hb_font_set_var_coords_normalized()), the design coordinates will
+         * have NaN (Not a Number) values.</note>
          *
          * Return value is valid as long as variation coordinates of the font
          * are not modified.
@@ -3430,8 +3489,8 @@ declare module 'gi://HarfBuzz?version=0.0' {
          * Fetches the list of normalized variation coordinates currently
          * set on a font.
          *
-         * Note that this returned array may only contain values for some
-         * (or none) of the axes; omitted axes effectively have zero values.
+         * <note>Note that if no variation coordinates are set, this function may
+         * return %NULL.</note>
          *
          * Return value is valid as long as variation coordinates of the font
          * are not modified.
@@ -3492,7 +3551,7 @@ declare module 'gi://HarfBuzz?version=0.0' {
          * Tests whether a font is synthetic. A synthetic font is one
          * that has either synthetic slant or synthetic bold set on it.
          * @param font #hb_font_t to work upon
-         * @returns `true` if the font is synthetic, `false` otherwise. XSince: REPLACEME
+         * @returns `true` if the font is synthetic, `false` otherwise.
          */
         function font_is_synthetic(font: font_t): bool_t;
         /**
@@ -3555,7 +3614,7 @@ declare module 'gi://HarfBuzz?version=0.0' {
          * @param paint_data User data to pass to paint callbacks
          * @param palette_index The index of the font's color palette to use
          * @param foreground The foreground color, unpremultipled
-         * @returns `true` if glyph was painted, `false` otherwise XSince: REPLACEME
+         * @returns `true` if glyph was painted, `false` otherwise
          */
         function font_paint_glyph_or_fail(
             font: font_t,
@@ -4634,7 +4693,7 @@ declare module 'gi://HarfBuzz?version=0.0' {
             face: face_t,
             table_tag: tag_t,
             lookup_index: number,
-        ): [set_t, set_t, set_t, set_t];
+        ): [set_t | null, set_t | null, set_t | null, set_t | null];
         /**
          * Fetches alternates of a glyph from a given GSUB lookup index. Note that for one-to-one GSUB
          * glyph substitutions, this function fetches the substituted glyph.
@@ -5262,6 +5321,10 @@ declare module 'gi://HarfBuzz?version=0.0' {
          *
          * Any additional scaling defined in the face's `avar` table is also
          * applied, as described at https://docs.microsoft.com/en-us/typography/opentype/spec/avar
+         *
+         * Note: `coords_length` must be the same as the number of axes in the face, as
+         * for example returned by hb_ot_var_get_axis_count().
+         * Otherwise, the behavior is undefined.
          * @param face The #hb_face_t to work on
          * @param coords_length The length of the coordinate array
          * @param design_coords The design-space coordinates to normalize
@@ -5702,8 +5765,11 @@ declare module 'gi://HarfBuzz?version=0.0' {
          * Fetches the #hb_direction_t of a script when it is
          * set horizontally. All right-to-left scripts will return
          * #HB_DIRECTION_RTL. All left-to-right scripts will return
-         * #HB_DIRECTION_LTR.  Scripts that can be written either
-         * horizontally or vertically will return #HB_DIRECTION_INVALID.
+         * #HB_DIRECTION_LTR.
+         *
+         * Scripts that can be written either right-to-left or
+         * left-to-right will return #HB_DIRECTION_INVALID.
+         *
          * Unknown scripts will return #HB_DIRECTION_LTR.
          * @param script The #hb_script_t to query
          * @returns The horizontal #hb_direction_t of @script
@@ -6414,6 +6480,17 @@ declare module 'gi://HarfBuzz?version=0.0' {
         }
         interface font_get_glyph_origin_func_t {
             (font: font_t, font_data: any | null, glyph: codepoint_t): bool_t;
+        }
+        interface font_get_glyph_origins_func_t {
+            (
+                font: font_t,
+                font_data: any | null,
+                count: number,
+                first_glyph: codepoint_t,
+                glyph_stride: number,
+                x_stride: number,
+                y_stride: number,
+            ): bool_t;
         }
         interface font_get_glyph_shape_func_t {
             (
@@ -9340,7 +9417,7 @@ declare module 'gi://HarfBuzz?version=0.0' {
         }
 
         /**
-         * Font-wide extent values, measured in font units.
+         * Font-wide extent values, measured in scaled units.
          *
          * Note that typically `ascender` is positive and `descender`
          * negative, in coordinate systems that grow up.
@@ -9876,10 +9953,12 @@ declare module 'gi://HarfBuzz?version=0.0' {
         type font_get_glyph_h_advances_func_t = font_get_glyph_advances_func_t;
         type font_get_glyph_h_kerning_func_t = font_get_glyph_kerning_func_t;
         type font_get_glyph_h_origin_func_t = font_get_glyph_origin_func_t;
+        type font_get_glyph_h_origins_func_t = font_get_glyph_origins_func_t;
         type font_get_glyph_v_advance_func_t = font_get_glyph_advance_func_t;
         type font_get_glyph_v_advances_func_t = font_get_glyph_advances_func_t;
         type font_get_glyph_v_kerning_func_t = font_get_glyph_kerning_func_t;
         type font_get_glyph_v_origin_func_t = font_get_glyph_origin_func_t;
+        type font_get_glyph_v_origins_func_t = font_get_glyph_origins_func_t;
         type mask_t = number;
         type ot_name_id_t = number;
         type position_t = number;

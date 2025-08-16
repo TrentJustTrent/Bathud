@@ -1,20 +1,25 @@
-import {Gtk} from "astal/gtk4"
-import {GLib, Variable} from "astal"
+import {Gtk} from "ags/gtk4"
 import {variableConfig} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import {Bar, selectedBar} from "../../config/bar";
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
+import GLib from "gi://GLib?version=2.0";
+import {createPoll} from "../../../../../../../usr/share/ags/js/lib/time";
+import {createComputed} from "ags";
 
 export const CalendarWindowName = "calendarWindow"
 
 export default function () {
-    const time = Variable<GLib.DateTime>(GLib.DateTime.new_now_local())
-        .poll(1000, () => GLib.DateTime.new_now_local())
+    const time = createPoll<GLib.DateTime>(
+        GLib.DateTime.new_now_local(),
+        1000,
+        () => GLib.DateTime.new_now_local()
+    )
 
-    const topExpand = Variable.derive([
-        selectedBar,
-        variableConfig.verticalBar.centerWidgets,
-        variableConfig.verticalBar.bottomWidgets,
+    const topExpand = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.verticalBar.centerWidgets.asAccessor(),
+        variableConfig.verticalBar.bottomWidgets.asAccessor(),
     ], (bar, center, bottom) => {
         switch (bar) {
             case Bar.BOTTOM:
@@ -27,10 +32,10 @@ export default function () {
         }
     })
 
-    const bottomExpand = Variable.derive([
-        selectedBar,
-        variableConfig.verticalBar.centerWidgets,
-        variableConfig.verticalBar.topWidgets,
+    const bottomExpand = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.verticalBar.centerWidgets.asAccessor(),
+        variableConfig.verticalBar.topWidgets.asAccessor(),
     ], (bar, center, top) => {
         switch (bar) {
             case Bar.TOP:
@@ -43,10 +48,10 @@ export default function () {
         }
     })
 
-    const leftExpand = Variable.derive([
-        selectedBar,
-        variableConfig.horizontalBar.centerWidgets,
-        variableConfig.horizontalBar.rightWidgets,
+    const leftExpand = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.horizontalBar.centerWidgets.asAccessor(),
+        variableConfig.horizontalBar.rightWidgets.asAccessor(),
     ], (bar, center, right) => {
         switch (bar) {
             case Bar.RIGHT:
@@ -59,10 +64,10 @@ export default function () {
         }
     })
 
-    const rightExpand = Variable.derive([
-        selectedBar,
-        variableConfig.horizontalBar.centerWidgets,
-        variableConfig.horizontalBar.leftWidgets,
+    const rightExpand = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.horizontalBar.centerWidgets.asAccessor(),
+        variableConfig.horizontalBar.leftWidgets.asAccessor(),
     ], (bar, center, left) => {
         switch (bar) {
             case Bar.LEFT:
@@ -77,27 +82,27 @@ export default function () {
 
     return <ScrimScrollWindow
         namespace={"okpanel-calendar"}
-        monitor={variableConfig.mainMonitor()}
+        monitor={variableConfig.mainMonitor.asAccessor()}
         windowName={CalendarWindowName}
-        topExpand={topExpand()}
-        bottomExpand={bottomExpand()}
-        leftExpand={leftExpand()}
-        rightExpand={rightExpand()}
+        topExpand={topExpand}
+        bottomExpand={bottomExpand}
+        leftExpand={leftExpand}
+        rightExpand={rightExpand}
         contentWidth={340}
-        width={variableConfig.horizontalBar.minimumWidth()}
-        height={variableConfig.verticalBar.minimumHeight()}
+        width={variableConfig.horizontalBar.minimumWidth.asAccessor()}
+        height={variableConfig.verticalBar.minimumHeight.asAccessor()}
         content={
             <box
                 cssClasses={["calendarBox"]}
-                vertical={true}>
+                orientation={Gtk.Orientation.VERTICAL}>
                 <label
                     cssClasses={["labelMedium"]}
-                    label={time().as((t) => {
+                    label={time.as((t) => {
                         return t.format("%A")!
                     })}/>
                 <label
                     cssClasses={["labelMedium"]}
-                    label={time().as((t) => {
+                    label={time.as((t) => {
                         return t.format("%B %-d, %Y")!
                     })}/>
                 <Gtk.Calendar

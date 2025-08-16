@@ -1,17 +1,19 @@
 import AstalNetwork from "gi://AstalNetwork"
 import {getAccessPointIcon, getNetworkIconBinding} from "../../utils/network";
-import {bind, Variable} from "astal"
-import {Gtk, App} from "astal/gtk4"
-import {execAsync} from "astal/process"
+import {Gtk} from "ags/gtk4"
+import App from "ags/gtk4/app"
+import {execAsync} from "ags/process"
 import {SystemMenuWindowName} from "../SystemMenuWindow";
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
 import OkButton from "../../common/OkButton";
-const wifiConnections = Variable<string[]>([])
-const inactiveWifiConnections = Variable<string[]>([])
-const activeWifiConnections = Variable<string[]>([])
-const vpnConnections = Variable<string[]>([])
-export const activeVpnConnections = Variable<string[]>([])
+import {createBinding, createComputed, createState, For, State, With} from "ags";
+
+const [wifiConnections, wifiConnectionsSetter] = createState<string[]>([])
+const [inactiveWifiConnections, inactiveWifiConnectionsSetter] = createState<string[]>([])
+const [activeWifiConnections, activeWifiConnectionsSetter] = createState<string[]>([])
+const [vpnConnections, vpnConnectionsSetter] = createState<string[]>([])
+export const [activeVpnConnections, activeVpnConnectionsSetter] = createState<string[]>([])
 
 function ssidInRange(ssid: string) {
     const network = AstalNetwork.get_default()
@@ -48,7 +50,7 @@ function updateConnections() {
                     }
                 });
 
-            activeWifiConnections.set(wifiNames)
+            activeWifiConnectionsSetter(wifiNames)
 
             const vpnNames = value
                 .split("\n")
@@ -62,7 +64,7 @@ function updateConnections() {
                     }
                 });
 
-            activeVpnConnections.set(vpnNames)
+            activeVpnConnectionsSetter(vpnNames)
         })
         .finally(() => {
             // update inactive connections
@@ -91,8 +93,8 @@ function updateConnections() {
                             }
                         });
 
-                    wifiConnections.set(wifiNames)
-                    inactiveWifiConnections.set(
+                    wifiConnectionsSetter(wifiNames)
+                    inactiveWifiConnectionsSetter(
                         wifiNames
                             .filter((line) => !activeWifiConnections.get().includes(line))
                     )
@@ -110,7 +112,7 @@ function updateConnections() {
                             }
                         });
 
-                    vpnConnections.set(vpnNames)
+                    vpnConnectionsSetter(vpnNames)
                 })
         })
 }
@@ -183,26 +185,26 @@ function PasswordEntry(
         passwordEntryRevealed
     }: {
         accessPoint: AstalNetwork.AccessPoint,
-        passwordEntryRevealed: Variable<boolean>
+        passwordEntryRevealed: State<boolean>
     }
 ) {
-    const text = Variable("")
-    const errorRevealed = Variable(false)
-    const isConnecting = Variable(false)
+    const [text, textSetter] = createState("")
+    const [errorRevealed, errorRevealedSetter] = createState(false)
+    const [isConnecting, isConnectingSetter] = createState(false)
 
-    passwordEntryRevealed.subscribe((r) => {
-        if (!r) {
-            errorRevealed.set(false)
+    passwordEntryRevealed[0].subscribe(() => {
+        if (!passwordEntryRevealed[0].get()) {
+            errorRevealedSetter(false)
         }
     })
 
     const connect = () => {
-        errorRevealed.set(false)
-        isConnecting.set(true)
+        errorRevealedSetter(false)
+        isConnectingSetter(true)
         execAsync(["bash", "-c", `echo '${text.get()}' | nmcli device wifi connect "${accessPoint.ssid}" --ask`])
             .catch((error) => {
                 console.error(error)
-                errorRevealed.set(true)
+                errorRevealedSetter(true)
                 deleteConnection(accessPoint.ssid)
             })
             .then((value) => {
@@ -210,30 +212,32 @@ function PasswordEntry(
             })
             .finally(() => {
                 if (!errorRevealed.get()) {
-                    passwordEntryRevealed.set(false)
+                    passwordEntryRevealed[1](false)
                     updateConnections()
                 }
-                isConnecting.set(false)
+                isConnectingSetter(false)
             })
     }
 
     return <box
         marginTop={4}
-        vertical={true}
+        orientation={Gtk.Orientation.VERTICAL}
         spacing={4}>
         {accessPoint.flags !== 0 && <box
-            vertical={true}>
+            orientation={Gtk.Orientation.VERTICAL}>
             <label
                 halign={Gtk.Align.START}
                 cssClasses={["labelSmall"]}
                 label="Password"/>
             <entry
                 cssClasses={["networkPasswordEntry"]}
-                onChanged={self => text.set(self.text)}
-                onActivate={() => connect()}/>
+                onActivate={() => connect()}
+                $={(self) => {
+                    self.connect('changed', () => textSetter(self.text))
+                }}/>
         </box>}
         <revealer
-            revealChild={errorRevealed()}
+            revealChild={errorRevealed}
             transitionDuration={200}
             transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>
             <label
@@ -263,19 +267,19 @@ function WifiConnections() {
     const network = AstalNetwork.get_default()
 
     return <box
-        vertical={true}>
+        orientation={Gtk.Orientation.VERTICAL}>
         <label
             halign={Gtk.Align.START}
             cssClasses={["labelLargeBold"]}
             label="Saved networks"/>
-        {inactiveWifiConnections((connectionsValue) => {
-            return connectionsValue.map((connection) => {
-                const buttonsRevealed = Variable(false)
+        <For each={inactiveWifiConnections}>
+            {(connection) => {
+                const [buttonsRevealed, buttonsRevealedSetter] = createState(false)
 
                 setTimeout(() => {
-                    bind(App.get_window(SystemMenuWindowName)!, "visible").subscribe((visible) => {
-                        if (!visible) {
-                            buttonsRevealed.set(false)
+                    createBinding(App.get_window(SystemMenuWindowName)!, "visible").subscribe(() => {
+                        if (!App.get_window(SystemMenuWindowName)?.visible) {
+                            buttonsRevealedSetter(false)
                         }
                     })
                 }, 1_000)
@@ -294,21 +298,21 @@ function WifiConnections() {
                 }
 
                 return <box
-                    vertical={true}>
+                    orientation={Gtk.Orientation.VERTICAL}>
                     <OkButton
                         hexpand={true}
                         label={label}
                         labelHalign={Gtk.Align.START}
                         onClicked={() => {
-                            buttonsRevealed.set(!buttonsRevealed.get())
+                            buttonsRevealedSetter(!buttonsRevealed.get())
                         }}/>
                     <revealer
-                        revealChild={buttonsRevealed()}
+                        revealChild={buttonsRevealed}
                         transitionDuration={200}
                         transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>
                         <box
                             marginTop={4}
-                            vertical={true}
+                            orientation={Gtk.Orientation.VERTICAL}
                             spacing={4}>
                             {canConnect && <OkButton
                                 hexpand={true}
@@ -333,8 +337,8 @@ function WifiConnections() {
                         </box>
                     </revealer>
                 </box>
-            })
-        })}
+            }}
+        </For>
     </box>
 }
 
@@ -342,72 +346,74 @@ function WifiScannedConnections() {
     const network = AstalNetwork.get_default()
 
     return <box
-        vertical={true}>
-        {bind(network.wifi, "scanning").as((scanning) => {
-            if (scanning) {
-                return <label
-                    halign={Gtk.Align.START}
-                    cssClasses={["labelLargeBold"]}
-                    marginBottom={4}
-                    label="Scanning…"/>
-            } else {
-                const accessPoints = network.wifi.accessPoints
-
-                const accessPointsUi = accessPoints.filter((value) => {
-                    return value.ssid != null
-                        && wifiConnections.get().find((connection) => {
-                            return value.ssid === connection
-                        }) == null
-                }).sort((a, b) => {
-                    if (a.strength > b.strength) {
-                        return -1
-                    } else {
-                        return 1
-                    }
-                }).map((accessPoint) => {
-                    const passwordEntryRevealed = Variable(false)
-
-                    setTimeout(() => {
-                        bind(App.get_window(SystemMenuWindowName)!, "visible").subscribe((visible) => {
-                            if (!visible) {
-                                passwordEntryRevealed.set(false)
-                            }
-                        })
-                    }, 1_000)
-
-                    return <box
-                        vertical={true}>
-                        <box
-                            vertical={false}>
-                            <OkButton
-                                hexpand={true}
-                                labelHalign={Gtk.Align.START}
-                                label={`${getAccessPointIcon(accessPoint)}  ${accessPoint.ssid}`}
-                                onClicked={() => {
-                                    passwordEntryRevealed.set(!passwordEntryRevealed.get())
-                                }}/>
-                        </box>
-                        <revealer
-                            revealChild={passwordEntryRevealed()}
-                            transitionDuration={200}
-                            transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>
-                            <PasswordEntry
-                                accessPoint={accessPoint}
-                                passwordEntryRevealed={passwordEntryRevealed}/>
-                        </revealer>
-                    </box>
-                })
-
-                return <box
-                    vertical={true}>
-                    <label
+        orientation={Gtk.Orientation.VERTICAL}>
+        <With value={createBinding(network.wifi, "scanning")}>
+            {(scanning) => {
+                if (scanning) {
+                    return <label
                         halign={Gtk.Align.START}
                         cssClasses={["labelLargeBold"]}
-                        label="Available networks"/>
-                    {accessPointsUi}
-                </box>
-            }
-        })}
+                        marginBottom={4}
+                        label="Scanning…"/>
+                } else {
+                    const accessPoints = network.wifi.accessPoints
+
+                    const accessPointsUi = accessPoints.filter((value) => {
+                        return value.ssid != null
+                            && wifiConnections.get().find((connection) => {
+                                return value.ssid === connection
+                            }) == null
+                    }).sort((a, b) => {
+                        if (a.strength > b.strength) {
+                            return -1
+                        } else {
+                            return 1
+                        }
+                    }).map((accessPoint) => {
+                        const [passwordEntryRevealed, passwordEntryRevealedSetter] = createState(false)
+
+                        setTimeout(() => {
+                            createBinding(App.get_window(SystemMenuWindowName)!, "visible").subscribe(() => {
+                                if (!App.get_window(SystemMenuWindowName)?.visible) {
+                                    passwordEntryRevealedSetter(false)
+                                }
+                            })
+                        }, 1_000)
+
+                        return <box
+                            orientation={Gtk.Orientation.VERTICAL}>
+                            <box
+                                orientation={Gtk.Orientation.HORIZONTAL}>
+                                <OkButton
+                                    hexpand={true}
+                                    labelHalign={Gtk.Align.START}
+                                    label={`${getAccessPointIcon(accessPoint)}  ${accessPoint.ssid}`}
+                                    onClicked={() => {
+                                        passwordEntryRevealedSetter(!passwordEntryRevealed.get())
+                                    }}/>
+                            </box>
+                            <revealer
+                                revealChild={passwordEntryRevealed}
+                                transitionDuration={200}
+                                transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>
+                                <PasswordEntry
+                                    accessPoint={accessPoint}
+                                    passwordEntryRevealed={[passwordEntryRevealed, passwordEntryRevealedSetter]}/>
+                            </revealer>
+                        </box>
+                    })
+
+                    return <box
+                        orientation={Gtk.Orientation.VERTICAL}>
+                        <label
+                            halign={Gtk.Align.START}
+                            cssClasses={["labelLargeBold"]}
+                            label="Available networks"/>
+                        {accessPointsUi}
+                    </box>
+                }
+            }}
+        </With>
     </box>
 }
 
@@ -416,118 +422,119 @@ function VpnActiveConnections() {
         visible={activeVpnConnections((connections) => {
             return connections.length !== 0
         })}
-        vertical={true}>
-        {activeVpnConnections().as((connections) => {
-            if (connections.length === 0) {
-                return <box/>
-            }
-            return <box
-                vertical={true}>
-                <label
+        orientation={Gtk.Orientation.VERTICAL}>
+        <With value={activeVpnConnections}>
+            {(connections) => {
+                if (connections.length === 0) {
+                    return <box/>
+                }
+                return <label
                     halign={Gtk.Align.START}
                     cssClasses={["labelLargeBold"]}
                     label="Active VPN"/>
-                {connections.map((connection) => {
-                    const buttonsRevealed = Variable(false)
-
-                    setTimeout(() => {
-                        bind(App.get_window(SystemMenuWindowName)!, "visible").subscribe((visible) => {
-                            if (!visible) {
-                                buttonsRevealed.set(false)
-                            }
-                        })
-                    }, 1_000)
-
-                    return <box
-                        vertical={true}>
-                        <OkButton
-                            hexpand={true}
-                            labelHalign={Gtk.Align.START}
-                            label={`󰯄  ${connection}`}
-                            onClicked={() => {
-                                buttonsRevealed.set(!buttonsRevealed.get())
-                            }}/>
-                        <revealer
-                            revealChild={buttonsRevealed()}
-                            transitionDuration={200}
-                            transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>
-                            <box
-                                marginTop={4}
-                                marginBottom={4}
-                                vertical={true}
-                                spacing={4}>
-                                <OkButton
-                                    hexpand={true}
-                                    primary={true}
-                                    label="Disconnect"
-                                    onClicked={() => {
-                                        execAsync(`nmcli c down ${connection}`)
-                                            .catch((error) => {
-                                                console.error(error)
-                                            })
-                                            .finally(() => {
-                                                updateConnections()
-                                            })
-                                    }}/>
-                                <OkButton
-                                    hexpand={true}
-                                    primary={true}
-                                    label="Forget"
-                                    onClicked={() => {
-                                        deleteConnection(connection)
-                                    }}/>
-                            </box>
-                        </revealer>
-                    </box>
-                })}
-            </box>
-        })}
-    </box>
-}
-
-function VpnConnections() {
-    return <box
-        vertical={true}
-        spacing={4}>
-        <label
-            halign={Gtk.Align.START}
-            cssClasses={["labelLargeBold"]}
-            label="VPN Connections"/>
-        {vpnConnections((connectionsValue) => {
-            return connectionsValue.map((connection) => {
-                const buttonsRevealed = Variable(false)
-                const isConnecting = Variable(false)
+            }}
+        </With>
+        <For each={activeVpnConnections}>
+            {(connection) => {
+                const [buttonsRevealed, buttonsRevealedSetter] = createState(false)
 
                 setTimeout(() => {
-                    bind(App.get_window(SystemMenuWindowName)!, "visible").subscribe((visible) => {
-                        if (!visible) {
-                            buttonsRevealed.set(false)
+                    createBinding(App.get_window(SystemMenuWindowName)!, "visible").subscribe(() => {
+                        if (!App.get_window(SystemMenuWindowName)?.visible) {
+                            buttonsRevealedSetter(false)
                         }
                     })
                 }, 1_000)
 
                 return <box
-                    vertical={true}>
+                    orientation={Gtk.Orientation.VERTICAL}>
                     <OkButton
                         hexpand={true}
                         labelHalign={Gtk.Align.START}
                         label={`󰯄  ${connection}`}
                         onClicked={() => {
-                            buttonsRevealed.set(!buttonsRevealed.get())
+                            buttonsRevealedSetter(!buttonsRevealed.get())
                         }}/>
                     <revealer
-                        revealChild={buttonsRevealed()}
+                        revealChild={buttonsRevealed}
                         transitionDuration={200}
                         transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>
                         <box
                             marginTop={4}
                             marginBottom={4}
-                            vertical={true}
+                            orientation={Gtk.Orientation.VERTICAL}
                             spacing={4}>
                             <OkButton
                                 hexpand={true}
                                 primary={true}
-                                label={isConnecting().as((connecting) => {
+                                label="Disconnect"
+                                onClicked={() => {
+                                    execAsync(`nmcli c down ${connection}`)
+                                        .catch((error) => {
+                                            console.error(error)
+                                        })
+                                        .finally(() => {
+                                            updateConnections()
+                                        })
+                                }}/>
+                            <OkButton
+                                hexpand={true}
+                                primary={true}
+                                label="Forget"
+                                onClicked={() => {
+                                    deleteConnection(connection)
+                                }}/>
+                        </box>
+                    </revealer>
+                </box>
+            }}
+        </For>
+    </box>
+}
+
+function VpnConnections() {
+    return <box
+        orientation={Gtk.Orientation.VERTICAL}
+        spacing={4}>
+        <label
+            halign={Gtk.Align.START}
+            cssClasses={["labelLargeBold"]}
+            label="VPN Connections"/>
+        <For each={vpnConnections}>
+            {(connection) => {
+                const [buttonsRevealed, buttonsRevealedSetter] = createState(false)
+                const [isConnecting, isConnectingSetter] = createState(false)
+
+                setTimeout(() => {
+                    createBinding(App.get_window(SystemMenuWindowName)!, "visible").subscribe(() => {
+                        if (!App.get_window(SystemMenuWindowName)?.visible) {
+                            buttonsRevealedSetter(false)
+                        }
+                    })
+                }, 1_000)
+
+                return <box
+                    orientation={Gtk.Orientation.VERTICAL}>
+                    <OkButton
+                        hexpand={true}
+                        labelHalign={Gtk.Align.START}
+                        label={`󰯄  ${connection}`}
+                        onClicked={() => {
+                            buttonsRevealedSetter(!buttonsRevealed.get())
+                        }}/>
+                    <revealer
+                        revealChild={buttonsRevealed}
+                        transitionDuration={200}
+                        transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>
+                        <box
+                            marginTop={4}
+                            marginBottom={4}
+                            orientation={Gtk.Orientation.VERTICAL}
+                            spacing={4}>
+                            <OkButton
+                                hexpand={true}
+                                primary={true}
+                                label={isConnecting.as((connecting) => {
                                     if (connecting) {
                                         return "Connecting"
                                     } else {
@@ -536,7 +543,7 @@ function VpnConnections() {
                                 })}
                                 onClicked={() => {
                                     if (!isConnecting.get()) {
-                                        isConnecting.set(true)
+                                        isConnectingSetter(true)
                                         connectVpn(connection)
                                     }
                                 }}/>
@@ -550,8 +557,8 @@ function VpnConnections() {
                         </box>
                     </revealer>
                 </box>
-            })
-        })}
+            }}
+        </For>
         <OkButton
             primary={true}
             label="Add Wireguard VPN"
@@ -567,15 +574,15 @@ export default function () {
     updateConnections()
 
     setTimeout(() => {
-        bind(App.get_window(SystemMenuWindowName)!, "visible").subscribe((visible) => {
-            if (visible) {
+        createBinding(App.get_window(SystemMenuWindowName)!, "visible").subscribe(() => {
+            if (App.get_window(SystemMenuWindowName)?.visible) {
                 updateConnections()
             }
         })
     }, 1_000)
 
-    const networkName = Variable.derive([
-        bind(network.client, "primaryConnection"),
+    const networkName = createComputed([
+        createBinding(network.client, "primaryConnection"),
         activeVpnConnections
     ])
 
@@ -589,7 +596,7 @@ export default function () {
                 halign={Gtk.Align.START}
                 hexpand={true}
                 ellipsize={Pango.EllipsizeMode.END}
-                label={networkName().as((value) => {
+                label={networkName.as((value) => {
                     const primaryConnection = value[0]
                     const activeVpnConnectionsValue = value[1]
                     let name: string
@@ -610,31 +617,33 @@ export default function () {
         revealedContent={
             <box
                 marginTop={10}
-                vertical={true}
+                orientation={Gtk.Orientation.VERTICAL}
                 spacing={12}>
-                {network.wifi && bind(network.wifi, "activeAccessPoint").as((activeAccessPoint) => {
-                    return <box
-                        hexpand={true}
-                        marginBottom={8}>
-                        <OkButton
+                {network.wifi && <With value={createBinding(network.wifi, "activeAccessPoint")}>
+                    {(activeAccessPoint: AstalNetwork.AccessPoint) => {
+                        return <box
                             hexpand={true}
-                            visible={activeAccessPoint !== null}
-                            primary={true}
-                            label="Disconnect"
-                            onClicked={() => {
-                                disconnect(activeAccessPoint.ssid)
-                            }}/>
-                    </box>
-                })}
+                            marginBottom={8}>
+                            <OkButton
+                                hexpand={true}
+                                visible={activeAccessPoint !== null}
+                                primary={true}
+                                label="Disconnect"
+                                onClicked={() => {
+                                    disconnect(activeAccessPoint.ssid)
+                                }}/>
+                        </box>
+                    }}
+                </With>}
                 <VpnActiveConnections/>
                 <VpnConnections/>
-                {network.wifi && <WifiConnections connections={inactiveWifiConnections}/>}
+                {network.wifi && <WifiConnections/>}
                 {network.wifi && <WifiScannedConnections/>}
             </box>
         }
         setup={(revealed) => {
-            revealed.subscribe((r) => {
-                if (r) {
+            revealed[0].subscribe(() => {
+                if (revealed[0].get()) {
                     network.wifi?.scan()
                 }
             })

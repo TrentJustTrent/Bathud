@@ -1,61 +1,74 @@
-import {bind, Variable} from "astal"
-import {Gtk, App} from "astal/gtk4"
+import {Gtk} from "ags/gtk4"
+import App from "ags/gtk4/app"
 import {SystemMenuWindowName} from "../SystemMenuWindow";
 import {getBluetoothIcon, getBluetoothName} from "../../utils/bluetooth";
 import Bluetooth from "gi://AstalBluetooth";
 import RevealerRow from "../../common/RevealerRow";
 import OkButton from "../../common/OkButton";
+import {createBinding, createComputed, createState, For, With} from "ags";
 
 function BluetoothDevices() {
     const bluetooth = Bluetooth.get_default()
 
+    const devicesBinding = createComputed([
+        createBinding(bluetooth, "devices")
+    ], (devices) => {
+        return devices.filter((device) => {
+            return device.name != null
+        })
+    })
+
     return <box
-        vertical={true}>
-        {bind(bluetooth, "devices").as((devices) => {
-            if (devices.length === 0) {
-                return <label
-                    cssClasses={["labelMedium"]}
-                    label="No devices"/>
-            }
-            return devices.filter((device) => {
-                return device.name != null
-            }).map((device) => {
-                const buttonsRevealed = Variable(false)
-                const connectionState = Variable.derive([
-                    bind(device, "connected"),
-                    bind(device, "connecting")
+        orientation={Gtk.Orientation.VERTICAL}>
+        <With value={devicesBinding}>
+            {(devices: Bluetooth.Device[]) => {
+                if (devices.length === 0) {
+                    return <label
+                        cssClasses={["labelMedium"]}
+                        label="No devices"/>
+                } else {
+                    return <box/>
+                }
+            }}
+        </With>
+        <For each={devicesBinding}>
+            {(device) => {
+                const [buttonsRevealed, buttonsRevealedSetter] = createState(false)
+                const connectionState = createComputed([
+                    createBinding(device, "connected"),
+                    createBinding(device, "connecting")
                 ])
 
                 setTimeout(() => {
-                    bind(App.get_window(SystemMenuWindowName)!, "visible").subscribe((visible) => {
-                        if (!visible) {
-                            buttonsRevealed.set(false)
+                    createBinding(App.get_window(SystemMenuWindowName)!, "visible").subscribe(() => {
+                        if (!App.get_window(SystemMenuWindowName)?.visible) {
+                            buttonsRevealedSetter(false)
                         }
                     })
                 }, 1_000)
 
                 return <box
-                    vertical={true}>
+                    orientation={Gtk.Orientation.VERTICAL}>
                     <OkButton
                         hexpand={true}
                         label={`  ${device.name}`}
                         labelHalign={Gtk.Align.START}
                         onClicked={() => {
-                            buttonsRevealed.set(!buttonsRevealed.get())
+                            buttonsRevealedSetter(!buttonsRevealed.get())
                         }}/>
                     <revealer
-                        revealChild={buttonsRevealed()}
+                        revealChild={buttonsRevealed}
                         transitionDuration={200}
                         transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>
                         <box
-                            vertical={true}
+                            orientation={Gtk.Orientation.VERTICAL}
                             marginTop={4}
                             marginBottom={4}
                             spacing={4}>
                             <OkButton
                                 primary={true}
                                 hexpand={true}
-                                visible={bind(device, "paired")}
+                                visible={createBinding(device, "paired")}
                                 label={connectionState((value) => {
                                     const connected = value[0]
                                     const connecting = value[1]
@@ -83,8 +96,8 @@ function BluetoothDevices() {
                             <OkButton
                                 primary={true}
                                 hexpand={true}
-                                visible={bind(device, "paired")}
-                                label={bind(device, "trusted").as((trusted) => {
+                                visible={createBinding(device, "paired")}
+                                label={createBinding(device, "trusted").as((trusted) => {
                                     if (trusted) {
                                         return "Untrust"
                                     } else {
@@ -97,7 +110,7 @@ function BluetoothDevices() {
                             <OkButton
                                 primary={true}
                                 hexpand={true}
-                                label={bind(device, "paired").as((paired) => {
+                                label={createBinding(device, "paired").as((paired) => {
                                     return paired ? "Unpair" : "Pair"
                                 })}
                                 onClicked={() => {
@@ -110,8 +123,8 @@ function BluetoothDevices() {
                         </box>
                     </revealer>
                 </box>
-            })
-        })}
+            }}
+        </For>
     </box>
 }
 
@@ -119,7 +132,7 @@ export default function () {
     const bluetooth = Bluetooth.get_default()
 
     return <RevealerRow
-        visible={bind(bluetooth, "isPowered")}
+        visible={createBinding(bluetooth, "isPowered")}
         icon={getBluetoothIcon()}
         iconOffset={0}
         windowName={SystemMenuWindowName}
@@ -133,16 +146,16 @@ export default function () {
         revealedContent={
             <box
                 marginTop={10}
-                vertical={true}>
+                orientation={Gtk.Orientation.VERTICAL}>
                 <box
-                    vertical={false}>
+                    orientation={Gtk.Orientation.HORIZONTAL}>
                     <label
                         halign={Gtk.Align.START}
                         hexpand={true}
                         label="Devices"
                         cssClasses={["labelLargeBold"]}/>
                     <OkButton
-                        label={bind(bluetooth.adapter, "discovering").as((discovering) => {
+                        label={createBinding(bluetooth.adapter, "discovering").as((discovering) => {
                             return discovering ? "Stop scanning" : "Scan"
                         })}
                         onClicked={() => {

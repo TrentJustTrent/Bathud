@@ -1,17 +1,18 @@
-import {bind, Binding, Variable} from "astal";
-import {App, Gtk} from "astal/gtk4";
+import {Gtk} from "ags/gtk4";
+import App from "ags/gtk4/app"
 import OkButton, {OkButtonHorizontalPadding, OkButtonSize} from "./OkButton";
+import {Accessor, createBinding, createState, State} from "ags";
 
 type Params = {
     marginTop?: number;
     marginBottom?: number;
     marginStart?: number;
     marginEnd?: number;
-    visible?: boolean | Binding<boolean>;
-    icon: string | Binding<string>;
-    iconOffset: number | Binding<number>;
+    visible?: boolean | Accessor<boolean>;
+    icon: string | Accessor<string>;
+    iconOffset: number | Accessor<number>;
     windowName: string;
-    setup?: (revealed: Variable<boolean>) => void;
+    setup?: (revealed: State<boolean>) => void;
     onClick?: () => void;
     content?: JSX.Element;
     revealedContent?: JSX.Element;
@@ -33,16 +34,16 @@ export default function (
         revealedContent,
     }: Params
 ) {
-    const revealed = Variable(false)
+    const [revealed, revealedSetter] = createState(false)
 
     if (setup) {
-        setup(revealed)
+        setup([revealed, revealedSetter])
     }
 
     setTimeout(() => {
-        bind(App.get_window(windowName)!, "visible").subscribe((visible) => {
-            if (!visible) {
-                revealed.set(false)
+        createBinding(App.get_window(windowName)!, "visible").subscribe(() => {
+            if (!App.get_window(windowName)?.visible) {
+                revealedSetter(false)
             }
         })
     }, 1_000)
@@ -53,9 +54,9 @@ export default function (
         marginBottom={marginBottom}
         marginEnd={marginEnd}
         marginStart={marginStart}
-        vertical={true}>
+        orientation={Gtk.Orientation.VERTICAL}>
         <box
-            vertical={false}>
+            orientation={Gtk.Orientation.HORIZONTAL}>
             <OkButton
                 size={OkButtonSize.XL}
                 offset={iconOffset}
@@ -77,13 +78,13 @@ export default function (
                     }
                 })}
                 onClicked={() => {
-                    revealed.set(!revealed.get())
+                    revealedSetter(!revealed.get())
                 }}/>
         </box>
         <revealer
             marginStart={10}
             marginEnd={10}
-            revealChild={revealed()}
+            revealChild={revealed}
             transitionDuration={200}
             transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>
             {revealedContent}

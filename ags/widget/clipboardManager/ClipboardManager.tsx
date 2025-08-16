@@ -1,9 +1,9 @@
 import {variableConfig} from "../../config/config";
 import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import {Bar, selectedBar} from "../../config/bar";
-import {bind, Variable} from "astal";
-import {execAsync} from "astal/process";
-import {App, Gtk} from "astal/gtk4";
+import {execAsync} from "ags/process";
+import {Gtk} from "ags/gtk4";
+import App from "ags/gtk4/app"
 import {hideAllWindows} from "../utils/windows";
 import Divider from "../common/Divider";
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
@@ -12,6 +12,7 @@ import AsyncClipboardPicture from "./AsyncClipboardPicture";
 import AsyncClipboardLabel from "./AsyncClipboardLabel";
 
 import {projectDir} from "../../app";
+import {createBinding, createComputed, createState, For, With} from "ags";
 
 export const ClipboardManagerWindowName = "clipboardManagerWindow"
 let cliphistStarted = false
@@ -21,7 +22,7 @@ type Entry = {
     value: string;
 };
 
-const clipboardEntries = Variable<Entry[]>([])
+const [clipboardEntries, clipboardEntriesSetting] = createState<Entry[]>([])
 
 function getImageType(entry: Entry): string | null {
     const pattern = /^\[\[ binary data (\d+(?:\.\d+)?) ([A-Za-z]+) ([a-z0-9]+) (\d+)x(\d+) \]\]$/;
@@ -67,7 +68,7 @@ function updateClipboardEntries() {
             }
 
             if (value.trim() === "") {
-                clipboardEntries.set([])
+                clipboardEntriesSetting([])
                 return
             }
 
@@ -81,7 +82,7 @@ function updateClipboardEntries() {
                     };
                 });
 
-            clipboardEntries.set(entries)
+            clipboardEntriesSetting(entries)
     })
 }
 
@@ -120,74 +121,78 @@ function wipeHistory() {
 
 export function ClipboardManagerContent() {
     return <box
-        vertical={true}>
-        {clipboardEntries((entries) => {
-            return <box
-                vertical={true}>
-                {entries.length === 0 &&
-                    <label
-                        hexpand={true}
-                        halign={Gtk.Align.CENTER}
-                        label="Empty"
-                        cssClasses={["labelMedium"]}/>
-                }
-                {entries.length > 0 &&
-                    <box
-                        marginBottom={16}>
-                        <OkButton
+        orientation={Gtk.Orientation.VERTICAL}>
+        <With value={clipboardEntries}>
+            {(entries) => {
+                return <box
+                    orientation={Gtk.Orientation.VERTICAL}>
+                    {entries.length === 0 &&
+                        <label
                             hexpand={true}
-                            label="Delete all"
-                            primary={true}
-                            onClicked={() => {
-                                wipeHistory()
-                            }}/>
-                    </box>
-                }
-                {entries.map((entry) => {
-                    const imageType = getImageType(entry)
-                    const isImage = imageType !== null
-
-                    let content
-
-                    if (isImage) {
-                        content = <AsyncClipboardPicture
-                            cliphistId={entry.number}/>
-                    } else {
-                        content = <AsyncClipboardLabel
-                            cliphistId={entry.number}/>
+                            halign={Gtk.Align.CENTER}
+                            label="Empty"
+                            cssClasses={["labelMedium"]}/>
                     }
-
-                    return <box
-                        vertical={true}>
+                    {entries.length > 0 &&
                         <box
-                            vertical={false}>
-                            {content}
-                            <box
-                                vertical={false}
-                                vexpand={false}>
-                                <OkButton
-                                    hpadding={OkButtonHorizontalPadding.THIN}
-                                    valign={Gtk.Align.START}
-                                    label=""
-                                    onClicked={() => {
-                                        copyEntry(entry)
-                                        hideAllWindows()
-                                    }}/>
-                                <OkButton
-                                    hpadding={OkButtonHorizontalPadding.THIN}
-                                    valign={Gtk.Align.START}
-                                    label=""
-                                    onClicked={() => {
-                                        deleteEntry(entry)
-                                    }}/>
-                            </box>
+                            marginBottom={16}>
+                            <OkButton
+                                hexpand={true}
+                                label="Delete all"
+                                primary={true}
+                                onClicked={() => {
+                                    wipeHistory()
+                                }}/>
                         </box>
-                        <box marginTop={10}/>
-                        {entries[entries.length - 1] !== entry && <Divider marginBottom={10}/>}
+                    }
+                </box>
+            }}
+        </With>
+        <For each={clipboardEntries}>
+            {(entry) => {
+                const imageType = getImageType(entry)
+                const isImage = imageType !== null
+
+                let content
+
+                if (isImage) {
+                    content = <AsyncClipboardPicture
+                        cliphistId={entry.number}/>
+                } else {
+                    content = <AsyncClipboardLabel
+                        cliphistId={entry.number}/>
+                }
+
+                return <box
+                    orientation={Gtk.Orientation.VERTICAL}>
+                    <box
+                        orientation={Gtk.Orientation.HORIZONTAL}>
+                        {content}
+                        <box
+                            orientation={Gtk.Orientation.HORIZONTAL}
+                            vexpand={false}>
+                            <OkButton
+                                hpadding={OkButtonHorizontalPadding.THIN}
+                                valign={Gtk.Align.START}
+                                label=""
+                                onClicked={() => {
+                                    copyEntry(entry)
+                                    hideAllWindows()
+                                }}/>
+                            <OkButton
+                                hpadding={OkButtonHorizontalPadding.THIN}
+                                valign={Gtk.Align.START}
+                                label=""
+                                onClicked={() => {
+                                    deleteEntry(entry)
+                                }}/>
+                        </box>
                     </box>
-                })}
-            </box>
-        })}
+                    <box marginTop={10}/>
+                    {clipboardEntries.get()[clipboardEntries.get().length - 1] !== entry && <Divider marginBottom={10}/>}
+                </box>
+            }}
+        </For>
     </box>
 }
 
@@ -195,17 +200,17 @@ export default function () {
     updateClipboardEntries()
 
     setTimeout(() => {
-        bind(App.get_window(ClipboardManagerWindowName)!, "visible").subscribe((visible) => {
-            if (visible) {
+        createBinding(App.get_window(ClipboardManagerWindowName)!, "visible").subscribe(() => {
+            if (App.get_window(ClipboardManagerWindowName)?.visible) {
                 updateClipboardEntries()
             }
         })
     }, 1_000)
 
-    const topExpand = Variable.derive([
-        selectedBar,
-        variableConfig.verticalBar.centerWidgets,
-        variableConfig.verticalBar.bottomWidgets,
+    const topExpand = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.verticalBar.centerWidgets.asAccessor(),
+        variableConfig.verticalBar.bottomWidgets.asAccessor(),
     ], (bar, center, bottom) => {
         switch (bar) {
             case Bar.BOTTOM:
@@ -218,10 +223,10 @@ export default function () {
         }
     })
 
-    const bottomExpand = Variable.derive([
-        selectedBar,
-        variableConfig.verticalBar.centerWidgets,
-        variableConfig.verticalBar.topWidgets,
+    const bottomExpand = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.verticalBar.centerWidgets.asAccessor(),
+        variableConfig.verticalBar.topWidgets.asAccessor(),
     ], (bar, center, top) => {
         switch (bar) {
             case Bar.TOP:
@@ -234,10 +239,10 @@ export default function () {
         }
     })
 
-    const leftExpand = Variable.derive([
-        selectedBar,
-        variableConfig.horizontalBar.centerWidgets,
-        variableConfig.horizontalBar.rightWidgets,
+    const leftExpand = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.horizontalBar.centerWidgets.asAccessor(),
+        variableConfig.horizontalBar.rightWidgets.asAccessor(),
     ], (bar, center, right) => {
         switch (bar) {
             case Bar.RIGHT:
@@ -250,10 +255,10 @@ export default function () {
         }
     })
 
-    const rightExpand = Variable.derive([
-        selectedBar,
-        variableConfig.horizontalBar.centerWidgets,
-        variableConfig.horizontalBar.leftWidgets,
+    const rightExpand = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.horizontalBar.centerWidgets.asAccessor(),
+        variableConfig.horizontalBar.leftWidgets.asAccessor(),
     ], (bar, center, left) => {
         switch (bar) {
             case Bar.LEFT:
@@ -268,19 +273,19 @@ export default function () {
 
     return <ScrimScrollWindow
         namespace={"okpanel-clipboard-manager"}
-        monitor={variableConfig.mainMonitor()}
+        monitor={variableConfig.mainMonitor.asAccessor()}
         windowName={ClipboardManagerWindowName}
-        topExpand={topExpand()}
-        bottomExpand={bottomExpand()}
-        leftExpand={leftExpand()}
-        rightExpand={rightExpand()}
+        topExpand={topExpand}
+        bottomExpand={bottomExpand}
+        leftExpand={leftExpand}
+        rightExpand={rightExpand}
         contentWidth={400}
-        width={variableConfig.horizontalBar.minimumWidth()}
-        height={variableConfig.verticalBar.minimumHeight()}
+        width={variableConfig.horizontalBar.minimumWidth.asAccessor()}
+        height={variableConfig.verticalBar.minimumHeight.asAccessor()}
         content={
             <box
                 cssClasses={["clipboardBox"]}
-                vertical={true}>
+                orientation={Gtk.Orientation.VERTICAL}>
                 <label
                     marginBottom={16}
                     cssClasses={["labelMedium"]}

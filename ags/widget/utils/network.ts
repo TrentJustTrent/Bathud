@@ -1,19 +1,19 @@
 import AstalNetwork from "gi://AstalNetwork"
-import {bind, Variable} from "astal"
+import {createBinding, createComputed} from "ags";
 
 export function getNetworkIconBinding() {
     const network = AstalNetwork.get_default()
 
     if (network.wifi !== null) {
-        return Variable.derive([
-            bind(network, "connectivity"),
-            bind(network.wifi, "strength"),
-            bind(network, "primary")
+        return createComputed([
+            createBinding(network, "connectivity"),
+            createBinding(network.wifi, "strength"),
+            createBinding(network, "primary")
         ])(() => getNetworkIcon(network))
     } else {
-        return Variable.derive([
-            bind(network, "connectivity"),
-            bind(network, "primary")
+        return createComputed([
+            createBinding(network, "connectivity"),
+            createBinding(network, "primary")
         ])(() => getNetworkIcon(network))
     }
 }

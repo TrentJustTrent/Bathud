@@ -1,6 +1,5 @@
-import {Gtk} from "astal/gtk4"
-import {execAsync} from "astal/process"
-import {GLib, Variable} from "astal"
+import {Gtk} from "ags/gtk4"
+import {execAsync} from "ags/process"
 import {SystemMenuWindowName} from "../SystemMenuWindow";
 import Pango from "gi://Pango?version=1.0";
 import {createScaledTexture} from "../../utils/images";
@@ -16,8 +15,10 @@ import {Bar, selectedBar, setBarType} from "../../../config/bar";
 import OkButton, {OkButtonSize} from "../../common/OkButton";
 import {listFilenamesInDir} from "../../utils/files";
 import {setWallpaper} from "../../../config/theme";
+import {createComputed, createState, For, With} from "ags";
+import GLib from "gi://GLib?version=2.0";
 
-const files: Variable<string[][]> = Variable([])
+const [files, filesSetter] = createState<string[][]>([])
 const numberOfColumns = 2
 let buttonsEnabled = true
 
@@ -50,7 +51,7 @@ function updateFiles() {
         return
     }
 
-    files.set(
+    filesSetter(
         chunkIntoColumns(
             listFilenamesInDir(dir)
                 .filter((file) => file.includes("jpg") || file.includes("png"))
@@ -144,7 +145,7 @@ function BarButton(
     return <OkButton
         offset={2}
         size={OkButtonSize.XL}
-        selected={selectedBar((bar) => bar === barType)}
+        selected={selectedBar.asAccessor()((bar) => bar === barType)}
         label={icon}
         onClicked={() => {
             setBarType(barType)
@@ -153,7 +154,7 @@ function BarButton(
 
 function BarPositionOptions() {
     return <box
-        vertical={false}
+        orientation={Gtk.Orientation.HORIZONTAL}
         halign={Gtk.Align.CENTER}
         spacing={12}>
         <BarButton barType={Bar.LEFT} icon={"󱂪"}/>
@@ -168,7 +169,7 @@ function ThemeButton({configFile}: {configFile: ConfigFile}) {
         size={OkButtonSize.XL}
         label={configFile.icon}
         offset={configFile.pixelOffset}
-        selected={selectedConfig((t) => t === configFile)}
+        selected={selectedConfig.asAccessor()((t) => t === configFile)}
         onClicked={() => {
             updateConfig(configFile)
         }}/>
@@ -186,14 +187,14 @@ function ThemeOptions() {
         child: <box
             marginStart={22}
             marginEnd={22}
-            vertical={false}
+            orientation={Gtk.Orientation.HORIZONTAL}
             spacing={10}>
-            {availableConfigs().as((configs) => {
-                return configs.map((config) => {
+            <For each={availableConfigs.asAccessor()}>
+                {(config) => {
                     return <ThemeButton configFile={config}/>
-                })
-            })}
-        </box>
+                }}
+            </For>
+        </box> as Gtk.Widget
     })
 
     const scrollController = Gtk.EventControllerScroll.new(Gtk.EventControllerScrollFlags.BOTH_AXES)
@@ -242,36 +243,43 @@ function ThemeOptions() {
 
     scrolledWindow.add_controller(scrollController);
 
+    const overlay = new Gtk.Overlay(
+        {
+            child: scrolledWindow
+        }
+    )
+
+    overlay.add_overlay(
+        <box
+            canTarget={false}
+            canFocus={false}
+            opacity={0}
+            widthRequest={50}
+            halign={Gtk.Align.START}
+            hexpand={false}
+            cssClasses={["fadeLeft"]}
+            $={(self) => {
+                leftGradient = self
+            }}/> as Gtk.Widget
+    )
+
+    overlay.add_overlay(
+        <box
+            canTarget={false}
+            canFocus={false}
+            widthRequest={50}
+            halign={Gtk.Align.END}
+            hexpand={false}
+            cssClasses={["fadeRight"]}
+            $={(self) => {
+                rightGradient = self
+            }}/> as Gtk.Widget
+    )
+
     return <box
         hexpand={true}
-        vertical={false}>
-        <overlay>
-            <box
-                canTarget={false}
-                canFocus={false}
-                opacity={0}
-                type={"overlay clip"}
-                widthRequest={50}
-                halign={Gtk.Align.START}
-                hexpand={false}
-                cssClasses={["fadeLeft"]}
-                setup={(self) => {
-                    leftGradient = self
-                }}/>
-            <box
-                canTarget={false}
-                canFocus={false}
-                type={"overlay clip"}
-                widthRequest={50}
-                halign={Gtk.Align.END}
-                hexpand={false}
-                cssClasses={["fadeRight"]}
-                setup={(self) => {
-                    rightGradient = self
-                }}/>
-            {scrolledWindow}
-
-        </overlay>
+        orientation={Gtk.Orientation.HORIZONTAL}>
+        {overlay}
     </box>
 }
 
@@ -282,14 +290,17 @@ function WallpaperColumn(
         column: number,
     }
 ) {
+    const filesListInColumn = createComputed([
+        files
+    ], (filesList) => {
+        return filesList[column]
+    })
+    
     return <box
         hexpand={true}
-        vertical={true}>
-        {files((filesList) => {
-            if (filesList.length === 0) {
-                return <box/>
-            }
-            return filesList[column].map((file) => {
+        orientation={Gtk.Orientation.VERTICAL}>
+        <For each={filesListInColumn}>
+            {(file) => {
                 const picture = <Gtk.Picture
                     heightRequest={90}
                     cssClasses={["wallpaper"]}
@@ -309,8 +320,8 @@ function WallpaperColumn(
                     }}>
                     {picture}
                 </button>
-            })
-        })}
+            }}
+        </For>
     </box>
 }
 
@@ -318,7 +329,7 @@ function NightLight() {
     return <box
         marginStart={20}
         marginEnd={20}
-        vertical={false}>
+        orientation={Gtk.Orientation.HORIZONTAL}>
         <label
             halign={Gtk.Align.START}
             hexpand={true}
@@ -336,16 +347,16 @@ function NightLight() {
 }
 
 export default function () {
-    selectedConfig.subscribe((config) => {
-        if (config != undefined) {
+    selectedConfig.asAccessor().subscribe(() => {
+        if (selectedConfig.get() != undefined) {
             updateFiles()
         }
     })
     updateFiles()
 
     return <RevealerRow
-        icon={variableConfig.icon()}
-        iconOffset={variableConfig.iconOffset()}
+        icon={variableConfig.icon.asAccessor()}
+        iconOffset={variableConfig.iconOffset.asAccessor()}
         windowName={SystemMenuWindowName}
         content={
             <label
@@ -358,28 +369,30 @@ export default function () {
         revealedContent={
             <box
                 marginTop={10}
-                vertical={true}>
-                {availableConfigs().as((availConfigs) => {
-                    if (availConfigs.length > 1) {
-                        return <box
-                            vertical={true}>
-                            <ThemeOptions/>
-                            <Divider
-                                marginStart={20}
-                                marginEnd={20}
-                                marginTop={10}
-                                marginBottom={10}/>
-                        </box>
-                    } else {
-                        return <box/>
-                    }
-                })}
+                orientation={Gtk.Orientation.VERTICAL}>
+                <With value={availableConfigs.asAccessor()}>
+                    {(availConfigs) => {
+                        if (availConfigs.length > 1) {
+                            return <box
+                                orientation={Gtk.Orientation.VERTICAL}>
+                                <ThemeOptions/>
+                                <Divider
+                                    marginStart={20}
+                                    marginEnd={20}
+                                    marginTop={10}
+                                    marginBottom={10}/>
+                            </box>
+                        } else {
+                            return <box/>
+                        }
+                    }}
+                </With>
                 <BarPositionOptions/>
                 <box marginTop={20}/>
                 <NightLight/>
                 <box marginTop={10}/>
                 <box
-                    vertical={false}>
+                    orientation={Gtk.Orientation.HORIZONTAL}>
                     {Array.from({length: numberOfColumns}).map((_, index) => {
                         return <WallpaperColumn column={index}/>
                     })}

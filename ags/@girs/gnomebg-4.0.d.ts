@@ -7,6 +7,7 @@
 /// <reference path="./gdesktopenums-3.0.d.ts" />
 /// <reference path="./gdk-4.0.d.ts" />
 /// <reference path="./cairo-1.0.d.ts" />
+/// <reference path="./cairo.d.ts" />
 /// <reference path="./pangocairo-1.0.d.ts" />
 /// <reference path="./pango-1.0.d.ts" />
 /// <reference path="./harfbuzz-0.0.d.ts" />
@@ -31,7 +32,7 @@ declare module 'gi://GnomeBG?version=4.0' {
     import type GdkPixbuf from 'gi://GdkPixbuf?version=2.0';
     import type GDesktopEnums from 'gi://GDesktopEnums?version=3.0';
     import type Gdk from 'gi://Gdk?version=4.0';
-    import type cairo from 'gi://cairo?version=1.0';
+    import type cairo from 'cairo';
     import type PangoCairo from 'gi://PangoCairo?version=1.0';
     import type Pango from 'gi://Pango?version=1.0';
     import type HarfBuzz from 'gi://HarfBuzz?version=0.0';
@@ -43,14 +44,10 @@ declare module 'gi://GnomeBG?version=4.0' {
          */
 
         namespace BG {
-            // Signal callback interfaces
-
-            interface Changed {
-                (): void;
-            }
-
-            interface Transitioned {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                changed: () => void;
+                transitioned: () => void;
             }
 
             // Constructor properties interface
@@ -60,6 +57,15 @@ declare module 'gi://GnomeBG?version=4.0' {
 
         class BG extends GObject.Object {
             static $gtype: GObject.GType<BG>;
+
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: BG.SignalSignatures;
 
             // Constructors
 
@@ -71,15 +77,21 @@ declare module 'gi://GnomeBG?version=4.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'changed', callback: (_source: this) => void): number;
-            connect_after(signal: 'changed', callback: (_source: this) => void): number;
-            emit(signal: 'changed'): void;
-            connect(signal: 'transitioned', callback: (_source: this) => void): number;
-            connect_after(signal: 'transitioned', callback: (_source: this) => void): number;
-            emit(signal: 'transitioned'): void;
+            connect<K extends keyof BG.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BG.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof BG.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BG.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof BG.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<BG.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -137,6 +149,14 @@ declare module 'gi://GnomeBG?version=4.0' {
         }
 
         namespace BGSlideShow {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                'notify::file': (pspec: GObject.ParamSpec) => void;
+                'notify::has-multiple-sizes': (pspec: GObject.ParamSpec) => void;
+                'notify::start-time': (pspec: GObject.ParamSpec) => void;
+                'notify::total-duration': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {
@@ -163,6 +183,15 @@ declare module 'gi://GnomeBG?version=4.0' {
             get total_duration(): number;
             get totalDuration(): number;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: BGSlideShow.SignalSignatures;
+
             // Fields
 
             parent_object: GObject.Object;
@@ -174,6 +203,24 @@ declare module 'gi://GnomeBG?version=4.0' {
             _init(...args: any[]): void;
 
             static ['new'](filename: string): BGSlideShow;
+
+            // Signals
+
+            connect<K extends keyof BGSlideShow.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BGSlideShow.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof BGSlideShow.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, BGSlideShow.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof BGSlideShow.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<BGSlideShow.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 

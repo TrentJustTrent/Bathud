@@ -1,9 +1,10 @@
-import {GLib, Variable} from "astal";
-import {Gtk} from "astal/gtk4";
+import {Gtk} from "ags/gtk4";
 import {variableConfig} from "../../../config/config";
+import {createPoll} from "../../../../../../../../usr/share/ags/js/lib/time";
+import GLib from "gi://GLib?version=2.0";
 
 export default function () {
-    const weekday = Variable<string>("").poll(1000, () => {
+    const weekday = createPoll("", 1000, () => {
         const text = GLib.DateTime.new_now_local().format("%A")! // Full weekday name
         if (variableConfig.theme.systemMenu.clock.dayAllCaps.get()) {
             return text.toUpperCase()
@@ -11,37 +12,37 @@ export default function () {
         return text
     });
 
-    const date = Variable<string>("").poll(1000, () =>
+    const date = createPoll("", 1000, () =>
             GLib.DateTime.new_now_local().format("%m/%d/%Y")!
         // %-d: Day of month (no leading 0), %B: Full month name, %Y: Year
     );
 
-    const time = Variable<string>("").poll(1000, () =>
+    const time = createPoll("", 1000, () =>
             GLib.DateTime.new_now_local().format("%-I:%M %p")!
         // %-I: Hour (12-hour, no leading 0), %M: Minute, %p: AM/PM
     );
 
     return <box
-        vertical={false}>
+        orientation={Gtk.Orientation.HORIZONTAL}>
         <label
             marginStart={20}
             halign={Gtk.Align.START}
             hexpand={true}
             cssClasses={["labelXXLBold", "systemMenuClockDayFont"]}
-            label={weekday()}/>
+            label={weekday}/>
         <box
             halign={Gtk.Align.START}
             marginStart={20}
             hexpand={true}
-            vertical={true}>
+            orientation={Gtk.Orientation.VERTICAL}>
             <label
                 halign={Gtk.Align.START}
                 cssClasses={["labelMediumBold"]}
-                label={date()}/>
+                label={date}/>
             <label
                 halign={Gtk.Align.START}
                 cssClasses={["labelSmall"]}
-                label={time()}/>
+                label={time}/>
         </box>
     </box>
 }

@@ -1,29 +1,30 @@
-import {App, Astal, Gdk, Gtk} from "astal/gtk4";
-import {Binding, Variable} from "astal";
+import {Astal, Gdk, Gtk} from "ags/gtk4";
+import App from "ags/gtk4/app"
 import {variableConfig} from "../../config/config";
 import {hideAllWindows} from "../utils/windows";
 import {Bar, selectedBar} from "../../config/bar";
+import {Accessor, createComputed} from "ags";
 
 type Params = {
-    monitor: number | Binding<number>;
+    monitor: number | Accessor<number>;
     windowName: string,
     namespace?: string,
-    anchor?: Binding<Astal.WindowAnchor> | Astal.WindowAnchor,
-    topExpand: Binding<boolean> | boolean,
-    bottomExpand: Binding<boolean> | boolean,
-    rightExpand: Binding<boolean> | boolean,
-    leftExpand: Binding<boolean> | boolean,
+    anchor?: Accessor<Astal.WindowAnchor> | Astal.WindowAnchor,
+    topExpand: Accessor<boolean> | boolean,
+    bottomExpand: Accessor<boolean> | boolean,
+    rightExpand: Accessor<boolean> | boolean,
+    leftExpand: Accessor<boolean> | boolean,
     contentWidth: number,
-    width?: number | Binding<number>,
-    height?: number | Binding<number>,
+    width?: number | Accessor<number>,
+    height?: number | Accessor<number>,
     content?: JSX.Element;
 }
 
 function defaultAnchor(){
-    return Variable.derive([
-        selectedBar,
-        variableConfig.horizontalBar.expanded,
-        variableConfig.verticalBar.expanded,
+    return createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.horizontalBar.expanded.asAccessor(),
+        variableConfig.verticalBar.expanded.asAccessor(),
     ], (bar, hExpanded, vExpanded) => {
         switch (bar) {
             case Bar.TOP:
@@ -59,7 +60,7 @@ export default function(
         monitor,
         windowName,
         namespace,
-        anchor = defaultAnchor()(),
+        anchor = defaultAnchor(),
         topExpand,
         bottomExpand,
         rightExpand,
@@ -70,7 +71,7 @@ export default function(
         content,
     }: Params
 ) {
-    let mainBox: Astal.Box
+    let mainBox: Gtk.Box
 
     return <window
         heightRequest={height}
@@ -79,19 +80,14 @@ export default function(
         namespace={namespace}
         name={windowName}
         anchor={anchor}
-        margin={variableConfig.theme.windows.gaps()}
+        margin={variableConfig.theme.windows.gaps.asAccessor()}
         exclusivity={Astal.Exclusivity.NORMAL}
         layer={Astal.Layer.OVERLAY}
         cssClasses={["transparentBackground"]}
         application={App}
         visible={false}
         keymode={Astal.Keymode.ON_DEMAND}
-        onKeyPressed={function (_, key) {
-            if (key === Gdk.KEY_Escape) {
-                hideAllWindows()
-            }
-        }}
-        setup={(self) => {
+        $={(self) => {
             const gesture = new Gtk.GestureClick();
             gesture.connect('pressed', (_gesture, n_press, x, y) => {
                 const [_, childX, childY] = mainBox.translate_coordinates(self, 0, 0)
@@ -108,17 +104,27 @@ export default function(
                 hideAllWindows()
             });
             self.add_controller(gesture);
+
+            let keyController = new Gtk.EventControllerKey()
+
+            keyController.connect("key-pressed", (_, key) => {
+                if (key === Gdk.KEY_Escape) {
+                    hideAllWindows()
+                }
+            })
+
+            self.add_controller(keyController)
         }}>
-        <box vertical={true}>
+        <box orientation={Gtk.Orientation.VERTICAL}>
             <box vexpand={topExpand}/>
             <box
-                vertical={false}>
+                orientation={Gtk.Orientation.HORIZONTAL}>
                 <box hexpand={leftExpand}/>
                 <box
                     hexpand={false}
-                    vertical={true}
+                    orientation={Gtk.Orientation.VERTICAL}
                     cssClasses={["window"]}
-                    setup={(self) => {
+                    $={(self) => {
                         mainBox = self;
                     }}>
                     <Gtk.ScrolledWindow

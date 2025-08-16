@@ -627,10 +627,13 @@ declare module 'gi://GWeather?version=4.0' {
             ALL,
         }
         namespace Info {
-            // Signal callback interfaces
-
-            interface Updated {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {
+                updated: () => void;
+                'notify::application-id': (pspec: GObject.ParamSpec) => void;
+                'notify::contact-info': (pspec: GObject.ParamSpec) => void;
+                'notify::enabled-providers': (pspec: GObject.ParamSpec) => void;
+                'notify::location': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -705,6 +708,15 @@ declare module 'gi://GWeather?version=4.0' {
             get location(): Location;
             set location(val: Location);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Info.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Info.ConstructorProps>, ...args: any[]);
@@ -715,12 +727,21 @@ declare module 'gi://GWeather?version=4.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'updated', callback: (_source: this) => void): number;
-            connect_after(signal: 'updated', callback: (_source: this) => void): number;
-            emit(signal: 'updated'): void;
+            connect<K extends keyof Info.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Info.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Info.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Info.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Info.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Info.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -866,6 +887,9 @@ declare module 'gi://GWeather?version=4.0' {
         }
 
         namespace Location {
+            // Signal signatures
+            interface SignalSignatures extends GObject.Object.SignalSignatures {}
+
             // Constructor properties interface
 
             interface ConstructorProps extends GObject.Object.ConstructorProps {}
@@ -882,6 +906,15 @@ declare module 'gi://GWeather?version=4.0' {
         class Location extends GObject.Object {
             static $gtype: GObject.GType<Location>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Location.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Location.ConstructorProps>, ...args: any[]);
@@ -889,6 +922,24 @@ declare module 'gi://GWeather?version=4.0' {
             _init(...args: any[]): void;
 
             static new_detached(name: string, icao: string | null, latitude: number, longitude: number): Location;
+
+            // Signals
+
+            connect<K extends keyof Location.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Location.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Location.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Location.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Location.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Location.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 

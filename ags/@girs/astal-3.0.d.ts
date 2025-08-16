@@ -5,6 +5,7 @@
 /// <reference path="./gmodule-2.0.d.ts" />
 /// <reference path="./gdk-3.0.d.ts" />
 /// <reference path="./cairo-1.0.d.ts" />
+/// <reference path="./cairo.d.ts" />
 /// <reference path="./pango-1.0.d.ts" />
 /// <reference path="./harfbuzz-0.0.d.ts" />
 /// <reference path="./freetype2-2.0.d.ts" />
@@ -30,7 +31,7 @@ declare module 'gi://Astal?version=3.0' {
     import type Gio from 'gi://Gio?version=2.0';
     import type GModule from 'gi://GModule?version=2.0';
     import type Gdk from 'gi://Gdk?version=3.0';
-    import type cairo from 'gi://cairo?version=1.0';
+    import type cairo from 'cairo';
     import type Pango from 'gi://Pango?version=1.0';
     import type HarfBuzz from 'gi://HarfBuzz?version=0.0';
     import type freetype2 from 'gi://freetype2?version=2.0';
@@ -127,6 +128,57 @@ declare module 'gi://Astal?version=3.0' {
             BOTTOM,
         }
         namespace Box {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Box.SignalSignatures {
+                'notify::vertical': (pspec: GObject.ParamSpec) => void;
+                'notify::children': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::baseline-position': (pspec: GObject.ParamSpec) => void;
+                'notify::homogeneous': (pspec: GObject.ParamSpec) => void;
+                'notify::spacing': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Gtk.Box.ConstructorProps {
@@ -151,6 +203,15 @@ declare module 'gi://Astal?version=3.0' {
             get child(): Gtk.Widget;
             set child(val: Gtk.Widget);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Box.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Box.ConstructorProps>, ...args: any[]);
@@ -161,6 +222,24 @@ declare module 'gi://Astal?version=3.0' {
             // Conflicted with Gtk.Box.new
 
             static ['new'](...args: never[]): any;
+
+            // Signals
+
+            connect<K extends keyof Box.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Box.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Box.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Box.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Box.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Box.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -173,26 +252,64 @@ declare module 'gi://Astal?version=3.0' {
         }
 
         namespace Button {
-            // Signal callback interfaces
-
-            interface Hover {
-                (event: HoverEvent): void;
-            }
-
-            interface HoverLost {
-                (event: HoverEvent): void;
-            }
-
-            interface Click {
-                (event: ClickEvent): void;
-            }
-
-            interface ClickRelease {
-                (event: ClickEvent): void;
-            }
-
-            interface Scroll {
-                (event: ScrollEvent): void;
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Button.SignalSignatures {
+                hover: (arg0: HoverEvent) => void;
+                'hover-lost': (arg0: HoverEvent) => void;
+                click: (arg0: ClickEvent) => void;
+                'click-release': (arg0: ClickEvent) => void;
+                scroll: (arg0: ScrollEvent) => void;
+                'notify::always-show-image': (pspec: GObject.ParamSpec) => void;
+                'notify::image': (pspec: GObject.ParamSpec) => void;
+                'notify::image-position': (pspec: GObject.ParamSpec) => void;
+                'notify::label': (pspec: GObject.ParamSpec) => void;
+                'notify::relief': (pspec: GObject.ParamSpec) => void;
+                'notify::use-stock': (pspec: GObject.ParamSpec) => void;
+                'notify::use-underline': (pspec: GObject.ParamSpec) => void;
+                'notify::xalign': (pspec: GObject.ParamSpec) => void;
+                'notify::yalign': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -207,6 +324,15 @@ declare module 'gi://Astal?version=3.0' {
         class Button extends Gtk.Button {
             static $gtype: GObject.GType<Button>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Button.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Button.ConstructorProps>, ...args: any[]);
@@ -217,27 +343,77 @@ declare module 'gi://Astal?version=3.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'hover', callback: (_source: this, event: HoverEvent) => void): number;
-            connect_after(signal: 'hover', callback: (_source: this, event: HoverEvent) => void): number;
-            emit(signal: 'hover', event: HoverEvent): void;
-            connect(signal: 'hover-lost', callback: (_source: this, event: HoverEvent) => void): number;
-            connect_after(signal: 'hover-lost', callback: (_source: this, event: HoverEvent) => void): number;
-            emit(signal: 'hover-lost', event: HoverEvent): void;
-            connect(signal: 'click', callback: (_source: this, event: ClickEvent) => void): number;
-            connect_after(signal: 'click', callback: (_source: this, event: ClickEvent) => void): number;
-            emit(signal: 'click', event: ClickEvent): void;
-            connect(signal: 'click-release', callback: (_source: this, event: ClickEvent) => void): number;
-            connect_after(signal: 'click-release', callback: (_source: this, event: ClickEvent) => void): number;
-            emit(signal: 'click-release', event: ClickEvent): void;
-            connect(signal: 'scroll', callback: (_source: this, event: ScrollEvent) => void): number;
-            connect_after(signal: 'scroll', callback: (_source: this, event: ScrollEvent) => void): number;
-            emit(signal: 'scroll', event: ScrollEvent): void;
+            connect<K extends keyof Button.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Button.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Button.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Button.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Button.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Button.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace CenterBox {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Box.SignalSignatures {
+                'notify::vertical': (pspec: GObject.ParamSpec) => void;
+                'notify::start-widget': (pspec: GObject.ParamSpec) => void;
+                'notify::end-widget': (pspec: GObject.ParamSpec) => void;
+                'notify::center-widget': (pspec: GObject.ParamSpec) => void;
+                'notify::baseline-position': (pspec: GObject.ParamSpec) => void;
+                'notify::homogeneous': (pspec: GObject.ParamSpec) => void;
+                'notify::spacing': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Gtk.Box.ConstructorProps, Gtk.Buildable.ConstructorProps {
@@ -274,6 +450,15 @@ declare module 'gi://Astal?version=3.0' {
             get centerWidget(): Gtk.Widget;
             set centerWidget(val: Gtk.Widget);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CenterBox.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CenterBox.ConstructorProps>, ...args: any[]);
@@ -281,6 +466,24 @@ declare module 'gi://Astal?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](): CenterBox;
+
+            // Signals
+
+            connect<K extends keyof CenterBox.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CenterBox.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CenterBox.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CenterBox.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CenterBox.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CenterBox.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -415,7 +618,21 @@ declare module 'gi://Astal?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -543,7 +760,12 @@ declare module 'gi://Astal?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -693,14 +915,85 @@ declare module 'gi://Astal?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         namespace CircularProgress {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Bin.SignalSignatures {
+                'notify::start-at': (pspec: GObject.ParamSpec) => void;
+                'notify::end-at': (pspec: GObject.ParamSpec) => void;
+                'notify::value': (pspec: GObject.ParamSpec) => void;
+                'notify::inverted': (pspec: GObject.ParamSpec) => void;
+                'notify::rounded': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Gtk.Bin.ConstructorProps {
@@ -759,6 +1052,15 @@ declare module 'gi://Astal?version=3.0' {
             get rounded(): boolean;
             set rounded(val: boolean);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: CircularProgress.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<CircularProgress.ConstructorProps>, ...args: any[]);
@@ -766,6 +1068,26 @@ declare module 'gi://Astal?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](): CircularProgress;
+
+            // Signals
+
+            connect<K extends keyof CircularProgress.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CircularProgress.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof CircularProgress.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, CircularProgress.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof CircularProgress.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<CircularProgress.SignalSignatures[K]> extends [any, ...infer Q]
+                    ? Q
+                    : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -782,30 +1104,58 @@ declare module 'gi://Astal?version=3.0' {
         }
 
         namespace EventBox {
-            // Signal callback interfaces
-
-            interface Hover {
-                (event: HoverEvent): void;
-            }
-
-            interface HoverLost {
-                (event: HoverEvent): void;
-            }
-
-            interface Click {
-                (event: ClickEvent): void;
-            }
-
-            interface ClickRelease {
-                (event: ClickEvent): void;
-            }
-
-            interface Scroll {
-                (event: ScrollEvent): void;
-            }
-
-            interface Motion {
-                (event: MotionEvent): void;
+            // Signal signatures
+            interface SignalSignatures extends Gtk.EventBox.SignalSignatures {
+                hover: (arg0: HoverEvent) => void;
+                'hover-lost': (arg0: HoverEvent) => void;
+                click: (arg0: ClickEvent) => void;
+                'click-release': (arg0: ClickEvent) => void;
+                scroll: (arg0: ScrollEvent) => void;
+                motion: (arg0: MotionEvent) => void;
+                'notify::above-child': (pspec: GObject.ParamSpec) => void;
+                'notify::visible-window': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -821,6 +1171,15 @@ declare module 'gi://Astal?version=3.0' {
         class EventBox extends Gtk.EventBox {
             static $gtype: GObject.GType<EventBox>;
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: EventBox.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<EventBox.ConstructorProps>, ...args: any[]);
@@ -831,30 +1190,86 @@ declare module 'gi://Astal?version=3.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'hover', callback: (_source: this, event: HoverEvent) => void): number;
-            connect_after(signal: 'hover', callback: (_source: this, event: HoverEvent) => void): number;
-            emit(signal: 'hover', event: HoverEvent): void;
-            connect(signal: 'hover-lost', callback: (_source: this, event: HoverEvent) => void): number;
-            connect_after(signal: 'hover-lost', callback: (_source: this, event: HoverEvent) => void): number;
-            emit(signal: 'hover-lost', event: HoverEvent): void;
-            connect(signal: 'click', callback: (_source: this, event: ClickEvent) => void): number;
-            connect_after(signal: 'click', callback: (_source: this, event: ClickEvent) => void): number;
-            emit(signal: 'click', event: ClickEvent): void;
-            connect(signal: 'click-release', callback: (_source: this, event: ClickEvent) => void): number;
-            connect_after(signal: 'click-release', callback: (_source: this, event: ClickEvent) => void): number;
-            emit(signal: 'click-release', event: ClickEvent): void;
-            connect(signal: 'scroll', callback: (_source: this, event: ScrollEvent) => void): number;
-            connect_after(signal: 'scroll', callback: (_source: this, event: ScrollEvent) => void): number;
-            emit(signal: 'scroll', event: ScrollEvent): void;
-            connect(signal: 'motion', callback: (_source: this, event: MotionEvent) => void): number;
-            connect_after(signal: 'motion', callback: (_source: this, event: MotionEvent) => void): number;
-            emit(signal: 'motion', event: MotionEvent): void;
+            connect<K extends keyof EventBox.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, EventBox.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof EventBox.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, EventBox.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof EventBox.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<EventBox.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
         }
 
         namespace Icon {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Image.SignalSignatures {
+                'notify::pixbuf': (pspec: GObject.ParamSpec) => void;
+                'notify::g-icon': (pspec: GObject.ParamSpec) => void;
+                'notify::icon': (pspec: GObject.ParamSpec) => void;
+                'notify::file': (pspec: GObject.ParamSpec) => void;
+                'notify::gicon': (pspec: GObject.ParamSpec) => void;
+                'notify::icon-name': (pspec: GObject.ParamSpec) => void;
+                'notify::icon-set': (pspec: GObject.ParamSpec) => void;
+                'notify::icon-size': (pspec: GObject.ParamSpec) => void;
+                'notify::pixbuf-animation': (pspec: GObject.ParamSpec) => void;
+                'notify::pixel-size': (pspec: GObject.ParamSpec) => void;
+                'notify::resource': (pspec: GObject.ParamSpec) => void;
+                'notify::stock': (pspec: GObject.ParamSpec) => void;
+                'notify::storage-type': (pspec: GObject.ParamSpec) => void;
+                'notify::surface': (pspec: GObject.ParamSpec) => void;
+                'notify::use-fallback': (pspec: GObject.ParamSpec) => void;
+                'notify::xalign': (pspec: GObject.ParamSpec) => void;
+                'notify::xpad': (pspec: GObject.ParamSpec) => void;
+                'notify::yalign': (pspec: GObject.ParamSpec) => void;
+                'notify::ypad': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Gtk.Image.ConstructorProps {
@@ -886,6 +1301,15 @@ declare module 'gi://Astal?version=3.0' {
             get icon(): string;
             set icon(val: string);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Icon.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Icon.ConstructorProps>, ...args: any[]);
@@ -893,6 +1317,24 @@ declare module 'gi://Astal?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Icon;
+
+            // Signals
+
+            connect<K extends keyof Icon.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Icon.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Icon.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Icon.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Icon.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Icon.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Static methods
 
@@ -911,6 +1353,75 @@ declare module 'gi://Astal?version=3.0' {
         }
 
         namespace Label {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Label.SignalSignatures {
+                'notify::truncate': (pspec: GObject.ParamSpec) => void;
+                'notify::justify-fill': (pspec: GObject.ParamSpec) => void;
+                'notify::angle': (pspec: GObject.ParamSpec) => void;
+                'notify::attributes': (pspec: GObject.ParamSpec) => void;
+                'notify::cursor-position': (pspec: GObject.ParamSpec) => void;
+                'notify::ellipsize': (pspec: GObject.ParamSpec) => void;
+                'notify::justify': (pspec: GObject.ParamSpec) => void;
+                'notify::label': (pspec: GObject.ParamSpec) => void;
+                'notify::lines': (pspec: GObject.ParamSpec) => void;
+                'notify::max-width-chars': (pspec: GObject.ParamSpec) => void;
+                'notify::mnemonic-keyval': (pspec: GObject.ParamSpec) => void;
+                'notify::mnemonic-widget': (pspec: GObject.ParamSpec) => void;
+                'notify::pattern': (pspec: GObject.ParamSpec) => void;
+                'notify::selectable': (pspec: GObject.ParamSpec) => void;
+                'notify::selection-bound': (pspec: GObject.ParamSpec) => void;
+                'notify::single-line-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::track-visited-links': (pspec: GObject.ParamSpec) => void;
+                'notify::use-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::use-underline': (pspec: GObject.ParamSpec) => void;
+                'notify::width-chars': (pspec: GObject.ParamSpec) => void;
+                'notify::wrap': (pspec: GObject.ParamSpec) => void;
+                'notify::wrap-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::xalign': (pspec: GObject.ParamSpec) => void;
+                'notify::yalign': (pspec: GObject.ParamSpec) => void;
+                'notify::xpad': (pspec: GObject.ParamSpec) => void;
+                'notify::ypad': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Gtk.Label.ConstructorProps {
@@ -941,6 +1452,15 @@ declare module 'gi://Astal?version=3.0' {
             get justifyFill(): boolean;
             set justifyFill(val: boolean);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Label.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Label.ConstructorProps>, ...args: any[]);
@@ -948,6 +1468,24 @@ declare module 'gi://Astal?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Label;
+
+            // Signals
+
+            connect<K extends keyof Label.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Label.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Label.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Label.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Label.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Label.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -958,6 +1496,55 @@ declare module 'gi://Astal?version=3.0' {
         }
 
         namespace LevelBar {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.LevelBar.SignalSignatures {
+                'notify::vertical': (pspec: GObject.ParamSpec) => void;
+                'notify::inverted': (pspec: GObject.ParamSpec) => void;
+                'notify::max-value': (pspec: GObject.ParamSpec) => void;
+                'notify::min-value': (pspec: GObject.ParamSpec) => void;
+                'notify::mode': (pspec: GObject.ParamSpec) => void;
+                'notify::value': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Gtk.LevelBar.ConstructorProps {
@@ -976,6 +1563,15 @@ declare module 'gi://Astal?version=3.0' {
             get vertical(): boolean;
             set vertical(val: boolean);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: LevelBar.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<LevelBar.ConstructorProps>, ...args: any[]);
@@ -984,6 +1580,24 @@ declare module 'gi://Astal?version=3.0' {
 
             static ['new'](): LevelBar;
 
+            // Signals
+
+            connect<K extends keyof LevelBar.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, LevelBar.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof LevelBar.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, LevelBar.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof LevelBar.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<LevelBar.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
+
             // Methods
 
             get_vertical(): boolean;
@@ -991,6 +1605,55 @@ declare module 'gi://Astal?version=3.0' {
         }
 
         namespace Overlay {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Overlay.SignalSignatures {
+                'notify::pass-through': (pspec: GObject.ParamSpec) => void;
+                'notify::overlay': (pspec: GObject.ParamSpec) => void;
+                'notify::overlays': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Gtk.Overlay.ConstructorProps {
@@ -1025,6 +1688,15 @@ declare module 'gi://Astal?version=3.0' {
             get child(): Gtk.Widget;
             set child(val: Gtk.Widget);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Overlay.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Overlay.ConstructorProps>, ...args: any[]);
@@ -1032,6 +1704,24 @@ declare module 'gi://Astal?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Overlay;
+
+            // Signals
+
+            connect<K extends keyof Overlay.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Overlay.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Overlay.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Overlay.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Overlay.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Overlay.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1047,6 +1737,69 @@ declare module 'gi://Astal?version=3.0' {
         }
 
         namespace Scrollable {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.ScrolledWindow.SignalSignatures {
+                'notify::hscroll': (pspec: GObject.ParamSpec) => void;
+                'notify::vscroll': (pspec: GObject.ParamSpec) => void;
+                'notify::hadjustment': (pspec: GObject.ParamSpec) => void;
+                'notify::hscrollbar-policy': (pspec: GObject.ParamSpec) => void;
+                'notify::kinetic-scrolling': (pspec: GObject.ParamSpec) => void;
+                'notify::max-content-height': (pspec: GObject.ParamSpec) => void;
+                'notify::max-content-width': (pspec: GObject.ParamSpec) => void;
+                'notify::min-content-height': (pspec: GObject.ParamSpec) => void;
+                'notify::min-content-width': (pspec: GObject.ParamSpec) => void;
+                'notify::overlay-scrolling': (pspec: GObject.ParamSpec) => void;
+                'notify::propagate-natural-height': (pspec: GObject.ParamSpec) => void;
+                'notify::propagate-natural-width': (pspec: GObject.ParamSpec) => void;
+                'notify::shadow-type': (pspec: GObject.ParamSpec) => void;
+                'notify::vadjustment': (pspec: GObject.ParamSpec) => void;
+                'notify::vscrollbar-policy': (pspec: GObject.ParamSpec) => void;
+                'notify::window-placement': (pspec: GObject.ParamSpec) => void;
+                'notify::window-placement-set': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Gtk.ScrolledWindow.ConstructorProps {
@@ -1069,6 +1822,15 @@ declare module 'gi://Astal?version=3.0' {
             get vscroll(): Gtk.PolicyType;
             set vscroll(val: Gtk.PolicyType);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Scrollable.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Scrollable.ConstructorProps>, ...args: any[]);
@@ -1076,6 +1838,24 @@ declare module 'gi://Astal?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Scrollable;
+
+            // Signals
+
+            connect<K extends keyof Scrollable.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Scrollable.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Scrollable.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Scrollable.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Scrollable.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Scrollable.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1089,10 +1869,67 @@ declare module 'gi://Astal?version=3.0' {
         }
 
         namespace Slider {
-            // Signal callback interfaces
-
-            interface Dragged {
-                (): void;
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Scale.SignalSignatures {
+                dragged: () => void;
+                'notify::vertical': (pspec: GObject.ParamSpec) => void;
+                'notify::dragging': (pspec: GObject.ParamSpec) => void;
+                'notify::value': (pspec: GObject.ParamSpec) => void;
+                'notify::min': (pspec: GObject.ParamSpec) => void;
+                'notify::max': (pspec: GObject.ParamSpec) => void;
+                'notify::step': (pspec: GObject.ParamSpec) => void;
+                'notify::page': (pspec: GObject.ParamSpec) => void;
+                'notify::digits': (pspec: GObject.ParamSpec) => void;
+                'notify::draw-value': (pspec: GObject.ParamSpec) => void;
+                'notify::has-origin': (pspec: GObject.ParamSpec) => void;
+                'notify::value-pos': (pspec: GObject.ParamSpec) => void;
+                'notify::adjustment': (pspec: GObject.ParamSpec) => void;
+                'notify::fill-level': (pspec: GObject.ParamSpec) => void;
+                'notify::inverted': (pspec: GObject.ParamSpec) => void;
+                'notify::lower-stepper-sensitivity': (pspec: GObject.ParamSpec) => void;
+                'notify::restrict-to-fill-level': (pspec: GObject.ParamSpec) => void;
+                'notify::round-digits': (pspec: GObject.ParamSpec) => void;
+                'notify::show-fill-level': (pspec: GObject.ParamSpec) => void;
+                'notify::upper-stepper-sensitivity': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -1152,6 +1989,15 @@ declare module 'gi://Astal?version=3.0' {
             get page(): number;
             set page(val: number);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Slider.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Slider.ConstructorProps>, ...args: any[]);
@@ -1162,12 +2008,21 @@ declare module 'gi://Astal?version=3.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'dragged', callback: (_source: this) => void): number;
-            connect_after(signal: 'dragged', callback: (_source: this) => void): number;
-            emit(signal: 'dragged'): void;
+            connect<K extends keyof Slider.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Slider.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Slider.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Slider.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Slider.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Slider.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1187,6 +2042,63 @@ declare module 'gi://Astal?version=3.0' {
         }
 
         namespace Stack {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Stack.SignalSignatures {
+                'notify::shown': (pspec: GObject.ParamSpec) => void;
+                'notify::children': (pspec: GObject.ParamSpec) => void;
+                'notify::hhomogeneous': (pspec: GObject.ParamSpec) => void;
+                'notify::homogeneous': (pspec: GObject.ParamSpec) => void;
+                'notify::interpolate-size': (pspec: GObject.ParamSpec) => void;
+                'notify::transition-duration': (pspec: GObject.ParamSpec) => void;
+                'notify::transition-running': (pspec: GObject.ParamSpec) => void;
+                'notify::transition-type': (pspec: GObject.ParamSpec) => void;
+                'notify::vhomogeneous': (pspec: GObject.ParamSpec) => void;
+                'notify::visible-child': (pspec: GObject.ParamSpec) => void;
+                'notify::visible-child-name': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Gtk.Stack.ConstructorProps {
@@ -1212,6 +2124,15 @@ declare module 'gi://Astal?version=3.0' {
             get children(): Gtk.Widget[];
             set children(val: Gtk.Widget[]);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Stack.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Stack.ConstructorProps>, ...args: any[]);
@@ -1219,6 +2140,24 @@ declare module 'gi://Astal?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Stack;
+
+            // Signals
+
+            connect<K extends keyof Stack.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Stack.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Stack.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Stack.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Stack.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Stack.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1229,6 +2168,93 @@ declare module 'gi://Astal?version=3.0' {
         }
 
         namespace Window {
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Window.SignalSignatures {
+                'notify::inhibit': (pspec: GObject.ParamSpec) => void;
+                'notify::namespace': (pspec: GObject.ParamSpec) => void;
+                'notify::anchor': (pspec: GObject.ParamSpec) => void;
+                'notify::exclusivity': (pspec: GObject.ParamSpec) => void;
+                'notify::layer': (pspec: GObject.ParamSpec) => void;
+                'notify::keymode': (pspec: GObject.ParamSpec) => void;
+                'notify::gdkmonitor': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-top': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-bottom': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-left': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-right': (pspec: GObject.ParamSpec) => void;
+                'notify::margin': (pspec: GObject.ParamSpec) => void;
+                'notify::monitor': (pspec: GObject.ParamSpec) => void;
+                'notify::accept-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::application': (pspec: GObject.ParamSpec) => void;
+                'notify::attached-to': (pspec: GObject.ParamSpec) => void;
+                'notify::decorated': (pspec: GObject.ParamSpec) => void;
+                'notify::default-height': (pspec: GObject.ParamSpec) => void;
+                'notify::default-width': (pspec: GObject.ParamSpec) => void;
+                'notify::deletable': (pspec: GObject.ParamSpec) => void;
+                'notify::destroy-with-parent': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-map': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::gravity': (pspec: GObject.ParamSpec) => void;
+                'notify::has-resize-grip': (pspec: GObject.ParamSpec) => void;
+                'notify::has-toplevel-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::hide-titlebar-when-maximized': (pspec: GObject.ParamSpec) => void;
+                'notify::icon': (pspec: GObject.ParamSpec) => void;
+                'notify::icon-name': (pspec: GObject.ParamSpec) => void;
+                'notify::is-active': (pspec: GObject.ParamSpec) => void;
+                'notify::is-maximized': (pspec: GObject.ParamSpec) => void;
+                'notify::mnemonics-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::modal': (pspec: GObject.ParamSpec) => void;
+                'notify::resizable': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-grip-visible': (pspec: GObject.ParamSpec) => void;
+                'notify::role': (pspec: GObject.ParamSpec) => void;
+                'notify::screen': (pspec: GObject.ParamSpec) => void;
+                'notify::skip-pager-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::skip-taskbar-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::startup-id': (pspec: GObject.ParamSpec) => void;
+                'notify::title': (pspec: GObject.ParamSpec) => void;
+                'notify::transient-for': (pspec: GObject.ParamSpec) => void;
+                'notify::type': (pspec: GObject.ParamSpec) => void;
+                'notify::type-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::urgency-hint': (pspec: GObject.ParamSpec) => void;
+                'notify::window-position': (pspec: GObject.ParamSpec) => void;
+                'notify::border-width': (pspec: GObject.ParamSpec) => void;
+                'notify::child': (pspec: GObject.ParamSpec) => void;
+                'notify::resize-mode': (pspec: GObject.ParamSpec) => void;
+                'notify::app-paintable': (pspec: GObject.ParamSpec) => void;
+                'notify::can-default': (pspec: GObject.ParamSpec) => void;
+                'notify::can-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::composite-child': (pspec: GObject.ParamSpec) => void;
+                'notify::double-buffered': (pspec: GObject.ParamSpec) => void;
+                'notify::events': (pspec: GObject.ParamSpec) => void;
+                'notify::expand': (pspec: GObject.ParamSpec) => void;
+                'notify::focus-on-click': (pspec: GObject.ParamSpec) => void;
+                'notify::halign': (pspec: GObject.ParamSpec) => void;
+                'notify::has-default': (pspec: GObject.ParamSpec) => void;
+                'notify::has-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::has-tooltip': (pspec: GObject.ParamSpec) => void;
+                'notify::height-request': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::hexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::is-focus': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-end': (pspec: GObject.ParamSpec) => void;
+                'notify::margin-start': (pspec: GObject.ParamSpec) => void;
+                'notify::name': (pspec: GObject.ParamSpec) => void;
+                'notify::no-show-all': (pspec: GObject.ParamSpec) => void;
+                'notify::opacity': (pspec: GObject.ParamSpec) => void;
+                'notify::parent': (pspec: GObject.ParamSpec) => void;
+                'notify::receives-default': (pspec: GObject.ParamSpec) => void;
+                'notify::scale-factor': (pspec: GObject.ParamSpec) => void;
+                'notify::sensitive': (pspec: GObject.ParamSpec) => void;
+                'notify::style': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-markup': (pspec: GObject.ParamSpec) => void;
+                'notify::tooltip-text': (pspec: GObject.ParamSpec) => void;
+                'notify::valign': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand': (pspec: GObject.ParamSpec) => void;
+                'notify::vexpand-set': (pspec: GObject.ParamSpec) => void;
+                'notify::visible': (pspec: GObject.ParamSpec) => void;
+                'notify::width-request': (pspec: GObject.ParamSpec) => void;
+                'notify::window': (pspec: GObject.ParamSpec) => void;
+            }
+
             // Constructor properties interface
 
             interface ConstructorProps extends Gtk.Window.ConstructorProps {
@@ -1321,6 +2347,15 @@ declare module 'gi://Astal?version=3.0' {
             get monitor(): number;
             set monitor(val: number);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Window.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Window.ConstructorProps>, ...args: any[]);
@@ -1328,6 +2363,24 @@ declare module 'gi://Astal?version=3.0' {
             _init(...args: any[]): void;
 
             static ['new'](): Window;
+
+            // Signals
+
+            connect<K extends keyof Window.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Window.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Window.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Window.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Window.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Window.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Methods
 
@@ -1363,18 +2416,31 @@ declare module 'gi://Astal?version=3.0' {
         }
 
         namespace Application {
-            // Signal callback interfaces
-
-            interface MonitorAdded {
-                (monitor: Gdk.Monitor): void;
-            }
-
-            interface MonitorRemoved {
-                (monitor: Gdk.Monitor): void;
-            }
-
-            interface WindowToggled {
-                (window: Gtk.Window): void;
+            // Signal signatures
+            interface SignalSignatures extends Gtk.Application.SignalSignatures {
+                'monitor-added': (arg0: Gdk.Monitor) => void;
+                'monitor-removed': (arg0: Gdk.Monitor) => void;
+                'window-toggled': (arg0: Gtk.Window) => void;
+                'notify::monitors': (pspec: GObject.ParamSpec) => void;
+                'notify::windows': (pspec: GObject.ParamSpec) => void;
+                'notify::gtk-theme': (pspec: GObject.ParamSpec) => void;
+                'notify::icon-theme': (pspec: GObject.ParamSpec) => void;
+                'notify::cursor-theme': (pspec: GObject.ParamSpec) => void;
+                'notify::active-window': (pspec: GObject.ParamSpec) => void;
+                'notify::app-menu': (pspec: GObject.ParamSpec) => void;
+                'notify::menubar': (pspec: GObject.ParamSpec) => void;
+                'notify::register-session': (pspec: GObject.ParamSpec) => void;
+                'notify::screensaver-active': (pspec: GObject.ParamSpec) => void;
+                'notify::action-group': (pspec: GObject.ParamSpec) => void;
+                'notify::application-id': (pspec: GObject.ParamSpec) => void;
+                'notify::flags': (pspec: GObject.ParamSpec) => void;
+                'notify::inactivity-timeout': (pspec: GObject.ParamSpec) => void;
+                'notify::is-busy': (pspec: GObject.ParamSpec) => void;
+                'notify::is-registered': (pspec: GObject.ParamSpec) => void;
+                'notify::is-remote': (pspec: GObject.ParamSpec) => void;
+                'notify::resource-base-path': (pspec: GObject.ParamSpec) => void;
+                'notify::version': (pspec: GObject.ParamSpec) => void;
+                'notify::instance-name': (pspec: GObject.ParamSpec) => void;
             }
 
             // Constructor properties interface
@@ -1435,6 +2501,15 @@ declare module 'gi://Astal?version=3.0' {
             get cursorTheme(): string;
             set cursorTheme(val: string);
 
+            /**
+             * Compile-time signal type information.
+             *
+             * This instance property is generated only for TypeScript type checking.
+             * It is not defined at runtime and should not be accessed in JS code.
+             * @internal
+             */
+            $signals: Application.SignalSignatures;
+
             // Constructors
 
             constructor(properties?: Partial<Application.ConstructorProps>, ...args: any[]);
@@ -1445,18 +2520,21 @@ declare module 'gi://Astal?version=3.0' {
 
             // Signals
 
-            connect(id: string, callback: (...args: any[]) => any): number;
-            connect_after(id: string, callback: (...args: any[]) => any): number;
-            emit(id: string, ...args: any[]): void;
-            connect(signal: 'monitor-added', callback: (_source: this, monitor: Gdk.Monitor) => void): number;
-            connect_after(signal: 'monitor-added', callback: (_source: this, monitor: Gdk.Monitor) => void): number;
-            emit(signal: 'monitor-added', monitor: Gdk.Monitor): void;
-            connect(signal: 'monitor-removed', callback: (_source: this, monitor: Gdk.Monitor) => void): number;
-            connect_after(signal: 'monitor-removed', callback: (_source: this, monitor: Gdk.Monitor) => void): number;
-            emit(signal: 'monitor-removed', monitor: Gdk.Monitor): void;
-            connect(signal: 'window-toggled', callback: (_source: this, window: Gtk.Window) => void): number;
-            connect_after(signal: 'window-toggled', callback: (_source: this, window: Gtk.Window) => void): number;
-            emit(signal: 'window-toggled', window: Gtk.Window): void;
+            connect<K extends keyof Application.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Application.SignalSignatures[K]>,
+            ): number;
+            connect(signal: string, callback: (...args: any[]) => any): number;
+            connect_after<K extends keyof Application.SignalSignatures>(
+                signal: K,
+                callback: GObject.SignalCallback<this, Application.SignalSignatures[K]>,
+            ): number;
+            connect_after(signal: string, callback: (...args: any[]) => any): number;
+            emit<K extends keyof Application.SignalSignatures>(
+                signal: K,
+                ...args: GObject.GjsParameters<Application.SignalSignatures[K]> extends [any, ...infer Q] ? Q : never
+            ): void;
+            emit(signal: string, ...args: any[]): void;
 
             // Virtual methods
 
@@ -1640,7 +2718,21 @@ declare module 'gi://Astal?version=3.0' {
              * @returns the data if found,          or %NULL if no such data exists.
              */
             get_data(key: string): any | null;
-            get_property(property_name: string): any;
+            /**
+             * Gets a property of an object.
+             *
+             * The value can be:
+             * - an empty GObject.Value initialized by G_VALUE_INIT, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+             * - a GObject.Value initialized with the expected type of the property
+             * - a GObject.Value initialized with a type to which the expected type of the property can be transformed
+             *
+             * In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling GObject.Value.unset.
+             *
+             * Note that GObject.Object.get_property is really intended for language bindings, GObject.Object.get is much more convenient for C programming.
+             * @param property_name The name of the property to get
+             * @param value Return location for the property value. Can be an empty GObject.Value initialized by G_VALUE_INIT (auto-initialized with expected type since GLib 2.60), a GObject.Value initialized with the expected property type, or a GObject.Value initialized with a transformable type
+             */
+            get_property(property_name: string, value: GObject.Value | any): any;
             /**
              * This function gets back user data pointers stored via
              * g_object_set_qdata().
@@ -1768,7 +2860,12 @@ declare module 'gi://Astal?version=3.0' {
              * @param data data to associate with that key
              */
             set_data(key: string, data?: any | null): void;
-            set_property(property_name: string, value: any): void;
+            /**
+             * Sets a property on an object.
+             * @param property_name The name of the property to set
+             * @param value The value to set the property to
+             */
+            set_property(property_name: string, value: GObject.Value | any): void;
             /**
              * Remove a specified datum from the object's data associations,
              * without invoking the association's destroy handler.
@@ -1918,11 +3015,31 @@ declare module 'gi://Astal?version=3.0' {
              * @param pspec
              */
             vfunc_set_property(property_id: number, value: GObject.Value | any, pspec: GObject.ParamSpec): void;
+            /**
+             * Disconnects a handler from an instance so it will not be called during any future or currently ongoing emissions of the signal it has been connected to.
+             * @param id Handler ID of the handler to be disconnected
+             */
             disconnect(id: number): void;
+            /**
+             * Sets multiple properties of an object at once. The properties argument should be a dictionary mapping property names to values.
+             * @param properties Object containing the properties to set
+             */
             set(properties: { [key: string]: any }): void;
-            block_signal_handler(id: number): any;
-            unblock_signal_handler(id: number): any;
-            stop_emission_by_name(detailedName: string): any;
+            /**
+             * Blocks a handler of an instance so it will not be called during any signal emissions
+             * @param id Handler ID of the handler to be blocked
+             */
+            block_signal_handler(id: number): void;
+            /**
+             * Unblocks a handler so it will be called again during any signal emissions
+             * @param id Handler ID of the handler to be unblocked
+             */
+            unblock_signal_handler(id: number): void;
+            /**
+             * Stops a signal's emission by the given signal name. This will prevent the default handler and any subsequent signal handlers from being invoked.
+             * @param detailedName Name of the signal to stop emission of
+             */
+            stop_emission_by_name(detailedName: string): void;
         }
 
         type BoxClass = typeof Box;
