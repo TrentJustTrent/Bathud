@@ -4,7 +4,7 @@ import SystemMenuWindow from "./widget/systemMenu/SystemMenuWindow";
 import {VolumeAlert, BrightnessAlert, ChargingAlertSound} from "./widget/alerts/Alerts";
 import NotificationPopups from "./widget/notification/NotificationPopups";
 import AppLauncher, {AppLauncherWindowName} from "./widget/appLauncher/AppLauncher";
-// import Screenshot, {ScreenshotWindowName} from "./widget/screenshot/Screenshot";
+import Screenshot, {ScreenshotWindowName} from "./widget/screenshot/Screenshot";
 import Screenshare, {ScreenshareWindowName, updateResponse, updateWindows} from "./widget/screenshare/Screenshare";
 import VerticalBar from "./widget/bar/VerticalBar";
 import HorizontalBar from "./widget/bar/HorizontalBar";
@@ -36,7 +36,7 @@ App.start({
         SystemMenuWindow()
         ChargingAlertSound()
         AppLauncher()
-        // Screenshot()
+        Screenshot()
         Screenshare()
         ClipboardManager()
         NotificationHistoryWindow()
@@ -72,11 +72,11 @@ App.start({
             updateWindows(request)
             updateResponse(res)
             toggleWindow(ScreenshareWindowName)
+        } else if (request === "screenshot") {
+            toggleWindow(ScreenshotWindowName)
+            res("screenshot toggled")
         } else {
             res("command not found")
         }
-        // } else if (request === "screenshot") {
-        //     toggleWindow(ScreenshotWindowName)
-        //     res("screenshot toggled")
     }
 })

@@ -1,7 +1,7 @@
 import {Gtk} from "ags/gtk4";
 import App from "ags/gtk4/app"
 import OkButton, {OkButtonHorizontalPadding, OkButtonSize} from "./OkButton";
-import {Accessor, createBinding, createState} from "ags";
+import {Accessor, createBinding, createState, State} from "ags";
 
 type Params = {
     marginTop?: number;
@@ -12,7 +12,7 @@ type Params = {
     icon: string | Accessor<string>;
     iconOffset: number | Accessor<number>;
     windowName: string;
-    setup?: (revealed: Accessor<boolean>) => void;
+    setup?: (revealed: State<boolean>) => void;
     onClick?: () => void;
     content?: JSX.Element;
     revealedContent?: JSX.Element;
@@ -37,7 +37,7 @@ export default function (
     const [revealed, revealedSetter] = createState(false)
 
     if (setup) {
-        setup(revealed)
+        setup([revealed, revealedSetter])
     }
 
     setTimeout(() => {
