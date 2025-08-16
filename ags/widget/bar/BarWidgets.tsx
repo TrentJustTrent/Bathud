@@ -5,14 +5,14 @@ import Battery from "gi://AstalBattery"
 import {getMicrophoneIcon, getVolumeIcon, playBatteryWarning} from "../utils/audio"
 import {getNetworkIconBinding} from "../utils/network"
 import {getBatteryIcon} from "../utils/battery"
-// import {SystemMenuWindowName} from "../systemMenu/SystemMenuWindow";
+import {SystemMenuWindowName} from "../systemMenu/SystemMenuWindow";
 import Bluetooth from "gi://AstalBluetooth"
 import {activeVpnConnections} from "../systemMenu/widgets/NetworkControls";
 import {isRecording, ScreenshotWindowName} from "../screenshot/Screenshot";
 import Divider from "../common/Divider";
 import {variableConfig} from "../../config/config";
 import Tray from "gi://AstalTray"
-// import {toggleWindow} from "../utils/windows";
+import {toggleWindow} from "../utils/windows";
 // import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
 // import {ClipboardManagerWindowName, startCliphist} from "../clipboardManager/ClipboardManager";
 import PowerProfiles from "gi://AstalPowerProfiles"
@@ -34,7 +34,7 @@ import GLib from "gi://GLib?version=2.0";
 import {runColorPicker} from "../utils/colorPicker";
 import {lock, logout, restart, shutdown} from "../utils/powerOptions";
 import {execAsync} from "ags/process";
-// import {integratedMenuRevealed} from "./VerticalBar";
+import {integratedMenuRevealed, integratedMenuRevealedSetting} from "./VerticalBar";
 
 const tray = Tray.get_default()
 
@@ -59,12 +59,11 @@ function MenuButton({vertical}: { vertical: boolean }) {
         label={variableConfig.theme.bars.menu.icon.asAccessor()}
         onClicked={() => {
             const barIsVertical = selectedBar.get() === Bar.LEFT || selectedBar.get() === Bar.RIGHT
-            //TODO
-            // if (barIsVertical && variableConfig.verticalBar.integratedMenu.get()) {
-            //     integratedMenuRevealed.set(!integratedMenuRevealed.get())
-            // } else {
-            //     toggleWindow(SystemMenuWindowName)
-            // }
+            if (barIsVertical && variableConfig.verticalBar.integratedMenu.get()) {
+                integratedMenuRevealedSetting(!integratedMenuRevealed.get())
+            } else {
+                toggleWindow(SystemMenuWindowName)
+            }
         }}/>
 }
 
