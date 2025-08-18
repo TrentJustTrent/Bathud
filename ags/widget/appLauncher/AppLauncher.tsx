@@ -23,7 +23,7 @@ function ensureChildVisible(scrolledWindow: Gtk.ScrolledWindow, index: number): 
     if (!container || !vAdj) return;
 
     // Magic number, height of each child
-    const height = 48
+    const height = 50
     const viewStart = vAdj.get_value();
     const viewEnd = viewStart + vAdj.get_page_size();
 

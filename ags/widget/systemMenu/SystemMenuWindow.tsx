@@ -107,7 +107,6 @@ export function addSystemMenuWidgets(
             case SystemMenuWidget.WEATHER:
                 return jsxWidgets.weather as Gtk.Widget
         }
-        return <box/> as Gtk.Widget
     })
 }
 
@@ -191,21 +190,19 @@ export default function () {
         width={variableConfig.horizontalBar.minimumWidth.asAccessor()}
         height={variableConfig.verticalBar.minimumHeight.asAccessor()}
         content={
-            <box
-                marginTop={20}
-                marginStart={20}
-                marginEnd={20}
-                marginBottom={20}
-                orientation={Gtk.Orientation.VERTICAL}
-                spacing={10}>
-                <With value={variableConfig.systemMenu.widgets.asAccessor()}>
-                    {(widgets) => {
-                        return <box orientation={Gtk.Orientation.VERTICAL}>
-                            {addSystemMenuWidgets(widgets, jsxWidgets)}
-                        </box>
-                    }}
-                </With>
-            </box>
+            <With value={variableConfig.systemMenu.widgets.asAccessor()}>
+                {(widgets) => {
+                    return <box
+                        marginTop={20}
+                        marginStart={20}
+                        marginEnd={20}
+                        marginBottom={20}
+                        orientation={Gtk.Orientation.VERTICAL}
+                        spacing={10}>
+                        {addSystemMenuWidgets(widgets, jsxWidgets)}
+                    </box>
+                }}
+            </With>
         }
     />
 }
