@@ -86,17 +86,15 @@ export default function () {
                     cssClasses={variableConfig.horizontalBar.splitSections.asAccessor().as((split) =>
                         split ? ["barWindow"] : []
                     )}>
-                    <box
-                        orientation={Gtk.Orientation.HORIZONTAL}
-                        marginStart={variableConfig.horizontalBar.sectionPadding.asAccessor()}
-                        marginEnd={variableConfig.horizontalBar.sectionPadding.asAccessor()}
-                        spacing={variableConfig.horizontalBar.widgetSpacing.asAccessor()}>
-                        <With value={variableConfig.horizontalBar.leftWidgets.asAccessor()}>
-                            {widgets => <box orientation={Gtk.Orientation.HORIZONTAL}>
-                                {addWidgets(widgets, false)}
-                            </box>}
-                        </With>
-                    </box>
+                    <With value={variableConfig.horizontalBar.leftWidgets.asAccessor()}>
+                        {widgets => <box
+                            orientation={Gtk.Orientation.HORIZONTAL}
+                            marginStart={variableConfig.horizontalBar.sectionPadding.asAccessor()}
+                            marginEnd={variableConfig.horizontalBar.sectionPadding.asAccessor()}
+                            spacing={variableConfig.horizontalBar.widgetSpacing.asAccessor()}>
+                            {addWidgets(widgets, false)}
+                        </box>}
+                    </With>
                 </box> as Gtk.Widget
             }
             centerWidget={
@@ -107,17 +105,15 @@ export default function () {
                     cssClasses={variableConfig.horizontalBar.splitSections.asAccessor().as((split) =>
                         split ? ["barWindow"] : []
                     )}>
-                    <box
-                        orientation={Gtk.Orientation.HORIZONTAL}
-                        marginStart={variableConfig.horizontalBar.sectionPadding.asAccessor()}
-                        marginEnd={variableConfig.horizontalBar.sectionPadding.asAccessor()}
-                        spacing={variableConfig.horizontalBar.widgetSpacing.asAccessor()}>
-                        <With value={variableConfig.horizontalBar.centerWidgets.asAccessor()}>
-                            {widgets => <box orientation={Gtk.Orientation.HORIZONTAL}>
-                                {addWidgets(widgets, false)}
-                            </box>}
-                        </With>
-                    </box>
+                    <With value={variableConfig.horizontalBar.centerWidgets.asAccessor()}>
+                        {widgets => <box
+                            orientation={Gtk.Orientation.HORIZONTAL}
+                            marginStart={variableConfig.horizontalBar.sectionPadding.asAccessor()}
+                            marginEnd={variableConfig.horizontalBar.sectionPadding.asAccessor()}
+                            spacing={variableConfig.horizontalBar.widgetSpacing.asAccessor()}>
+                            {addWidgets(widgets, false)}
+                        </box>}
+                    </With>
                 </box> as Gtk.Widget
             }
             endWidget={
@@ -129,17 +125,15 @@ export default function () {
                     cssClasses={variableConfig.horizontalBar.splitSections.asAccessor().as((split) =>
                         split ? ["barWindow"] : []
                     )}>
-                    <box
-                        orientation={Gtk.Orientation.HORIZONTAL}
-                        marginStart={variableConfig.horizontalBar.sectionPadding.asAccessor()}
-                        marginEnd={variableConfig.horizontalBar.sectionPadding.asAccessor()}
-                        spacing={variableConfig.horizontalBar.widgetSpacing.asAccessor()}>
-                        <With value={variableConfig.horizontalBar.rightWidgets.asAccessor()}>
-                            {widgets => <box orientation={Gtk.Orientation.HORIZONTAL}>
-                                {addWidgets(widgets, false)}
-                            </box>}
-                        </With>
-                    </box>
+                    <With value={variableConfig.horizontalBar.rightWidgets.asAccessor()}>
+                        {widgets => <box
+                            orientation={Gtk.Orientation.HORIZONTAL}
+                            marginStart={variableConfig.horizontalBar.sectionPadding.asAccessor()}
+                            marginEnd={variableConfig.horizontalBar.sectionPadding.asAccessor()}
+                            spacing={variableConfig.horizontalBar.widgetSpacing.asAccessor()}>
+                            {addWidgets(widgets, false)}
+                        </box>}
+                    </With>
                 </box> as Gtk.Widget
             }/>
     </window>

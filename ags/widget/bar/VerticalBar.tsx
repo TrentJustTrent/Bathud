@@ -140,17 +140,15 @@ export default function () {
                         cssClasses={variableConfig.verticalBar.splitSections.asAccessor().as((split) =>
                             split ? ["barWindow"] : []
                         )}>
-                        <box
-                            orientation={Gtk.Orientation.VERTICAL}
-                            marginTop={variableConfig.verticalBar.sectionPadding.asAccessor()}
-                            marginBottom={variableConfig.verticalBar.sectionPadding.asAccessor()}
-                            spacing={variableConfig.verticalBar.widgetSpacing.asAccessor()}>
-                            <With value={variableConfig.verticalBar.topWidgets.asAccessor()}>
-                                {widgets => <box orientation={Gtk.Orientation.VERTICAL}>
-                                    {addWidgets(widgets, true)}
-                                </box>}
-                            </With>
-                        </box>
+                        <With value={variableConfig.verticalBar.topWidgets.asAccessor()}>
+                            {widgets => <box
+                                orientation={Gtk.Orientation.VERTICAL}
+                                marginTop={variableConfig.verticalBar.sectionPadding.asAccessor()}
+                                marginBottom={variableConfig.verticalBar.sectionPadding.asAccessor()}
+                                spacing={variableConfig.verticalBar.widgetSpacing.asAccessor()}>
+                                {addWidgets(widgets, true)}
+                            </box>}
+                        </With>
                     </box> as Gtk.Widget
                 }
                 centerWidget={
@@ -162,17 +160,15 @@ export default function () {
                         cssClasses={variableConfig.verticalBar.splitSections.asAccessor().as((split) =>
                             split ? ["barWindow"] : []
                         )}>
-                        <box
-                            orientation={Gtk.Orientation.VERTICAL}
-                            marginTop={variableConfig.verticalBar.sectionPadding.asAccessor()}
-                            marginBottom={variableConfig.verticalBar.sectionPadding.asAccessor()}
-                            spacing={variableConfig.verticalBar.widgetSpacing.asAccessor()}>
-                            <With value={variableConfig.verticalBar.centerWidgets.asAccessor()}>
-                                {widgets => <box orientation={Gtk.Orientation.VERTICAL}>
-                                    {addWidgets(widgets, true)}
-                                </box>}
-                            </With>
-                        </box>
+                        <With value={variableConfig.verticalBar.centerWidgets.asAccessor()}>
+                            {widgets => <box
+                                orientation={Gtk.Orientation.VERTICAL}
+                                marginTop={variableConfig.verticalBar.sectionPadding.asAccessor()}
+                                marginBottom={variableConfig.verticalBar.sectionPadding.asAccessor()}
+                                spacing={variableConfig.verticalBar.widgetSpacing.asAccessor()}>
+                                {addWidgets(widgets, true)}
+                            </box>}
+                        </With>
                     </box> as Gtk.Widget
                 }
                 endWidget={
@@ -185,17 +181,15 @@ export default function () {
                         cssClasses={variableConfig.verticalBar.splitSections.asAccessor().as((split) =>
                             split ? ["barWindow"] : []
                         )}>
-                        <box
-                            orientation={Gtk.Orientation.VERTICAL}
-                            marginTop={variableConfig.verticalBar.sectionPadding.asAccessor()}
-                            marginBottom={variableConfig.verticalBar.sectionPadding.asAccessor()}
-                            spacing={variableConfig.verticalBar.widgetSpacing.asAccessor()}>
-                            <With value={variableConfig.verticalBar.bottomWidgets.asAccessor()}>
-                                {widgets => <box orientation={Gtk.Orientation.VERTICAL}>
-                                    {addWidgets(widgets, true)}
-                                </box>}
-                            </With>
-                        </box>
+                        <With value={variableConfig.verticalBar.bottomWidgets.asAccessor()}>
+                            {widgets => <box
+                                orientation={Gtk.Orientation.VERTICAL}
+                                marginTop={variableConfig.verticalBar.sectionPadding.asAccessor()}
+                                marginBottom={variableConfig.verticalBar.sectionPadding.asAccessor()}
+                                spacing={variableConfig.verticalBar.widgetSpacing.asAccessor()}>
+                                {addWidgets(widgets, true)}
+                            </box>}
+                        </With>
                     </box> as Gtk.Widget
                 }/>
         </box>
