@@ -23,7 +23,7 @@ function ensureChildVisible(scrolledWindow: Gtk.ScrolledWindow, index: number): 
     if (!container || !vAdj) return;
 
     // Magic number, height of each child
-    const height = 50
+    const height = 48
     const viewStart = vAdj.get_value();
     const viewEnd = viewStart + vAdj.get_page_size();
 
@@ -117,7 +117,10 @@ export default function () {
             propagateNaturalHeight={true}
             canFocus={false}
         >
-            <box spacing={6} orientation={Gtk.Orientation.VERTICAL}>
+            <box
+                spacing={6}
+                orientation={Gtk.Orientation.VERTICAL}
+                marginBottom={6}>
                 <For each={list}>
                     {(app, index) => {
                         let indexes = createComputed([
@@ -138,7 +141,6 @@ export default function () {
                         cssClasses={["labelSmall"]}
                         label="No match found"/>
                 </box>
-                <box/>
             </box>
         </Gtk.ScrolledWindow>
     ) as Gtk.ScrolledWindow

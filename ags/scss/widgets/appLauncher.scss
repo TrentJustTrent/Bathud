@@ -6,7 +6,7 @@
   padding: 2px;
 
   .appButton {
-    margin: 2px 8px 2px 8px;
+    margin: 2px 8px 0 8px;
     padding: 8px;
     background-color: transparent;
     border-radius: vars.$buttonBorderRadius;
@@ -19,7 +19,7 @@
   }
 
   .selectedAppButton {
-    margin: 2px 8px 2px 8px;
+    margin: 2px 8px 0 8px;
     padding: 8px;
     background-color: vars.$primary;
     border-radius: vars.$buttonBorderRadius;

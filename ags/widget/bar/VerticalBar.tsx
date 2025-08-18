@@ -111,21 +111,19 @@ export default function () {
                     vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
                     propagateNaturalHeight={true}
                     widthRequest={400}>
-                    <box
-                        marginTop={20}
-                        marginStart={20}
-                        marginEnd={20}
-                        marginBottom={20}
-                        orientation={Gtk.Orientation.VERTICAL}
-                        spacing={10}>
-                        <With value={variableConfig.systemMenu.widgets.asAccessor()}>
-                            {(widgets) => {
-                                return <box orientation={Gtk.Orientation.VERTICAL}>
-                                    {addSystemMenuWidgets(widgets, systemJsxWidgets)}
-                                </box>
-                            }}
-                        </With>
-                    </box>
+                    <With value={variableConfig.systemMenu.widgets.asAccessor()}>
+                        {(widgets) => {
+                            return <box
+                                marginTop={20}
+                                marginStart={20}
+                                marginEnd={20}
+                                marginBottom={20}
+                                orientation={Gtk.Orientation.VERTICAL}
+                                spacing={10}>
+                                {addSystemMenuWidgets(widgets, systemJsxWidgets)}
+                            </box>
+                        }}
+                    </With>
                 </Gtk.ScrolledWindow>
             </revealer>
             <centerbox
