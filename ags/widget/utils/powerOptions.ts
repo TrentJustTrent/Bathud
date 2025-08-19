@@ -1,6 +1,8 @@
 import {variableConfig} from "../../config/config";
 import ConfirmationDialog from "../common/ConfirmationDialog";
 import {execAsync} from "ags/process";
+import {integratedMenuRevealed, integratedMenuRevealedSetting} from "../bar/VerticalBar";
+import {Bar, selectedBar} from "../../config/bar";
 
 export function logout() {
     if (variableConfig.systemCommands.logoutConfirmationEnabled.get()) {
@@ -25,6 +27,7 @@ export function logout() {
 
 export function lock() {
     if (variableConfig.systemCommands.lockConfirmationEnabled.get()) {
+        integratedMenuRevealedSetting(false)
         ConfirmationDialog(
             "Are you sure you want to lock the device?",
             "Lock",
@@ -37,10 +40,20 @@ export function lock() {
             }
         )
     } else {
-        execAsync(variableConfig.systemCommands.lock.get())
-            .catch((error) => {
-                console.error(error)
-            })
+        const barIsVertical = selectedBar.get() === Bar.LEFT || selectedBar.get() === Bar.RIGHT
+        if (barIsVertical && variableConfig.verticalBar.integratedMenu.get()) {
+            // Hide the integrated menu before locking
+            integratedMenuRevealedSetting(false)
+            execAsync(['bash', '-c', `sleep 0.3 && ${variableConfig.systemCommands.lock.get()}`])
+                .catch((error) => {
+                    console.error(error)
+                })
+        } else {
+            execAsync(variableConfig.systemCommands.lock.get())
+                .catch((error) => {
+                    console.error(error)
+                })
+        }
     }
 }
 
