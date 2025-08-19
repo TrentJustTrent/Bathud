@@ -1,9 +1,10 @@
 import {readFile} from "ags/file";
 import {Variable} from "./Variable";
 import {execAsync} from "ags/process";
-// import {hideAllWindows} from "../widget/utils/windows";
+import {hideAllWindows} from "../widget/utils/windows";
 import {variableConfig} from "./config";
 import GLib from "gi://GLib?version=2.0";
+import {integratedMenuRevealedSetting} from "../widget/bar/VerticalBar";
 
 export enum Bar {
     LEFT = "left",
@@ -16,8 +17,8 @@ export const selectedBar = new Variable(Bar.LEFT)
 
 export function setBarType(bar: Bar) {
     console.log(`Setting bar: ${bar}`)
-    //TODO
-    // hideAllWindows()
+    hideAllWindows()
+    integratedMenuRevealedSetting(false)
     selectedBar.set(bar)
     saveBar()
     execAsync(`bash -c '
