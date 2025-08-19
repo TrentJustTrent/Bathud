@@ -1,7 +1,7 @@
 import {variableConfig} from "../../config/config";
 import ConfirmationDialog from "../common/ConfirmationDialog";
 import {execAsync} from "ags/process";
-import {integratedMenuRevealed, integratedMenuRevealedSetting} from "../bar/VerticalBar";
+import {integratedMenuRevealedSetting} from "../bar/VerticalBar";
 import {Bar, selectedBar} from "../../config/bar";
 
 export function logout() {
