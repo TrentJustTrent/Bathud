@@ -6,8 +6,10 @@ import {execAsync} from "ags/process";
 import Divider from "../../common/Divider";
 import {variableConfig} from "../../../config/config";
 import {SpeedUnits, TemperatureUnits} from "../../../config/schema/definitions/systemMenuWidgets";
-import {createComputed, createState, For, With} from "ags";
+import {createBinding, createComputed, createState, For, With, Accessor} from "ags";
 import {interval} from "ags/time";
+import AstalNetwork from "gi://AstalNetwork?version=0.1";
+import AstalIO from "gi://AstalIO?version=0.1";
 
 type HourlyWeather = {
     time: Date;
@@ -182,11 +184,39 @@ export function getWeatherIcon(code: number | null, isDay: boolean = true): stri
     }
 }
 
+let updateIntervalBinding: Accessor | null = null
+let network = AstalNetwork.get_default()
+let updateInterval: AstalIO.Time | null = null
+
+function setupUpdateInterval() {
+    if (updateIntervalBinding !== null) {
+        return
+    }
+
+    updateIntervalBinding = createBinding(network, "connectivity")
+    updateIntervalBinding.subscribe(() => {
+        if (updateInterval !== null) {
+            updateInterval.cancel()
+            updateInterval = null
+        }
+        if (network.connectivity === AstalNetwork.Connectivity.FULL) {
+            updateInterval = interval(WEATHER_UPDATE_INTERVAL, () => {
+                updateWeather()
+            })
+            return;
+        }
+    })
+
+    if (network.connectivity === AstalNetwork.Connectivity.FULL) {
+        updateInterval = interval(WEATHER_UPDATE_INTERVAL, () => {
+            updateWeather()
+        })
+        return;
+    }
+}
 
 export default function () {
-    interval(1000 * 60 * 15, () => {
-        updateWeather()
-    })
+    setupUpdateInterval()
 
     const hourlyWeather = createComputed([
         weather
