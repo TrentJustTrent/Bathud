@@ -2,14 +2,14 @@ import {Gtk} from "ags/gtk4"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
 import {SystemMenuWindowName} from "../SystemMenuWindow";
-import {execAsync} from "ags/process";
 import Divider from "../../common/Divider";
 import {variableConfig} from "../../../config/config";
 import {SpeedUnits, TemperatureUnits} from "../../../config/schema/definitions/systemMenuWidgets";
-import {createBinding, createComputed, createState, For, With, Accessor} from "ags";
+import {createBinding, createComputed, createState, For, Accessor} from "ags";
 import {interval} from "ags/time";
 import AstalNetwork from "gi://AstalNetwork?version=0.1";
 import AstalIO from "gi://AstalIO?version=0.1";
+import {fetchJson} from "../../utils/networkRequest";
 
 type HourlyWeather = {
     time: Date;
@@ -74,10 +74,9 @@ function updateWeather() {
         `${variableConfig.systemMenu.weather.temperatureUnit.get() === TemperatureUnits.F ? "&temperature_unit=fahrenheit" : ""}`;
 
     console.log("Getting weather...")
-    execAsync(["curl", url])
-        .then((response) => {
-            const json = JSON.parse(response);
 
+    fetchJson(url)
+        .then((json) => {
             const toDate = (str: string): Date => new Date(`${str}:00Z`);
             const dailyToDate = (str: string): Date => new Date(`${str}T00:00:00Z`);
 
@@ -114,7 +113,7 @@ function updateWeather() {
             });
         })
         .catch((error) => {
-            console.log(error)
+            logError(error);
         })
         .finally(() => {
             console.log("Weather done")

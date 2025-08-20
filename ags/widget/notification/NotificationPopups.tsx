@@ -68,7 +68,7 @@ export default function NotificationPopups(monitor: Hyprland.Monitor): Astal.Win
                     return <Notification
                         setup={(self) => {
                             hideTimeout = setTimeout(() => {
-                                notification.dismiss()
+                                setNotifications((ns) => ns.filter((it) => it.id !== notification.id))
                                 hideTimeout?.destroy()
                                 hideTimeout = null
                             }, TIMEOUT_DELAY)
@@ -79,7 +79,7 @@ export default function NotificationPopups(monitor: Hyprland.Monitor): Astal.Win
                             });
                             motion.connect("leave", () => {
                                 hideTimeout = setTimeout(() => {
-                                    notification.dismiss()
+                                    setNotifications((ns) => ns.filter((it) => it.id !== notification.id))
                                     hideTimeout?.destroy()
                                     hideTimeout = null
                                 }, TIMEOUT_DELAY)
