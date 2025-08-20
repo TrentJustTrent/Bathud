@@ -29,9 +29,11 @@ export enum LoopStatus {
 // -------------------------------------------------------
 export class Player {
     busName: string;
+    rootProxy: Gio.DBusProxy | null;
     proxy: Gio.DBusProxy | null;
     isPrimaryPlayer: boolean
 
+    identity = createState<string | null>(null);
     playbackStatus = createState<PlaybackStatus | null>(null);
     position = createState(0);
     trackLength = createState(0);
@@ -47,10 +49,12 @@ export class Player {
 
     constructor(busName: string, isPrimary: boolean) {
         this.busName = busName;
+        this.rootProxy = null;
         this.proxy = null;
         this.positionInterval = null;
         this.isPrimaryPlayer = isPrimary
 
+        this._initRootProxy()
         this._initProxy();
         this._setupPositionInterval()
     }
@@ -85,6 +89,39 @@ export class Player {
                 );
             }
         })
+    }
+
+    private _initRootProxy(): void {
+        try {
+            // Create a synchronous proxy for the media player's "Player" interface.
+            this.rootProxy = Gio.DBusProxy.new_sync(
+                Gio.DBus.session,
+                Gio.DBusProxyFlags.NONE,
+                null, // GDBusInterfaceInfo (not needed)
+                this.busName,
+                "/org/mpris/MediaPlayer2",
+                "org.mpris.MediaPlayer2",
+                null // GCancellable
+            );
+        } catch (e) {
+            console.error(e, `Error creating proxy for ${this.busName}`);
+            return;
+        }
+
+        const idVar = this.rootProxy.get_cached_property("Identity");
+        this.identity[1](idVar ? (idVar.deep_unpack() as string) : null);
+
+        // Also listen for changes on the root interface
+        this.rootProxy.connect("g-properties-changed", (_proxy, changed /* GLib.Variant */) => {
+            const dict: any = changed.deep_unpack();
+            if ("Identity" in dict) {
+                try {
+                    this.identity[1](dict["Identity"].deep_unpack() as string);
+                } catch {
+                    this.identity[1](null);
+                }
+            }
+        });
     }
 
     private _initProxy(): void {
@@ -347,16 +384,17 @@ export class Player {
         // uncomment to enable logs
 
         // log(`Player (${this.busName}) updated:`);
-        // log(`  PlaybackStatus: ${this.playbackStatus.get()}`);
-        // log(`  Position: ${this.position.get()}`);
-        // log(`  Track Length: ${this.trackLength.get()}`);
-        // log(`  Title: ${this.title.get()}`);
-        // log(`  Artist: ${this.artist.get()}`);
-        // log(`  Shuffle: ${this.shuffleStatus.get()}`);
-        // log(`  CanGoPrevious: ${this.canGoPrevious.get()}`);
-        // log(`  CanGoNext: ${this.canGoNext.get()}`);
-        // log(`  LoopStatus: ${this.loopStatus.get()}`);
-        // log(`  CanControl: ${this.canControl.get()}`);
+        // log(`  Identity: ${this.identity[0].get()}`);
+        // log(`  PlaybackStatus: ${this.playbackStatus[0].get()}`);
+        // log(`  Position: ${this.position[0].get()}`);
+        // log(`  Track Length: ${this.trackLength[0].get()}`);
+        // log(`  Title: ${this.title[0].get()}`);
+        // log(`  Artist: ${this.artist[0].get()}`);
+        // log(`  Shuffle: ${this.shuffleStatus[0].get()}`);
+        // log(`  CanGoPrevious: ${this.canGoPrevious[0].get()}`);
+        // log(`  CanGoNext: ${this.canGoNext[0].get()}`);
+        // log(`  LoopStatus: ${this.loopStatus[0].get()}`);
+        // log(`  CanControl: ${this.canControl[0].get()}`);
     }
 
     public setShuffleStatus(status: ShuffleStatus): void {

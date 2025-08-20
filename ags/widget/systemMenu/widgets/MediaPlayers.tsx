@@ -23,32 +23,37 @@ function MediaPlayer({ player }: { player: Player }) {
     const artist = player.artist[0](a =>
         a || "Unknown Artist")
 
+    const program = player.identity[0](p =>
+        p || "")
+
     return <box
         cssClasses={["mediaPlayer"]}
         orientation={Gtk.Orientation.VERTICAL}>
         <label
+            visible={player.title[0]((t) => t !== null)}
             cssClasses={["labelSmallBold"]}
             ellipsize={Pango.EllipsizeMode.END}
             halign={CENTER}
             label={title}/>
         <label
+            visible={player.artist[0]((a) => a !== null)}
             cssClasses={["labelSmall"]}
             ellipsize={Pango.EllipsizeMode.END}
             halign={CENTER}
             label={artist}/>
         <box
-            cssClasses={["seekContainer"]}
+            marginTop={10}
+            marginBottom={10}
+            visible={player.trackLength[0](l => l > 0)}
             orientation={Gtk.Orientation.HORIZONTAL}>
             <label
                 cssClasses={["labelSmall"]}
                 halign={START}
-                visible={player.trackLength[0](l => l > 0)}
                 label={player.position[0](lengthStr)}
             />
             <slider
                 cssClasses={["seek"]}
                 hexpand={true}
-                visible={player.trackLength[0](l => l > 0)}
                 onChangeValue={({value}) => {
                     if (player.trackLength[0].get() > STREAMING_TRACK_LENGTH) {
                         return
@@ -62,7 +67,6 @@ function MediaPlayer({ player }: { player: Player }) {
             <label
                 cssClasses={["labelSmall"]}
                 halign={END}
-                visible={player.trackLength[0](l => l > 0)}
                 label={player.trackLength[0]((l) => {
                     if (l > STREAMING_TRACK_LENGTH) {
                         return " "
@@ -74,7 +78,17 @@ function MediaPlayer({ player }: { player: Player }) {
                 })}
             />
         </box>
-        <MprisControlButtons player={player} vertical={false}/>
+        <box
+            orientation={Gtk.Orientation.VERTICAL}
+            spacing={10}>
+            <MprisControlButtons player={player} vertical={false}/>
+            <label
+                visible={player.identity[0]((i) => i !== null)}
+                cssClasses={["labelSmall"]}
+                ellipsize={Pango.EllipsizeMode.END}
+                halign={CENTER}
+                label={program}/>
+        </box>
     </box>
 }
 
