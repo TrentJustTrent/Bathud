@@ -110,7 +110,7 @@ export default function () {
                     cssClasses={["scrollWindow"]}
                     vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
                     propagateNaturalHeight={true}
-                    widthRequest={400}>
+                    widthRequest={410}>
                     <With value={variableConfig.systemMenu.widgets.asAccessor()}>
                         {(widgets) => {
                             return <box

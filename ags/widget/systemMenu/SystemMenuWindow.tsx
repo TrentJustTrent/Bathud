@@ -186,7 +186,7 @@ export default function () {
         bottomExpand={bottomExpand}
         leftExpand={leftExpand}
         rightExpand={rightExpand}
-        contentWidth={400}
+        contentWidth={420}
         width={variableConfig.horizontalBar.minimumWidth.asAccessor()}
         height={variableConfig.verticalBar.minimumHeight.asAccessor()}
         content={
