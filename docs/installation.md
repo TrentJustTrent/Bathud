@@ -9,7 +9,7 @@ This project is quite usable, but still in a pre-release state.  There may be br
 ### AUR package
 
 ```
-yay -S okpanel-git
+yay -Syu --devel okpanel-git
 ```
 
 ---
@@ -19,7 +19,7 @@ yay -S okpanel-git
 Install dependencies    
 
 ```
-yay -S aylurs-gtk-shell-git \
+yay -Syu --devel aylurs-gtk-shell-git \
 bluez \
 bluez-utils \
 brightnessctl \
