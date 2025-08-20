@@ -2,9 +2,13 @@ import {Gtk} from "ags/gtk4"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
 import {SystemMenuWindowName} from "../SystemMenuWindow";
-import {ClipboardManagerContent} from "../../clipboardManager/ClipboardManager";
+import {ClipboardManagerContent, updateClipboardEntries} from "../../clipboardManager/ClipboardManager";
+import {interval} from "ags/time";
+import AstalIO from "gi://AstalIO?version=0.1";
 
 export default function () {
+
+    let updateInterval: AstalIO.Time | null = null
 
     return <RevealerRow
         icon={""}
@@ -24,5 +28,17 @@ export default function () {
                 <ClipboardManagerContent/>
             </box>
         }
+        setup={(revealed) => {
+            revealed[0].subscribe(() => {
+                if (revealed[0].get()) {
+                    updateInterval = interval(5000, () => {
+                        updateClipboardEntries()
+                    })
+                } else {
+                    updateInterval?.cancel()
+                    updateInterval = null
+                }
+            })
+        }}
     />
 }

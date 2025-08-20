@@ -58,7 +58,7 @@ export function startCliphist() {
         })
 }
 
-function updateClipboardEntries() {
+export function updateClipboardEntries() {
     execAsync(["bash", "-c", `cliphist list`])
         .catch((error) => {
             console.error(error)
