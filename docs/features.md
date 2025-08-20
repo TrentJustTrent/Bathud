@@ -2,7 +2,7 @@
 
 ## Bar
 
-Bars can be configured with varius widgets.  The position of the bar can be changed through the system menu Look and Feel controls
+Bars can be configured with various widgets.  The position of the bar can be changed through the system menu Look and Feel controls
 
 <p style="display: flex; gap: 1rem;">
   <img src="../screenshots/features/bar/top.png" alt="Image 1" style="width: 50%;">
@@ -46,6 +46,8 @@ You can swap the default input/output.
 ### Power profiles
 
 Change the current power profile.
+
+![screenshot](screenshots/features/powerProfiles.png)
 
 ---
 
@@ -122,9 +124,9 @@ or disable the widget if you have concerns.
 
 ![screenshot](screenshots/features/clipboardManager.png)
 
-## Volume and brightness alerts
+## Volume and brightness OSD
 
-These alerts will show automatically when changing volume or brightness.
+The OSD shows automatically when changing volume or brightness.
 
 ![screenshot](screenshots/features/alerts.png)
 
