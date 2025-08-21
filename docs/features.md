@@ -16,11 +16,11 @@ Bars can be configured with various widgets.  The position of the bar can be cha
 
 Here are some examples of bar configurations:
 
-![screenshot](screenshots/bar/example1.png)
+![screenshot](screenshots/features/bar/example1.png)
 
-![screenshot](screenshots/bar/example2.png)
+![screenshot](screenshots/features/bar/example2.png)
 
-![screenshot](screenshots/bar/example3.png)
+![screenshot](screenshots/features/bar/example3.png)
 
 ## System Menu
 
