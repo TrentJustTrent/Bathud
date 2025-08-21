@@ -9,6 +9,34 @@ import {createComputed} from "ags";
 
 export const CalendarWindowName = "calendarWindow"
 
+function secondsUntilNextLocalMidnight(): number {
+    const now = GLib.DateTime.new_now_local();
+    const tomorrow = now.add_days(1)!;
+    const nextMidnight = GLib.DateTime.new_local(
+        tomorrow.get_year(), tomorrow.get_month(), tomorrow.get_day_of_month(),
+        0, 0, 0
+    );
+    return Math.max(1, nextMidnight.to_unix() - now.to_unix());
+}
+
+/**
+ * Keeps the "today" marker fresh forever without changing the selected date.
+ * Call once after you create the calendar (e.g., inside AGS `$` hook).
+ */
+export function keepCalendarTodayFresh(cal: Gtk.Calendar) {
+    const schedule = () => {
+        GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, secondsUntilNextLocalMidnight(), () => {
+            // Redraw; most themes/widgets recompute "today" on draw
+            cal.queue_draw();
+
+            // Re-schedule for the next midnight
+            schedule();
+            return GLib.SOURCE_REMOVE;
+        });
+    };
+    schedule();
+}
+
 export default function () {
     const time = createPoll<GLib.DateTime>(
         GLib.DateTime.new_now_local(),
@@ -107,7 +135,10 @@ export default function () {
                     })}/>
                 <Gtk.Calendar
                     marginTop={12}
-                    cssClasses={["calendar"]}/>
+                    cssClasses={["calendar"]}
+                    $={(self) => {
+                        keepCalendarTodayFresh(self)
+                    }}/>
             </box>
         }/>
 }
