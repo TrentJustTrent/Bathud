@@ -14,6 +14,12 @@ Bars can be configured with various widgets.  The position of the bar can be cha
   <img src="../screenshots/features/bar/bottom.png" alt="Image 3" style="width: 50%;">
 </p>
 
+![screenshot](screenshots/bar/example1.png)
+
+![screenshot](screenshots/bar/example2.png)
+
+![screenshot](screenshots/bar/example3.png)
+
 ## System Menu
 
 ### Network management
