@@ -29,13 +29,13 @@ const commonBarChildrenSchema = [
         name: 'expanded',
         type: 'boolean',
         default: true,
-        description: 'If true, the bar stretches to the full monitor width.',
+        description: 'If true, the bar stretches to the full monitor length.',
     },
     {
         name: 'splitSections',
         type: 'boolean',
         default: false,
-        description: 'If true, left/center/right widgets are rendered separately with padding.',
+        description: 'If true, widget sections are rendered separately with padding.',
     },
     {
         name: 'sectionPadding',
@@ -65,13 +65,13 @@ const commonBarChildrenSchema = [
         name: 'marginStart',
         type: 'number',
         default: 5,
-        description: 'Margin (px) at the start of the bar.  (For the vertical bar, this is the top)'
+        description: 'Margin (px) at the start of the bar.'
     },
     {
         name: 'marginEnd',
         type: 'number',
         default: 5,
-        description: 'Margin (px) at the end of the bar.  (For the vertical bar, this is the bottom)'
+        description: 'Margin (px) at the end of the bar.'
     },
 ] as const satisfies Field[]
 

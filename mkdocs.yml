@@ -25,9 +25,9 @@ repo_name: OkPanel
 nav:
   - Home: index.md
   - Installation: installation.md
+  - Usage: usage.md
+  - Features: features.md
   - Configuration System: configurationSystem.md
   - Configuration Schema: config.md
   - Configuration Example: example.md
   - Animations and Blur: windowAnimations.md
-  - Usage: usage.md
-  - Features: features.md
