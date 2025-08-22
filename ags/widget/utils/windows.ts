@@ -1,7 +1,6 @@
 import App from "ags/gtk4/app"
 import {SystemMenuWindowName} from "../systemMenu/SystemMenuWindow";
 import {scrimsVisibleSetter} from "../common/Scrim";
-import {CalendarWindowName} from "../calendar/Calendar";
 import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
 import Astal from "gi://Astal?version=4.0";
 import {ScreenshareWindowName} from "../screenshare/Screenshare";
@@ -9,6 +8,7 @@ import {ScreenshotWindowName} from "../screenshot/Screenshot";
 import {ClipboardManagerWindowName} from "../clipboardManager/ClipboardManager";
 // import {PolkitWindowName} from "../polkit/PolkitPopup";
 import {NotificationHistoryWindowName} from "../notification/NotificationHistoryWindow";
+import {createRoot} from "ags";
 
 const openedOneOffWindows: Astal.Window[] = []
 
@@ -26,7 +26,6 @@ export function hideAllWindows() {
     const windows = App.get_windows().filter((window) => {
         return window.name === AppLauncherWindowName ||
             window.name === SystemMenuWindowName ||
-            window.name === CalendarWindowName ||
             window.name === ScreenshareWindowName ||
             window.name === ScreenshotWindowName ||
             window.name === ClipboardManagerWindowName ||
@@ -45,4 +44,16 @@ export function hideAllWindows() {
 
 export function registerWindow(window: Astal.Window) {
     openedOneOffWindows.push(window)
+}
+
+export function addWindowOneOff(createWindow: () => Astal.Window) {
+    scrimsVisibleSetter(true)
+    App.add_window(
+        createRoot((dispose) => {
+            const window = createWindow()
+            registerWindow(window)
+            window.connect("destroy", dispose)
+            return window
+        })
+    )
 }

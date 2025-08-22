@@ -15,6 +15,7 @@ type Params = {
     rightExpand: Accessor<boolean> | boolean,
     leftExpand: Accessor<boolean> | boolean,
     contentWidth: number,
+    visible?: boolean,
     width?: number | Accessor<number>,
     height?: number | Accessor<number>,
     content?: JSX.Element;
@@ -66,11 +67,12 @@ export default function(
         rightExpand,
         leftExpand,
         contentWidth,
+        visible = false,
         width = 0,
         height = 0,
         content,
     }: Params
-) {
+): Astal.Window {
     let mainBox: Gtk.Box
 
     return <window
@@ -85,7 +87,7 @@ export default function(
         layer={Astal.Layer.OVERLAY}
         cssClasses={["transparentBackground"]}
         application={App}
-        visible={false}
+        visible={visible}
         keymode={Astal.Keymode.ON_DEMAND}
         $={(self) => {
             const gesture = new Gtk.GestureClick();
@@ -139,5 +141,5 @@ export default function(
             </box>
             <box vexpand={bottomExpand}/>
         </box>
-    </window>
+    </window> as Astal.Window
 }

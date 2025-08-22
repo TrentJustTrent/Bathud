@@ -31,7 +31,7 @@ App.start({
 
         VerticalBar()
         HorizontalBar()
-        Calendar()
+        // Calendar()
         SystemMenuWindow()
         ChargingAlertSound()
         AppLauncher()

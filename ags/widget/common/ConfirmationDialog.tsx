@@ -1,7 +1,6 @@
 import App from "ags/gtk4/app"
 import OkButton from "./OkButton";
-import {hideAllWindows, registerWindow} from "../utils/windows";
-import {scrimsVisibleSetter} from "./Scrim";
+import {hideAllWindows} from "../utils/windows";
 import Astal from "gi://Astal?version=4.0";
 import {Gdk, Gtk} from "ags/gtk4";
 
@@ -11,9 +10,6 @@ export default function(
     deny: string,
     onConfirm: () => void,
 ): Astal.Window {
-    let window: Astal.Window
-    scrimsVisibleSetter(true)
-
     return <window
         widthRequest={400}
         heightRequest={150}
@@ -24,9 +20,6 @@ export default function(
         visible={true}
         keymode={Astal.Keymode.ON_DEMAND}
         $={(self) => {
-            window = self
-            registerWindow(self)
-
             let keyController = new Gtk.EventControllerKey()
 
             keyController.connect("key-pressed", (_, key) => {

@@ -1,5 +1,5 @@
 import Hyprland from "gi://AstalHyprland"
-import {CalendarWindowName} from "../calendar/Calendar"
+import Calendar, {CalendarWindowName} from "../calendar/Calendar"
 import Wp from "gi://AstalWp"
 import Battery from "gi://AstalBattery"
 import {getMicrophoneIcon, getVolumeIcon, playBatteryWarning} from "../utils/audio"
@@ -12,7 +12,7 @@ import {isRecording, ScreenshotWindowName} from "../screenshot/Screenshot";
 import Divider from "../common/Divider";
 import {variableConfig} from "../../config/config";
 import Tray from "gi://AstalTray"
-import {toggleWindow} from "../utils/windows";
+import {addWindowOneOff, registerWindow, toggleWindow} from "../utils/windows";
 import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
 import {ClipboardManagerWindowName, startCliphist} from "../clipboardManager/ClipboardManager";
 import PowerProfiles from "gi://AstalPowerProfiles"
@@ -28,13 +28,14 @@ import {NotificationHistoryWindowName} from "../notification/NotificationHistory
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
 import Gtk from "gi://Gtk?version=4.0";
 import OkButton, {OkButtonHorizontalPadding, OkButtonSize, OkButtonVerticalPadding} from "../common/OkButton";
-import {createBinding, createComputed, createState, For, With} from "ags";
+import {createBinding, createComputed, createState, For, With, createRoot} from "ags";
 import {createPoll} from "../../../../../../../usr/share/ags/js/lib/time";
 import GLib from "gi://GLib?version=2.0";
 import {runColorPicker} from "../utils/colorPicker";
 import {lock, logout, restart, shutdown} from "../utils/powerOptions";
 import {execAsync} from "ags/process";
 import {integratedMenuRevealed, integratedMenuRevealedSetting} from "./VerticalBar";
+import App from "ags/gtk4/app"
 
 const tray = Tray.get_default()
 
@@ -183,7 +184,7 @@ function Clock({vertical}: { vertical: boolean }) {
         vpadding={getVPadding(vertical)}
         label={time}
         onClicked={() => {
-            toggleWindow(CalendarWindowName)
+            addWindowOneOff(() => Calendar())
         }}/>
 }
 
