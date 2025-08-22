@@ -16,6 +16,12 @@ import ClipboardManager from "./widget/clipboardManager/ClipboardManager";
 import NotificationHistoryWindow from "./widget/notification/NotificationHistoryWindow";
 import {setThemeBasic} from "./config/theme";
 import {restoreBar} from "./config/bar";
+import MonitorFrame, {
+    MonitorFrameBottom,
+    MonitorFrameLeft,
+    MonitorFrameRight,
+    MonitorFrameTop
+} from "./widget/bar/MonitorFrame";
 
 export let projectDir = ""
 
@@ -39,6 +45,11 @@ App.start({
         Screenshare()
         ClipboardManager()
         NotificationHistoryWindow()
+        // MonitorFrame()
+        // MonitorFrameBottom()
+        // MonitorFrameLeft()
+        // MonitorFrameTop()
+        // MonitorFrameRight()
 
         hyprland.monitors.map((monitor) => {
             VolumeAlert(monitor)
