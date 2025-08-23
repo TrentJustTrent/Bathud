@@ -45,11 +45,11 @@ App.start({
         Screenshare()
         ClipboardManager()
         NotificationHistoryWindow()
-        // MonitorFrame()
-        // MonitorFrameBottom()
-        // MonitorFrameLeft()
-        // MonitorFrameTop()
-        // MonitorFrameRight()
+        MonitorFrame()
+        MonitorFrameBottom()
+        MonitorFrameLeft()
+        MonitorFrameTop()
+        MonitorFrameRight()
 
         hyprland.monitors.map((monitor) => {
             VolumeAlert(monitor)

@@ -15,8 +15,12 @@ export default function () {
     const marginLeft = createComputed([
         selectedBar.asAccessor(),
         variableConfig.verticalBar.marginOuter.asAccessor(),
-        variableConfig.verticalBar.marginInner.asAccessor()
-    ], (bar, outer, inner): number => {
+        variableConfig.verticalBar.marginInner.asAccessor(),
+        variableConfig.verticalBar.enableFrame.asAccessor(),
+    ], (bar, outer, inner, frameEnabled): number => {
+        if (frameEnabled) {
+            return 0
+        }
         if (bar === Bar.LEFT) {
             return outer
         } else {
@@ -27,8 +31,12 @@ export default function () {
     const marginRight = createComputed([
         selectedBar.asAccessor(),
         variableConfig.verticalBar.marginOuter.asAccessor(),
-        variableConfig.verticalBar.marginInner.asAccessor()
-    ], (bar, outer, inner): number => {
+        variableConfig.verticalBar.marginInner.asAccessor(),
+        variableConfig.verticalBar.enableFrame.asAccessor(),
+    ], (bar, outer, inner, frameEnabled): number => {
+        if (frameEnabled) {
+            return 0
+        }
         if (bar === Bar.RIGHT) {
             return outer
         } else {
@@ -36,19 +44,53 @@ export default function () {
         }
     })
 
+    const marginTop = createComputed([
+        variableConfig.verticalBar.marginStart.asAccessor(),
+        variableConfig.verticalBar.enableFrame.asAccessor(),
+    ], (margin, frameEnabled) => {
+        if (frameEnabled) {
+            return 0
+        }
+        return margin
+    })
+
+    const marginBottom = createComputed([
+        variableConfig.verticalBar.marginEnd.asAccessor(),
+        variableConfig.verticalBar.enableFrame.asAccessor(),
+    ], (margin, frameEnabled) => {
+        if (frameEnabled) {
+            return 0
+        }
+        return margin
+    })
+
+    const cssClasses = createComputed([
+        variableConfig.verticalBar.splitSections.asAccessor(),
+        variableConfig.verticalBar.enableFrame.asAccessor(),
+    ], (split, frame) => {
+        if (frame) {
+            return ["sideBar", "frameWindow"]
+        }
+        if (split) {
+            return ["sideBar"]
+        }
+        return ["sideBar", "barWindow"]
+    })
+
     const anchor = createComputed([
         selectedBar.asAccessor(),
-        variableConfig.verticalBar.expanded.asAccessor()
-    ], (bar, expanded) => {
+        variableConfig.verticalBar.expanded.asAccessor(),
+        variableConfig.verticalBar.enableFrame.asAccessor(),
+    ], (bar, expanded, framed) => {
         if (bar === Bar.LEFT) {
-            if (!expanded) {
+            if (!expanded && !framed) {
                 return Astal.WindowAnchor.LEFT
             }
             return Astal.WindowAnchor.TOP
                 | Astal.WindowAnchor.LEFT
                 | Astal.WindowAnchor.BOTTOM
         } else {
-            if (!expanded) {
+            if (!expanded && !framed) {
                 return Astal.WindowAnchor.RIGHT
             }
             return Astal.WindowAnchor.TOP
@@ -87,15 +129,13 @@ export default function () {
         // this window doesn't like marginStart for some reason
         marginLeft={marginLeft}
         marginRight={marginRight}
-        marginTop={variableConfig.verticalBar.marginStart.asAccessor()}
-        marginBottom={variableConfig.verticalBar.marginEnd.asAccessor()}
+        marginTop={marginTop}
+        marginBottom={marginBottom}
         anchor={anchor}
         application={App}>
         <box
             orientation={Gtk.Orientation.HORIZONTAL}
-            cssClasses={variableConfig.verticalBar.splitSections.asAccessor().as((split) =>
-                split ? ["sideBar"] : ["barWindow", "sideBar"]
-            )}
+            cssClasses={cssClasses}
             $={(self) => {
                 box = self
             }}>

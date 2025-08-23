@@ -44,6 +44,12 @@ const commonBarChildrenSchema = [
         description: 'Padding (px) around each section when splitSections = true.',
     },
     {
+        name: 'enableFrame',
+        type: 'boolean',
+        default: false,
+        description: 'Adds a full screen frame.',
+    },
+    {
         name: 'widgetSpacing',
         type: 'number',
         default: 0,

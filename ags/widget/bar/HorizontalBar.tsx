@@ -11,8 +11,12 @@ export default function () {
     const marginTop = createComputed([
         selectedBar.asAccessor(),
         variableConfig.horizontalBar.marginOuter.asAccessor(),
-        variableConfig.horizontalBar.marginInner.asAccessor()
-    ], (bar, outer, inner): number => {
+        variableConfig.horizontalBar.marginInner.asAccessor(),
+        variableConfig.horizontalBar.enableFrame.asAccessor(),
+    ], (bar, outer, inner, frameEnabled): number => {
+        if (frameEnabled) {
+            return 0
+        }
         if (bar === Bar.TOP) {
             return outer
         } else {
@@ -23,8 +27,12 @@ export default function () {
     const marginBottom = createComputed([
         selectedBar.asAccessor(),
         variableConfig.horizontalBar.marginOuter.asAccessor(),
-        variableConfig.horizontalBar.marginInner.asAccessor()
-    ], (bar, outer, inner): number => {
+        variableConfig.horizontalBar.marginInner.asAccessor(),
+        variableConfig.horizontalBar.enableFrame.asAccessor(),
+    ], (bar, outer, inner, frameEnabled): number => {
+        if (frameEnabled) {
+            return 0
+        }
         if (bar === Bar.BOTTOM) {
             return outer
         } else {
@@ -32,19 +40,53 @@ export default function () {
         }
     })
 
+    const marginLeft = createComputed([
+        variableConfig.horizontalBar.marginStart.asAccessor(),
+        variableConfig.horizontalBar.enableFrame.asAccessor(),
+    ], (margin, frameEnabled) => {
+        if (frameEnabled) {
+            return 0
+        }
+        return margin
+    })
+
+    const marginRight = createComputed([
+        variableConfig.horizontalBar.marginEnd.asAccessor(),
+        variableConfig.horizontalBar.enableFrame.asAccessor(),
+    ], (margin, frameEnabled) => {
+        if (frameEnabled) {
+            return 0
+        }
+        return margin
+    })
+
+    const cssClasses = createComputed([
+        variableConfig.horizontalBar.splitSections.asAccessor(),
+        variableConfig.horizontalBar.enableFrame.asAccessor(),
+    ], (split, frame) => {
+        if (frame) {
+            return ["topBar", "frameWindow"]
+        }
+        if (split) {
+            return ["topBar"]
+        }
+        return ["topBar", "barWindow"]
+    })
+
     const anchor = createComputed([
         selectedBar.asAccessor(),
-        variableConfig.horizontalBar.expanded.asAccessor()
-    ], (bar, expanded) => {
+        variableConfig.horizontalBar.expanded.asAccessor(),
+        variableConfig.horizontalBar.enableFrame.asAccessor(),
+    ], (bar, expanded, framed) => {
         if (bar === Bar.TOP) {
-            if (!expanded) {
+            if (!expanded && !framed) {
                 return Astal.WindowAnchor.TOP
             }
             return Astal.WindowAnchor.TOP
                 | Astal.WindowAnchor.LEFT
                 | Astal.WindowAnchor.RIGHT
         } else {
-            if (!expanded) {
+            if (!expanded && !framed) {
                 return Astal.WindowAnchor.BOTTOM
             }
             return Astal.WindowAnchor.BOTTOM
@@ -66,17 +108,15 @@ export default function () {
         monitor={variableConfig.mainMonitor.asAccessor()}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         // this window doesn't like marginStart for some reason
-        marginLeft={variableConfig.horizontalBar.marginStart.asAccessor()}
-        marginRight={variableConfig.horizontalBar.marginEnd.asAccessor()}
+        marginLeft={marginLeft}
+        marginRight={marginRight}
         marginTop={marginTop}
         marginBottom={marginBottom}
         anchor={anchor}
         application={App}>
         <centerbox
             orientation={Gtk.Orientation.HORIZONTAL}
-            cssClasses={variableConfig.horizontalBar.splitSections.asAccessor().as((split) =>
-                split ? ["topBar"] : ["barWindow", "topBar"]
-            )}
+            cssClasses={cssClasses}
             startWidget={
                 <box
                     visible={variableConfig.horizontalBar.leftWidgets.asAccessor().as((widgets) =>

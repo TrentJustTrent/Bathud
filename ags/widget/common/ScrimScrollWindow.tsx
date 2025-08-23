@@ -26,11 +26,13 @@ function defaultAnchor(){
         selectedBar.asAccessor(),
         variableConfig.horizontalBar.expanded.asAccessor(),
         variableConfig.verticalBar.expanded.asAccessor(),
-    ], (bar, hExpanded, vExpanded) => {
+        variableConfig.horizontalBar.enableFrame.asAccessor(),
+        variableConfig.verticalBar.enableFrame.asAccessor(),
+    ], (bar, hExpanded, vExpanded, hFramed, vFramed) => {
         switch (bar) {
             case Bar.TOP:
             case Bar.BOTTOM:
-                if (hExpanded) {
+                if (hExpanded || hFramed) {
                     return Astal.WindowAnchor.TOP
                         | Astal.WindowAnchor.RIGHT
                         | Astal.WindowAnchor.BOTTOM
@@ -39,14 +41,14 @@ function defaultAnchor(){
                 return Astal.WindowAnchor.TOP
                     | Astal.WindowAnchor.BOTTOM
             case Bar.LEFT:
-                if (!vExpanded) {
+                if (!vExpanded && !vFramed) {
                     return Astal.WindowAnchor.LEFT
                 }
                 return Astal.WindowAnchor.TOP
                     | Astal.WindowAnchor.LEFT
                     | Astal.WindowAnchor.BOTTOM
             case Bar.RIGHT:
-                if (!vExpanded) {
+                if (!vExpanded && !vFramed) {
                     return Astal.WindowAnchor.RIGHT
                 }
                 return Astal.WindowAnchor.TOP

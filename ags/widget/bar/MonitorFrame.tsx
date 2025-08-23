@@ -3,6 +3,8 @@ import App from "ags/gtk4/app";
 import Cairo from 'gi://cairo';
 import {hexToRgba} from "../utils/strings";
 import {variableConfig} from "../../config/config";
+import {createComputed} from "ags";
+import {Bar, selectedBar} from "../../config/bar";
 
 export const monitorFrameWindowName = "monitorFrame"
 
@@ -19,10 +21,18 @@ function roundedRect(ctx: any, x: number, y: number, w: number, h: number, r: nu
 
 export function OutlineOverlay() {
     const thickness       = 0;
-    const innerRadius     = 20; // <- rounded INSIDE corners
-    const [fr, fg, fb, fa]    = hexToRgba(variableConfig.theme.colors.background);
-    const [br, bg, bb, ba]  = hexToRgba(variableConfig.theme.colors.primary.asAccessor().get());
-    const innerBorderWidth  = 2;
+    const innerRadius     = variableConfig.theme.bars.borderRadius.get();
+    const [fr, fg, fb, fa]    = hexToRgba(variableConfig.theme.bars.backgroundColor.get());
+    const [br, bg, bb, ba]  = hexToRgba(variableConfig.theme.colors.primary.get());
+    const innerBorderWidth  = variableConfig.theme.bars.borderWidth.get();
+
+    const redrawAccessor = createComputed([
+        variableConfig.theme.bars.frameThickness.asAccessor(),
+        variableConfig.theme.bars.borderRadius.asAccessor(),
+        variableConfig.theme.bars.backgroundColor.asAccessor(),
+        variableConfig.theme.colors.primary.asAccessor(),
+        variableConfig.theme.bars.borderWidth.asAccessor(),
+    ])
 
     return <drawingarea
         hexpand
@@ -70,18 +80,34 @@ export function OutlineOverlay() {
                 ctx.restore();
                 ctx.setOperator(Cairo.Operator.OVER);
             });
+
+            redrawAccessor.subscribe(() => {
+                da.queue_draw()
+            })
         }}
     />;
 }
 
 export function MonitorFrameBottom(): Astal.Window {
+    const visible = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.verticalBar.enableFrame.asAccessor(),
+        variableConfig.horizontalBar.enableFrame.asAccessor(),
+    ], (bar, enabledVert, enabledHor) => {
+        if (bar === Bar.BOTTOM) return false
+        if (bar === Bar.LEFT || bar === Bar.RIGHT) {
+            return enabledVert
+        }
+        return enabledHor
+    })
+
     return <window
         cssClasses={["transparentBackground"]}
         layer={Astal.Layer.OVERLAY}
         namespace={"okpanel-monitor-frame"}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         anchor={Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.LEFT}
-        visible={true}
+        visible={visible}
         application={App}
         canTarget={false}
         canFocus={false}
@@ -91,19 +117,31 @@ export function MonitorFrameBottom(): Astal.Window {
         <box
             vexpand={true}
             hexpand={true}
-            heightRequest={20}
-            cssClasses={["testBackground"]}/>
+            heightRequest={variableConfig.theme.bars.frameThickness.asAccessor()}
+            cssClasses={["frameWindow"]}/>
     </window> as Astal.Window
 }
 
 export function MonitorFrameTop(): Astal.Window {
+    const visible = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.verticalBar.enableFrame.asAccessor(),
+        variableConfig.horizontalBar.enableFrame.asAccessor(),
+    ], (bar, enabledVert, enabledHor) => {
+        if (bar === Bar.TOP) return false
+        if (bar === Bar.LEFT || bar === Bar.RIGHT) {
+            return enabledVert
+        }
+        return enabledHor
+    })
+
     return <window
         cssClasses={["transparentBackground"]}
         layer={Astal.Layer.OVERLAY}
         namespace={"okpanel-monitor-frame"}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         anchor={Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.TOP | Astal.WindowAnchor.LEFT}
-        visible={true}
+        visible={visible}
         application={App}
         canTarget={false}
         canFocus={false}
@@ -113,19 +151,31 @@ export function MonitorFrameTop(): Astal.Window {
         <box
             vexpand={true}
             hexpand={true}
-            heightRequest={20}
-            cssClasses={["testBackground"]}/>
+            heightRequest={variableConfig.theme.bars.frameThickness.asAccessor()}
+            cssClasses={["frameWindow"]}/>
     </window> as Astal.Window
 }
 
 export function MonitorFrameLeft(): Astal.Window {
+    const visible = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.verticalBar.enableFrame.asAccessor(),
+        variableConfig.horizontalBar.enableFrame.asAccessor(),
+    ], (bar, enabledVert, enabledHor) => {
+        if (bar === Bar.LEFT) return false
+        if (bar === Bar.RIGHT) {
+            return enabledVert
+        }
+        return enabledHor
+    })
+
     return <window
         cssClasses={["transparentBackground"]}
         layer={Astal.Layer.OVERLAY}
         namespace={"okpanel-monitor-frame"}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.LEFT}
-        visible={true}
+        visible={visible}
         application={App}
         canTarget={false}
         canFocus={false}
@@ -135,19 +185,31 @@ export function MonitorFrameLeft(): Astal.Window {
         <box
             vexpand={true}
             hexpand={true}
-            widthRequest={20}
-            cssClasses={["testBackground"]}/>
+            widthRequest={variableConfig.theme.bars.frameThickness.asAccessor()}
+            cssClasses={["frameWindow"]}/>
     </window> as Astal.Window
 }
 
 export function MonitorFrameRight(): Astal.Window {
+    const visible = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.verticalBar.enableFrame.asAccessor(),
+        variableConfig.horizontalBar.enableFrame.asAccessor(),
+    ], (bar, enabledVert, enabledHor) => {
+        if (bar === Bar.RIGHT) return false
+        if (bar === Bar.LEFT) {
+            return enabledVert
+        }
+        return enabledHor
+    })
+
     return <window
         cssClasses={["transparentBackground"]}
         layer={Astal.Layer.OVERLAY}
         namespace={"okpanel-monitor-frame"}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         anchor={Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.TOP}
-        visible={true}
+        visible={visible}
         application={App}
         canTarget={false}
         canFocus={false}
@@ -157,13 +219,22 @@ export function MonitorFrameRight(): Astal.Window {
         <box
             vexpand={true}
             hexpand={true}
-            widthRequest={20}
-            cssClasses={["testBackground"]}/>
+            widthRequest={variableConfig.theme.bars.frameThickness.asAccessor()}
+            cssClasses={["frameWindow"]}/>
     </window> as Astal.Window
 }
 
 export default function (): Astal.Window {
-
+    const visible = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.verticalBar.enableFrame.asAccessor(),
+        variableConfig.horizontalBar.enableFrame.asAccessor(),
+    ], (bar, enabledVert, enabledHor) => {
+        if (bar === Bar.LEFT || bar === Bar.RIGHT) {
+            return enabledVert
+        }
+        return enabledHor
+    })
 
     return <window
         name={monitorFrameWindowName}
@@ -172,7 +243,7 @@ export default function (): Astal.Window {
         namespace={"okpanel-monitor-frame"}
         exclusivity={Astal.Exclusivity.NORMAL}
         anchor={Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.LEFT}
-        visible={true}
+        visible={visible}
         application={App}
         canTarget={false}
         canFocus={false}
