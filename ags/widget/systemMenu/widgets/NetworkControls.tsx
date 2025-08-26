@@ -702,7 +702,6 @@ export default function () {
         setup={(revealed) => {
             revealed[0].subscribe(() => {
                 if (revealed[0].get()) {
-                    console.log("networking revealed")
                     network.wifi?.scan()
                     updateAirplaneMode()
                 }

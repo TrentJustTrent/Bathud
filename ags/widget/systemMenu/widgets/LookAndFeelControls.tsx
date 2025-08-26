@@ -205,7 +205,7 @@ function ThemeOptions() {
             const hadj = scrolledWindow.get_hadjustment()
             const maxScroll = hadj.get_upper() - hadj.get_page_size();
             if (dy === 1 || dy === -1) {
-                const newValue = hadj.get_value() + dy * 30;
+                const newValue = hadj.get_value() + dy * 50;
                 animateScroll(
                     hadj,
                     Math.max(0, Math.min(newValue, maxScroll)),
