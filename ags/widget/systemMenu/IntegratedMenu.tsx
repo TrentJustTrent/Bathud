@@ -1,7 +1,7 @@
 import {Gtk} from "ags/gtk4";
 import {variableConfig} from "../../config/config";
 import {createState, With} from "ags";
-import {addSystemMenuWidgets, createSystemWidgets} from "../systemMenu/SystemMenuWindow";
+import {addSystemMenuWidgets, createSystemWidgets} from "./SystemMenuWindow";
 
 export const integratedMenuWidth = 410
 

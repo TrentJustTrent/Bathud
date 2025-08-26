@@ -1,7 +1,7 @@
 import {LoopStatus, PlaybackStatus, Player, ShuffleStatus} from "../utils/mpris";
 import {Gtk} from "ags/gtk4";
 import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
-import {getHPadding, getVPadding} from "../bar/BarWidgets";
+import {getHPadding, getVPadding} from "../barWidgets/BarWidgets";
 
 export default function (
     {

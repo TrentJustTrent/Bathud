@@ -1,13 +1,12 @@
 import {Astal, Gtk} from "ags/gtk4";
 import App from "ags/gtk4/app";
-import Cairo from 'gi://cairo';
 import {variableConfig} from "../../../config/config";
 import {createComputed} from "ags";
-import {Bar, selectedBar} from "../../../config/bar";
-import {integratedMenuRevealed, integratedMenuWidth} from "../IntegratedMenu";
-import {leftBarWidth} from "../LeftBar";
+import {Bar} from "../../../config/bar";
+import {integratedMenuRevealed, integratedMenuWidth} from "../../systemMenu/IntegratedMenu";
+import {leftBarWidth} from "../bars/LeftBar";
 import {Position} from "../../../config/schema/definitions/systemMenu";
-import {rightBarWidth} from "../RightBar";
+import {rightBarWidth} from "../bars/RightBar";
 import {integratedCalendarRevealed, integratedCalendarWidth} from "../../calendar/IntegratedCalendar";
 import {
     integratedClipboardManagerRevealed,

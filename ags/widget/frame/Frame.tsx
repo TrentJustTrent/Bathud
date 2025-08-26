@@ -1,19 +1,19 @@
 import {Astal, Gtk} from "ags/gtk4";
 import App from "ags/gtk4/app";
 import Cairo from 'gi://cairo';
-import {hexToRgba} from "../../utils/strings";
-import {variableConfig} from "../../../config/config";
+import {hexToRgba} from "../utils/strings";
+import {variableConfig} from "../../config/config";
 import {createComputed} from "ags";
-import {Bar, selectedBar} from "../../../config/bar";
-import LeftBar from "../LeftBar";
-import IntegratedMenu from "../IntegratedMenu";
-import TopBar from "../TopBar";
-import {Position} from "../../../config/schema/definitions/systemMenu";
-import RightBar from "../RightBar";
-import BottomBar from "../BottomBar";
-import IntegratedCalendar from "../../calendar/IntegratedCalendar";
-import IntegratedClipboardManager from "../../clipboardManager/IntegratedClipboardManager";
-import IntegratedNotificationHistory from "../../notification/IntegratedNotificationHistory";
+import {Bar, selectedBar} from "../../config/bar";
+import LeftBar from "./bars/LeftBar";
+import IntegratedMenu from "../systemMenu/IntegratedMenu";
+import TopBar from "./bars/TopBar";
+import {Position} from "../../config/schema/definitions/systemMenu";
+import RightBar from "./bars/RightBar";
+import BottomBar from "./bars/BottomBar";
+import IntegratedCalendar from "../calendar/IntegratedCalendar";
+import IntegratedClipboardManager from "../clipboardManager/IntegratedClipboardManager";
+import IntegratedNotificationHistory from "../notification/IntegratedNotificationHistory";
 
 export const frameWindowName = "frame"
 
@@ -23,9 +23,7 @@ let frame: Gtk.Widget
 let frameBox: Gtk.Box
 let integratedMenu: Gtk.Widget
 let leftBar: Gtk.Widget
-let topBar: Gtk.Widget
 let rightBar: Gtk.Widget
-let bottomBar: Gtk.Widget
 let integratedCalendar: Gtk.Widget
 let integratedClipboardManager: Gtk.Widget
 let integratedNotificationHistory: Gtk.Widget
@@ -188,8 +186,8 @@ export default function (): Astal.Window {
         const position = variableConfig.systemMenu.position.get()
         switch (position) {
             case Position.LEFT:
-                frameBox.reorder_child_after(leftBar, integratedMenu)
-                frameBox.reorder_child_after(integratedCalendar, leftBar)
+                frameBox.reorder_child_after(integratedMenu, leftBar)
+                frameBox.reorder_child_after(integratedCalendar, integratedMenu)
                 frameBox.reorder_child_after(integratedClipboardManager, integratedCalendar)
                 frameBox.reorder_child_after(integratedNotificationHistory, integratedClipboardManager)
                 frameBox.reorder_child_after(frame, integratedNotificationHistory)
@@ -200,8 +198,8 @@ export default function (): Astal.Window {
                 frameBox.reorder_child_after(integratedNotificationHistory, frame)
                 frameBox.reorder_child_after(integratedClipboardManager, integratedNotificationHistory)
                 frameBox.reorder_child_after(integratedCalendar, integratedClipboardManager)
-                frameBox.reorder_child_after(rightBar, integratedCalendar)
-                frameBox.reorder_child_after(integratedMenu, rightBar)
+                frameBox.reorder_child_after(integratedMenu, integratedCalendar)
+                frameBox.reorder_child_after(rightBar, integratedMenu)
                 break
         }
     })
@@ -222,10 +220,7 @@ export default function (): Astal.Window {
             vexpand={true}
             hexpand={true}
             orientation={Gtk.Orientation.VERTICAL}>
-            <TopBar
-                setup={(self) => {
-                    topBar = self
-                }}/>
+            <TopBar/>
             <box
                 vexpand={true}
                 hexpand={true}
@@ -275,8 +270,8 @@ export default function (): Astal.Window {
                         }}/> as Gtk.Widget
 
                     if (variableConfig.systemMenu.position.get() === Position.LEFT) {
-                        self.append(im)
                         self.append(lb)
+                        self.append(im)
                         self.append(ic)
                         self.append(icm)
                         self.append(inh)
@@ -288,15 +283,12 @@ export default function (): Astal.Window {
                         self.append(inh)
                         self.append(icm)
                         self.append(ic)
-                        self.append(rb)
                         self.append(im)
+                        self.append(rb)
                     }
                 }}>
             </box>
-            <BottomBar
-                setup={(self) => {
-                    bottomBar = self
-                }}/>
+            <BottomBar/>
         </box>
     </window> as Astal.Window
 }

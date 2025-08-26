@@ -31,7 +31,7 @@ import GLib from "gi://GLib?version=2.0";
 import {runColorPicker} from "../utils/colorPicker";
 import {lock, logout, restart, shutdown} from "../utils/powerOptions";
 import {execAsync} from "ags/process";
-import {integratedMenuRevealed, integratedMenuRevealedSetting} from "./IntegratedMenu";
+import {integratedMenuRevealed, integratedMenuRevealedSetting} from "../systemMenu/IntegratedMenu";
 import {toggleIntegratedCalendar} from "../calendar/IntegratedCalendar";
 import {toggleIntegratedClipboardManager} from "../clipboardManager/IntegratedClipboardManager";
 import {toggleIntegratedNotificationHistory} from "../notification/IntegratedNotificationHistory";

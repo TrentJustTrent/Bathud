@@ -10,11 +10,11 @@ import {toggleWindow} from "./widget/utils/windows";
 import Hyprland from "gi://AstalHyprland"
 import {setThemeBasic} from "./config/theme";
 import {restoreBar} from "./config/bar";
-import Frame from "./widget/bar/frame/Frame";
-import FrameRight from "./widget/bar/frame/FrameRight";
-import FrameLeft from "./widget/bar/frame/FrameLeft";
-import FrameBottom from "./widget/bar/frame/FrameBottom";
-import FrameTop from "./widget/bar/frame/FrameTop";
+import Frame from "./widget/frame/Frame";
+import SpacerRight from "./widget/frame/backgroundSpacers/SpacerRight";
+import SpacerLeft from "./widget/frame/backgroundSpacers/SpacerLeft";
+import SpacerBottom from "./widget/frame/backgroundSpacers/SpacerBottom";
+import SpacerTop from "./widget/frame/backgroundSpacers/SpacerTop";
 
 export let projectDir = ""
 
@@ -29,10 +29,10 @@ App.start({
         const hyprland = Hyprland.get_default()
 
         Frame()
-        FrameRight()
-        FrameLeft()
-        FrameBottom()
-        FrameTop()
+        SpacerRight()
+        SpacerLeft()
+        SpacerBottom()
+        SpacerTop()
 
         ChargingAlertSound()
         AppLauncher()

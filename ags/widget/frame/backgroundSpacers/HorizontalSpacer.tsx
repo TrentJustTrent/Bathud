@@ -3,9 +3,9 @@ import App from "ags/gtk4/app";
 import Cairo from 'gi://cairo';
 import {variableConfig} from "../../../config/config";
 import {createComputed} from "ags";
-import {Bar, selectedBar} from "../../../config/bar";
-import {topBarHeight} from "../TopBar";
-import {bottomBarHeight} from "../BottomBar";
+import {Bar} from "../../../config/bar";
+import {topBarHeight} from "../bars/TopBar";
+import {bottomBarHeight} from "../bars/BottomBar";
 
 export enum Side {
     TOP,

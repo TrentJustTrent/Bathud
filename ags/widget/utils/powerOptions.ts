@@ -1,7 +1,7 @@
 import {variableConfig} from "../../config/config";
 import ConfirmationDialog from "../common/ConfirmationDialog";
 import {execAsync} from "ags/process";
-import {integratedMenuRevealedSetting} from "../bar/IntegratedMenu";
+import {integratedMenuRevealedSetting} from "../systemMenu/IntegratedMenu";
 import {Bar, selectedBar} from "../../config/bar";
 import {addWindowOneOff} from "./windows";
 

@@ -4,7 +4,7 @@ import {execAsync} from "ags/process";
 import {hideAllWindows} from "../widget/utils/windows";
 import {variableConfig} from "./config";
 import GLib from "gi://GLib?version=2.0";
-import {integratedMenuRevealedSetting} from "../widget/bar/IntegratedMenu";
+import {integratedMenuRevealedSetting} from "../widget/systemMenu/IntegratedMenu";
 
 export enum Bar {
     LEFT = "left",
