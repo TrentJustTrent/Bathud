@@ -3,9 +3,9 @@ import {variableConfig} from "../../config/config";
 import {Gtk} from "ags/gtk4";
 import {createState, With} from "ags"
 import {interval} from "ags/time";
-import {Bar, selectedBar} from "../../config/bar";
+import {Bar} from "../../config/bar";
 
-export const [verticalBarWidth, verticalBarWidthSetter] = createState(0)
+export const [rightBarWidth, rightBarWidthSetter] = createState(0)
 
 export default function ({setup}: {setup: (self: Gtk.Widget) => void}) {
     // wrapped in a box for the padding (margins of the center box)
@@ -14,13 +14,12 @@ export default function ({setup}: {setup: (self: Gtk.Widget) => void}) {
             setup(self)
 
             interval(1000, () => {
-                verticalBarWidthSetter(self.get_allocated_width())
+                rightBarWidthSetter(self.get_allocated_width())
             })
-            verticalBarWidthSetter(self.get_allocated_width())
+            rightBarWidthSetter(self.get_allocated_width())
         }}
-        visible={selectedBar.asAccessor()(bar =>
-            bar === Bar.LEFT || bar === Bar.RIGHT
-        )}>
+        cssClasses={["frameWindow"]}
+        visible={variableConfig.rightBar.enabled.asAccessor()}>
         <centerbox
             marginTop={2}
             marginBottom={2}
@@ -30,46 +29,46 @@ export default function ({setup}: {setup: (self: Gtk.Widget) => void}) {
             orientation={Gtk.Orientation.VERTICAL}
             startWidget={
                 <box
-                    visible={variableConfig.verticalBar.topWidgets.asAccessor().as((widgets) =>
+                    visible={variableConfig.rightBar.topWidgets.asAccessor().as((widgets) =>
                         widgets.length > 0
                     )}
                     orientation={Gtk.Orientation.VERTICAL}>
-                    <With value={variableConfig.verticalBar.topWidgets.asAccessor()}>
+                    <With value={variableConfig.rightBar.topWidgets.asAccessor()}>
                         {widgets => <box
                             orientation={Gtk.Orientation.VERTICAL}
-                            spacing={variableConfig.verticalBar.widgetSpacing.asAccessor()}>
-                            {addWidgets(widgets, true)}
+                            spacing={variableConfig.rightBar.widgetSpacing.asAccessor()}>
+                            {addWidgets(widgets, Bar.RIGHT)}
                         </box>}
                     </With>
                 </box> as Gtk.Widget
             }
             centerWidget={
                 <box
-                    visible={variableConfig.verticalBar.centerWidgets.asAccessor().as((widgets) =>
+                    visible={variableConfig.rightBar.centerWidgets.asAccessor().as((widgets) =>
                         widgets.length > 0
                     )}
                     orientation={Gtk.Orientation.VERTICAL}>
-                    <With value={variableConfig.verticalBar.centerWidgets.asAccessor()}>
+                    <With value={variableConfig.rightBar.centerWidgets.asAccessor()}>
                         {widgets => <box
                             orientation={Gtk.Orientation.VERTICAL}
-                            spacing={variableConfig.verticalBar.widgetSpacing.asAccessor()}>
-                            {addWidgets(widgets, true)}
+                            spacing={variableConfig.rightBar.widgetSpacing.asAccessor()}>
+                            {addWidgets(widgets, Bar.RIGHT)}
                         </box>}
                     </With>
                 </box> as Gtk.Widget
             }
             endWidget={
                 <box
-                    visible={variableConfig.verticalBar.bottomWidgets.asAccessor().as((widgets) =>
+                    visible={variableConfig.rightBar.bottomWidgets.asAccessor().as((widgets) =>
                         widgets.length > 0
                     )}
                     orientation={Gtk.Orientation.VERTICAL}
                     valign={Gtk.Align.END}>
-                    <With value={variableConfig.verticalBar.bottomWidgets.asAccessor()}>
+                    <With value={variableConfig.rightBar.bottomWidgets.asAccessor()}>
                         {widgets => <box
                             orientation={Gtk.Orientation.VERTICAL}
-                            spacing={variableConfig.verticalBar.widgetSpacing.asAccessor()}>
-                            {addWidgets(widgets, true)}
+                            spacing={variableConfig.rightBar.widgetSpacing.asAccessor()}>
+                            {addWidgets(widgets, Bar.RIGHT)}
                         </box>}
                     </With>
                 </box> as Gtk.Widget

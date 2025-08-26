@@ -1,37 +1,70 @@
 import {variableConfig} from "../../config/config";
-import {Bar, selectedBar} from "../../config/bar";
+import {Bar} from "../../config/bar";
 
 import {WaveformPosition} from "../../config/schema/definitions/barWidgets";
 import {Accessor, createComputed} from "ags";
 
-export function getCavaFlipStartValue(vertical: boolean): Accessor<boolean> {
-    return createComputed([
-        selectedBar.asAccessor(),
-        variableConfig.verticalBar.cava_waveform.position.asAccessor(),
-        variableConfig.horizontalBar.cava_waveform.position.asAccessor(),
-    ], (bar, vPosition, hPosition) => {
-        if (vertical) {
-            switch (vPosition) {
-                case WaveformPosition.START:
-                    return true
-                case WaveformPosition.END:
-                    return false
-                case WaveformPosition.OUTER:
-                    return bar === Bar.LEFT
-                case WaveformPosition.INNER:
-                    return bar !== Bar.LEFT
-            }
-        } else {
-            switch (hPosition) {
-                case WaveformPosition.START:
-                    return true
-                case WaveformPosition.END:
-                    return false
-                case WaveformPosition.OUTER:
-                    return bar === Bar.TOP
-                case WaveformPosition.INNER:
-                    return bar !== Bar.TOP
-            }
-        }
-    })
+export function getCavaFlipStartValue(bar: Bar): Accessor<boolean> {
+    switch (bar) {
+        case Bar.TOP:
+            return createComputed([
+                variableConfig.topBar.cava_waveform.position.asAccessor(),
+            ], (position) => {
+                switch (position) {
+                    case WaveformPosition.START:
+                        return true
+                    case WaveformPosition.END:
+                        return false
+                    case WaveformPosition.OUTER:
+                        return true
+                    case WaveformPosition.INNER:
+                        return false
+                }
+            })
+        case Bar.BOTTOM:
+            return createComputed([
+                variableConfig.topBar.cava_waveform.position.asAccessor(),
+            ], (position) => {
+                switch (position) {
+                    case WaveformPosition.START:
+                        return true
+                    case WaveformPosition.END:
+                        return false
+                    case WaveformPosition.OUTER:
+                        return false
+                    case WaveformPosition.INNER:
+                        return true
+                }
+            })
+        case Bar.LEFT:
+            return createComputed([
+                variableConfig.topBar.cava_waveform.position.asAccessor(),
+            ], (position) => {
+                switch (position) {
+                    case WaveformPosition.START:
+                        return true
+                    case WaveformPosition.END:
+                        return false
+                    case WaveformPosition.OUTER:
+                        return true
+                    case WaveformPosition.INNER:
+                        return false
+                }
+            })
+        case Bar.RIGHT:
+            return createComputed([
+                variableConfig.topBar.cava_waveform.position.asAccessor(),
+            ], (position) => {
+                switch (position) {
+                    case WaveformPosition.START:
+                        return true
+                    case WaveformPosition.END:
+                        return false
+                    case WaveformPosition.OUTER:
+                        return false
+                    case WaveformPosition.INNER:
+                        return true
+                }
+            })
+    }
 }

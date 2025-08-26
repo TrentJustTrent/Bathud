@@ -18,11 +18,24 @@ export const systemMenuWidgetsArrayField = <N extends string>( //preserve the li
         },
     } as const satisfies Field & { name: N })
 
+export enum Position {
+    LEFT = "left",
+    RIGHT = "right",
+}
+export const POSITION_VALUES = Object.values(Position) as readonly Position[]
+
 export const systemMenuSchema = {
     name: 'systemMenu',
     type: 'object',
     description: 'System menu configurations.',
     children: [
+        {
+            name: 'position',
+            type: 'enum',
+            enumValues: POSITION_VALUES,
+            default: Position.LEFT,
+            description: 'What side of the frame the menu is on.'
+        },
         systemMenuWidgetsArrayField(
             'widgets',
             'Widgets inside the system menu',

@@ -4,7 +4,8 @@ import Cairo from 'gi://cairo';
 import {variableConfig} from "../../../config/config";
 import {createComputed} from "ags";
 import {Bar, selectedBar} from "../../../config/bar";
-import {horizontalBarHeight} from "../HorizontalBar";
+import {topBarHeight} from "../TopBar";
+import {bottomBarHeight} from "../BottomBar";
 
 export enum Side {
     TOP,
@@ -24,20 +25,27 @@ export default function (
         Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.LEFT
 
     const size = createComputed([
-        selectedBar.asAccessor(),
-        horizontalBarHeight,
+        variableConfig.topBar.enabled.asAccessor(),
+        variableConfig.bottomBar.enabled.asAccessor(),
+        topBarHeight,
+        bottomBarHeight,
         variableConfig.theme.bars.frameThickness.asAccessor(),
-        variableConfig.horizontalBar.marginInner.asAccessor(),
+        variableConfig.frame.margin.asAccessor(),
         variableConfig.theme.bars.borderWidth.asAccessor(),
     ], (
-        selectedBar,
-        barHeight,
+        topEnabled,
+        bottomEnabled,
+        topBarHeight,
+        bottomBarHeight,
         frameThickness,
         marginInner,
         borderWidth,
     ) => {
-        if (selectedBar === thisSideBar) {
-            return barHeight + marginInner + borderWidth
+        if (thisSideBar === Bar.TOP && topEnabled) {
+            return topBarHeight + marginInner + borderWidth
+        }
+        if (thisSideBar === Bar.BOTTOM && bottomEnabled) {
+            return bottomBarHeight + marginInner + borderWidth
         }
         return frameThickness + borderWidth + marginInner
     })

@@ -40,8 +40,8 @@ App.start({
         AppLauncher()
         Screenshot()
         Screenshare()
-        ClipboardManager()
-        NotificationHistoryWindow()
+        // ClipboardManager()
+        // NotificationHistoryWindow()
 
         hyprland.monitors.map((monitor) => {
             VolumeAlert(monitor)

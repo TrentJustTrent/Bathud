@@ -5,18 +5,21 @@ import {hexToRgba} from "../../utils/strings";
 import {variableConfig} from "../../../config/config";
 import {createComputed} from "ags";
 import {Bar, selectedBar} from "../../../config/bar";
-import VerticalBar from "../VerticalBar";
+import LeftBar from "../LeftBar";
 import IntegratedMenu from "../IntegratedMenu";
-import HorizontalBar from "../HorizontalBar";
+import TopBar from "../TopBar";
+import {Position} from "../../../config/schema/definitions/systemMenu";
+import RightBar from "../RightBar";
+import BottomBar from "../BottomBar";
 
 export const frameWindowName = "frame"
 
 let frameBox: Gtk.Box
-let verticalBox: Gtk.Box
-let horizontalBox: Gtk.Box
 let integratedMenu: Gtk.Widget
-let verticalBar: Gtk.Widget
-let horizontalBar: Gtk.Widget
+let leftBar: Gtk.Widget
+let topBar: Gtk.Widget
+let rightBar: Gtk.Widget
+let bottomBar: Gtk.Widget
 let frame: Gtk.Widget
 let frameWindow: Gtk.Window
 
@@ -172,51 +175,20 @@ export function OutlineOverlay() {
     />;
 }
 
-function VerticalBox() {
-    return <box
-        $={(self) => {
-            verticalBox = self
-
-            // Add the children in the proper order based on the currently selected bar
-            const im = <IntegratedMenu
-                setup={(self) => {
-                    integratedMenu = self
-                }}/> as Gtk.Widget
-            const vb = <VerticalBar
-                setup={(self) => {
-                    verticalBar = self
-                }}/> as Gtk.Widget
-
-            if (selectedBar.get() === Bar.RIGHT) {
-                self.append(vb)
-                self.append(im)
-            } else {
-                self.append(im)
-                self.append(vb)
-            }
-        }}
-        cssClasses={["frameWindow"]}
-        orientation={Gtk.Orientation.HORIZONTAL}/>
-}
-
 export default function (): Astal.Window {
 
-    selectedBar.asAccessor().subscribe(() => {
-        const bar = selectedBar.get()
-        switch (bar) {
-            case Bar.LEFT:
-                frameBox?.reorder_child_after(frame, verticalBox)
-                verticalBox?.reorder_child_after(verticalBar, integratedMenu)
+    variableConfig.systemMenu.position.asAccessor().subscribe(() => {
+        const position = variableConfig.systemMenu.position.get()
+        switch (position) {
+            case Position.LEFT:
+                frameBox.reorder_child_after(leftBar, integratedMenu)
+                frameBox.reorder_child_after(frameBox, leftBar)
+                frameBox.reorder_child_after(rightBar, frameBox)
                 break
-            case Bar.RIGHT:
-                frameBox?.reorder_child_after(verticalBox, frame)
-                verticalBox?.reorder_child_after(integratedMenu, verticalBar)
-                break
-            case Bar.TOP:
-                horizontalBox.reorder_child_after(frameBox, horizontalBar)
-                break
-            case Bar.BOTTOM:
-                horizontalBox.reorder_child_after(horizontalBar, frameBox)
+            case Position.RIGHT:
+                frameBox.reorder_child_after(frameBox, leftBar)
+                frameBox.reorder_child_after(rightBar, frameBox)
+                frameBox.reorder_child_after(integratedMenu, rightBar)
                 break
         }
     })
@@ -236,52 +208,59 @@ export default function (): Astal.Window {
         <box
             vexpand={true}
             hexpand={true}
-            $={(self) => {
-                horizontalBox = self
+            orientation={Gtk.Orientation.VERTICAL}>
+            <TopBar
+                setup={(self) => {
+                    topBar = self
+                }}/>
+            <box
+                vexpand={true}
+                hexpand={true}
+                orientation={Gtk.Orientation.HORIZONTAL}
+                $={(self) => {
+                    frameBox = self
 
-                const hb = <HorizontalBar
-                    setup={(self) => {
-                        horizontalBar = self
-                    }}/> as Gtk.Widget
+                    // Add the children in the proper order based on the currently selected bar
+                    const f = <box
+                        canTarget={false}
+                        canFocus={false}
+                        visible={true}
+                        $={(self) => {
+                            frame = self
+                        }}>
+                        <OutlineOverlay/>
+                    </box> as Gtk.Widget
 
-                const fb = <box
-                    vexpand={true}
-                    hexpand={true}
-                    orientation={Gtk.Orientation.HORIZONTAL}
-                    $={(self) => {
-                        frameBox = self
+                    const im = <IntegratedMenu
+                        setup={(self) => {
+                            integratedMenu = self
+                        }}/> as Gtk.Widget
+                    const lb = <LeftBar
+                        setup={(self) => {
+                            leftBar = self
+                        }}/> as Gtk.Widget
+                    const rb = <RightBar
+                        setup={(self) => {
+                            rightBar = self
+                        }}/> as Gtk.Widget
 
-                        // Add the children in the proper order based on the currently selected bar
-                        const f = <box
-                            canTarget={false}
-                            canFocus={false}
-                            visible={true}
-                            $={(self) => {
-                                frame = self
-                            }}>
-                            <OutlineOverlay/>
-                        </box> as Gtk.Widget
-
-                        const vb = <VerticalBox/> as Gtk.Widget
-
-                        if (selectedBar.get() === Bar.RIGHT) {
-                            self.append(f)
-                            self.append(vb)
-                        } else {
-                            self.append(vb)
-                            self.append(f)
-                        }
-                    }}>
-                </box> as Gtk.Widget
-
-                if (selectedBar.get() === Bar.BOTTOM) {
-                    self.append(fb)
-                    self.append(hb)
-                } else {
-                    self.append(hb)
-                    self.append(fb)
-                }
-            }}
-            orientation={Gtk.Orientation.VERTICAL}/>
+                    if (variableConfig.systemMenu.position.get() === Position.LEFT) {
+                        self.append(im)
+                        self.append(lb)
+                        self.append(f)
+                        self.append(rb)
+                    } else {
+                        self.append(lb)
+                        self.append(f)
+                        self.append(rb)
+                        self.append(im)
+                    }
+                }}>
+            </box>
+            <BottomBar
+                setup={(self) => {
+                    bottomBar = self
+                }}/>
+        </box>
     </window> as Astal.Window
 }

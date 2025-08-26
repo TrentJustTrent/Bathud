@@ -11,7 +11,7 @@ import {isRecording, ScreenshotWindowName} from "../screenshot/Screenshot";
 import Divider from "../common/Divider";
 import {variableConfig} from "../../config/config";
 import Tray from "gi://AstalTray"
-import {addWindowOneOff, registerWindow, toggleWindow} from "../utils/windows";
+import {addWindowOneOff, toggleWindow} from "../utils/windows";
 import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
 import {ClipboardManagerWindowName, startCliphist} from "../clipboardManager/ClipboardManager";
 import PowerProfiles from "gi://AstalPowerProfiles"
@@ -37,24 +37,41 @@ import {integratedMenuRevealed, integratedMenuRevealedSetting} from "./Integrate
 
 const tray = Tray.get_default()
 
-export function getHPadding(vertical: boolean) {
-    return vertical ?
-        variableConfig.verticalBar.compact.asAccessor().as((c) => c ? OkButtonHorizontalPadding.THIN : OkButtonHorizontalPadding.STANDARD)
-        : OkButtonHorizontalPadding.THIN
+export function getHPadding(bar: Bar) {
+    switch (bar) {
+        case Bar.TOP:
+        case Bar.BOTTOM:
+            return OkButtonHorizontalPadding.THIN
+        case Bar.LEFT:
+            return variableConfig.leftBar.compact.asAccessor().as((c) =>
+                c ? OkButtonHorizontalPadding.THIN : OkButtonHorizontalPadding.STANDARD)
+        case Bar.RIGHT:
+            return variableConfig.rightBar.compact.asAccessor().as((c) =>
+                c ? OkButtonHorizontalPadding.THIN : OkButtonHorizontalPadding.STANDARD)
+    }
 }
 
-export function getVPadding(vertical: boolean) {
-    return vertical ? OkButtonVerticalPadding.STANDARD :
-        variableConfig.horizontalBar.compact.asAccessor().as((c) => c ? OkButtonVerticalPadding.THIN : OkButtonVerticalPadding.STANDARD)
+export function getVPadding(bar: Bar) {
+    switch (bar) {
+        case Bar.TOP:
+            return variableConfig.topBar.compact.asAccessor().as((c) =>
+                c ? OkButtonVerticalPadding.THIN : OkButtonVerticalPadding.STANDARD)
+        case Bar.BOTTOM:
+            return variableConfig.bottomBar.compact.asAccessor().as((c) =>
+                c ? OkButtonVerticalPadding.THIN : OkButtonVerticalPadding.STANDARD)
+        case Bar.LEFT:
+        case Bar.RIGHT:
+            return OkButtonVerticalPadding.STANDARD
+    }
 }
 
-function MenuButton({vertical}: { vertical: boolean }) {
+function MenuButton({bar}: { bar: Bar }) {
     return <OkButton
         labelCss={["barMenuForeground"]}
         backgroundCss={["barMenuBackground"]}
         offset={variableConfig.theme.bars.menu.iconOffset.asAccessor()}
-        hpadding={getHPadding(vertical)}
-        vpadding={getVPadding(vertical)}
+        hpadding={getHPadding(bar)}
+        vpadding={getVPadding(bar)}
         label={variableConfig.theme.bars.menu.icon.asAccessor()}
         onClicked={() => {
             integratedMenuRevealedSetting(!integratedMenuRevealed.get())
@@ -82,7 +99,7 @@ function groupByProperty(
     });
 }
 
-function Workspaces({vertical}: { vertical: boolean }) {
+function Workspaces({vertical, bar}: { vertical: boolean, bar: Bar }) {
     const hypr = Hyprland.get_default()
     const hyprlandWorkspaces = createBinding(hypr, "workspaces")
     return <box
@@ -141,8 +158,8 @@ function Workspaces({vertical}: { vertical: boolean }) {
                                     labelCss={labelCss.get()}
                                     backgroundCss={["barWorkspaceButtonBackground"]}
                                     offset={offset}
-                                    hpadding={getHPadding(vertical)}
-                                    vpadding={getVPadding(vertical)}
+                                    hpadding={getHPadding(bar)}
+                                    vpadding={getVPadding(bar)}
                                     label={label}
                                     size={size}
                                     onClicked={() => {
@@ -157,7 +174,7 @@ function Workspaces({vertical}: { vertical: boolean }) {
     </box>
 }
 
-function Clock({vertical}: { vertical: boolean }) {
+function Clock({vertical, bar}: { vertical: boolean, bar: Bar }) {
     let format: string
 
     if (vertical) {
@@ -174,34 +191,34 @@ function Clock({vertical}: { vertical: boolean }) {
         backgroundCss={["barClockBackground"]}
         hexpand={vertical}
         hpadding={vertical ? OkButtonHorizontalPadding.NONE : OkButtonHorizontalPadding.THIN}
-        vpadding={getVPadding(vertical)}
+        vpadding={getVPadding(bar)}
         label={time}
         onClicked={() => {
             addWindowOneOff(() => Calendar())
         }}/>
 }
 
-function VpnIndicator({vertical}: { vertical: boolean }) {
+function VpnIndicator({bar}: { bar: Bar }) {
     return <OkButton
         labelCss={["barVpnIndicatorForeground"]}
         backgroundCss={["barVpnIndicatorBackground"]}
-        hpadding={getHPadding(vertical)}
-        vpadding={getVPadding(vertical)}
+        hpadding={getHPadding(bar)}
+        vpadding={getVPadding(bar)}
         label="󰯄"
         visible={activeVpnConnections.as((connections) => {
             return connections.length !== 0
         })}/>
 }
 
-function ScreenRecordingStopButton({vertical}: { vertical: boolean }) {
+function ScreenRecordingStopButton({bar}: { bar: Bar }) {
     return <OkButton
         labelCss={["barRecordingIndicatorForeground"]}
         backgroundCss={["barRecordingIndicatorBackground"]}
         offset={2}
         warning={true}
         label=""
-        hpadding={getHPadding(vertical)}
-        vpadding={getVPadding(vertical)}
+        hpadding={getHPadding(bar)}
+        vpadding={getVPadding(bar)}
         visible={isRecording}
         onClicked={() => {
             execAsync("pkill wf-recorder")
@@ -211,7 +228,7 @@ function ScreenRecordingStopButton({vertical}: { vertical: boolean }) {
         }}/>
 }
 
-function AudioOut({vertical}: { vertical: boolean }) {
+function AudioOut({bar}: { bar: Bar }) {
     const defaultSpeaker = Wp.get_default()!.audio.default_speaker
 
     const speakerVar = createComputed([
@@ -223,12 +240,12 @@ function AudioOut({vertical}: { vertical: boolean }) {
     return <OkButton
         labelCss={["barAudioOutForeground"]}
         backgroundCss={["barAudioOutBackground"]}
-        hpadding={getHPadding(vertical)}
-        vpadding={getVPadding(vertical)}
+        hpadding={getHPadding(bar)}
+        vpadding={getVPadding(bar)}
         label={speakerVar(() => getVolumeIcon(defaultSpeaker))}/>
 }
 
-function AudioIn({vertical}: { vertical: boolean }) {
+function AudioIn({bar}: { bar: Bar }) {
     const {defaultMicrophone} = Wp.get_default()!.audio
 
     const micVar = createComputed([
@@ -240,36 +257,36 @@ function AudioIn({vertical}: { vertical: boolean }) {
     return <OkButton
         labelCss={["barAudioInForeground"]}
         backgroundCss={["barAudioInBackground"]}
-        hpadding={getHPadding(vertical)}
-        vpadding={getVPadding(vertical)}
+        hpadding={getHPadding(bar)}
+        vpadding={getVPadding(bar)}
         label={micVar(() => getMicrophoneIcon(defaultMicrophone))}/>
 }
 
-function BluetoothIndicator({vertical}: { vertical: boolean }) {
+function BluetoothIndicator({bar}: { bar: Bar }) {
     const bluetooth = Bluetooth.get_default()
 
     return <OkButton
         labelCss={["barBluetoothForeground"]}
         backgroundCss={["barBluetoothBackground"]}
         label="󰂯"
-        hpadding={getHPadding(vertical)}
-        vpadding={getVPadding(vertical)}
+        hpadding={getHPadding(bar)}
+        vpadding={getVPadding(bar)}
         visible={createBinding(bluetooth, "isPowered").as((isPowered) => {
             return isPowered
         })}/>
 }
 
-function NetworkIndicator({vertical}: { vertical: boolean }) {
+function NetworkIndicator({bar}: { bar: Bar }) {
     return <OkButton
         labelCss={["barNetworkForeground"]}
         backgroundCss={["barNetworkBackground"]}
         offset={1}
-        hpadding={getHPadding(vertical)}
-        vpadding={getVPadding(vertical)}
+        hpadding={getHPadding(bar)}
+        vpadding={getVPadding(bar)}
         label={getNetworkIconBinding()}/>
 }
 
-function BatteryIndicator({vertical}: { vertical: boolean }) {
+function BatteryIndicator({bar}: { bar: Bar }) {
     const battery = Battery.get_default()
 
     let batteryWarningInterval: GLib.Source | null = null
@@ -282,8 +299,8 @@ function BatteryIndicator({vertical}: { vertical: boolean }) {
     return <OkButton
         labelCss={["barBatteryForeground"]}
         backgroundCss={["barBatteryBackground"]}
-        hpadding={getHPadding(vertical)}
-        vpadding={getVPadding(vertical)}
+        hpadding={getHPadding(bar)}
+        vpadding={getVPadding(bar)}
         warning={batteryVar((value) => {
             if (value[0] > 0.04 || battery.state === Battery.State.CHARGING) {
                 if (batteryWarningInterval != null) {
@@ -305,14 +322,22 @@ function BatteryIndicator({vertical}: { vertical: boolean }) {
         visible={createBinding(battery, "isBattery")}/>
 }
 
-function IntegratedTray({vertical}: { vertical: boolean }) {
-    const collapsable = createComputed([
-        variableConfig.verticalBar.tray.collapsable.asAccessor(),
-        variableConfig.horizontalBar.tray.collapsable.asAccessor(),
-    ], (vCollapse, hCollapse) => {
-        return ((vertical && vCollapse) ||
-            (!vertical && hCollapse));
-    })
+function IntegratedTray({vertical, bar}: { vertical: boolean, bar: Bar }) {
+    let collapsable
+    switch (bar) {
+        case Bar.TOP:
+            collapsable = variableConfig.topBar.tray.collapsable.asAccessor()
+            break
+        case Bar.BOTTOM:
+            collapsable = variableConfig.bottomBar.tray.collapsable.asAccessor()
+            break
+        case Bar.LEFT:
+            collapsable = variableConfig.leftBar.tray.collapsable.asAccessor()
+            break
+        case Bar.RIGHT:
+            collapsable = variableConfig.rightBar.tray.collapsable.asAccessor()
+            break
+    }
 
     return <box>
         <With value={collapsable}>
@@ -328,8 +353,8 @@ function IntegratedTray({vertical}: { vertical: boolean }) {
                         <OkButton
                             labelCss={["barTrayForeground"]}
                             backgroundCss={["barTrayBackground"]}
-                            hpadding={getHPadding(vertical)}
-                            vpadding={getVPadding(vertical)}
+                            hpadding={getHPadding(bar)}
+                            vpadding={getVPadding(bar)}
                             offset={1}
                             visible={createBinding(tray, "items").as((items) => items.length > 0)}
                             label={"󱊔"}
@@ -377,56 +402,56 @@ function TrayContent({vertical}: { vertical: boolean }) {
     </box>
 }
 
-function AppLauncherButton({vertical}: { vertical: boolean }) {
+function AppLauncherButton({bar}: { bar: Bar }) {
     return <OkButton
         labelCss={["barAppLauncherForeground"]}
         backgroundCss={["barAppLauncherBackground"]}
-        hpadding={getHPadding(vertical)}
-        vpadding={getVPadding(vertical)}
+        hpadding={getHPadding(bar)}
+        vpadding={getVPadding(bar)}
         label="󰀻"
         onClicked={() => {
             toggleWindow(AppLauncherWindowName)
         }}/>
 }
 
-function ScreenshotButton({vertical}: { vertical: boolean }) {
+function ScreenshotButton({bar}: { bar: Bar }) {
     return <OkButton
         labelCss={["barScreenshotForeground"]}
         backgroundCss={["barScreenshotBackground"]}
         offset={2}
-        hpadding={getHPadding(vertical)}
-        vpadding={getVPadding(vertical)}
+        hpadding={getHPadding(bar)}
+        vpadding={getVPadding(bar)}
         label="󰹑"
         onClicked={() => {
             toggleWindow(ScreenshotWindowName)
         }}/>
 }
 
-function ClipboardManagerButton({vertical}: { vertical: boolean }) {
+function ClipboardManagerButton({bar}: { bar: Bar }) {
     startCliphist()
     return <OkButton
         labelCss={["barClipboardManagerForeground"]}
         backgroundCss={["barClipboardManagerBackground"]}
-        hpadding={getHPadding(vertical)}
-        vpadding={getVPadding(vertical)}
+        hpadding={getHPadding(bar)}
+        vpadding={getVPadding(bar)}
         label=""
         onClicked={() => {
             toggleWindow(ClipboardManagerWindowName)
         }}/>
 }
 
-function PowerProfileIndicator({vertical}: { vertical: boolean }) {
+function PowerProfileIndicator({bar}: { bar: Bar }) {
     const profiles = PowerProfiles.get_default().get_profiles()
     return <OkButton
         labelCss={["barPowerProfileForeground"]}
         backgroundCss={["barPowerProfileBackground"]}
-        hpadding={getHPadding(vertical)}
-        vpadding={getVPadding(vertical)}
+        hpadding={getHPadding(bar)}
+        vpadding={getVPadding(bar)}
         visible={profiles.length !== 0}
         label={getPowerProfileIconBinding()}/>
 }
 
-function CavaBars({vertical}: { vertical: boolean }) {
+function CavaBars({vertical, bar}: { vertical: boolean, bar: Bar }) {
     const mpris = Mpris.get_default()
 
     return <box
@@ -439,45 +464,48 @@ function CavaBars({vertical}: { vertical: boolean }) {
                     return <box/>
                 }
 
-                const compactFunction = (c: boolean) => {
-                    if (c) {
-                        return <CavaWaveform
-                            color={variableConfig.theme.bars.cava_waveform.foreground.asAccessor()}
-                            marginStart={vertical ? 0 : 20}
-                            marginEnd={vertical ? 0 : 20}
-                            marginTop={vertical ? 20 : 0}
-                            marginBottom={vertical ? 20 : 0}
-                            vertical={vertical}
-                            flipStart={getCavaFlipStartValue(vertical)}
-                            intensity={vertical ? variableConfig.verticalBar.cava_waveform.intensityMultiplier.asAccessor() : variableConfig.horizontalBar.cava_waveform.intensityMultiplier.asAccessor()}
-                            expand={vertical ? variableConfig.verticalBar.cava_waveform.expanded.asAccessor() : variableConfig.horizontalBar.cava_waveform.expanded.asAccessor()}
-                            length={vertical ? variableConfig.verticalBar.cava_waveform.length.asAccessor() : variableConfig.horizontalBar.cava_waveform.length.asAccessor()}
-                            size={30}/>
-                    } else {
-                        return <CavaWaveform
-                            color={variableConfig.theme.bars.cava_waveform.foreground.asAccessor()}
-                            marginStart={vertical ? 0 : 20}
-                            marginEnd={vertical ? 0 : 20}
-                            marginTop={vertical ? 20 : 0}
-                            marginBottom={vertical ? 20 : 0}
-                            vertical={vertical}
-                            flipStart={getCavaFlipStartValue(vertical)}
-                            intensity={vertical ? variableConfig.verticalBar.cava_waveform.intensityMultiplier.asAccessor() : variableConfig.horizontalBar.cava_waveform.intensityMultiplier.asAccessor()}
-                            expand={vertical ? variableConfig.verticalBar.cava_waveform.expanded.asAccessor() : variableConfig.horizontalBar.cava_waveform.expanded.asAccessor()}
-                            length={vertical ? variableConfig.verticalBar.cava_waveform.length.asAccessor() : variableConfig.horizontalBar.cava_waveform.length.asAccessor()}
-                            size={40}/>
-                    }
+                let intensity
+                let expand
+                let length
+
+                switch (bar) {
+                    case Bar.TOP:
+                        intensity = variableConfig.topBar.cava_waveform.intensityMultiplier.asAccessor()
+                        expand = variableConfig.topBar.cava_waveform.expanded.asAccessor()
+                        length = variableConfig.topBar.cava_waveform.length.asAccessor()
+                        break
+                    case Bar.BOTTOM:
+                        intensity = variableConfig.bottomBar.cava_waveform.intensityMultiplier.asAccessor()
+                        expand = variableConfig.bottomBar.cava_waveform.expanded.asAccessor()
+                        length = variableConfig.bottomBar.cava_waveform.length.asAccessor()
+                        break
+                    case Bar.LEFT:
+                        intensity = variableConfig.leftBar.cava_waveform.intensityMultiplier.asAccessor()
+                        expand = variableConfig.leftBar.cava_waveform.expanded.asAccessor()
+                        length = variableConfig.leftBar.cava_waveform.length.asAccessor()
+                        break
+                    case Bar.RIGHT:
+                        intensity = variableConfig.rightBar.cava_waveform.intensityMultiplier.asAccessor()
+                        expand = variableConfig.rightBar.cava_waveform.expanded.asAccessor()
+                        length = variableConfig.rightBar.cava_waveform.length.asAccessor()
+                        break
                 }
 
                 return <box
                     vexpand={!vertical}
                     hexpand={vertical}>
-                    {vertical ? <With value={variableConfig.verticalBar.compact.asAccessor()}>
-                        {(c) => compactFunction(c)}
-                    </With>
-                    : <With value={variableConfig.horizontalBar.compact.asAccessor()}>
-                            {(c) => compactFunction(c)}
-                    </With>}
+                    <CavaWaveform
+                        color={variableConfig.theme.bars.cava_waveform.foreground.asAccessor()}
+                        marginStart={vertical ? 0 : 20}
+                        marginEnd={vertical ? 0 : 20}
+                        marginTop={vertical ? 20 : 0}
+                        marginBottom={vertical ? 20 : 0}
+                        vertical={vertical}
+                        flipStart={getCavaFlipStartValue(bar)}
+                        intensity={intensity}
+                        expand={expand}
+                        length={length}
+                        size={30}/>
                 </box>
             })}
         </With>
@@ -506,7 +534,7 @@ function MprisControls({vertical}: { vertical: boolean }) {
     </box>
 }
 
-function MprisTrackInfoBarWidget({vertical}: { vertical: boolean }) {
+function MprisTrackInfoBarWidget({vertical, bar}: { vertical: boolean, bar: Bar }) {
     const mpris = Mpris.get_default()
     return <box
         cssClasses={["barMprisTrackInfoBackground", "radiusSmall"]}>
@@ -518,8 +546,25 @@ function MprisTrackInfoBarWidget({vertical}: { vertical: boolean }) {
                     return <box/>
                 }
 
+                let compact
+
+                switch (bar) {
+                    case Bar.TOP:
+                        compact = variableConfig.topBar.compact.asAccessor()
+                        break
+                    case Bar.BOTTOM:
+                        compact = variableConfig.bottomBar.compact.asAccessor()
+                        break
+                    case Bar.LEFT:
+                        compact = variableConfig.leftBar.compact.asAccessor()
+                        break
+                    case Bar.RIGHT:
+                        compact = variableConfig.rightBar.compact.asAccessor()
+                        break
+                }
+
                 return <MprisTrackInfo
-                    compact={vertical ? variableConfig.verticalBar.compact.asAccessor() : variableConfig.horizontalBar.compact.asAccessor()}
+                    compact={compact}
                     player={player}
                     vertical={vertical}
                     flipped={selectedBar.asAccessor().as((bar) => {
@@ -530,7 +575,7 @@ function MprisTrackInfoBarWidget({vertical}: { vertical: boolean }) {
     </box>
 }
 
-function MprisPrimaryPlayerSwitcher({vertical}: { vertical: boolean }) {
+function MprisPrimaryPlayerSwitcher({ bar}: { bar: Bar }) {
     const mpris = Mpris.get_default()
 
     return <box>
@@ -544,8 +589,8 @@ function MprisPrimaryPlayerSwitcher({vertical}: { vertical: boolean }) {
                     labelCss={["barMprisPrimaryPlayerSwitcherForeground"]}
                     backgroundCss={["barMprisPrimaryPlayerSwitcherBackground"]}
                     offset={2}
-                    hpadding={getHPadding(vertical)}
-                    vpadding={getVPadding(vertical)}
+                    hpadding={getHPadding(bar)}
+                    vpadding={getVPadding(bar)}
                     label=""
                     onClicked={() => {
                         mpris.rotatePrimaryPlayer()
@@ -555,7 +600,7 @@ function MprisPrimaryPlayerSwitcher({vertical}: { vertical: boolean }) {
     </box>
 }
 
-function NotificationButton({vertical}: { vertical: boolean }) {
+function NotificationButton({ bar}: { bar: Bar }) {
     const notifications = Notifd.get_default()
 
     const notificationIcon = createComputed([
@@ -607,8 +652,8 @@ function NotificationButton({vertical}: { vertical: boolean }) {
             labelCss={["barNotificationHistoryForeground"]}
             backgroundCss={["barNotificationHistoryBackground"]}
             offset={notificationIconOffset}
-            hpadding={getHPadding(vertical)}
-            vpadding={getVPadding(vertical)}
+            hpadding={getHPadding(bar)}
+            vpadding={getVPadding(bar)}
             label={notificationIcon}
             onClicked={() => {
                 toggleWindow(NotificationHistoryWindowName)
@@ -616,132 +661,151 @@ function NotificationButton({vertical}: { vertical: boolean }) {
     </overlay>
 }
 
-function ColorPickerButton({vertical}: { vertical: boolean }) {
+function ColorPickerButton({ bar}: { bar: Bar }) {
     return <OkButton
         labelCss={["barColorPickerForeground"]}
         backgroundCss={["barColorPickerBackground"]}
         offset={2}
-        hpadding={getHPadding(vertical)}
-        vpadding={getVPadding(vertical)}
+        hpadding={getHPadding(bar)}
+        vpadding={getVPadding(bar)}
         label=""
         onClicked={() => {
             runColorPicker().catch((error) => console.log(error))
         }}/>
 }
 
-function LogoutButton({vertical}: { vertical: boolean }) {
+function LogoutButton({ bar}: { bar: Bar }) {
     return <OkButton
         labelCss={["barLogoutForeground"]}
         backgroundCss={["barLogoutBackground"]}
-        hpadding={getHPadding(vertical)}
-        vpadding={getVPadding(vertical)}
+        hpadding={getHPadding(bar)}
+        vpadding={getVPadding(bar)}
         label="󰍃"
         onClicked={() => {
             logout()
         }}/>
 }
 
-function LockButton({vertical}: { vertical: boolean }) {
+function LockButton({ bar}: { bar: Bar }) {
     return <OkButton
         labelCss={["barLockForeground"]}
         backgroundCss={["barLockBackground"]}
-        hpadding={getHPadding(vertical)}
-        vpadding={getVPadding(vertical)}
+        hpadding={getHPadding(bar)}
+        vpadding={getVPadding(bar)}
         label=""
         onClicked={() => {
             lock()
         }}/>
 }
 
-function RestartButton({vertical}: { vertical: boolean }) {
+function RestartButton({ bar}: { bar: Bar }) {
     return <OkButton
         labelCss={["barRestartForeground"]}
         backgroundCss={["barRestartBackground"]}
-        hpadding={getHPadding(vertical)}
-        vpadding={getVPadding(vertical)}
+        hpadding={getHPadding(bar)}
+        vpadding={getVPadding(bar)}
         label=""
         onClicked={() => {
             restart()
         }}/>
 }
 
-function ShutdownButton({vertical}: { vertical: boolean }) {
+function ShutdownButton({ bar}: { bar: Bar }) {
     return <OkButton
         labelCss={["barShutdownForeground"]}
         backgroundCss={["barShutdownBackground"]}
         offset={1}
-        hpadding={getHPadding(vertical)}
-        vpadding={getVPadding(vertical)}
+        hpadding={getHPadding(bar)}
+        vpadding={getVPadding(bar)}
         label="⏻"
         onClicked={() => {
             shutdown()
         }}/>
 }
 
-export function addWidgets(widgets: BarWidget[], isVertical: boolean) {
-    const schema = isVertical ? variableConfig.verticalBar : variableConfig.horizontalBar
+export function addWidgets(widgets: BarWidget[], bar: Bar) {
+    let schema
+    let isVertical
+    switch (bar) {
+        case Bar.TOP:
+            schema = variableConfig.topBar
+            isVertical = false
+            break
+        case Bar.BOTTOM:
+            schema = variableConfig.bottomBar
+            isVertical = false
+            break
+        case Bar.LEFT:
+            schema = variableConfig.leftBar
+            isVertical = true
+            break
+        case Bar.RIGHT:
+            schema = variableConfig.rightBar
+            isVertical = true
+            break
+    }
     return widgets.map((widget) => {
         return <box
             marginTop={schema[widget].marginTop.asAccessor()}
             marginBottom={schema[widget].marginBottom.asAccessor()}
             marginStart={schema[widget].marginStart.asAccessor()}
             marginEnd={schema[widget].marginEnd.asAccessor()}>
-            {getWidget(widget, isVertical)}
+            {getWidget(widget, isVertical, bar)}
         </box>
     })
 }
 
-function getWidget(widget: BarWidget, isVertical: boolean) {
+function getWidget(widget: BarWidget, isVertical: boolean, bar: Bar) {
     switch (widget) {
         case BarWidget.MENU:
-            return <MenuButton vertical={isVertical}/>
+            return <MenuButton bar={bar}/>
         case BarWidget.WORKSPACES:
-            return <Workspaces vertical={isVertical}/>
+            return <Workspaces bar={bar} vertical={isVertical}/>
         case BarWidget.CLOCK:
-            return <Clock vertical={isVertical}/>
+            return <Clock bar={bar} vertical={isVertical}/>
         case BarWidget.AUDIO_OUT:
-            return <AudioOut vertical={isVertical}/>
+            return <AudioOut bar={bar}/>
         case BarWidget.AUDIO_IN:
-            return <AudioIn vertical={isVertical}/>
+            return <AudioIn bar={bar}/>
         case BarWidget.BLUETOOTH:
-            return <BluetoothIndicator vertical={isVertical}/>
+            return <BluetoothIndicator bar={bar}/>
         case BarWidget.NETWORK:
-            return <NetworkIndicator vertical={isVertical}/>
+            return <NetworkIndicator bar={bar}/>
         case BarWidget.BATTERY:
-            return <BatteryIndicator vertical={isVertical}/>
+            return <BatteryIndicator bar={bar}/>
         case BarWidget.TRAY:
-            return <IntegratedTray vertical={isVertical}/>
+            return <IntegratedTray bar={bar} vertical={isVertical}/>
         case BarWidget.APP_LAUNCHER:
-            return <AppLauncherButton vertical={isVertical}/>
+            return <AppLauncherButton bar={bar}/>
         case BarWidget.SCREENSHOT:
-            return <ScreenshotButton vertical={isVertical}/>
+            return <ScreenshotButton bar={bar}/>
         case BarWidget.CLIPBOARD_MANAGER:
-            return <ClipboardManagerButton vertical={isVertical}/>
+            return <ClipboardManagerButton bar={bar}/>
         case BarWidget.POWER_PROFILE:
-            return <PowerProfileIndicator vertical={isVertical}/>
+            return <PowerProfileIndicator bar={bar}/>
         case BarWidget.LOCK:
-            return <LockButton vertical={isVertical}/>
+            return <LockButton bar={bar}/>
         case BarWidget.LOGOUT:
-            return <LogoutButton vertical={isVertical}/>
+            return <LogoutButton bar={bar}/>
         case BarWidget.RESTART:
-            return <RestartButton vertical={isVertical}/>
+            return <RestartButton bar={bar}/>
         case BarWidget.SHUTDOWN:
-            return <ShutdownButton vertical={isVertical}/>
+            return <ShutdownButton bar={bar}/>
         case BarWidget.CAVA_WAVEFORM:
-            return <CavaBars vertical={isVertical}/>
+            return <CavaBars bar={bar} vertical={isVertical}/>
         case BarWidget.VPN_INDICATOR:
-            return <VpnIndicator vertical={isVertical}/>
+            return <VpnIndicator bar={bar}/>
         case BarWidget.RECORDING_INDICATOR:
-            return <ScreenRecordingStopButton vertical={isVertical}/>
+            return <ScreenRecordingStopButton bar={bar}/>
         case BarWidget.MPRIS_CONTROLS:
             return <MprisControls vertical={isVertical}/>
         case BarWidget.MPRIS_TRACK_INFO:
-            return <MprisTrackInfoBarWidget vertical={isVertical}/>
+            return <MprisTrackInfoBarWidget bar={bar} vertical={isVertical}/>
         case BarWidget.MPRIS_PRIMARY_PLAYER_SWITCHER:
-            return <MprisPrimaryPlayerSwitcher vertical={isVertical}/>
+            return <MprisPrimaryPlayerSwitcher bar={bar}/>
         case BarWidget.NOTIFICATION_HISTORY:
-            return <NotificationButton vertical={isVertical}/>
+            return <NotificationButton bar={bar}/>
         case BarWidget.COLOR_PICKER:
-            return <ColorPickerButton vertical={isVertical}/>
+            return <ColorPickerButton bar={bar}/>
     }
 }

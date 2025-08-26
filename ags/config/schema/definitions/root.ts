@@ -1,10 +1,16 @@
 import {Field} from "../primitiveDefinitions";
 import {soundsSchema} from "./sounds";
 import {notificationsSchema} from "./notifications";
-import {horizontalBarSchema, verticalBarSchema} from "./bars";
+import {
+    bottomBarSchema,
+    leftBarSchema,
+    rightBarSchema,
+    topBarSchema,
+} from "./bars";
 import {systemMenuSchema} from "./systemMenu";
 import {systemCommandsSchema} from "./systemCommands";
 import {themeSchema} from "./theme";
+import {frameSchema} from "./frame";
 
 export const CONFIG_SCHEMA = [
     {
@@ -56,6 +62,9 @@ export const CONFIG_SCHEMA = [
     systemCommandsSchema,
     themeSchema,
     systemMenuSchema,
-    horizontalBarSchema,
-    verticalBarSchema,
+    frameSchema,
+    topBarSchema,
+    bottomBarSchema,
+    leftBarSchema,
+    rightBarSchema,
 ] as const satisfies Field[]

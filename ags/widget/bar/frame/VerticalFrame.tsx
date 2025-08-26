@@ -5,7 +5,9 @@ import {variableConfig} from "../../../config/config";
 import {createComputed} from "ags";
 import {Bar, selectedBar} from "../../../config/bar";
 import {integratedMenuRevealed, integratedMenuWidth} from "../IntegratedMenu";
-import {verticalBarWidth} from "../VerticalBar";
+import {leftBarWidth} from "../LeftBar";
+import {Position} from "../../../config/schema/definitions/systemMenu";
+import {rightBarWidth} from "../RightBar";
 
 export enum Side {
     LEFT,
@@ -25,23 +27,40 @@ export default function (
         Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.RIGHT
 
     const size = createComputed([
-        selectedBar.asAccessor(),
-        verticalBarWidth,
+        variableConfig.leftBar.enabled.asAccessor(),
+        variableConfig.rightBar.enabled.asAccessor(),
+        leftBarWidth,
+        rightBarWidth,
         variableConfig.theme.bars.frameThickness.asAccessor(),
-        variableConfig.verticalBar.marginInner.asAccessor(),
+        variableConfig.frame.margin.asAccessor(),
         variableConfig.theme.bars.borderWidth.asAccessor(),
     ], (
-        bar,
-        barWidth,
+        leftEnabled,
+        rightEnabled,
+        leftBarWidth,
+        rightBarWidth,
         frameThickness,
         marginInner,
         borderWidth,
     ) => {
-        if (bar === thisSideBar) {
-            return barWidth + marginInner + borderWidth
+        if (thisSideBar === Bar.LEFT && leftEnabled) {
+            return leftBarWidth + marginInner + borderWidth
+        }
+        if (thisSideBar === Bar.RIGHT && rightEnabled) {
+            return rightBarWidth + marginInner + borderWidth
         }
         return frameThickness + borderWidth + marginInner
     })
+
+    let visible
+    switch (side) {
+        case Side.RIGHT:
+            visible = variableConfig.systemMenu.position.asAccessor().as((p) => p === Position.RIGHT)
+            break
+        case Side.LEFT:
+            visible = variableConfig.systemMenu.position.asAccessor().as((p) => p === Position.LEFT)
+            break
+    }
 
     return <window
         defaultWidth={1} // necessary or resizing doesn't work
@@ -53,10 +72,7 @@ export default function (
         visible={true}
         application={App}
         canTarget={false}
-        canFocus={false}
-        $={(self) => {
-            self.get_native()?.get_surface()?.set_input_region(new Cairo.Region())
-        }}>
+        canFocus={false}>
         <box
             vexpand={true}
             hexpand={true}>
@@ -65,9 +81,7 @@ export default function (
                 widthRequest={size}/>
             {/*Represents integrated menu*/}
             <revealer
-                visible={selectedBar.asAccessor().as((bar) => {
-                    return bar === thisSideBar
-                })}
+                visible={visible}
                 transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
                 revealChild={integratedMenuRevealed}>
                 <box
