@@ -1,6 +1,5 @@
 import {addWidgets} from "./BarWidgets";
 import {variableConfig} from "../../config/config";
-import {Bar, selectedBar} from "../../config/bar";
 import {Gtk} from "ags/gtk4";
 import {createState, With} from "ags"
 import {interval} from "ags/time";
@@ -24,9 +23,6 @@ export default function ({setup}: {setup: (self: Gtk.Widget) => void}) {
             marginStart={2}
             marginEnd={2}
             hexpand={false}
-            visible={selectedBar.asAccessor()(bar =>
-                bar === Bar.LEFT || bar === Bar.RIGHT
-            )}
             heightRequest={variableConfig.verticalBar.minimumHeight.asAccessor()}
             orientation={Gtk.Orientation.VERTICAL}
             startWidget={

@@ -58,7 +58,7 @@ export default function (
             if (enableFrame) {
                 return barWidth + marginInner + borderWidth
             } else {
-                return barWidth + marginOuter + marginInner + (borderWidth * 2)
+                return barWidth + marginOuter + marginInner
             }
         }
         return enableFrame ? frameThickness + borderWidth + marginInner : 0
