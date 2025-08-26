@@ -54,7 +54,6 @@ export default function (
         borderWidth,
     ) => {
         if (selectedBar === thisSideBar) {
-            console.log(`bar height: ${barHeight}`)
             if (enableFrame) {
                 return barHeight + marginInner + borderWidth
             } else {
