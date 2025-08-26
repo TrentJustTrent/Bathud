@@ -5,116 +5,116 @@ import {variableConfig} from "../../config/config";
 import {alignmentToGtk} from "../utils/configHelper";
 import {Gtk} from "ags/gtk4";
 import {Accessor, createComputed, With} from "ags";
+import {Alignment} from "../../config/schema/definitions/barWidgets";
 
 export default function (
     {
         player,
         vertical,
-        flipped,
-        compact,
+        isFlipped,
+        textLength,
+        textAlignment,
+        minimumLength,
     }: {
         player: Player,
         vertical: boolean,
-        flipped: Accessor<boolean>,
-        compact: Accessor<boolean>,
+        isFlipped: boolean,
+        textLength: Accessor<number>,
+        textAlignment: Accessor<Alignment>,
+        minimumLength: Accessor<number>,
     }
 ) {
     const title = createComputed([
         player.title[0],
-        variableConfig.verticalBar.mpris_track_info.textLength.asAccessor(),
-        variableConfig.horizontalBar.mpris_track_info.textLength.asAccessor(),
-    ], (title, vLength, hLength) => {
+        textLength,
+    ], (title, textLength) => {
         return title ? truncateString(
             title,
-            vertical ? vLength : hLength
+            textLength
         ) : "Unknown Track"
     })
 
     const artist = createComputed([
         player.artist[0],
-        variableConfig.verticalBar.mpris_track_info.textLength.asAccessor(),
-        variableConfig.horizontalBar.mpris_track_info.textLength.asAccessor(),
-    ], (artist, vLength, hLength) => {
+        textLength,
+    ], (artist, textLength) => {
         return artist ?  truncateString(
             artist,
-            vertical ? vLength : hLength
+            textLength
         ) : "Unknown Artist"
     })
+
+    const alignment = textAlignment.as((align) =>
+        alignmentToGtk(align)
+    )
 
     return <box>
         {vertical &&
             <box
                 hexpand={true}>
-                <With value={flipped}>
-                    {(isFlipped) => {
-                        const alignment = variableConfig.verticalBar.mpris_track_info.textAlignment.asAccessor().as((align) =>
-                            alignmentToGtk(align)
-                        )
-                        if (isFlipped) {
-                            return <box
-                                hexpand={true}
-                                halign={Gtk.Align.CENTER}
-                                orientation={Gtk.Orientation.HORIZONTAL}
-                                heightRequest={variableConfig.verticalBar.mpris_track_info.minimumLength.asAccessor()}>
-                                <VerticalLabel
-                                    text={artist}
-                                    fontSize={14}
-                                    flipped={isFlipped}
-                                    bold={false}
-                                    alignment={alignment}
-                                    foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground.asAccessor()}
-                                />
-                                <VerticalLabel
-                                    text={title}
-                                    fontSize={14}
-                                    flipped={isFlipped}
-                                    bold={true}
-                                    alignment={alignment}
-                                    foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground.asAccessor()}
-                                />
-                            </box>
-                        } else {
-                            return <box
-                                hexpand={true}
-                                halign={Gtk.Align.CENTER}
-                                orientation={Gtk.Orientation.HORIZONTAL}
-                                heightRequest={variableConfig.verticalBar.mpris_track_info.minimumLength.asAccessor()}>
-                                <VerticalLabel
-                                    text={title}
-                                    fontSize={14}
-                                    flipped={isFlipped}
-                                    bold={true}
-                                    alignment={alignment}
-                                    foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground.asAccessor()}
-                                />
-                                <VerticalLabel
-                                    text={artist}
-                                    fontSize={14}
-                                    flipped={isFlipped}
-                                    bold={false}
-                                    alignment={alignment}
-                                    foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground.asAccessor()}
-                                />
-                            </box>
-                        }
-                    }}
-                </With>
+                { isFlipped &&
+                    <box
+                        hexpand={true}
+                        halign={Gtk.Align.CENTER}
+                        orientation={Gtk.Orientation.HORIZONTAL}
+                        heightRequest={minimumLength}>
+                        <VerticalLabel
+                            text={artist}
+                            fontSize={14}
+                            flipped={isFlipped}
+                            bold={false}
+                            alignment={alignment}
+                            foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground.asAccessor()}
+                        />
+                        <VerticalLabel
+                            text={title}
+                            fontSize={14}
+                            flipped={isFlipped}
+                            bold={true}
+                            alignment={alignment}
+                            foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground.asAccessor()}
+                        />
+                    </box>
+                }
+                {!isFlipped && <box
+                        hexpand={true}
+                        halign={Gtk.Align.CENTER}
+                        orientation={Gtk.Orientation.HORIZONTAL}
+                        heightRequest={minimumLength}>
+                        <VerticalLabel
+                            text={title}
+                            fontSize={14}
+                            flipped={isFlipped}
+                            bold={true}
+                            alignment={alignment}
+                            foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground.asAccessor()}
+                        />
+                        <VerticalLabel
+                            text={artist}
+                            fontSize={14}
+                            flipped={isFlipped}
+                            bold={false}
+                            alignment={alignment}
+                            foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground.asAccessor()}
+                        />
+                    </box>
+                }
             </box>
         }
         {!vertical &&
             <box
                 orientation={Gtk.Orientation.VERTICAL}
                 valign={Gtk.Align.CENTER}
-                widthRequest={variableConfig.horizontalBar.mpris_track_info.minimumLength.asAccessor()}>
+                widthRequest={minimumLength}>
                 <label
                     marginStart={8}
                     cssClasses={["labelSmallBold", "barMprisTrackInfoForeground", "lineHeightCompact"]}
-                    halign={variableConfig.horizontalBar.mpris_track_info.textAlignment.asAccessor().as((a) => alignmentToGtk(a))}
+                    halign={textAlignment.as((a) => alignmentToGtk(a))}
                     label={title}/>
                 <label
                     marginStart={8}
                     cssClasses={["labelSmall", "barMprisTrackInfoForeground", "lineHeightCompact"]}
-                    halign={variableConfig.horizontalBar.mpris_track_info.textAlignment.asAccessor().as((a) => alignmentToGtk(a))}
+                    halign={textAlignment.as((a) => alignmentToGtk(a))}
                     label={artist}/>
             </box>
         }

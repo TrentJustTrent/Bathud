@@ -547,30 +547,45 @@ function MprisTrackInfoBarWidget({vertical, bar}: { vertical: boolean, bar: Bar 
                     return <box/>
                 }
 
-                let compact
+                let textLength
+                let textAlignment
+                let minimumLength
+                let flipped
 
                 switch (bar) {
                     case Bar.TOP:
-                        compact = variableConfig.topBar.compact.asAccessor()
+                        textLength = variableConfig.topBar.mpris_track_info.textLength.asAccessor()
+                        textAlignment = variableConfig.topBar.mpris_track_info.textAlignment.asAccessor()
+                        minimumLength = variableConfig.topBar.mpris_track_info.minimumLength.asAccessor()
+                        flipped = false
                         break
                     case Bar.BOTTOM:
-                        compact = variableConfig.bottomBar.compact.asAccessor()
+                        textLength = variableConfig.bottomBar.mpris_track_info.textLength.asAccessor()
+                        textAlignment = variableConfig.bottomBar.mpris_track_info.textAlignment.asAccessor()
+                        minimumLength = variableConfig.bottomBar.mpris_track_info.minimumLength.asAccessor()
+                        flipped = false
                         break
                     case Bar.LEFT:
-                        compact = variableConfig.leftBar.compact.asAccessor()
+                        textLength = variableConfig.leftBar.mpris_track_info.textLength.asAccessor()
+                        textAlignment = variableConfig.leftBar.mpris_track_info.textAlignment.asAccessor()
+                        minimumLength = variableConfig.leftBar.mpris_track_info.minimumLength.asAccessor()
+                        flipped = false
                         break
                     case Bar.RIGHT:
-                        compact = variableConfig.rightBar.compact.asAccessor()
+                        textLength = variableConfig.rightBar.mpris_track_info.textLength.asAccessor()
+                        textAlignment = variableConfig.rightBar.mpris_track_info.textAlignment.asAccessor()
+                        minimumLength = variableConfig.rightBar.mpris_track_info.minimumLength.asAccessor()
+                        flipped = true
                         break
                 }
 
                 return <MprisTrackInfo
-                    compact={compact}
                     player={player}
                     vertical={vertical}
-                    flipped={selectedBar.asAccessor().as((bar) => {
-                        return bar === Bar.RIGHT
-                    })}/>
+                    isFlipped={flipped}
+                    textLength={textLength}
+                    textAlignment={textAlignment}
+                    minimumLength={minimumLength}/>
             }}
         </With>
     </box>
