@@ -2,7 +2,6 @@ import {Gtk} from "ags/gtk4";
 import {createState} from "ags";
 import Weather from "./Weather";
 import Calendar from "./Calendar";
-import Divider from "../common/Divider";
 
 export const integratedCalendarWidth = 410
 

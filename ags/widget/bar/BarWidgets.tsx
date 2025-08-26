@@ -34,6 +34,7 @@ import {lock, logout, restart, shutdown} from "../utils/powerOptions";
 import {execAsync} from "ags/process";
 import {integratedMenuRevealed, integratedMenuRevealedSetting} from "./IntegratedMenu";
 import {toggleIntegratedCalendar} from "../calendar/IntegratedCalendar";
+import {toggleIntegratedClipboardManager} from "../clipboardManager/IntegratedClipboardManager";
 
 const tray = Tray.get_default()
 
@@ -436,7 +437,7 @@ function ClipboardManagerButton({bar}: { bar: Bar }) {
         vpadding={getVPadding(bar)}
         label=""
         onClicked={() => {
-            toggleWindow(ClipboardManagerWindowName)
+            toggleIntegratedClipboardManager()
         }}/>
 }
 

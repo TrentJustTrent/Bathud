@@ -9,6 +9,10 @@ import {leftBarWidth} from "../LeftBar";
 import {Position} from "../../../config/schema/definitions/systemMenu";
 import {rightBarWidth} from "../RightBar";
 import {integratedCalendarRevealed, integratedCalendarWidth} from "../../calendar/IntegratedCalendar";
+import {
+    integratedClipboardManagerRevealed,
+    integratedClipboardManagerWidth
+} from "../../clipboardManager/IntegratedClipboardManager";
 
 export enum Side {
     LEFT,
@@ -95,6 +99,14 @@ export default function (
                 revealChild={integratedCalendarRevealed}>
                 <box
                     widthRequest={integratedCalendarWidth}/>
+            </revealer>
+            {/*Represents integrated clipboard manager*/}
+            <revealer
+                visible={visible}
+                transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
+                revealChild={integratedClipboardManagerRevealed}>
+                <box
+                    widthRequest={integratedClipboardManagerWidth}/>
             </revealer>
         </box>
     </window> as Astal.Window

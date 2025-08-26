@@ -10,8 +10,6 @@ import LookAndFeelControls from "./widgets/LookAndFeelControls";
 import PowerProfileControls from "./widgets/PowerProfileControls";
 import Toolbox from "./widgets/Toolbox";
 import Clock from "./widgets/Clock";
-import ClipboardManager from "./widgets/ClipboardManager";
-import {startCliphist} from "../clipboardManager/ClipboardManager";
 import ScreenRecording from "./widgets/ScreenRecording";
 import {SystemMenuWidget} from "../../config/schema/definitions/systemMenuWidgets";
 import {createBinding} from "ags";
@@ -31,7 +29,6 @@ export type SystemWidgetsJSX = {
     notificationHistory: JSX.Element
     toolbox: JSX.Element
     clock: JSX.Element
-    clipboardManager: JSX.Element
     screenRecording: JSX.Element
 }
 
@@ -57,7 +54,6 @@ export function createSystemWidgets(): SystemWidgetsJSX {
         notificationHistory: <NotificationHistory/>,
         toolbox: <Toolbox/>,
         clock: <Clock/>,
-        clipboardManager: <ClipboardManager/>,
         screenRecording: <ScreenRecording/>,
     }
 }
@@ -74,9 +70,6 @@ export function addSystemMenuWidgets(
                 return jsxWidgets.notificationHistory as Gtk.Widget
             case SystemMenuWidget.BLUETOOTH:
                 return jsxWidgets.bluetooth as Gtk.Widget
-            case SystemMenuWidget.CLIPBOARD_MANAGER:
-                startCliphist()
-                return jsxWidgets.clipboardManager as Gtk.Widget
             case SystemMenuWidget.CLOCK:
                 return jsxWidgets.clock as Gtk.Widget
             case SystemMenuWidget.AUDIO_OUT:

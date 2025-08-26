@@ -12,7 +12,6 @@ export enum SystemMenuWidget {
     NOTIFICATION_HISTORY = "notification_history",
     TOOLBOX = "toolbox",
     CLOCK = "clock",
-    CLIPBOARD_MANAGER = "clipboard_manager",
     SCREEN_RECORDING_CONTROLS = "screen_recording_controls",
 }
 
