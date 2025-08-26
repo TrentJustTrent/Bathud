@@ -301,19 +301,35 @@ export default function (): Astal.Window {
         return enabledHor
     })
 
+    const layer = createComputed([
+        selectedBar.asAccessor(),
+        variableConfig.verticalBar.enableFrame.asAccessor(),
+        variableConfig.horizontalBar.enableFrame.asAccessor(),
+    ], (bar, enabledVert, enabledHor) => {
+        if ((bar === Bar.LEFT || bar === Bar.RIGHT) && enabledVert) {
+            return Astal.Layer.TOP
+        }
+        if ((bar === Bar.TOP || bar === Bar.BOTTOM) && enabledHor) {
+            return Astal.Layer.TOP
+        }
+        return Astal.Layer.BOTTOM
+    })
+
     return <window
         $={(self) => {
             frameWindow = self
         }}
         name={frameWindowName}
         cssClasses={["transparentBackground"]}
-        layer={Astal.Layer.TOP}
+        layer={layer}
         namespace={"okpanel-frame"}
         exclusivity={Astal.Exclusivity.IGNORE}
         anchor={Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.LEFT}
         visible={true}
         application={App}>
         <box
+            vexpand={true}
+            hexpand={true}
             $={(self) => {
                 horizontalBox = self
 
@@ -323,6 +339,8 @@ export default function (): Astal.Window {
                     }}/> as Gtk.Widget
 
                 const fb = <box
+                    vexpand={true}
+                    hexpand={true}
                     orientation={Gtk.Orientation.HORIZONTAL}
                     $={(self) => {
                         frameBox = self
