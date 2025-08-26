@@ -1,6 +1,5 @@
 import {Gtk} from "ags/gtk4"
 import {execAsync} from "ags/process"
-import {SystemMenuWindowName} from "../SystemMenuWindow";
 import Pango from "gi://Pango?version=1.0";
 import {createScaledTexture} from "../../utils/images";
 import Divider from "../../common/Divider";
@@ -357,7 +356,6 @@ export default function () {
     return <RevealerRow
         icon={variableConfig.icon.asAccessor()}
         iconOffset={variableConfig.iconOffset.asAccessor()}
-        windowName={SystemMenuWindowName}
         content={
             <label
                 cssClasses={["labelMediumBold"]}

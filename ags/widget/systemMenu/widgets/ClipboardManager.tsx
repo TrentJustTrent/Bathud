@@ -1,7 +1,6 @@
 import {Gtk} from "ags/gtk4"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
-import {SystemMenuWindowName} from "../SystemMenuWindow";
 import {ClipboardManagerContent, updateClipboardEntries} from "../../clipboardManager/ClipboardManager";
 import {interval} from "ags/time";
 import AstalIO from "gi://AstalIO?version=0.1";
@@ -13,7 +12,6 @@ export default function () {
     return <RevealerRow
         icon={""}
         iconOffset={0}
-        windowName={SystemMenuWindowName}
         content={
             <label
                 cssClasses={["labelMediumBold"]}

@@ -3,7 +3,6 @@ import {Gtk} from "ags/gtk4"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
 import {toggleMuteEndpoint} from "../../utils/audio";
-import {SystemMenuWindowName} from "../SystemMenuWindow";
 import OkButton from "../../common/OkButton";
 import {Accessor, createBinding, createComputed, For} from "ags";
 
@@ -34,7 +33,6 @@ export default function (
     return <RevealerRow
         icon={endpointLabelVar(() => getIcon(defaultEndpoint))}
         iconOffset={0}
-        windowName={SystemMenuWindowName}
         onClick={() => {
             toggleMuteEndpoint(defaultEndpoint)
         }}

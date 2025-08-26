@@ -1,5 +1,4 @@
 import App from "ags/gtk4/app"
-import {SystemMenuWindowName} from "../systemMenu/SystemMenuWindow";
 import {scrimsVisibleSetter} from "../common/Scrim";
 import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
 import Astal from "gi://Astal?version=4.0";
@@ -25,7 +24,6 @@ export function toggleWindow(windowName: string) {
 export function hideAllWindows() {
     const windows = App.get_windows().filter((window) => {
         return window.name === AppLauncherWindowName ||
-            window.name === SystemMenuWindowName ||
             window.name === ScreenshareWindowName ||
             window.name === ScreenshotWindowName ||
             window.name === ClipboardManagerWindowName ||

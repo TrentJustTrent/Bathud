@@ -1,11 +1,10 @@
 import Hyprland from "gi://AstalHyprland"
-import Calendar, {CalendarWindowName} from "../calendar/Calendar"
+import Calendar from "../calendar/Calendar"
 import Wp from "gi://AstalWp"
 import Battery from "gi://AstalBattery"
 import {getMicrophoneIcon, getVolumeIcon, playBatteryWarning} from "../utils/audio"
 import {getNetworkIconBinding} from "../utils/network"
 import {getBatteryIcon} from "../utils/battery"
-import {SystemMenuWindowName} from "../systemMenu/SystemMenuWindow";
 import Bluetooth from "gi://AstalBluetooth"
 import {activeVpnConnections} from "../systemMenu/widgets/NetworkControls";
 import {isRecording, ScreenshotWindowName} from "../screenshot/Screenshot";
@@ -28,14 +27,13 @@ import {NotificationHistoryWindowName} from "../notification/NotificationHistory
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
 import Gtk from "gi://Gtk?version=4.0";
 import OkButton, {OkButtonHorizontalPadding, OkButtonSize, OkButtonVerticalPadding} from "../common/OkButton";
-import {createBinding, createComputed, createState, For, With, createRoot} from "ags";
+import {createBinding, createComputed, createState, For, With} from "ags";
 import {createPoll} from "../../../../../../../usr/share/ags/js/lib/time";
 import GLib from "gi://GLib?version=2.0";
 import {runColorPicker} from "../utils/colorPicker";
 import {lock, logout, restart, shutdown} from "../utils/powerOptions";
 import {execAsync} from "ags/process";
 import {integratedMenuRevealed, integratedMenuRevealedSetting} from "./IntegratedMenu";
-import App from "ags/gtk4/app"
 
 const tray = Tray.get_default()
 
@@ -59,12 +57,7 @@ function MenuButton({vertical}: { vertical: boolean }) {
         vpadding={getVPadding(vertical)}
         label={variableConfig.theme.bars.menu.icon.asAccessor()}
         onClicked={() => {
-            const barIsVertical = selectedBar.get() === Bar.LEFT || selectedBar.get() === Bar.RIGHT
-            if (barIsVertical) {
-                integratedMenuRevealedSetting(!integratedMenuRevealed.get())
-            } else {
-                toggleWindow(SystemMenuWindowName)
-            }
+            integratedMenuRevealedSetting(!integratedMenuRevealed.get())
         }}/>
 }
 

@@ -1,5 +1,4 @@
 import App from "ags/gtk4/app"
-import SystemMenuWindow from "./widget/systemMenu/SystemMenuWindow";
 import {VolumeAlert, BrightnessAlert, ChargingAlertSound} from "./widget/alerts/Alerts";
 import NotificationPopups from "./widget/notification/NotificationPopups";
 import AppLauncher, {AppLauncherWindowName} from "./widget/appLauncher/AppLauncher";
@@ -37,7 +36,6 @@ App.start({
         FrameBottom()
         FrameTop()
 
-        SystemMenuWindow()
         ChargingAlertSound()
         AppLauncher()
         Screenshot()

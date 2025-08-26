@@ -1,6 +1,4 @@
 import {Gtk} from "ags/gtk4"
-import App from "ags/gtk4/app"
-import {SystemMenuWindowName} from "../SystemMenuWindow";
 import {getBluetoothIcon, getBluetoothName} from "../../utils/bluetooth";
 import Bluetooth from "gi://AstalBluetooth";
 import RevealerRow from "../../common/RevealerRow";
@@ -38,14 +36,6 @@ function BluetoothDevices() {
                     createBinding(device, "connected"),
                     createBinding(device, "connecting")
                 ])
-
-                setTimeout(() => {
-                    createBinding(App.get_window(SystemMenuWindowName)!, "visible").subscribe(() => {
-                        if (!App.get_window(SystemMenuWindowName)?.visible) {
-                            buttonsRevealedSetter(false)
-                        }
-                    })
-                }, 1_000)
 
                 return <box
                     orientation={Gtk.Orientation.VERTICAL}>
@@ -135,7 +125,6 @@ export default function () {
         visible={createBinding(bluetooth, "isPowered")}
         icon={getBluetoothIcon()}
         iconOffset={0}
-        windowName={SystemMenuWindowName}
         content={
             <label
                 cssClasses={["labelMediumBold"]}

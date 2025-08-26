@@ -1,7 +1,6 @@
 import {Gtk} from "ags/gtk4"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
-import {SystemMenuWindowName} from "../SystemMenuWindow";
 import OkButton, {OkButtonSize} from "../../common/OkButton";
 import {hideAllWindows, toggleWindow} from "../../utils/windows";
 import {ScreenshotWindowName} from "../../screenshot/Screenshot";
@@ -36,7 +35,6 @@ export default function () {
     return <RevealerRow
         icon=""
         iconOffset={0}
-        windowName={SystemMenuWindowName}
         content={
             <label
                 cssClasses={["labelMediumBold"]}

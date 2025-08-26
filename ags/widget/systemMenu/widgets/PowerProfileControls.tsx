@@ -1,7 +1,6 @@
 import {Gtk} from "ags/gtk4"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
-import {SystemMenuWindowName} from "../SystemMenuWindow";
 import PowerProfiles from "gi://AstalPowerProfiles"
 import {capitalizeFirstLetter} from "../../utils/strings";
 import {getPowerProfileIconBinding, PowerProfile} from "../../utils/powerProfile";
@@ -17,7 +16,6 @@ export default function () {
         visible={profiles.length !== 0}
         icon={getPowerProfileIconBinding()}
         iconOffset={0}
-        windowName={SystemMenuWindowName}
         content={
             <label
                 cssClasses={["labelMediumBold"]}

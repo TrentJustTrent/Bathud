@@ -1,7 +1,6 @@
 import {Gtk} from "ags/gtk4"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
-import {SystemMenuWindowName} from "../SystemMenuWindow";
 import Divider from "../../common/Divider";
 import {variableConfig} from "../../../config/config";
 import {SpeedUnits, TemperatureUnits} from "../../../config/schema/definitions/systemMenuWidgets";
@@ -237,7 +236,6 @@ export default function () {
             return getWeatherIcon(weather.current.weatherCode, weather.current.isDay === 1)
         })}
         iconOffset={0}
-        windowName={SystemMenuWindowName}
         content={
             <label
                 cssClasses={["labelMediumBold"]}
