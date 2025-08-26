@@ -13,7 +13,6 @@ import Clock from "./widgets/Clock";
 import ClipboardManager from "./widgets/ClipboardManager";
 import {startCliphist} from "../clipboardManager/ClipboardManager";
 import ScreenRecording from "./widgets/ScreenRecording";
-import Weather from "./widgets/Weather";
 import {SystemMenuWidget} from "../../config/schema/definitions/systemMenuWidgets";
 import {createBinding} from "ags";
 import {Gtk} from "ags/gtk4";
@@ -34,7 +33,6 @@ export type SystemWidgetsJSX = {
     clock: JSX.Element
     clipboardManager: JSX.Element
     screenRecording: JSX.Element
-    weather: JSX.Element
 }
 
 // Creating new widgets to replace the old ones when switching configs
@@ -61,7 +59,6 @@ export function createSystemWidgets(): SystemWidgetsJSX {
         clock: <Clock/>,
         clipboardManager: <ClipboardManager/>,
         screenRecording: <ScreenRecording/>,
-        weather: <Weather/>,
     }
 }
 
@@ -98,8 +95,6 @@ export function addSystemMenuWidgets(
                 return jsxWidgets.toolbox as Gtk.Widget
             case SystemMenuWidget.SCREEN_RECORDING_CONTROLS:
                 return jsxWidgets.screenRecording as Gtk.Widget
-            case SystemMenuWidget.WEATHER:
-                return jsxWidgets.weather as Gtk.Widget
         }
     })
 }

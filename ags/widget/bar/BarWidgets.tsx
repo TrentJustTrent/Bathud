@@ -1,5 +1,4 @@
 import Hyprland from "gi://AstalHyprland"
-import Calendar from "../calendar/Calendar"
 import Wp from "gi://AstalWp"
 import Battery from "gi://AstalBattery"
 import {getMicrophoneIcon, getVolumeIcon, playBatteryWarning} from "../utils/audio"
@@ -11,7 +10,7 @@ import {isRecording, ScreenshotWindowName} from "../screenshot/Screenshot";
 import Divider from "../common/Divider";
 import {variableConfig} from "../../config/config";
 import Tray from "gi://AstalTray"
-import {addWindowOneOff, toggleWindow} from "../utils/windows";
+import {toggleWindow} from "../utils/windows";
 import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
 import {ClipboardManagerWindowName, startCliphist} from "../clipboardManager/ClipboardManager";
 import PowerProfiles from "gi://AstalPowerProfiles"
@@ -34,6 +33,7 @@ import {runColorPicker} from "../utils/colorPicker";
 import {lock, logout, restart, shutdown} from "../utils/powerOptions";
 import {execAsync} from "ags/process";
 import {integratedMenuRevealed, integratedMenuRevealedSetting} from "./IntegratedMenu";
+import {toggleIntegratedCalendar} from "../calendar/IntegratedCalendar";
 
 const tray = Tray.get_default()
 
@@ -194,7 +194,7 @@ function Clock({vertical, bar}: { vertical: boolean, bar: Bar }) {
         vpadding={getVPadding(bar)}
         label={time}
         onClicked={() => {
-            addWindowOneOff(() => Calendar())
+            toggleIntegratedCalendar()
         }}/>
 }
 

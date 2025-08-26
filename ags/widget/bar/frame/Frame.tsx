@@ -11,17 +11,20 @@ import TopBar from "../TopBar";
 import {Position} from "../../../config/schema/definitions/systemMenu";
 import RightBar from "../RightBar";
 import BottomBar from "../BottomBar";
+import IntegratedCalendar from "../../calendar/IntegratedCalendar";
 
 export const frameWindowName = "frame"
 
+let frameWindow: Gtk.Window
+
+let frame: Gtk.Widget
 let frameBox: Gtk.Box
 let integratedMenu: Gtk.Widget
 let leftBar: Gtk.Widget
 let topBar: Gtk.Widget
 let rightBar: Gtk.Widget
 let bottomBar: Gtk.Widget
-let frame: Gtk.Widget
-let frameWindow: Gtk.Window
+let integratedCalendar: Gtk.Widget
 
 function roundedRect(ctx: any, x: number, y: number, w: number, h: number, r: number) {
     r = Math.max(0, Math.min(r, Math.min(w, h) / 2));
@@ -182,12 +185,14 @@ export default function (): Astal.Window {
         switch (position) {
             case Position.LEFT:
                 frameBox.reorder_child_after(leftBar, integratedMenu)
-                frameBox.reorder_child_after(frameBox, leftBar)
-                frameBox.reorder_child_after(rightBar, frameBox)
+                frameBox.reorder_child_after(integratedCalendar, leftBar)
+                frameBox.reorder_child_after(frame, integratedCalendar)
+                frameBox.reorder_child_after(rightBar, frame)
                 break
             case Position.RIGHT:
-                frameBox.reorder_child_after(frameBox, leftBar)
-                frameBox.reorder_child_after(rightBar, frameBox)
+                frameBox.reorder_child_after(frame, leftBar)
+                frameBox.reorder_child_after(integratedCalendar, frame)
+                frameBox.reorder_child_after(rightBar, integratedCalendar)
                 frameBox.reorder_child_after(integratedMenu, rightBar)
                 break
         }
@@ -235,23 +240,32 @@ export default function (): Astal.Window {
                         setup={(self) => {
                             integratedMenu = self
                         }}/> as Gtk.Widget
+
                     const lb = <LeftBar
                         setup={(self) => {
                             leftBar = self
                         }}/> as Gtk.Widget
+
                     const rb = <RightBar
                         setup={(self) => {
                             rightBar = self
                         }}/> as Gtk.Widget
 
+                    const ic = <IntegratedCalendar
+                        setup={(self) => {
+                            integratedCalendar = self
+                        }}/> as Gtk.Widget
+
                     if (variableConfig.systemMenu.position.get() === Position.LEFT) {
                         self.append(im)
                         self.append(lb)
+                        self.append(ic)
                         self.append(f)
                         self.append(rb)
                     } else {
                         self.append(lb)
                         self.append(f)
+                        self.append(ic)
                         self.append(rb)
                         self.append(im)
                     }

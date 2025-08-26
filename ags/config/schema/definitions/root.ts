@@ -11,6 +11,7 @@ import {systemMenuSchema} from "./systemMenu";
 import {systemCommandsSchema} from "./systemCommands";
 import {themeSchema} from "./theme";
 import {frameSchema} from "./frame";
+import {weatherSchema} from "./weather";
 
 export const CONFIG_SCHEMA = [
     {
@@ -58,6 +59,7 @@ export const CONFIG_SCHEMA = [
         description: 'Index of the primary monitor (0‑based as reported by Hyprland).',
     },
     soundsSchema,
+    weatherSchema,
     notificationsSchema,
     systemCommandsSchema,
     themeSchema,

@@ -8,6 +8,7 @@ import {integratedMenuRevealed, integratedMenuWidth} from "../IntegratedMenu";
 import {leftBarWidth} from "../LeftBar";
 import {Position} from "../../../config/schema/definitions/systemMenu";
 import {rightBarWidth} from "../RightBar";
+import {integratedCalendarRevealed, integratedCalendarWidth} from "../../calendar/IntegratedCalendar";
 
 export enum Side {
     LEFT,
@@ -86,6 +87,14 @@ export default function (
                 revealChild={integratedMenuRevealed}>
                 <box
                     widthRequest={integratedMenuWidth}/>
+            </revealer>
+            {/*Represents integrated calendar*/}
+            <revealer
+                visible={visible}
+                transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
+                revealChild={integratedCalendarRevealed}>
+                <box
+                    widthRequest={integratedCalendarWidth}/>
             </revealer>
         </box>
     </window> as Astal.Window
