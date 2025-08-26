@@ -42,7 +42,7 @@ export function lock() {
         ))
     } else {
         const barIsVertical = selectedBar.get() === Bar.LEFT || selectedBar.get() === Bar.RIGHT
-        if (barIsVertical && variableConfig.verticalBar.integratedMenu.get()) {
+        if (barIsVertical) {
             // Hide the integrated menu before locking
             integratedMenuRevealedSetting(false)
             execAsync(['bash', '-c', `sleep 0.3 && ${variableConfig.systemCommands.lock.get()}`])

@@ -90,8 +90,6 @@ export default function (): Astal.Window {
         rightExpand={rightExpand}
         contentWidth={340}
         visible={true}
-        width={variableConfig.horizontalBar.minimumWidth.asAccessor()}
-        height={variableConfig.verticalBar.minimumHeight.asAccessor()}
         content={
             <box
                 cssClasses={["calendarBox"]}

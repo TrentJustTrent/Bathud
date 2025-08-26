@@ -60,7 +60,7 @@ function MenuButton({vertical}: { vertical: boolean }) {
         label={variableConfig.theme.bars.menu.icon.asAccessor()}
         onClicked={() => {
             const barIsVertical = selectedBar.get() === Bar.LEFT || selectedBar.get() === Bar.RIGHT
-            if (barIsVertical && variableConfig.verticalBar.integratedMenu.get()) {
+            if (barIsVertical) {
                 integratedMenuRevealedSetting(!integratedMenuRevealed.get())
             } else {
                 toggleWindow(SystemMenuWindowName)

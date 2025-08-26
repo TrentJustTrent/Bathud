@@ -13,7 +13,6 @@ export default function ({setup}: {setup: (self: Gtk.Revealer) => void}) {
     return <revealer
         hexpand={false}
         transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
-        visible={variableConfig.verticalBar.integratedMenu.asAccessor()}
         revealChild={integratedMenuRevealed}
         $={(self) => {
             setup(self)

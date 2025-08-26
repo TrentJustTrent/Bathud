@@ -209,9 +209,7 @@ export function setNewConfig(configFile: ConfigFile, onFinished: () => void) {
     saveConfig(configFile.fileName)
     selectedConfig.set(configFile)
     monitorSelectedConfig()
-    if (!config.verticalBar.integratedMenu) {
-        integratedMenuRevealedSetting(false)
-    }
+    integratedMenuRevealedSetting(false)
     setTheme(onFinished)
 }
 

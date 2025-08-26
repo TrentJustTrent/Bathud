@@ -23,22 +23,16 @@ export default function ({setup}: {setup: (self: Gtk.Widget) => void}) {
             marginStart={2}
             marginEnd={2}
             hexpand={false}
-            heightRequest={variableConfig.verticalBar.minimumHeight.asAccessor()}
             orientation={Gtk.Orientation.VERTICAL}
             startWidget={
                 <box
                     visible={variableConfig.verticalBar.topWidgets.asAccessor().as((widgets) =>
                         widgets.length > 0
                     )}
-                    orientation={Gtk.Orientation.VERTICAL}
-                    cssClasses={variableConfig.verticalBar.splitSections.asAccessor().as((split) =>
-                        split ? ["barWindow"] : []
-                    )}>
+                    orientation={Gtk.Orientation.VERTICAL}>
                     <With value={variableConfig.verticalBar.topWidgets.asAccessor()}>
                         {widgets => <box
                             orientation={Gtk.Orientation.VERTICAL}
-                            marginTop={variableConfig.verticalBar.sectionPadding.asAccessor()}
-                            marginBottom={variableConfig.verticalBar.sectionPadding.asAccessor()}
                             spacing={variableConfig.verticalBar.widgetSpacing.asAccessor()}>
                             {addWidgets(widgets, true)}
                         </box>}
@@ -50,15 +44,10 @@ export default function ({setup}: {setup: (self: Gtk.Widget) => void}) {
                     visible={variableConfig.verticalBar.centerWidgets.asAccessor().as((widgets) =>
                         widgets.length > 0
                     )}
-                    orientation={Gtk.Orientation.VERTICAL}
-                    cssClasses={variableConfig.verticalBar.splitSections.asAccessor().as((split) =>
-                        split ? ["barWindow"] : []
-                    )}>
+                    orientation={Gtk.Orientation.VERTICAL}>
                     <With value={variableConfig.verticalBar.centerWidgets.asAccessor()}>
                         {widgets => <box
                             orientation={Gtk.Orientation.VERTICAL}
-                            marginTop={variableConfig.verticalBar.sectionPadding.asAccessor()}
-                            marginBottom={variableConfig.verticalBar.sectionPadding.asAccessor()}
                             spacing={variableConfig.verticalBar.widgetSpacing.asAccessor()}>
                             {addWidgets(widgets, true)}
                         </box>}
@@ -71,15 +60,10 @@ export default function ({setup}: {setup: (self: Gtk.Widget) => void}) {
                         widgets.length > 0
                     )}
                     orientation={Gtk.Orientation.VERTICAL}
-                    valign={Gtk.Align.END}
-                    cssClasses={variableConfig.verticalBar.splitSections.asAccessor().as((split) =>
-                        split ? ["barWindow"] : []
-                    )}>
+                    valign={Gtk.Align.END}>
                     <With value={variableConfig.verticalBar.bottomWidgets.asAccessor()}>
                         {widgets => <box
                             orientation={Gtk.Orientation.VERTICAL}
-                            marginTop={variableConfig.verticalBar.sectionPadding.asAccessor()}
-                            marginBottom={variableConfig.verticalBar.sectionPadding.asAccessor()}
                             spacing={variableConfig.verticalBar.widgetSpacing.asAccessor()}>
                             {addWidgets(widgets, true)}
                         </box>}

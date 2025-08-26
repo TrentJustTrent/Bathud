@@ -187,8 +187,6 @@ export default function () {
         leftExpand={leftExpand}
         rightExpand={rightExpand}
         contentWidth={420}
-        width={variableConfig.horizontalBar.minimumWidth.asAccessor()}
-        height={variableConfig.verticalBar.minimumHeight.asAccessor()}
         content={
             <With value={variableConfig.systemMenu.widgets.asAccessor()}>
                 {(widgets) => {

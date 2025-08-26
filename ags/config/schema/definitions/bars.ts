@@ -26,30 +26,6 @@ const commonBarChildrenSchema = [
         description: 'Enabled compact bar mode.',
     },
     {
-        name: 'expanded',
-        type: 'boolean',
-        default: true,
-        description: 'If true, the bar stretches to the full monitor length.',
-    },
-    {
-        name: 'splitSections',
-        type: 'boolean',
-        default: false,
-        description: 'If true, widget sections are rendered separately with padding.',
-    },
-    {
-        name: 'sectionPadding',
-        type: 'number',
-        default: 0,
-        description: 'Padding (px) around each section when splitSections = true.',
-    },
-    {
-        name: 'enableFrame',
-        type: 'boolean',
-        default: false,
-        description: '(Experimental) Adds a full screen frame.',
-    },
-    {
         name: 'widgetSpacing',
         type: 'number',
         default: 0,
@@ -60,24 +36,6 @@ const commonBarChildrenSchema = [
         type: 'number',
         default: 5,
         description: 'Margin (px) between the bar and other windows.'
-    },
-    {
-        name: 'marginOuter',
-        type: 'number',
-        default: 5,
-        description: 'Margin (px) between the bar and the edge of the screen.'
-    },
-    {
-        name: 'marginStart',
-        type: 'number',
-        default: 5,
-        description: 'Margin (px) at the start of the bar.'
-    },
-    {
-        name: 'marginEnd',
-        type: 'number',
-        default: 5,
-        description: 'Margin (px) at the end of the bar.'
     },
 ] as const satisfies Field[]
 
@@ -120,13 +78,6 @@ export const horizontalBarSchema = {
                 BarWidget.CLOCK
             ],
         ),
-        {
-            name: 'minimumWidth',
-            type: 'number',
-            default: 800,
-            description: 'Minimum bar width if not expanded.',
-            transformation: (value) => value < 1 ? 1 : value
-        },
         ...commonBarChildrenSchema,
         ...barWidgetsSchema(false),
     ],
@@ -171,19 +122,6 @@ export const verticalBarSchema = {
                 BarWidget.CLOCK,
             ],
         ),
-        {
-            name: 'integratedMenu',
-            type: 'boolean',
-            default: false,
-            description: 'If true, the menu will be integrated into the bar.'
-        },
-        {
-            name: 'minimumHeight',
-            type: 'number',
-            default: 600,
-            description: 'Minimum bar height if not expanded.',
-            transformation: (value) => value < 1 ? 1 : value
-        },
         ...commonBarChildrenSchema,
         ...barWidgetsSchema(true),
     ],

@@ -20,48 +20,27 @@ export default function (
     }
 ): Astal.Window {
     const thisSideBar = side === Side.LEFT ? Bar.LEFT : Bar.RIGHT
-    const oppositeSideBar = side === Side.LEFT ? Bar.RIGHT : Bar.LEFT
     const anchor = side === Side.LEFT ?
         Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.LEFT :
         Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.RIGHT
 
-    const visible = createComputed([
-        selectedBar.asAccessor(),
-        variableConfig.verticalBar.enableFrame.asAccessor(),
-        variableConfig.horizontalBar.enableFrame.asAccessor(),
-    ], (bar, enabledVert, enabledHor) => {
-        if (bar === thisSideBar) return true
-        if (bar === oppositeSideBar) {
-            return enabledVert
-        }
-        return enabledHor
-    })
-
     const size = createComputed([
         selectedBar.asAccessor(),
         verticalBarWidth,
-        variableConfig.verticalBar.enableFrame.asAccessor(),
         variableConfig.theme.bars.frameThickness.asAccessor(),
-        variableConfig.verticalBar.marginOuter.asAccessor(),
         variableConfig.verticalBar.marginInner.asAccessor(),
         variableConfig.theme.bars.borderWidth.asAccessor(),
     ], (
         bar,
         barWidth,
-        enableFrame,
         frameThickness,
-        marginOuter,
         marginInner,
         borderWidth,
     ) => {
         if (bar === thisSideBar) {
-            if (enableFrame) {
-                return barWidth + marginInner + borderWidth
-            } else {
-                return barWidth + marginOuter + marginInner
-            }
+            return barWidth + marginInner + borderWidth
         }
-        return enableFrame ? frameThickness + borderWidth + marginInner : 0
+        return frameThickness + borderWidth + marginInner
     })
 
     return <window
@@ -71,7 +50,7 @@ export default function (
         namespace={"okpanel-frame"}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         anchor={anchor}
-        visible={visible}
+        visible={true}
         application={App}
         canTarget={false}
         canFocus={false}

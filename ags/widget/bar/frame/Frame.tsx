@@ -173,71 +173,6 @@ export function OutlineOverlay() {
 }
 
 function VerticalBox() {
-    const marginLeft = createComputed([
-        selectedBar.asAccessor(),
-        variableConfig.verticalBar.marginOuter.asAccessor(),
-        variableConfig.verticalBar.marginInner.asAccessor(),
-        variableConfig.verticalBar.enableFrame.asAccessor(),
-    ], (bar, outer, inner, frameEnabled): number => {
-        if (frameEnabled) {
-            return 0
-        }
-        if (bar === Bar.LEFT) {
-            return outer
-        } else {
-            return inner
-        }
-    })
-
-    const marginRight = createComputed([
-        selectedBar.asAccessor(),
-        variableConfig.verticalBar.marginOuter.asAccessor(),
-        variableConfig.verticalBar.marginInner.asAccessor(),
-        variableConfig.verticalBar.enableFrame.asAccessor(),
-    ], (bar, outer, inner, frameEnabled): number => {
-        if (frameEnabled) {
-            return 0
-        }
-        if (bar === Bar.RIGHT) {
-            return outer
-        } else {
-            return inner
-        }
-    })
-
-    const marginTop = createComputed([
-        variableConfig.verticalBar.marginStart.asAccessor(),
-        variableConfig.verticalBar.enableFrame.asAccessor(),
-    ], (margin, frameEnabled) => {
-        if (frameEnabled) {
-            return 0
-        }
-        return margin
-    })
-
-    const marginBottom = createComputed([
-        variableConfig.verticalBar.marginEnd.asAccessor(),
-        variableConfig.verticalBar.enableFrame.asAccessor(),
-    ], (margin, frameEnabled) => {
-        if (frameEnabled) {
-            return 0
-        }
-        return margin
-    })
-
-    const cssClasses = createComputed([
-        variableConfig.verticalBar.splitSections.asAccessor(),
-        variableConfig.verticalBar.enableFrame.asAccessor(),
-    ], (split, frame) => {
-        if (frame) {
-            return ["frameWindow"]
-        }
-        if (split) {
-            return []
-        }
-        return ["barWindow"]
-    })
-
     return <box
         $={(self) => {
             verticalBox = self
@@ -260,11 +195,7 @@ function VerticalBox() {
                 self.append(vb)
             }
         }}
-        marginStart={marginLeft}
-        marginEnd={marginRight}
-        marginTop={marginTop}
-        marginBottom={marginBottom}
-        cssClasses={cssClasses}
+        cssClasses={["frameWindow"]}
         visible={selectedBar.asAccessor()(bar =>
             bar === Bar.LEFT || bar === Bar.RIGHT
         )}
@@ -293,38 +224,13 @@ export default function (): Astal.Window {
         }
     })
 
-    const frameVisible = createComputed([
-        selectedBar.asAccessor(),
-        variableConfig.verticalBar.enableFrame.asAccessor(),
-        variableConfig.horizontalBar.enableFrame.asAccessor(),
-    ], (bar, enabledVert, enabledHor) => {
-        if (bar === Bar.LEFT || bar === Bar.RIGHT) {
-            return enabledVert
-        }
-        return enabledHor
-    })
-
-    const layer = createComputed([
-        selectedBar.asAccessor(),
-        variableConfig.verticalBar.enableFrame.asAccessor(),
-        variableConfig.horizontalBar.enableFrame.asAccessor(),
-    ], (bar, enabledVert, enabledHor) => {
-        if ((bar === Bar.LEFT || bar === Bar.RIGHT) && enabledVert) {
-            return Astal.Layer.TOP
-        }
-        if ((bar === Bar.TOP || bar === Bar.BOTTOM) && enabledHor) {
-            return Astal.Layer.TOP
-        }
-        return Astal.Layer.BOTTOM
-    })
-
     return <window
         $={(self) => {
             frameWindow = self
         }}
         name={frameWindowName}
         cssClasses={["transparentBackground"]}
-        layer={layer}
+        layer={Astal.Layer.TOP}
         namespace={"okpanel-frame"}
         exclusivity={Astal.Exclusivity.IGNORE}
         anchor={Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.LEFT}
@@ -352,7 +258,7 @@ export default function (): Astal.Window {
                         const f = <box
                             canTarget={false}
                             canFocus={false}
-                            visible={frameVisible}
+                            visible={true}
                             $={(self) => {
                                 frame = self
                             }}>
