@@ -3,6 +3,7 @@ import {variableConfig} from "../../config/config";
 import {Gtk} from "ags/gtk4";
 import {createState, With} from "ags"
 import {interval} from "ags/time";
+import {Bar, selectedBar} from "../../config/bar";
 
 export const [verticalBarWidth, verticalBarWidthSetter] = createState(0)
 
@@ -16,7 +17,10 @@ export default function ({setup}: {setup: (self: Gtk.Widget) => void}) {
                 verticalBarWidthSetter(self.get_allocated_width())
             })
             verticalBarWidthSetter(self.get_allocated_width())
-        }}>
+        }}
+        visible={selectedBar.asAccessor()(bar =>
+            bar === Bar.LEFT || bar === Bar.RIGHT
+        )}>
         <centerbox
             marginTop={2}
             marginBottom={2}

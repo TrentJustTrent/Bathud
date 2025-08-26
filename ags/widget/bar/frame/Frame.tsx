@@ -196,9 +196,6 @@ function VerticalBox() {
             }
         }}
         cssClasses={["frameWindow"]}
-        visible={selectedBar.asAccessor()(bar =>
-            bar === Bar.LEFT || bar === Bar.RIGHT
-        )}
         orientation={Gtk.Orientation.HORIZONTAL}/>
 }
 
