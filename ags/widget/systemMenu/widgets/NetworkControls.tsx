@@ -1,9 +1,7 @@
 import AstalNetwork from "gi://AstalNetwork"
 import {getAccessPointIcon, getNetworkIconBinding} from "../../utils/network";
 import {Gtk} from "ags/gtk4"
-import App from "ags/gtk4/app"
 import {execAsync} from "ags/process"
-import {SystemMenuWindowName} from "../SystemMenuWindow";
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
 import OkButton from "../../common/OkButton";
@@ -333,14 +331,6 @@ function WifiConnections() {
             {(connection) => {
                 const [buttonsRevealed, buttonsRevealedSetter] = createState(false)
 
-                setTimeout(() => {
-                    createBinding(App.get_window(SystemMenuWindowName)!, "visible").subscribe(() => {
-                        if (!App.get_window(SystemMenuWindowName)?.visible) {
-                            buttonsRevealedSetter(false)
-                        }
-                    })
-                }, 1_000)
-
                 let label: string
                 let canConnect: boolean
                 const accessPoint = network.wifi.accessPoints.find((accessPoint) => {
@@ -429,14 +419,6 @@ function WifiScannedConnections() {
                     }).map((accessPoint) => {
                         const [passwordEntryRevealed, passwordEntryRevealedSetter] = createState(false)
 
-                        setTimeout(() => {
-                            createBinding(App.get_window(SystemMenuWindowName)!, "visible").subscribe(() => {
-                                if (!App.get_window(SystemMenuWindowName)?.visible) {
-                                    passwordEntryRevealedSetter(false)
-                                }
-                            })
-                        }, 1_000)
-
                         return <box
                             orientation={Gtk.Orientation.VERTICAL}>
                             <box
@@ -494,14 +476,6 @@ function VpnActiveConnections() {
         <For each={activeVpnConnections}>
             {(connection) => {
                 const [buttonsRevealed, buttonsRevealedSetter] = createState(false)
-
-                setTimeout(() => {
-                    createBinding(App.get_window(SystemMenuWindowName)!, "visible").subscribe(() => {
-                        if (!App.get_window(SystemMenuWindowName)?.visible) {
-                            buttonsRevealedSetter(false)
-                        }
-                    })
-                }, 1_000)
 
                 return <box
                     orientation={Gtk.Orientation.VERTICAL}>
@@ -561,14 +535,6 @@ function VpnConnections() {
             {(connection) => {
                 const [buttonsRevealed, buttonsRevealedSetter] = createState(false)
                 const [isConnecting, isConnectingSetter] = createState(false)
-
-                setTimeout(() => {
-                    createBinding(App.get_window(SystemMenuWindowName)!, "visible").subscribe(() => {
-                        if (!App.get_window(SystemMenuWindowName)?.visible) {
-                            buttonsRevealedSetter(false)
-                        }
-                    })
-                }, 1_000)
 
                 return <box
                     orientation={Gtk.Orientation.VERTICAL}>
@@ -630,14 +596,6 @@ export default function () {
     updateConnections()
     updateAirplaneMode()
 
-    setTimeout(() => {
-        createBinding(App.get_window(SystemMenuWindowName)!, "visible").subscribe(() => {
-            if (App.get_window(SystemMenuWindowName)?.visible) {
-                updateConnections()
-            }
-        })
-    }, 1_000)
-
     const networkName = createComputed([
         createBinding(network.client, "primaryConnection"),
         activeVpnConnections
@@ -646,7 +604,6 @@ export default function () {
     return <RevealerRow
         icon={getNetworkIconBinding()}
         iconOffset={2}
-        windowName={SystemMenuWindowName}
         content={
             <label
                 cssClasses={["labelMediumBold"]}
@@ -703,6 +660,7 @@ export default function () {
             revealed[0].subscribe(() => {
                 if (revealed[0].get()) {
                     network.wifi?.scan()
+                    updateConnections()
                     updateAirplaneMode()
                 }
             })

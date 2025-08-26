@@ -11,7 +11,7 @@ type Params = {
     visible?: boolean | Accessor<boolean>;
     icon: string | Accessor<string>;
     iconOffset: number | Accessor<number>;
-    windowName: string;
+    windowName?: string;
     setup?: (revealed: State<boolean>) => void;
     onClick?: () => void;
     content?: JSX.Element;
@@ -41,11 +41,13 @@ export default function (
     }
 
     setTimeout(() => {
-        createBinding(App.get_window(windowName)!, "visible").subscribe(() => {
-            if (!App.get_window(windowName)?.visible) {
-                revealedSetter(false)
-            }
-        })
+        if (windowName !== undefined) {
+            createBinding(App.get_window(windowName)!, "visible").subscribe(() => {
+                if (!App.get_window(windowName)?.visible) {
+                    revealedSetter(false)
+                }
+            })
+        }
     }, 1_000)
 
     return <box

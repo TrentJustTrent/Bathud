@@ -1,5 +1,4 @@
 import App from "ags/gtk4/app"
-import SystemMenuWindow from "./widget/systemMenu/SystemMenuWindow";
 import {VolumeAlert, BrightnessAlert, ChargingAlertSound} from "./widget/alerts/Alerts";
 import NotificationPopups from "./widget/notification/NotificationPopups";
 import AppLauncher, {AppLauncherWindowName} from "./widget/appLauncher/AppLauncher";
@@ -9,15 +8,12 @@ import {decreaseVolume, increaseVolume, muteVolume} from "./widget/utils/audio";
 import Scrim from "./widget/common/Scrim";
 import {toggleWindow} from "./widget/utils/windows";
 import Hyprland from "gi://AstalHyprland"
-import ClipboardManager from "./widget/clipboardManager/ClipboardManager";
-import NotificationHistoryWindow from "./widget/notification/NotificationHistoryWindow";
 import {setThemeBasic} from "./config/theme";
-import {restoreBar} from "./config/bar";
-import Frame from "./widget/bar/frame/Frame";
-import FrameRight from "./widget/bar/frame/FrameRight";
-import FrameLeft from "./widget/bar/frame/FrameLeft";
-import FrameBottom from "./widget/bar/frame/FrameBottom";
-import FrameTop from "./widget/bar/frame/FrameTop";
+import Frame from "./widget/frame/Frame";
+import SpacerRight from "./widget/frame/backgroundSpacers/SpacerRight";
+import SpacerLeft from "./widget/frame/backgroundSpacers/SpacerLeft";
+import SpacerBottom from "./widget/frame/backgroundSpacers/SpacerBottom";
+import SpacerTop from "./widget/frame/backgroundSpacers/SpacerTop";
 
 export let projectDir = ""
 
@@ -27,23 +23,19 @@ App.start({
     main(...args: Array<string>) {
         projectDir = args[0]
         setThemeBasic()
-        restoreBar()
 
         const hyprland = Hyprland.get_default()
 
         Frame()
-        FrameRight()
-        FrameLeft()
-        FrameBottom()
-        FrameTop()
+        SpacerRight()
+        SpacerLeft()
+        SpacerBottom()
+        SpacerTop()
 
-        SystemMenuWindow()
         ChargingAlertSound()
         AppLauncher()
         Screenshot()
         Screenshare()
-        ClipboardManager()
-        NotificationHistoryWindow()
 
         hyprland.monitors.map((monitor) => {
             VolumeAlert(monitor)

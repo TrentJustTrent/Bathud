@@ -1,20 +1,14 @@
-import {variableConfig} from "../../config/config";
-import ScrimScrollWindow from "../common/ScrimScrollWindow";
-import {Bar, selectedBar} from "../../config/bar";
 import {execAsync} from "ags/process";
 import {Gtk} from "ags/gtk4";
-import App from "ags/gtk4/app"
 import {hideAllWindows} from "../utils/windows";
 import Divider from "../common/Divider";
-import {BarWidget} from "../../config/schema/definitions/barWidgets";
 import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
 import AsyncClipboardPicture from "./AsyncClipboardPicture";
 import AsyncClipboardLabel from "./AsyncClipboardLabel";
 
 import {projectDir} from "../../app";
-import {createBinding, createComputed, createState, For, With} from "ags";
+import {createState, For, With} from "ags";
 
-export const ClipboardManagerWindowName = "clipboardManagerWindow"
 let cliphistStarted = false
 
 type Entry = {
@@ -199,98 +193,13 @@ export function ClipboardManagerContent() {
 export default function () {
     updateClipboardEntries()
 
-    setTimeout(() => {
-        createBinding(App.get_window(ClipboardManagerWindowName)!, "visible").subscribe(() => {
-            if (App.get_window(ClipboardManagerWindowName)?.visible) {
-                updateClipboardEntries()
-            }
-        })
-    }, 1_000)
-
-    const topExpand = createComputed([
-        selectedBar.asAccessor(),
-        variableConfig.verticalBar.centerWidgets.asAccessor(),
-        variableConfig.verticalBar.bottomWidgets.asAccessor(),
-    ], (bar, center, bottom) => {
-        switch (bar) {
-            case Bar.BOTTOM:
-                return true
-            case Bar.LEFT:
-            case Bar.RIGHT:
-                return center.includes(BarWidget.CLIPBOARD_MANAGER)
-                    || bottom.includes(BarWidget.CLIPBOARD_MANAGER)
-            default: return false
-        }
-    })
-
-    const bottomExpand = createComputed([
-        selectedBar.asAccessor(),
-        variableConfig.verticalBar.centerWidgets.asAccessor(),
-        variableConfig.verticalBar.topWidgets.asAccessor(),
-    ], (bar, center, top) => {
-        switch (bar) {
-            case Bar.TOP:
-                return true
-            case Bar.LEFT:
-            case Bar.RIGHT:
-                return center.includes(BarWidget.CLIPBOARD_MANAGER)
-                    || top.includes(BarWidget.CLIPBOARD_MANAGER)
-            default: return false
-        }
-    })
-
-    const leftExpand = createComputed([
-        selectedBar.asAccessor(),
-        variableConfig.horizontalBar.centerWidgets.asAccessor(),
-        variableConfig.horizontalBar.rightWidgets.asAccessor(),
-    ], (bar, center, right) => {
-        switch (bar) {
-            case Bar.RIGHT:
-                return true
-            case Bar.TOP:
-            case Bar.BOTTOM:
-                return center.includes(BarWidget.CLIPBOARD_MANAGER)
-                    || right.includes(BarWidget.CLIPBOARD_MANAGER)
-            default: return false
-        }
-    })
-
-    const rightExpand = createComputed([
-        selectedBar.asAccessor(),
-        variableConfig.horizontalBar.centerWidgets.asAccessor(),
-        variableConfig.horizontalBar.leftWidgets.asAccessor(),
-    ], (bar, center, left) => {
-        switch (bar) {
-            case Bar.LEFT:
-                return true
-            case Bar.TOP:
-            case Bar.BOTTOM:
-                return center.includes(BarWidget.CLIPBOARD_MANAGER)
-                    || left.includes(BarWidget.CLIPBOARD_MANAGER)
-            default: return false
-        }
-    })
-
-    return <ScrimScrollWindow
-        namespace={"okpanel-clipboard-manager"}
-        monitor={variableConfig.mainMonitor.asAccessor()}
-        windowName={ClipboardManagerWindowName}
-        topExpand={topExpand}
-        bottomExpand={bottomExpand}
-        leftExpand={leftExpand}
-        rightExpand={rightExpand}
-        contentWidth={400}
-        width={variableConfig.horizontalBar.minimumWidth.asAccessor()}
-        height={variableConfig.verticalBar.minimumHeight.asAccessor()}
-        content={
-            <box
-                cssClasses={["clipboardBox"]}
-                orientation={Gtk.Orientation.VERTICAL}>
-                <label
-                    marginBottom={16}
-                    cssClasses={["labelMedium"]}
-                    label="Clipboard History"/>
-                <ClipboardManagerContent/>
-            </box>
-        }/>
+    return <box
+        cssClasses={["clipboardBox"]}
+        orientation={Gtk.Orientation.VERTICAL}>
+        <label
+            marginBottom={16}
+            cssClasses={["labelMedium"]}
+            label="Clipboard History"/>
+        <ClipboardManagerContent/>
+    </box>
 }

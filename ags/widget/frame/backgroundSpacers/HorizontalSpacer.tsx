@@ -3,8 +3,9 @@ import App from "ags/gtk4/app";
 import Cairo from 'gi://cairo';
 import {variableConfig} from "../../../config/config";
 import {createComputed} from "ags";
-import {Bar, selectedBar} from "../../../config/bar";
-import {horizontalBarHeight} from "../HorizontalBar";
+import {Bar} from "../../../config/bar";
+import {topBarHeight} from "../bars/TopBar";
+import {bottomBarHeight} from "../bars/BottomBar";
 
 export enum Side {
     TOP,
@@ -19,48 +20,34 @@ export default function (
     }
 ): Astal.Window {
     const thisSideBar = side === Side.TOP ? Bar.TOP : Bar.BOTTOM
-    const oppositeSideBar = side === Side.TOP ? Bar.BOTTOM : Bar.TOP
     const anchor = side === Side.TOP ?
         Astal.WindowAnchor.TOP | Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.LEFT :
         Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.LEFT
 
-    const visible = createComputed([
-        selectedBar.asAccessor(),
-        variableConfig.verticalBar.enableFrame.asAccessor(),
-        variableConfig.horizontalBar.enableFrame.asAccessor(),
-    ], (bar, enabledVert, enabledHor) => {
-        if (bar === thisSideBar) return true
-        if (bar === oppositeSideBar) {
-            return enabledHor
-        }
-        return enabledVert
-    })
-
     const size = createComputed([
-        selectedBar.asAccessor(),
-        horizontalBarHeight,
-        variableConfig.horizontalBar.enableFrame.asAccessor(),
+        variableConfig.topBar.enabled.asAccessor(),
+        variableConfig.bottomBar.enabled.asAccessor(),
+        topBarHeight,
+        bottomBarHeight,
         variableConfig.theme.bars.frameThickness.asAccessor(),
-        variableConfig.horizontalBar.marginOuter.asAccessor(),
-        variableConfig.horizontalBar.marginInner.asAccessor(),
+        variableConfig.frame.margin.asAccessor(),
         variableConfig.theme.bars.borderWidth.asAccessor(),
     ], (
-        selectedBar,
-        barHeight,
-        enableFrame,
+        topEnabled,
+        bottomEnabled,
+        topBarHeight,
+        bottomBarHeight,
         frameThickness,
-        marginOuter,
         marginInner,
         borderWidth,
     ) => {
-        if (selectedBar === thisSideBar) {
-            if (enableFrame) {
-                return barHeight + marginInner + borderWidth
-            } else {
-                return barHeight + marginOuter + marginInner
-            }
+        if (thisSideBar === Bar.TOP && topEnabled) {
+            return topBarHeight + marginInner + borderWidth
         }
-        return enableFrame ? frameThickness + borderWidth + marginInner : 0
+        if (thisSideBar === Bar.BOTTOM && bottomEnabled) {
+            return bottomBarHeight + marginInner + borderWidth
+        }
+        return frameThickness + borderWidth + marginInner
     })
 
     return <window
@@ -70,7 +57,7 @@ export default function (
         namespace={"okpanel-frame"}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         anchor={anchor}
-        visible={visible}
+        visible={true}
         application={App}
         canTarget={false}
         canFocus={false}

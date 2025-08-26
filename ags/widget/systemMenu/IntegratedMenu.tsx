@@ -1,7 +1,7 @@
 import {Gtk} from "ags/gtk4";
 import {variableConfig} from "../../config/config";
 import {createState, With} from "ags";
-import {addSystemMenuWidgets, createSystemWidgets} from "../systemMenu/SystemMenuWindow";
+import {addSystemMenuWidgets, createSystemWidgets} from "./SystemMenuWindow";
 
 export const integratedMenuWidth = 410
 
@@ -13,8 +13,8 @@ export default function ({setup}: {setup: (self: Gtk.Revealer) => void}) {
     return <revealer
         hexpand={false}
         transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
-        visible={variableConfig.verticalBar.integratedMenu.asAccessor()}
         revealChild={integratedMenuRevealed}
+        cssClasses={["frameWindow"]}
         $={(self) => {
             setup(self)
         }}>

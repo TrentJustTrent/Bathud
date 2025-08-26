@@ -1,10 +1,17 @@
 import {Field} from "../primitiveDefinitions";
 import {soundsSchema} from "./sounds";
 import {notificationsSchema} from "./notifications";
-import {horizontalBarSchema, verticalBarSchema} from "./bars";
+import {
+    bottomBarSchema,
+    leftBarSchema,
+    rightBarSchema,
+    topBarSchema,
+} from "./bars";
 import {systemMenuSchema} from "./systemMenu";
 import {systemCommandsSchema} from "./systemCommands";
 import {themeSchema} from "./theme";
+import {frameSchema} from "./frame";
+import {weatherSchema} from "./weather";
 
 export const CONFIG_SCHEMA = [
     {
@@ -52,10 +59,14 @@ export const CONFIG_SCHEMA = [
         description: 'Index of the primary monitor (0‑based as reported by Hyprland).',
     },
     soundsSchema,
+    weatherSchema,
     notificationsSchema,
     systemCommandsSchema,
     themeSchema,
     systemMenuSchema,
-    horizontalBarSchema,
-    verticalBarSchema,
+    frameSchema,
+    topBarSchema,
+    bottomBarSchema,
+    leftBarSchema,
+    rightBarSchema,
 ] as const satisfies Field[]

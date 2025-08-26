@@ -1,8 +1,7 @@
 import {variableConfig} from "../../config/config";
 import ConfirmationDialog from "../common/ConfirmationDialog";
 import {execAsync} from "ags/process";
-import {integratedMenuRevealedSetting} from "../bar/IntegratedMenu";
-import {Bar, selectedBar} from "../../config/bar";
+import {integratedMenuRevealedSetting} from "../systemMenu/IntegratedMenu";
 import {addWindowOneOff} from "./windows";
 
 export function logout() {
@@ -41,20 +40,12 @@ export function lock() {
             }
         ))
     } else {
-        const barIsVertical = selectedBar.get() === Bar.LEFT || selectedBar.get() === Bar.RIGHT
-        if (barIsVertical && variableConfig.verticalBar.integratedMenu.get()) {
-            // Hide the integrated menu before locking
-            integratedMenuRevealedSetting(false)
-            execAsync(['bash', '-c', `sleep 0.3 && ${variableConfig.systemCommands.lock.get()}`])
-                .catch((error) => {
-                    console.error(error)
-                })
-        } else {
-            execAsync(variableConfig.systemCommands.lock.get())
-                .catch((error) => {
-                    console.error(error)
-                })
-        }
+        // Hide the integrated menu before locking
+        integratedMenuRevealedSetting(false)
+        execAsync(['bash', '-c', `sleep 0.3 && ${variableConfig.systemCommands.lock.get()}`])
+            .catch((error) => {
+                console.error(error)
+            })
     }
 }
 
