@@ -10,7 +10,6 @@ import {
     variableConfig
 } from "../../../config/config";
 import RevealerRow from "../../common/RevealerRow";
-import {Bar, selectedBar, setBarType} from "../../../config/bar";
 import OkButton, {OkButtonSize} from "../../common/OkButton";
 import {listFilenamesInDir} from "../../utils/files";
 import {setWallpaper} from "../../../config/theme";
@@ -130,37 +129,6 @@ function disableNightLight() {
         .catch((error) => {
             console.error(error)
         })
-}
-
-function BarButton(
-    {
-        barType,
-        icon,
-    }: {
-        barType: Bar,
-        icon: string,
-    }
-) {
-    return <OkButton
-        offset={2}
-        size={OkButtonSize.XL}
-        selected={selectedBar.asAccessor()((bar) => bar === barType)}
-        label={icon}
-        onClicked={() => {
-            setBarType(barType)
-        }}/>
-}
-
-function BarPositionOptions() {
-    return <box
-        orientation={Gtk.Orientation.HORIZONTAL}
-        halign={Gtk.Align.CENTER}
-        spacing={12}>
-        <BarButton barType={Bar.LEFT} icon={"󱂪"}/>
-        <BarButton barType={Bar.TOP} icon={"󱔓"}/>
-        <BarButton barType={Bar.RIGHT} icon={"󱂫"}/>
-        <BarButton barType={Bar.BOTTOM} icon={"󱂩"}/>
-    </box>
 }
 
 function ThemeButton({configFile}: {configFile: ConfigFile}) {
@@ -372,22 +340,13 @@ export default function () {
                     <With value={availableConfigs.asAccessor()}>
                         {(availConfigs) => {
                             if (availConfigs.length > 1) {
-                                return <box
-                                    orientation={Gtk.Orientation.VERTICAL}>
-                                    <ThemeOptions/>
-                                    <Divider
-                                        marginStart={20}
-                                        marginEnd={20}
-                                        marginTop={10}
-                                        marginBottom={10}/>
-                                </box>
+                                return <ThemeOptions/>
                             } else {
                                 return <box/>
                             }
                         }}
                     </With>
                 </box>
-                <BarPositionOptions/>
                 <box marginTop={20}/>
                 <NightLight/>
                 <box marginTop={10}/>

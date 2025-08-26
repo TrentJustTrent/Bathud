@@ -20,7 +20,7 @@ import {getCavaFlipStartValue} from "../utils/cava";
 import {Mpris} from "../utils/mpris";
 import MprisControlButtons from "../mpris/MprisControlButtons";
 import MprisTrackInfo from "../mpris/MprisTrackInfo";
-import {Bar, selectedBar} from "../../config/bar";
+import {Bar} from "../../config/bar";
 import Notifd from "gi://AstalNotifd"
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
 import Gtk from "gi://Gtk?version=4.0";

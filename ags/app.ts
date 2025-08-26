@@ -9,7 +9,6 @@ import Scrim from "./widget/common/Scrim";
 import {toggleWindow} from "./widget/utils/windows";
 import Hyprland from "gi://AstalHyprland"
 import {setThemeBasic} from "./config/theme";
-import {restoreBar} from "./config/bar";
 import Frame from "./widget/frame/Frame";
 import SpacerRight from "./widget/frame/backgroundSpacers/SpacerRight";
 import SpacerLeft from "./widget/frame/backgroundSpacers/SpacerLeft";
@@ -24,7 +23,6 @@ App.start({
     main(...args: Array<string>) {
         projectDir = args[0]
         setThemeBasic()
-        restoreBar()
 
         const hyprland = Hyprland.get_default()
 

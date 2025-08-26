@@ -4,7 +4,6 @@ import Cairo from 'gi://cairo';
 import {hexToRgba} from "../utils/strings";
 import {variableConfig} from "../../config/config";
 import {createComputed} from "ags";
-import {Bar, selectedBar} from "../../config/bar";
 import LeftBar from "./bars/LeftBar";
 import IntegratedMenu from "../systemMenu/IntegratedMenu";
 import TopBar from "./bars/TopBar";
@@ -41,12 +40,15 @@ function roundedRect(ctx: any, x: number, y: number, w: number, h: number, r: nu
 
 export function OutlineOverlay() {
     const redrawAccessor = createComputed([
-        selectedBar.asAccessor(),
         variableConfig.theme.bars.frameThickness.asAccessor(),
         variableConfig.theme.bars.borderRadius.asAccessor(),
         variableConfig.theme.bars.backgroundColor.asAccessor(),
         variableConfig.theme.colors.primary.asAccessor(),
         variableConfig.theme.bars.borderWidth.asAccessor(),
+        variableConfig.topBar.enabled.asAccessor(),
+        variableConfig.bottomBar.enabled.asAccessor(),
+        variableConfig.leftBar.enabled.asAccessor(),
+        variableConfig.rightBar.enabled.asAccessor(),
     ])
 
     return <drawingarea
@@ -61,7 +63,10 @@ export function OutlineOverlay() {
                 const [fr, fg, fb, fa]    = hexToRgba(variableConfig.theme.bars.backgroundColor.get());
                 const [br, bg, bb, ba]  = hexToRgba(variableConfig.theme.colors.primary.get());
                 const innerBorderWidth  = variableConfig.theme.bars.borderWidth.get();
-                const bar = selectedBar.get();
+                const leftBarEnabled = variableConfig.leftBar.enabled.get()
+                const rightBarEnabled = variableConfig.rightBar.enabled.get()
+                const topBarEnabled = variableConfig.topBar.enabled.get()
+                const bottomBarEnabled = variableConfig.bottomBar.enabled.get()
 
                 ctx.save();
                 ctx.setAntialias(Cairo.Antialias.BEST);
@@ -75,32 +80,10 @@ export function OutlineOverlay() {
                 // Inner hole geometry
                 let x, y, iw, ih
 
-                switch (bar) {
-                    case Bar.BOTTOM:
-                        x = thickness;
-                        y = thickness;
-                        iw = Math.max(0, w - 2 * thickness);
-                        ih = Math.max(0, h - thickness);
-                        break
-                    case Bar.TOP:
-                        x = thickness;
-                        y = 0;
-                        iw = Math.max(0, w - 2 * thickness);
-                        ih = Math.max(0, h - thickness);
-                        break
-                    case Bar.LEFT:
-                        x = 0;
-                        y = thickness;
-                        iw = Math.max(0, w - thickness);
-                        ih = Math.max(0, h - 2 * thickness);
-                        break
-                    case Bar.RIGHT:
-                        x = thickness;
-                        y = thickness;
-                        iw = Math.max(0, w - thickness);
-                        ih = Math.max(0, h - 2 * thickness);
-                        break
-                }
+                x = leftBarEnabled ? 0 : thickness;
+                y = topBarEnabled ? 0 : thickness;
+                iw = Math.max(0, w - (leftBarEnabled ? 0 : thickness) - (rightBarEnabled ? 0 : thickness));
+                ih = Math.max(0, h - (topBarEnabled ? 0 : thickness) - (bottomBarEnabled ? 0 : thickness));
 
                 const r  = Math.max(0, Math.min(innerRadius, Math.min(iw, ih) / 2));
 
