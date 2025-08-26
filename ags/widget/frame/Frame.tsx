@@ -40,15 +40,14 @@ function roundedRect(ctx: any, x: number, y: number, w: number, h: number, r: nu
 
 export function OutlineOverlay() {
     const redrawAccessor = createComputed([
-        variableConfig.theme.bars.frameThickness.asAccessor(),
         variableConfig.theme.bars.borderRadius.asAccessor(),
         variableConfig.theme.bars.backgroundColor.asAccessor(),
         variableConfig.theme.colors.primary.asAccessor(),
         variableConfig.theme.bars.borderWidth.asAccessor(),
-        variableConfig.topBar.enabled.asAccessor(),
-        variableConfig.bottomBar.enabled.asAccessor(),
-        variableConfig.leftBar.enabled.asAccessor(),
-        variableConfig.rightBar.enabled.asAccessor(),
+        variableConfig.frame.bottomThickness.asAccessor(),
+        variableConfig.frame.topThickness.asAccessor(),
+        variableConfig.frame.leftThickness.asAccessor(),
+        variableConfig.frame.rightThickness.asAccessor(),
     ])
 
     return <drawingarea
@@ -58,15 +57,15 @@ export function OutlineOverlay() {
         sensitive={false}
         $={(da: Gtk.DrawingArea) => {
             da.set_draw_func((_area, ctx: any, w: number, h: number) => {
-                const thickness       = variableConfig.theme.bars.frameThickness.get();
                 const innerRadius     = variableConfig.theme.bars.borderRadius.get();
                 const [fr, fg, fb, fa]    = hexToRgba(variableConfig.theme.bars.backgroundColor.get());
                 const [br, bg, bb, ba]  = hexToRgba(variableConfig.theme.colors.primary.get());
                 const innerBorderWidth  = variableConfig.theme.bars.borderWidth.get();
-                const leftBarEnabled = variableConfig.leftBar.enabled.get()
-                const rightBarEnabled = variableConfig.rightBar.enabled.get()
-                const topBarEnabled = variableConfig.topBar.enabled.get()
-                const bottomBarEnabled = variableConfig.bottomBar.enabled.get()
+
+                const leftThickness = variableConfig.frame.leftThickness.get()
+                const rightThickness = variableConfig.frame.rightThickness.get()
+                const topThickness = variableConfig.frame.topThickness.get()
+                const bottomThickness = variableConfig.frame.bottomThickness.get()
 
                 ctx.save();
                 ctx.setAntialias(Cairo.Antialias.BEST);
@@ -80,10 +79,10 @@ export function OutlineOverlay() {
                 // Inner hole geometry
                 let x, y, iw, ih
 
-                x = leftBarEnabled ? 0 : thickness;
-                y = topBarEnabled ? 0 : thickness;
-                iw = Math.max(0, w - (leftBarEnabled ? 0 : thickness) - (rightBarEnabled ? 0 : thickness));
-                ih = Math.max(0, h - (topBarEnabled ? 0 : thickness) - (bottomBarEnabled ? 0 : thickness));
+                x = leftThickness;
+                y = topThickness;
+                iw = Math.max(0, w - leftThickness - rightThickness);
+                ih = Math.max(0, h - topThickness - bottomThickness);
 
                 const r  = Math.max(0, Math.min(innerRadius, Math.min(iw, ih) / 2));
 

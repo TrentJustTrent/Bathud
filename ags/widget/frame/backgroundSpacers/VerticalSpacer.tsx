@@ -2,7 +2,6 @@ import {Astal, Gtk} from "ags/gtk4";
 import App from "ags/gtk4/app";
 import {variableConfig} from "../../../config/config";
 import {createComputed} from "ags";
-import {Bar} from "../../../config/bar";
 import {integratedMenuRevealed, integratedMenuWidth} from "../../systemMenu/IntegratedMenu";
 import {leftBarWidth} from "../bars/LeftBar";
 import {Position} from "../../../config/schema/definitions/systemMenu";
@@ -29,35 +28,29 @@ export default function (
         side: Side,
     }
 ): Astal.Window {
-    const thisSideBar = side === Side.LEFT ? Bar.LEFT : Bar.RIGHT
     const anchor = side === Side.LEFT ?
         Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.LEFT :
         Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.RIGHT
 
     const size = createComputed([
-        variableConfig.leftBar.enabled.asAccessor(),
-        variableConfig.rightBar.enabled.asAccessor(),
         leftBarWidth,
         rightBarWidth,
-        variableConfig.theme.bars.frameThickness.asAccessor(),
+        variableConfig.frame.leftThickness.asAccessor(),
+        variableConfig.frame.rightThickness.asAccessor(),
         variableConfig.frame.margin.asAccessor(),
         variableConfig.theme.bars.borderWidth.asAccessor(),
     ], (
-        leftEnabled,
-        rightEnabled,
         leftBarWidth,
         rightBarWidth,
-        frameThickness,
+        leftThickness,
+        rightThickness,
         marginInner,
         borderWidth,
     ) => {
-        if (thisSideBar === Bar.LEFT && leftEnabled) {
-            return leftBarWidth + marginInner + borderWidth
+        if (side === Side.LEFT) {
+            return leftThickness + leftBarWidth + marginInner + borderWidth
         }
-        if (thisSideBar === Bar.RIGHT && rightEnabled) {
-            return rightBarWidth + marginInner + borderWidth
-        }
-        return frameThickness + borderWidth + marginInner
+        return rightThickness + rightBarWidth + marginInner + borderWidth
     })
 
     let visible

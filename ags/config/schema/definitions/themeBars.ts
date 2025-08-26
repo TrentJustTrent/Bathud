@@ -80,13 +80,6 @@ export const themeBarsSchema = {
             reactive: true,
         },
         {
-            name: 'frameThickness',
-            type: 'number',
-            default: 10,
-            description: 'Thickness of the full screen frame.',
-            reactive: true,
-        },
-        {
             name: 'widgetForeground',
             type: 'color',
             default: {from: 'theme.colors.foreground'},
