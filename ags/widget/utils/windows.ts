@@ -4,9 +4,6 @@ import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
 import Astal from "gi://Astal?version=4.0";
 import {ScreenshareWindowName} from "../screenshare/Screenshare";
 import {ScreenshotWindowName} from "../screenshot/Screenshot";
-import {ClipboardManagerWindowName} from "../clipboardManager/ClipboardManager";
-// import {PolkitWindowName} from "../polkit/PolkitPopup";
-import {NotificationHistoryWindowName} from "../notification/NotificationHistoryWindow";
 import {createRoot} from "ags";
 
 const openedOneOffWindows: Astal.Window[] = []
@@ -25,10 +22,7 @@ export function hideAllWindows() {
     const windows = App.get_windows().filter((window) => {
         return window.name === AppLauncherWindowName ||
             window.name === ScreenshareWindowName ||
-            window.name === ScreenshotWindowName ||
-            window.name === ClipboardManagerWindowName ||
-            // window.name === PolkitWindowName ||
-            window.name === NotificationHistoryWindowName
+            window.name === ScreenshotWindowName
     })
     windows.forEach((window) => {
         window.hide()

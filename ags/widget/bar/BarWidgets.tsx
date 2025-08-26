@@ -12,7 +12,7 @@ import {variableConfig} from "../../config/config";
 import Tray from "gi://AstalTray"
 import {toggleWindow} from "../utils/windows";
 import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
-import {ClipboardManagerWindowName, startCliphist} from "../clipboardManager/ClipboardManager";
+import {startCliphist} from "../clipboardManager/ClipboardManager";
 import PowerProfiles from "gi://AstalPowerProfiles"
 import {getPowerProfileIconBinding} from "../utils/powerProfile";
 import CavaWaveform from "../cava/CavaWaveform";
@@ -22,7 +22,6 @@ import MprisControlButtons from "../mpris/MprisControlButtons";
 import MprisTrackInfo from "../mpris/MprisTrackInfo";
 import {Bar, selectedBar} from "../../config/bar";
 import Notifd from "gi://AstalNotifd"
-import {NotificationHistoryWindowName} from "../notification/NotificationHistoryWindow";
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
 import Gtk from "gi://Gtk?version=4.0";
 import OkButton, {OkButtonHorizontalPadding, OkButtonSize, OkButtonVerticalPadding} from "../common/OkButton";
@@ -35,6 +34,7 @@ import {execAsync} from "ags/process";
 import {integratedMenuRevealed, integratedMenuRevealedSetting} from "./IntegratedMenu";
 import {toggleIntegratedCalendar} from "../calendar/IntegratedCalendar";
 import {toggleIntegratedClipboardManager} from "../clipboardManager/IntegratedClipboardManager";
+import {toggleIntegratedNotificationHistory} from "../notification/IntegratedNotificationHistory";
 
 const tray = Tray.get_default()
 
@@ -657,7 +657,7 @@ function NotificationButton({ bar}: { bar: Bar }) {
             vpadding={getVPadding(bar)}
             label={notificationIcon}
             onClicked={() => {
-                toggleWindow(NotificationHistoryWindowName)
+                toggleIntegratedNotificationHistory()
             }}/>
     </overlay>
 }

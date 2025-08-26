@@ -8,8 +8,6 @@ import {decreaseVolume, increaseVolume, muteVolume} from "./widget/utils/audio";
 import Scrim from "./widget/common/Scrim";
 import {toggleWindow} from "./widget/utils/windows";
 import Hyprland from "gi://AstalHyprland"
-import ClipboardManager from "./widget/clipboardManager/ClipboardManager";
-import NotificationHistoryWindow from "./widget/notification/NotificationHistoryWindow";
 import {setThemeBasic} from "./config/theme";
 import {restoreBar} from "./config/bar";
 import Frame from "./widget/bar/frame/Frame";
@@ -40,8 +38,6 @@ App.start({
         AppLauncher()
         Screenshot()
         Screenshare()
-        // ClipboardManager()
-        // NotificationHistoryWindow()
 
         hyprland.monitors.map((monitor) => {
             VolumeAlert(monitor)

@@ -1,20 +1,14 @@
-import {variableConfig} from "../../config/config";
-import ScrimScrollWindow from "../common/ScrimScrollWindow";
-import {Bar, selectedBar} from "../../config/bar";
 import {execAsync} from "ags/process";
 import {Gtk} from "ags/gtk4";
-import App from "ags/gtk4/app"
 import {hideAllWindows} from "../utils/windows";
 import Divider from "../common/Divider";
-import {BarWidget} from "../../config/schema/definitions/barWidgets";
 import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
 import AsyncClipboardPicture from "./AsyncClipboardPicture";
 import AsyncClipboardLabel from "./AsyncClipboardLabel";
 
 import {projectDir} from "../../app";
-import {createBinding, createComputed, createState, For, With} from "ags";
+import {createState, For, With} from "ags";
 
-export const ClipboardManagerWindowName = "clipboardManagerWindow"
 let cliphistStarted = false
 
 type Entry = {

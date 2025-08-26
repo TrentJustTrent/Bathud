@@ -13,6 +13,7 @@ import RightBar from "../RightBar";
 import BottomBar from "../BottomBar";
 import IntegratedCalendar from "../../calendar/IntegratedCalendar";
 import IntegratedClipboardManager from "../../clipboardManager/IntegratedClipboardManager";
+import IntegratedNotificationHistory from "../../notification/IntegratedNotificationHistory";
 
 export const frameWindowName = "frame"
 
@@ -27,6 +28,7 @@ let rightBar: Gtk.Widget
 let bottomBar: Gtk.Widget
 let integratedCalendar: Gtk.Widget
 let integratedClipboardManager: Gtk.Widget
+let integratedNotificationHistory: Gtk.Widget
 
 function roundedRect(ctx: any, x: number, y: number, w: number, h: number, r: number) {
     r = Math.max(0, Math.min(r, Math.min(w, h) / 2));
@@ -189,12 +191,14 @@ export default function (): Astal.Window {
                 frameBox.reorder_child_after(leftBar, integratedMenu)
                 frameBox.reorder_child_after(integratedCalendar, leftBar)
                 frameBox.reorder_child_after(integratedClipboardManager, integratedCalendar)
-                frameBox.reorder_child_after(frame, integratedClipboardManager)
+                frameBox.reorder_child_after(integratedNotificationHistory, integratedClipboardManager)
+                frameBox.reorder_child_after(frame, integratedNotificationHistory)
                 frameBox.reorder_child_after(rightBar, frame)
                 break
             case Position.RIGHT:
                 frameBox.reorder_child_after(frame, leftBar)
-                frameBox.reorder_child_after(integratedClipboardManager, frame)
+                frameBox.reorder_child_after(integratedNotificationHistory, frame)
+                frameBox.reorder_child_after(integratedClipboardManager, integratedNotificationHistory)
                 frameBox.reorder_child_after(integratedCalendar, integratedClipboardManager)
                 frameBox.reorder_child_after(rightBar, integratedCalendar)
                 frameBox.reorder_child_after(integratedMenu, rightBar)
@@ -265,16 +269,23 @@ export default function (): Astal.Window {
                             integratedClipboardManager = self
                         }}/> as Gtk.Widget
 
+                    const inh = <IntegratedNotificationHistory
+                        setup={(self) => {
+                            integratedNotificationHistory = self
+                        }}/> as Gtk.Widget
+
                     if (variableConfig.systemMenu.position.get() === Position.LEFT) {
                         self.append(im)
                         self.append(lb)
                         self.append(ic)
                         self.append(icm)
+                        self.append(inh)
                         self.append(f)
                         self.append(rb)
                     } else {
                         self.append(lb)
                         self.append(f)
+                        self.append(inh)
                         self.append(icm)
                         self.append(ic)
                         self.append(rb)

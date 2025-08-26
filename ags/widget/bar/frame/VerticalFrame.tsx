@@ -13,6 +13,10 @@ import {
     integratedClipboardManagerRevealed,
     integratedClipboardManagerWidth
 } from "../../clipboardManager/IntegratedClipboardManager";
+import {
+    integratedNotificationHistoryRevealed,
+    integratedNotificationHistoryWidth
+} from "../../notification/IntegratedNotificationHistory";
 
 export enum Side {
     LEFT,
@@ -107,6 +111,14 @@ export default function (
                 revealChild={integratedClipboardManagerRevealed}>
                 <box
                     widthRequest={integratedClipboardManagerWidth}/>
+            </revealer>
+            {/*Represents integrated notification history*/}
+            <revealer
+                visible={visible}
+                transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
+                revealChild={integratedNotificationHistoryRevealed}>
+                <box
+                    widthRequest={integratedNotificationHistoryWidth}/>
             </revealer>
         </box>
     </window> as Astal.Window
