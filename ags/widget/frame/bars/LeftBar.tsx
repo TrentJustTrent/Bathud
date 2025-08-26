@@ -18,8 +18,7 @@ export default function ({setup}: {setup: (self: Gtk.Widget) => void}) {
             })
             leftBarWidthSetter(self.get_allocated_width())
         }}
-        cssClasses={["frameWindow"]}
-        visible={variableConfig.leftBar.enabled.asAccessor()}>
+        cssClasses={["frameWindow"]}>
         <centerbox
             marginTop={2}
             marginBottom={2}

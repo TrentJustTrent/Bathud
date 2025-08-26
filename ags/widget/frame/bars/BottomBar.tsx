@@ -17,8 +17,7 @@ export default function () {
             })
             bottomBarHeightSetter(self.get_allocated_height())
         }}
-        cssClasses={["frameWindow"]}
-        visible={variableConfig.bottomBar.enabled.asAccessor()}>
+        cssClasses={["frameWindow"]}>
         <centerbox
             marginTop={2}
             marginBottom={2}

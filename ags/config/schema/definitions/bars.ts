@@ -20,12 +20,6 @@ export const barWidgetsArrayField = <N extends string>( //preserve the literal k
 
 const commonBarChildrenSchema = [
     {
-        name: 'enabled',
-        type: 'boolean',
-        default: false,
-        description: 'Enabled this bar.',
-    },
-    {
         name: 'compact',
         type: 'boolean',
         default: false,

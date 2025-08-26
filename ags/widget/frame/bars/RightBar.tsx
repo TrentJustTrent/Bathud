@@ -18,8 +18,7 @@ export default function ({setup}: {setup: (self: Gtk.Widget) => void}) {
             })
             rightBarWidthSetter(self.get_allocated_width())
         }}
-        cssClasses={["frameWindow"]}
-        visible={variableConfig.rightBar.enabled.asAccessor()}>
+        cssClasses={["frameWindow"]}>
         <centerbox
             marginTop={2}
             marginBottom={2}
