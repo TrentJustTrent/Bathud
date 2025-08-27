@@ -1,8 +1,7 @@
 import {Astal, Gdk, Gtk} from "ags/gtk4";
 import App from "ags/gtk4/app"
-import {variableConfig} from "../../config/config";
 import {hideAllWindows} from "../utils/windows";
-import {Accessor, createComputed} from "ags";
+import {Accessor} from "ags";
 
 type Params = {
     monitor: number | Accessor<number>;
@@ -46,7 +45,6 @@ export default function(
         namespace={namespace}
         name={windowName}
         anchor={anchor}
-        margin={variableConfig.theme.windows.gaps.asAccessor()}
         exclusivity={Astal.Exclusivity.NORMAL}
         layer={Astal.Layer.OVERLAY}
         cssClasses={["transparentBackground"]}

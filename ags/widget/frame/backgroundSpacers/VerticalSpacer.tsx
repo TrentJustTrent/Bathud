@@ -38,7 +38,7 @@ export default function (
         variableConfig.frame.leftThickness.asAccessor(),
         variableConfig.frame.rightThickness.asAccessor(),
         variableConfig.frame.margin.asAccessor(),
-        variableConfig.theme.bars.borderWidth.asAccessor(),
+        variableConfig.frame.borderWidth.asAccessor(),
     ], (
         leftBarWidth,
         rightBarWidth,

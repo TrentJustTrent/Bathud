@@ -41,10 +41,10 @@ function roundedRect(ctx: any, x: number, y: number, w: number, h: number, r: nu
 
 export function OutlineOverlay() {
     const redrawAccessor = createComputed([
-        variableConfig.theme.bars.borderRadius.asAccessor(),
-        variableConfig.theme.bars.backgroundColor.asAccessor(),
-        variableConfig.theme.colors.primary.asAccessor(),
-        variableConfig.theme.bars.borderWidth.asAccessor(),
+        variableConfig.frame.borderRadius.asAccessor(),
+        variableConfig.frame.backgroundColor.asAccessor(),
+        variableConfig.frame.borderColor.asAccessor(),
+        variableConfig.frame.borderWidth.asAccessor(),
         variableConfig.frame.bottomThickness.asAccessor(),
         variableConfig.frame.topThickness.asAccessor(),
         variableConfig.frame.leftThickness.asAccessor(),
@@ -59,10 +59,10 @@ export function OutlineOverlay() {
         sensitive={false}
         $={(da: Gtk.DrawingArea) => {
             da.set_draw_func((_area, ctx: any, w: number, h: number) => {
-                const innerRadius     = variableConfig.theme.bars.borderRadius.get();
-                const [fr, fg, fb, fa]    = hexToRgba(variableConfig.theme.bars.backgroundColor.get());
-                const [br, bg, bb, ba]  = hexToRgba(variableConfig.theme.colors.primary.get());
-                const innerBorderWidth  = variableConfig.theme.bars.borderWidth.get();
+                const innerRadius     = variableConfig.frame.borderRadius.get();
+                const [fr, fg, fb, fa]    = hexToRgba(variableConfig.frame.backgroundColor.get());
+                const [br, bg, bb, ba]  = hexToRgba(variableConfig.frame.borderColor.get());
+                const innerBorderWidth  = variableConfig.frame.borderWidth.get();
 
                 const leftThickness = variableConfig.frame.leftThickness.get()
                 const rightThickness = variableConfig.frame.rightThickness.get()

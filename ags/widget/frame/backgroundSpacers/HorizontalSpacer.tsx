@@ -28,7 +28,7 @@ export default function (
         variableConfig.frame.bottomThickness.asAccessor(),
         variableConfig.frame.topThickness.asAccessor(),
         variableConfig.frame.margin.asAccessor(),
-        variableConfig.theme.bars.borderWidth.asAccessor(),
+        variableConfig.frame.borderWidth.asAccessor(),
     ], (
         topBarHeight,
         bottomBarHeight,

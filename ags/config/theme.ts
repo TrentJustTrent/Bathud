@@ -102,7 +102,7 @@ cp -r "$SOURCE_DIR" "$TARGET_DIR"
 
 cat > "$TARGET_DIR/variables.scss" <<EOF
 \\$font: "${config.theme.font}";
-\\$systemMenuClockDayFont: "${config.theme.systemMenu.clock.dayFont}";
+\\$systemMenuClockDayFont: "${config.systemMenu.clock.dayFont}";
 
 \\$gaps: ${config.theme.windows.gaps}px;
 \\$barBorderRadius: ${config.theme.bars.borderRadius}px;

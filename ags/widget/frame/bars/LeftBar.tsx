@@ -16,7 +16,7 @@ export default function () {
             })
             leftBarWidthSetter(self.get_allocated_width())
         }}
-        cssClasses={["frameWindow"]}>
+        cssClasses={["barWindow"]}>
         <centerbox
             marginTop={2}
             marginBottom={2}
