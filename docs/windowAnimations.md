@@ -11,16 +11,11 @@ You can also [change the way the blur looks](https://wiki.hyprland.org/Configuri
 These are the namespace names of the available windows and bars.
 
 ```
-okpanel-vertical-bar
-okpanel-horizontal-bar
-okpanel-system-menu
-okpanel-calendar
+okpanel-frame
 okpanel-app-launcher
 okpanel-screenshare
 okpanel-screenshot
 okpanel-notifications
-okpanel-notification-history
-okpanel-clipboard-manager
 okpanel-alerts
 ```
 
@@ -34,37 +29,27 @@ Note: windows that anchor to the bar have a built-in scrim, which can be ignored
 This also means you probably shouldn't use a fully transparent background if you want to blur.
 
 ```
-layerrule = ignorezero, okpanel-system-menu
+layerrule = ignorezero, okpanel-frame
 ```
 
 ## Example rule set
 
 ```
-layerrule = blur, okpanel-horizontal-bar
-layerrule = blur, okpanel-vertical-bar
-layerrule = blur, okpanel-system-menu
-layerrule = blur, okpanel-calendar
+layerrule = blur, okpanel-frame
 layerrule = blur, okpanel-app-launcher
 layerrule = blur, okpanel-screenshare
 layerrule = blur, okpanel-screenshot
 layerrule = blur, okpanel-notifications
-layerrule = blur, okpanel-notification-history
-layerrule = blur, okpanel-clipboard-manager
 layerrule = blur, okpanel-alerts
 
-layerrule = ignorezero, okpanel-horizontal-bar
-layerrule = ignorezero, okpanel-vertical-bar
-layerrule = ignorezero, okpanel-system-menu
-layerrule = ignorezero, okpanel-calendar
+layerrule = ignorezero, okpanel-frame
 layerrule = ignorezero, okpanel-app-launcher
 layerrule = ignorezero, okpanel-screenshot
 layerrule = ignorezero, okpanel-screenshare
 layerrule = ignorezero, okpanel-notifications
-layerrule = ignorezero, okpanel-notification-history
-layerrule = ignorezero, okpanel-clipboard-manager
 layerrule = ignorezero, okpanel-alerts
 
 layerrule = animation slide top, okpanel-app-launcher
-layerrule = animation slide left, okpanel-system-menu
+layerrule = animation slide left, okpanel-alerts
 
 ```
