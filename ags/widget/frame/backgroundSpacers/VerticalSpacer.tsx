@@ -37,20 +37,18 @@ export default function (
         rightBarWidth,
         variableConfig.frame.leftThickness.asAccessor(),
         variableConfig.frame.rightThickness.asAccessor(),
-        variableConfig.frame.margin.asAccessor(),
         variableConfig.frame.borderWidth.asAccessor(),
     ], (
         leftBarWidth,
         rightBarWidth,
         leftThickness,
         rightThickness,
-        marginInner,
         borderWidth,
     ) => {
         if (side === Side.LEFT) {
-            return leftThickness + leftBarWidth + marginInner + borderWidth
+            return leftThickness + leftBarWidth + borderWidth
         }
-        return rightThickness + rightBarWidth + marginInner + borderWidth
+        return rightThickness + rightBarWidth + borderWidth
     })
 
     return <window
@@ -60,6 +58,8 @@ export default function (
         namespace={"okpanel-frame"}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         anchor={anchor}
+        marginLeft={side === Side.RIGHT ? variableConfig.frame.margin.asAccessor() : 0}
+        marginRight={side === Side.LEFT ? variableConfig.frame.margin.asAccessor() : 0}
         visible={true}
         application={App}
         canTarget={false}
