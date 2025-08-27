@@ -243,12 +243,7 @@ export default function (): Astal.Window {
                     frameBox = self
 
                     // Add the children in the proper order based on the currently selected bar
-                    frame = <box
-                        canTarget={false}
-                        canFocus={false}>
-                        <OutlineOverlay/>
-                    </box> as Gtk.Widget
-
+                    frame = <OutlineOverlay/> as Gtk.Widget
                     leftBar = <LeftBar/> as Gtk.Widget
                     rightBar = <RightBar/> as Gtk.Widget
                     integratedMenu = <IntegratedMenu/> as Gtk.Widget
