@@ -7,12 +7,10 @@ import {Bar} from "../../../config/bar";
 
 export const [rightBarWidth, rightBarWidthSetter] = createState(0)
 
-export default function ({setup}: {setup: (self: Gtk.Widget) => void}) {
+export default function () {
     // wrapped in a box for the padding (margins of the center box)
     return <box
         $={(self) => {
-            setup(self)
-
             interval(1000, () => {
                 rightBarWidthSetter(self.get_allocated_width())
             })

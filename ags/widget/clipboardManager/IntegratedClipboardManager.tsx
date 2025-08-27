@@ -12,7 +12,7 @@ export function toggleIntegratedClipboardManager() {
     integratedClipboardManagerRevealedSetting(!integratedClipboardManagerRevealed.get())
 }
 
-export default function ({setup}: {setup: (self: Gtk.Widget) => void}) {
+export default function () {
     let updateInterval: AstalIO.Time | null = null
 
     integratedClipboardManagerRevealed.subscribe(() => {
@@ -30,10 +30,7 @@ export default function ({setup}: {setup: (self: Gtk.Widget) => void}) {
         hexpand={false}
         transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
         revealChild={integratedClipboardManagerRevealed}
-        cssClasses={["frameWindow"]}
-        $={(self) => {
-            setup(self)
-        }}>
+        cssClasses={["frameWindow"]}>
         <Gtk.ScrolledWindow
             cssClasses={["scrollWindow"]}
             vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}

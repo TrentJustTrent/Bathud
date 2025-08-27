@@ -10,15 +10,12 @@ export function toggleIntegratedNotificationHistory() {
     integratedNotificationHistoryRevealedSetting(!integratedNotificationHistoryRevealed.get())
 }
 
-export default function ({setup}: {setup: (self: Gtk.Widget) => void}) {
+export default function () {
     return <revealer
         hexpand={false}
         transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
         revealChild={integratedNotificationHistoryRevealed}
-        cssClasses={["frameWindow"]}
-        $={(self) => {
-            setup(self)
-        }}>
+        cssClasses={["frameWindow"]}>
         <Gtk.ScrolledWindow
             cssClasses={["scrollWindow"]}
             vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}

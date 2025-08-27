@@ -7,17 +7,14 @@ export const integratedMenuWidth = 410
 
 export const [integratedMenuRevealed, integratedMenuRevealedSetting] = createState(false)
 
-export default function ({setup}: {setup: (self: Gtk.Revealer) => void}) {
+export default function () {
     const systemJsxWidgets = createSystemWidgets()
 
     return <revealer
         hexpand={false}
         transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
         revealChild={integratedMenuRevealed}
-        cssClasses={["frameWindow"]}
-        $={(self) => {
-            setup(self)
-        }}>
+        cssClasses={["frameWindow"]}>
         <Gtk.ScrolledWindow
             cssClasses={["scrollWindow"]}
             vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}

@@ -55,6 +55,7 @@ export function OutlineOverlay() {
         hexpand
         vexpand
         canTarget={false}
+        canFocus={false}
         sensitive={false}
         $={(da: Gtk.DrawingArea) => {
             da.set_draw_func((_area, ctx: any, w: number, h: number) => {
@@ -244,43 +245,16 @@ export default function (): Astal.Window {
                     // Add the children in the proper order based on the currently selected bar
                     frame = <box
                         canTarget={false}
-                        canFocus={false}
-                        visible={true}
-                        $={(self) => {
-                            // frame = self
-                        }}>
+                        canFocus={false}>
                         <OutlineOverlay/>
                     </box> as Gtk.Widget
 
-                    integratedMenu = <IntegratedMenu
-                        setup={(self) => {
-                            // integratedMenu = self
-                        }}/> as Gtk.Widget
-
-                    leftBar = <LeftBar
-                        setup={(self) => {
-                            // leftBar = self
-                        }}/> as Gtk.Widget
-
-                    rightBar = <RightBar
-                        setup={(self) => {
-                            // rightBar = self
-                        }}/> as Gtk.Widget
-
-                    integratedCalendar = <IntegratedCalendar
-                        setup={(self) => {
-                            // integratedCalendar = self
-                        }}/> as Gtk.Widget
-
-                    integratedClipboardManager = <IntegratedClipboardManager
-                        setup={(self) => {
-                            // integratedClipboardManager = self
-                        }}/> as Gtk.Widget
-
-                    integratedNotificationHistory = <IntegratedNotificationHistory
-                        setup={(self) => {
-                            // integratedNotificationHistory = self
-                        }}/> as Gtk.Widget
+                    leftBar = <LeftBar/> as Gtk.Widget
+                    rightBar = <RightBar/> as Gtk.Widget
+                    integratedMenu = <IntegratedMenu/> as Gtk.Widget
+                    integratedCalendar = <IntegratedCalendar/> as Gtk.Widget
+                    integratedClipboardManager = <IntegratedClipboardManager/> as Gtk.Widget
+                    integratedNotificationHistory = <IntegratedNotificationHistory/> as Gtk.Widget
 
                     appendChildren(self, getPositionArray())
                 }}>

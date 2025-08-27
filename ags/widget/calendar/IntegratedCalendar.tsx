@@ -11,15 +11,12 @@ export function toggleIntegratedCalendar() {
     integratedCalendarRevealedSetting(!integratedCalendarRevealed.get())
 }
 
-export default function ({setup}: {setup: (self: Gtk.Widget) => void}) {
+export default function () {
     return <revealer
         hexpand={false}
         transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
         revealChild={integratedCalendarRevealed}
-        cssClasses={["frameWindow"]}
-        $={(self) => {
-            setup(self)
-        }}>
+        cssClasses={["frameWindow"]}>
         <box
             marginTop={20}
             marginBottom={20}
