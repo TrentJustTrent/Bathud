@@ -18,3 +18,12 @@ export function appendChildren(box: Gtk.Box, order: Array<Gtk.Widget>) {
         box.append(widget)
     })
 }
+
+export function removeAllChildren(box: Gtk.Box) {
+    let child = box.get_first_child();
+    while (child) {
+        const next = child.get_next_sibling();
+        box.remove(child);
+        child = next;
+    }
+}
