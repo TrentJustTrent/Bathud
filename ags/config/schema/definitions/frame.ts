@@ -1,5 +1,11 @@
 import {Field} from "../primitiveDefinitions";
 
+export enum Position {
+    LEFT = "left",
+    RIGHT = "right",
+}
+export const POSITION_VALUES = Object.values(Position) as readonly Position[]
+
 export const frameSchema = {
     name: 'frame',
     type: 'object',
@@ -38,6 +44,34 @@ export const frameSchema = {
             default: 2,
             description: 'Thickness of the full screen frame.',
             reactive: true,
+        },
+        {
+            name: 'menuPosition',
+            type: 'enum',
+            enumValues: POSITION_VALUES,
+            default: Position.LEFT,
+            description: 'What side of the frame the system menu is on.'
+        },
+        {
+            name: 'notificationsPosition',
+            type: 'enum',
+            enumValues: POSITION_VALUES,
+            default: Position.LEFT,
+            description: 'What side of the frame the notification history is on.'
+        },
+        {
+            name: 'calendarPosition',
+            type: 'enum',
+            enumValues: POSITION_VALUES,
+            default: Position.LEFT,
+            description: 'What side of the frame the calendar and weather is on.'
+        },
+        {
+            name: 'clipboardManagerPosition',
+            type: 'enum',
+            enumValues: POSITION_VALUES,
+            default: Position.LEFT,
+            description: 'What side of the frame the clipboard manager is on.'
         },
     ],
 } as const satisfies Field

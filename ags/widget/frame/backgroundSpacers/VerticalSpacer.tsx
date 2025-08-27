@@ -4,7 +4,6 @@ import {variableConfig} from "../../../config/config";
 import {createComputed} from "ags";
 import {integratedMenuRevealed, integratedMenuWidth} from "../../systemMenu/IntegratedMenu";
 import {leftBarWidth} from "../bars/LeftBar";
-import {Position} from "../../../config/schema/definitions/systemMenu";
 import {rightBarWidth} from "../bars/RightBar";
 import {integratedCalendarRevealed, integratedCalendarWidth} from "../../calendar/IntegratedCalendar";
 import {
@@ -15,6 +14,7 @@ import {
     integratedNotificationHistoryRevealed,
     integratedNotificationHistoryWidth
 } from "../../notification/IntegratedNotificationHistory";
+import {Position} from "../../../config/schema/definitions/frame";
 
 export enum Side {
     LEFT,
@@ -53,16 +53,6 @@ export default function (
         return rightThickness + rightBarWidth + marginInner + borderWidth
     })
 
-    let visible
-    switch (side) {
-        case Side.RIGHT:
-            visible = variableConfig.systemMenu.position.asAccessor().as((p) => p === Position.RIGHT)
-            break
-        case Side.LEFT:
-            visible = variableConfig.systemMenu.position.asAccessor().as((p) => p === Position.LEFT)
-            break
-    }
-
     return <window
         defaultWidth={1} // necessary or resizing doesn't work
         cssClasses={["mostlyTransparentBackground"]}
@@ -82,7 +72,13 @@ export default function (
                 widthRequest={size}/>
             {/*Represents integrated menu*/}
             <revealer
-                visible={visible}
+                visible={variableConfig.frame.menuPosition.asAccessor().as((position) => {
+                    if (side === Side.LEFT) {
+                        return position === Position.LEFT
+                    } else {
+                        return position === Position.RIGHT
+                    }
+                })}
                 transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
                 revealChild={integratedMenuRevealed}>
                 <box
@@ -90,7 +86,13 @@ export default function (
             </revealer>
             {/*Represents integrated calendar*/}
             <revealer
-                visible={visible}
+                visible={variableConfig.frame.calendarPosition.asAccessor().as((position) => {
+                    if (side === Side.LEFT) {
+                        return position === Position.LEFT
+                    } else {
+                        return position === Position.RIGHT
+                    }
+                })}
                 transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
                 revealChild={integratedCalendarRevealed}>
                 <box
@@ -98,7 +100,13 @@ export default function (
             </revealer>
             {/*Represents integrated clipboard manager*/}
             <revealer
-                visible={visible}
+                visible={variableConfig.frame.clipboardManagerPosition.asAccessor().as((position) => {
+                    if (side === Side.LEFT) {
+                        return position === Position.LEFT
+                    } else {
+                        return position === Position.RIGHT
+                    }
+                })}
                 transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
                 revealChild={integratedClipboardManagerRevealed}>
                 <box
@@ -106,7 +114,13 @@ export default function (
             </revealer>
             {/*Represents integrated notification history*/}
             <revealer
-                visible={visible}
+                visible={variableConfig.frame.notificationsPosition.asAccessor().as((position) => {
+                    if (side === Side.LEFT) {
+                        return position === Position.LEFT
+                    } else {
+                        return position === Position.RIGHT
+                    }
+                })}
                 transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
                 revealChild={integratedNotificationHistoryRevealed}>
                 <box

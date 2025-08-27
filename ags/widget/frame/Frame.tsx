@@ -7,12 +7,13 @@ import {createComputed} from "ags";
 import LeftBar from "./bars/LeftBar";
 import IntegratedMenu from "../systemMenu/IntegratedMenu";
 import TopBar from "./bars/TopBar";
-import {Position} from "../../config/schema/definitions/systemMenu";
 import RightBar from "./bars/RightBar";
 import BottomBar from "./bars/BottomBar";
 import IntegratedCalendar from "../calendar/IntegratedCalendar";
 import IntegratedClipboardManager from "../clipboardManager/IntegratedClipboardManager";
 import IntegratedNotificationHistory from "../notification/IntegratedNotificationHistory";
+import {appendChildren, orderChildrenLTR} from "../utils/widgets";
+import {Position} from "../../config/schema/definitions/frame";
 
 export const frameWindowName = "frame"
 
@@ -162,28 +163,58 @@ export function OutlineOverlay() {
     />;
 }
 
+function getPositionArray() {
+    const menuPosition = variableConfig.frame.menuPosition.asAccessor()
+    const calendarPosition = variableConfig.frame.calendarPosition.asAccessor()
+    const clipboardManagerPosition = variableConfig.frame.clipboardManagerPosition.asAccessor()
+    const notificationHistoryPosition = variableConfig.frame.notificationsPosition.asAccessor()
+
+    const leftSide = []
+    const rightSide = []
+
+    if (menuPosition.get() === Position.LEFT) {
+        leftSide.push(integratedMenu)
+    } else {
+        rightSide.push(integratedMenu)
+    }
+
+    if (calendarPosition.get() === Position.LEFT) {
+        leftSide.push(integratedCalendar)
+    } else {
+        rightSide.push(integratedCalendar)
+    }
+
+    if (clipboardManagerPosition.get() === Position.LEFT) {
+        leftSide.push(integratedClipboardManager)
+    } else {
+        rightSide.push(integratedClipboardManager)
+    }
+
+    if (notificationHistoryPosition.get() === Position.LEFT) {
+        leftSide.push(integratedNotificationHistory)
+    } else {
+        rightSide.push(integratedNotificationHistory)
+    }
+
+    rightSide.reverse()
+
+    return [leftBar, ...leftSide, frame, ...rightSide, rightBar]
+}
+
 export default function (): Astal.Window {
 
-    variableConfig.systemMenu.position.asAccessor().subscribe(() => {
-        const position = variableConfig.systemMenu.position.get()
-        switch (position) {
-            case Position.LEFT:
-                frameBox.reorder_child_after(integratedMenu, leftBar)
-                frameBox.reorder_child_after(integratedCalendar, integratedMenu)
-                frameBox.reorder_child_after(integratedClipboardManager, integratedCalendar)
-                frameBox.reorder_child_after(integratedNotificationHistory, integratedClipboardManager)
-                frameBox.reorder_child_after(frame, integratedNotificationHistory)
-                frameBox.reorder_child_after(rightBar, frame)
-                break
-            case Position.RIGHT:
-                frameBox.reorder_child_after(frame, leftBar)
-                frameBox.reorder_child_after(integratedNotificationHistory, frame)
-                frameBox.reorder_child_after(integratedClipboardManager, integratedNotificationHistory)
-                frameBox.reorder_child_after(integratedCalendar, integratedClipboardManager)
-                frameBox.reorder_child_after(integratedMenu, integratedCalendar)
-                frameBox.reorder_child_after(rightBar, integratedMenu)
-                break
-        }
+    const menuPosition = variableConfig.frame.menuPosition.asAccessor()
+    const calendarPosition = variableConfig.frame.calendarPosition.asAccessor()
+    const clipboardManagerPosition = variableConfig.frame.clipboardManagerPosition.asAccessor()
+    const notificationHistoryPosition = variableConfig.frame.notificationsPosition.asAccessor()
+
+    createComputed([
+        menuPosition,
+        calendarPosition,
+        clipboardManagerPosition,
+        notificationHistoryPosition,
+    ]).subscribe(() => {
+        orderChildrenLTR(frameBox, getPositionArray())
     })
 
     return <window
@@ -211,63 +242,47 @@ export default function (): Astal.Window {
                     frameBox = self
 
                     // Add the children in the proper order based on the currently selected bar
-                    const f = <box
+                    frame = <box
                         canTarget={false}
                         canFocus={false}
                         visible={true}
                         $={(self) => {
-                            frame = self
+                            // frame = self
                         }}>
                         <OutlineOverlay/>
                     </box> as Gtk.Widget
 
-                    const im = <IntegratedMenu
+                    integratedMenu = <IntegratedMenu
                         setup={(self) => {
-                            integratedMenu = self
+                            // integratedMenu = self
                         }}/> as Gtk.Widget
 
-                    const lb = <LeftBar
+                    leftBar = <LeftBar
                         setup={(self) => {
-                            leftBar = self
+                            // leftBar = self
                         }}/> as Gtk.Widget
 
-                    const rb = <RightBar
+                    rightBar = <RightBar
                         setup={(self) => {
-                            rightBar = self
+                            // rightBar = self
                         }}/> as Gtk.Widget
 
-                    const ic = <IntegratedCalendar
+                    integratedCalendar = <IntegratedCalendar
                         setup={(self) => {
-                            integratedCalendar = self
+                            // integratedCalendar = self
                         }}/> as Gtk.Widget
 
-                    const icm = <IntegratedClipboardManager
+                    integratedClipboardManager = <IntegratedClipboardManager
                         setup={(self) => {
-                            integratedClipboardManager = self
+                            // integratedClipboardManager = self
                         }}/> as Gtk.Widget
 
-                    const inh = <IntegratedNotificationHistory
+                    integratedNotificationHistory = <IntegratedNotificationHistory
                         setup={(self) => {
-                            integratedNotificationHistory = self
+                            // integratedNotificationHistory = self
                         }}/> as Gtk.Widget
 
-                    if (variableConfig.systemMenu.position.get() === Position.LEFT) {
-                        self.append(lb)
-                        self.append(im)
-                        self.append(ic)
-                        self.append(icm)
-                        self.append(inh)
-                        self.append(f)
-                        self.append(rb)
-                    } else {
-                        self.append(lb)
-                        self.append(f)
-                        self.append(inh)
-                        self.append(icm)
-                        self.append(ic)
-                        self.append(im)
-                        self.append(rb)
-                    }
+                    appendChildren(self, getPositionArray())
                 }}>
             </box>
             <BottomBar/>
