@@ -7,6 +7,7 @@ import App from "ags/gtk4/app"
 
 export function setTheme(onFinished: () => void) {
     execAsync(`bash -c '
+set -euo pipefail
 
 # compile the scss in /tmp
 ${compileThemeBashScript()}
@@ -31,15 +32,11 @@ if [[ -f "${config.wallpaperUpdateScript}" ]]; then
           WALLPAPER="$potentialWallpaper"
         else
           # Fallback: pick the first .jpg or .png in the wallpaper dir
-          WALLPAPER="$(
-            ls -1 "${config.wallpaperDir}"/*.jpg "${config.wallpaperDir}"/*.png 2>/dev/null | head -n1
-          )"
+          WALLPAPER="$(find "${config.wallpaperDir}" -maxdepth 1 -type f \\( -iname '*.jpg' -o -iname '*.png' \\) -print -quit 2>/dev/null || true)"
         fi
     else
-    # If there is no cached wallpaper path, do the same fallback
-    WALLPAPER="$(
-      ls -1 "${config.wallpaperDir}"/*.jpg "${config.wallpaperDir}"/*.png 2>/dev/null | head -n1
-    )"
+        # If there is no cached wallpaper path, do the same fallback
+        WALLPAPER="$(find "${config.wallpaperDir}" -maxdepth 1 -type f \\( -iname '*.jpg' -o -iname '*.png' \\) -print -quit 2>/dev/null || true)"
     fi
     
     ${config.wallpaperUpdateScript} $WALLPAPER
@@ -89,6 +86,7 @@ function compileThemeBashScript() {
     }).join("\n");
 
     return `
+set -euo pipefail
 
 SOURCE_DIR="${projectDir}/scss"
 PUBLISH_DIR="/tmp/OkPanel"
