@@ -12,16 +12,16 @@ export default function (): Astal.Window {
         variableConfig.frame.borderWidth.asAccessor(),
         variableConfig.bottomBar.marginTop.asAccessor(),
         variableConfig.bottomBar.marginBottom.asAccessor(),
-        variableConfig.bottomBar.borderWidth.asAccessor(),
+        variableConfig.frame.margin.asAccessor()
     ], (
         bottomBarHeight,
         bottomThickness,
         borderWidth,
         barMarginTop,
         barMarginBottom,
-        barBorderWidth,
+        frameMargin,
     ) => {
-        return bottomThickness + bottomBarHeight + borderWidth + barMarginTop + barMarginBottom + (barBorderWidth * 2)
+        return bottomThickness + bottomBarHeight + borderWidth + barMarginTop + barMarginBottom + frameMargin
     })
 
     return <window
@@ -31,7 +31,6 @@ export default function (): Astal.Window {
         namespace={"okpanel-frame-spacer"}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         anchor={Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.LEFT}
-        marginTop={variableConfig.frame.margin.asAccessor()}
         visible={true}
         application={App}
         canTarget={false}
