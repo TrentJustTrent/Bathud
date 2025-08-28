@@ -104,6 +104,34 @@ const commonHorizontalBarChildrenSchema = [
         description: 'Color of the bar background',
         reactive: true,
     },
+    {
+        name: 'paddingStart',
+        type: 'number',
+        default: 0,
+        description: 'Starting padding of the bar.',
+        reactive: true,
+    },
+    {
+        name: 'paddingEnd',
+        type: 'number',
+        default: 0,
+        description: 'Ending padding of the bar.',
+        reactive: true,
+    },
+    {
+        name: 'paddingTop',
+        type: 'number',
+        default: 0,
+        description: 'Top padding of the bar.',
+        reactive: true,
+    },
+    {
+        name: 'paddingBottom',
+        type: 'number',
+        default: 0,
+        description: 'Bottom padding of the bar.',
+        reactive: true,
+    },
 ] as const satisfies Field[]
 
 export const topBarSchema = {

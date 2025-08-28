@@ -24,10 +24,10 @@ export default function () {
         marginEnd={variableConfig.topBar.marginEnd.asAccessor()}
         cssClasses={["topBar"]}>
         <centerbox
-            marginTop={2}
-            marginBottom={2}
-            marginStart={2}
-            marginEnd={2}
+            marginTop={variableConfig.topBar.paddingTop.asAccessor()}
+            marginBottom={variableConfig.topBar.paddingBottom.asAccessor()}
+            marginStart={variableConfig.topBar.paddingStart.asAccessor()}
+            marginEnd={variableConfig.topBar.paddingEnd.asAccessor()}
             hexpand={true}
             orientation={Gtk.Orientation.HORIZONTAL}
             startWidget={

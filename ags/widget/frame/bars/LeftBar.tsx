@@ -21,10 +21,6 @@ export default function () {
         marginStart={variableConfig.leftBar.marginStart.asAccessor()}
         marginEnd={variableConfig.leftBar.marginEnd.asAccessor()}>
         <centerbox
-            marginTop={2}
-            marginBottom={2}
-            marginStart={2}
-            marginEnd={2}
             hexpand={false}
             orientation={Gtk.Orientation.VERTICAL}
             startWidget={

@@ -51,10 +51,6 @@ function widgetCommons(
     reactiveBorderWidth: boolean = false,
     reactiveBorderColor: boolean = false,
     foregroundDefault: string = 'barWidgets.widgetForeground',
-    marginStart: number = 0,
-    marginEnd: number = 0,
-    marginTop: number = 0,
-    marginBottom: number = 0,
 ) { return [
     {
         name: 'foreground',
@@ -94,7 +90,7 @@ function widgetCommons(
     {
         name: 'marginStart',
         type: 'number',
-        default: marginStart,
+        default: 0,
         description: "Margin at the start of the widget.",
         withinConstraints: (value) => value >= 0,
         constraintDescription: 'Must be >= 0',
@@ -102,7 +98,7 @@ function widgetCommons(
     {
         name: 'marginEnd',
         type: 'number',
-        default: marginEnd,
+        default: 0,
         description: "Margin at the end of the widget.",
         withinConstraints: (value) => value >= 0,
         constraintDescription: 'Must be >= 0',
@@ -110,7 +106,7 @@ function widgetCommons(
     {
         name: 'marginTop',
         type: 'number',
-        default: marginTop,
+        default: 0,
         description: "Margin at the top of the widget.",
         withinConstraints: (value) => value >= 0,
         constraintDescription: 'Must be >= 0',
@@ -118,7 +114,7 @@ function widgetCommons(
     {
         name: 'marginBottom',
         type: 'number',
-        default: marginBottom,
+        default: 0,
         description: "Margin at the bottom of the widget.",
         withinConstraints: (value) => value >= 0,
         constraintDescription: 'Must be >= 0',
