@@ -26,6 +26,11 @@
   border-radius: vars.$buttonBorderRadius;
   padding: 4px 8px 4px 8px;
   @include fun.hoverLighten(vars.$buttonPrimary);
+
+  &:disabled {        // or &:insensitive
+    background-color: lighten(vars.$buttonPrimary, 10%);
+    color: rgba(vars.$fg, 0.5);
+  }
 }
 
 .trayIconButton {

@@ -107,6 +107,10 @@
   font-weight: bold;
   font-size: 34px;
   padding-right: 6px;
+
+  &:disabled {        // or &:insensitive
+    color: rgba(vars.$fg, 0.5);
+  }
 }
 
 .iconLabel {

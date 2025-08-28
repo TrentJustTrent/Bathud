@@ -1,8 +1,8 @@
 import {Bar} from "../../config/bar";
 import OkButton from "../common/OkButton";
 import {getHPadding, getVPadding} from "./BarWidgets";
-import {isRecording} from "../screenshot/Screenshot";
 import {execAsync} from "ags/process";
+import {isRecording} from "../screenshot/ScreenRecording";
 
 export default function ({bar}: { bar: Bar }) {
     return <OkButton

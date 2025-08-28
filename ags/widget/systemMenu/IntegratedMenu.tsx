@@ -13,7 +13,6 @@ import LookAndFeelControls from "./widgets/LookAndFeelControls";
 import PowerProfileControls from "./widgets/PowerProfileControls";
 import Toolbox from "./widgets/Toolbox";
 import Clock from "./widgets/Clock";
-import ScreenRecording from "./widgets/ScreenRecording";
 import {createBinding} from "ags";
 import {SystemMenuWidget} from "../../config/schema/definitions/systemMenuWidgets";
 import {appendChildren, removeAllChildren} from "../utils/widgets";
@@ -37,7 +36,6 @@ let powerOptions: Gtk.Widget
 let notificationHistory: Gtk.Widget
 let toolbox: Gtk.Widget
 let clock: Gtk.Widget
-let screenRecording: Gtk.Widget
 
 function createSystemWidgets() {
     network = <NetworkControls/> as Gtk.Widget
@@ -57,7 +55,6 @@ function createSystemWidgets() {
     notificationHistory = <NotificationHistory/> as Gtk.Widget
     toolbox = <Toolbox/> as Gtk.Widget
     clock = <Clock/> as Gtk.Widget
-    screenRecording = <ScreenRecording/> as Gtk.Widget
 }
 
 function getListOfWidgets(
@@ -88,8 +85,6 @@ function getListOfWidgets(
                     return powerOptions
                 case SystemMenuWidget.TOOLBOX:
                     return toolbox
-                case SystemMenuWidget.SCREEN_RECORDING_CONTROLS:
-                    return screenRecording
             }
         })
     )]

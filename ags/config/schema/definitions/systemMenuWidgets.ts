@@ -12,7 +12,6 @@ export enum SystemMenuWidget {
     NOTIFICATION_HISTORY = "notificationHistory",
     TOOLBOX = "toolbox",
     CLOCK = "clock",
-    SCREEN_RECORDING_CONTROLS = "screenRecordingControls",
 }
 
 export const SYSTEM_MENU_WIDGET_VALUES = Object.values(SystemMenuWidget) as readonly SystemMenuWidget[]

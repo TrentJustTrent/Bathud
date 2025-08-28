@@ -1,7 +1,7 @@
-import {isRecording} from "../../screenshot/Screenshot";
-import OkButton from "../../common/OkButton";
+import OkButton from "../common/OkButton";
 import {execAsync} from "ags/process";
 import {Gtk} from "ags/gtk4";
+import {isRecording} from "./ScreenRecording";
 
 export default function () {
     return <box
