@@ -81,11 +81,11 @@ function compileThemeBashScript() {
     const widgetLines = widgets.map(widget => {
         const pascal = toPascalCase(widget);
         return [
-            `\\$bar${pascal}Foreground: ${config.theme.bars[widget].foreground};`,
-            `\\$bar${pascal}Background: ${config.theme.bars[widget].background};`,
-            `\\$bar${pascal}BorderRadius: ${config.theme.bars[widget].borderRadius}px;`,
-            `\\$bar${pascal}BorderWidth: ${config.theme.bars[widget].borderWidth}px;`,
-            `\\$bar${pascal}BorderColor: ${config.theme.bars[widget].borderColor};`,
+            `\\$bar${pascal}Foreground: ${config.barWidgets[widget].foreground};`,
+            `\\$bar${pascal}Background: ${config.barWidgets[widget].background};`,
+            `\\$bar${pascal}BorderRadius: ${config.barWidgets[widget].borderRadius}px;`,
+            `\\$bar${pascal}BorderWidth: ${config.barWidgets[widget].borderWidth}px;`,
+            `\\$bar${pascal}BorderColor: ${config.barWidgets[widget].borderColor};`,
         ].join("\n");
     }).join("\n");
 
@@ -125,8 +125,8 @@ cat > "$TARGET_DIR/variables.scss" <<EOF
 \\$windowBorder: ${config.theme.windows.borderColor};
 \\$windowBackgroundColor: ${config.theme.windows.backgroundColor};
 
-\\$barWorkspacesInactiveForeground: ${config.theme.bars.workspaces.inactiveForeground};
-\\$barNotificationHistoryIndicatorForeground: ${config.theme.bars.notification_history.indicatorForeground};
+\\$barWorkspacesInactiveForeground: ${config.barWidgets.workspaces.inactiveForeground};
+\\$barNotificationHistoryIndicatorForeground: ${config.barWidgets.notification_history.indicatorForeground};
 
 ${widgetLines}
 EOF

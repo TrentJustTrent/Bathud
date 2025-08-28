@@ -12,6 +12,7 @@ import {systemCommandsSchema} from "./systemCommands";
 import {themeSchema} from "./theme";
 import {frameSchema} from "./frame";
 import {weatherSchema} from "./weather";
+import {barWidgetsSchema} from "./barWidgets";
 
 export const CONFIG_SCHEMA = [
     {
@@ -64,6 +65,7 @@ export const CONFIG_SCHEMA = [
     systemCommandsSchema,
     frameSchema,
     systemMenuSchema,
+    barWidgetsSchema,
     themeSchema,
     topBarSchema,
     bottomBarSchema,

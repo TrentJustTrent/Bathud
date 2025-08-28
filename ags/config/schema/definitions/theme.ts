@@ -1,7 +1,7 @@
 import {Field} from "../primitiveDefinitions";
 import {themeWindowsSchema} from "./themeWindows";
-import {themeBarsSchema} from "./themeBars";
 import {themeColorsSchema} from "./themeColors";
+import {themeBarsSchema} from "./themeBars";
 
 export const themeSchema = {
     name: 'theme',

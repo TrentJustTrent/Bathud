@@ -9,24 +9,9 @@ import AstalTray from "gi://AstalTray?version=0.1";
 const tray = AstalTray.get_default()
 
 export default function ({vertical, bar}: { vertical: boolean, bar: Bar }) {
-    let collapsable
-    switch (bar) {
-        case Bar.TOP:
-            collapsable = variableConfig.topBar.tray.collapsable.asAccessor()
-            break
-        case Bar.BOTTOM:
-            collapsable = variableConfig.bottomBar.tray.collapsable.asAccessor()
-            break
-        case Bar.LEFT:
-            collapsable = variableConfig.leftBar.tray.collapsable.asAccessor()
-            break
-        case Bar.RIGHT:
-            collapsable = variableConfig.rightBar.tray.collapsable.asAccessor()
-            break
-    }
 
     return <box>
-        <With value={collapsable}>
+        <With value={variableConfig.barWidgets.tray.collapsable.asAccessor()}>
             {(collapse) => {
                 if (collapse) {
                     const [revealed, revealedSetter] = createState(false)

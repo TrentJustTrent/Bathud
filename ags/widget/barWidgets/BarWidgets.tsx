@@ -57,32 +57,27 @@ export function getVPadding(bar: Bar) {
 }
 
 export function addWidgets(widgets: BarWidget[], bar: Bar) {
-    let schema
     let isVertical
     switch (bar) {
         case Bar.TOP:
-            schema = variableConfig.topBar
             isVertical = false
             break
         case Bar.BOTTOM:
-            schema = variableConfig.bottomBar
             isVertical = false
             break
         case Bar.LEFT:
-            schema = variableConfig.leftBar
             isVertical = true
             break
         case Bar.RIGHT:
-            schema = variableConfig.rightBar
             isVertical = true
             break
     }
     return widgets.map((widget) => {
         return <box
-            marginTop={schema[widget].marginTop.asAccessor()}
-            marginBottom={schema[widget].marginBottom.asAccessor()}
-            marginStart={schema[widget].marginStart.asAccessor()}
-            marginEnd={schema[widget].marginEnd.asAccessor()}>
+            marginTop={variableConfig.barWidgets[widget].marginTop.asAccessor()}
+            marginBottom={variableConfig.barWidgets[widget].marginBottom.asAccessor()}
+            marginStart={variableConfig.barWidgets[widget].marginStart.asAccessor()}
+            marginEnd={variableConfig.barWidgets[widget].marginEnd.asAccessor()}>
             {getWidget(widget, isVertical, bar)}
         </box>
     })

@@ -1,5 +1,5 @@
 import {Field} from "../primitiveDefinitions";
-import {BAR_WIDGET_VALUES, BarWidget, barWidgetsSchema} from "./barWidgets";
+import {BAR_WIDGET_VALUES, BarWidget} from "./barWidgets";
 
 export const barWidgetsArrayField = <N extends string>( //preserve the literal key
     name: N,
@@ -54,7 +54,6 @@ export const topBarSchema = {
             [],
         ),
         ...commonBarChildrenSchema,
-        ...barWidgetsSchema(false),
     ],
 } as const satisfies Field
 
@@ -79,7 +78,6 @@ export const bottomBarSchema = {
             [],
         ),
         ...commonBarChildrenSchema,
-        ...barWidgetsSchema(false),
     ],
 } as const satisfies Field
 
@@ -104,7 +102,6 @@ export const leftBarSchema = {
             [],
         ),
         ...commonBarChildrenSchema,
-        ...barWidgetsSchema(true),
     ],
 } as const satisfies Field
 
@@ -129,6 +126,5 @@ export const rightBarSchema = {
             [],
         ),
         ...commonBarChildrenSchema,
-        ...barWidgetsSchema(true),
     ],
 } as const satisfies Field

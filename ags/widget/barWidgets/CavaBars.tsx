@@ -18,47 +18,20 @@ export default function ({vertical, bar}: { vertical: boolean, bar: Bar }) {
                     return <box/>
                 }
 
-                let intensity
-                let expand
-                let length
-
-                switch (bar) {
-                    case Bar.TOP:
-                        intensity = variableConfig.topBar.cava_waveform.intensityMultiplier.asAccessor()
-                        expand = variableConfig.topBar.cava_waveform.expanded.asAccessor()
-                        length = variableConfig.topBar.cava_waveform.length.asAccessor()
-                        break
-                    case Bar.BOTTOM:
-                        intensity = variableConfig.bottomBar.cava_waveform.intensityMultiplier.asAccessor()
-                        expand = variableConfig.bottomBar.cava_waveform.expanded.asAccessor()
-                        length = variableConfig.bottomBar.cava_waveform.length.asAccessor()
-                        break
-                    case Bar.LEFT:
-                        intensity = variableConfig.leftBar.cava_waveform.intensityMultiplier.asAccessor()
-                        expand = variableConfig.leftBar.cava_waveform.expanded.asAccessor()
-                        length = variableConfig.leftBar.cava_waveform.length.asAccessor()
-                        break
-                    case Bar.RIGHT:
-                        intensity = variableConfig.rightBar.cava_waveform.intensityMultiplier.asAccessor()
-                        expand = variableConfig.rightBar.cava_waveform.expanded.asAccessor()
-                        length = variableConfig.rightBar.cava_waveform.length.asAccessor()
-                        break
-                }
-
                 return <box
                     vexpand={!vertical}
                     hexpand={vertical}>
                     <CavaWaveform
-                        color={variableConfig.theme.bars.cava_waveform.foreground.asAccessor()}
+                        color={variableConfig.barWidgets.cava_waveform.foreground.asAccessor()}
                         marginStart={vertical ? 0 : 20}
                         marginEnd={vertical ? 0 : 20}
                         marginTop={vertical ? 20 : 0}
                         marginBottom={vertical ? 20 : 0}
                         vertical={vertical}
                         flipStart={getCavaFlipStartValue(bar)}
-                        intensity={intensity}
-                        expand={expand}
-                        length={length}
+                        intensity={variableConfig.barWidgets.cava_waveform.intensityMultiplier.asAccessor()}
+                        expand={variableConfig.barWidgets.cava_waveform.expanded.asAccessor()}
+                        length={variableConfig.barWidgets.cava_waveform.length.asAccessor()}
                         size={30}/>
                 </box>
             })}

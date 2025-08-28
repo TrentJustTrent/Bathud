@@ -8,10 +8,10 @@ export default function ({bar}: { bar: Bar }) {
     return <OkButton
         labelCss={["barMenuForeground"]}
         backgroundCss={["barMenuBackground"]}
-        offset={variableConfig.theme.bars.menu.iconOffset.asAccessor()}
+        offset={variableConfig.barWidgets.menu.iconOffset.asAccessor()}
         hpadding={getHPadding(bar)}
         vpadding={getVPadding(bar)}
-        label={variableConfig.theme.bars.menu.icon.asAccessor()}
+        label={variableConfig.barWidgets.menu.icon.asAccessor()}
         onClicked={() => {
             integratedMenuRevealedSetting(!integratedMenuRevealed.get())
         }}/>

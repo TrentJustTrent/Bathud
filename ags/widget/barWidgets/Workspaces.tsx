@@ -59,8 +59,8 @@ export default function ({vertical, bar}: { vertical: boolean, bar: Bar }) {
 
                                 let offset = createComputed([
                                     createBinding(workspace.monitor, "activeWorkspace"),
-                                    variableConfig.theme.bars.workspaces.activeOffset.asAccessor(),
-                                    variableConfig.theme.bars.workspaces.inactiveOffset.asAccessor()
+                                    variableConfig.barWidgets.workspaces.activeOffset.asAccessor(),
+                                    variableConfig.barWidgets.workspaces.inactiveOffset.asAccessor()
                                 ], (w: Hyprland.Workspace, activeOffset, inactiveOffset) => {
                                     const isActive = w?.id === workspace.id
                                     return isActive ? activeOffset : inactiveOffset
@@ -68,8 +68,8 @@ export default function ({vertical, bar}: { vertical: boolean, bar: Bar }) {
 
                                 let label = createComputed([
                                     createBinding(workspace.monitor, "activeWorkspace"),
-                                    variableConfig.theme.bars.workspaces.activeIcon.asAccessor(),
-                                    variableConfig.theme.bars.workspaces.inactiveIcon.asAccessor()
+                                    variableConfig.barWidgets.workspaces.activeIcon.asAccessor(),
+                                    variableConfig.barWidgets.workspaces.inactiveIcon.asAccessor()
                                 ], (w: Hyprland.Workspace, activeIcon, inactiveIcon) => {
                                     const isActive = w?.id === workspace.id
                                     return isActive ? activeIcon : inactiveIcon
@@ -77,7 +77,7 @@ export default function ({vertical, bar}: { vertical: boolean, bar: Bar }) {
 
                                 let size = createComputed([
                                     createBinding(workspace.monitor, "activeWorkspace"),
-                                    variableConfig.theme.bars.workspaces.largeActive.asAccessor()
+                                    variableConfig.barWidgets.workspaces.largeActive.asAccessor()
                                 ], (w: Hyprland.Workspace, isLarge) => {
                                     const isActive = w?.id === workspace.id
                                     return isActive && isLarge ? OkButtonSize.LARGE : OkButtonSize.SMALL
