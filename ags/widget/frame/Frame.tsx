@@ -12,7 +12,7 @@ import BottomBar from "./bars/BottomBar";
 import IntegratedCalendar from "../calendar/IntegratedCalendar";
 import IntegratedClipboardManager from "../clipboardManager/IntegratedClipboardManager";
 import IntegratedNotificationHistory from "../notification/IntegratedNotificationHistory";
-import {appendChildren, orderChildrenLTR, removeAllChildren} from "../utils/widgets";
+import {appendChildren, ghostWhenTooNarrow, orderChildrenLTR, removeAllChildren} from "../utils/widgets";
 import {Position} from "../../config/schema/definitions/frame";
 
 export const frameWindowName = "frame"
@@ -248,6 +248,18 @@ export default function (): Astal.Window {
             hexpand={true}
             orientation={Gtk.Orientation.VERTICAL}>
             <box
+                $={(self) => {
+                    ghostWhenTooNarrow(
+                        self,
+                        [
+                            variableConfig.topBar.paddingBottom.asAccessor(),
+                            variableConfig.topBar.paddingTop.asAccessor(),
+                            variableConfig.topBar.marginBottom.asAccessor(),
+                            variableConfig.topBar.marginTop.asAccessor(),
+                            variableConfig.topBar.borderWidth.asAccessor(),
+                        ]
+                    )
+                }}
                 orientation={Gtk.Orientation.HORIZONTAL}>
                 <box hexpand={variableConfig.topBar.expanded.asAccessor().as((e) => !e)}/>
                 <TopBar/>
@@ -258,6 +270,18 @@ export default function (): Astal.Window {
                 hexpand={true}
                 orientation={Gtk.Orientation.HORIZONTAL}>
                 <box
+                    $={(self) => {
+                        ghostWhenTooNarrow(
+                            self,
+                            [
+                                variableConfig.frame.leftGroup.paddingStart.asAccessor(),
+                                variableConfig.frame.leftGroup.paddingEnd.asAccessor(),
+                                variableConfig.frame.leftGroup.marginStart.asAccessor(),
+                                variableConfig.frame.leftGroup.marginEnd.asAccessor(),
+                                variableConfig.frame.leftGroup.borderWidth.asAccessor(),
+                            ]
+                        )
+                    }}
                     orientation={Gtk.Orientation.VERTICAL}>
                     <box vexpand={variableConfig.frame.leftGroup.expanded.asAccessor().as((e) => !e)}/>
                     <box
@@ -285,6 +309,18 @@ export default function (): Astal.Window {
                 </box>
                 <OutlineOverlay/>
                 <box
+                    $={(self) => {
+                        ghostWhenTooNarrow(
+                            self,
+                            [
+                                variableConfig.frame.rightGroup.paddingStart.asAccessor(),
+                                variableConfig.frame.rightGroup.paddingEnd.asAccessor(),
+                                variableConfig.frame.rightGroup.marginStart.asAccessor(),
+                                variableConfig.frame.rightGroup.marginEnd.asAccessor(),
+                                variableConfig.frame.rightGroup.borderWidth.asAccessor(),
+                            ]
+                        )
+                    }}
                     orientation={Gtk.Orientation.VERTICAL}>
                     <box vexpand={variableConfig.frame.rightGroup.expanded.asAccessor().as((e) => !e)}/>
                     <box
@@ -312,6 +348,18 @@ export default function (): Astal.Window {
                 </box>
             </box>
             <box
+                $={(self) => {
+                    ghostWhenTooNarrow(
+                        self,
+                        [
+                            variableConfig.bottomBar.paddingBottom.asAccessor(),
+                            variableConfig.bottomBar.paddingTop.asAccessor(),
+                            variableConfig.bottomBar.marginBottom.asAccessor(),
+                            variableConfig.bottomBar.marginTop.asAccessor(),
+                            variableConfig.bottomBar.borderWidth.asAccessor(),
+                        ]
+                    )
+                }}
                 orientation={Gtk.Orientation.HORIZONTAL}>
                 <box hexpand={variableConfig.bottomBar.expanded.asAccessor().as((e) => !e)}/>
                 <BottomBar/>
