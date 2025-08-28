@@ -12,14 +12,16 @@ export default function (): Astal.Window {
         variableConfig.frame.borderWidth.asAccessor(),
         variableConfig.bottomBar.marginTop.asAccessor(),
         variableConfig.bottomBar.marginBottom.asAccessor(),
+        variableConfig.bottomBar.borderWidth.asAccessor(),
     ], (
         bottomBarHeight,
         bottomThickness,
         borderWidth,
         barMarginTop,
         barMarginBottom,
+        barBorderWidth,
     ) => {
-        return bottomThickness + bottomBarHeight + borderWidth + barMarginTop + barMarginBottom
+        return bottomThickness + bottomBarHeight + borderWidth + barMarginTop + barMarginBottom + (barBorderWidth * 2)
     })
 
     return <window

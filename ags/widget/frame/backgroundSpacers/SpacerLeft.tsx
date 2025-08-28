@@ -26,6 +26,7 @@ export default function (): Astal.Window {
         variableConfig.frame.leftGroup.marginEnd.asAccessor(),
         variableConfig.frame.leftGroup.paddingStart.asAccessor(),
         variableConfig.frame.leftGroup.paddingEnd.asAccessor(),
+        variableConfig.frame.leftGroup.borderWidth.asAccessor(),
     ], (
         leftBarWidth,
         leftThickness,
@@ -36,9 +37,11 @@ export default function (): Astal.Window {
         groupMarginEnd,
         groupPaddingStart,
         groupPaddingEnd,
+        groupBorderWidth,
     ) => {
         return leftThickness + leftBarWidth + borderWidth + barMarginStart +
-            barMarginEnd + groupMarginStart + groupMarginEnd + groupPaddingStart + groupPaddingEnd
+            barMarginEnd + groupMarginStart + groupMarginEnd + groupPaddingStart +
+            groupPaddingEnd + (groupBorderWidth * 2)
     })
 
     return <window
