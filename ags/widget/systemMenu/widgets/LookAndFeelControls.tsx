@@ -2,7 +2,6 @@ import {Gtk} from "ags/gtk4"
 import {execAsync} from "ags/process"
 import Pango from "gi://Pango?version=1.0";
 import {createScaledTexture} from "../../utils/images";
-import Divider from "../../common/Divider";
 import {
     availableConfigs, ConfigFile,
     selectedConfig,
@@ -262,31 +261,28 @@ function WallpaperColumn(
     ], (filesList) => {
         return filesList[column]
     })
-    
+
     return <box
         hexpand={true}
         orientation={Gtk.Orientation.VERTICAL}>
         <For each={filesListInColumn}>
             {(file) => {
-                const picture = <Gtk.Picture
-                    heightRequest={90}
-                    cssClasses={["wallpaper"]}
-                    keepAspectRatio={true}
-                    contentFit={Gtk.ContentFit.COVER}/>
-
-                // 140x70 is a magic number that scales well and doesn't cause unwanted expansion of the scroll window
-                createScaledTexture(140, 70, file).then((texture) => {
-                    // @ts-ignore
-                    picture.set_paintable(texture)
-                })
-
                 return <button
+                    $={(self) => {
+                        // 140x70 is a magic number that scales well and doesn't cause unwanted expansion of the scroll window
+                        createScaledTexture(140, 70, file).then((texture) => {
+                            const picture = Gtk.Picture.new_for_paintable(texture)
+                            picture.heightRequest = 90
+                            picture.cssClasses = ["wallpaper"]
+                            picture.contentFit = Gtk.ContentFit.COVER
+
+                            self.set_child(picture)
+                        })
+                    }}
                     cssClasses={["wallpaperButton"]}
                     onClicked={() => {
                         setWallpaper(file)
-                    }}>
-                    {picture}
-                </button>
+                    }}/>
             }}
         </For>
     </box>
