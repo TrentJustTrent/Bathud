@@ -4,24 +4,24 @@ export enum BarWidget {
     MENU = "menu",
     WORKSPACES = "workspaces",
     CLOCK = "clock",
-    AUDIO_OUT = "audio_out",
-    AUDIO_IN = "audio_in",
+    AUDIO_OUT = "audioOut",
+    AUDIO_IN = "audioIn",
     BLUETOOTH = "bluetooth",
     NETWORK = "network",
-    RECORDING_INDICATOR = "recording_indicator",
-    VPN_INDICATOR = "vpn_indicator",
+    RECORDING_INDICATOR = "recordingIndicator",
+    VPN_INDICATOR = "vpnIndicator",
     BATTERY = "battery",
     TRAY = "tray",
-    APP_LAUNCHER = "app_launcher",
+    APP_LAUNCHER = "appLauncher",
     SCREENSHOT = "screenshot",
-    CLIPBOARD_MANAGER = "clipboard_manager",
-    POWER_PROFILE = "power_profile",
-    CAVA_WAVEFORM = "cava_waveform",
-    MPRIS_CONTROLS = "mpris_controls",
-    MPRIS_TRACK_INFO = "mpris_track_info",
-    MPRIS_PRIMARY_PLAYER_SWITCHER = "mpris_primary_player_switcher",
-    NOTIFICATION_HISTORY = "notification_history",
-    COLOR_PICKER = "color_picker",
+    CLIPBOARD_MANAGER = "clipboardManager",
+    POWER_PROFILE = "powerProfile",
+    CAVA_WAVEFORM = "cavaWaveform",
+    MPRIS_CONTROLS = "mprisControls",
+    MPRIS_TRACK_INFO = "mprisTrackInfo",
+    MPRIS_PRIMARY_PLAYER_SWITCHER = "mprisPrimaryPlayerSwitcher",
+    NOTIFICATION_HISTORY = "notificationHistory",
+    COLOR_PICKER = "colorPicker",
     LOGOUT = "logout",
     LOCK = "lock",
     RESTART = "restart",
@@ -239,13 +239,13 @@ export const barWidgetsSchema = {
         {
             name: BarWidget.AUDIO_OUT,
             type: "object",
-            description: "Configuration for the audio_out bar widget.",
+            description: "Configuration for the audio out bar widget.",
             children: [...widgetCommons()],
         },
         {
             name: BarWidget.AUDIO_IN,
             type: "object",
-            description: "Configuration for the audio_in bar widget.",
+            description: "Configuration for the audio in bar widget.",
             children: [...widgetCommons()],
         },
         {
@@ -263,7 +263,7 @@ export const barWidgetsSchema = {
         {
             name: BarWidget.RECORDING_INDICATOR,
             type: "object",
-            description: "Configuration for the recording_indicator bar widget.",
+            description: "Configuration for the recording indicator bar widget.",
             children: [...widgetCommons(
                 false,
                 false,
@@ -276,7 +276,7 @@ export const barWidgetsSchema = {
         {
             name: BarWidget.VPN_INDICATOR,
             type: "object",
-            description: "Configuration for the vpn_indicator bar widget.",
+            description: "Configuration for the vpn indicator bar widget.",
             children: [...widgetCommons()],
         },
         {
@@ -302,7 +302,7 @@ export const barWidgetsSchema = {
         {
             name: BarWidget.APP_LAUNCHER,
             type: "object",
-            description: "Configuration for the app_launcher bar widget.",
+            description: "Configuration for the app launcher bar widget.",
             children: [...widgetCommons()],
         },
         {
@@ -314,19 +314,19 @@ export const barWidgetsSchema = {
         {
             name: BarWidget.CLIPBOARD_MANAGER,
             type: "object",
-            description: "Configuration for the clipboard_manager bar widget.",
+            description: "Configuration for the clipboardManager bar widget.",
             children: [...widgetCommons()],
         },
         {
             name: BarWidget.POWER_PROFILE,
             type: "object",
-            description: "Configuration for the power_profile bar widget.",
+            description: "Configuration for the power profile bar widget.",
             children: [...widgetCommons()],
         },
         {
             name: BarWidget.CAVA_WAVEFORM,
             type: "object",
-            description: "Configuration for the cava_waveform bar widget.",
+            description: "Configuration for the cava waveform bar widget.",
             children: [
                 ...widgetCommons(true),
                 {
@@ -363,13 +363,13 @@ export const barWidgetsSchema = {
         {
             name: BarWidget.MPRIS_CONTROLS,
             type: "object",
-            description: "Configuration for the mpris_controls bar widget.",
+            description: "Configuration for the mprisControls bar widget.",
             children: [...widgetCommons()],
         },
         {
             name: BarWidget.MPRIS_TRACK_INFO,
             type: "object",
-            description: "Configuration for the mpris_track_info bar widget.",
+            description: "Configuration for the mpris track info bar widget.",
             children: [
                 ...widgetCommons(
                     true,
@@ -398,13 +398,13 @@ export const barWidgetsSchema = {
         {
             name: BarWidget.MPRIS_PRIMARY_PLAYER_SWITCHER,
             type: "object",
-            description: "Configuration for the mpris_primary_player_switcher bar widget.",
+            description: "Configuration for the mpris primary player switcher bar widget.",
             children: [...widgetCommons()],
         },
         {
             name: BarWidget.NOTIFICATION_HISTORY,
             type: "object",
-            description: "Configuration for the notification_history bar widget.",
+            description: "Configuration for the notification history bar widget.",
             children: [
                 ...widgetCommons(),
                 {
@@ -419,7 +419,7 @@ export const barWidgetsSchema = {
         {
             name: BarWidget.COLOR_PICKER,
             type: "object",
-            description: "Configuration for the color_picker bar widget.",
+            description: "Configuration for the color picker bar widget.",
             children: [...widgetCommons()],
         },
         {

@@ -64,7 +64,7 @@ export default function (
                             flipped={isFlipped}
                             bold={false}
                             alignment={alignment}
-                            foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground.asAccessor()}
+                            foregroundColor={variableConfig.barWidgets.mprisTrackInfo.foreground.asAccessor()}
                         />
                         <VerticalLabel
                             text={title}
@@ -72,7 +72,7 @@ export default function (
                             flipped={isFlipped}
                             bold={true}
                             alignment={alignment}
-                            foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground.asAccessor()}
+                            foregroundColor={variableConfig.barWidgets.mprisTrackInfo.foreground.asAccessor()}
                         />
                     </box>
                 }
@@ -87,7 +87,7 @@ export default function (
                             flipped={isFlipped}
                             bold={true}
                             alignment={alignment}
-                            foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground.asAccessor()}
+                            foregroundColor={variableConfig.barWidgets.mprisTrackInfo.foreground.asAccessor()}
                         />
                         <VerticalLabel
                             text={artist}
@@ -95,7 +95,7 @@ export default function (
                             flipped={isFlipped}
                             bold={false}
                             alignment={alignment}
-                            foregroundColor={variableConfig.theme.bars.mpris_track_info.foreground.asAccessor()}
+                            foregroundColor={variableConfig.barWidgets.mprisTrackInfo.foreground.asAccessor()}
                         />
                     </box>
                 }

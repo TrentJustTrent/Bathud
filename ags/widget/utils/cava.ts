@@ -8,7 +8,7 @@ export function getCavaFlipStartValue(bar: Bar): Accessor<boolean> {
     switch (bar) {
         case Bar.TOP:
             return createComputed([
-                variableConfig.topBar.cava_waveform.position.asAccessor(),
+                variableConfig.topBar.cavaWaveform.position.asAccessor(),
             ], (position) => {
                 switch (position) {
                     case WaveformPosition.START:
@@ -23,7 +23,7 @@ export function getCavaFlipStartValue(bar: Bar): Accessor<boolean> {
             })
         case Bar.BOTTOM:
             return createComputed([
-                variableConfig.topBar.cava_waveform.position.asAccessor(),
+                variableConfig.topBar.cavaWaveform.position.asAccessor(),
             ], (position) => {
                 switch (position) {
                     case WaveformPosition.START:
@@ -38,7 +38,7 @@ export function getCavaFlipStartValue(bar: Bar): Accessor<boolean> {
             })
         case Bar.LEFT:
             return createComputed([
-                variableConfig.topBar.cava_waveform.position.asAccessor(),
+                variableConfig.topBar.cavaWaveform.position.asAccessor(),
             ], (position) => {
                 switch (position) {
                     case WaveformPosition.START:
@@ -53,7 +53,7 @@ export function getCavaFlipStartValue(bar: Bar): Accessor<boolean> {
             })
         case Bar.RIGHT:
             return createComputed([
-                variableConfig.topBar.cava_waveform.position.asAccessor(),
+                variableConfig.topBar.cavaWaveform.position.asAccessor(),
             ], (position) => {
                 switch (position) {
                     case WaveformPosition.START:

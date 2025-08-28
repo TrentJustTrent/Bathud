@@ -22,16 +22,16 @@ export default function ({vertical, bar}: { vertical: boolean, bar: Bar }) {
                     vexpand={!vertical}
                     hexpand={vertical}>
                     <CavaWaveform
-                        color={variableConfig.barWidgets.cava_waveform.foreground.asAccessor()}
+                        color={variableConfig.barWidgets.cavaWaveform.foreground.asAccessor()}
                         marginStart={vertical ? 0 : 20}
                         marginEnd={vertical ? 0 : 20}
                         marginTop={vertical ? 20 : 0}
                         marginBottom={vertical ? 20 : 0}
                         vertical={vertical}
                         flipStart={getCavaFlipStartValue(bar)}
-                        intensity={variableConfig.barWidgets.cava_waveform.intensityMultiplier.asAccessor()}
-                        expand={variableConfig.barWidgets.cava_waveform.expanded.asAccessor()}
-                        length={variableConfig.barWidgets.cava_waveform.length.asAccessor()}
+                        intensity={variableConfig.barWidgets.cavaWaveform.intensityMultiplier.asAccessor()}
+                        expand={variableConfig.barWidgets.cavaWaveform.expanded.asAccessor()}
+                        length={variableConfig.barWidgets.cavaWaveform.length.asAccessor()}
                         size={30}/>
                 </box>
             })}

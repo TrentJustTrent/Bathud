@@ -36,9 +36,9 @@ export default function ({vertical, bar}: { vertical: boolean, bar: Bar }) {
                     player={player}
                     vertical={vertical}
                     isFlipped={flipped}
-                    textLength={variableConfig.barWidgets.mpris_track_info.textLength.asAccessor()}
-                    textAlignment={variableConfig.barWidgets.mpris_track_info.textAlignment.asAccessor()}
-                    minimumLength={variableConfig.barWidgets.mpris_track_info.minimumLength.asAccessor()}/>
+                    textLength={variableConfig.barWidgets.mprisTrackInfo.textLength.asAccessor()}
+                    textAlignment={variableConfig.barWidgets.mprisTrackInfo.textAlignment.asAccessor()}
+                    minimumLength={variableConfig.barWidgets.mprisTrackInfo.minimumLength.asAccessor()}/>
             }}
         </With>
     </box>
