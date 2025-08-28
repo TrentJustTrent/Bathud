@@ -46,6 +46,7 @@ if [[ -f "${config.wallpaperUpdateScript}" ]]; then
 fi
 
     '`).catch((error) => {
+        console.log("setTheme error")
         console.error(error)
     }).finally(() => {
         App.apply_css("/tmp/OkPanel/style.css")
@@ -88,7 +89,6 @@ function compileThemeBashScript() {
     }).join("\n");
 
     return `
-set -euo pipefail
 
 SOURCE_DIR="${projectDir}/scss"
 PUBLISH_DIR="/tmp/OkPanel"
