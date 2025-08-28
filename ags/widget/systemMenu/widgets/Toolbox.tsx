@@ -2,9 +2,9 @@ import {Gtk} from "ags/gtk4"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
 import OkButton, {OkButtonSize} from "../../common/OkButton";
-import {hideAllWindows, toggleWindow} from "../../utils/windows";
-import {ScreenshotWindowName} from "../../screenshot/Screenshot";
+import {hideAllWindows} from "../../utils/windows";
 import {runColorPicker} from "../../utils/colorPicker";
+import {toggleIntegratedScreenshot} from "../../screenshot/IntegratedScreenshot";
 
 function ColorPicker() {
     return <box>
@@ -26,7 +26,7 @@ function ScreenShotGizmo() {
             size={OkButtonSize.XL}
             onClicked={() => {
                 hideAllWindows()
-                toggleWindow(ScreenshotWindowName)
+                toggleIntegratedScreenshot()
             }}/>
     </box>
 }

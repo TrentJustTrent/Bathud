@@ -1,21 +1,17 @@
-import {Astal, Gtk} from "ags/gtk4"
-import App from "ags/gtk4/app"
+import {Gtk} from "ags/gtk4"
 import {execAsync} from "ags/process"
 import Divider from "../common/Divider";
 import Pango from "gi://Pango?version=1.0";
 import {playCameraShutter} from "../utils/audio";
 import RevealerRow from "../common/RevealerRow";
-import {hideAllWindows} from "../utils/windows";
-import {variableConfig} from "../../config/config";
-import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import OkButton from "../common/OkButton";
 import {projectDir} from "../../app";
-import {createState, Setter, createBinding, For} from "ags";
+import {createState, Setter, For} from "ags";
 import GLib from "gi://GLib?version=2.0";
+import {integratedScreenshotRevealed, toggleIntegratedScreenshot} from "./IntegratedScreenshot";
+import {truncateString} from "../utils/strings";
 
 export const [isRecording, isRecordingSetter] = createState(false)
-
-export const ScreenshotWindowName = "screenshotWindow"
 
 type AudioSource = {
     name: string;
@@ -148,7 +144,7 @@ function setDirectories() {
     })
 }
 
-function updateAudioOptions() {
+export function updateScreenshotAudioOptions() {
     execAsync([
         "bash",
         "-c",
@@ -338,9 +334,11 @@ function ScreenShots() {
         <RevealerRow
             icon={"󰔛"}
             iconOffset={0}
-            windowName={ScreenshotWindowName}
             setup={(revealed) => {
                 delayRevealedSetter = revealed[1]
+                integratedScreenshotRevealed.subscribe(() => {
+                    if (delayRevealedSetter !== null) delayRevealedSetter(false)
+                })
             }}
             content={
                 <label
@@ -378,9 +376,11 @@ function ScreenShots() {
                 return getSaveTypeIcon(value)
             })}
             iconOffset={0}
-            windowName={ScreenshotWindowName}
             setup={(revealed) => {
                 saveTypeRevealedSetter = revealed[1]
+                integratedScreenshotRevealed.subscribe(() => {
+                    if (saveTypeRevealedSetter !== null) saveTypeRevealedSetter(false)
+                })
             }}
             content={
                 <label
@@ -418,7 +418,7 @@ function ScreenShots() {
                 icon={""}
                 label={"All"}
                 onClicked={() => {
-                    hideAllWindows()
+                    toggleIntegratedScreenshot()
                     const dir = screenshotDir
                     const fileName = generateFileName()
                     const path = `${dir}/${fileName}`
@@ -442,7 +442,7 @@ function ScreenShots() {
                 icon={"󰹑"}
                 label={"Monitor"}
                 onClicked={() => {
-                    hideAllWindows()
+                    toggleIntegratedScreenshot()
                     const dir = screenshotDir
                     const fileName = generateFileName()
                     const path = `${dir}/${fileName}`
@@ -472,7 +472,7 @@ function ScreenShots() {
                 icon={""}
                 label={"Window"}
                 onClicked={() => {
-                    hideAllWindows()
+                    toggleIntegratedScreenshot()
                     const dir = screenshotDir
                     const fileName = generateFileName()
                     const path = `${dir}/${fileName}`
@@ -502,7 +502,7 @@ function ScreenShots() {
                 icon={""}
                 label={"Area"}
                 onClicked={() => {
-                    hideAllWindows()
+                    toggleIntegratedScreenshot()
                     const dir = screenshotDir
                     const fileName = generateFileName()
                     const path = `${dir}/${fileName}`
@@ -543,19 +543,14 @@ function ScreenRecording() {
     let encodingRevealedSetter: Setter<boolean> | null = null
     let crfRevealedSetter: Setter<boolean> | null = null
 
-    setTimeout(() => {
-        createBinding(App.get_window(ScreenshotWindowName)!, "visible").subscribe(() => {
-            if (!App.get_window(ScreenshotWindowName)?.visible) {
-                selectedAudioSetter(null)
-                selectedCodecSetter(codecs[0])
-                selectedEncodingPresetSetter("medium")
-                selectedCrfQualitySetter(20)
-            } else {
-                updateAudioOptions()
-            }
-        })
-    }, 1_000)
-
+    integratedScreenshotRevealed.subscribe(() => {
+        if (integratedScreenshotRevealed.get()) {
+            selectedAudioSetter(null)
+            selectedCodecSetter(codecs[0])
+            selectedEncodingPresetSetter("medium")
+            selectedCrfQualitySetter(20)
+        }
+    })
 
     return <box
         orientation={Gtk.Orientation.VERTICAL}>
@@ -572,9 +567,11 @@ function ScreenRecording() {
                 }
             })}
             iconOffset={0}
-            windowName={ScreenshotWindowName}
             setup={(revealed) => {
                 audioRevealedSetter = revealed[1]
+                integratedScreenshotRevealed.subscribe(() => {
+                    if (audioRevealedSetter !== null) audioRevealedSetter(false)
+                })
             }}
             content={
                 <label
@@ -610,7 +607,7 @@ function ScreenRecording() {
                                 hexpand={true}
                                 labelHalign={Gtk.Align.START}
                                 ellipsize={Pango.EllipsizeMode.END}
-                                label={`${option.isMonitor ? "󰕾" : ""}  ${option.description}`}
+                                label={`${option.isMonitor ? "󰕾" : ""}  ${truncateString(option.description, 50)}`}
                                 onClicked={() => {
                                     selectedAudioSetter(option)
                                     if (audioRevealedSetter !== null) {
@@ -625,9 +622,11 @@ function ScreenRecording() {
         <RevealerRow
             icon="󰕧"
             iconOffset={0}
-            windowName={ScreenshotWindowName}
             setup={(revealed) => {
                 codecRevealedSetter = revealed[1]
+                integratedScreenshotRevealed.subscribe(() => {
+                    if (codecRevealedSetter !== null) codecRevealedSetter(false)
+                })
             }}
             content={
                 <label
@@ -663,9 +662,11 @@ function ScreenRecording() {
                 return getEncodingPresetIcon(value)
             })}
             iconOffset={0}
-            windowName={ScreenshotWindowName}
             setup={(revealed) => {
                 encodingRevealedSetter = revealed[1]
+                integratedScreenshotRevealed.subscribe(() => {
+                    if (encodingRevealedSetter !== null) encodingRevealedSetter(false)
+                })
             }}
             content={
                 <label
@@ -701,9 +702,11 @@ function ScreenRecording() {
                 return getCrfQualityIcon(value)
             })}
             iconOffset={0}
-            windowName={ScreenshotWindowName}
             setup={(revealed) => {
                 crfRevealedSetter = revealed[1]
+                integratedScreenshotRevealed.subscribe(() => {
+                    if (crfRevealedSetter !== null) crfRevealedSetter(false)
+                })
             }}
             content={
                 <label
@@ -747,7 +750,7 @@ function ScreenRecording() {
                     const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
                     const command = `wf-recorder --file=${path} ${audioParam} -p preset=${selectedEncodingPreset.get()} -p crf=${selectedCrfQuality.get()} -c ${selectedCodec.get().lib}`
                     console.log(command)
-                    hideAllWindows()
+                    toggleIntegratedScreenshot()
                     execAsync(
                         [
                             "bash",
@@ -774,7 +777,7 @@ function ScreenRecording() {
                     const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
                     const command = `wf-recorder --file=${path} -g "$(slurp -o)" ${audioParam} -p preset=${selectedEncodingPreset.get()} -p crf=${selectedCrfQuality.get()} -c ${selectedCodec.get().lib}`
                     console.log(command)
-                    hideAllWindows()
+                    toggleIntegratedScreenshot()
                     execAsync(
                         [
                             "bash",
@@ -800,7 +803,7 @@ function ScreenRecording() {
                     const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
                     const command = `wf-recorder --file=${path} -g "$(${projectDir}/shellScripts/grabWindow)" ${audioParam} -p preset=${selectedEncodingPreset.get()} -p crf=${selectedCrfQuality.get()} -c ${selectedCodec.get().lib}`
                     console.log(command)
-                    hideAllWindows()
+                    toggleIntegratedScreenshot()
                     execAsync(
                         [
                             "bash",
@@ -826,7 +829,7 @@ function ScreenRecording() {
                     const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
                     const command = `wf-recorder --file=${path} -g "$(slurp)" ${audioParam} -p preset=${selectedEncodingPreset.get()} -p crf=${selectedCrfQuality.get()} -c ${selectedCodec.get().lib}`
                     console.log(command)
-                    hideAllWindows()
+                    toggleIntegratedScreenshot()
                     execAsync(
                         [
                             "bash",
@@ -848,30 +851,14 @@ function ScreenRecording() {
 
 export default function () {
     setDirectories()
-    updateAudioOptions()
+    updateScreenshotAudioOptions()
 
-    return <ScrimScrollWindow
-        namespace={"okpanel-screenshot"}
-        monitor={variableConfig.mainMonitor.asAccessor()}
-        anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM}
-        windowName={ScreenshotWindowName}
-        topExpand={true}
-        bottomExpand={true}
-        leftExpand={false}
-        rightExpand={false}
-        contentWidth={560}
-        content={
-            <box
-                orientation={Gtk.Orientation.VERTICAL}
-                marginTop={20}
-                marginBottom={20}
-                marginStart={20}
-                marginEnd={20}>
-                <ScreenShots/>
-                <box marginTop={20}/>
-                <Divider/>
-                <box marginTop={10}/>
-                <ScreenRecording/>
-            </box>
-        }/>
+    return <box
+        orientation={Gtk.Orientation.VERTICAL}>
+        <ScreenShots/>
+        <box marginTop={20}/>
+        <Divider/>
+        <box marginTop={10}/>
+        <ScreenRecording/>
+    </box>
 }

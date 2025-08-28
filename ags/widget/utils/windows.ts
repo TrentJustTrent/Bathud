@@ -3,7 +3,6 @@ import {scrimsVisibleSetter} from "../common/Scrim";
 import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
 import Astal from "gi://Astal?version=4.0";
 import {ScreenshareWindowName} from "../screenshare/Screenshare";
-import {ScreenshotWindowName} from "../screenshot/Screenshot";
 import {createRoot} from "ags";
 
 const openedOneOffWindows: Astal.Window[] = []
@@ -21,8 +20,7 @@ export function toggleWindow(windowName: string) {
 export function hideAllWindows() {
     const windows = App.get_windows().filter((window) => {
         return window.name === AppLauncherWindowName ||
-            window.name === ScreenshareWindowName ||
-            window.name === ScreenshotWindowName
+            window.name === ScreenshareWindowName
     })
     windows.forEach((window) => {
         window.hide()

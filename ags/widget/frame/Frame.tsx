@@ -14,6 +14,7 @@ import IntegratedClipboardManager from "../clipboardManager/IntegratedClipboardM
 import IntegratedNotificationHistory from "../notification/IntegratedNotificationHistory";
 import {appendChildren, ghostWhenTooNarrow, orderChildrenLTR, removeAllChildren} from "../utils/widgets";
 import {Position} from "../../config/schema/definitions/frame";
+import IntegratedScreenshot from "../screenshot/IntegratedScreenshot";
 
 export const frameWindowName = "frame"
 
@@ -27,6 +28,7 @@ let rightBar: Gtk.Widget
 let integratedCalendar: Gtk.Widget
 let integratedClipboardManager: Gtk.Widget
 let integratedNotificationHistory: Gtk.Widget
+let integratedScreenshotTool: Gtk.Widget
 
 function roundedRect(ctx: any, x: number, y: number, w: number, h: number, r: number) {
     r = Math.max(0, Math.min(r, Math.min(w, h) / 2));
@@ -169,6 +171,7 @@ function getLeftAndRightSides() {
     const calendarPosition = variableConfig.frame.calendarPosition.asAccessor()
     const clipboardManagerPosition = variableConfig.frame.clipboardManagerPosition.asAccessor()
     const notificationHistoryPosition = variableConfig.frame.notificationsPosition.asAccessor()
+    const screenshotPositon = variableConfig.frame.screenshotToolPosition.asAccessor()
 
     const leftSide = [leftBar]
     const rightSide = [rightBar]
@@ -195,6 +198,12 @@ function getLeftAndRightSides() {
         leftSide.push(integratedNotificationHistory)
     } else {
         rightSide.push(integratedNotificationHistory)
+    }
+
+    if (screenshotPositon.get() === Position.LEFT) {
+        leftSide.push(integratedScreenshotTool)
+    } else {
+        rightSide.push(integratedScreenshotTool)
     }
 
     rightSide.reverse()
@@ -228,6 +237,7 @@ export default function (): Astal.Window {
     integratedCalendar = <IntegratedCalendar/> as Gtk.Widget
     integratedClipboardManager = <IntegratedClipboardManager/> as Gtk.Widget
     integratedNotificationHistory = <IntegratedNotificationHistory/> as Gtk.Widget
+    integratedScreenshotTool = <IntegratedScreenshot/> as Gtk.Widget
     leftBar = <LeftBar/> as Gtk.Widget
     rightBar = <RightBar/> as Gtk.Widget
 

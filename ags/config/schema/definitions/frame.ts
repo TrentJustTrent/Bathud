@@ -203,6 +203,13 @@ export const frameSchema = {
             description: 'What side of the frame the clipboard manager is on.'
         },
         {
+            name: 'screenshotToolPosition',
+            type: 'enum',
+            enumValues: POSITION_VALUES,
+            default: Position.LEFT,
+            description: 'What side of the frame the screenshot tool is on.'
+        },
+        {
             name: 'leftGroup',
             type: 'object',
             description: 'Configurations for the left group.  Includes the left bar and all menus with a left position.',

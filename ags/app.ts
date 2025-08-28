@@ -2,7 +2,6 @@ import App from "ags/gtk4/app"
 import {VolumeAlert, BrightnessAlert, ChargingAlertSound} from "./widget/alerts/Alerts";
 import NotificationPopups from "./widget/notification/NotificationPopups";
 import AppLauncher, {AppLauncherWindowName} from "./widget/appLauncher/AppLauncher";
-import Screenshot, {ScreenshotWindowName} from "./widget/screenshot/Screenshot";
 import Screenshare, {ScreenshareWindowName, updateResponse, updateWindows} from "./widget/screenshare/Screenshare";
 import {decreaseVolume, increaseVolume, muteVolume} from "./widget/utils/audio";
 import Scrim from "./widget/common/Scrim";
@@ -14,6 +13,7 @@ import SpacerRight from "./widget/frame/backgroundSpacers/SpacerRight";
 import SpacerLeft from "./widget/frame/backgroundSpacers/SpacerLeft";
 import SpacerBottom from "./widget/frame/backgroundSpacers/SpacerBottom";
 import SpacerTop from "./widget/frame/backgroundSpacers/SpacerTop";
+import {toggleIntegratedScreenshot} from "./widget/screenshot/IntegratedScreenshot";
 
 export let projectDir = ""
 
@@ -34,7 +34,6 @@ App.start({
 
         ChargingAlertSound()
         AppLauncher()
-        Screenshot()
         Screenshare()
 
         hyprland.monitors.map((monitor) => {
@@ -69,7 +68,7 @@ App.start({
             updateResponse(res)
             toggleWindow(ScreenshareWindowName)
         } else if (request === "screenshot") {
-            toggleWindow(ScreenshotWindowName)
+            toggleIntegratedScreenshot()
             res("screenshot toggled")
         } else {
             res("command not found")

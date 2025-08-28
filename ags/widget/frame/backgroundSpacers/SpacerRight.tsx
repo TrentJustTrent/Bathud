@@ -14,6 +14,7 @@ import {
     integratedNotificationHistoryWidth
 } from "../../notification/IntegratedNotificationHistory";
 import {Position} from "../../../config/schema/definitions/frame";
+import {integratedScreenshotRevealed, integratedScreenshotWidth} from "../../screenshot/IntegratedScreenshot";
 
 export default function (): Astal.Window {
     const size = createComputed([
@@ -102,6 +103,16 @@ export default function (): Astal.Window {
                 revealChild={integratedNotificationHistoryRevealed}>
                 <box
                     widthRequest={integratedNotificationHistoryWidth}/>
+            </revealer>
+            {/*Represents integrated screenshot tool*/}
+            <revealer
+                visible={variableConfig.frame.screenshotToolPosition.asAccessor().as((position) => {
+                    return position === Position.RIGHT
+                })}
+                transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
+                revealChild={integratedScreenshotRevealed}>
+                <box
+                    widthRequest={integratedScreenshotWidth}/>
             </revealer>
         </box>
     </window> as Astal.Window
