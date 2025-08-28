@@ -257,30 +257,42 @@ export default function (): Astal.Window {
                     marginEnd={variableConfig.frame.leftGroup.marginEnd.asAccessor()}
                     marginTop={variableConfig.frame.leftGroup.marginTop.asAccessor()}
                     marginBottom={variableConfig.frame.leftGroup.marginBottom.asAccessor()}
-                    orientation={Gtk.Orientation.HORIZONTAL}
-                    cssClasses={["frameLeftGroup"]}
-                    $={(self) => {
-                        leftGroup = self
+                    cssClasses={["frameLeftGroup"]}>
+                    <box
+                        marginStart={variableConfig.frame.leftGroup.paddingStart.asAccessor()}
+                        marginEnd={variableConfig.frame.leftGroup.paddingEnd.asAccessor()}
+                        marginTop={variableConfig.frame.leftGroup.paddingTop.asAccessor()}
+                        marginBottom={variableConfig.frame.leftGroup.paddingBottom.asAccessor()}
+                        orientation={Gtk.Orientation.HORIZONTAL}
+                        $={(self) => {
+                            leftGroup = self
 
-                        const [leftSideWidgets, _] = getLeftAndRightSides()
+                            const [leftSideWidgets, _] = getLeftAndRightSides()
 
-                        appendChildren(leftGroup, leftSideWidgets)
-                    }}/>
+                            appendChildren(leftGroup, leftSideWidgets)
+                        }}/>
+                </box>
                 <OutlineOverlay/>
                 <box
                     marginStart={variableConfig.frame.rightGroup.marginStart.asAccessor()}
                     marginEnd={variableConfig.frame.rightGroup.marginEnd.asAccessor()}
                     marginTop={variableConfig.frame.rightGroup.marginTop.asAccessor()}
                     marginBottom={variableConfig.frame.rightGroup.marginBottom.asAccessor()}
-                    orientation={Gtk.Orientation.HORIZONTAL}
-                    cssClasses={["frameRightGroup"]}
-                    $={(self) => {
-                        rightGroup = self
+                    cssClasses={["frameRightGroup"]}>
+                    <box
+                        marginStart={variableConfig.frame.rightGroup.paddingStart.asAccessor()}
+                        marginEnd={variableConfig.frame.rightGroup.paddingEnd.asAccessor()}
+                        marginTop={variableConfig.frame.rightGroup.paddingTop.asAccessor()}
+                        marginBottom={variableConfig.frame.rightGroup.paddingBottom.asAccessor()}
+                        orientation={Gtk.Orientation.HORIZONTAL}
+                        $={(self) => {
+                            rightGroup = self
 
-                        const [_, rightSideWidgets] = getLeftAndRightSides()
+                            const [_, rightSideWidgets] = getLeftAndRightSides()
 
-                        appendChildren(rightGroup, rightSideWidgets)
-                    }}/>
+                            appendChildren(rightGroup, rightSideWidgets)
+                        }}/>
+                </box>
             </box>
             <BottomBar/>
         </box>

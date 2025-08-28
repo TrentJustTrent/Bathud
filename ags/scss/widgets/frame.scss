@@ -5,6 +5,7 @@
 }
 
 .frameLeftGroup {
+  background-color: vars.$frameBackgroundColor;
   border-radius: vars.$frameLeftGroupBorderRadius;
   border-color: vars.$frameLeftGroupBorderColor;
   border-width: vars.$frameLeftGroupBorderWidth;
@@ -12,6 +13,7 @@
 }
 
 .frameRightGroup {
+  background-color: vars.$frameBackgroundColor;
   border-radius: vars.$frameRightGroupBorderRadius;
   border-color: vars.$frameRightGroupBorderColor;
   border-width: vars.$frameRightGroupBorderWidth;
