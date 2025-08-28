@@ -89,6 +89,23 @@ const commonBarChildrenSchema = [
     }
 ] as const satisfies Field[]
 
+const commonHorizontalBarChildrenSchema = [
+    {
+        name: 'expanded',
+        type: 'boolean',
+        default: true,
+        description: 'If true, the group expands to full width',
+        reactive: true,
+    },
+    {
+        name: 'minimumWidth',
+        type: 'number',
+        default: 600,
+        description: 'The minimum width of the bar if not expanded.',
+        reactive: true,
+    },
+] as const satisfies Field[]
+
 export const topBarSchema = {
     name: 'topBar',
     type: 'object',
@@ -109,6 +126,7 @@ export const topBarSchema = {
             'Widgets anchored right.',
             [],
         ),
+        ...commonHorizontalBarChildrenSchema,
         ...commonBarChildrenSchema,
     ],
 } as const satisfies Field
@@ -133,6 +151,7 @@ export const bottomBarSchema = {
             'Widgets anchored right.',
             [],
         ),
+        ...commonHorizontalBarChildrenSchema,
         ...commonBarChildrenSchema,
     ],
 } as const satisfies Field

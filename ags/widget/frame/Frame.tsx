@@ -247,54 +247,76 @@ export default function (): Astal.Window {
             vexpand={true}
             hexpand={true}
             orientation={Gtk.Orientation.VERTICAL}>
-            <TopBar/>
+            <box
+                orientation={Gtk.Orientation.HORIZONTAL}>
+                <box hexpand={variableConfig.topBar.expanded.asAccessor().as((e) => !e)}/>
+                <TopBar/>
+                <box hexpand={variableConfig.topBar.expanded.asAccessor().as((e) => !e)}/>
+            </box>
             <box
                 vexpand={true}
                 hexpand={true}
                 orientation={Gtk.Orientation.HORIZONTAL}>
                 <box
-                    marginStart={variableConfig.frame.leftGroup.marginStart.asAccessor()}
-                    marginEnd={variableConfig.frame.leftGroup.marginEnd.asAccessor()}
-                    marginTop={variableConfig.frame.leftGroup.marginTop.asAccessor()}
-                    marginBottom={variableConfig.frame.leftGroup.marginBottom.asAccessor()}
-                    cssClasses={["frameLeftGroup"]}>
+                    orientation={Gtk.Orientation.VERTICAL}>
+                    <box vexpand={variableConfig.frame.leftGroup.expanded.asAccessor().as((e) => !e)}/>
                     <box
-                        marginStart={variableConfig.frame.leftGroup.paddingStart.asAccessor()}
-                        marginEnd={variableConfig.frame.leftGroup.paddingEnd.asAccessor()}
-                        marginTop={variableConfig.frame.leftGroup.paddingTop.asAccessor()}
-                        marginBottom={variableConfig.frame.leftGroup.paddingBottom.asAccessor()}
-                        orientation={Gtk.Orientation.HORIZONTAL}
-                        $={(self) => {
-                            leftGroup = self
+                        heightRequest={variableConfig.frame.leftGroup.minimumHeight.asAccessor()}
+                        marginStart={variableConfig.frame.leftGroup.marginStart.asAccessor()}
+                        marginEnd={variableConfig.frame.leftGroup.marginEnd.asAccessor()}
+                        marginTop={variableConfig.frame.leftGroup.marginTop.asAccessor()}
+                        marginBottom={variableConfig.frame.leftGroup.marginBottom.asAccessor()}
+                        cssClasses={["frameLeftGroup"]}>
+                        <box
+                            marginStart={variableConfig.frame.leftGroup.paddingStart.asAccessor()}
+                            marginEnd={variableConfig.frame.leftGroup.paddingEnd.asAccessor()}
+                            marginTop={variableConfig.frame.leftGroup.paddingTop.asAccessor()}
+                            marginBottom={variableConfig.frame.leftGroup.paddingBottom.asAccessor()}
+                            orientation={Gtk.Orientation.HORIZONTAL}
+                            $={(self) => {
+                                leftGroup = self
 
-                            const [leftSideWidgets, _] = getLeftAndRightSides()
+                                const [leftSideWidgets, _] = getLeftAndRightSides()
 
-                            appendChildren(leftGroup, leftSideWidgets)
-                        }}/>
+                                appendChildren(leftGroup, leftSideWidgets)
+                            }}/>
+                    </box>
+                    <box vexpand={variableConfig.frame.leftGroup.expanded.asAccessor().as((e) => !e)}/>
                 </box>
                 <OutlineOverlay/>
                 <box
-                    marginStart={variableConfig.frame.rightGroup.marginStart.asAccessor()}
-                    marginEnd={variableConfig.frame.rightGroup.marginEnd.asAccessor()}
-                    marginTop={variableConfig.frame.rightGroup.marginTop.asAccessor()}
-                    marginBottom={variableConfig.frame.rightGroup.marginBottom.asAccessor()}
-                    cssClasses={["frameRightGroup"]}>
+                    orientation={Gtk.Orientation.VERTICAL}>
+                    <box vexpand={variableConfig.frame.rightGroup.expanded.asAccessor().as((e) => !e)}/>
                     <box
-                        marginStart={variableConfig.frame.rightGroup.paddingStart.asAccessor()}
-                        marginEnd={variableConfig.frame.rightGroup.paddingEnd.asAccessor()}
-                        marginTop={variableConfig.frame.rightGroup.paddingTop.asAccessor()}
-                        marginBottom={variableConfig.frame.rightGroup.paddingBottom.asAccessor()}
-                        orientation={Gtk.Orientation.HORIZONTAL}
-                        $={(self) => {
-                            rightGroup = self
+                        heightRequest={variableConfig.frame.rightGroup.minimumHeight.asAccessor()}
+                        marginStart={variableConfig.frame.rightGroup.marginStart.asAccessor()}
+                        marginEnd={variableConfig.frame.rightGroup.marginEnd.asAccessor()}
+                        marginTop={variableConfig.frame.rightGroup.marginTop.asAccessor()}
+                        marginBottom={variableConfig.frame.rightGroup.marginBottom.asAccessor()}
+                        cssClasses={["frameRightGroup"]}>
+                        <box
+                            marginStart={variableConfig.frame.rightGroup.paddingStart.asAccessor()}
+                            marginEnd={variableConfig.frame.rightGroup.paddingEnd.asAccessor()}
+                            marginTop={variableConfig.frame.rightGroup.paddingTop.asAccessor()}
+                            marginBottom={variableConfig.frame.rightGroup.paddingBottom.asAccessor()}
+                            orientation={Gtk.Orientation.HORIZONTAL}
+                            $={(self) => {
+                                rightGroup = self
 
-                            const [_, rightSideWidgets] = getLeftAndRightSides()
+                                const [_, rightSideWidgets] = getLeftAndRightSides()
 
-                            appendChildren(rightGroup, rightSideWidgets)
-                        }}/>
+                                appendChildren(rightGroup, rightSideWidgets)
+                            }}/>
+                    </box>
+                    <box vexpand={variableConfig.frame.rightGroup.expanded.asAccessor().as((e) => !e)}/>
                 </box>
             </box>
-            <BottomBar/>
+            <box
+                orientation={Gtk.Orientation.HORIZONTAL}>
+                <box hexpand={variableConfig.bottomBar.expanded.asAccessor().as((e) => !e)}/>
+                <BottomBar/>
+                <box hexpand={variableConfig.bottomBar.expanded.asAccessor().as((e) => !e)}/>
+            </box>
         </box>
     </window> as Astal.Window
 }

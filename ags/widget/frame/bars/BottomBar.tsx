@@ -17,6 +17,7 @@ export default function () {
             })
             bottomBarHeightSetter(self.get_allocated_height())
         }}
+        widthRequest={variableConfig.bottomBar.minimumWidth.asAccessor()}
         marginTop={variableConfig.bottomBar.marginTop.asAccessor()}
         marginBottom={variableConfig.bottomBar.marginBottom.asAccessor()}
         marginStart={variableConfig.bottomBar.marginStart.asAccessor()}

@@ -8,59 +8,73 @@ export const POSITION_VALUES = Object.values(Position) as readonly Position[]
 
 const commonFrameGroupSchema = [
     {
+        name: 'expanded',
+        type: 'boolean',
+        default: true,
+        description: 'If true, the group expands to full height',
+        reactive: true,
+    },
+    {
+        name: 'minimumHeight',
+        type: 'number',
+        default: 800,
+        description: 'The minimum height of the group if not expanded.',
+        reactive: true,
+    },
+    {
         name: 'marginStart',
         type: 'number',
         default: 0,
-        description: 'Starting margin of the group',
+        description: 'Starting margin of the group.',
         reactive: true,
     },
     {
         name: 'marginEnd',
         type: 'number',
         default: 0,
-        description: 'Ending margin of the group',
+        description: 'Ending margin of the group.',
         reactive: true,
     },
     {
         name: 'marginTop',
         type: 'number',
         default: 0,
-        description: 'Top margin of the group',
+        description: 'Top margin of the group.',
         reactive: true,
     },
     {
         name: 'marginBottom',
         type: 'number',
         default: 0,
-        description: 'Bottom margin of the group',
+        description: 'Bottom margin of the group.',
         reactive: true,
     },
     {
         name: 'paddingStart',
         type: 'number',
         default: 0,
-        description: 'Starting padding of the group',
+        description: 'Starting padding of the group.',
         reactive: true,
     },
     {
         name: 'paddingEnd',
         type: 'number',
         default: 0,
-        description: 'Ending padding of the group',
+        description: 'Ending padding of the group.',
         reactive: true,
     },
     {
         name: 'paddingTop',
         type: 'number',
         default: 0,
-        description: 'Top padding of the group',
+        description: 'Top padding of the group.',
         reactive: true,
     },
     {
         name: 'paddingBottom',
         type: 'number',
         default: 0,
-        description: 'Bottom padding of the group',
+        description: 'Bottom padding of the group.',
         reactive: true,
     },
     {
@@ -184,13 +198,13 @@ export const frameSchema = {
         {
             name: 'leftGroup',
             type: 'object',
-            description: 'Configurations for the left group.  Includes the left bar and all menus with a left position',
+            description: 'Configurations for the left group.  Includes the left bar and all menus with a left position.',
             children: [...commonFrameGroupSchema]
         },
         {
             name: 'rightGroup',
             type: 'object',
-            description: 'Configurations for the right group.  Includes the right bar and all menus with a right position',
+            description: 'Configurations for the right group.  Includes the right bar and all menus with a right position.',
             children: [...commonFrameGroupSchema]
         }
     ],
