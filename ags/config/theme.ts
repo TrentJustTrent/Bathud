@@ -150,6 +150,14 @@ cat > "$BUILD_DIR/variables.scss" <<EOFVARS
 \\$rightBarBorder: ${config.rightBar.borderColor};
 \\$rightBarBackgroundColor: ${config.rightBar.backgroundColor};
 
+\\$frameLeftGroupBorderColor: ${config.frame.leftGroup.borderColor};
+\\$frameLeftGroupBorderRadius: ${config.frame.leftGroup.borderRadius}px;
+\\$frameLeftGroupBorderWidth: ${config.frame.leftGroup.borderWidth}px;
+
+\\$frameRightGroupBorderColor: ${config.frame.rightGroup.borderColor};
+\\$frameRightGroupBorderRadius: ${config.frame.rightGroup.borderRadius}px;
+\\$frameRightGroupBorderWidth: ${config.frame.rightGroup.borderWidth}px;
+
 ${widgetLines}
 
 EOFVARS

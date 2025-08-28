@@ -3,3 +3,17 @@
 .frameWindow {
   background-color: vars.$frameBackgroundColor;
 }
+
+.frameLeftGroup {
+  border-radius: vars.$frameLeftGroupBorderRadius;
+  border-color: vars.$frameLeftGroupBorderColor;
+  border-width: vars.$frameLeftGroupBorderWidth;
+  border-style: solid;
+}
+
+.frameRightGroup {
+  border-radius: vars.$frameRightGroupBorderRadius;
+  border-color: vars.$frameRightGroupBorderColor;
+  border-width: vars.$frameRightGroupBorderWidth;
+  border-style: solid;
+}

@@ -6,6 +6,58 @@ export enum Position {
 }
 export const POSITION_VALUES = Object.values(Position) as readonly Position[]
 
+const commonFrameGroupSchema = [
+    {
+        name: 'marginStart',
+        type: 'number',
+        default: 0,
+        description: 'Starting margin of the bar',
+        reactive: true,
+    },
+    {
+        name: 'marginEnd',
+        type: 'number',
+        default: 0,
+        description: 'Ending margin of the bar',
+        reactive: true,
+    },
+    {
+        name: 'marginTop',
+        type: 'number',
+        default: 0,
+        description: 'Top margin of the bar',
+        reactive: true,
+    },
+    {
+        name: 'marginBottom',
+        type: 'number',
+        default: 0,
+        description: 'Bottom margin of the bar',
+        reactive: true,
+    },
+    {
+        name: 'borderRadius',
+        type: 'number',
+        default: 0,
+        description: 'Corner radius (px) for the frame group.',
+        reactive: true,
+    },
+    {
+        name: 'borderWidth',
+        type: 'number',
+        default: 0,
+        description: 'Border width (px) for the frame group.',
+        reactive: true,
+    },
+    {
+        name: 'borderColor',
+        type: 'color',
+        default: {from: 'theme.colors.primary'},
+        description: 'Color of the frame group border',
+        reactive: true,
+    },
+] as const satisfies Field[]
+
 export const frameSchema = {
     name: 'frame',
     type: 'object',
@@ -101,5 +153,17 @@ export const frameSchema = {
             default: Position.LEFT,
             description: 'What side of the frame the clipboard manager is on.'
         },
+        {
+            name: 'leftGroup',
+            type: 'object',
+            description: 'Configurations for the left group.  Includes the left bar and all menus with a left position',
+            children: [...commonFrameGroupSchema]
+        },
+        {
+            name: 'rightGroup',
+            type: 'object',
+            description: 'Configurations for the right group.  Includes the right bar and all menus with a right position',
+            children: [...commonFrameGroupSchema]
+        }
     ],
 } as const satisfies Field

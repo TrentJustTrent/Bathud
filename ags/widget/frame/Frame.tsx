@@ -12,15 +12,15 @@ import BottomBar from "./bars/BottomBar";
 import IntegratedCalendar from "../calendar/IntegratedCalendar";
 import IntegratedClipboardManager from "../clipboardManager/IntegratedClipboardManager";
 import IntegratedNotificationHistory from "../notification/IntegratedNotificationHistory";
-import {appendChildren, orderChildrenLTR} from "../utils/widgets";
+import {appendChildren, orderChildrenLTR, removeAllChildren} from "../utils/widgets";
 import {Position} from "../../config/schema/definitions/frame";
 
 export const frameWindowName = "frame"
 
 let frameWindow: Gtk.Window
 
-let frame: Gtk.Widget
-let frameBox: Gtk.Box
+let leftGroup: Gtk.Box
+let rightGroup: Gtk.Box
 let integratedMenu: Gtk.Widget
 let leftBar: Gtk.Widget
 let rightBar: Gtk.Widget
@@ -164,14 +164,14 @@ export function OutlineOverlay() {
     />;
 }
 
-function getPositionArray() {
+function getLeftAndRightSides() {
     const menuPosition = variableConfig.frame.menuPosition.asAccessor()
     const calendarPosition = variableConfig.frame.calendarPosition.asAccessor()
     const clipboardManagerPosition = variableConfig.frame.clipboardManagerPosition.asAccessor()
     const notificationHistoryPosition = variableConfig.frame.notificationsPosition.asAccessor()
 
-    const leftSide = []
-    const rightSide = []
+    const leftSide = [leftBar]
+    const rightSide = [rightBar]
 
     if (menuPosition.get() === Position.LEFT) {
         leftSide.push(integratedMenu)
@@ -199,7 +199,7 @@ function getPositionArray() {
 
     rightSide.reverse()
 
-    return [leftBar, ...leftSide, frame, ...rightSide, rightBar]
+    return [leftSide, rightSide]
 }
 
 export default function (): Astal.Window {
@@ -215,8 +215,21 @@ export default function (): Astal.Window {
         clipboardManagerPosition,
         notificationHistoryPosition,
     ]).subscribe(() => {
-        orderChildrenLTR(frameBox, getPositionArray())
+        removeAllChildren(leftGroup)
+        removeAllChildren(rightGroup)
+
+        const [leftSideWidgets, rightSideWidgets] = getLeftAndRightSides()
+
+        appendChildren(leftGroup, leftSideWidgets)
+        appendChildren(rightGroup, rightSideWidgets)
     })
+
+    integratedMenu = <IntegratedMenu/> as Gtk.Widget
+    integratedCalendar = <IntegratedCalendar/> as Gtk.Widget
+    integratedClipboardManager = <IntegratedClipboardManager/> as Gtk.Widget
+    integratedNotificationHistory = <IntegratedNotificationHistory/> as Gtk.Widget
+    leftBar = <LeftBar/> as Gtk.Widget
+    rightBar = <RightBar/> as Gtk.Widget
 
     return <window
         $={(self) => {
@@ -238,21 +251,36 @@ export default function (): Astal.Window {
             <box
                 vexpand={true}
                 hexpand={true}
-                orientation={Gtk.Orientation.HORIZONTAL}
-                $={(self) => {
-                    frameBox = self
+                orientation={Gtk.Orientation.HORIZONTAL}>
+                <box
+                    marginStart={variableConfig.frame.leftGroup.marginStart.asAccessor()}
+                    marginEnd={variableConfig.frame.leftGroup.marginEnd.asAccessor()}
+                    marginTop={variableConfig.frame.leftGroup.marginTop.asAccessor()}
+                    marginBottom={variableConfig.frame.leftGroup.marginBottom.asAccessor()}
+                    orientation={Gtk.Orientation.HORIZONTAL}
+                    cssClasses={["frameLeftGroup"]}
+                    $={(self) => {
+                        leftGroup = self
 
-                    // Add the children in the proper order based on the currently selected bar
-                    frame = <OutlineOverlay/> as Gtk.Widget
-                    leftBar = <LeftBar/> as Gtk.Widget
-                    rightBar = <RightBar/> as Gtk.Widget
-                    integratedMenu = <IntegratedMenu/> as Gtk.Widget
-                    integratedCalendar = <IntegratedCalendar/> as Gtk.Widget
-                    integratedClipboardManager = <IntegratedClipboardManager/> as Gtk.Widget
-                    integratedNotificationHistory = <IntegratedNotificationHistory/> as Gtk.Widget
+                        const [leftSideWidgets, _] = getLeftAndRightSides()
 
-                    appendChildren(self, getPositionArray())
-                }}>
+                        appendChildren(leftGroup, leftSideWidgets)
+                    }}/>
+                <OutlineOverlay/>
+                <box
+                    marginStart={variableConfig.frame.rightGroup.marginStart.asAccessor()}
+                    marginEnd={variableConfig.frame.rightGroup.marginEnd.asAccessor()}
+                    marginTop={variableConfig.frame.rightGroup.marginTop.asAccessor()}
+                    marginBottom={variableConfig.frame.rightGroup.marginBottom.asAccessor()}
+                    orientation={Gtk.Orientation.HORIZONTAL}
+                    cssClasses={["frameRightGroup"]}
+                    $={(self) => {
+                        rightGroup = self
+
+                        const [_, rightSideWidgets] = getLeftAndRightSides()
+
+                        appendChildren(rightGroup, rightSideWidgets)
+                    }}/>
             </box>
             <BottomBar/>
         </box>
