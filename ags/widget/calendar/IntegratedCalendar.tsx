@@ -1,5 +1,5 @@
 import {Gtk} from "ags/gtk4";
-import {createState} from "ags";
+import {createState, With} from "ags";
 import Weather from "./Weather";
 import Calendar from "./Calendar";
 
@@ -23,7 +23,15 @@ export default function () {
             orientation={Gtk.Orientation.VERTICAL}
             widthRequest={integratedCalendarWidth}
             spacing={20}>
-            <Calendar/>
+            <box
+                halign={Gtk.Align.CENTER}>
+                {/* Recreate the calendar on reveal via <With> tag.  Do this so the current day is always correct */}
+                <With value={integratedCalendarRevealed}>
+                    {(_) => {
+                        return <Calendar/>
+                    }}
+                </With>
+            </box>
             <Weather/>
         </box>
     </revealer>
