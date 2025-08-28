@@ -45,7 +45,7 @@ export default function (
         defaultHeight={1} // necessary or resizing doesn't work
         cssClasses={["mostlyTransparentBackground"]}
         layer={Astal.Layer.BACKGROUND}
-        namespace={"okpanel-frame"}
+        namespace={"okpanel-frame-spacer"}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         anchor={anchor}
         marginTop={side === Side.BOTTOM ? variableConfig.frame.margin.asAccessor() : 0}
