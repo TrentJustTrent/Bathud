@@ -59,7 +59,6 @@ fi
  */
 export function setThemeBasic() {
     execAsync(`bash -c '
-# compile the scss in /tmp
 ${compileThemeBashScript()}
     '`).catch((error) => {
         console.error(error)
@@ -77,7 +76,6 @@ function toPascalCase(input: string): string {
 
 function compileThemeBashScript() {
     const widgets = Object.values(BarWidget);
-
     const widgetLines = widgets.map(widget => {
         const pascal = toPascalCase(widget);
         return [
@@ -90,17 +88,24 @@ function compileThemeBashScript() {
     }).join("\n");
 
     return `
+set -euo pipefail
+
 SOURCE_DIR="${projectDir}/scss"
-TARGET_DIR="/tmp/OkPanel/scss"
+PUBLISH_DIR="/tmp/OkPanel"
+LOCKFILE="$PUBLISH_DIR/.sass.lock"
 
-# Remove existing target if it exists
-if [ -d "$TARGET_DIR" ]; then
-    rm -rf "$TARGET_DIR"
-fi
-mkdir -p /tmp/OkPanel
-cp -r "$SOURCE_DIR" "$TARGET_DIR"
+mkdir -p "$PUBLISH_DIR"
 
-cat > "$TARGET_DIR/variables.scss" <<EOF
+exec 9>"$LOCKFILE"
+flock 9
+
+BUILD_DIR="$(mktemp -d "$PUBLISH_DIR/build.XXXXXX")"
+OUT_TMP="$PUBLISH_DIR/style.css.tmp"
+OUT_CSS="$PUBLISH_DIR/style.css"
+
+cp -r "$SOURCE_DIR"/. "$BUILD_DIR/"
+
+cat > "$BUILD_DIR/variables.scss" <<EOFVARS
 \\$font: "${config.theme.font}";
 \\$systemMenuClockDayFont: "${config.systemMenu.clock.dayFont}";
 
@@ -146,11 +151,13 @@ cat > "$TARGET_DIR/variables.scss" <<EOF
 \\$rightBarBackgroundColor: ${config.rightBar.backgroundColor};
 
 ${widgetLines}
-EOF
 
-sass $TARGET_DIR/main.scss /tmp/OkPanel/style.css
-`
-}
+EOFVARS
+
+sass --load-path "$BUILD_DIR" "$BUILD_DIR/main.scss" "$OUT_TMP" --no-source-map --quiet-deps
+mv -f "$OUT_TMP" "$OUT_CSS"
+rm -rf "$BUILD_DIR"
+`; }
 
 export function setWallpaper(path: string) {
     execAsync(`bash -c '
