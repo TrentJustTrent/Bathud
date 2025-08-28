@@ -19,8 +19,7 @@ export default function () {
         marginTop={variableConfig.leftBar.marginTop.asAccessor()}
         marginBottom={variableConfig.leftBar.marginBottom.asAccessor()}
         marginStart={variableConfig.leftBar.marginStart.asAccessor()}
-        marginEnd={variableConfig.leftBar.marginEnd.asAccessor()}
-        cssClasses={["leftBar"]}>
+        marginEnd={variableConfig.leftBar.marginEnd.asAccessor()}>
         <centerbox
             marginTop={2}
             marginBottom={2}

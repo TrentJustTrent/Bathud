@@ -15,8 +15,7 @@ export default function () {
     return <revealer
         hexpand={false}
         transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
-        revealChild={integratedCalendarRevealed}
-        cssClasses={["frameWindow"]}>
+        revealChild={integratedCalendarRevealed}>
         <box
             marginTop={20}
             marginBottom={20}

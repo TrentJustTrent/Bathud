@@ -123,7 +123,6 @@ cat > "$BUILD_DIR/variables.scss" <<EOFVARS
 \\$alertBorder: ${config.theme.colors.alertBorder};
 \\$scrimColor: ${config.theme.colors.scrimColor};
 
-\\$frameBackgroundColor: ${config.frame.backgroundColor};
 \\$windowBorder: ${config.theme.windows.borderColor};
 \\$windowBackgroundColor: ${config.theme.windows.backgroundColor};
 
@@ -140,20 +139,12 @@ cat > "$BUILD_DIR/variables.scss" <<EOFVARS
 \\$bottomBarBorder: ${config.bottomBar.borderColor};
 \\$bottomBarBackgroundColor: ${config.bottomBar.backgroundColor};
 
-\\$leftBarBorderRadius: ${config.leftBar.borderRadius}px;
-\\$leftBarBorderWidth: ${config.leftBar.borderWidth}px;
-\\$leftBarBorder: ${config.leftBar.borderColor};
-\\$leftBarBackgroundColor: ${config.leftBar.backgroundColor};
-
-\\$rightBarBorderRadius: ${config.rightBar.borderRadius}px;
-\\$rightBarBorderWidth: ${config.rightBar.borderWidth}px;
-\\$rightBarBorder: ${config.rightBar.borderColor};
-\\$rightBarBackgroundColor: ${config.rightBar.backgroundColor};
-
+\\$frameLeftGroupBackgroundColor: ${config.frame.leftGroup.backgroundColor};
 \\$frameLeftGroupBorderColor: ${config.frame.leftGroup.borderColor};
 \\$frameLeftGroupBorderRadius: ${config.frame.leftGroup.borderRadius}px;
 \\$frameLeftGroupBorderWidth: ${config.frame.leftGroup.borderWidth}px;
 
+\\$frameRightGroupBackgroundColor: ${config.frame.rightGroup.backgroundColor};
 \\$frameRightGroupBorderColor: ${config.frame.rightGroup.borderColor};
 \\$frameRightGroupBorderRadius: ${config.frame.rightGroup.borderRadius}px;
 \\$frameRightGroupBorderWidth: ${config.frame.rightGroup.borderWidth}px;

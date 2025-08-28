@@ -16,14 +16,16 @@ $windowBorder: #009911;
 $alertBorder: #009911;
 $scrimColor: #00000001;
 $windowBackgroundColor: #000000;
-$frameBackgroundColor: #000000;
+
 
 // Frame groups
 
+$frameLeftGroupBackgroundColor: #000000;
 $frameLeftGroupBorderColor: #000000;
 $frameLeftGroupBorderRadius: 0px;
 $frameLeftGroupBorderWidth: 0px;
 
+$frameRightGroupBackgroundColor: #000000;
 $frameRightGroupBorderColor: #000000;
 $frameRightGroupBorderRadius: 0px;
 $frameRightGroupBorderWidth: 0px;
@@ -39,16 +41,6 @@ $bottomBarBorder: #000000;
 $bottomBarBackgroundColor: #000000;
 $bottomBarBorderRadius: 8px;
 $bottomBarBorderWidth: 8px;
-
-$leftBarBorder: #000000;
-$leftBarBackgroundColor: #000000;
-$leftBarBorderRadius: 8px;
-$leftBarBorderWidth: 8px;
-
-$rightBarBorder: #000000;
-$rightBarBackgroundColor: #000000;
-$rightBarBorderRadius: 8px;
-$rightBarBorderWidth: 8px;
 
 // Bar widgets
 $barMenuForeground: #ffffff;

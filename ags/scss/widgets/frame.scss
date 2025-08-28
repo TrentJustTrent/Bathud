@@ -1,11 +1,7 @@
 @use "../variables" as vars;
 
-.frameWindow {
-  background-color: vars.$frameBackgroundColor;
-}
-
 .frameLeftGroup {
-  background-color: vars.$frameBackgroundColor;
+  background-color: vars.$frameLeftGroupBackgroundColor;
   border-radius: vars.$frameLeftGroupBorderRadius;
   border-color: vars.$frameLeftGroupBorderColor;
   border-width: vars.$frameLeftGroupBorderWidth;
@@ -13,7 +9,7 @@
 }
 
 .frameRightGroup {
-  background-color: vars.$frameBackgroundColor;
+  background-color: vars.$frameRightGroupBackgroundColor;
   border-radius: vars.$frameRightGroupBorderRadius;
   border-color: vars.$frameRightGroupBorderColor;
   border-width: vars.$frameRightGroupBorderWidth;

@@ -98,6 +98,13 @@ const commonFrameGroupSchema = [
         description: 'Color of the frame group border',
         reactive: true,
     },
+    {
+        name: 'backgroundColor',
+        type: 'color',
+        default: {from: 'frame.backgroundColor'},
+        description: 'Color of the bar background',
+        reactive: true,
+    },
 ] as const satisfies Field[]
 
 export const frameSchema = {

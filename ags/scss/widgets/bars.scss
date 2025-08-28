@@ -15,19 +15,3 @@
   border-width: vars.$bottomBarBorderWidth;
   border-style: solid;
 }
-
-.leftBar {
-  background-color: vars.$leftBarBackgroundColor;
-  border-radius: vars.$leftBarBorderRadius;
-  border-color: vars.$leftBarBorder;
-  border-width: vars.$leftBarBorderWidth;
-  border-style: solid;
-}
-
-.rightBar {
-  background-color: vars.$rightBarBackgroundColor;
-  border-radius: vars.$rightBarBorderRadius;
-  border-color: vars.$rightBarBorder;
-  border-width: vars.$rightBarBorderWidth;
-  border-style: solid;
-}

@@ -14,8 +14,7 @@ export default function () {
     return <revealer
         hexpand={false}
         transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
-        revealChild={integratedNotificationHistoryRevealed}
-        cssClasses={["frameWindow"]}>
+        revealChild={integratedNotificationHistoryRevealed}>
         <Gtk.ScrolledWindow
             cssClasses={["scrollWindow"]}
             vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
