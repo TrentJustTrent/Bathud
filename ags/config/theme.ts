@@ -105,8 +105,6 @@ cat > "$TARGET_DIR/variables.scss" <<EOF
 \\$systemMenuClockDayFont: "${config.systemMenu.clock.dayFont}";
 
 \\$gaps: ${config.theme.windows.gaps}px;
-\\$barBorderRadius: ${config.theme.bars.borderRadius}px;
-\\$barBorderWidth: ${config.theme.bars.borderWidth}px;
 \\$buttonBorderRadius: ${config.theme.buttonBorderRadius}px;
 \\$windowBorderRadius: ${config.theme.windows.borderRadius}px;
 \\$windowBorderWidth: ${config.theme.windows.borderWidth}px;
@@ -120,13 +118,32 @@ cat > "$TARGET_DIR/variables.scss" <<EOF
 \\$alertBorder: ${config.theme.colors.alertBorder};
 \\$scrimColor: ${config.theme.colors.scrimColor};
 
-\\$barBorder: ${config.theme.bars.borderColor};
-\\$barBackgroundColor: ${config.theme.bars.backgroundColor};
+\\$frameBackgroundColor: ${config.frame.backgroundColor};
 \\$windowBorder: ${config.theme.windows.borderColor};
 \\$windowBackgroundColor: ${config.theme.windows.backgroundColor};
 
 \\$barWorkspacesInactiveForeground: ${config.barWidgets.workspaces.inactiveForeground};
 \\$barNotificationHistoryIndicatorForeground: ${config.barWidgets.notificationHistory.indicatorForeground};
+
+\\$topBarBorderRadius: ${config.topBar.borderRadius}px;
+\\$topBarBorderWidth: ${config.topBar.borderWidth}px;
+\\$topBarBorder: ${config.topBar.borderColor};
+\\$topBarBackgroundColor: ${config.topBar.backgroundColor};
+
+\\$bottomBarBorderRadius: ${config.bottomBar.borderRadius}px;
+\\$bottomBarBorderWidth: ${config.bottomBar.borderWidth}px;
+\\$bottomBarBorder: ${config.bottomBar.borderColor};
+\\$bottomBarBackgroundColor: ${config.bottomBar.backgroundColor};
+
+\\$leftBarBorderRadius: ${config.leftBar.borderRadius}px;
+\\$leftBarBorderWidth: ${config.leftBar.borderWidth}px;
+\\$leftBarBorder: ${config.leftBar.borderColor};
+\\$leftBarBackgroundColor: ${config.leftBar.backgroundColor};
+
+\\$rightBarBorderRadius: ${config.rightBar.borderRadius}px;
+\\$rightBarBorderWidth: ${config.rightBar.borderWidth}px;
+\\$rightBarBorder: ${config.rightBar.borderColor};
+\\$rightBarBackgroundColor: ${config.rightBar.backgroundColor};
 
 ${widgetLines}
 EOF

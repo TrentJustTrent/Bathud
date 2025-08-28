@@ -1,21 +1,9 @@
 @use "../variables" as vars;
 
-.barWindow {
-    background-color: vars.$barBackgroundColor;
-    border-radius: vars.$barBorderRadius;
-    border-color: vars.$barBorder;
-    border-width: vars.$barBorderWidth;
-    border-style: solid;
-}
-
 .window {
     background-color: vars.$windowBackgroundColor;
     border-radius: vars.$windowBorderRadius;
     border-color: vars.$windowBorder;
     border-width: vars.$windowBorderWidth;
     border-style: solid;
-}
-
-.frameWindow {
-    background-color: vars.$barBackgroundColor;
 }

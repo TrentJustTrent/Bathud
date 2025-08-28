@@ -16,7 +16,7 @@ export default function () {
             })
             rightBarWidthSetter(self.get_allocated_width())
         }}
-        cssClasses={["barWindow"]}>
+        cssClasses={["rightBar"]}>
         <centerbox
             marginTop={2}
             marginBottom={2}

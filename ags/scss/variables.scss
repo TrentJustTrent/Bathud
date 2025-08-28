@@ -2,8 +2,6 @@ $font: "JetBrainsMono NF";
 $systemMenuClockDayFont: "JetBrainsMono NF";
 
 $gaps: 5px;
-$barBorderRadius: 8px;
-$barBorderWidth: 8px;
 $buttonBorderRadius: 8px;
 $windowBorderRadius: 8px;
 $windowBorderWidth: 2px;
@@ -14,15 +12,33 @@ $fg: #FFFFFF;
 $primary: #009911;
 $buttonPrimary: #224466;
 $warning: #DD3322;
-$barBorder: #009911;
 $windowBorder: #009911;
 $alertBorder: #009911;
 $scrimColor: #00000001;
-
-$barBorder: #000000;
-$barBackgroundColor: #000000;
-$windowBorder: #000000;
 $windowBackgroundColor: #000000;
+$frameBackgroundColor: #000000;
+
+// Bars
+
+$topBarBorder: #000000;
+$topBarBackgroundColor: #000000;
+$topBarBorderRadius: 8px;
+$topBarBorderWidth: 8px;
+
+$bottomBarBorder: #000000;
+$bottomBarBackgroundColor: #000000;
+$bottomBarBorderRadius: 8px;
+$bottomBarBorderWidth: 8px;
+
+$leftBarBorder: #000000;
+$leftBarBackgroundColor: #000000;
+$leftBarBorderRadius: 8px;
+$leftBarBorderWidth: 8px;
+
+$rightBarBorder: #000000;
+$rightBarBackgroundColor: #000000;
+$rightBarBorderRadius: 8px;
+$rightBarBorderWidth: 8px;
 
 // Bar widgets
 $barMenuForeground: #ffffff;

@@ -17,7 +17,7 @@ export default function () {
             })
             topBarHeightSetter(self.get_allocated_height())
         }}
-        cssClasses={["barWindow"]}>
+        cssClasses={["topBar"]}>
         <centerbox
             marginTop={2}
             marginBottom={2}
