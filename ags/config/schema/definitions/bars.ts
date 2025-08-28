@@ -58,6 +58,34 @@ const commonBarChildrenSchema = [
         default: {from: 'frame.backgroundColor'},
         description: 'Color of the bar background',
         reactive: true,
+    },
+    {
+        name: 'marginStart',
+        type: 'number',
+        default: 0,
+        description: 'Starting margin of the bar',
+        reactive: true,
+    },
+    {
+        name: 'marginEnd',
+        type: 'number',
+        default: 0,
+        description: 'Ending margin of the bar',
+        reactive: true,
+    },
+    {
+        name: 'marginTop',
+        type: 'number',
+        default: 0,
+        description: 'Top margin of the bar',
+        reactive: true,
+    },
+    {
+        name: 'marginBottom',
+        type: 'number',
+        default: 0,
+        description: 'Bottom margin of the bar',
+        reactive: true,
     }
 ] as const satisfies Field[]
 

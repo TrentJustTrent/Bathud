@@ -17,6 +17,10 @@ export default function () {
             })
             bottomBarHeightSetter(self.get_allocated_height())
         }}
+        marginTop={variableConfig.bottomBar.marginTop.asAccessor()}
+        marginBottom={variableConfig.bottomBar.marginBottom.asAccessor()}
+        marginStart={variableConfig.bottomBar.marginStart.asAccessor()}
+        marginEnd={variableConfig.bottomBar.marginEnd.asAccessor()}
         cssClasses={["bottomBar"]}>
         <centerbox
             marginTop={2}

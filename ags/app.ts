@@ -27,10 +27,10 @@ App.start({
         const hyprland = Hyprland.get_default()
 
         Frame()
-        SpacerRight()
-        SpacerLeft()
         SpacerBottom()
         SpacerTop()
+        SpacerRight()
+        SpacerLeft()
 
         ChargingAlertSound()
         AppLauncher()

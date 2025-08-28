@@ -16,6 +16,10 @@ export default function () {
             })
             rightBarWidthSetter(self.get_allocated_width())
         }}
+        marginTop={variableConfig.rightBar.marginTop.asAccessor()}
+        marginBottom={variableConfig.rightBar.marginBottom.asAccessor()}
+        marginStart={variableConfig.rightBar.marginStart.asAccessor()}
+        marginEnd={variableConfig.rightBar.marginEnd.asAccessor()}
         cssClasses={["rightBar"]}>
         <centerbox
             marginTop={2}

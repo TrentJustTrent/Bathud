@@ -17,6 +17,10 @@ export default function () {
             })
             topBarHeightSetter(self.get_allocated_height())
         }}
+        marginTop={variableConfig.topBar.marginTop.asAccessor()}
+        marginBottom={variableConfig.topBar.marginBottom.asAccessor()}
+        marginStart={variableConfig.topBar.marginStart.asAccessor()}
+        marginEnd={variableConfig.topBar.marginEnd.asAccessor()}
         cssClasses={["topBar"]}>
         <centerbox
             marginTop={2}
