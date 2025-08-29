@@ -14,6 +14,7 @@ import SpacerBottom from "./widget/frame/backgroundSpacers/SpacerBottom";
 import SpacerTop from "./widget/frame/backgroundSpacers/SpacerTop";
 import {toggleIntegratedScreenshot} from "./widget/screenshot/IntegratedScreenshot";
 import {toggleIntegratedAppLauncher} from "./widget/appLauncher/IntegratedAppLauncher";
+import {createRoot} from "ags";
 
 export let projectDir = ""
 
@@ -43,10 +44,12 @@ App.start({
         })
 
         hyprland.connect("monitor-added", (_, monitor) => {
-            App.add_window(VolumeAlert(monitor))
-            App.add_window(BrightnessAlert(monitor))
-            App.add_window(NotificationPopups(monitor))
-            App.add_window(Scrim(monitor))
+            createRoot(() => {
+                App.add_window(VolumeAlert(monitor))
+                App.add_window(BrightnessAlert(monitor))
+                App.add_window(NotificationPopups(monitor))
+                App.add_window(Scrim(monitor))
+            })
         })
     },
     requestHandler(request: string, res: (response: any) => void) {
