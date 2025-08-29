@@ -37,7 +37,8 @@ export default function ({vertical, bar}: { vertical: boolean, bar: Bar }) {
         <With value={hyprlandWorkspaces}>
             {(workspaces) => {
                 const groupedWorkspaces = groupByProperty(workspaces)
-                return <box>
+                return <box
+                    orientation={vertical ? Gtk.Orientation.VERTICAL : Gtk.Orientation.HORIZONTAL}>
                     {groupedWorkspaces.map((workspaceGroup, index) => {
                         return <box
                             orientation={vertical ? Gtk.Orientation.VERTICAL : Gtk.Orientation.HORIZONTAL}>
