@@ -38,6 +38,8 @@ export default function (
         }}
         content={
             <slider
+                canFocus={false}
+                focusOnClick={false}
                 cssClasses={["systemMenuVolumeProgress"]}
                 hexpand={true}
                 onChangeValue={({value}) => {

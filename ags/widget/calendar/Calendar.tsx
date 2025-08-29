@@ -23,6 +23,8 @@ export default function () {
                 return t.format("%B %-d, %Y")!
             })}/>
         <Gtk.Calendar
+            canFocus={false}
+            focusOnClick={false}
             marginTop={12}
             cssClasses={["calendar"]}/>
     </box>

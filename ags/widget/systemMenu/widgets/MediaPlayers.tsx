@@ -52,6 +52,8 @@ function MediaPlayer({ player }: { player: Player }) {
                 label={player.position[0](lengthStr)}
             />
             <slider
+                canFocus={false}
+                focusOnClick={false}
                 cssClasses={["seek"]}
                 hexpand={true}
                 onChangeValue={({value}) => {

@@ -260,6 +260,8 @@ export default function(
 
     if (menuButtonContent !== undefined) {
         return <menubutton
+            focusable={false}
+            focusOnClick={false}
             widthRequest={widthRequest}
             heightRequest={heightRequest}
             marginTop={marginTop}
@@ -279,6 +281,8 @@ export default function(
     }
 
     return <button
+        focusable={false}
+        focusOnClick={false}
         sensitive={!onlyLabel}
         widthRequest={widthRequest}
         heightRequest={heightRequest}

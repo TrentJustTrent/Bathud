@@ -3,7 +3,6 @@ import Pango from "gi://Pango?version=1.0";
 import {Gdk, Gtk} from "ags/gtk4";
 import {createComputed, createState, For, Accessor} from "ags";
 import {integratedAppLauncherRevealed, toggleIntegratedAppLauncher} from "./IntegratedAppLauncher";
-import {frameWindow} from "../frame/Frame";
 
 function launchApp(app: Apps.Application) {
     app.launch()
