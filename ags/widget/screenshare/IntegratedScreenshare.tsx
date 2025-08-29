@@ -15,11 +15,12 @@ export default function () {
         hexpand={false}
         transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
         revealChild={integratedScreenshareRevealed}>
-        <box
-            hexpand={false}
-            orientation={Gtk.Orientation.VERTICAL}
+        <Gtk.ScrolledWindow
+            cssClasses={["scrollWindow"]}
+            vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
+            propagateNaturalHeight={true}
             widthRequest={integratedScreenshareWidth}>
             <Screenshare/>
-        </box>
+        </Gtk.ScrolledWindow>
     </revealer>
 }
