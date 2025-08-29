@@ -51,24 +51,25 @@ App.start({
             })
         })
     },
-    requestHandler(request: string, res: (response: any) => void) {
-        if (request.startsWith("volume-up")) {
+    requestHandler(request: string[], res: (response: any) => void) {
+        const command = request[0] ?? ""
+        if (command.startsWith("volume-up")) {
             increaseVolume()
             res("volume up")
-        } else if (request.startsWith("volume-down")) {
+        } else if (command.startsWith("volume-down")) {
             decreaseVolume()
             res("volume down")
-        } else if (request.startsWith("mute")) {
+        } else if (command.startsWith("mute")) {
             muteVolume()
             res("mute")
-        } else if (request === "appLauncher") {
+        } else if (command === "appLauncher") {
             toggleIntegratedAppLauncher()
             res("app launcher toggled")
-        } else if (request.startsWith("screenshare")) {
-            updateWindows(request)
+        } else if (command.startsWith("screenshare")) {
+            updateWindows(command)
             updateResponse(res)
             toggleIntegratedScreenshare()
-        } else if (request === "screenshot") {
+        } else if (command === "screenshot") {
             toggleIntegratedScreenshot()
             res("screenshot toggled")
         } else {
