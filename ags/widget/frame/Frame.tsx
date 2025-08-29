@@ -19,7 +19,7 @@ import IntegratedAppLauncher, {integratedAppLauncherRevealed} from "../appLaunch
 
 export const frameWindowName = "frame"
 
-let frameWindow: Gtk.Window
+export let frameWindow: Gtk.Window
 
 let leftGroup: Gtk.Box
 let rightGroup: Gtk.Box

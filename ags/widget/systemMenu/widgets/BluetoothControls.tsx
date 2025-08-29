@@ -4,6 +4,7 @@ import Bluetooth from "gi://AstalBluetooth";
 import RevealerRow from "../../common/RevealerRow";
 import OkButton from "../../common/OkButton";
 import {createBinding, createComputed, createState, For, With} from "ags";
+import {integratedMenuRevealed} from "../IntegratedMenu";
 
 function BluetoothDevices() {
     const bluetooth = Bluetooth.get_default()
@@ -122,6 +123,13 @@ export default function () {
     const bluetooth = Bluetooth.get_default()
 
     return <RevealerRow
+        setup={(revealed) => {
+            integratedMenuRevealed.subscribe(() => {
+                if (!integratedMenuRevealed.get()) {
+                    revealed[1](false)
+                }
+            })
+        }}
         visible={createBinding(bluetooth, "isPowered")}
         icon={getBluetoothIcon()}
         iconOffset={0}

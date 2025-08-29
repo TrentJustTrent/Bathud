@@ -14,6 +14,7 @@ import {listFilenamesInDir} from "../../utils/files";
 import {setWallpaper} from "../../../config/theme";
 import {createComputed, createState, For, With} from "ags";
 import GLib from "gi://GLib?version=2.0";
+import {integratedMenuRevealed} from "../IntegratedMenu";
 
 const [files, filesSetter] = createState<string[][]>([])
 const numberOfColumns = 2
@@ -318,6 +319,13 @@ export default function () {
     updateFiles()
 
     return <RevealerRow
+        setup={(revealed) => {
+            integratedMenuRevealed.subscribe(() => {
+                if (!integratedMenuRevealed.get()) {
+                    revealed[1](false)
+                }
+            })
+        }}
         icon={variableConfig.icon.asAccessor()}
         iconOffset={variableConfig.iconOffset.asAccessor()}
         content={

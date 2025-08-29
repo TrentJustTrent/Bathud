@@ -6,6 +6,7 @@ import {capitalizeFirstLetter} from "../../utils/strings";
 import {getPowerProfileIconBinding, PowerProfile} from "../../utils/powerProfile";
 import OkButton from "../../common/OkButton";
 import {createBinding} from "ags";
+import {integratedMenuRevealed} from "../IntegratedMenu";
 
 const powerProfiles = PowerProfiles.get_default()
 
@@ -13,6 +14,13 @@ export default function () {
     const profiles = powerProfiles.get_profiles()
 
     return <RevealerRow
+        setup={(revealed) => {
+            integratedMenuRevealed.subscribe(() => {
+                if (!integratedMenuRevealed.get()) {
+                    revealed[1](false)
+                }
+            })
+        }}
         visible={profiles.length !== 0}
         icon={getPowerProfileIconBinding()}
         iconOffset={0}

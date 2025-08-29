@@ -5,6 +5,7 @@ import OkButton, {OkButtonSize} from "../../common/OkButton";
 import {hideAllWindows} from "../../utils/windows";
 import {runColorPicker} from "../../utils/colorPicker";
 import {toggleIntegratedScreenshot} from "../../screenshot/IntegratedScreenshot";
+import {integratedMenuRevealed} from "../IntegratedMenu";
 
 function ColorPicker() {
     return <box>
@@ -33,6 +34,13 @@ function ScreenShotGizmo() {
 
 export default function () {
     return <RevealerRow
+        setup={(revealed) => {
+            integratedMenuRevealed.subscribe(() => {
+                if (!integratedMenuRevealed.get()) {
+                    revealed[1](false)
+                }
+            })
+        }}
         icon=""
         iconOffset={0}
         content={

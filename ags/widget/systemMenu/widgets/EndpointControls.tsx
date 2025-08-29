@@ -5,6 +5,7 @@ import RevealerRow from "../../common/RevealerRow";
 import {toggleMuteEndpoint} from "../../utils/audio";
 import OkButton from "../../common/OkButton";
 import {Accessor, createBinding, createComputed, For} from "ags";
+import {integratedMenuRevealed} from "../IntegratedMenu";
 
 /**
  * An Endpoint is either a speaker or microphone
@@ -31,6 +32,13 @@ export default function (
     ])
 
     return <RevealerRow
+        setup={(revealed) => {
+            integratedMenuRevealed.subscribe(() => {
+                if (!integratedMenuRevealed.get()) {
+                    revealed[1](false)
+                }
+            })
+        }}
         icon={endpointLabelVar(() => getIcon(defaultEndpoint))}
         iconOffset={0}
         onClick={() => {
