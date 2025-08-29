@@ -5,7 +5,7 @@ import {variableConfig} from "../../config/config";
 import {isAccessor} from "../utils/bindings";
 import { timeout } from "ags/time"
 import {hexToRgba} from "../utils/strings";
-import {Accessor, createBinding, createComputed, createState, With} from "ags";
+import {Accessor, createBinding, createComputed, createState, onCleanup, With} from "ags";
 
 function getCoordinate(
     value: number,
@@ -170,6 +170,10 @@ function CavaWaveformInternal(
     cava.input = AstalCava.Input.PIPEWIRE
 
     setBars(cava, length)
+
+    onCleanup(() => {
+        cava.set_active(false)
+    })
 
     let [r, g, b, a] = hexToRgba(color.get())
 
