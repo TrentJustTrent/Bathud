@@ -108,7 +108,7 @@ const commonFrameGroupSchema = [
 ] as const satisfies Field[]
 
 function commonIntegrationSchema(
-    pushContent: boolean = true
+    pushContent: boolean = false
 ) {
     return [
         {
@@ -222,19 +222,19 @@ export const frameSchema = {
             name: 'screenshotTool',
             type: 'object',
             description: 'Configurations for the expandable screenshot tool integration.',
-            children: [...commonIntegrationSchema(false)],
+            children: [...commonIntegrationSchema()],
         },
         {
             name: 'appLauncher',
             type: 'object',
             description: 'Configurations for the expandable appLauncher integration.',
-            children: [...commonIntegrationSchema(false)],
+            children: [...commonIntegrationSchema()],
         },
         {
             name: 'screenshare',
             type: 'object',
             description: 'Configurations for the screen share menu integration.',
-            children: [...commonIntegrationSchema(false)],
+            children: [...commonIntegrationSchema()],
         },
         {
             name: 'leftGroup',
