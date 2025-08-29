@@ -95,7 +95,7 @@ export default function() {
                                 hexpand={true}
                                 labelHalign={Gtk.Align.START}
                                 ellipsize={Pango.EllipsizeMode.END}
-                                label={`${option.isMonitor ? "󰕾" : ""}  ${truncateString(option.description, 50)}`}
+                                label={`${option.isMonitor ? "󰕾" : ""}  ${truncateString(option.description, 34)}`}
                                 onClicked={() => {
                                     selectedAudioSetter(option)
                                     if (audioRevealedSetter !== null) {
@@ -226,117 +226,127 @@ export default function() {
             }
         />
         <box
-            orientation={Gtk.Orientation.HORIZONTAL}
-            marginTop={8}>
-            <ScreenshotButton
-                sensitive={isRecording.as((r) => !r)}
-                icon={""}
-                label={"All"}
-                onClicked={() => {
-                    isRecordingSetter(true)
-                    const time = GLib.DateTime.new_now_local().format("%Y_%m_%d_%H_%M_%S")!
-                    const path = `${screenRecordingDir}/${time}_record.mp4`
-                    const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
-                    const command = `wf-recorder --file=${path} ${audioParam} -p preset=${selectedEncodingPreset.get()} -p crf=${selectedCrfQuality.get()} -c ${selectedCodec.get().lib}`
-                    console.log(command)
-                    toggleIntegratedScreenshot()
-                    execAsync(
-                        [
-                            "bash",
-                            "-c",
-                            `
-                            sleep 0.7
-                            ${command}
-                            `
-                        ]
-                    ).catch((error) => {
-                        console.error(error)
-                    }).finally(() => {
-                        isRecordingSetter(false)
-                        showScreenRecordingNotification(path)
-                    })
-                }}/>
-            <ScreenshotButton
-                sensitive={isRecording.as((r) => !r)}
-                icon={"󰹑"}
-                label={"Monitor"}
-                onClicked={() => {
-                    isRecordingSetter(true)
-                    const time = GLib.DateTime.new_now_local().format("%Y_%m_%d_%H_%M_%S")!
-                    const path = `${screenRecordingDir}/${time}_record.mp4`
-                    const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
-                    const command = `wf-recorder --file=${path} -g "$(slurp -o)" ${audioParam} -p preset=${selectedEncodingPreset.get()} -p crf=${selectedCrfQuality.get()} -c ${selectedCodec.get().lib}`
-                    console.log(command)
-                    toggleIntegratedScreenshot()
-                    execAsync(
-                        [
-                            "bash",
-                            "-c",
-                            `
-                            ${command}
-                            `
-                        ]
-                    ).catch((error) => {
-                        console.error(error)
-                    }).finally(() => {
-                        isRecordingSetter(false)
-                        showScreenRecordingNotification(path)
-                    })
-                }}/>
-            <ScreenshotButton
-                sensitive={isRecording.as((r) => !r)}
-                icon={""}
-                label={"Window"}
-                onClicked={() => {
-                    isRecordingSetter(true)
-                    const time = GLib.DateTime.new_now_local().format("%Y_%m_%d_%H_%M_%S")!
-                    const path = `${screenRecordingDir}/${time}_record.mp4`
-                    const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
-                    const command = `wf-recorder --file=${path} -g "$(${projectDir}/shellScripts/grabWindow)" ${audioParam} -p preset=${selectedEncodingPreset.get()} -p crf=${selectedCrfQuality.get()} -c ${selectedCodec.get().lib}`
-                    console.log(command)
-                    toggleIntegratedScreenshot()
-                    execAsync(
-                        [
-                            "bash",
-                            "-c",
-                            `
-                            ${command}
-                            `
-                        ]
-                    ).catch((error) => {
-                        console.error(error)
-                    }).finally(() => {
-                        isRecordingSetter(false)
-                        showScreenRecordingNotification(path)
-                    })
-                }}/>
-            <ScreenshotButton
-                sensitive={isRecording.as((r) => !r)}
-                icon={""}
-                label={"Area"}
-                onClicked={() => {
-                    isRecordingSetter(true)
-                    const time = GLib.DateTime.new_now_local().format("%Y_%m_%d_%H_%M_%S")!
-                    const path = `${screenRecordingDir}/${time}_record.mp4`
-                    const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
-                    const command = `wf-recorder --file=${path} -g "$(slurp)" ${audioParam} -p preset=${selectedEncodingPreset.get()} -p crf=${selectedCrfQuality.get()} -c ${selectedCodec.get().lib}`
-                    console.log(command)
-                    toggleIntegratedScreenshot()
-                    execAsync(
-                        [
-                            "bash",
-                            "-c",
-                            `
-                            ${command}
-                            `
-                        ]
-                    ).catch((error) => {
-                        console.error(error)
-                    }).finally(() => {
-                        isRecordingSetter(false)
-                        showScreenRecordingNotification(path)
-                    })
-                }}/>
+            marginTop={8}
+            halign={Gtk.Align.CENTER}
+            orientation={Gtk.Orientation.VERTICAL}
+            spacing={16}>
+            <box
+                spacing={32}
+                orientation={Gtk.Orientation.HORIZONTAL}>
+                <ScreenshotButton
+                    sensitive={isRecording.as((r) => !r)}
+                    icon={""}
+                    label={"All"}
+                    onClicked={() => {
+                        isRecordingSetter(true)
+                        const time = GLib.DateTime.new_now_local().format("%Y_%m_%d_%H_%M_%S")!
+                        const path = `${screenRecordingDir}/${time}_record.mp4`
+                        const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
+                        const command = `wf-recorder --file=${path} ${audioParam} -p preset=${selectedEncodingPreset.get()} -p crf=${selectedCrfQuality.get()} -c ${selectedCodec.get().lib}`
+                        console.log(command)
+                        toggleIntegratedScreenshot()
+                        execAsync(
+                            [
+                                "bash",
+                                "-c",
+                                `
+                                sleep 0.7
+                                ${command}
+                                `
+                            ]
+                        ).catch((error) => {
+                            console.error(error)
+                        }).finally(() => {
+                            isRecordingSetter(false)
+                            showScreenRecordingNotification(path)
+                        })
+                    }}/>
+                <ScreenshotButton
+                    sensitive={isRecording.as((r) => !r)}
+                    icon={"󰹑"}
+                    label={"Monitor"}
+                    onClicked={() => {
+                        isRecordingSetter(true)
+                        const time = GLib.DateTime.new_now_local().format("%Y_%m_%d_%H_%M_%S")!
+                        const path = `${screenRecordingDir}/${time}_record.mp4`
+                        const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
+                        const command = `wf-recorder --file=${path} -g "$(slurp -o)" ${audioParam} -p preset=${selectedEncodingPreset.get()} -p crf=${selectedCrfQuality.get()} -c ${selectedCodec.get().lib}`
+                        console.log(command)
+                        toggleIntegratedScreenshot()
+                        execAsync(
+                            [
+                                "bash",
+                                "-c",
+                                `
+                                ${command}
+                                `
+                            ]
+                        ).catch((error) => {
+                            console.error(error)
+                        }).finally(() => {
+                            isRecordingSetter(false)
+                            showScreenRecordingNotification(path)
+                        })
+                    }}/>
+            </box>
+            <box
+                spacing={32}
+                orientation={Gtk.Orientation.HORIZONTAL}>
+                <ScreenshotButton
+                    sensitive={isRecording.as((r) => !r)}
+                    icon={""}
+                    label={"Window"}
+                    onClicked={() => {
+                        isRecordingSetter(true)
+                        const time = GLib.DateTime.new_now_local().format("%Y_%m_%d_%H_%M_%S")!
+                        const path = `${screenRecordingDir}/${time}_record.mp4`
+                        const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
+                        const command = `wf-recorder --file=${path} -g "$(${projectDir}/shellScripts/grabWindow)" ${audioParam} -p preset=${selectedEncodingPreset.get()} -p crf=${selectedCrfQuality.get()} -c ${selectedCodec.get().lib}`
+                        console.log(command)
+                        toggleIntegratedScreenshot()
+                        execAsync(
+                            [
+                                "bash",
+                                "-c",
+                                `
+                                ${command}
+                                `
+                            ]
+                        ).catch((error) => {
+                            console.error(error)
+                        }).finally(() => {
+                            isRecordingSetter(false)
+                            showScreenRecordingNotification(path)
+                        })
+                    }}/>
+                <ScreenshotButton
+                    sensitive={isRecording.as((r) => !r)}
+                    icon={""}
+                    label={"Area"}
+                    onClicked={() => {
+                        isRecordingSetter(true)
+                        const time = GLib.DateTime.new_now_local().format("%Y_%m_%d_%H_%M_%S")!
+                        const path = `${screenRecordingDir}/${time}_record.mp4`
+                        const audioParam = selectedAudio.get() !== null ? `--audio=${selectedAudio.get()!.name}` : ""
+                        const command = `wf-recorder --file=${path} -g "$(slurp)" ${audioParam} -p preset=${selectedEncodingPreset.get()} -p crf=${selectedCrfQuality.get()} -c ${selectedCodec.get().lib}`
+                        console.log(command)
+                        toggleIntegratedScreenshot()
+                        execAsync(
+                            [
+                                "bash",
+                                "-c",
+                                `
+                                ${command}
+                                `
+                            ]
+                        ).catch((error) => {
+                            console.error(error)
+                        }).finally(() => {
+                            isRecordingSetter(false)
+                            showScreenRecordingNotification(path)
+                        })
+                    }}/>
+            </box>
         </box>
     </box>
 }

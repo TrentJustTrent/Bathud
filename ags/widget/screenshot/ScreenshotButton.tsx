@@ -18,8 +18,6 @@ export default function (
         sensitive={sensitive}
         widthRequest={115}
         cssClasses={["screenshotButton"]}
-        marginStart={8}
-        marginEnd={8}
         onClicked={onClicked}>
         <box
             orientation={Gtk.Orientation.VERTICAL}>

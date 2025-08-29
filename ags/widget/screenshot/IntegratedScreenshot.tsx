@@ -6,7 +6,7 @@ import ScreenRecording from "./ScreenRecording";
 import ScreenRecordingIndicator from "./ScreenRecordingIndicator";
 import Screenshots from "./Screenshots";
 
-export const integratedScreenshotWidth = 564
+export const integratedScreenshotWidth = 410
 
 export const [integratedScreenshotRevealed, integratedScreenshotRevealedSetting] = createState(false)
 
@@ -28,8 +28,10 @@ export default function () {
         hexpand={false}
         transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
         revealChild={integratedScreenshotRevealed}>
-        <box
-            hexpand={false}
+        <Gtk.ScrolledWindow
+            cssClasses={["scrollWindow"]}
+            vscrollbarPolicy={Gtk.PolicyType.AUTOMATIC}
+            propagateNaturalHeight={true}
             widthRequest={integratedScreenshotWidth}>
             <box
                 marginTop={20}
@@ -47,7 +49,6 @@ export default function () {
                     <ScreenRecordingIndicator/>
                 </box>
             </box>
-
-        </box>
+        </Gtk.ScrolledWindow>
     </revealer>
 }
