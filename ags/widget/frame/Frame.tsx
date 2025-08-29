@@ -16,7 +16,7 @@ import {appendChildren, ghostWhenTooNarrow, orderChildrenLTR, removeAllChildren}
 import {Position} from "../../config/schema/definitions/frame";
 import IntegratedScreenshot from "../screenshot/IntegratedScreenshot";
 import IntegratedAppLauncher, {integratedAppLauncherRevealed} from "../appLauncher/IntegratedAppLauncher";
-import IntegratedScreenshare from "../screenshare/IntegratedScreenshare";
+import IntegratedScreenshare, {integratedScreenshareRevealed} from "../screenshare/IntegratedScreenshare";
 
 export const frameWindowName = "frame"
 
@@ -275,9 +275,6 @@ export default function (): Astal.Window {
         cssClasses={["transparentBackground"]}
         layer={Astal.Layer.TOP}
         namespace={"okpanel-frame"}
-        keymode={integratedAppLauncherRevealed.as((r) => {
-            return r ? Astal.Keymode.EXCLUSIVE : Astal.Keymode.NONE
-        })}
         exclusivity={Astal.Exclusivity.IGNORE}
         anchor={Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.LEFT}
         visible={true}

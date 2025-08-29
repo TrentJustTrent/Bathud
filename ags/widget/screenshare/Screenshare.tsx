@@ -1,4 +1,4 @@
-import {Gtk} from "ags/gtk4"
+import {Astal, Gdk, Gtk} from "ags/gtk4"
 import Hyprland from "gi://AstalHyprland"
 import {execAsync} from "ags/process"
 import Pango from "gi://Pango?version=1.0";
@@ -8,6 +8,7 @@ import {createBinding, createState, For} from "ags";
 import {integratedScreenshareRevealed, toggleIntegratedScreenshare} from "./IntegratedScreenshare";
 import {timeout} from "ags/time";
 import {truncateString} from "../utils/strings";
+import {frameWindow} from "../frame/Frame";
 
 let response: (response: any) => void = () => {}
 
@@ -240,6 +241,33 @@ function Region() {
 
 export default function () {
     return <box
+        $={(self) => {
+            const shortcutController = new Gtk.ShortcutController()
+            shortcutController.set_scope(Gtk.ShortcutScope.GLOBAL)
+            shortcutController.add_shortcut(new Gtk.Shortcut({
+                trigger: Gtk.ShortcutTrigger.parse_string("Escape"),
+                action: Gtk.CallbackAction.new(() => {
+                    console.log("shortcut")
+                    toggleIntegratedScreenshare()
+                    response("")
+                    return true
+                }),
+            }))
+
+            integratedScreenshareRevealed.subscribe(() => {
+                if (integratedScreenshareRevealed.get()) {
+                    if (!shortcutController.get_widget()) {
+                        console.log("adding")
+                        self.add_controller(shortcutController)
+                    }
+                    ;(frameWindow as Astal.Window).keymode = Astal.Keymode.EXCLUSIVE
+                } else {
+                    console.log("removing")
+                    self.remove_controller(shortcutController)
+                    ;(frameWindow as Astal.Window).keymode = Astal.Keymode.NONE
+                }
+            })
+        }}
         orientation={Gtk.Orientation.VERTICAL}
         marginStart={10}
         marginBottom={10}
