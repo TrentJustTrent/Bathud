@@ -1,6 +1,5 @@
 import App from "ags/gtk4/app"
 import {scrimsVisibleSetter} from "../common/Scrim";
-import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
 import Astal from "gi://Astal?version=4.0";
 import {ScreenshareWindowName} from "../screenshare/Screenshare";
 import {createRoot} from "ags";
@@ -19,8 +18,7 @@ export function toggleWindow(windowName: string) {
 
 export function hideAllWindows() {
     const windows = App.get_windows().filter((window) => {
-        return window.name === AppLauncherWindowName ||
-            window.name === ScreenshareWindowName
+        return window.name === ScreenshareWindowName
     })
     windows.forEach((window) => {
         window.hide()

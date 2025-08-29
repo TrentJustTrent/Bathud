@@ -1,8 +1,7 @@
 import {Bar} from "../../config/bar";
 import OkButton from "../common/OkButton";
 import {getHPadding, getVPadding} from "./BarWidgets";
-import {toggleWindow} from "../utils/windows";
-import {AppLauncherWindowName} from "../appLauncher/AppLauncher";
+import {toggleIntegratedAppLauncher} from "../appLauncher/IntegratedAppLauncher";
 
 export default function ({bar}: { bar: Bar }) {
     return <OkButton
@@ -12,6 +11,6 @@ export default function ({bar}: { bar: Bar }) {
         vpadding={getVPadding(bar)}
         label="󰀻"
         onClicked={() => {
-            toggleWindow(AppLauncherWindowName)
+            toggleIntegratedAppLauncher()
         }}/>
 }

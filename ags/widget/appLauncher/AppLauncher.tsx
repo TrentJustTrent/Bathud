@@ -1,12 +1,9 @@
 import Apps from "gi://AstalApps"
-import App from "ags/gtk4/app"
 import Pango from "gi://Pango?version=1.0";
-import {hideAllWindows} from "../utils/windows";
 import {Gdk, Gtk} from "ags/gtk4";
-import Astal from "gi://Astal?version=4.0";
 import {createComputed, createState, For, Accessor} from "ags";
-
-export const AppLauncherWindowName = "appLauncher"
+import {integratedAppLauncherRevealed, toggleIntegratedAppLauncher} from "./IntegratedAppLauncher";
+import {frameWindow} from "../frame/Frame";
 
 function launchApp(app: Apps.Application) {
     app.launch()
@@ -43,7 +40,7 @@ function AppButton({ app, isSelected }: AppButtonProps) {
         canFocus={false}
         class={isSelected(s => s ? "selectedAppButton" : "appButton")}
         onClicked={() => {
-            hideAllWindows()
+            toggleIntegratedAppLauncher()
             launchApp(app)
         }}>
         <box>
@@ -106,7 +103,7 @@ export default function () {
                 launchApp(app)
             }
         }
-        hideAllWindows()
+        toggleIntegratedAppLauncher()
     }
     let textEntryBox: Gtk.Entry | null = null
 
@@ -145,72 +142,64 @@ export default function () {
         </Gtk.ScrolledWindow>
     ) as Gtk.ScrolledWindow
 
-    return <window
-        namespace={"okpanel-app-launcher"}
-        name={AppLauncherWindowName}
-        anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM}
-        exclusivity={Astal.Exclusivity.IGNORE}
-        keymode={Astal.Keymode.EXCLUSIVE}
-        layer={Astal.Layer.OVERLAY}
-        application={App}
-        onShow={() => {
+    integratedAppLauncherRevealed.subscribe(() => {
+        if (integratedAppLauncherRevealed.get()) {
             apps = new Apps.Apps()
             textSetter("")
             selectedIndexSetter(0)
             if (textEntryBox != null) {
                 textEntryBox.text = ""
+                console.log("app launcher grabbing focus")
+                textEntryBox.grab_focus()
             }
-        }}
-        cssClasses={["transparentBackground"]}
-        marginTop={200}
-        marginBottom={200}
-        visible={false}
+        }
+    })
+
+    return <box
         $={(self) => {
             let keyController = new Gtk.EventControllerKey()
 
             keyController.connect("key-pressed", (_, key) => {
                 if (key === Gdk.KEY_Escape) {
-                    hideAllWindows()
+                    toggleIntegratedAppLauncher()
                 } else if (key === Gdk.KEY_Down && list.get().length - 1 > selectedIndex.get()) {
                     selectedIndexSetter(selectedIndex.get() + 1)
                     ensureChildVisible(scrolledWindow, selectedIndex.get())
+                    return true
                 } else if (key === Gdk.KEY_Up && selectedIndex.get() != 0) {
                     selectedIndexSetter(selectedIndex.get() - 1)
                     ensureChildVisible(scrolledWindow, selectedIndex.get())
+                    return true
                 }
+                return false
             })
 
             self.add_controller(keyController)
-        }}>
+        }}
+        orientation={Gtk.Orientation.VERTICAL}>
         <box
+            widthRequest={500}
+            cssClasses={["appLauncher"]}
             orientation={Gtk.Orientation.VERTICAL}>
             <box
-                cssClasses={["window"]}>
-                <box
-                    widthRequest={500}
-                    cssClasses={["appLauncher"]}
-                    orientation={Gtk.Orientation.VERTICAL}>
-                    <box
-                        orientation={Gtk.Orientation.HORIZONTAL}>
-                        <label
-                            cssClasses={["searchIcon"]}
-                            label=""/>
-                        <entry
-                            cssClasses={["searchField"]}
-                            placeholderText="Search"
-                            onActivate={onEnter}
-                            hexpand={true}
-                            $={(self) => {
-                                textEntryBox = self
-                                self.connect('changed', () => textSetter(self.text))
-                            }}
-                        />
-                    </box>
-                    {scrolledWindow}
-                </box>
+                orientation={Gtk.Orientation.HORIZONTAL}>
+                <label
+                    cssClasses={["searchIcon"]}
+                    label=""/>
+                <entry
+                    cssClasses={["searchField"]}
+                    placeholderText="Search"
+                    onActivate={onEnter}
+                    hexpand={true}
+                    $={(self) => {
+                        textEntryBox = self
+                        self.connect('changed', () => textSetter(self.text))
+                    }}
+                />
             </box>
-            <box
-                vexpand={true}/>
+            {scrolledWindow}
         </box>
-    </window>
+        <box
+            vexpand={true}/>
+    </box>
 }

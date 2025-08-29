@@ -15,6 +15,7 @@ import IntegratedNotificationHistory from "../notification/IntegratedNotificatio
 import {appendChildren, ghostWhenTooNarrow, orderChildrenLTR, removeAllChildren} from "../utils/widgets";
 import {Position} from "../../config/schema/definitions/frame";
 import IntegratedScreenshot from "../screenshot/IntegratedScreenshot";
+import IntegratedAppLauncher, {integratedAppLauncherRevealed} from "../appLauncher/IntegratedAppLauncher";
 
 export const frameWindowName = "frame"
 
@@ -29,6 +30,7 @@ let integratedCalendar: Gtk.Widget
 let integratedClipboardManager: Gtk.Widget
 let integratedNotificationHistory: Gtk.Widget
 let integratedScreenshotTool: Gtk.Widget
+let integratedAppLauncher: Gtk.Widget
 
 function roundedRect(ctx: any, x: number, y: number, w: number, h: number, r: number) {
     r = Math.max(0, Math.min(r, Math.min(w, h) / 2));
@@ -172,6 +174,7 @@ function getLeftAndRightSides() {
     const clipboardManagerPosition = variableConfig.frame.clipboardManagerPosition.asAccessor()
     const notificationHistoryPosition = variableConfig.frame.notificationsPosition.asAccessor()
     const screenshotPositon = variableConfig.frame.screenshotToolPosition.asAccessor()
+    const appLauncherPosition = variableConfig.frame.appLauncherPosition.asAccessor()
 
     const leftSide = [leftBar]
     const rightSide = [rightBar]
@@ -206,6 +209,12 @@ function getLeftAndRightSides() {
         rightSide.push(integratedScreenshotTool)
     }
 
+    if (appLauncherPosition.get() === Position.LEFT) {
+        leftSide.push(integratedAppLauncher)
+    } else {
+        rightSide.push(integratedAppLauncher)
+    }
+
     rightSide.reverse()
 
     return [leftSide, rightSide]
@@ -238,6 +247,7 @@ export default function (): Astal.Window {
     integratedClipboardManager = <IntegratedClipboardManager/> as Gtk.Widget
     integratedNotificationHistory = <IntegratedNotificationHistory/> as Gtk.Widget
     integratedScreenshotTool = <IntegratedScreenshot/> as Gtk.Widget
+    integratedAppLauncher = <IntegratedAppLauncher/> as Gtk.Widget
     leftBar = <LeftBar/> as Gtk.Widget
     rightBar = <RightBar/> as Gtk.Widget
 
@@ -249,6 +259,9 @@ export default function (): Astal.Window {
         cssClasses={["transparentBackground"]}
         layer={Astal.Layer.TOP}
         namespace={"okpanel-frame"}
+        keymode={integratedAppLauncherRevealed.as((r) => {
+            return r ? Astal.Keymode.EXCLUSIVE : Astal.Keymode.NONE
+        })}
         exclusivity={Astal.Exclusivity.IGNORE}
         anchor={Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.LEFT}
         visible={true}

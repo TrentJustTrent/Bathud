@@ -1,7 +1,6 @@
 import App from "ags/gtk4/app"
 import {VolumeAlert, BrightnessAlert, ChargingAlertSound} from "./widget/alerts/Alerts";
 import NotificationPopups from "./widget/notification/NotificationPopups";
-import AppLauncher, {AppLauncherWindowName} from "./widget/appLauncher/AppLauncher";
 import Screenshare, {ScreenshareWindowName, updateResponse, updateWindows} from "./widget/screenshare/Screenshare";
 import {decreaseVolume, increaseVolume, muteVolume} from "./widget/utils/audio";
 import Scrim from "./widget/common/Scrim";
@@ -14,6 +13,7 @@ import SpacerLeft from "./widget/frame/backgroundSpacers/SpacerLeft";
 import SpacerBottom from "./widget/frame/backgroundSpacers/SpacerBottom";
 import SpacerTop from "./widget/frame/backgroundSpacers/SpacerTop";
 import {toggleIntegratedScreenshot} from "./widget/screenshot/IntegratedScreenshot";
+import {toggleIntegratedAppLauncher} from "./widget/appLauncher/IntegratedAppLauncher";
 
 export let projectDir = ""
 
@@ -33,7 +33,6 @@ App.start({
         SpacerLeft()
 
         ChargingAlertSound()
-        AppLauncher()
         Screenshare()
 
         hyprland.monitors.map((monitor) => {
@@ -61,7 +60,7 @@ App.start({
             muteVolume()
             res("mute")
         } else if (request === "appLauncher") {
-            toggleWindow(AppLauncherWindowName)
+            toggleIntegratedAppLauncher()
             res("app launcher toggled")
         } else if (request.startsWith("screenshare")) {
             updateWindows(request)

@@ -15,6 +15,7 @@ import {
 } from "../../notification/IntegratedNotificationHistory";
 import {Position} from "../../../config/schema/definitions/frame";
 import {integratedScreenshotRevealed, integratedScreenshotWidth} from "../../screenshot/IntegratedScreenshot";
+import {integratedAppLauncherRevealed, integratedAppLauncherWidth} from "../../appLauncher/IntegratedAppLauncher";
 
 export default function (): Astal.Window {
     const size = createComputed([
@@ -113,6 +114,16 @@ export default function (): Astal.Window {
                 revealChild={integratedScreenshotRevealed}>
                 <box
                     widthRequest={integratedScreenshotWidth}/>
+            </revealer>
+            {/*Represents integrated app launcher*/}
+            <revealer
+                visible={variableConfig.frame.appLauncherPosition.asAccessor().as((position) => {
+                    return position === Position.RIGHT
+                })}
+                transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
+                revealChild={integratedAppLauncherRevealed}>
+                <box
+                    widthRequest={integratedAppLauncherWidth}/>
             </revealer>
         </box>
     </window> as Astal.Window
