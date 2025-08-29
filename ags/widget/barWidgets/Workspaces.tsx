@@ -92,7 +92,9 @@ export default function ({vertical, bar}: { vertical: boolean, bar: Bar }) {
                                     label={label}
                                     size={size}
                                     onClicked={() => {
-                                        hypr.dispatch("workspace", `${workspace.id}`)
+                                        if (workspace.monitor.activeWorkspace.id !== workspace.id) {
+                                            hypr.dispatch("workspace", `${workspace.id}`)
+                                        }
                                     }}/>
                             })}
                         </box>
