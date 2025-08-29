@@ -107,6 +107,22 @@ const commonFrameGroupSchema = [
     },
 ] as const satisfies Field[]
 
+const commonIntegrationSchema = [
+    {
+        name: 'position',
+        type: 'enum',
+        enumValues: POSITION_VALUES,
+        default: Position.LEFT,
+        description: 'What side of the frame the integration is on.'
+    },
+    {
+        name: 'pushContent',
+        type: 'boolean',
+        default: true,
+        description: 'If the integration should push normal windows / content when expanded.'
+    }
+] as const satisfies Field[]
+
 export const frameSchema = {
     name: 'frame',
     type: 'object',
@@ -175,46 +191,40 @@ export const frameSchema = {
             reactive: true,
         },
         {
-            name: 'menuPosition',
-            type: 'enum',
-            enumValues: POSITION_VALUES,
-            default: Position.LEFT,
-            description: 'What side of the frame the system menu is on.'
+            name: 'menu',
+            type: 'object',
+            description: 'Configurations for the expandable menu integration.',
+            children: [...commonIntegrationSchema],
         },
         {
-            name: 'notificationsPosition',
-            type: 'enum',
-            enumValues: POSITION_VALUES,
-            default: Position.LEFT,
-            description: 'What side of the frame the notification history is on.'
+            name: 'notifications',
+            type: 'object',
+            description: 'Configurations for the expandable notifications integration.',
+            children: [...commonIntegrationSchema],
         },
         {
-            name: 'calendarPosition',
-            type: 'enum',
-            enumValues: POSITION_VALUES,
-            default: Position.LEFT,
-            description: 'What side of the frame the calendar and weather is on.'
+            name: 'calendar',
+            type: 'object',
+            description: 'Configurations for the expandable calendar integration.',
+            children: [...commonIntegrationSchema],
         },
         {
-            name: 'clipboardManagerPosition',
-            type: 'enum',
-            enumValues: POSITION_VALUES,
-            default: Position.LEFT,
-            description: 'What side of the frame the clipboard manager is on.'
+            name: 'clipboardManager',
+            type: 'object',
+            description: 'Configurations for the expandable clipboard manager integration.',
+            children: [...commonIntegrationSchema],
         },
         {
-            name: 'screenshotToolPosition',
-            type: 'enum',
-            enumValues: POSITION_VALUES,
-            default: Position.LEFT,
-            description: 'What side of the frame the screenshot tool is on.'
+            name: 'screenshotTool',
+            type: 'object',
+            description: 'Configurations for the expandable screenshot tool integration.',
+            children: [...commonIntegrationSchema],
         },
         {
-            name: 'appLauncherPosition',
-            type: 'enum',
-            enumValues: POSITION_VALUES,
-            default: Position.LEFT,
-            description: 'What side of the frame the app launcher is on.'
+            name: 'appLauncher',
+            type: 'object',
+            description: 'Configurations for the expandable appLauncher integration.',
+            children: [...commonIntegrationSchema],
         },
         {
             name: 'leftGroup',

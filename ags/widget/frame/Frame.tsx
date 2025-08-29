@@ -169,12 +169,12 @@ export function OutlineOverlay() {
 }
 
 function getLeftAndRightSides() {
-    const menuPosition = variableConfig.frame.menuPosition.asAccessor()
-    const calendarPosition = variableConfig.frame.calendarPosition.asAccessor()
-    const clipboardManagerPosition = variableConfig.frame.clipboardManagerPosition.asAccessor()
-    const notificationHistoryPosition = variableConfig.frame.notificationsPosition.asAccessor()
-    const screenshotPositon = variableConfig.frame.screenshotToolPosition.asAccessor()
-    const appLauncherPosition = variableConfig.frame.appLauncherPosition.asAccessor()
+    const menuPosition = variableConfig.frame.menu.position.asAccessor()
+    const calendarPosition = variableConfig.frame.calendar.position.asAccessor()
+    const clipboardManagerPosition = variableConfig.frame.clipboardManager.position.asAccessor()
+    const notificationHistoryPosition = variableConfig.frame.notifications.position.asAccessor()
+    const screenshotPositon = variableConfig.frame.screenshotTool.position.asAccessor()
+    const appLauncherPosition = variableConfig.frame.appLauncher.position.asAccessor()
 
     const leftSide = [leftBar]
     const rightSide = [rightBar]
@@ -222,16 +222,20 @@ function getLeftAndRightSides() {
 
 export default function (): Astal.Window {
 
-    const menuPosition = variableConfig.frame.menuPosition.asAccessor()
-    const calendarPosition = variableConfig.frame.calendarPosition.asAccessor()
-    const clipboardManagerPosition = variableConfig.frame.clipboardManagerPosition.asAccessor()
-    const notificationHistoryPosition = variableConfig.frame.notificationsPosition.asAccessor()
+    const menuPosition = variableConfig.frame.menu.position.asAccessor()
+    const calendarPosition = variableConfig.frame.calendar.position.asAccessor()
+    const clipboardManagerPosition = variableConfig.frame.clipboardManager.position.asAccessor()
+    const notificationHistoryPosition = variableConfig.frame.notifications.position.asAccessor()
+    const screenshotPositon = variableConfig.frame.screenshotTool.position.asAccessor()
+    const appLauncherPosition = variableConfig.frame.appLauncher.position.asAccessor()
 
     createComputed([
         menuPosition,
         calendarPosition,
         clipboardManagerPosition,
         notificationHistoryPosition,
+        screenshotPositon,
+        appLauncherPosition,
     ]).subscribe(() => {
         removeAllChildren(leftGroup)
         removeAllChildren(rightGroup)

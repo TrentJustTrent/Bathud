@@ -67,8 +67,11 @@ export default function (): Astal.Window {
                 widthRequest={size}/>
             {/*Represents integrated menu*/}
             <revealer
-                visible={variableConfig.frame.menuPosition.asAccessor().as((position) => {
-                    return position === Position.RIGHT
+                visible={createComputed([
+                    variableConfig.frame.menu.position.asAccessor(),
+                    variableConfig.frame.menu.pushContent.asAccessor()
+                ], (position, push) => {
+                    return position === Position.RIGHT && push
                 })}
                 transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
                 revealChild={integratedMenuRevealed}>
@@ -77,8 +80,11 @@ export default function (): Astal.Window {
             </revealer>
             {/*Represents integrated calendar*/}
             <revealer
-                visible={variableConfig.frame.calendarPosition.asAccessor().as((position) => {
-                    return position === Position.RIGHT
+                visible={createComputed([
+                    variableConfig.frame.calendar.position.asAccessor(),
+                    variableConfig.frame.calendar.pushContent.asAccessor()
+                ], (position, push) => {
+                    return position === Position.RIGHT && push
                 })}
                 transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
                 revealChild={integratedCalendarRevealed}>
@@ -87,8 +93,11 @@ export default function (): Astal.Window {
             </revealer>
             {/*Represents integrated clipboard manager*/}
             <revealer
-                visible={variableConfig.frame.clipboardManagerPosition.asAccessor().as((position) => {
-                    return position === Position.RIGHT
+                visible={createComputed([
+                    variableConfig.frame.clipboardManager.position.asAccessor(),
+                    variableConfig.frame.clipboardManager.pushContent.asAccessor()
+                ], (position, push) => {
+                    return position === Position.RIGHT && push
                 })}
                 transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
                 revealChild={integratedClipboardManagerRevealed}>
@@ -97,8 +106,11 @@ export default function (): Astal.Window {
             </revealer>
             {/*Represents integrated notification history*/}
             <revealer
-                visible={variableConfig.frame.notificationsPosition.asAccessor().as((position) => {
-                    return position === Position.RIGHT
+                visible={createComputed([
+                    variableConfig.frame.notifications.position.asAccessor(),
+                    variableConfig.frame.notifications.pushContent.asAccessor()
+                ], (position, push) => {
+                    return position === Position.RIGHT && push
                 })}
                 transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
                 revealChild={integratedNotificationHistoryRevealed}>
@@ -107,8 +119,11 @@ export default function (): Astal.Window {
             </revealer>
             {/*Represents integrated screenshot tool*/}
             <revealer
-                visible={variableConfig.frame.screenshotToolPosition.asAccessor().as((position) => {
-                    return position === Position.RIGHT
+                visible={createComputed([
+                    variableConfig.frame.screenshotTool.position.asAccessor(),
+                    variableConfig.frame.screenshotTool.pushContent.asAccessor()
+                ], (position, push) => {
+                    return position === Position.RIGHT && push
                 })}
                 transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
                 revealChild={integratedScreenshotRevealed}>
@@ -117,8 +132,11 @@ export default function (): Astal.Window {
             </revealer>
             {/*Represents integrated app launcher*/}
             <revealer
-                visible={variableConfig.frame.appLauncherPosition.asAccessor().as((position) => {
-                    return position === Position.RIGHT
+                visible={createComputed([
+                    variableConfig.frame.appLauncher.position.asAccessor(),
+                    variableConfig.frame.appLauncher.pushContent.asAccessor()
+                ], (position, push) => {
+                    return position === Position.RIGHT && push
                 })}
                 transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
                 revealChild={integratedAppLauncherRevealed}>
