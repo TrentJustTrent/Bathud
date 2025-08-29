@@ -16,6 +16,7 @@ import {appendChildren, ghostWhenTooNarrow, orderChildrenLTR, removeAllChildren}
 import {Position} from "../../config/schema/definitions/frame";
 import IntegratedScreenshot from "../screenshot/IntegratedScreenshot";
 import IntegratedAppLauncher, {integratedAppLauncherRevealed} from "../appLauncher/IntegratedAppLauncher";
+import IntegratedScreenshare from "../screenshare/IntegratedScreenshare";
 
 export const frameWindowName = "frame"
 
@@ -31,6 +32,7 @@ let integratedClipboardManager: Gtk.Widget
 let integratedNotificationHistory: Gtk.Widget
 let integratedScreenshotTool: Gtk.Widget
 let integratedAppLauncher: Gtk.Widget
+let integratedScreenshare: Gtk.Widget
 
 function roundedRect(ctx: any, x: number, y: number, w: number, h: number, r: number) {
     r = Math.max(0, Math.min(r, Math.min(w, h) / 2));
@@ -175,6 +177,7 @@ function getLeftAndRightSides() {
     const notificationHistoryPosition = variableConfig.frame.notifications.position.asAccessor()
     const screenshotPositon = variableConfig.frame.screenshotTool.position.asAccessor()
     const appLauncherPosition = variableConfig.frame.appLauncher.position.asAccessor()
+    const screensharePosition = variableConfig.frame.screenshare.position.asAccessor()
 
     const leftSide = [leftBar]
     const rightSide = [rightBar]
@@ -215,6 +218,12 @@ function getLeftAndRightSides() {
         rightSide.push(integratedAppLauncher)
     }
 
+    if (screensharePosition.get() === Position.LEFT) {
+        leftSide.push(integratedScreenshare)
+    } else {
+        rightSide.push(integratedScreenshare)
+    }
+
     rightSide.reverse()
 
     return [leftSide, rightSide]
@@ -228,6 +237,7 @@ export default function (): Astal.Window {
     const notificationHistoryPosition = variableConfig.frame.notifications.position.asAccessor()
     const screenshotPositon = variableConfig.frame.screenshotTool.position.asAccessor()
     const appLauncherPosition = variableConfig.frame.appLauncher.position.asAccessor()
+    const screensharePosition = variableConfig.frame.screenshare.position.asAccessor()
 
     createComputed([
         menuPosition,
@@ -236,6 +246,7 @@ export default function (): Astal.Window {
         notificationHistoryPosition,
         screenshotPositon,
         appLauncherPosition,
+        screensharePosition,
     ]).subscribe(() => {
         removeAllChildren(leftGroup)
         removeAllChildren(rightGroup)
@@ -252,6 +263,7 @@ export default function (): Astal.Window {
     integratedNotificationHistory = <IntegratedNotificationHistory/> as Gtk.Widget
     integratedScreenshotTool = <IntegratedScreenshot/> as Gtk.Widget
     integratedAppLauncher = <IntegratedAppLauncher/> as Gtk.Widget
+    integratedScreenshare = <IntegratedScreenshare/> as Gtk.Widget
     leftBar = <LeftBar/> as Gtk.Widget
     rightBar = <RightBar/> as Gtk.Widget
 

@@ -16,6 +16,7 @@ import {
 import {Position} from "../../../config/schema/definitions/frame";
 import {integratedScreenshotRevealed, integratedScreenshotWidth} from "../../screenshot/IntegratedScreenshot";
 import {integratedAppLauncherRevealed, integratedAppLauncherWidth} from "../../appLauncher/IntegratedAppLauncher";
+import {integratedScreenshareRevealed, integratedScreenshareWidth} from "../../screenshare/IntegratedScreenshare";
 
 export default function (): Astal.Window {
     const size = createComputed([
@@ -142,6 +143,19 @@ export default function (): Astal.Window {
                 revealChild={integratedAppLauncherRevealed}>
                 <box
                     widthRequest={integratedAppLauncherWidth}/>
+            </revealer>
+            {/*Represents integrated screen share*/}
+            <revealer
+                visible={createComputed([
+                    variableConfig.frame.screenshare.position.asAccessor(),
+                    variableConfig.frame.screenshare.pushContent.asAccessor()
+                ], (position, push) => {
+                    return position === Position.LEFT && push
+                })}
+                transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
+                revealChild={integratedScreenshareRevealed}>
+                <box
+                    widthRequest={integratedScreenshareWidth}/>
             </revealer>
         </box>
     </window> as Astal.Window

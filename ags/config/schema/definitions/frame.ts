@@ -107,21 +107,25 @@ const commonFrameGroupSchema = [
     },
 ] as const satisfies Field[]
 
-const commonIntegrationSchema = [
-    {
-        name: 'position',
-        type: 'enum',
-        enumValues: POSITION_VALUES,
-        default: Position.LEFT,
-        description: 'What side of the frame the integration is on.'
-    },
-    {
-        name: 'pushContent',
-        type: 'boolean',
-        default: true,
-        description: 'If the integration should push normal windows / content when expanded.'
-    }
-] as const satisfies Field[]
+function commonIntegrationSchema(
+    pushContent: boolean = true
+) {
+    return [
+        {
+            name: 'position',
+            type: 'enum',
+            enumValues: POSITION_VALUES,
+            default: Position.LEFT,
+            description: 'What side of the frame the integration is on.'
+        },
+        {
+            name: 'pushContent',
+            type: 'boolean',
+            default: pushContent,
+            description: 'If the integration should push normal windows / content when expanded.'
+        }
+    ] as const satisfies Field[]
+}
 
 export const frameSchema = {
     name: 'frame',
@@ -194,37 +198,43 @@ export const frameSchema = {
             name: 'menu',
             type: 'object',
             description: 'Configurations for the expandable menu integration.',
-            children: [...commonIntegrationSchema],
+            children: [...commonIntegrationSchema()],
         },
         {
             name: 'notifications',
             type: 'object',
             description: 'Configurations for the expandable notifications integration.',
-            children: [...commonIntegrationSchema],
+            children: [...commonIntegrationSchema()],
         },
         {
             name: 'calendar',
             type: 'object',
             description: 'Configurations for the expandable calendar integration.',
-            children: [...commonIntegrationSchema],
+            children: [...commonIntegrationSchema()],
         },
         {
             name: 'clipboardManager',
             type: 'object',
             description: 'Configurations for the expandable clipboard manager integration.',
-            children: [...commonIntegrationSchema],
+            children: [...commonIntegrationSchema()],
         },
         {
             name: 'screenshotTool',
             type: 'object',
             description: 'Configurations for the expandable screenshot tool integration.',
-            children: [...commonIntegrationSchema],
+            children: [...commonIntegrationSchema(false)],
         },
         {
             name: 'appLauncher',
             type: 'object',
             description: 'Configurations for the expandable appLauncher integration.',
-            children: [...commonIntegrationSchema],
+            children: [...commonIntegrationSchema(false)],
+        },
+        {
+            name: 'screenshare',
+            type: 'object',
+            description: 'Configurations for the screen share menu integration.',
+            children: [...commonIntegrationSchema(false)],
         },
         {
             name: 'leftGroup',

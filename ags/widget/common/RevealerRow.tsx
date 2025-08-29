@@ -1,7 +1,6 @@
 import {Gtk} from "ags/gtk4";
-import App from "ags/gtk4/app"
 import OkButton, {OkButtonHorizontalPadding, OkButtonSize} from "./OkButton";
-import {Accessor, createBinding, createState, State} from "ags";
+import {Accessor, createState, State} from "ags";
 
 type Params = {
     marginTop?: number;
@@ -11,7 +10,6 @@ type Params = {
     visible?: boolean | Accessor<boolean>;
     icon: string | Accessor<string>;
     iconOffset: number | Accessor<number>;
-    windowName?: string;
     setup?: (revealed: State<boolean>) => void;
     onClick?: () => void;
     content?: JSX.Element;
@@ -27,7 +25,6 @@ export default function (
         visible = true,
         icon,
         iconOffset,
-        windowName,
         setup,
         onClick,
         content,
@@ -39,16 +36,6 @@ export default function (
     if (setup) {
         setup([revealed, revealedSetter])
     }
-
-    setTimeout(() => {
-        if (windowName !== undefined) {
-            createBinding(App.get_window(windowName)!, "visible").subscribe(() => {
-                if (!App.get_window(windowName)?.visible) {
-                    revealedSetter(false)
-                }
-            })
-        }
-    }, 1_000)
 
     return <box
         visible={visible}

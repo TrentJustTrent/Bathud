@@ -1,10 +1,9 @@
 import App from "ags/gtk4/app"
 import {VolumeAlert, BrightnessAlert, ChargingAlertSound} from "./widget/alerts/Alerts";
 import NotificationPopups from "./widget/notification/NotificationPopups";
-import Screenshare, {ScreenshareWindowName, updateResponse, updateWindows} from "./widget/screenshare/Screenshare";
+import {updateResponse, updateWindows} from "./widget/screenshare/Screenshare";
 import {decreaseVolume, increaseVolume, muteVolume} from "./widget/utils/audio";
 import Scrim from "./widget/common/Scrim";
-import {toggleWindow} from "./widget/utils/windows";
 import Hyprland from "gi://AstalHyprland"
 import {setThemeBasic} from "./config/theme";
 import Frame from "./widget/frame/Frame";
@@ -15,6 +14,7 @@ import SpacerTop from "./widget/frame/backgroundSpacers/SpacerTop";
 import {toggleIntegratedScreenshot} from "./widget/screenshot/IntegratedScreenshot";
 import {toggleIntegratedAppLauncher} from "./widget/appLauncher/IntegratedAppLauncher";
 import {createRoot} from "ags";
+import {toggleIntegratedScreenshare} from "./widget/screenshare/IntegratedScreenshare";
 
 export let projectDir = ""
 
@@ -34,7 +34,6 @@ App.start({
         SpacerLeft()
 
         ChargingAlertSound()
-        Screenshare()
 
         hyprland.monitors.map((monitor) => {
             VolumeAlert(monitor)
@@ -68,7 +67,7 @@ App.start({
         } else if (request.startsWith("screenshare")) {
             updateWindows(request)
             updateResponse(res)
-            toggleWindow(ScreenshareWindowName)
+            toggleIntegratedScreenshare()
         } else if (request === "screenshot") {
             toggleIntegratedScreenshot()
             res("screenshot toggled")

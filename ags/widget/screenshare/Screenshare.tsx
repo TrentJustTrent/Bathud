@@ -1,15 +1,13 @@
-import {Astal, Gtk} from "ags/gtk4"
+import {Gtk} from "ags/gtk4"
 import Hyprland from "gi://AstalHyprland"
 import {execAsync} from "ags/process"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../common/RevealerRow";
-import {hideAllWindows} from "../utils/windows";
-import {variableConfig} from "../../config/config";
-import ScrimScrollWindow from "../common/ScrimScrollWindow";
 import OkButton, {OkButtonSize} from "../common/OkButton";
-import {createBinding, createState, For, With} from "ags";
-
-export const ScreenshareWindowName = "screenshareWindow"
+import {createBinding, createState, For} from "ags";
+import {integratedScreenshareRevealed, toggleIntegratedScreenshare} from "./IntegratedScreenshare";
+import {timeout} from "ags/time";
+import {truncateString} from "../utils/strings";
 
 let response: (response: any) => void = () => {}
 
@@ -29,6 +27,8 @@ type Program = {
     name: string;
     windows: ScreenShareWindow[];
 };
+
+const maxCharacters = 34
 
 function parseScreenShareString(input: string): ScreenShareWindow[] {
     // Remove the "screenshare" prefix
@@ -88,7 +88,6 @@ function Monitors() {
     return <RevealerRow
         icon={"󰍹"}
         iconOffset={0}
-        windowName={ScreenshareWindowName}
         content={
             <label
                 hexpand={true}
@@ -110,15 +109,20 @@ function Monitors() {
                             hexpand={true}
                             primary={true}
                             labelHalign={Gtk.Align.START}
-                            label={monitor.name}
+                            label={truncateString(monitor.name, maxCharacters)}
                             onClicked={() => {
                                 response(`[SELECTION]/screen:${monitor.name}`)
-                                hideAllWindows()
+                                toggleIntegratedScreenshare()
                             }}/>
                     }}
                 </For>
             </box>
         }
+        setup={(revealed) => {
+            integratedScreenshareRevealed.subscribe(() => {
+                if (revealed[1] !== null) revealed[1](false)
+            })
+        }}
     />
 }
 
@@ -126,7 +130,6 @@ function Windows() {
     return <RevealerRow
         icon={""}
         iconOffset={0}
-        windowName={ScreenshareWindowName}
         content={
             <label
                 hexpand={true}
@@ -148,7 +151,7 @@ function Windows() {
                             <label
                                 halign={Gtk.Align.CENTER}
                                 cssClasses={["labelLargeBold"]}
-                                label={program.name}/>
+                                label={truncateString(program.name, 30)}/>
                             {program.windows
                                 .sort((a, b) => {
                                     if (a.instanceTitle > b.instanceTitle) {
@@ -164,11 +167,13 @@ function Windows() {
                                         primary={true}
                                         hexpand={true}
                                         labelHalign={Gtk.Align.START}
-                                        label={`${instance.instanceTitle}`}
+                                        label={truncateString(instance.instanceTitle, maxCharacters)}
                                         ellipsize={Pango.EllipsizeMode.END}
                                         onClicked={() => {
-                                            response(`[SELECTION]/window:${instance.windowId}`)
-                                            hideAllWindows()
+                                            toggleIntegratedScreenshare()
+                                            timeout(400, () => {
+                                                response(`[SELECTION]/window:${instance.windowId}`)
+                                            })
                                         }}/>
                                 })
                             }
@@ -177,6 +182,11 @@ function Windows() {
                 </For>
             </box>
         }
+        setup={(revealed) => {
+            integratedScreenshareRevealed.subscribe(() => {
+                if (revealed[1] !== null) revealed[1](false)
+            })
+        }}
     />
 }
 
@@ -184,7 +194,6 @@ function Region() {
     return <RevealerRow
         icon={""}
         iconOffset={0}
-        windowName={ScreenshareWindowName}
         content={
             <label
                 hexpand={true}
@@ -204,6 +213,7 @@ function Region() {
                     labelHalign={Gtk.Align.START}
                     label="Region"
                     onClicked={() => {
+                        toggleIntegratedScreenshare()
                         execAsync("slurp -f \"%o %x %y %w %h\"")
                             .catch((error) => {
                                 console.error(error)
@@ -217,37 +227,27 @@ function Region() {
                                     response(`[SELECTION]/region:`)
                                 }
                             })
-                            .finally(() => {
-                                hideAllWindows()
-                            })
                     }}/>
             </box>
         }
+        setup={(revealed) => {
+            integratedScreenshareRevealed.subscribe(() => {
+                if (revealed[1] !== null) revealed[1](false)
+            })
+        }}
     />
 }
 
 export default function () {
-    return <ScrimScrollWindow
-        namespace={"okpanel-screenshare"}
-        monitor={variableConfig.mainMonitor.asAccessor()}
-        anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM}
-        windowName={ScreenshareWindowName}
-        topExpand={true}
-        bottomExpand={true}
-        leftExpand={false}
-        rightExpand={false}
-        contentWidth={560}
-        content={
-            <box
-                orientation={Gtk.Orientation.VERTICAL}
-                marginStart={10}
-                marginBottom={10}
-                marginTop={20}
-                marginEnd={10}
-                spacing={8}>
-                <Monitors/>
-                <Windows/>
-                <Region/>
-            </box>
-        }/>
+    return <box
+        orientation={Gtk.Orientation.VERTICAL}
+        marginStart={10}
+        marginBottom={10}
+        marginTop={20}
+        marginEnd={10}
+        spacing={8}>
+        <Monitors/>
+        <Windows/>
+        <Region/>
+    </box>
 }
