@@ -32,7 +32,6 @@ export function AlertWindow(
 ): Astal.Window {
     let windowVisibilityTimeout: GLib.Source | null = null
 
-    //@ts-ignore
     return <window
         namespace={"okpanel-alerts"}
         monitor={monitor.id}
@@ -48,7 +47,7 @@ export function AlertWindow(
             let canShow = false
             setTimeout(() => {
                 canShow = true
-            }, 3_000)
+            }, 1_500)
             showVariable.subscribe(() => {
                 if (!canShow) {
                     return
