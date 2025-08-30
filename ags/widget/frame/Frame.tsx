@@ -321,6 +321,7 @@ export default function (): Astal.Window {
                     orientation={Gtk.Orientation.VERTICAL}>
                     <box vexpand={variableConfig.leftBar.expanded.asAccessor().as((e) => !e)}/>
                     <box
+                        vexpand={true}
                         heightRequest={variableConfig.leftBar.minimumHeight.asAccessor()}
                         marginStart={variableConfig.leftBar.marginStart.asAccessor()}
                         marginEnd={variableConfig.leftBar.marginEnd.asAccessor()}
@@ -360,6 +361,7 @@ export default function (): Astal.Window {
                     orientation={Gtk.Orientation.VERTICAL}>
                     <box vexpand={variableConfig.rightBar.expanded.asAccessor().as((e) => !e)}/>
                     <box
+                        vexpand={true}
                         heightRequest={variableConfig.rightBar.minimumHeight.asAccessor()}
                         marginStart={variableConfig.rightBar.marginStart.asAccessor()}
                         marginEnd={variableConfig.rightBar.marginEnd.asAccessor()}

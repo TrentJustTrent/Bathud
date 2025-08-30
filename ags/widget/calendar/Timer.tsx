@@ -1,7 +1,7 @@
-import {createComputed, createState} from "ags";
+import {Accessor, createComputed, createState} from "ags";
 import {Gtk} from "ags/gtk4";
 import GLib from "gi://GLib?version=2.0";
-import OkButton from "../common/OkButton";
+import OkButton, {OkButtonHorizontalPadding, OkButtonVerticalPadding} from "../common/OkButton";
 import {interval, Timer} from "ags/time";
 import {makeLoopingPlayer} from "./timerUpLoopPlayer";
 import {variableConfig} from "../../config/config";
@@ -148,15 +148,21 @@ function resumeTimer() {
 
 export function TimerPlayPauseStop(
     {
+        hpadding,
+        vpadding,
         foregroundCss = [],
         backgroundCss = [],
     }:
     {
+        hpadding?: OkButtonHorizontalPadding | Accessor<OkButtonHorizontalPadding>,
+        vpadding?: OkButtonVerticalPadding | Accessor<OkButtonVerticalPadding>,
         foregroundCss?: string[],
         backgroundCss?: string[],
     }
 ) {
     return <OkButton
+        hpadding={hpadding}
+        vpadding={vpadding}
         labelCss={foregroundCss}
         backgroundCss={backgroundCss}
         visible={timerTextVisible}
@@ -186,15 +192,21 @@ export function TimerPlayPauseStop(
 
 export function TimerDelete(
     {
+        hpadding,
+        vpadding,
         foregroundCss = [],
         backgroundCss = [],
     }:
     {
+        hpadding?: OkButtonHorizontalPadding | Accessor<OkButtonHorizontalPadding>,
+        vpadding?: OkButtonVerticalPadding | Accessor<OkButtonVerticalPadding>,
         foregroundCss?: string[],
         backgroundCss?: string[],
     }
 ) {
     return <OkButton
+        hpadding={hpadding}
+        vpadding={vpadding}
         labelCss={foregroundCss}
         backgroundCss={backgroundCss}
         visible={timerTextVisible}

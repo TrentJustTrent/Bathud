@@ -137,6 +137,6 @@ function getWidget(widget: BarWidget, isVertical: boolean, bar: Bar) {
         case BarWidget.COLOR_PICKER:
             return <ColorPickerButton bar={bar}/>
         case BarWidget.TIMER:
-            return <TimerInBar vertical={isVertical}/>
+            return <TimerInBar vertical={isVertical} bar={bar}/>
     }
 }
