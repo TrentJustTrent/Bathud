@@ -59,5 +59,11 @@ export const soundsSchema = {
             description: 'Full path to a sound file that will be used for stopping battery charging',
             default: ''
         },
+        {
+            name: 'timerSoundPath',
+            type: 'string',
+            description: 'Full path to a sound file that will be used when the timer goes off',
+            default: ''
+        }
     ]
 } as const satisfies Field

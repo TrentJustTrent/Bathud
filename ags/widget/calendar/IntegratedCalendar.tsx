@@ -2,6 +2,7 @@ import {Gtk} from "ags/gtk4";
 import {createState, With} from "ags";
 import Weather from "./Weather";
 import Calendar from "./Calendar";
+import Timer from "./Timer";
 
 export const integratedCalendarWidth = 450
 
@@ -37,6 +38,7 @@ export default function () {
                     </With>
                 </box>
                 <Weather/>
+                <Timer/>
             </box>
         </Gtk.ScrolledWindow>
     </revealer>

@@ -1,0 +1,225 @@
+import {createComputed, createState} from "ags";
+import {Astal, Gtk} from "ags/gtk4";
+import {integratedCalendarRevealed} from "./IntegratedCalendar";
+import {frameWindow} from "../frame/Frame";
+import GLib from "gi://GLib?version=2.0";
+import OkButton from "../common/OkButton";
+import {interval, Timer} from "ags/time";
+import {makeLoopingPlayer} from "./timerUpLoopPlayer";
+import {variableConfig} from "../../config/config";
+import {projectDir} from "../../app";
+import CircularProgress from "../common/CircularProgress";
+
+const [timerValue, timerValueSetter] = createState(0)
+const [entryVisible, entryVisibleSetter] = createState(true)
+const [timer, timerSetter] = createState<Timer | null>(null)
+const player = makeLoopingPlayer()
+
+let timerStartingValue = 0
+
+let entry: Gtk.Entry
+
+const pad2 = (n: number) => n.toString().padStart(2, "0");
+
+function digitsToHMS(digits: string) {
+    const len = digits.length;
+    const s = len >= 2 ? parseInt(digits.slice(-2), 10) : parseInt(digits || "0", 10);
+    const m = len >= 4 ? parseInt(digits.slice(-4, -2), 10) : (len >= 3 ? parseInt(digits.slice(-3, -2), 10) : 0);
+    const h = len > 4 ? parseInt(digits.slice(0, -4), 10) : 0;
+    return { h, m, s, formatted: `${pad2(h)}:${pad2(m)}:${pad2(s)}` };
+}
+
+function attachTimerFormatter(entry: Gtk.Entry) {
+    let suppress = false;
+    let lastDigits = "";
+    let lastFormatted = "";
+
+    const applyTextDeferred = (text: string, pos: number) => {
+        GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {
+            suppress = true;
+            entry.set_text(text);
+            entry.set_position(pos);
+            suppress = false;
+            return GLib.SOURCE_REMOVE;
+        });
+    };
+
+    entry.connect("changed", (self) => {
+        if (suppress) return;
+
+        const raw = self.get_text();
+        const digits = raw.replace(/\D/g, ""); // ignore non-digits entirely
+
+        // If no digits, clear to keep placeholder visible
+        if (digits.length === 0) {
+            lastDigits = "";
+            lastFormatted = "";
+            applyTextDeferred("", 0);
+            return;
+        }
+
+        // If digit content didn't change (e.g., user typed ":"), revert to last formatted
+        if (digits === lastDigits) {
+            if (raw !== lastFormatted) {
+                applyTextDeferred(lastFormatted, lastFormatted.length);
+            }
+            return;
+        }
+
+        // New digit content -> format as [..h][mm][ss]
+        const { formatted } = digitsToHMS(digits);
+        lastDigits = digits;
+        lastFormatted = formatted;
+        applyTextDeferred(formatted, formatted.length); // simple caret: end
+    });
+}
+
+function secondsToHMS(totalSeconds: number): string {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    const pad2 = (n: number) => n.toString().padStart(2, "0");
+    return `${pad2(hours)}:${pad2(minutes)}:${pad2(seconds)}`;
+}
+
+function getTimerSecondsFromEntry() {
+    const digits = entry.get_text().replace(/\D/g, "");
+    if (!digits) return timerValueSetter(0);
+    const { h, m, s } = digitsToHMS(digits);
+    const finalValue =  h * 3600 + m * 60 + s;
+    timerValueSetter(finalValue)
+    timerStartingValue = finalValue
+}
+
+function createTimer(): Timer {
+    let skippedFirst = false
+    return interval(1000, () => {
+        if (!skippedFirst && timerValue.get() !== 0) {
+            skippedFirst = true
+        } else if (timerValue.get() === 1) {
+            timerValueSetter(timerValue.get() - 1)
+            onTimerFinished()
+        } else if (timerValue.get() === 0) {
+            onTimerFinished()
+        } else {
+            timerValueSetter(timerValue.get() - 1)
+        }
+    })
+}
+
+function onTimerFinished() {
+    stopTimer()
+    let path = variableConfig.sounds.timerSoundPath.get() !== ""
+        ? variableConfig.sounds.timerSoundPath.get()
+        : `${projectDir}/sounds/timer.ogg`
+    player.start(path)
+}
+
+function stopTimer() {
+    console.log("time done")
+    timer.get()?.cancel()
+    timerSetter(null)
+}
+
+function activateTimer() {
+    getTimerSecondsFromEntry()
+    entryVisibleSetter(false)
+    timerSetter(createTimer())
+}
+
+function resumeTimer() {
+    timerSetter(createTimer())
+}
+
+export default function () {
+    integratedCalendarRevealed.subscribe(() => {
+        if (integratedCalendarRevealed.get()) {
+            (frameWindow as Astal.Window).keymode = Astal.Keymode.ON_DEMAND
+        } else {
+            (frameWindow as Astal.Window).keymode = Astal.Keymode.NONE
+        }
+    })
+
+    return <box
+        hexpand={true}
+        orientation={Gtk.Orientation.VERTICAL}
+        halign={Gtk.Align.CENTER}>
+        <label
+            cssClasses={["labelXLBold"]}
+            label={"Timer"}/>
+        <entry
+            cssClasses={["timerEntry", "labelXL"]}
+            widthRequest={1}
+            widthChars={8}
+            hexpand={false}
+            halign={Gtk.Align.CENTER}
+            visible={entryVisible}
+            placeholderText="00:00:00"
+            onActivate={() => {
+                activateTimer()
+            }}
+            inputPurpose={Gtk.InputPurpose.DIGITS}
+            $={(self) => {
+                entry = self
+                attachTimerFormatter(self)
+            }}
+        />
+        <OkButton
+            labelCss={["labelXL"]}
+            visible={entryVisible.as((v) => !v)}
+            label={timerValue.as((t) => secondsToHMS(t))}
+        />
+        <box
+            visible={createComputed([
+                entryVisible,
+                player.isRunning,
+            ], (entryVisible, isRunning) => {
+                return !entryVisible && !isRunning
+            })}
+            orientation={Gtk.Orientation.HORIZONTAL}
+            halign={Gtk.Align.CENTER}
+            spacing={8}>
+            <OkButton
+                onClicked={() => {
+                    if (timer.get() === null) {
+                        resumeTimer()
+                    } else {
+                        stopTimer()
+                    }
+                }}
+                label={timer.as((timer) => {
+                    if (timer === null) {
+                        return ""
+                    } else {
+                        return ""
+                    }
+                })}/>
+            <OkButton
+                onClicked={() => {
+                    stopTimer()
+                    entryVisibleSetter(true)
+                    entry.set_text("")
+                }}
+                label={""}/>
+        </box>
+        <OkButton
+            visible={createComputed([
+                entryVisible,
+                player.isRunning,
+            ], (entryVisible, isRunning) => {
+                return !entryVisible && isRunning
+            })}
+            onClicked={() => {
+                player.stop()
+                entryVisibleSetter(true)
+                entry.set_text("")
+            }}
+            label={""}/>
+        <CircularProgress
+            progress={timerValue.as(() => {
+                return timerValue.get() / timerStartingValue
+            })}
+            />
+    </box>
+}
