@@ -137,15 +137,15 @@ cat > "$BUILD_DIR/variables.scss" <<EOFVARS
 \\$bottomBarBorder: ${config.bottomBar.borderColor};
 \\$bottomBarBackgroundColor: ${config.bottomBar.backgroundColor};
 
-\\$frameLeftGroupBackgroundColor: ${config.frame.leftGroup.backgroundColor};
-\\$frameLeftGroupBorderColor: ${config.frame.leftGroup.borderColor};
-\\$frameLeftGroupBorderRadius: ${config.frame.leftGroup.borderRadius}px;
-\\$frameLeftGroupBorderWidth: ${config.frame.leftGroup.borderWidth}px;
+\\$frameLeftGroupBackgroundColor: ${config.leftBar.backgroundColor};
+\\$frameLeftGroupBorderColor: ${config.leftBar.borderColor};
+\\$frameLeftGroupBorderRadius: ${config.leftBar.borderRadius}px;
+\\$frameLeftGroupBorderWidth: ${config.leftBar.borderWidth}px;
 
-\\$frameRightGroupBackgroundColor: ${config.frame.rightGroup.backgroundColor};
-\\$frameRightGroupBorderColor: ${config.frame.rightGroup.borderColor};
-\\$frameRightGroupBorderRadius: ${config.frame.rightGroup.borderRadius}px;
-\\$frameRightGroupBorderWidth: ${config.frame.rightGroup.borderWidth}px;
+\\$frameRightGroupBackgroundColor: ${config.rightBar.backgroundColor};
+\\$frameRightGroupBorderColor: ${config.rightBar.borderColor};
+\\$frameRightGroupBorderRadius: ${config.rightBar.borderRadius}px;
+\\$frameRightGroupBorderWidth: ${config.rightBar.borderWidth}px;
 
 ${widgetLines}
 

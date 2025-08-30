@@ -6,107 +6,6 @@ export enum Position {
 }
 export const POSITION_VALUES = Object.values(Position) as readonly Position[]
 
-const commonFrameGroupSchema = [
-    {
-        name: 'expanded',
-        type: 'boolean',
-        default: true,
-        description: 'If true, the group expands to full height',
-        reactive: true,
-    },
-    {
-        name: 'minimumHeight',
-        type: 'number',
-        default: 800,
-        description: 'The minimum height of the group if not expanded.',
-        reactive: true,
-    },
-    {
-        name: 'marginStart',
-        type: 'number',
-        default: 0,
-        description: 'Starting margin of the group.',
-        reactive: true,
-    },
-    {
-        name: 'marginEnd',
-        type: 'number',
-        default: 0,
-        description: 'Ending margin of the group.',
-        reactive: true,
-    },
-    {
-        name: 'marginTop',
-        type: 'number',
-        default: 0,
-        description: 'Top margin of the group.',
-        reactive: true,
-    },
-    {
-        name: 'marginBottom',
-        type: 'number',
-        default: 0,
-        description: 'Bottom margin of the group.',
-        reactive: true,
-    },
-    {
-        name: 'paddingStart',
-        type: 'number',
-        default: 0,
-        description: 'Starting padding of the group.',
-        reactive: true,
-    },
-    {
-        name: 'paddingEnd',
-        type: 'number',
-        default: 0,
-        description: 'Ending padding of the group.',
-        reactive: true,
-    },
-    {
-        name: 'paddingTop',
-        type: 'number',
-        default: 0,
-        description: 'Top padding of the group.',
-        reactive: true,
-    },
-    {
-        name: 'paddingBottom',
-        type: 'number',
-        default: 0,
-        description: 'Bottom padding of the group.',
-        reactive: true,
-    },
-    {
-        name: 'borderRadius',
-        type: 'number',
-        default: 0,
-        description: 'Corner radius (px) for the frame group.',
-        reactive: true,
-    },
-    {
-        name: 'borderWidth',
-        type: 'number',
-        default: 0,
-        description: 'Border width (px) for the frame group.',
-        reactive: true,
-    },
-    {
-        name: 'borderColor',
-        type: 'color',
-        default: {from: 'theme.colors.primary'},
-        description: 'Color of the frame group border',
-        reactive: true,
-    },
-    {
-        name: 'backgroundColor',
-        type: 'color',
-        default: {from: 'frame.backgroundColor'},
-        description: 'Color of the bar background',
-        reactive: true,
-    },
-] as const satisfies Field[]
-
 function commonIntegrationSchema(
     pushContent: boolean = false
 ) {
@@ -236,17 +135,5 @@ export const frameSchema = {
             description: 'Configurations for the screen share menu integration.',
             children: [...commonIntegrationSchema()],
         },
-        {
-            name: 'leftGroup',
-            type: 'object',
-            description: 'Configurations for the left group.  Includes the left bar and all menus with a left position.',
-            children: [...commonFrameGroupSchema]
-        },
-        {
-            name: 'rightGroup',
-            type: 'object',
-            description: 'Configurations for the right group.  Includes the right bar and all menus with a right position.',
-            children: [...commonFrameGroupSchema]
-        }
     ],
 } as const satisfies Field

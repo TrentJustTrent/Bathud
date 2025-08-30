@@ -20,6 +20,13 @@ export const barWidgetsArrayField = <N extends string>( //preserve the literal k
 
 const commonBarChildrenSchema = [
     {
+        name: 'expanded',
+        type: 'boolean',
+        default: true,
+        description: 'If true, the group expands to full width',
+        reactive: true,
+    },
+    {
         name: 'compact',
         type: 'boolean',
         default: false,
@@ -30,51 +37,6 @@ const commonBarChildrenSchema = [
         type: 'number',
         default: 0,
         description: 'Spacing (px) between widgets inside the bar.',
-    },
-    {
-        name: 'marginStart',
-        type: 'number',
-        default: 0,
-        description: 'Starting margin of the bar',
-        reactive: true,
-    },
-    {
-        name: 'marginEnd',
-        type: 'number',
-        default: 0,
-        description: 'Ending margin of the bar',
-        reactive: true,
-    },
-    {
-        name: 'marginTop',
-        type: 'number',
-        default: 0,
-        description: 'Top margin of the bar',
-        reactive: true,
-    },
-    {
-        name: 'marginBottom',
-        type: 'number',
-        default: 0,
-        description: 'Bottom margin of the bar',
-        reactive: true,
-    }
-] as const satisfies Field[]
-
-const commonHorizontalBarChildrenSchema = [
-    {
-        name: 'expanded',
-        type: 'boolean',
-        default: true,
-        description: 'If true, the group expands to full width',
-        reactive: true,
-    },
-    {
-        name: 'minimumWidth',
-        type: 'number',
-        default: 600,
-        description: 'The minimum width of the bar if not expanded.',
-        reactive: true,
     },
     {
         name: 'borderRadius',
@@ -105,6 +67,34 @@ const commonHorizontalBarChildrenSchema = [
         reactive: true,
     },
     {
+        name: 'marginStart',
+        type: 'number',
+        default: 0,
+        description: 'Starting margin of the bar',
+        reactive: true,
+    },
+    {
+        name: 'marginEnd',
+        type: 'number',
+        default: 0,
+        description: 'Ending margin of the bar',
+        reactive: true,
+    },
+    {
+        name: 'marginTop',
+        type: 'number',
+        default: 0,
+        description: 'Top margin of the bar',
+        reactive: true,
+    },
+    {
+        name: 'marginBottom',
+        type: 'number',
+        default: 0,
+        description: 'Bottom margin of the bar',
+        reactive: true,
+    },
+    {
         name: 'paddingStart',
         type: 'number',
         default: 0,
@@ -130,6 +120,26 @@ const commonHorizontalBarChildrenSchema = [
         type: 'number',
         default: 0,
         description: 'Bottom padding of the bar.',
+        reactive: true,
+    },
+] as const satisfies Field[]
+
+const commonHorizontalBarChildrenSchema = [
+    {
+        name: 'minimumWidth',
+        type: 'number',
+        default: 600,
+        description: 'The minimum width of the bar if not expanded.',
+        reactive: true,
+    },
+] as const satisfies Field[]
+
+const commonVerticalBarChildrenSchema = [
+    {
+        name: 'minimumHeight',
+        type: 'number',
+        default: 800,
+        description: 'The minimum height of the bar if not expanded.',
         reactive: true,
     },
 ] as const satisfies Field[]
@@ -204,6 +214,7 @@ export const leftBarSchema = {
             'Widgets anchored at the bottom.',
             [],
         ),
+        ...commonVerticalBarChildrenSchema,
         ...commonBarChildrenSchema,
     ],
 } as const satisfies Field
@@ -228,6 +239,7 @@ export const rightBarSchema = {
             'Widgets anchored at the bottom.',
             [],
         ),
+        ...commonVerticalBarChildrenSchema,
         ...commonBarChildrenSchema,
     ],
 } as const satisfies Field

@@ -310,28 +310,28 @@ export default function (): Astal.Window {
                         ghostWhenTooNarrow(
                             self,
                             [
-                                variableConfig.frame.leftGroup.paddingStart.asAccessor(),
-                                variableConfig.frame.leftGroup.paddingEnd.asAccessor(),
-                                variableConfig.frame.leftGroup.marginStart.asAccessor(),
-                                variableConfig.frame.leftGroup.marginEnd.asAccessor(),
-                                variableConfig.frame.leftGroup.borderWidth.asAccessor(),
+                                variableConfig.leftBar.paddingStart.asAccessor(),
+                                variableConfig.leftBar.paddingEnd.asAccessor(),
+                                variableConfig.leftBar.marginStart.asAccessor(),
+                                variableConfig.leftBar.marginEnd.asAccessor(),
+                                variableConfig.leftBar.borderWidth.asAccessor(),
                             ]
                         )
                     }}
                     orientation={Gtk.Orientation.VERTICAL}>
-                    <box vexpand={variableConfig.frame.leftGroup.expanded.asAccessor().as((e) => !e)}/>
+                    <box vexpand={variableConfig.leftBar.expanded.asAccessor().as((e) => !e)}/>
                     <box
-                        heightRequest={variableConfig.frame.leftGroup.minimumHeight.asAccessor()}
-                        marginStart={variableConfig.frame.leftGroup.marginStart.asAccessor()}
-                        marginEnd={variableConfig.frame.leftGroup.marginEnd.asAccessor()}
-                        marginTop={variableConfig.frame.leftGroup.marginTop.asAccessor()}
-                        marginBottom={variableConfig.frame.leftGroup.marginBottom.asAccessor()}
+                        heightRequest={variableConfig.leftBar.minimumHeight.asAccessor()}
+                        marginStart={variableConfig.leftBar.marginStart.asAccessor()}
+                        marginEnd={variableConfig.leftBar.marginEnd.asAccessor()}
+                        marginTop={variableConfig.leftBar.marginTop.asAccessor()}
+                        marginBottom={variableConfig.leftBar.marginBottom.asAccessor()}
                         cssClasses={["frameLeftGroup"]}>
                         <box
-                            marginStart={variableConfig.frame.leftGroup.paddingStart.asAccessor()}
-                            marginEnd={variableConfig.frame.leftGroup.paddingEnd.asAccessor()}
-                            marginTop={variableConfig.frame.leftGroup.paddingTop.asAccessor()}
-                            marginBottom={variableConfig.frame.leftGroup.paddingBottom.asAccessor()}
+                            marginStart={variableConfig.leftBar.paddingStart.asAccessor()}
+                            marginEnd={variableConfig.leftBar.paddingEnd.asAccessor()}
+                            marginTop={variableConfig.leftBar.paddingTop.asAccessor()}
+                            marginBottom={variableConfig.leftBar.paddingBottom.asAccessor()}
                             orientation={Gtk.Orientation.HORIZONTAL}
                             $={(self) => {
                                 leftGroup = self
@@ -341,7 +341,7 @@ export default function (): Astal.Window {
                                 appendChildren(leftGroup, leftSideWidgets)
                             }}/>
                     </box>
-                    <box vexpand={variableConfig.frame.leftGroup.expanded.asAccessor().as((e) => !e)}/>
+                    <box vexpand={variableConfig.leftBar.expanded.asAccessor().as((e) => !e)}/>
                 </box>
                 <OutlineOverlay/>
                 <box
@@ -349,28 +349,28 @@ export default function (): Astal.Window {
                         ghostWhenTooNarrow(
                             self,
                             [
-                                variableConfig.frame.rightGroup.paddingStart.asAccessor(),
-                                variableConfig.frame.rightGroup.paddingEnd.asAccessor(),
-                                variableConfig.frame.rightGroup.marginStart.asAccessor(),
-                                variableConfig.frame.rightGroup.marginEnd.asAccessor(),
-                                variableConfig.frame.rightGroup.borderWidth.asAccessor(),
+                                variableConfig.rightBar.paddingStart.asAccessor(),
+                                variableConfig.rightBar.paddingEnd.asAccessor(),
+                                variableConfig.rightBar.marginStart.asAccessor(),
+                                variableConfig.rightBar.marginEnd.asAccessor(),
+                                variableConfig.rightBar.borderWidth.asAccessor(),
                             ]
                         )
                     }}
                     orientation={Gtk.Orientation.VERTICAL}>
-                    <box vexpand={variableConfig.frame.rightGroup.expanded.asAccessor().as((e) => !e)}/>
+                    <box vexpand={variableConfig.rightBar.expanded.asAccessor().as((e) => !e)}/>
                     <box
-                        heightRequest={variableConfig.frame.rightGroup.minimumHeight.asAccessor()}
-                        marginStart={variableConfig.frame.rightGroup.marginStart.asAccessor()}
-                        marginEnd={variableConfig.frame.rightGroup.marginEnd.asAccessor()}
-                        marginTop={variableConfig.frame.rightGroup.marginTop.asAccessor()}
-                        marginBottom={variableConfig.frame.rightGroup.marginBottom.asAccessor()}
+                        heightRequest={variableConfig.rightBar.minimumHeight.asAccessor()}
+                        marginStart={variableConfig.rightBar.marginStart.asAccessor()}
+                        marginEnd={variableConfig.rightBar.marginEnd.asAccessor()}
+                        marginTop={variableConfig.rightBar.marginTop.asAccessor()}
+                        marginBottom={variableConfig.rightBar.marginBottom.asAccessor()}
                         cssClasses={["frameRightGroup"]}>
                         <box
-                            marginStart={variableConfig.frame.rightGroup.paddingStart.asAccessor()}
-                            marginEnd={variableConfig.frame.rightGroup.paddingEnd.asAccessor()}
-                            marginTop={variableConfig.frame.rightGroup.paddingTop.asAccessor()}
-                            marginBottom={variableConfig.frame.rightGroup.paddingBottom.asAccessor()}
+                            marginStart={variableConfig.rightBar.paddingStart.asAccessor()}
+                            marginEnd={variableConfig.rightBar.paddingEnd.asAccessor()}
+                            marginTop={variableConfig.rightBar.paddingTop.asAccessor()}
+                            marginBottom={variableConfig.rightBar.paddingBottom.asAccessor()}
                             orientation={Gtk.Orientation.HORIZONTAL}
                             $={(self) => {
                                 rightGroup = self
@@ -380,7 +380,7 @@ export default function (): Astal.Window {
                                 appendChildren(rightGroup, rightSideWidgets)
                             }}/>
                     </box>
-                    <box vexpand={variableConfig.frame.rightGroup.expanded.asAccessor().as((e) => !e)}/>
+                    <box vexpand={variableConfig.rightBar.expanded.asAccessor().as((e) => !e)}/>
                 </box>
             </box>
             <box
