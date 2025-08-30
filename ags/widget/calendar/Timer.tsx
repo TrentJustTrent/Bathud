@@ -81,7 +81,7 @@ function millisecondsToHMS(totalMilliSeconds: number): string {
 
     const hours   = Math.floor(ms / 3_600_000);              // 1000*60*60
     const minutes = Math.floor((ms % 3_600_000) / 60_000);   // 1000*60
-    const seconds = Math.ceil((ms % 60_000) / 1_000)
+    const seconds = Math.floor((ms % 60_000) / 1_000)
 
     const pad2 = (n: number) => n.toString().padStart(2, "0");
     return `${pad2(hours)}:${pad2(minutes)}:${pad2(seconds)}`;
