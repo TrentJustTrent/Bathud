@@ -9,6 +9,7 @@ import {makeLoopingPlayer} from "./timerUpLoopPlayer";
 import {variableConfig} from "../../config/config";
 import {projectDir} from "../../app";
 import CircularProgress from "../common/CircularProgress";
+import {hexToRgba} from "../utils/strings";
 
 const [timerValue, timerValueSetter] = createState(0)
 const [entryVisible, entryVisibleSetter] = createState(true)
@@ -74,10 +75,13 @@ function attachTimerFormatter(entry: Gtk.Entry) {
     });
 }
 
-function secondsToHMS(totalSeconds: number): string {
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
+function millisecondsToHMS(totalMilliSeconds: number): string {
+    if (!Number.isFinite(totalMilliSeconds)) totalMilliSeconds = 0;
+    const ms = Math.max(0, Math.floor(totalMilliSeconds)); // clamp & integerize
+
+    const hours   = Math.floor(ms / 3_600_000);              // 1000*60*60
+    const minutes = Math.floor((ms % 3_600_000) / 60_000);   // 1000*60
+    const seconds = Math.ceil((ms % 60_000) / 1_000)
 
     const pad2 = (n: number) => n.toString().padStart(2, "0");
     return `${pad2(hours)}:${pad2(minutes)}:${pad2(seconds)}`;
@@ -87,23 +91,23 @@ function getTimerSecondsFromEntry() {
     const digits = entry.get_text().replace(/\D/g, "");
     if (!digits) return timerValueSetter(0);
     const { h, m, s } = digitsToHMS(digits);
-    const finalValue =  h * 3600 + m * 60 + s;
+    const finalValue =  (h * 3600 + m * 60 + s) * 1000;
     timerValueSetter(finalValue)
     timerStartingValue = finalValue
 }
 
 function createTimer(): Timer {
     let skippedFirst = false
-    return interval(1000, () => {
+    return interval(100, () => {
         if (!skippedFirst && timerValue.get() !== 0) {
             skippedFirst = true
-        } else if (timerValue.get() === 1) {
-            timerValueSetter(timerValue.get() - 1)
+        } else if (timerValue.get() <= 100 && timerValue.get() !== 0) {
+            timerValueSetter(timerValue.get() - 100)
             onTimerFinished()
-        } else if (timerValue.get() === 0) {
+        } else if (timerValue.get() <= 0) {
             onTimerFinished()
         } else {
-            timerValueSetter(timerValue.get() - 1)
+            timerValueSetter(timerValue.get() - 100)
         }
     })
 }
@@ -144,82 +148,99 @@ export default function () {
     return <box
         hexpand={true}
         orientation={Gtk.Orientation.VERTICAL}
-        halign={Gtk.Align.CENTER}>
+        halign={Gtk.Align.CENTER}
+        spacing={20}>
         <label
             cssClasses={["labelXLBold"]}
             label={"Timer"}/>
-        <entry
-            cssClasses={["timerEntry", "labelXL"]}
-            widthRequest={1}
-            widthChars={8}
-            hexpand={false}
-            halign={Gtk.Align.CENTER}
-            visible={entryVisible}
-            placeholderText="00:00:00"
-            onActivate={() => {
-                activateTimer()
-            }}
-            inputPurpose={Gtk.InputPurpose.DIGITS}
+        <overlay
             $={(self) => {
-                entry = self
-                attachTimerFormatter(self)
-            }}
-        />
-        <OkButton
-            labelCss={["labelXL"]}
-            visible={entryVisible.as((v) => !v)}
-            label={timerValue.as((t) => secondsToHMS(t))}
-        />
-        <box
-            visible={createComputed([
-                entryVisible,
-                player.isRunning,
-            ], (entryVisible, isRunning) => {
-                return !entryVisible && !isRunning
-            })}
-            orientation={Gtk.Orientation.HORIZONTAL}
-            halign={Gtk.Align.CENTER}
-            spacing={8}>
-            <OkButton
-                onClicked={() => {
-                    if (timer.get() === null) {
-                        resumeTimer()
-                    } else {
-                        stopTimer()
-                    }
-                }}
-                label={timer.as((timer) => {
-                    if (timer === null) {
-                        return ""
-                    } else {
-                        return ""
-                    }
+                self.add_overlay(
+                    <box
+                        marginTop={60}
+                        hexpand={true}
+                        orientation={Gtk.Orientation.VERTICAL}
+                        halign={Gtk.Align.CENTER}>
+                        <entry
+                            marginTop={8}
+                            marginStart={30}
+                            cssClasses={["timerEntry", "labelXL"]}
+                            widthRequest={1}
+                            widthChars={8}
+                            hexpand={false}
+                            halign={Gtk.Align.CENTER}
+                            visible={entryVisible}
+                            placeholderText="00:00:00"
+                            onActivate={() => {
+                                activateTimer()
+                            }}
+                            inputPurpose={Gtk.InputPurpose.DIGITS}
+                            $={(self) => {
+                                entry = self
+                                attachTimerFormatter(self)
+                            }}
+                        />
+                        <OkButton
+                            labelCss={["labelXL"]}
+                            visible={entryVisible.as((v) => !v)}
+                            label={timerValue.as((t) => millisecondsToHMS(t))}
+                        />
+                        <box
+                            visible={createComputed([
+                                entryVisible,
+                                player.isRunning,
+                            ], (entryVisible, isRunning) => {
+                                return !entryVisible && !isRunning
+                            })}
+                            orientation={Gtk.Orientation.HORIZONTAL}
+                            halign={Gtk.Align.CENTER}
+                            spacing={8}>
+                            <OkButton
+                                onClicked={() => {
+                                    if (timer.get() === null) {
+                                        resumeTimer()
+                                    } else {
+                                        stopTimer()
+                                    }
+                                }}
+                                label={timer.as((timer) => {
+                                    if (timer === null) {
+                                        return ""
+                                    } else {
+                                        return ""
+                                    }
+                                })}/>
+                            <OkButton
+                                onClicked={() => {
+                                    stopTimer()
+                                    entryVisibleSetter(true)
+                                    entry.set_text("")
+                                }}
+                                label={""}/>
+                        </box>
+                        <OkButton
+                            hexpand={false}
+                            halign={Gtk.Align.CENTER}
+                            visible={createComputed([
+                                entryVisible,
+                                player.isRunning,
+                            ], (entryVisible, isRunning) => {
+                                return !entryVisible && isRunning
+                            })}
+                            onClicked={() => {
+                                player.stop()
+                                entryVisibleSetter(true)
+                                entry.set_text("")
+                            }}
+                            label={""}/>
+                    </box> as Gtk.Widget
+                )
+            }}>
+            <CircularProgress
+                size={200}
+                progress={timerValue.as(() => {
+                    return timerValue.get() / timerStartingValue
                 })}/>
-            <OkButton
-                onClicked={() => {
-                    stopTimer()
-                    entryVisibleSetter(true)
-                    entry.set_text("")
-                }}
-                label={""}/>
-        </box>
-        <OkButton
-            visible={createComputed([
-                entryVisible,
-                player.isRunning,
-            ], (entryVisible, isRunning) => {
-                return !entryVisible && isRunning
-            })}
-            onClicked={() => {
-                player.stop()
-                entryVisibleSetter(true)
-                entry.set_text("")
-            }}
-            label={""}/>
-        <CircularProgress
-            progress={timerValue.as(() => {
-                return timerValue.get() / timerStartingValue
-            })}
-            />
+        </overlay>
     </box>
 }

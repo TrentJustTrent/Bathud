@@ -1,15 +1,13 @@
 import {Gtk} from "ags/gtk4";
 import {Accessor} from "ags";
-
-type RGBA = [number, number, number, number]; // r,g,b,a in 0..1
+import {hexToRgba} from "../utils/strings";
+import {variableConfig} from "../../config/config";
 
 type Props = {
     progress: Accessor<number>;   // 0..1
     size?: number;                // px
     stroke?: number;              // px
     trackAlpha?: number;          // 0..1 (only used if no trackColor)
-    fgColor?: RGBA;               // default [1,1,1,1]
-    trackColor?: RGBA;            // default [1,1,1,trackAlpha]
     cssClasses?: string[];
 };
 
@@ -18,8 +16,6 @@ export default function ({
     size = 24,
     stroke = 3,
     trackAlpha = 0.25,
-    fgColor = [1, 1, 1, 1],
-    trackColor,                  // if omitted, uses fg with alpha
     cssClasses = [],
 }: Props) {
     return (
@@ -28,6 +24,7 @@ export default function ({
             widthRequest={size}
             heightRequest={size}
             $={(area: Gtk.DrawingArea) => {
+                const fgColor = hexToRgba(variableConfig.theme.colors.primary.get())
                 const draw = (_: Gtk.DrawingArea, cr: any, w: number, h: number) => {
                     const p = Math.max(0, Math.min(1, progress.get()));
                     const cx = w / 2, cy = h / 2;
@@ -39,7 +36,7 @@ export default function ({
 
                     // track ring
                     {
-                        const [rC, gC, bC, aC] = trackColor ?? [fgColor[0], fgColor[1], fgColor[2], trackAlpha];
+                        const [rC, gC, bC, aC] = [fgColor[0], fgColor[1], fgColor[2], trackAlpha];
                         cr.setSourceRGBA(rC, gC, bC, aC);
                         cr.arc(cx, cy, r, 0, 2 * Math.PI);
                         cr.stroke();

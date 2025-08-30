@@ -38,6 +38,7 @@ export default function () {
                     </With>
                 </box>
                 <Weather/>
+                <box marginTop={30}/>
                 <Timer/>
             </box>
         </Gtk.ScrolledWindow>
