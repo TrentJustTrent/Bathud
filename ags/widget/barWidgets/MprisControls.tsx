@@ -1,8 +1,10 @@
 import {Mpris} from "../utils/mpris";
 import {With} from "ags";
 import MprisControlButtons from "../mpris/MprisControlButtons";
+import {Bar} from "../../config/bar";
+import {getHPadding, getVPadding} from "./BarWidgets";
 
-export default function ({vertical}: { vertical: boolean }) {
+export default function ({vertical, bar}: { vertical: boolean, bar: Bar }) {
     const mpris = Mpris.get_default()
     return <box
         cssClasses={["barMprisControlsBackground", "radiusSmall"]}>
@@ -17,6 +19,8 @@ export default function ({vertical}: { vertical: boolean }) {
                 return <MprisControlButtons
                     player={player}
                     vertical={vertical}
+                    hpadding={getHPadding(bar)}
+                    vpadding={getVPadding(bar)}
                     foregroundCss={["barMprisControlsForeground"]}
                     backgroundCss={["barMprisControlsButtonBackground"]}/>
             }}

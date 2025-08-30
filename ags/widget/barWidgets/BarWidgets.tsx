@@ -126,7 +126,7 @@ function getWidget(widget: BarWidget, isVertical: boolean, bar: Bar) {
         case BarWidget.RECORDING_INDICATOR:
             return <ScreenRecordingStopButton bar={bar}/>
         case BarWidget.MPRIS_CONTROLS:
-            return <MprisControls vertical={isVertical}/>
+            return <MprisControls vertical={isVertical} bar={bar}/>
         case BarWidget.MPRIS_TRACK_INFO:
             return <MprisTrackInfoBarWidget bar={bar} vertical={isVertical}/>
         case BarWidget.MPRIS_PRIMARY_PLAYER_SWITCHER:

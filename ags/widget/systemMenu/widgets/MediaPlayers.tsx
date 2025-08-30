@@ -3,6 +3,7 @@ import Pango from "gi://Pango?version=1.0";
 import {Mpris, Player} from "../../utils/mpris"
 import MprisControlButtons from "../../mpris/MprisControlButtons";
 import {For} from "ags";
+import {OkButtonHorizontalPadding, OkButtonVerticalPadding} from "../../common/OkButton";
 
 const mpris = Mpris.get_default()
 const STREAMING_TRACK_LENGTH = 9999999999
@@ -83,7 +84,11 @@ function MediaPlayer({ player }: { player: Player }) {
         <box
             orientation={Gtk.Orientation.VERTICAL}
             spacing={10}>
-            <MprisControlButtons player={player} vertical={false}/>
+            <MprisControlButtons
+                hpadding={OkButtonHorizontalPadding.STANDARD}
+                vpadding={OkButtonVerticalPadding.STANDARD}
+                player={player}
+                vertical={false}/>
             <label
                 visible={player.identity[0]((i) => i !== null)}
                 cssClasses={["labelSmall"]}
