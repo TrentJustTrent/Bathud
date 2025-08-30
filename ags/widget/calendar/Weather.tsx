@@ -233,10 +233,6 @@ export default function() {
         orientation={Gtk.Orientation.VERTICAL}
         spacing={10}>
         <label
-            marginTop={20}
-            label="Current Weather"
-            cssClasses={["labelXLBold"]}/>
-        <label
             cssClasses={["labelXL"]}
             label={weather.as((weather) => {
                 const code = weather?.current?.weatherCode;
@@ -252,8 +248,8 @@ export default function() {
                 return `${icon}  ${temp}${unit === TemperatureUnits.F ? "F" : "C"}`;
             })}/>
         <box
-            hexpand={true}
-            homogeneous={true}
+            halign={Gtk.Align.CENTER}
+            spacing={30}
             orientation={Gtk.Orientation.HORIZONTAL}>
             <box
                 orientation={Gtk.Orientation.VERTICAL}>
@@ -303,8 +299,8 @@ export default function() {
             cssClasses={["labelLargeBold"]}/>
         <box
             orientation={Gtk.Orientation.HORIZONTAL}
-            hexpand={true}
-            homogeneous={true}>
+            halign={Gtk.Align.CENTER}
+            spacing={30}>
             <For each={hourlyWeather}>
                 {(hourly) => {
                     return <box
@@ -341,8 +337,8 @@ export default function() {
             cssClasses={["labelLargeBold"]}/>
         <box
             orientation={Gtk.Orientation.HORIZONTAL}
-            hexpand={true}
-            homogeneous={true}>
+            halign={Gtk.Align.CENTER}
+            spacing={30}>
             <For each={dailyWeather}>
                 {(daily) => {
                     return <box

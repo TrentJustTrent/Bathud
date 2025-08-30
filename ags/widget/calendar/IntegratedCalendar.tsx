@@ -4,7 +4,7 @@ import Weather from "./Weather";
 import Calendar from "./Calendar";
 import Timer from "./Timer";
 
-export const integratedCalendarWidth = 450
+export const integratedCalendarWidth = 410
 
 export const [integratedCalendarRevealed, integratedCalendarRevealedSetting] = createState(false)
 
@@ -23,11 +23,8 @@ export default function () {
             propagateNaturalHeight={true}
             widthRequest={integratedCalendarWidth}>
             <box
-                marginTop={20}
-                marginBottom={20}
                 hexpand={false}
-                orientation={Gtk.Orientation.VERTICAL}
-                spacing={20}>
+                orientation={Gtk.Orientation.VERTICAL}>
                 <box
                     halign={Gtk.Align.CENTER}>
                     {/* Recreate the calendar on reveal via <With> tag.  Do this so the current day is always correct */}
@@ -38,7 +35,7 @@ export default function () {
                     </With>
                 </box>
                 <Weather/>
-                <box marginTop={30}/>
+                <box marginTop={40}/>
                 <Timer/>
             </box>
         </Gtk.ScrolledWindow>

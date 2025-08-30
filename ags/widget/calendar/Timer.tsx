@@ -149,9 +149,9 @@ export default function () {
         hexpand={true}
         orientation={Gtk.Orientation.VERTICAL}
         halign={Gtk.Align.CENTER}
-        spacing={20}>
+        spacing={10}>
         <label
-            cssClasses={["labelXLBold"]}
+            cssClasses={["labelLargeBold"]}
             label={"Timer"}/>
         <overlay
             $={(self) => {
