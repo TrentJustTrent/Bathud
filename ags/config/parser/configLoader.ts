@@ -39,10 +39,6 @@ export function validateAndApplyDefaults<T>(
     return resolveConfigPaths(validateAndApplyDefaultsInternal(record, schema, applySchemaDefaults, "", defaults))
 }
 
-function resolvePath(obj: any, path: string) {
-    return path.split('.').reduce((acc, key) => acc?.[key], obj);
-}
-
 function validateAndApplyDefaultsInternal<T>(
     raw: Record<string, any>,
     schema: Field[],
