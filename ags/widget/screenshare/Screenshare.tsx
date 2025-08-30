@@ -260,11 +260,13 @@ export default function () {
                         console.log("adding")
                         self.add_controller(shortcutController)
                     }
-                    ;(frameWindow as Astal.Window).keymode = Astal.Keymode.EXCLUSIVE
+                    // make exclusive so users can hit escape to exit picker, and prevent them from closing the
+                    // program that is asking for sharing
+                    frameWindow.keymode = Astal.Keymode.EXCLUSIVE
                 } else {
                     console.log("removing")
                     self.remove_controller(shortcutController)
-                    ;(frameWindow as Astal.Window).keymode = Astal.Keymode.NONE
+                    frameWindow.keymode = Astal.Keymode.NONE
                 }
             })
         }}

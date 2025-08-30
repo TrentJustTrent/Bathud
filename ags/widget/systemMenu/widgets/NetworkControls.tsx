@@ -1,13 +1,13 @@
 import AstalNetwork from "gi://AstalNetwork"
 import {getAccessPointIcon, getNetworkIconBinding} from "../../utils/network";
-import {Astal, Gtk} from "ags/gtk4"
+import {Gtk} from "ags/gtk4"
 import {execAsync} from "ags/process"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
 import OkButton from "../../common/OkButton";
 import {createBinding, createComputed, createState, For, Setter, State, With} from "ags";
-import {frameWindow} from "../../frame/Frame";
 import {integratedMenuRevealed} from "../IntegratedMenu";
+import {wireEntryFocus} from "../../frame/keymodeUtils";
 
 const [wifiConnections, wifiConnectionsSetter] = createState<string[]>([])
 const [inactiveWifiConnections, inactiveWifiConnectionsSetter] = createState<string[]>([])
@@ -291,6 +291,7 @@ function PasswordEntry(
                 onActivate={() => connect()}
                 $={(self) => {
                     self.connect('changed', () => textSetter(self.text))
+                    wireEntryFocus(self)
                 }}/>
         </box>}
         <revealer
@@ -661,13 +662,9 @@ export default function () {
         setup={(revealed) => {
             revealed[0].subscribe(() => {
                 if (revealed[0].get()) {
-                    (frameWindow as Astal.Window).keymode = Astal.Keymode.ON_DEMAND
-
                     network.wifi?.scan()
                     updateConnections()
                     updateAirplaneMode()
-                } else {
-                    (frameWindow as Astal.Window).keymode = Astal.Keymode.NONE
                 }
             })
 

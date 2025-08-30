@@ -12,15 +12,15 @@ import BottomBar from "./bars/BottomBar";
 import IntegratedCalendar from "../calendar/IntegratedCalendar";
 import IntegratedClipboardManager from "../clipboardManager/IntegratedClipboardManager";
 import IntegratedNotificationHistory from "../notification/IntegratedNotificationHistory";
-import {appendChildren, ghostWhenTooNarrow, orderChildrenLTR, removeAllChildren} from "../utils/widgets";
+import {appendChildren, ghostWhenTooNarrow, removeAllChildren} from "../utils/widgets";
 import {Position} from "../../config/schema/definitions/frame";
 import IntegratedScreenshot from "../screenshot/IntegratedScreenshot";
-import IntegratedAppLauncher, {integratedAppLauncherRevealed} from "../appLauncher/IntegratedAppLauncher";
-import IntegratedScreenshare, {integratedScreenshareRevealed} from "../screenshare/IntegratedScreenshare";
+import IntegratedAppLauncher from "../appLauncher/IntegratedAppLauncher";
+import IntegratedScreenshare from "../screenshare/IntegratedScreenshare";
 
 export const frameWindowName = "frame"
 
-export let frameWindow: Gtk.Window
+export let frameWindow: Astal.Window
 
 let leftGroup: Gtk.Box
 let rightGroup: Gtk.Box

@@ -14,9 +14,9 @@ export function toggleIntegratedAppLauncher() {
 export default function () {
     integratedAppLauncherRevealed.subscribe(() => {
         if (integratedAppLauncherRevealed.get()) {
-            (frameWindow as Astal.Window).keymode = Astal.Keymode.EXCLUSIVE
+            frameWindow.keymode = Astal.Keymode.EXCLUSIVE
         } else {
-            (frameWindow as Astal.Window).keymode = Astal.Keymode.NONE
+            frameWindow.keymode = Astal.Keymode.NONE
         }
     })
 

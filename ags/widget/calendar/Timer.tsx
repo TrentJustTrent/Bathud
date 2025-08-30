@@ -10,6 +10,7 @@ import {variableConfig} from "../../config/config";
 import {projectDir} from "../../app";
 import CircularProgress from "../common/CircularProgress";
 import {hexToRgba} from "../utils/strings";
+import {wireEntryFocus} from "../frame/keymodeUtils";
 
 const [timerValue, timerValueSetter] = createState(0)
 const [entryVisible, entryVisibleSetter] = createState(true)
@@ -137,14 +138,6 @@ function resumeTimer() {
 }
 
 export default function () {
-    integratedCalendarRevealed.subscribe(() => {
-        if (integratedCalendarRevealed.get()) {
-            (frameWindow as Astal.Window).keymode = Astal.Keymode.ON_DEMAND
-        } else {
-            (frameWindow as Astal.Window).keymode = Astal.Keymode.NONE
-        }
-    })
-
     return <box
         hexpand={true}
         orientation={Gtk.Orientation.VERTICAL}
@@ -178,6 +171,7 @@ export default function () {
                             $={(self) => {
                                 entry = self
                                 attachTimerFormatter(self)
+                                wireEntryFocus(self)
                             }}
                         />
                         <OkButton
