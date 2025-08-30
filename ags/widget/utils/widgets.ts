@@ -33,7 +33,7 @@ export function removeAllChildren(box: Gtk.Box) {
 export function ghostWhenTooNarrow(
     widget: Gtk.Widget,
     accessorThresholdBonus: Accessor<number>[] = [],
-    baseThreshold: number = 4,
+    baseThreshold: number = 10,
 ) {
     let tickId = 0
     let isGhost = false
