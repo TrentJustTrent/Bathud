@@ -26,6 +26,7 @@ export enum BarWidget {
     LOCK = "lock",
     RESTART = "restart",
     SHUTDOWN = "shutdown",
+    TIMER = "timer",
 }
 export const BAR_WIDGET_VALUES = Object.values(BarWidget) as readonly BarWidget[]
 
@@ -440,6 +441,12 @@ export const barWidgetsSchema = {
             name: BarWidget.SHUTDOWN,
             type: "object",
             description: "Configuration for the shutdown bar widget.",
+            children: [...widgetCommons()],
+        },
+        {
+            name: BarWidget.TIMER,
+            type: "object",
+            description: "Configuration for the timer bar widget.",
             children: [...widgetCommons()],
         },
     ],

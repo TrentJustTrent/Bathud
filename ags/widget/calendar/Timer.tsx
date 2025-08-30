@@ -1,7 +1,5 @@
 import {createComputed, createState} from "ags";
-import {Astal, Gtk} from "ags/gtk4";
-import {integratedCalendarRevealed} from "./IntegratedCalendar";
-import {frameWindow} from "../frame/Frame";
+import {Gtk} from "ags/gtk4";
 import GLib from "gi://GLib?version=2.0";
 import OkButton from "../common/OkButton";
 import {interval, Timer} from "ags/time";
@@ -9,13 +7,24 @@ import {makeLoopingPlayer} from "./timerUpLoopPlayer";
 import {variableConfig} from "../../config/config";
 import {projectDir} from "../../app";
 import CircularProgress from "../common/CircularProgress";
-import {hexToRgba} from "../utils/strings";
 import {wireEntryFocus} from "../frame/keymodeUtils";
 
 const [timerValue, timerValueSetter] = createState(0)
-const [entryVisible, entryVisibleSetter] = createState(true)
+const [timerEntryVisible, timerEntryVisibleSetter] = createState(true)
 const [timer, timerSetter] = createState<Timer | null>(null)
 const player = makeLoopingPlayer()
+
+export const timerText = createComputed([
+    timerValue
+], (value) => {
+    return millisecondsToHMS(value)
+})
+
+export const timerTextVisible = createComputed([
+    timerEntryVisible
+], (entryVisible) => {
+    return !entryVisible
+})
 
 let timerStartingValue = 0
 
@@ -76,7 +85,7 @@ function attachTimerFormatter(entry: Gtk.Entry) {
     });
 }
 
-function millisecondsToHMS(totalMilliSeconds: number): string {
+export function millisecondsToHMS(totalMilliSeconds: number): string {
     if (!Number.isFinite(totalMilliSeconds)) totalMilliSeconds = 0;
     const ms = Math.max(0, Math.floor(totalMilliSeconds)); // clamp & integerize
 
@@ -129,12 +138,74 @@ function stopTimer() {
 
 function activateTimer() {
     getTimerSecondsFromEntry()
-    entryVisibleSetter(false)
+    timerEntryVisibleSetter(false)
     timerSetter(createTimer())
 }
 
 function resumeTimer() {
     timerSetter(createTimer())
+}
+
+export function TimerPlayPauseStop(
+    {
+        foregroundCss = [],
+        backgroundCss = [],
+    }:
+    {
+        foregroundCss?: string[],
+        backgroundCss?: string[],
+    }
+) {
+    return <OkButton
+        labelCss={foregroundCss}
+        backgroundCss={backgroundCss}
+        visible={timerTextVisible}
+        onClicked={() => {
+            if (player.isRunning.get()) {
+                player.stop()
+                timerValueSetter(timerStartingValue)
+            } else if (timer.get() === null) {
+                resumeTimer()
+            } else {
+                stopTimer()
+            }
+        }}
+        label={createComputed([
+            player.isRunning,
+            timer
+        ], (isRunning, timer) => {
+            if (isRunning) {
+                return ""
+            } else if (timer === null) {
+                return ""
+            } else {
+                return ""
+            }
+        })}/>
+}
+
+export function TimerDelete(
+    {
+        foregroundCss = [],
+        backgroundCss = [],
+    }:
+    {
+        foregroundCss?: string[],
+        backgroundCss?: string[],
+    }
+) {
+    return <OkButton
+        labelCss={foregroundCss}
+        backgroundCss={backgroundCss}
+        visible={timerTextVisible}
+        onClicked={() => {
+            stopTimer()
+            timerEntryVisibleSetter(true)
+            entry.set_text("")
+            timerStartingValue = 0
+            timerValueSetter(0)
+        }}
+        label={""}/>
 }
 
 export default function () {
@@ -162,7 +233,7 @@ export default function () {
                             widthChars={8}
                             hexpand={false}
                             halign={Gtk.Align.CENTER}
-                            visible={entryVisible}
+                            visible={timerEntryVisible}
                             placeholderText="00:00:00"
                             onActivate={() => {
                                 activateTimer()
@@ -176,57 +247,16 @@ export default function () {
                         />
                         <OkButton
                             labelCss={["labelXL"]}
-                            visible={entryVisible.as((v) => !v)}
-                            label={timerValue.as((t) => millisecondsToHMS(t))}
+                            visible={timerTextVisible}
+                            label={timerText}
                         />
                         <box
-                            visible={createComputed([
-                                entryVisible,
-                                player.isRunning,
-                            ], (entryVisible, isRunning) => {
-                                return !entryVisible && !isRunning
-                            })}
                             orientation={Gtk.Orientation.HORIZONTAL}
                             halign={Gtk.Align.CENTER}
                             spacing={8}>
-                            <OkButton
-                                onClicked={() => {
-                                    if (timer.get() === null) {
-                                        resumeTimer()
-                                    } else {
-                                        stopTimer()
-                                    }
-                                }}
-                                label={timer.as((timer) => {
-                                    if (timer === null) {
-                                        return ""
-                                    } else {
-                                        return ""
-                                    }
-                                })}/>
-                            <OkButton
-                                onClicked={() => {
-                                    stopTimer()
-                                    entryVisibleSetter(true)
-                                    entry.set_text("")
-                                }}
-                                label={""}/>
+                            <TimerPlayPauseStop/>
+                            <TimerDelete/>
                         </box>
-                        <OkButton
-                            hexpand={false}
-                            halign={Gtk.Align.CENTER}
-                            visible={createComputed([
-                                entryVisible,
-                                player.isRunning,
-                            ], (entryVisible, isRunning) => {
-                                return !entryVisible && isRunning
-                            })}
-                            onClicked={() => {
-                                player.stop()
-                                entryVisibleSetter(true)
-                                entry.set_text("")
-                            }}
-                            label={""}/>
                     </box> as Gtk.Widget
                 )
             }}>

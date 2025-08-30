@@ -336,3 +336,20 @@
   border-style: solid;
   @include fun.hoverLighten(vars.$barShutdownBackground);
 }
+
+.barTimerForeground {
+  color: vars.$barTimerForeground;
+}
+
+.barTimerButtonBackground {
+  background-color: transparent;
+  @include fun.hoverLighten(vars.$barTimerBackground);
+}
+
+.barTimerBackground {
+  background-color: vars.$barTimerBackground;
+  border-radius: vars.$barTimerBorderRadius;
+  border-width: vars.$barTimerBorderWidth;
+  border-color: vars.$barTimerBorderColor;
+  border-style: solid;
+}

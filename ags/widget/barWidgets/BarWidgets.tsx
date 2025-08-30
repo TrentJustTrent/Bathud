@@ -27,6 +27,7 @@ import MprisTrackInfoBarWidget from "./MprisTrackInfoBarWidget";
 import MprisPrimaryPlayerSwitcher from "./MprisPrimaryPlayerSwitcher";
 import NotificationButton from "./NotificationButton";
 import ColorPickerButton from "./ColorPickerButton";
+import TimerInBar from "./TimerInBar";
 
 export function getHPadding(bar: Bar) {
     switch (bar) {
@@ -135,5 +136,7 @@ function getWidget(widget: BarWidget, isVertical: boolean, bar: Bar) {
             return <NotificationButton bar={bar}/>
         case BarWidget.COLOR_PICKER:
             return <ColorPickerButton bar={bar}/>
+        case BarWidget.TIMER:
+            return <TimerInBar vertical={isVertical}/>
     }
 }
