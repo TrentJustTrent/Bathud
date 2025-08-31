@@ -19,6 +19,7 @@ import {toggleIntegratedMenu} from "./widget/systemMenu/IntegratedMenu";
 import {toggleIntegratedCalendar} from "./widget/calendar/IntegratedCalendar";
 import {toggleIntegratedClipboardManager} from "./widget/clipboardManager/IntegratedClipboardManager";
 import {toggleIntegratedNotificationHistory} from "./widget/notification/IntegratedNotificationHistory";
+import {customWidgetLabelSetters} from "./widget/barWidgets/CustomWidget";
 
 export let projectDir = ""
 
@@ -57,7 +58,20 @@ App.start({
     },
     requestHandler(request: string[], res: (response: any) => void) {
         const command = request[0] ?? ""
-        if (command.startsWith("volume-up")) {
+        if (command.startsWith("custom")) {
+            const widgetNumber = Number(request[1])
+            if (isNaN(widgetNumber)) {
+                res("invalid number")
+                return
+            }
+            const setter = customWidgetLabelSetters.get(widgetNumber)
+            if (setter === undefined) {
+                res("widget number not in use")
+                return
+            }
+            setter(request[2])
+            res("applied custom label")
+        } if (command.startsWith("volume-up")) {
             increaseVolume()
             res("volume up")
         } else if (command.startsWith("volume-down")) {

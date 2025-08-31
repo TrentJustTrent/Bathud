@@ -3,7 +3,9 @@ import {variableConfig} from "../../config/config";
 import {Bar} from "../../config/bar";
 import {getHPadding, getVPadding} from "./BarWidgets";
 import Gio from "gi://Gio?version=2.0";
-import {onCleanup} from "ags";
+import {createState, onCleanup, Setter} from "ags";
+
+export const customWidgetLabelSetters = new Map<number, Setter<string>>
 
 export default function (
     {
@@ -36,7 +38,9 @@ export default function (
     }
 
     // @ts-ignore
-    const label: string = variableConfig.barWidgets[`custom${customNumber}`].label.get()
+    const [label, labelSetter] = createState(variableConfig.barWidgets[`custom${customNumber}`].label.get())
+    customWidgetLabelSetters.set(customNumber, labelSetter)
+
     // @ts-ignore
     const execOnInit: string = variableConfig.barWidgets[`custom${customNumber}`].execOnInit.get()
     // @ts-ignore
@@ -56,6 +60,7 @@ export default function (
     }
 
     onCleanup(() => {
+        customWidgetLabelSetters.delete(customNumber)
         console.log("cleaning up custom widget")
         for (const proc of runningProcs) {
             try { proc.force_exit() } catch (_) {}

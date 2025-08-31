@@ -16,11 +16,27 @@ Commands:
 	volume-up     Increase system volume.
 	volume-down   Decrease system volume.
 	mute          Mute system sound.
+	custom <n> <string>
+			      Update a custom bar widget's label. <n> is a slot number of the custom widget
+			      (1–20). <string> is the new label.
 	help          Show this help message.
 
 Global Options:
 	-h,  --help         Show help for a specific command
 EOF
+}
+
+custom_command() {
+	if [[ $# -lt 2 ]]; then
+		echo "Usage: $0 custom <number> <string>"
+		exit 1
+	fi
+
+	local number=$1
+	shift
+	local string="$*"
+
+	ags request -i "OkPanel" "custom" "$number" "$string"
 }
 
 run_run_command() {
@@ -88,6 +104,7 @@ main() {
 		volume-up)    ags request -i "OkPanel" "volume-up";;
 		volume-down)  ags request -i "OkPanel" "volume-down";;
 		mute)         ags request -i "OkPanel" "mute";;
+		custom)       shift; custom_command "$@";;
 		help|-h|--help) print_help;;
 		*) echo "Unknown command: $1"; print_help; exit 1 ;;
 	esac
