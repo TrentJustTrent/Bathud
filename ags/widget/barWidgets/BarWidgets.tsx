@@ -28,6 +28,7 @@ import MprisPrimaryPlayerSwitcher from "./MprisPrimaryPlayerSwitcher";
 import NotificationButton from "./NotificationButton";
 import ColorPickerButton from "./ColorPickerButton";
 import TimerInBar from "./TimerInBar";
+import CustomWidget from "./CustomWidget";
 
 export function getHPadding(bar: Bar) {
     switch (bar) {
@@ -138,5 +139,46 @@ function getWidget(widget: BarWidget, isVertical: boolean, bar: Bar) {
             return <ColorPickerButton bar={bar}/>
         case BarWidget.TIMER:
             return <TimerInBar vertical={isVertical} bar={bar}/>
+
+        case BarWidget.CUSTOM1:
+            return <CustomWidget customNumber={1} bar={bar}/>
+        case BarWidget.CUSTOM2:
+            return <CustomWidget customNumber={2} bar={bar}/>
+        case BarWidget.CUSTOM3:
+            return <CustomWidget customNumber={3} bar={bar}/>
+        case BarWidget.CUSTOM4:
+            return <CustomWidget customNumber={4} bar={bar}/>
+        case BarWidget.CUSTOM5:
+            return <CustomWidget customNumber={5} bar={bar}/>
+        case BarWidget.CUSTOM6:
+            return <CustomWidget customNumber={6} bar={bar}/>
+        case BarWidget.CUSTOM7:
+            return <CustomWidget customNumber={7} bar={bar}/>
+        case BarWidget.CUSTOM8:
+            return <CustomWidget customNumber={8} bar={bar}/>
+        case BarWidget.CUSTOM9:
+            return <CustomWidget customNumber={9} bar={bar}/>
+        case BarWidget.CUSTOM10:
+            return <CustomWidget customNumber={10} bar={bar}/>
+        case BarWidget.CUSTOM11:
+            return <CustomWidget customNumber={11} bar={bar}/>
+        case BarWidget.CUSTOM12:
+            return <CustomWidget customNumber={12} bar={bar}/>
+        case BarWidget.CUSTOM13:
+            return <CustomWidget customNumber={13} bar={bar}/>
+        case BarWidget.CUSTOM14:
+            return <CustomWidget customNumber={14} bar={bar}/>
+        case BarWidget.CUSTOM15:
+            return <CustomWidget customNumber={15} bar={bar}/>
+        case BarWidget.CUSTOM16:
+            return <CustomWidget customNumber={16} bar={bar}/>
+        case BarWidget.CUSTOM17:
+            return <CustomWidget customNumber={17} bar={bar}/>
+        case BarWidget.CUSTOM18:
+            return <CustomWidget customNumber={18} bar={bar}/>
+        case BarWidget.CUSTOM19:
+            return <CustomWidget customNumber={19} bar={bar}/>
+        case BarWidget.CUSTOM20:
+            return <CustomWidget customNumber={20} bar={bar}/>
     }
 }
