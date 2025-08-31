@@ -7,8 +7,12 @@ Usage: $(basename "$0") <command> [options]
 Commands:
 	run           Run the main application.
 	quit          Exit or stop the application.
-	launcher      Launch a specific component.
-	screenshot    Take a screenshot.
+	launcher      Toggle the app launcher.
+	screenshot    Toggle the screenshot tool.
+	calendar	  Toggle the calendar.
+	menu		  Toggle the menu.
+	notification  Toggle notification history.
+	clipboard	  Toggle the clipboard manager.
 	volume-up     Increase system volume.
 	volume-down   Decrease system volume.
 	mute          Mute system sound.
@@ -77,6 +81,10 @@ main() {
 		quit)         quit;;
 		launcher)     ags request -i "OkPanel" "appLauncher";;
 		screenshot)   ags request -i "OkPanel" "screenshot";;
+		calendar)	  ags request -i "OkPanel" "calendar";;
+		menu)		  ags request -i "OkPanel" "menu";;
+		clipboard)	  ags request -i "OkPanel" "clipboard";;
+		notification) ags request -i "OkPanel" "notification";;
 		volume-up)    ags request -i "OkPanel" "volume-up";;
 		volume-down)  ags request -i "OkPanel" "volume-down";;
 		mute)         ags request -i "OkPanel" "mute";;

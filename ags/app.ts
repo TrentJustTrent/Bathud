@@ -15,6 +15,10 @@ import {toggleIntegratedScreenshot} from "./widget/screenshot/IntegratedScreensh
 import {toggleIntegratedAppLauncher} from "./widget/appLauncher/IntegratedAppLauncher";
 import {createRoot} from "ags";
 import {toggleIntegratedScreenshare} from "./widget/screenshare/IntegratedScreenshare";
+import {toggleIntegratedMenu} from "./widget/systemMenu/IntegratedMenu";
+import {toggleIntegratedCalendar} from "./widget/calendar/IntegratedCalendar";
+import {toggleIntegratedClipboardManager} from "./widget/clipboardManager/IntegratedClipboardManager";
+import {toggleIntegratedNotificationHistory} from "./widget/notification/IntegratedNotificationHistory";
 
 export let projectDir = ""
 
@@ -72,6 +76,18 @@ App.start({
         } else if (command === "screenshot") {
             toggleIntegratedScreenshot()
             res("screenshot toggled")
+        } else if (command === "menu") {
+            toggleIntegratedMenu()
+            res("menu toggled")
+        } else if (command === "calendar") {
+            toggleIntegratedCalendar()
+            res("calendar toggled")
+        } else if (command === "clipboard") {
+            toggleIntegratedClipboardManager()
+            res("clipboard toggled")
+        } else if (command === "notification") {
+            toggleIntegratedNotificationHistory()
+            res("notifications toggled")
         } else {
             res("command not found")
         }

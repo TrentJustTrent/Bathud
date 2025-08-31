@@ -23,6 +23,10 @@ export const integratedMenuWidth = 410
 
 export const [integratedMenuRevealed, integratedMenuRevealedSetting] = createState(false)
 
+export function toggleIntegratedMenu() {
+    integratedMenuRevealedSetting(!integratedMenuRevealed.get())
+}
+
 let mainBox: Gtk.Box
 
 let network: Gtk.Widget

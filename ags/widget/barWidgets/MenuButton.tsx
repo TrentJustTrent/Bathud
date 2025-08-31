@@ -2,7 +2,11 @@ import {Bar} from "../../config/bar";
 import OkButton from "../common/OkButton";
 import {variableConfig} from "../../config/config";
 import {getHPadding, getVPadding} from "./BarWidgets";
-import {integratedMenuRevealed, integratedMenuRevealedSetting} from "../systemMenu/IntegratedMenu";
+import {
+    integratedMenuRevealed,
+    integratedMenuRevealedSetting,
+    toggleIntegratedMenu
+} from "../systemMenu/IntegratedMenu";
 
 export default function ({bar}: { bar: Bar }) {
     return <OkButton
@@ -13,6 +17,6 @@ export default function ({bar}: { bar: Bar }) {
         vpadding={getVPadding(bar)}
         label={variableConfig.barWidgets.menu.icon.asAccessor()}
         onClicked={() => {
-            integratedMenuRevealedSetting(!integratedMenuRevealed.get())
+            toggleIntegratedMenu()
         }}/>
 }
