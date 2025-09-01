@@ -43,8 +43,8 @@
 
     --md-accent-fg-color:                #7C7C54;
     --md-accent-fg-color--transparent:   #7C7C54;
-    --md-accent-bg-color:                #1F2932;
-    --md-accent-bg-color--light:         #1F2932;
+    --md-accent-bg-color:                #1f272e;
+    --md-accent-bg-color--light:         #1f272e;
 
     --md-default-fg-color:               #AFB3BD;
     --md-default-fg-color--light:        #C0C4CC;
@@ -65,14 +65,14 @@
     --md-typeset-table-color--light:     #2A3540;
 
     --md-admonition-fg-color:            #AFB3BD;
-    --md-admonition-bg-color:            #1F2932;
+    --md-admonition-bg-color:            #1f272e;
 
-    --md-warning-fg-color:              #1F2932;
+    --md-warning-fg-color:              #1f272e;
     --md-warning-bg-color:              #7C7C54;
 
     --md-footer-fg-color:                #AFB3BD;
     --md-footer-fg-color--light:         #C0C4CC;
     --md-footer-fg-color--lighter:       #D1D4DC;
-    --md-footer-bg-color:                #1F2932;
-    --md-footer-bg-color--dark:          #1F2932;
+    --md-footer-bg-color:                #1f272e;
+    --md-footer-bg-color--dark:          #1f272e;
 }
