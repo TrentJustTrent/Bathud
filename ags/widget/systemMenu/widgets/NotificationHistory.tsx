@@ -3,6 +3,7 @@ import Notification from "../../notification/Notification"
 import {Gtk} from "ags/gtk4"
 import OkButton from "../../common/OkButton";
 import {createBinding, For, With} from "ags";
+import {integratedNotificationHistoryRevealedSetting} from "../../notification/IntegratedNotificationHistory";
 
 export default function() {
     const notifications = Notifd.get_default()
@@ -29,6 +30,7 @@ export default function() {
                     notifications.notifications.forEach((notification) => {
                         notification.dismiss()
                     })
+                    integratedNotificationHistoryRevealedSetting(false)
                 }}/>
         </box>
         <With value={createBinding(notifications, "notifications")}>
