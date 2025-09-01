@@ -215,10 +215,12 @@ export default function () {
                     leftScalingFixVisibleSetter(
                         isFractionalScaling
                         && !(rightThickness === 0 && innerBorderWidth === 0)
+                        && variableConfig.frame.drawFrame.get()
                     )
                     bottomScalingFixVisibleSetter(
                         isFractionalScaling
                         && !(bottomThickness === 0 && innerBorderWidth === 0)
+                        && variableConfig.frame.drawFrame.get()
                     )
                 });
 
