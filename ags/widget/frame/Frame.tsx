@@ -86,7 +86,7 @@ export function OutlineOverlay() {
                     visible={bottomScalingFixVisible}
                     cssClasses={["frameScalingFix"]}
                     vexpand={false}
-                    widthRequest={2}
+                    heightRequest={2}
                     valign={Gtk.Align.END}
                 /> as Gtk.Widget
             )
