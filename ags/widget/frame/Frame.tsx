@@ -155,7 +155,6 @@ export function OutlineOverlay() {
                             ctx.setLineJoin(Cairo.LineJoin.ROUND);
                             ctx.setLineCap(Cairo.LineCap.ROUND);
                             ctx.stroke();
-                            ctx.restore();
                         }
                     }
 
