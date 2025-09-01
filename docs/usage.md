@@ -18,7 +18,7 @@ okpanel quit
 
 ---
 
-### Showing the app launcher
+### Toggling the app launcher
 
 Bind this command to whatever keybind you want
 
@@ -34,7 +34,39 @@ okpanel launcher
 okpanel screenshot
 ```
 
-To stop screen recording, click the recording button that appears in your bar.
+To stop screen recording, open the screenshot tool again and click stop, or click the recording button that appears in your bar if you enabled it.
+
+---
+
+### Toggling the menu
+
+```
+okpanel menu
+```
+
+---
+
+### Toggling notification history
+
+```
+okpanel notifications
+```
+
+---
+
+### Toggling the clipboard manager
+
+```
+okpanel clipboard
+```
+
+---
+
+### Toggling the calendar
+
+```
+okpanel calendar
+```
 
 ---
 
@@ -59,3 +91,11 @@ screencopy {
     custom_picker_binary = okpanel-share
 }
 ```
+
+### Updating a custom bar widget's label
+
+```
+okpanel custom <n> <string>
+```
+
+---
