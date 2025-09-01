@@ -16,4 +16,4 @@
 
 <br>
 
-![screenshot](screenshots/features/network.png)
+![screenshot](https://raw.githubusercontent.com/JohnOberhauser/OkPanelScreenshots/refs/heads/main/menu.png)
