@@ -75,6 +75,7 @@ iconOffset: 2
 wallpaperDir: /home/john/workspace/Varda-Theme/themes/bloodrust/wallpaper
 
 frame:
+  drawFrame: false
   leftThickness: 0
   bottomThickness: 0
   rightThickness: 0
