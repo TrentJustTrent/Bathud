@@ -6,13 +6,13 @@ import {createComputed} from "ags";
 import {topBarHeight} from "../bars/TopBar";
 
 export default function (): Astal.Window {
-
     const size = createComputed([
         topBarHeight,
         variableConfig.frame.topThickness.asAccessor(),
         variableConfig.frame.borderWidth.asAccessor(),
         variableConfig.topBar.marginTop.asAccessor(),
         variableConfig.topBar.marginBottom.asAccessor(),
+        variableConfig.topBar.borderWidth.asAccessor(),
         variableConfig.frame.margin.asAccessor(),
     ], (
         topBarHeight,
@@ -20,9 +20,10 @@ export default function (): Astal.Window {
         borderWidth,
         barMarginTop,
         barMarginBottom,
+        topBarBorderWidth,
         frameMargin,
     ) => {
-        return topThickness + topBarHeight + borderWidth + barMarginTop + barMarginBottom + frameMargin
+        return topThickness + topBarHeight + borderWidth + barMarginTop + barMarginBottom + (topBarBorderWidth * 2) + frameMargin
     })
 
     return <window

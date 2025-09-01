@@ -2,19 +2,18 @@ import {addWidgets} from "../../barWidgets/BarWidgets";
 import {variableConfig} from "../../../config/config";
 import {Gtk} from "ags/gtk4";
 import {createState, With} from "ags"
-import {interval} from "ags/time";
 import {Bar} from "../../../config/bar";
+import {BoxWithResize} from "../../common/BoxWithResize";
 
 export const [leftBarWidth, leftBarWidthSetter] = createState(0)
 
 export default function () {
     // wrapped in a box for the padding (margins of the center box)
-    return <box
+    return <BoxWithResize
         $={(self) => {
-            interval(1000, () => {
-                leftBarWidthSetter(self.get_allocated_width())
+            self.connect("resized", (_, w, h) => {
+                leftBarWidthSetter(w)
             })
-            leftBarWidthSetter(self.get_allocated_width())
         }}
         marginTop={variableConfig.leftBar.marginTop.asAccessor()}
         marginBottom={variableConfig.leftBar.marginBottom.asAccessor()}
@@ -69,5 +68,5 @@ export default function () {
                     </With>
                 </box> as Gtk.Widget
             }/>
-    </box>
+    </BoxWithResize>
 }

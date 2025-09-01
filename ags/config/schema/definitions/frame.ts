@@ -32,6 +32,12 @@ export const frameSchema = {
     description: 'Configuration for the frame.',
     children: [
         {
+            name: 'drawFrame',
+            type: 'boolean',
+            default: true,
+            description: 'Whether to draw the frame or not.'
+        },
+        {
             name: 'margin',
             type: 'number',
             default: 5,
