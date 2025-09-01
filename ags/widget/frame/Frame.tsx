@@ -112,15 +112,6 @@ export function OutlineOverlay() {
                     const topThickness = variableConfig.frame.topThickness.get()
                     const bottomThickness = variableConfig.frame.bottomThickness.get()
 
-                    ctx.save();
-                    ctx.setAntialias(Cairo.Antialias.BEST);
-
-                    // Frame: square outer edges
-                    ctx.setOperator(Cairo.Operator.OVER);
-                    ctx.setSourceRGBA(fr, fg, fb, fa);
-                    ctx.rectangle(0, 0, w, h);
-                    ctx.fill();
-
                     // Inner hole geometry
                     let x, y, iw, ih
 
@@ -129,31 +120,44 @@ export function OutlineOverlay() {
                     iw = Math.max(0, w - leftThickness - rightThickness);
                     ih = Math.max(0, h - topThickness - bottomThickness);
 
-                    const r  = Math.max(0, Math.min(innerRadius, Math.min(iw, ih) / 2));
+                    ctx.setAntialias(Cairo.Antialias.BEST);
 
-                    // Cutout (transparent center)
-                    ctx.setOperator(Cairo.Operator.CLEAR);
-                    roundedRect(ctx, x, y, iw, ih, r);
-                    ctx.fill();
-
-                    // Interior border: draw ONLY on the inside by clipping to the hole,
-                    // then stroking the same path with 2x width (clip keeps inner half).
-                    if (innerBorderWidth > 0 && ba > 0) {
+                    // Only draw the frame if it should be drawn
+                    if (!(leftThickness === 0
+                            && rightThickness === 0
+                            && topThickness === 0
+                            && bottomThickness === 0
+                            && innerBorderWidth === 0
+                            && innerRadius === 0)
+                    ) {
+                        // Frame: square outer edges
                         ctx.setOperator(Cairo.Operator.OVER);
-                        ctx.save();
-                        roundedRect(ctx, x, y, iw, ih, r);
-                        ctx.clip();                          // limit to the transparent hole
-                        roundedRect(ctx, x, y, iw, ih, r);   // the stroke path
-                        ctx.setSourceRGBA(br, bg, bb, ba);
-                        ctx.setLineWidth(innerBorderWidth * 2);
-                        ctx.setLineJoin(Cairo.LineJoin.ROUND);
-                        ctx.setLineCap(Cairo.LineCap.ROUND);
-                        ctx.stroke();
-                        ctx.restore();
-                    }
+                        ctx.setSourceRGBA(fr, fg, fb, fa);
+                        ctx.rectangle(0, 0, w, h);
+                        ctx.fill();
 
-                    ctx.restore();
-                    ctx.setOperator(Cairo.Operator.OVER);
+                        const r  = Math.max(0, Math.min(innerRadius, Math.min(iw, ih) / 2));
+
+                        // Cutout (transparent center)
+                        ctx.setOperator(Cairo.Operator.CLEAR);
+                        roundedRect(ctx, x, y, iw, ih, r);
+                        ctx.fill();
+
+                        // Interior border: draw ONLY on the inside by clipping to the hole,
+                        // then stroking the same path with 2x width (clip keeps inner half).
+                        if (innerBorderWidth > 0 && ba > 0) {
+                            ctx.setOperator(Cairo.Operator.OVER);
+                            roundedRect(ctx, x, y, iw, ih, r);
+                            ctx.clip();                          // limit to the transparent hole
+                            roundedRect(ctx, x, y, iw, ih, r);   // the stroke path
+                            ctx.setSourceRGBA(br, bg, bb, ba);
+                            ctx.setLineWidth(innerBorderWidth * 2);
+                            ctx.setLineJoin(Cairo.LineJoin.ROUND);
+                            ctx.setLineCap(Cairo.LineCap.ROUND);
+                            ctx.stroke();
+                            ctx.restore();
+                        }
+                    }
 
                     // After we draw the cutout, we change the input region of the frame window to include
                     // everything except the cutout region
