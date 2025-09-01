@@ -6,4 +6,4 @@ This project is quite usable, but still in a pre-release state.  There may be br
 
 ## [Check out the docs to get started](https://johnoberhauser.github.io/OkPanel/)
 
-![screenshot](docs/screenshots/features/network.png)
+![screenshot](https://raw.githubusercontent.com/JohnOberhauser/OkPanelScreenshots/refs/heads/main/menu.png)

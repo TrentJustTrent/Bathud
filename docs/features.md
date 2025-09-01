@@ -14,14 +14,6 @@ Bars can be configured with various widgets.  The position of the bar can be cha
   <img src="../screenshots/features/bar/bottom.png" alt="Image 3" style="width: 50%;">
 </p>
 
-Here are some examples of bar configurations:
-
-![screenshot](screenshots/features/bar/example1.png)
-
-![screenshot](screenshots/features/bar/example2.png)
-
-![screenshot](screenshots/features/bar/example3.png)
-
 ## System Menu
 
 ### Network management
@@ -30,7 +22,7 @@ In the network section you can connect and disconnect from Wi-Fi and VPNs.  For 
 it must be added to network manager.  Wireguard and OpenVPN connections will show.  You can add wireguard
 connections by clicking the "Add Wireguard VPN" button and selecting your wireguard conf file.
 
-![screenshot](screenshots/features/network.png)
+![screenshot](https://raw.githubusercontent.com/JohnOberhauser/OkPanelScreenshots/refs/heads/main/network.png)
 
 ---
 
@@ -38,7 +30,7 @@ connections by clicking the "Add Wireguard VPN" button and selecting your wiregu
 
 Scan and connect to bluetooth devices.
 
-![screenshot](screenshots/features/bluetooth.png)
+![screenshot](https://raw.githubusercontent.com/JohnOberhauser/OkPanelScreenshots/refs/heads/main/bluetooth.png)
 
 ---
 
@@ -47,7 +39,7 @@ Scan and connect to bluetooth devices.
 In the audio section you can adjust the volume sliders or click the icon button to mute.
 You can swap the default input/output.
 
-![screenshot](screenshots/features/audio.png)
+![screenshot](https://raw.githubusercontent.com/JohnOberhauser/OkPanelScreenshots/refs/heads/main/audio.png)
 
 ---
 
@@ -55,7 +47,7 @@ You can swap the default input/output.
 
 Change the current power profile.
 
-![screenshot](screenshots/features/powerProfiles.png)
+![screenshot](https://raw.githubusercontent.com/JohnOberhauser/OkPanelScreenshots/refs/heads/main/power_saver.png)
 
 ---
 
@@ -75,7 +67,7 @@ wallpaper program you use.
 OkPanel will remember which wallpaper you last selected for each configured theme.  When
 switching themes, the `wallpaperUpdateScript` will be called as well.
 
-![screenshot](screenshots/features/lookandfeel.png)
+![screenshot](https://raw.githubusercontent.com/JohnOberhauser/OkPanelScreenshots/refs/heads/main/look_and_feel.png)
 
 ---
 
@@ -83,7 +75,7 @@ switching themes, the `wallpaperUpdateScript` will be called as well.
 
 Mpris controls will show up when available.
 
-![screenshot](screenshots/features/media.png)
+![screenshot](https://raw.githubusercontent.com/JohnOberhauser/OkPanelScreenshots/refs/heads/main/menu.png)
 
 ---
 
@@ -91,7 +83,7 @@ Mpris controls will show up when available.
 
 To enter "Do not disturb" mode, click the notification bell icon.
 
-![screenshot](screenshots/features/notifications.png)
+![screenshot](https://raw.githubusercontent.com/JohnOberhauser/OkPanelScreenshots/refs/heads/main/notifications.png)
 
 ---
 
@@ -103,7 +95,7 @@ When screen recording, you can set your encoding speed and CRF.  CRF will impact
 quality and file size.  Choose a higher number (further down the list) for a lower
 quality and smaller file size.
 
-![screenshot](screenshots/features/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/JohnOberhauser/OkPanelScreenshots/refs/heads/main/screenshot.png)
 
 ---
 
@@ -111,7 +103,7 @@ quality and smaller file size.
 
 The `okpanel launcher` command must be key-bound for this to show up.
 
-![screenshot](screenshots/features/appLauncher.png)
+![screenshot](https://raw.githubusercontent.com/JohnOberhauser/OkPanelScreenshots/refs/heads/main/app_launcher.png)
 
 ---
 
@@ -119,7 +111,7 @@ The `okpanel launcher` command must be key-bound for this to show up.
 
 Click the Clock widget in the bar to show the calendar.
 
-![screenshot](screenshots/features/calendar.png)
+![screenshot](https://raw.githubusercontent.com/JohnOberhauser/OkPanelScreenshots/refs/heads/main/calendar.png)
 
 ---
 
@@ -130,13 +122,13 @@ Cliphist will only run if the clipboard manager widget is added to the bar.  Sen
 passwords, api keys, private keys, etc should be filtered out.  Check the [script](https://github.com/JohnOberhauser/OkPanel/blob/main/ags/shellScripts/cliphistStore.sh)
 or disable the widget if you have concerns.
 
-![screenshot](screenshots/features/clipboardManager.png)
+![screenshot](https://raw.githubusercontent.com/JohnOberhauser/OkPanelScreenshots/refs/heads/main/clipboard.png)
 
 ## Volume and brightness OSD
 
 The OSD shows automatically when changing volume or brightness.
 
-![screenshot](screenshots/features/alerts.png)
+![screenshot](https://raw.githubusercontent.com/JohnOberhauser/OkPanelScreenshots/refs/heads/main/osd.png)
 
 ---
 
@@ -144,4 +136,4 @@ The OSD shows automatically when changing volume or brightness.
 
 The screen share portal only works with Hyprland's XDPH.  See the usage page for more info.
 
-![screenshot](screenshots/features/portal.png)
+![screenshot](https://raw.githubusercontent.com/JohnOberhauser/OkPanelScreenshots/refs/heads/main/screenshare.png)
