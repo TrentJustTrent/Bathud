@@ -123,6 +123,7 @@ cat > "$BUILD_DIR/variables.scss" <<EOFVARS
 
 \\$windowBorder: ${config.theme.windows.borderColor};
 \\$windowBackgroundColor: ${config.theme.windows.backgroundColor};
+\\$frameBackgroundColor: ${config.frame.backgroundColor};
 
 \\$barWorkspacesInactiveForeground: ${config.barWidgets.workspaces.inactiveForeground};
 \\$barNotificationHistoryIndicatorForeground: ${config.barWidgets.notificationHistory.indicatorForeground};
