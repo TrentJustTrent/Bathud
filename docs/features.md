@@ -4,15 +4,10 @@
 
 Bars can be configured with various widgets.  The position of the bar can be changed through the system menu Look and Feel controls
 
-<p style="display: flex; gap: 1rem;">
-  <img src="../screenshots/features/bar/top.png" alt="Image 1" style="width: 50%;">
-  <img src="../screenshots/features/bar/right.png" alt="Image 2" style="width: 50%;">
-</p>
+![screenshot](https://raw.githubusercontent.com/JohnOberhauser/OkPanelScreenshots/refs/heads/main/examples/simple_frame.png)
 
-<p style="display: flex; gap: 1rem;">
-  <img src="../screenshots/features/bar/left.png" alt="Image 3" style="width: 50%;">
-  <img src="../screenshots/features/bar/bottom.png" alt="Image 3" style="width: 50%;">
-</p>
+![screenshot](https://raw.githubusercontent.com/JohnOberhauser/OkPanelScreenshots/refs/heads/main/examples/simple_bar.png)
+
 
 ## System Menu
 
