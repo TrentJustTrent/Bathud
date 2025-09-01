@@ -96,6 +96,143 @@ function getLeftAndRightSides() {
     return [leftSide, rightSide]
 }
 
+function TopGroup() {
+    return <box
+        $={(self) => {
+            ghostWhenTooNarrow(
+                self,
+                [
+                    variableConfig.topBar.paddingBottom.asAccessor(),
+                    variableConfig.topBar.paddingTop.asAccessor(),
+                    variableConfig.topBar.marginBottom.asAccessor(),
+                    variableConfig.topBar.marginTop.asAccessor(),
+                    variableConfig.topBar.borderWidth.asAccessor(),
+                ]
+            )
+        }}
+        orientation={Gtk.Orientation.HORIZONTAL}>
+        <box hexpand={variableConfig.topBar.expanded.asAccessor().as((e) => !e)}/>
+        <TopBar/>
+        <box hexpand={variableConfig.topBar.expanded.asAccessor().as((e) => !e)}/>
+    </box>
+}
+
+function BottomGroup() {
+    return <box
+        $={(self) => {
+            ghostWhenTooNarrow(
+                self,
+                [
+                    variableConfig.bottomBar.paddingBottom.asAccessor(),
+                    variableConfig.bottomBar.paddingTop.asAccessor(),
+                    variableConfig.bottomBar.marginBottom.asAccessor(),
+                    variableConfig.bottomBar.marginTop.asAccessor(),
+                    variableConfig.bottomBar.borderWidth.asAccessor(),
+                ]
+            )
+        }}
+        orientation={Gtk.Orientation.HORIZONTAL}>
+        <box hexpand={variableConfig.bottomBar.expanded.asAccessor().as((e) => !e)}/>
+        <BottomBar/>
+        <box hexpand={variableConfig.bottomBar.expanded.asAccessor().as((e) => !e)}/>
+    </box>
+}
+
+function LeftGroup() {
+    return <box
+        $={(self) => {
+            ghostWhenTooNarrow(
+                self,
+                [
+                    variableConfig.leftBar.paddingStart.asAccessor(),
+                    variableConfig.leftBar.paddingEnd.asAccessor(),
+                    variableConfig.leftBar.marginStart.asAccessor(),
+                    variableConfig.leftBar.marginEnd.asAccessor(),
+                    variableConfig.leftBar.borderWidth.asAccessor(),
+                ]
+            )
+        }}
+        orientation={Gtk.Orientation.VERTICAL}>
+        <box vexpand={variableConfig.leftBar.expanded.asAccessor().as((e) => !e)}/>
+        <BoxWithResize
+            $={(self) => {
+                self.connect("resized", (_, w, h) => {
+                    leftGroupWidthSetter(w)
+                })
+            }}
+            vexpand={true}
+            heightRequest={variableConfig.leftBar.minimumHeight.asAccessor()}
+            marginStart={variableConfig.leftBar.marginStart.asAccessor()}
+            marginEnd={variableConfig.leftBar.marginEnd.asAccessor()}
+            marginTop={variableConfig.leftBar.marginTop.asAccessor()}
+            marginBottom={variableConfig.leftBar.marginBottom.asAccessor()}
+            cssClasses={["frameLeftGroup"]}>
+            <box
+                marginStart={variableConfig.leftBar.paddingStart.asAccessor()}
+                marginEnd={variableConfig.leftBar.paddingEnd.asAccessor()}
+                marginTop={variableConfig.leftBar.paddingTop.asAccessor()}
+                marginBottom={variableConfig.leftBar.paddingBottom.asAccessor()}
+                orientation={Gtk.Orientation.HORIZONTAL}
+                $={(self) => {
+                    leftGroup = self
+
+                    const [leftSideWidgets, _] = getLeftAndRightSides()
+
+                    appendChildren(leftGroup, leftSideWidgets)
+                }}/>
+        </BoxWithResize>
+        <box vexpand={variableConfig.leftBar.expanded.asAccessor().as((e) => !e)}/>
+    </box>
+}
+
+function RightGroup() {
+    return <box
+        $={(self) => {
+            ghostWhenTooNarrow(
+                self,
+                [
+                    variableConfig.rightBar.paddingStart.asAccessor(),
+                    variableConfig.rightBar.paddingEnd.asAccessor(),
+                    variableConfig.rightBar.marginStart.asAccessor(),
+                    variableConfig.rightBar.marginEnd.asAccessor(),
+                    variableConfig.rightBar.borderWidth.asAccessor(),
+                ]
+            )
+        }}
+        halign={Gtk.Align.END}
+        orientation={Gtk.Orientation.VERTICAL}>
+        <box vexpand={variableConfig.rightBar.expanded.asAccessor().as((e) => !e)}/>
+        <BoxWithResize
+            $={(self) => {
+                self.connect("resized", (_, w, h) => {
+                    rightGroupWidthSetter(w)
+                })
+            }}
+            vexpand={true}
+            heightRequest={variableConfig.rightBar.minimumHeight.asAccessor()}
+            marginStart={variableConfig.rightBar.marginStart.asAccessor()}
+            marginEnd={variableConfig.rightBar.marginEnd.asAccessor()}
+            marginTop={variableConfig.rightBar.marginTop.asAccessor()}
+            marginBottom={variableConfig.rightBar.marginBottom.asAccessor()}
+            cssClasses={["frameRightGroup"]}>
+            <box
+                marginStart={variableConfig.rightBar.paddingStart.asAccessor()}
+                marginEnd={variableConfig.rightBar.paddingEnd.asAccessor()}
+                marginTop={variableConfig.rightBar.paddingTop.asAccessor()}
+                marginBottom={variableConfig.rightBar.paddingBottom.asAccessor()}
+                orientation={Gtk.Orientation.HORIZONTAL}
+                $={(self) => {
+                    rightGroup = self
+
+                    const [_, rightSideWidgets] = getLeftAndRightSides()
+
+                    appendChildren(rightGroup, rightSideWidgets)
+                }}/>
+        </BoxWithResize>
+        <box vexpand={variableConfig.rightBar.expanded.asAccessor().as((e) => !e)}/>
+    </box>
+}
+
 export default function (): Astal.Window {
 
     const menuPosition = variableConfig.frame.menu.position.asAccessor()
@@ -153,137 +290,16 @@ export default function (): Astal.Window {
                         vexpand={true}
                         hexpand={true}
                         orientation={Gtk.Orientation.VERTICAL}>
-                        <box
-                            $={(self) => {
-                                ghostWhenTooNarrow(
-                                    self,
-                                    [
-                                        variableConfig.topBar.paddingBottom.asAccessor(),
-                                        variableConfig.topBar.paddingTop.asAccessor(),
-                                        variableConfig.topBar.marginBottom.asAccessor(),
-                                        variableConfig.topBar.marginTop.asAccessor(),
-                                        variableConfig.topBar.borderWidth.asAccessor(),
-                                    ]
-                                )
-                            }}
-                            orientation={Gtk.Orientation.HORIZONTAL}>
-                            <box hexpand={variableConfig.topBar.expanded.asAccessor().as((e) => !e)}/>
-                            <TopBar/>
-                            <box hexpand={variableConfig.topBar.expanded.asAccessor().as((e) => !e)}/>
-                        </box>
+                        <TopGroup/>
                         <box
                             vexpand={true}
                             hexpand={true}
                             orientation={Gtk.Orientation.HORIZONTAL}>
-                            <box
-                                $={(self) => {
-                                    ghostWhenTooNarrow(
-                                        self,
-                                        [
-                                            variableConfig.leftBar.paddingStart.asAccessor(),
-                                            variableConfig.leftBar.paddingEnd.asAccessor(),
-                                            variableConfig.leftBar.marginStart.asAccessor(),
-                                            variableConfig.leftBar.marginEnd.asAccessor(),
-                                            variableConfig.leftBar.borderWidth.asAccessor(),
-                                        ]
-                                    )
-                                }}
-                                orientation={Gtk.Orientation.VERTICAL}>
-                                <box vexpand={variableConfig.leftBar.expanded.asAccessor().as((e) => !e)}/>
-                                <BoxWithResize
-                                    $={(self) => {
-                                        self.connect("resized", (_, w, h) => {
-                                            leftGroupWidthSetter(w)
-                                        })
-                                    }}
-                                    vexpand={true}
-                                    heightRequest={variableConfig.leftBar.minimumHeight.asAccessor()}
-                                    marginStart={variableConfig.leftBar.marginStart.asAccessor()}
-                                    marginEnd={variableConfig.leftBar.marginEnd.asAccessor()}
-                                    marginTop={variableConfig.leftBar.marginTop.asAccessor()}
-                                    marginBottom={variableConfig.leftBar.marginBottom.asAccessor()}
-                                    cssClasses={["frameLeftGroup"]}>
-                                    <box
-                                        marginStart={variableConfig.leftBar.paddingStart.asAccessor()}
-                                        marginEnd={variableConfig.leftBar.paddingEnd.asAccessor()}
-                                        marginTop={variableConfig.leftBar.paddingTop.asAccessor()}
-                                        marginBottom={variableConfig.leftBar.paddingBottom.asAccessor()}
-                                        orientation={Gtk.Orientation.HORIZONTAL}
-                                        $={(self) => {
-                                            leftGroup = self
-
-                                            const [leftSideWidgets, _] = getLeftAndRightSides()
-
-                                            appendChildren(leftGroup, leftSideWidgets)
-                                        }}/>
-                                </BoxWithResize>
-                                <box vexpand={variableConfig.leftBar.expanded.asAccessor().as((e) => !e)}/>
-                            </box>
+                            <LeftGroup/>
                             <box hexpand/>
-                            <box
-                                $={(self) => {
-                                    ghostWhenTooNarrow(
-                                        self,
-                                        [
-                                            variableConfig.rightBar.paddingStart.asAccessor(),
-                                            variableConfig.rightBar.paddingEnd.asAccessor(),
-                                            variableConfig.rightBar.marginStart.asAccessor(),
-                                            variableConfig.rightBar.marginEnd.asAccessor(),
-                                            variableConfig.rightBar.borderWidth.asAccessor(),
-                                        ]
-                                    )
-                                }}
-                                halign={Gtk.Align.END}
-                                orientation={Gtk.Orientation.VERTICAL}>
-                                <box vexpand={variableConfig.rightBar.expanded.asAccessor().as((e) => !e)}/>
-                                <BoxWithResize
-                                    $={(self) => {
-                                        self.connect("resized", (_, w, h) => {
-                                            rightGroupWidthSetter(w)
-                                        })
-                                    }}
-                                    vexpand={true}
-                                    heightRequest={variableConfig.rightBar.minimumHeight.asAccessor()}
-                                    marginStart={variableConfig.rightBar.marginStart.asAccessor()}
-                                    marginEnd={variableConfig.rightBar.marginEnd.asAccessor()}
-                                    marginTop={variableConfig.rightBar.marginTop.asAccessor()}
-                                    marginBottom={variableConfig.rightBar.marginBottom.asAccessor()}
-                                    cssClasses={["frameRightGroup"]}>
-                                    <box
-                                        marginStart={variableConfig.rightBar.paddingStart.asAccessor()}
-                                        marginEnd={variableConfig.rightBar.paddingEnd.asAccessor()}
-                                        marginTop={variableConfig.rightBar.paddingTop.asAccessor()}
-                                        marginBottom={variableConfig.rightBar.paddingBottom.asAccessor()}
-                                        orientation={Gtk.Orientation.HORIZONTAL}
-                                        $={(self) => {
-                                            rightGroup = self
-
-                                            const [_, rightSideWidgets] = getLeftAndRightSides()
-
-                                            appendChildren(rightGroup, rightSideWidgets)
-                                        }}/>
-                                </BoxWithResize>
-                                <box vexpand={variableConfig.rightBar.expanded.asAccessor().as((e) => !e)}/>
-                            </box>
+                            <RightGroup/>
                         </box>
-                        <box
-                            $={(self) => {
-                                ghostWhenTooNarrow(
-                                    self,
-                                    [
-                                        variableConfig.bottomBar.paddingBottom.asAccessor(),
-                                        variableConfig.bottomBar.paddingTop.asAccessor(),
-                                        variableConfig.bottomBar.marginBottom.asAccessor(),
-                                        variableConfig.bottomBar.marginTop.asAccessor(),
-                                        variableConfig.bottomBar.borderWidth.asAccessor(),
-                                    ]
-                                )
-                            }}
-                            orientation={Gtk.Orientation.HORIZONTAL}>
-                            <box hexpand={variableConfig.bottomBar.expanded.asAccessor().as((e) => !e)}/>
-                            <BottomBar/>
-                            <box hexpand={variableConfig.bottomBar.expanded.asAccessor().as((e) => !e)}/>
-                        </box>
+                        <BottomGroup/>
                     </box> as Gtk.Box
                 )
             }}>
