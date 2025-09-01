@@ -1,8 +1,8 @@
 # Features
 
-## Bar
+## Bar and Frame
 
-Bars can be configured with various widgets.  The position of the bar can be changed through the system menu Look and Feel controls
+Bars can be configured with various widgets.  The frame can be hidden if you would rather have a normal bar.  You can have a top, bottom, right and/or left bar.
 
 ![screenshot](https://raw.githubusercontent.com/JohnOberhauser/OkPanelScreenshots/refs/heads/main/examples/simple_frame.png)
 
@@ -50,8 +50,6 @@ Change the current power profile.
 
 Here you can switch between predefined themes.  The `themeUpdateScript` will be called
 when switching themes.  The theme name you defined will be the first argument passed to the script.
-
-You can switch the bar position here.
 
 You can choose your wallpaper.  The wallpapers listed here are the ones found in the
 directory defined in the theme's config.  JPG and PNGs in that directory will show up.
