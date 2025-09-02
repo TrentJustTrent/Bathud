@@ -233,7 +233,7 @@ export default function () {
             $={(self) => {
                 self.add_overlay(
                     <box
-                        marginTop={60}
+                        marginTop={70}
                         hexpand={true}
                         orientation={Gtk.Orientation.VERTICAL}
                         halign={Gtk.Align.CENTER}>
