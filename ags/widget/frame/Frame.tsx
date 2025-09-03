@@ -159,6 +159,7 @@ function LeftGroup() {
                 self.connect("resized", (_, w, h) => {
                     leftGroupWidthSetter(w)
                 })
+                self.set_overflow(Gtk.Overflow.HIDDEN)
             }}
             vexpand={true}
             heightRequest={variableConfig.leftBar.minimumHeight.asAccessor()}
@@ -207,6 +208,7 @@ function RightGroup() {
                 self.connect("resized", (_, w, h) => {
                     rightGroupWidthSetter(w)
                 })
+                self.set_overflow(Gtk.Overflow.HIDDEN)
             }}
             vexpand={true}
             heightRequest={variableConfig.rightBar.minimumHeight.asAccessor()}

@@ -15,6 +15,7 @@ export default function () {
             self.connect("resized", (_, w, h) => {
                 bottomBarHeightSetter(h)
             })
+            self.set_overflow(Gtk.Overflow.HIDDEN)
         }}
         widthRequest={variableConfig.bottomBar.minimumWidth.asAccessor()}
         marginTop={variableConfig.bottomBar.marginTop.asAccessor()}

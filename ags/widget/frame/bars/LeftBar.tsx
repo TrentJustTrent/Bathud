@@ -14,11 +14,7 @@ export default function () {
             self.connect("resized", (_, w, h) => {
                 leftBarWidthSetter(w)
             })
-        }}
-        marginTop={variableConfig.leftBar.marginTop.asAccessor()}
-        marginBottom={variableConfig.leftBar.marginBottom.asAccessor()}
-        marginStart={variableConfig.leftBar.marginStart.asAccessor()}
-        marginEnd={variableConfig.leftBar.marginEnd.asAccessor()}>
+        }}>
         <centerbox
             hexpand={false}
             orientation={Gtk.Orientation.VERTICAL}
