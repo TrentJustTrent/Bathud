@@ -37,7 +37,7 @@ function ensureChildVisible(scrolledWindow: Gtk.ScrolledWindow, index: number): 
 function AppButton({ app, isSelected }: AppButtonProps) {
     return <button
         canFocus={false}
-        class={isSelected(s => s ? "selectedAppButton" : "appButton")}
+        cssClasses={isSelected.as(sel => sel ? ["appButton", "selectedAppButton"] : ["appButton"])}
         onClicked={() => {
             toggleIntegratedAppLauncher()
             launchApp(app)
