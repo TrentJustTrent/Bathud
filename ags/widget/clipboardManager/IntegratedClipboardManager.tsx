@@ -1,8 +1,6 @@
 import {Gtk} from "ags/gtk4";
 import {createState} from "ags";
-import ClipboardManager, {updateClipboardEntries} from "./ClipboardManager";
-import AstalIO from "gi://AstalIO?version=0.1";
-import {interval} from "ags/time";
+import ClipboardManager from "./ClipboardManager";
 
 export const integratedClipboardManagerWidth = 410
 
@@ -13,19 +11,6 @@ export function toggleIntegratedClipboardManager() {
 }
 
 export default function () {
-    let updateInterval: AstalIO.Time | null = null
-
-    integratedClipboardManagerRevealed.subscribe(() => {
-        if (integratedClipboardManagerRevealed.get()) {
-            updateInterval = interval(5000, () => {
-                updateClipboardEntries()
-            })
-        } else {
-            updateInterval?.cancel()
-            updateInterval = null
-        }
-    })
-
     return <revealer
         hexpand={false}
         transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}

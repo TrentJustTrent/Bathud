@@ -20,6 +20,7 @@ export async function getTextureFromCliphist(
 
         return Gdk.Texture.new_from_bytes(stdoutBytes);
     } catch (e) {
+        console.error("Error loading texture from cliphist")
         console.error(e);
         return undefined;
     }

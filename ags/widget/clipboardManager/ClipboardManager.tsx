@@ -8,6 +8,10 @@ import AsyncClipboardLabel from "./AsyncClipboardLabel";
 
 import {projectDir} from "../../app";
 import {createState, For, With} from "ags";
+import GLib from "gi://GLib?version=2.0";
+import Gio from "gi://Gio?version=2.0";
+import {monitorFile} from "ags/file";
+import {timeout, Timer} from "ags/time";
 
 let cliphistStarted = false
 
@@ -50,6 +54,27 @@ export function startCliphist() {
         .catch((error) => {
             console.error(error)
         })
+
+    watchForUpdates()
+}
+
+function watchForUpdates() {
+    const dbPath =
+        GLib.getenv("CLIPHIST_DB_PATH") ||
+        `${GLib.getenv("XDG_CACHE_HOME") ?? `${GLib.get_home_dir()}/.cache`}/cliphist/db`;
+
+    let debounceTimer: Timer | null = null
+
+    monitorFile(dbPath, (file, event) => {
+        if (event === Gio.FileMonitorEvent.CHANGED) {
+            if (debounceTimer) debounceTimer.cancel()
+
+            debounceTimer = timeout(200, () => {
+                debounceTimer = null
+                updateClipboardEntries()
+            })
+        }
+    })
 }
 
 export function updateClipboardEntries() {
@@ -96,21 +121,19 @@ function copyEntry(entry: Entry) {
 }
 
 function deleteEntry(entry: Entry) {
-    execAsync(`cliphist delete-query ${entry.value}`)
+    console.log(`deleting cliphist entry:\n${entry.number}\n${entry.value}`)
+    execAsync(["bash", "-c", `echo ${entry.number} | cliphist delete`])
         .catch((error) => {
             console.error(error)
-        }).finally(() => {
-            updateClipboardEntries()
         })
 }
 
 function wipeHistory() {
+    console.log("wiping cliphist")
     execAsync(`cliphist wipe`)
         .catch((error) => {
             console.error(error)
-        }).finally(() => {
-        updateClipboardEntries()
-    })
+        })
 }
 
 export function ClipboardManagerContent() {
