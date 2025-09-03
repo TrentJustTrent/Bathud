@@ -129,17 +129,17 @@ export function ChargingAlertSound() {
         .UPower
         .new()
         .devices
-        .find((device) => {
-            return device.deviceType === Battery.Type.LINE_POWER &&
-                (device.nativePath.includes("ACAD") ||
-                device.nativePath.includes("ACPI") ||
-                device.nativePath.includes("AC") ||
-                device.nativePath.includes("ADP"))
-        })
+        .filter(d => d.deviceType === Battery.Type.LINE_POWER)
 
     if (linePowerDevice !== null && linePowerDevice !== undefined) {
-        createBinding(linePowerDevice, "online").subscribe(() => {
-            if (linePowerDevice.online) {
+        const pluggedIn = createComputed(
+            linePowerDevice.map((d) => createBinding(d, "online")),
+            (...args) => {
+                return args.find((online) => online === true) ?? false
+            }
+        )
+        pluggedIn.subscribe(() => {
+            if (pluggedIn.get()) {
                 playPowerPlug()
             } else {
                 playPowerUnplug()
