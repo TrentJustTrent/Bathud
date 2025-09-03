@@ -16,14 +16,12 @@ const BrightnessAlertName = "brightnessAlert"
 export function AlertWindow(
     {
         iconLabel,
-        label,
         sliderValue,
         windowName,
         showVariable,
         monitor
     }: {
         iconLabel: Accessor<string>,
-        label: string,
         sliderValue: Accessor<number>,
         windowName: string,
         showVariable: Accessor<any>
@@ -45,11 +43,12 @@ export function AlertWindow(
         visible={false}
         $={(self: Astal.Window) => {
             let canShow = false
-            setTimeout(() => {
-                canShow = true
-            }, 1_500)
             showVariable.subscribe(() => {
                 if (!canShow) {
+                    // for some reason, getting the variable here prevents it from being needlessly
+                    // emitted a second time on startup
+                    showVariable.get()
+                    canShow = true
                     return
                 }
                 if (windowVisibilityTimeout != null) {
@@ -65,8 +64,8 @@ export function AlertWindow(
         }}>
         <box
             orientation={Gtk.Orientation.HORIZONTAL}
-            marginBottom={18}
-            marginTop={18}
+            marginBottom={10}
+            marginTop={10}
             marginStart={5}
             marginEnd={5}
             halign={Gtk.Align.CENTER}>
@@ -75,21 +74,13 @@ export function AlertWindow(
                 marginEnd={15}
                 cssClasses={["alertIcon"]}
                 label={iconLabel}/>
-            <box
-                orientation={Gtk.Orientation.VERTICAL}
+            <slider
                 marginStart={10}
-                valign={Gtk.Align.CENTER}>
-                <label
-                    cssClasses={["labelSmall"]}
-                    label={label}
-                    halign={Gtk.Align.START}/>
-                <slider
-                    marginTop={2}
-                    marginEnd={20}
-                    class="alertProgress"
-                    hexpand={true}
-                    value={sliderValue}/>
-            </box>
+                marginTop={2}
+                marginEnd={20}
+                cssClasses={["alertProgress"]}
+                hexpand={true}
+                value={sliderValue}/>
         </box>
     </window> as Astal.Window
 }
@@ -110,7 +101,6 @@ export function VolumeAlert(monitor: Hyprland.Monitor): Astal.Window {
 
     return <AlertWindow
         iconLabel={speakerVar(() => getVolumeIcon(defaultSpeaker))}
-        label="Volume"
         sliderValue={createBinding(defaultSpeaker, "volume")}
         windowName={VolumeAlertName}
         showVariable={showVariable}
@@ -128,7 +118,6 @@ export function BrightnessAlert(monitor: Hyprland.Monitor): Astal.Window {
         iconLabel={createBinding(brightness, "screen").as(() => {
             return getBrightnessIcon(brightness)
         })}
-        label="Brightness"
         sliderValue={createBinding(brightness, "screen")}
         windowName={BrightnessAlertName}
         showVariable={showVariable}
