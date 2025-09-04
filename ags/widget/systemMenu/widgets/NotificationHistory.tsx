@@ -45,7 +45,15 @@ export default function() {
                 }
             }}
         </With>
-        <For each={createBinding(notifications, "notifications")} id={(it) => it.id}>
+        <For
+            each={
+                createBinding(notifications, "notifications")
+                    .as((n) => {
+                        return n.sort((a, b) => b.time - a.time)
+                    })
+            }
+            id={(it) => it.id}
+        >
             {(notification: Notifd.Notification) => {
                 return <Notification
                     setup={() => {}}
