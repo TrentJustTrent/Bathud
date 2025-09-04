@@ -221,8 +221,13 @@ export function ClipboardManagerContent() {
                                     }}/>
                             </box>
                         </box>
-                        <box marginTop={10}/>
-                        {clipboardEntries.get()[clipboardEntries.get().length - 1] !== entry && <Divider marginBottom={10} thin={true}/>}
+                        <Divider
+                            visible={clipboardEntries.as((entries) => {
+                                return entries[entries.length - 1].number !== entry.number
+                            })}
+                            marginTop={10}
+                            marginBottom={10}
+                            thin={true}/>
                     </box>
                 </revealer>
             }}
