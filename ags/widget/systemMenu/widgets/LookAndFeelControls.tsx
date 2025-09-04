@@ -156,7 +156,7 @@ function ThemeOptions() {
             marginEnd={22}
             orientation={Gtk.Orientation.HORIZONTAL}
             spacing={10}>
-            <For each={availableConfigs.asAccessor()}>
+            <For each={availableConfigs.asAccessor()} id={(it) => it.fileName}>
                 {(config) => {
                     return <ThemeButton configFile={config}/>
                 }}

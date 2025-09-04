@@ -45,7 +45,7 @@ export default function() {
                 }
             }}
         </With>
-        <For each={createBinding(notifications, "notifications")}>
+        <For each={createBinding(notifications, "notifications")} id={(it) => it.id}>
             {(notification: Notifd.Notification) => {
                 return <Notification
                     setup={() => {}}

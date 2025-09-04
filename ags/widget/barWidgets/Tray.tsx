@@ -45,7 +45,7 @@ function TrayContent({vertical}: { vertical: boolean }) {
     return <box
         orientation={vertical ? Gtk.Orientation.VERTICAL : Gtk.Orientation.HORIZONTAL}
         visible={createBinding(tray, "items").as((items) => items.length > 0)}>
-        <For each={createBinding(tray, "items")}>
+        <For each={createBinding(tray, "items")} id={(it) => it.id}>
             {(item: AstalTray.TrayItem) => {
                 if (item.id === null) {
                     return <box/>

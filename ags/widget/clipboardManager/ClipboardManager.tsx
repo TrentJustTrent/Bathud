@@ -6,7 +6,7 @@ import AsyncClipboardPicture from "./AsyncClipboardPicture";
 import AsyncClipboardLabel from "./AsyncClipboardLabel";
 
 import {projectDir} from "../../app";
-import {createState, For, With} from "ags";
+import {createState, For} from "ags";
 import GLib from "gi://GLib?version=2.0";
 import Gio from "gi://Gio?version=2.0";
 import {monitorFile} from "ags/file";
@@ -139,33 +139,24 @@ function wipeHistory() {
 export function ClipboardManagerContent() {
     return <box
         orientation={Gtk.Orientation.VERTICAL}>
-        <With value={clipboardEntries}>
-            {(entries) => {
-                return <box
-                    orientation={Gtk.Orientation.VERTICAL}>
-                    {entries.length === 0 &&
-                        <label
-                            hexpand={true}
-                            halign={Gtk.Align.CENTER}
-                            label="Empty"
-                            cssClasses={["labelMedium"]}/>
-                    }
-                    {entries.length > 0 &&
-                        <box
-                            marginBottom={16}>
-                            <OkButton
-                                hexpand={true}
-                                label="Delete all"
-                                primary={true}
-                                onClicked={() => {
-                                    wipeHistory()
-                                }}/>
-                        </box>
-                    }
-                </box>
-            }}
-        </With>
-        <For each={clipboardEntries}>
+        <label
+            visible={clipboardEntries.as((e) => e.length === 0)}
+            hexpand={true}
+            halign={Gtk.Align.CENTER}
+            label="Empty"
+            cssClasses={["labelMedium"]}/>
+        <box
+            visible={clipboardEntries.as((e) => e.length !== 0)}
+            marginBottom={16}>
+            <OkButton
+                hexpand={true}
+                label="Delete all"
+                primary={true}
+                onClicked={() => {
+                    wipeHistory()
+                }}/>
+        </box>
+        <For each={clipboardEntries} id={(it) => it.number}>
             {(entry) => {
                 const imageType = getImageType(entry)
                 const isImage = imageType !== null

@@ -1,3 +1,5 @@
+import {Accessor} from "ags";
+
 export default function(
     {
         cssClasses,
@@ -6,6 +8,7 @@ export default function(
         marginStart,
         marginEnd,
         thin = false,
+        visible = true,
     }: {
         cssClasses?: string[],
         marginTop?: number,
@@ -13,9 +16,11 @@ export default function(
         marginStart?: number,
         marginEnd?: number,
         thin?: boolean
+        visible?: Accessor<boolean> | boolean,
     }
 ) {
     return <box
+        visible={visible}
         marginTop={marginTop}
         marginBottom={marginBottom}
         marginStart={marginStart}

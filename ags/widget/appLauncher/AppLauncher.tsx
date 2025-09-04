@@ -117,7 +117,7 @@ export default function () {
                 spacing={6}
                 orientation={Gtk.Orientation.VERTICAL}
                 marginBottom={6}>
-                <For each={list}>
+                <For each={list} id={(it) => it.name}>
                     {(app, index) => {
                         let indexes = createComputed([
                             selectedIndex,
