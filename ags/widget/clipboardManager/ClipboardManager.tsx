@@ -171,34 +171,48 @@ export function ClipboardManagerContent() {
                         cliphistId={entry.number}/>
                 }
 
-                return <box
-                    orientation={Gtk.Orientation.VERTICAL}>
+                const [reveal, revealSet] = createState(false)
+
+                return <revealer
+                    $={()=> {
+                        timeout(200, () => {
+                            revealSet(true)
+                        })
+                    }}
+                    revealChild={reveal}
+                    transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>
                     <box
-                        orientation={Gtk.Orientation.HORIZONTAL}>
-                        {content}
+                        orientation={Gtk.Orientation.VERTICAL}>
                         <box
-                            orientation={Gtk.Orientation.HORIZONTAL}
-                            vexpand={false}>
-                            <OkButton
-                                hpadding={OkButtonHorizontalPadding.THIN}
-                                valign={Gtk.Align.START}
-                                label=""
-                                onClicked={() => {
-                                    copyEntry(entry)
-                                    toggleIntegratedClipboardManager()
-                                }}/>
-                            <OkButton
-                                hpadding={OkButtonHorizontalPadding.THIN}
-                                valign={Gtk.Align.START}
-                                label=""
-                                onClicked={() => {
-                                    deleteEntry(entry)
-                                }}/>
+                            orientation={Gtk.Orientation.HORIZONTAL}>
+                            {content}
+                            <box
+                                orientation={Gtk.Orientation.HORIZONTAL}
+                                vexpand={false}>
+                                <OkButton
+                                    hpadding={OkButtonHorizontalPadding.THIN}
+                                    valign={Gtk.Align.START}
+                                    label=""
+                                    onClicked={() => {
+                                        copyEntry(entry)
+                                        toggleIntegratedClipboardManager()
+                                    }}/>
+                                <OkButton
+                                    hpadding={OkButtonHorizontalPadding.THIN}
+                                    valign={Gtk.Align.START}
+                                    label=""
+                                    onClicked={() => {
+                                        revealSet(false)
+                                        timeout(200, () => {
+                                            deleteEntry(entry)
+                                        })
+                                    }}/>
+                            </box>
                         </box>
+                        <box marginTop={10}/>
+                        {clipboardEntries.get()[clipboardEntries.get().length - 1] !== entry && <Divider marginBottom={10}/>}
                     </box>
-                    <box marginTop={10}/>
-                    {clipboardEntries.get()[clipboardEntries.get().length - 1] !== entry && <Divider marginBottom={10}/>}
-                </box>
+                </revealer>
             }}
         </For>
     </box>
