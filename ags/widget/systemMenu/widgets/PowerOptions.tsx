@@ -1,5 +1,4 @@
 import {Gtk} from "ags/gtk4"
-import {hideAllWindows} from "../../utils/windows";
 import OkButton, {OkButtonSize} from "../../common/OkButton";
 import {lock, logout, restart, shutdown} from "../../utils/powerOptions";
 
@@ -13,7 +12,6 @@ export default function () {
             label="󰍃"
             offset={0}
             onClicked={() => {
-                hideAllWindows()
                 logout()
             }}/>
         <OkButton
@@ -21,7 +19,6 @@ export default function () {
             label=""
             offset={2}
             onClicked={() => {
-                hideAllWindows()
                 lock()
             }}/>
         <OkButton
@@ -29,7 +26,6 @@ export default function () {
             label=""
             offset={0}
             onClicked={() => {
-                hideAllWindows()
                 restart()
             }}/>
         <OkButton
@@ -37,7 +33,6 @@ export default function () {
             label="⏻"
             offset={2}
             onClicked={() => {
-                hideAllWindows()
                 shutdown()
             }}/>
     </box>

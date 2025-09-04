@@ -1,6 +1,5 @@
 import {execAsync} from "ags/process";
 import {Gtk} from "ags/gtk4";
-import {hideAllWindows} from "../utils/windows";
 import Divider from "../common/Divider";
 import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
 import AsyncClipboardPicture from "./AsyncClipboardPicture";
@@ -12,6 +11,7 @@ import GLib from "gi://GLib?version=2.0";
 import Gio from "gi://Gio?version=2.0";
 import {monitorFile} from "ags/file";
 import {timeout, Timer} from "ags/time";
+import {toggleIntegratedClipboardManager} from "./IntegratedClipboardManager";
 
 let cliphistStarted = false
 
@@ -194,7 +194,7 @@ export function ClipboardManagerContent() {
                                 label=""
                                 onClicked={() => {
                                     copyEntry(entry)
-                                    hideAllWindows()
+                                    toggleIntegratedClipboardManager()
                                 }}/>
                             <OkButton
                                 hpadding={OkButtonHorizontalPadding.THIN}

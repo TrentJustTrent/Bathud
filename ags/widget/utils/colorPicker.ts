@@ -1,5 +1,4 @@
 import {execAsync} from "ags/process";
-import {hideAllWindows} from "./windows";
 import {sleep} from "./async";
 
 function showColorPickerNotification(
@@ -23,7 +22,6 @@ function showColorPickerNotification(
 }
 
 export async function runColorPicker(sleepDuration: number = 0) {
-    hideAllWindows()
     await sleep(sleepDuration)
     execAsync('hyprpicker').catch((error) => {
         console.error(error)
