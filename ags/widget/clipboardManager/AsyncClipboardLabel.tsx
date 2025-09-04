@@ -17,7 +17,7 @@ export default function ({cliphistId}: {cliphistId: number}) {
         if (typeof value !== "string") {
             return
         }
-        textSetter(insertNewlines(value, 30))
+        textSetter(insertNewlines(value, 33))
     })
 
     return label

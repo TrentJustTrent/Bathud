@@ -18,9 +18,15 @@ export async function getTextureFromCliphist(
             throw new Error("No image data received");
         }
 
-        return Gdk.Texture.new_from_bytes(stdoutBytes);
+        console.log(`creating texture for cliphist id: ${cliphistId}`)
+
+        const texture = Gdk.Texture.new_from_bytes(stdoutBytes);
+
+        console.log(`texture created for cliphist id: ${cliphistId}`)
+
+        return texture
     } catch (e) {
-        console.error("Error loading texture from cliphist")
+        console.error(`Error loading texture from cliphist for cliphist id: ${cliphistId}`)
         console.error(e);
         return undefined;
     }
@@ -33,7 +39,7 @@ export default function ({cliphistId}: {cliphistId: number}) {
         keepAspectRatio: true,
         contentFit: Gtk.ContentFit.COVER,
         hexpand: true,
-        marginEnd: 20
+        marginEnd: 10
     })
 
     getTextureFromCliphist(cliphistId).catch((error) => {

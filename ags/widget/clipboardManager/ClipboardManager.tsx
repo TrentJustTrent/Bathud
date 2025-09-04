@@ -210,7 +210,7 @@ export function ClipboardManagerContent() {
                             </box>
                         </box>
                         <box marginTop={10}/>
-                        {clipboardEntries.get()[clipboardEntries.get().length - 1] !== entry && <Divider marginBottom={10}/>}
+                        {clipboardEntries.get()[clipboardEntries.get().length - 1] !== entry && <Divider marginBottom={10} thin={true}/>}
                     </box>
                 </revealer>
             }}
