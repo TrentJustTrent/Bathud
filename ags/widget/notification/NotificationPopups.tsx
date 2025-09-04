@@ -4,7 +4,7 @@ import {variableConfig} from "../../config/config";
 import Hyprland from "gi://AstalHyprland"
 import {NotificationsPosition} from "../../config/schema/definitions/notifications";
 import GLib from "gi://GLib?version=2.0";
-import {createState, For, onCleanup} from "ags";
+import {createBinding, createComputed, createState, For, onCleanup} from "ags";
 import AstalNotifd from "gi://AstalNotifd?version=0.1";
 
 // see comment below in constructor
@@ -36,11 +36,16 @@ export default function NotificationPopups(monitor: Hyprland.Monitor): Astal.Win
         notifd.disconnect(resolvedHandler)
     })
 
+    const visible = createComputed([
+        notifications,
+        createBinding(notifd, "dontDisturb"),
+    ], (notifications, dnd) => {
+        return notifications.length !== 0 && !dnd
+    })
+
     return <window
         namespace={"okpanel-notifications"}
-        visible={notifications.as((values) => {
-            return values.length !== 0
-        })}
+        visible={visible}
         cssClasses={["NotificationPopups"]}
         monitor={monitor.id}
         exclusivity={variableConfig.notifications.respectExclusive.asAccessor().as((exclusive) => {
