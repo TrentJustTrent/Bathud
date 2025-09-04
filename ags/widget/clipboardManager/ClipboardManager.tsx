@@ -6,7 +6,7 @@ import AsyncClipboardPicture from "./AsyncClipboardPicture";
 import AsyncClipboardLabel from "./AsyncClipboardLabel";
 
 import {projectDir} from "../../app";
-import {createState, For} from "ags";
+import {createState, For, onCleanup} from "ags";
 import GLib from "gi://GLib?version=2.0";
 import Gio from "gi://Gio?version=2.0";
 import {monitorFile} from "ags/file";
@@ -137,6 +137,8 @@ function wipeHistory() {
 }
 
 export function ClipboardManagerContent() {
+    const wipeCallbacks: Map<number, () => void> = new Map<number, () => void>
+
     return <box
         orientation={Gtk.Orientation.VERTICAL}>
         <label
@@ -153,6 +155,9 @@ export function ClipboardManagerContent() {
                 label="Delete all"
                 primary={true}
                 onClicked={() => {
+                    for (const callback of wipeCallbacks.values()) {
+                        callback()
+                    }
                     wipeHistory()
                 }}/>
         </box>
@@ -173,10 +178,17 @@ export function ClipboardManagerContent() {
 
                 const [reveal, revealSet] = createState(false)
 
+                wipeCallbacks.set(entry.number, () => {
+                    revealSet(false)
+                })
+
                 return <revealer
                     $={()=> {
                         timeout(200, () => {
                             revealSet(true)
+                        })
+                        onCleanup(() => {
+                            wipeCallbacks.delete(entry.number)
                         })
                     }}
                     revealChild={reveal}
