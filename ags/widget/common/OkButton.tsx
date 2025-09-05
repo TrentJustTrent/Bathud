@@ -2,6 +2,7 @@ import {isAccessor} from "../utils/bindings";
 import Pango from "gi://Pango?version=1.0";
 import {Accessor, createComputed, createState} from "ags";
 import {Gtk} from "ags/gtk4";
+import {attachClickHandlers} from "../utils/clickHandler";
 
 export enum OkButtonHorizontalPadding {
     STANDARD,
@@ -98,6 +99,7 @@ export default function(
         onHoverEnter,
         onHoverLeave,
         onClicked,
+        clickHandlers,
     }:
     {
         labelCss?: string[]
@@ -127,7 +129,14 @@ export default function(
         menuButtonContent?: JSX.Element,
         onHoverEnter?: () => void,
         onHoverLeave?: () => void,
-        onClicked?: () => void
+        onClicked?: () => void,
+        clickHandlers?: {
+            onLeftClick?:    (ev: {x:number,y:number,n:number,shift:boolean,ctrl:boolean}) => void,
+            onMiddleClick?:  (ev: {x:number,y:number,n:number,shift:boolean,ctrl:boolean}) => void,
+            onRightClick?:   (ev: {x:number,y:number,n:number,shift:boolean,ctrl:boolean}) => void,
+            onDoubleLeft?:   (ev: {x:number,y:number}) => void,
+            onLongPress?:    (ev: {x:number,y:number}) => void,
+        },
     }
 ) {
     let realWarning: Accessor<boolean>
@@ -203,7 +212,9 @@ export default function(
         return horizontalPadding + o
     })
 
-    const onlyLabel = onClicked === undefined && menuButtonContent === undefined
+    const onlyLabel = onClicked === undefined
+        && menuButtonContent === undefined
+        && clickHandlers === undefined
 
     const labelWidget = <label
         visible={visible}
@@ -278,6 +289,30 @@ export default function(
             {labelWidget}
             {menuButtonContent}
         </menubutton>
+    }
+
+    if (clickHandlers !== undefined) {
+        return <box
+            $={(self) => {
+                attachClickHandlers(self, clickHandlers)
+            }}
+            focusable={false}
+            focusOnClick={false}
+            sensitive={!onlyLabel}
+            widthRequest={widthRequest}
+            heightRequest={heightRequest}
+            marginTop={marginTop}
+            marginBottom={marginBottom}
+            marginStart={marginStart}
+            marginEnd={marginEnd}
+            halign={halign}
+            valign={valign}
+            hexpand={hexpand}
+            vexpand={vexpand}
+            visible={visible}
+            cssClasses={buttonClasses}>
+            {labelWidget}
+        </box>
     }
 
     return <button
