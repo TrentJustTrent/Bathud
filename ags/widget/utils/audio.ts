@@ -24,13 +24,13 @@ export function getVolumeIcon(speaker?: Wp.Endpoint) {
         }
     } else {
         if (volume === 0 || muted) {
-            return "󰝟"
+            return ""
         } else if (volume < 0.33) {
             return ""
         } else if (volume < 0.66) {
             return ""
         } else {
-            return "󰕾"
+            return ""
         }
     }
 }
@@ -54,7 +54,7 @@ export function getMicrophoneIcon(mic?: Wp.Endpoint): string {
         }
     } else {
         if (volume === 0 || muted) {
-            return "󰍭"
+            return ""
         } else {
             return ""
         }

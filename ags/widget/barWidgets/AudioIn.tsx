@@ -19,5 +19,12 @@ export default function ({bar}: { bar: Bar }) {
         backgroundCss={["barAudioInBackground"]}
         hpadding={getHPadding(bar)}
         vpadding={getVPadding(bar)}
-        label={micVar(() => getMicrophoneIcon(defaultMicrophone))}/>
+        label={micVar(() => getMicrophoneIcon(defaultMicrophone))}
+        offset={micVar(() => {
+            const icon = getMicrophoneIcon(defaultMicrophone)
+            if (icon === "") {
+                return 4
+            }
+            return 0
+        })}/>
 }

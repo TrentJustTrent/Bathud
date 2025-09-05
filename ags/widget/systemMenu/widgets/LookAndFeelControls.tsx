@@ -1,5 +1,4 @@
 import {Gtk} from "ags/gtk4"
-import {execAsync} from "ags/process"
 import Pango from "gi://Pango?version=1.0";
 import {createScaledTexture} from "../../utils/images";
 import {
@@ -115,20 +114,6 @@ function animateScroll(
             return GLib.SOURCE_REMOVE;
         }
     });
-}
-
-function enableNightLight() {
-    execAsync(`hyprctl hyprsunset temperature ${variableConfig.theme.nightLightTemperature}`)
-        .catch((error) => {
-            console.error(error)
-        })
-}
-
-function disableNightLight() {
-    execAsync("hyprctl hyprsunset identity")
-        .catch((error) => {
-            console.error(error)
-        })
 }
 
 function ThemeButton({configFile}: {configFile: ConfigFile}) {
@@ -289,27 +274,6 @@ function WallpaperColumn(
     </box>
 }
 
-function NightLight() {
-    return <box
-        marginStart={20}
-        marginEnd={20}
-        orientation={Gtk.Orientation.HORIZONTAL}>
-        <label
-            halign={Gtk.Align.START}
-            hexpand={true}
-            label="󱩌  Night light"
-            cssClasses={["labelMedium"]}/>
-        <switch
-            onNotifyActive={(self) => {
-                if (self.active) {
-                    enableNightLight()
-                } else {
-                    disableNightLight()
-                }
-            }}/>
-    </box>
-}
-
 export default function () {
     selectedConfig.asAccessor().subscribe(() => {
         if (selectedConfig.get() != undefined) {
@@ -352,8 +316,6 @@ export default function () {
                     </With>
                 </box>
                 <box marginTop={20}/>
-                <NightLight/>
-                <box marginTop={10}/>
                 <box
                     orientation={Gtk.Orientation.HORIZONTAL}>
                     {Array.from({length: numberOfColumns}).map((_, index) => {

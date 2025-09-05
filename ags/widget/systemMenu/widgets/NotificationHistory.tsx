@@ -16,6 +16,9 @@ export default function() {
                 label={createBinding(notifications, "dontDisturb").as((dnd) => {
                     return dnd ? "󰂛" : "󰂚"
                 })}
+                offset={createBinding(notifications, "dontDisturb").as((dnd) => {
+                    return dnd ? 1 : 0
+                })}
                 onClicked={() => {
                     notifications.set_dont_disturb(!notifications.dontDisturb)
                 }}/>

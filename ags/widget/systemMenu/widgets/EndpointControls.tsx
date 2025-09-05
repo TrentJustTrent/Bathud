@@ -40,7 +40,13 @@ export default function (
             })
         }}
         icon={endpointLabelVar(() => getIcon(defaultEndpoint))}
-        iconOffset={0}
+        iconOffset={endpointLabelVar(() => {
+            const icon = getIcon(defaultEndpoint)
+            if (icon === "") {
+                return 7
+            }
+            return 0
+        })}
         onClick={() => {
             toggleMuteEndpoint(defaultEndpoint)
         }}

@@ -1,17 +1,17 @@
 import {Field} from "../primitiveDefinitions";
 
 export enum SystemMenuWidget {
-    NETWORK = "network",
-    BLUETOOTH = "bluetooth",
-    AUDIO_OUT = "audioOut",
     AUDIO_IN = "audioIn",
-    POWER_PROFILE = "powerProfile",
+    AUDIO_OUT = "audioOut",
+    BLUETOOTH = "bluetooth",
+    CLOCK = "clock",
     LOOK_AND_FEEL = "lookAndFeel",
     MPRIS_PLAYERS = "mprisPlayers",
-    POWER_OPTIONS = "powerOptions",
+    NETWORK = "network",
     NOTIFICATION_HISTORY = "notificationHistory",
-    TOOLBOX = "toolbox",
-    CLOCK = "clock",
+    POWER_OPTIONS = "powerOptions",
+    POWER_PROFILE = "powerProfile",
+    QUICK_TOGGLES = "quickToggles",
 }
 
 export const SYSTEM_MENU_WIDGET_VALUES = Object.values(SystemMenuWidget) as readonly SystemMenuWidget[]

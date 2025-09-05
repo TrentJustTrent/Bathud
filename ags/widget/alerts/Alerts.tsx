@@ -75,7 +75,7 @@ export function AlertWindow(
                 cssClasses={["alertIcon"]}
                 label={iconLabel}/>
             <slider
-                marginStart={10}
+                marginStart={26}
                 marginTop={2}
                 marginEnd={20}
                 cssClasses={["alertProgress"]}

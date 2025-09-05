@@ -1,6 +1,6 @@
 import {Gtk} from "ags/gtk4";
 import {variableConfig} from "../../config/config";
-import {createState, With} from "ags";
+import {createState} from "ags";
 import EndpointControls from "./widgets/EndpointControls";
 import Wp from "gi://AstalWp"
 import {getMicrophoneIcon, getVolumeIcon} from "../utils/audio";
@@ -11,11 +11,11 @@ import NetworkControls from "./widgets/NetworkControls";
 import BluetoothControls from "./widgets/BluetoothControls";
 import LookAndFeelControls from "./widgets/LookAndFeelControls";
 import PowerProfileControls from "./widgets/PowerProfileControls";
-import Toolbox from "./widgets/Toolbox";
 import Clock from "./widgets/Clock";
 import {createBinding} from "ags";
 import {SystemMenuWidget} from "../../config/schema/definitions/systemMenuWidgets";
 import {appendChildren, removeAllChildren} from "../utils/widgets";
+import QuickToggles from "./widgets/QuickToggles";
 
 const {audio} = Wp.get_default()!
 
@@ -38,8 +38,8 @@ let lookAndFeel: Gtk.Widget
 let mpris: Gtk.Widget
 let powerOptions: Gtk.Widget
 let notificationHistory: Gtk.Widget
-let toolbox: Gtk.Widget
 let clock: Gtk.Widget
+let quickToggles: Gtk.Widget
 
 function createSystemWidgets() {
     network = <NetworkControls/> as Gtk.Widget
@@ -57,8 +57,8 @@ function createSystemWidgets() {
     mpris = <MediaPlayers/> as Gtk.Widget
     powerOptions = <PowerOptions/> as Gtk.Widget
     notificationHistory = <NotificationHistory/> as Gtk.Widget
-    toolbox = <Toolbox/> as Gtk.Widget
     clock = <Clock/> as Gtk.Widget
+    quickToggles = <QuickToggles/> as Gtk.Widget
 }
 
 function getListOfWidgets(
@@ -87,8 +87,8 @@ function getListOfWidgets(
                     return powerProfile
                 case SystemMenuWidget.POWER_OPTIONS:
                     return powerOptions
-                case SystemMenuWidget.TOOLBOX:
-                    return toolbox
+                case SystemMenuWidget.QUICK_TOGGLES:
+                    return quickToggles
             }
         })
     )]

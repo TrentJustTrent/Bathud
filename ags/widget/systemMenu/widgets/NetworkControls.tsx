@@ -14,7 +14,7 @@ const [inactiveWifiConnections, inactiveWifiConnectionsSetter] = createState<str
 const [activeWifiConnections, activeWifiConnectionsSetter] = createState<string[]>([])
 const [vpnConnections, vpnConnectionsSetter] = createState<string[]>([])
 export const [activeVpnConnections, activeVpnConnectionsSetter] = createState<string[]>([])
-const [airplaneModeEnabled, airplaneModelEnabledSetter] = createState(false)
+export const [airplaneModeEnabled, airplaneModelEnabledSetter] = createState(false)
 
 function updateAirplaneMode() {
     execAsync(["bash", "-c", `nmcli networking`])
@@ -30,7 +30,7 @@ function updateAirplaneMode() {
         })
 }
 
-function enableAirplaneMode() {
+export function enableAirplaneMode() {
     execAsync(["bash", "-c", `nmcli networking off`])
         .catch((error) => {
             console.error(error)
@@ -39,7 +39,7 @@ function enableAirplaneMode() {
         })
 }
 
-function disableAirplaneMode() {
+export function disableAirplaneMode() {
     execAsync(["bash", "-c", `nmcli networking on`])
         .catch((error) => {
             console.error(error)
@@ -212,28 +212,6 @@ function connectVpn(name: string, isConnectingSetter: Setter<boolean>) {
             updateConnections()
             isConnectingSetter(false)
         })
-}
-
-function AirplaneMode() {
-    return <box
-        marginStart={20}
-        marginEnd={20}
-        orientation={Gtk.Orientation.HORIZONTAL}>
-        <label
-            halign={Gtk.Align.START}
-            hexpand={true}
-            label="󰀝  Airplane mode"
-            cssClasses={["labelMedium"]}/>
-        <switch
-            onNotifyActive={(self) => {
-                if (self.active) {
-                    enableAirplaneMode()
-                } else {
-                    disableAirplaneMode()
-                }
-            }}
-            active={airplaneModeEnabled}/>
-    </box>
 }
 
 function PasswordEntry(
@@ -597,7 +575,6 @@ export default function () {
     const network = AstalNetwork.get_default()
 
     updateConnections()
-    updateAirplaneMode()
 
     const networkName = createComputed([
         createBinding(network.client, "primaryConnection"),
@@ -636,7 +613,6 @@ export default function () {
                 marginTop={10}
                 orientation={Gtk.Orientation.VERTICAL}
                 spacing={12}>
-                <AirplaneMode/>
                 {network.wifi && <With value={createBinding(network.wifi, "activeAccessPoint")}>
                     {(activeAccessPoint: AstalNetwork.AccessPoint) => {
                         return <box
@@ -664,7 +640,6 @@ export default function () {
                 if (revealed[0].get()) {
                     network.wifi?.scan()
                     updateConnections()
-                    updateAirplaneMode()
                 }
             })
 
