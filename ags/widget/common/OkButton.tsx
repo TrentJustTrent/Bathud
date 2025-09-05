@@ -131,11 +131,11 @@ export default function(
         onHoverLeave?: () => void,
         onClicked?: () => void,
         clickHandlers?: {
-            onLeftClick?:    (ev: {x:number,y:number,n:number,shift:boolean,ctrl:boolean}) => void,
-            onMiddleClick?:  (ev: {x:number,y:number,n:number,shift:boolean,ctrl:boolean}) => void,
-            onRightClick?:   (ev: {x:number,y:number,n:number,shift:boolean,ctrl:boolean}) => void,
-            onDoubleLeft?:   (ev: {x:number,y:number}) => void,
-            onLongPress?:    (ev: {x:number,y:number}) => void,
+            onLeftClick?:    (ev: {self:Gtk.Widget,x:number,y:number,n:number,shift:boolean,ctrl:boolean}) => void,
+            onMiddleClick?:  (ev: {self:Gtk.Widget,x:number,y:number,n:number,shift:boolean,ctrl:boolean}) => void,
+            onRightClick?:   (ev: {self:Gtk.Widget,x:number,y:number,n:number,shift:boolean,ctrl:boolean}) => void,
+            onDoubleLeft?:   (ev: {self:Gtk.Widget,x:number,y:number}) => void,
+            onLongPress?:    (ev: {self:Gtk.Widget,x:number,y:number}) => void,
         },
     }
 ) {

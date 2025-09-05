@@ -1,12 +1,14 @@
 import OkButton from "../common/OkButton";
 import {variableConfig} from "../../config/config";
 import {Bar} from "../../config/bar";
-import {Accessor, createBinding, createComputed} from "ags";
+import {Accessor, createBinding, createComputed, createRoot} from "ags";
 import {getHPadding, getVPadding} from "./BarWidgets";
-import {Gtk} from "ags/gtk4";
+import {Gdk, Gtk} from "ags/gtk4";
 import AstalHyprland from "gi://AstalHyprland?version=0.1";
 import {launchApp} from "../utils/launch";
 import {timeout, Timer} from "ags/time";
+import Gio from "gi://Gio?version=2.0";
+import GLib from "gi://GLib?version=2.0";
 
 function getIndicatorHAlign(bar: Bar) {
     switch (bar) {
@@ -78,6 +80,11 @@ export default function (
             )
         }}>
         <OkButton
+            hpadding={getHPadding(bar)}
+            vpadding={getVPadding(bar)}
+            labelCss={[`barShortcut${shortcutNumber}Foreground`]}
+            backgroundCss={[`barShortcut${shortcutNumber}Background`]}
+            label={label}
             clickHandlers={{
                 onLeftClick: () => {
                     console.log("click")
@@ -173,14 +180,62 @@ export default function (
                         launchApp([command])
                     }
                 },
-                onRightClick: () => {
-                    console.log("right click")
+                onRightClick: ({self, x, y}) => {
+                    createRoot((dispose) => {
+                        // 1) Build a menu model
+                        const model = new Gio.Menu();
+                        model.append("New Window",         "main.new-window");
+                        model.append("Quit",               "main.quit");
+
+                        const pop = Gtk.PopoverMenu.new_from_model(model);
+                        pop.set_has_arrow(false);
+
+                        // 2) Provide the actions on the popover (prefix "dock")
+                        const group = new Gio.SimpleActionGroup();
+
+                        const newWindowAction = new Gio.SimpleAction({ name: "new-window" });
+                        newWindowAction.connect("activate", () => {
+                            pop.popdown();
+                            // @ts-ignore
+                            const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].newWindow.get()
+                            if (command !== "") {
+                                launchApp([command])
+                            }
+                        });
+                        group.add_action(newWindowAction);
+
+                        const quitAction = new Gio.SimpleAction({ name: "quit" });
+                        quitAction.connect("activate", () => {
+                            pop.popdown();
+                            // @ts-ignore
+                            const clazz: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.get()
+                            hyprland.clients.filter((it) => it.class === clazz).forEach((it) => it.kill())
+                        });
+                        group.add_action(quitAction);
+
+                        // Attach the group to the popover under the "main" prefix
+                        // (GTK will search the popover, then its parents, for "main.*")
+                        pop.insert_action_group?.("main", group);
+
+                        // 3) create menu
+                        const root = new Gio.Menu();
+                        root.append("New Window", "main.new-window");
+                        root.append("Quit", "main.quit");
+                        pop.set_menu_model(root);
+
+                        // 4) Parent & position
+                        pop.set_parent(self);
+
+                        const rect = new Gdk.Rectangle({ x: Math.round(x), y: Math.round(y), width: 1, height: 1 });
+                        pop.set_pointing_to?.(rect);
+
+                        pop.connect("closed", () => {
+                            dispose();
+                        });
+
+                        pop.popup();
+                    });
                 }
-            }}
-            hpadding={getHPadding(bar)}
-            vpadding={getVPadding(bar)}
-            labelCss={[`barShortcut${shortcutNumber}Foreground`]}
-            backgroundCss={[`barShortcut${shortcutNumber}Background`]}
-            label={label}/>
+            }}/>
     </overlay>
 }

@@ -2,14 +2,15 @@ import Gtk from "gi://Gtk?version=4.0";
 import Gdk from "gi://Gdk?version=4.0";
 
 export function attachClickHandlers(widget: Gtk.Widget, handlers: {
-    onLeftClick?:    (ev: {x:number,y:number,n:number,shift:boolean,ctrl:boolean}) => void,
-    onMiddleClick?:  (ev: {x:number,y:number,n:number,shift:boolean,ctrl:boolean}) => void,
-    onRightClick?:   (ev: {x:number,y:number,n:number,shift:boolean,ctrl:boolean}) => void,
-    onDoubleLeft?:   (ev: {x:number,y:number}) => void,
-    onLongPress?:    (ev: {x:number,y:number}) => void,
+    onLeftClick?:    (ev: {self:Gtk.Widget,x:number,y:number,n:number,shift:boolean,ctrl:boolean}) => void,
+    onMiddleClick?:  (ev: {self:Gtk.Widget,x:number,y:number,n:number,shift:boolean,ctrl:boolean}) => void,
+    onRightClick?:   (ev: {self:Gtk.Widget,x:number,y:number,n:number,shift:boolean,ctrl:boolean}) => void,
+    onDoubleLeft?:   (ev: {self:Gtk.Widget,x:number,y:number}) => void,
+    onLongPress?:    (ev: {self:Gtk.Widget,x:number,y:number}) => void,
 } = {}) {
     // Clicks (left/middle/right, single/double)
     const click = new Gtk.GestureClick();
+    const self = widget
     click.set_button(0); // 0 = listen to all mouse buttons
 
     click.connect("pressed", (_gesture, n_press, x, y) => {
@@ -18,21 +19,21 @@ export function attachClickHandlers(widget: Gtk.Widget, handlers: {
 
         if (button === 1) {
             if (n_press === 2 && handlers.onDoubleLeft) {
-                handlers.onDoubleLeft({ x, y });
+                handlers.onDoubleLeft({ self, x, y });
             } else if (handlers.onLeftClick) {
-                handlers.onLeftClick({ x, y, n: n_press, shift, ctrl });
+                handlers.onLeftClick({ self, x, y, n: n_press, shift, ctrl });
             }
         } else if (button === 2 && handlers.onMiddleClick) {
-            handlers.onMiddleClick({ x, y, n: n_press, shift, ctrl });
+            handlers.onMiddleClick({ self, x, y, n: n_press, shift, ctrl });
         } else if (button === 3 && handlers.onRightClick) {
-            handlers.onRightClick({ x, y, n: n_press, shift, ctrl });
+            handlers.onRightClick({ self, x, y, n: n_press, shift, ctrl });
         }
     });
 
     // Optional: long-press (good for touch to open context menu)
     const longPress = new Gtk.GestureLongPress();
     longPress.connect("pressed", (_gesture, x, y) => {
-        handlers.onLongPress?.({ x, y });
+        handlers.onLongPress?.({ self, x, y });
     });
 
     widget.add_controller(click);
