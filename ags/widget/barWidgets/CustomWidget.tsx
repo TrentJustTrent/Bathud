@@ -69,6 +69,8 @@ export default function (
     })
 
     return <OkButton
+        labelCss={[`barCustom${customNumber}Foreground`]}
+        backgroundCss={[`barCustom${customNumber}Background`]}
         hpadding={getHPadding(bar)}
         vpadding={getVPadding(bar)}
         onClicked={onClick}
