@@ -94,7 +94,10 @@ export default function (
                     if (clients.length === 0) {
                         // If there are no clients open, launch one
                         // @ts-ignore
-                        launchApp([variableConfig.barWidgets[`shortcut${shortcutNumber}`].launch.get()])
+                        const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].launch.get()
+                        if (command !== "") {
+                            launchApp([command])
+                        }
                     } else {
 
                         // Cycle through clients if we focused recently
@@ -165,7 +168,10 @@ export default function (
                 },
                 onMiddleClick: () => {
                     // @ts-ignore
-                    launchApp([variableConfig.barWidgets[`shortcut${shortcutNumber}`].newWindow.get()])
+                    const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].newWindow.get()
+                    if (command !== "") {
+                        launchApp([command])
+                    }
                 },
                 onRightClick: () => {
                     console.log("right click")
