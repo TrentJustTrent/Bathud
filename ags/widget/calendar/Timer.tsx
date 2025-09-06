@@ -212,6 +212,7 @@ export function TimerDelete(
         visible={timerTextVisible}
         onClicked={() => {
             stopTimer()
+            player.stop()
             timerEntryVisibleSetter(true)
             entry.set_text("")
             timerStartingValue = 0
