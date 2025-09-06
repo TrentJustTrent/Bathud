@@ -43,7 +43,7 @@ function chunkIntoColumns<T>(arr: T[], numCols: number): T[][] {
 }
 
 function updateFiles() {
-    const dir = variableConfig.wallpaperDir.get()
+    const dir = variableConfig.wallpaper.wallpaperDir.get()
     if (dir === "") {
         return
     }

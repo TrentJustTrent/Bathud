@@ -13,6 +13,7 @@ import {themeSchema} from "./theme";
 import {frameSchema} from "./frame";
 import {weatherSchema} from "./weather";
 import {barWidgetsSchema} from "./barWidgets";
+import {wallpaperSchema} from "./wallpaper";
 
 export const CONFIG_SCHEMA = [
     {
@@ -36,22 +37,10 @@ export const CONFIG_SCHEMA = [
         required: false,
     },
     {
-        name: 'wallpaperUpdateScript',
-        type: 'string',
-        description: 'Absolute path to the script run when the wallpaper changes.  You are responsible for changing you wallpaper.  Wallpaper path is sent as an argument to the script.',
-        required: false,
-    },
-    {
         name: 'barUpdateScript',
         type: 'string',
         description: 'Absolute path to the script run when the bar changes.  Bar type is sent as an argument to the script.',
         required: false,
-    },
-    {
-        name: 'wallpaperDir',
-        type: 'string',
-        default: '',
-        description: 'Directory containing theme wallpapers (may be empty).',
     },
     {
         name: 'mainMonitor',
@@ -71,4 +60,5 @@ export const CONFIG_SCHEMA = [
     bottomBarSchema,
     leftBarSchema,
     rightBarSchema,
+    wallpaperSchema,
 ] as const satisfies Field[]

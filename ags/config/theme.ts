@@ -19,7 +19,7 @@ if [[ -f "${config.configUpdateScript}" ]]; then
 fi
 
 # if the update wallpaper script exists
-if [[ -f "${config.wallpaperUpdateScript}" ]]; then
+if [[ -f "${config.wallpaper.wallpaperUpdateScript}" ]]; then
     # if there is a cached wallpaper for this theme, then set it
     WALLPAPER_CACHE_PATH="${GLib.get_home_dir()}/.cache/OkPanel/wallpaper/${selectedConfig.get()?.fileName}"
     # Check if the file exists and is non-empty
@@ -32,14 +32,14 @@ if [[ -f "${config.wallpaperUpdateScript}" ]]; then
           WALLPAPER="$potentialWallpaper"
         else
           # Fallback: pick the first .jpg or .png in the wallpaper dir
-          WALLPAPER="$(find "${config.wallpaperDir}" -maxdepth 1 -type f \\( -iname '*.jpg' -o -iname '*.png' \\) -print -quit 2>/dev/null || true)"
+          WALLPAPER="$(find "${config.wallpaper.wallpaperDir}" -maxdepth 1 -type f \\( -iname '*.jpg' -o -iname '*.png' \\) -print -quit 2>/dev/null || true)"
         fi
     else
         # If there is no cached wallpaper path, do the same fallback
-        WALLPAPER="$(find "${config.wallpaperDir}" -maxdepth 1 -type f \\( -iname '*.jpg' -o -iname '*.png' \\) -print -quit 2>/dev/null || true)"
+        WALLPAPER="$(find "${config.wallpaper.wallpaperDir}" -maxdepth 1 -type f \\( -iname '*.jpg' -o -iname '*.png' \\) -print -quit 2>/dev/null || true)"
     fi
     
-    ${config.wallpaperUpdateScript} $WALLPAPER
+    ${config.wallpaper.wallpaperUpdateScript} $WALLPAPER
 fi
 
     '`).catch((error) => {
@@ -161,9 +161,9 @@ export function setWallpaper(path: string) {
     execAsync(`bash -c '
 
 # if the wallpaper update script exists
-if [[ -f "${config.wallpaperUpdateScript}" ]]; then
+if [[ -f "${config.wallpaper.wallpaperUpdateScript}" ]]; then
     # call the wallpaper script
-    ${config.wallpaperUpdateScript} ${path}
+    ${config.wallpaper.wallpaperUpdateScript} ${path}
     
     # cache the name of the selected wallpaper
     mkdir -p ${GLib.get_home_dir()}/.cache/OkPanel/wallpaper
