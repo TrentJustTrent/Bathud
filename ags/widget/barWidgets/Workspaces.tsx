@@ -32,6 +32,7 @@ export default function ({vertical, bar}: { vertical: boolean, bar: Bar }) {
     const hypr = Hyprland.get_default()
     const hyprlandWorkspaces = createBinding(hypr, "workspaces")
     return <box
+        overflow={Gtk.Overflow.HIDDEN}
         cssClasses={["barWorkspacesBackground", "radiusSmall"]}
         orientation={vertical ? Gtk.Orientation.VERTICAL : Gtk.Orientation.HORIZONTAL}>
         <With value={hyprlandWorkspaces}>
