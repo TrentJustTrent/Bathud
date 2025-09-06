@@ -194,6 +194,12 @@ function shortcutWidgetCommons() { return [
         description: 'The icon for the shortcut widget.',
     },
     {
+        name: 'iconOffset',
+        type: 'number',
+        default: 0,
+        description: 'Offset for the icon.'
+    },
+    {
         name: 'launch',
         type: 'string',
         default: '',

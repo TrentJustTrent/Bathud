@@ -84,6 +84,8 @@ export default function (
             vpadding={getVPadding(bar)}
             labelCss={[`barShortcut${shortcutNumber}Foreground`]}
             backgroundCss={[`barShortcut${shortcutNumber}Background`]}
+            //@ts-ignore
+            offset={variableConfig.barWidgets[`shortcut${shortcutNumber}`].iconOffset.asAccessor()}
             label={label}
             clickHandlers={{
                 onLeftClick: () => {
