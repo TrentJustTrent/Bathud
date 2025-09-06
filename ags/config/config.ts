@@ -9,6 +9,7 @@ import Gio from "gi://Gio?version=2.0";
 import {setTheme, setThemeBasic} from "./theme";
 import {integratedMenuRevealedSetting} from "../widget/systemMenu/IntegratedMenu";
 import GLib from "gi://GLib?version=2.0";
+import {timeout, Timer} from "ags/time";
 
 const homePath = GLib.get_home_dir()
 const globalConfigFile = "okpanel.yaml"
@@ -96,14 +97,22 @@ function monitorSelectedConfig() {
     if (selectedConfig === undefined) {
         return
     }
+    let debounceTimer: Timer | null = null;
     selectedConfigFileMonitor = monitorFile(`${homePath}/.config/OkPanel/${selectedConfig.get()?.fileName}`, (file, event) => {
         const fileName = GLib.path_get_basename(file)
         switch (event) {
             case Gio.FileMonitorEvent.CHANGED:
-                console.log(`Selected config file changed`)
-                config = loadConfig(`${homePath}/.config/OkPanel/${fileName}`, defaultConfigValues)
-                updateVariablesFromConfig(CONFIG_SCHEMA, variableConfig, config)
-                setThemeBasic()
+                if (debounceTimer !== null) {
+                    debounceTimer.cancel()
+                    debounceTimer = null
+                }
+                debounceTimer = timeout(200, () => {
+                    console.log(`Selected config file changed`)
+                    config = loadConfig(`${homePath}/.config/OkPanel/${fileName}`, defaultConfigValues)
+                    updateVariablesFromConfig(CONFIG_SCHEMA, variableConfig, config)
+                    setThemeBasic()
+                    debounceTimer = null
+                })
                 break
         }
     })
@@ -121,11 +130,19 @@ function monitorDefaultsConfig() {
     if (!GLib.file_test(`${homePath}/.config/OkPanel/${globalConfigFile}`, GLib.FileTest.EXISTS)) {
         return
     }
+    let debounceTimer: Timer | null = null;
     defaultsConfigFileMonitor = monitorFile(`${homePath}/.config/OkPanel/${globalConfigFile}`, (_, event) => {
         switch (event) {
             case Gio.FileMonitorEvent.CHANGED:
-                console.log(`defaults config file changed`)
-                updateDefaultValues()
+                if (debounceTimer !== null) {
+                    debounceTimer.cancel()
+                    debounceTimer = null
+                }
+                debounceTimer = timeout(200, () => {
+                    console.log(`defaults config file changed`)
+                    updateDefaultValues()
+                    debounceTimer = null
+                })
                 break
         }
     })
@@ -212,18 +229,24 @@ export function setNewConfig(configFile: ConfigFile, onFinished: () => void) {
 }
 
 function updateDefaultValues() {
+    console.log("Updating default values")
     // update default values
     if (GLib.file_test(`${homePath}/.config/OkPanel/${globalConfigFile}`, GLib.FileTest.EXISTS)) {
-        defaultConfigValues = loadConfig(`${homePath}/.config/OkPanel/${globalConfigFile}`)
+        console.log("Loading default config")
+        defaultConfigValues = loadConfig(`${homePath}/.config/OkPanel/${globalConfigFile}`, undefined, false)
     } else {
+        console.log("Default config undefined")
         defaultConfigValues = undefined
     }
     // updated in use config
     if (selectedConfig.get() === undefined) {
+        console.log("Selected config undefined")
         config = validateAndApplyDefaults({}, CONFIG_SCHEMA, defaultConfigValues)
     } else {
+        console.log(`Loading selected config: ${selectedConfig.get()?.fileName}`)
         config = loadConfig(`${homePath}/.config/OkPanel/${selectedConfig.get()?.fileName}`, defaultConfigValues)
     }
+    console.log(`Updating variables: ${config.theme.windows.borderColor}`)
     updateVariablesFromConfig(CONFIG_SCHEMA, variableConfig, config)
 }
 

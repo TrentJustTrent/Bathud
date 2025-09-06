@@ -69,7 +69,7 @@ export function updateVariablesFromConfig<T extends readonly Field[]>(
 
         if (field.reactive === false) {
             if (wrappedValue !== newValue) {
-                console.log(`Variable changed: ${path}${name}`);
+                console.log(`Variable changed: ${path}${name} - old value: ${wrappedValue} - new value: ${newValue}`);
                 variablesChanged += 1;
                 (wrapped as any)[name] = newValue;
             }
