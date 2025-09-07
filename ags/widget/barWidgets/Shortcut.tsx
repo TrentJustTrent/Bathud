@@ -123,6 +123,27 @@ function addMoveFocusedClientToMenu(
     }
 }
 
+function addCloseFocusedToMenu(
+    menu: Gio.Menu,
+    actionGroup: Gio.SimpleActionGroup,
+    pop: Gtk.PopoverMenu,
+    shortcutNumber: number,
+) {
+    // @ts-ignore
+    const clazz: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.get()
+    const focusedClient = hyprland.get_focused_client()
+    if (focusedClient !== null && focusedClient.class === clazz) {
+        const action = new Gio.SimpleAction({name: "close-focused"})
+        action.connect("activate", () => {
+            pop.popdown()
+            focusedClient.kill()
+        })
+        actionGroup.add_action(action)
+
+        menu.append("Close Focused", "main.close-focused")
+    }
+}
+
 function addQuitToMenu(
     menu: Gio.Menu,
     actionGroup: Gio.SimpleActionGroup,
@@ -276,6 +297,7 @@ export default function (
                         } else {
                             addNewWindowToMenu(menu, actionGroup, pop, shortcutNumber)
                             addMoveFocusedClientToMenu(menu, actionGroup, pop, shortcutNumber)
+                            addCloseFocusedToMenu(menu, actionGroup, pop, shortcutNumber)
                             addQuitToMenu(menu, actionGroup, pop, shortcutNumber)
                         }
 
