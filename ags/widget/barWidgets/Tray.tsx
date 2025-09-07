@@ -5,6 +5,7 @@ import {Gtk} from "ags/gtk4";
 import OkButton from "../common/OkButton";
 import {getHPadding, getVPadding} from "./BarWidgets";
 import AstalTray from "gi://AstalTray?version=0.1";
+import {applyStyleChangeFix} from "../utils/styleFix";
 
 const tray = AstalTray.get_default()
 
@@ -18,6 +19,9 @@ export default function ({vertical, bar}: { vertical: boolean, bar: Bar }) {
                     return <box
                         orientation={vertical ? Gtk.Orientation.VERTICAL : Gtk.Orientation.HORIZONTAL}>
                         <revealer
+                            $={(self) => {
+                                applyStyleChangeFix(self, revealed)
+                            }}
                             revealChild={revealed}>
                             <TrayContent vertical={vertical}/>
                         </revealer>

@@ -8,6 +8,7 @@ import OkButton from "../../common/OkButton";
 import {createBinding, createComputed, createState, For, Setter, State, With} from "ags";
 import {integratedMenuRevealed} from "../IntegratedMenu";
 import {wireEntryFocus} from "../../frame/keymodeUtils";
+import {applyStyleChangeFix} from "../../utils/styleFix";
 
 const [wifiConnections, wifiConnectionsSetter] = createState<string[]>([])
 const [inactiveWifiConnections, inactiveWifiConnectionsSetter] = createState<string[]>([])
@@ -273,6 +274,9 @@ function PasswordEntry(
                 }}/>
         </box>}
         <revealer
+            $={(self) => {
+                applyStyleChangeFix(self, errorRevealed)
+            }}
             revealChild={errorRevealed}
             transitionDuration={200}
             transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>
@@ -335,6 +339,9 @@ function WifiConnections() {
                             buttonsRevealedSetter(!buttonsRevealed.get())
                         }}/>
                     <revealer
+                        $={(self) => {
+                            applyStyleChangeFix(self, buttonsRevealed)
+                        }}
                         revealChild={buttonsRevealed}
                         transitionDuration={200}
                         transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>
@@ -413,6 +420,9 @@ function WifiScannedConnections() {
                                     }}/>
                             </box>
                             <revealer
+                                $={(self) => {
+                                    applyStyleChangeFix(self, passwordEntryRevealed)
+                                }}
                                 revealChild={passwordEntryRevealed}
                                 transitionDuration={200}
                                 transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>
@@ -468,6 +478,9 @@ function VpnActiveConnections() {
                             buttonsRevealedSetter(!buttonsRevealed.get())
                         }}/>
                     <revealer
+                        $={(self) => {
+                            applyStyleChangeFix(self, buttonsRevealed)
+                        }}
                         revealChild={buttonsRevealed}
                         transitionDuration={200}
                         transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>
@@ -527,6 +540,9 @@ function VpnConnections() {
                             buttonsRevealedSetter(!buttonsRevealed.get())
                         }}/>
                     <revealer
+                        $={(self) => {
+                            applyStyleChangeFix(self, buttonsRevealed)
+                        }}
                         revealChild={buttonsRevealed}
                         transitionDuration={200}
                         transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>

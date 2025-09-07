@@ -3,6 +3,7 @@ import {createState, With} from "ags";
 import Weather from "./Weather";
 import Calendar from "./Calendar";
 import Timer from "./Timer";
+import {applyStyleChangeFix} from "../utils/styleFix";
 
 export const integratedCalendarWidth = 410
 
@@ -14,6 +15,9 @@ export function toggleIntegratedCalendar() {
 
 export default function () {
     return <revealer
+        $={(self) => {
+            applyStyleChangeFix(self, integratedCalendarRevealed)
+        }}
         hexpand={false}
         transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
         revealChild={integratedCalendarRevealed}>

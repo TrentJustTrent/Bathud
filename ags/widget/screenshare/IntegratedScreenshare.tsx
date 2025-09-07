@@ -1,6 +1,7 @@
 import {Gtk} from "ags/gtk4";
 import {createState} from "ags";
 import Screenshare from "./Screenshare";
+import {applyStyleChangeFix} from "../utils/styleFix";
 
 export const integratedScreenshareWidth = 410
 
@@ -12,6 +13,9 @@ export function toggleIntegratedScreenshare() {
 
 export default function () {
     return <revealer
+        $={(self) => {
+            applyStyleChangeFix(self, integratedScreenshareRevealed)
+        }}
         hexpand={false}
         transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
         revealChild={integratedScreenshareRevealed}>

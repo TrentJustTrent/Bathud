@@ -20,7 +20,7 @@ fi
         console.log("setTheme error")
         console.error(error)
     }).finally(() => {
-        App.apply_css("/tmp/OkPanel/style.css")
+        App.apply_css("/tmp/OkPanel/style.css", true)
         console.log(`Theme applied: ${config.theme.name}`)
         onFinished()
     })
@@ -35,7 +35,7 @@ ${compileThemeBashScript()}
     '`).catch((error) => {
         console.error(error)
     }).finally(() => {
-        App.apply_css("/tmp/OkPanel/style.css")
+        App.apply_css("/tmp/OkPanel/style.css", true)
     })
 }
 

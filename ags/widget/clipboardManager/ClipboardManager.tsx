@@ -12,6 +12,7 @@ import Gio from "gi://Gio?version=2.0";
 import {monitorFile} from "ags/file";
 import {timeout, Timer} from "ags/time";
 import {toggleIntegratedClipboardManager} from "./IntegratedClipboardManager";
+import {applyStyleChangeFix} from "../utils/styleFix";
 
 let cliphistStarted = false
 
@@ -183,13 +184,14 @@ export function ClipboardManagerContent() {
                 })
 
                 return <revealer
-                    $={()=> {
+                    $={(self)=> {
                         timeout(200, () => {
                             revealSet(true)
                         })
                         onCleanup(() => {
                             wipeCallbacks.delete(entry.number)
                         })
+                        applyStyleChangeFix(self, reveal)
                     }}
                     revealChild={reveal}
                     transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>
