@@ -7,6 +7,7 @@ import {Gdk, Gtk} from "ags/gtk4";
 import AstalHyprland from "gi://AstalHyprland?version=0.1";
 import {launchApp} from "../utils/launch";
 import Gio from "gi://Gio?version=2.0";
+import GLib from "gi://GLib?version=2.0";
 
 function getIndicatorHAlign(bar: Bar) {
     switch (bar) {
@@ -30,6 +31,25 @@ function getIndicatorVAlign(bar: Bar) {
         case Bar.BOTTOM:
             return Gtk.Align.END
     }
+}
+
+function addLaunchToMenu(
+    menu: Gio.Menu,
+    actionGroup: Gio.SimpleActionGroup,
+    pop: Gtk.PopoverMenu,
+) {
+    const newWindowAction = new Gio.SimpleAction({ name: "launch" });
+    newWindowAction.connect("activate", () => {
+        pop.popdown()
+        // @ts-ignore
+        const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].launch.get()
+        if (command !== "") {
+            launchApp([command])
+        }
+    });
+    actionGroup.add_action(newWindowAction)
+
+    menu.append("Launch", "main.launch")
 }
 
 export default function (
@@ -155,76 +175,110 @@ export default function (
                             .clients
                             .filter((it) => it.class === clazz)
 
-                        // 1) Build a menu model
-                        const model = new Gio.Menu();
-                        model.append("Launch", "main.launch")
-                        model.append("New Window", "main.new-window");
-                        model.append("Quit", "main.quit");
+                        const pop = new Gtk.PopoverMenu()
+                        pop.set_has_arrow(false)
 
-                        const pop = Gtk.PopoverMenu.new_from_model(model);
-                        pop.set_has_arrow(false);
-
-                        // 2) Provide the actions on the popover (prefix "dock")
-                        const group = new Gio.SimpleActionGroup();
+                        // 1) Provide the actions on the popover (prefix "dock")
+                        const group = new Gio.SimpleActionGroup()
 
                         if (clients.length === 0) {
                             // No opened clients
                             const newWindowAction = new Gio.SimpleAction({ name: "launch" });
                             newWindowAction.connect("activate", () => {
-                                pop.popdown();
+                                pop.popdown()
                                 // @ts-ignore
                                 const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].launch.get()
                                 if (command !== "") {
                                     launchApp([command])
                                 }
                             });
-                            group.add_action(newWindowAction);
+                            group.add_action(newWindowAction)
 
-                            const root = new Gio.Menu();
+                            const root = new Gio.Menu()
                             root.append("Launch", "main.launch")
-                            pop.set_menu_model(root);
+                            pop.set_menu_model(root)
                         } else {
                             // Has opened clients
-                            const newWindowAction = new Gio.SimpleAction({name: "new-window"});
+                            const newWindowAction = new Gio.SimpleAction({name: "new-window"})
                             newWindowAction.connect("activate", () => {
-                                pop.popdown();
+                                pop.popdown()
                                 // @ts-ignore
                                 const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].newWindow.get()
                                 if (command !== "") {
                                     launchApp([command])
                                 }
-                            });
-                            group.add_action(newWindowAction);
+                            })
+                            group.add_action(newWindowAction)
 
-                            const quitAction = new Gio.SimpleAction({name: "quit"});
+                            const focusedClient = hyprland.get_focused_client()
+                            if (focusedClient.class === clazz) {
+                                const moveFocusedAction = new Gio.SimpleAction({
+                                    name: "move-focused",
+                                    parameterType: new GLib.VariantType("i"),
+                                })
+                                moveFocusedAction.connect("activate", (_action, param) => {
+                                    pop.popdown()
+                                    const targetWorkspace = param?.get_int32()
+                                    if (typeof  targetWorkspace === "number") {
+                                        const workspace = hyprland.workspaces.find((it) => it.id === targetWorkspace)
+                                        if (workspace !== undefined) {
+                                            focusedClient.move_to(workspace)
+                                            workspace.focus()
+                                            focusedClient.focus()
+                                        }
+                                    }
+                                })
+                                group.add_action(moveFocusedAction)
+                            }
+
+                            const chooseWorkspaceSubmenu = new Gio.Menu();
+                            const focused = hyprland.get_focused_client();
+                            const currentWs = focused?.workspace?.id;
+
+                            hyprland.workspaces
+                                .map(w => w.id)
+                                .sort((a, b) => a - b)
+                                .forEach(id => {
+                                    if (id === currentWs) return; // optional: don't list current
+                                    // Each item triggers main.move-focused(<id>) with an int parameter
+                                    chooseWorkspaceSubmenu.append(`Workspace ${id}`, `main.move-focused(${id})`);
+                                });
+
+                            const moveFocusedMenuItem = Gio.MenuItem.new("Move focused window to workspace", null)
+                            moveFocusedMenuItem.set_submenu(chooseWorkspaceSubmenu);
+
+                            const quitAction = new Gio.SimpleAction({name: "quit"})
                             quitAction.connect("activate", () => {
-                                pop.popdown();
+                                pop.popdown()
                                 // @ts-ignore
                                 const clazz: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.get()
                                 hyprland.clients.filter((it) => it.class === clazz).forEach((it) => it.kill())
-                            });
-                            group.add_action(quitAction);
+                            })
+                            group.add_action(quitAction)
 
-                            const root = new Gio.Menu();
-                            root.append("New Window", "main.new-window");
-                            root.append("Quit", "main.quit");
-                            pop.set_menu_model(root);
+                            const root = new Gio.Menu()
+                            root.append("New Window", "main.new-window")
+                            if (focusedClient.class === clazz) {
+                                root.append_item(moveFocusedMenuItem)
+                            }
+                            root.append("Quit", "main.quit")
+                            pop.set_menu_model(root)
                         }
 
                         // Attach the group to the popover under the "main" prefix
                         // (GTK will search the popover, then its parents, for "main.*")
-                        pop.insert_action_group?.("main", group);
+                        pop.insert_action_group?.("main", group)
 
-                        pop.set_parent(self);
+                        pop.set_parent(self)
 
-                        const rect = new Gdk.Rectangle({ x: Math.round(x), y: Math.round(y), width: 1, height: 1 });
-                        pop.set_pointing_to?.(rect);
+                        const rect = new Gdk.Rectangle({ x: Math.round(x), y: Math.round(y), width: 1, height: 1 })
+                        pop.set_pointing_to?.(rect)
 
                         pop.connect("closed", () => {
-                            dispose();
-                        });
+                            dispose()
+                        })
 
-                        pop.popup();
+                        pop.popup()
                     });
                 }
             }}/>
