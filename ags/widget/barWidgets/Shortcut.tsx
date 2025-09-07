@@ -62,17 +62,17 @@ function addNewWindowToMenu(
     shortcutNumber: number,
 ) {
     const newWindowAction = new Gio.SimpleAction({name: "new-window"})
-    newWindowAction.connect("activate", () => {
-        pop.popdown()
-        // @ts-ignore
-        const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].newWindow.get()
-        if (command !== "") {
+    // @ts-ignore
+    const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].newWindow.get()
+    if (command !== "") {
+        newWindowAction.connect("activate", () => {
+            pop.popdown()
             launchApp([command])
-        }
-    })
-    actionGroup.add_action(newWindowAction)
+        })
+        actionGroup.add_action(newWindowAction)
 
-    menu.append("New Window", "main.new-window")
+        menu.append("New Window", "main.new-window")
+    }
 }
 
 function addMoveFocusedClientToMenu(
