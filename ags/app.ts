@@ -21,6 +21,7 @@ import {toggleIntegratedClipboardManager} from "./widget/clipboardManager/Integr
 import {toggleIntegratedNotificationHistory} from "./widget/notification/IntegratedNotificationHistory";
 import {customWidgetLabelSetters} from "./widget/barWidgets/CustomWidget";
 import Wallpaper from "./widget/wallpaper/Wallpaper";
+import {setWallpaper} from "./widget/wallpaper/setWallpaper";
 
 export let projectDir = ""
 
@@ -105,6 +106,12 @@ App.start({
         } else if (command === "notification") {
             toggleIntegratedNotificationHistory()
             res("notifications toggled")
+        } else if (command.startsWith("wallpaper")) {
+            const path = request[1]
+            setWallpaper(path)
+                .finally(() => {
+                    res("wallpaper set")
+                })
         } else {
             res("command not found")
         }

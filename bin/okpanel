@@ -19,6 +19,8 @@ Commands:
 	custom <n> <string>
 			      Update a custom bar widget's label. <n> is a slot number of the custom widget
 			      (1–20). <string> is the new label.
+	wallpaper <path>
+				  Set the wallpaper to the file at the path.
 	help          Show this help message.
 
 Global Options:
@@ -37,6 +39,15 @@ custom_command() {
 	local string="$*"
 
 	ags request -i "OkPanel" "custom" "$number" "$string"
+}
+
+wallpaper() {
+	if [[ $# -lt 1 ]]; then
+		echo "Usage: $0 wallpaper <path>"
+		exit 1
+	fi
+
+	ags request -i "OkPanel" "wallpaper" "$1"
 }
 
 run_run_command() {
@@ -105,6 +116,7 @@ main() {
 		volume-down)  ags request -i "OkPanel" "volume-down";;
 		mute)         ags request -i "OkPanel" "mute";;
 		custom)       shift; custom_command "$@";;
+		wallpaper)	  shift; wallpaper "$@";;
 		help|-h|--help) print_help;;
 		*) echo "Unknown command: $1"; print_help; exit 1 ;;
 	esac
