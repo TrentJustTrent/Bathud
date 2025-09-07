@@ -29,6 +29,7 @@ function buildButtonCssClasses(
     primary: boolean,
     menuButtonContent?: JSX.Element,
     selected?: Accessor<boolean>,
+    selectedCss?: string[],
 ): string[] | Accessor<string[]> {
     const buttonClasses: string[] = []
 
@@ -62,7 +63,11 @@ function buildButtonCssClasses(
 
     return selected.as((isSelected) => {
         if (isSelected) {
-            return buttonClasses.concat("okButtonClassSelected")
+            if (selectedCss === undefined) {
+                return buttonClasses.concat("okButtonClassSelected")
+            } else {
+                return buttonClasses.concat(selectedCss)
+            }
         } else {
             return buttonClasses.concat("okButtonClass")
         }
@@ -73,6 +78,7 @@ export default function(
     {
         labelCss = [],
         backgroundCss = [],
+        selectedCss,
         label,
         offset = 0,
         selected,
@@ -104,6 +110,7 @@ export default function(
     {
         labelCss?: string[]
         backgroundCss?: string[]
+        selectedCss?: string[]
         label: Accessor<string> | string,
         offset?: number | Accessor<number>,
         selected?: Accessor<boolean>,
@@ -267,6 +274,7 @@ export default function(
         primary,
         menuButtonContent,
         selected,
+        selectedCss,
     )
 
     if (menuButtonContent !== undefined) {

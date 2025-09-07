@@ -86,6 +86,7 @@ export default function (
             hpadding={getHPadding(bar)}
             vpadding={getVPadding(bar)}
             selected={selected}
+            selectedCss={[`barShortcut${shortcutNumber}Selected`]}
             labelCss={[`barShortcut${shortcutNumber}Foreground`]}
             backgroundCss={[`barShortcut${shortcutNumber}Background`]}
             //@ts-ignore

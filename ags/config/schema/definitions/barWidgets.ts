@@ -217,6 +217,13 @@ function shortcutWidgetCommons() { return [
         default: '',
         description: 'The window class of the program.  You can find this by running hyprctl clients',
     },
+    {
+        name: 'selectedBackground',
+        type: 'color',
+        default: {from: 'theme.colors.buttonPrimary'},
+        description: 'Background color of the widget when selected.',
+        reactive: false,
+    },
     ...widgetCommons()
 ] as const satisfies Field[] }
 
