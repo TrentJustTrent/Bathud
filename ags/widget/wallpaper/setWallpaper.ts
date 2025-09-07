@@ -9,7 +9,7 @@ export async function setWallpaper(path: string): Promise<void> {
 
     // require an existing, executable script (match your bash guard)
     if (!script || !GLib.file_test(script, GLib.FileTest.EXISTS | GLib.FileTest.IS_EXECUTABLE)) {
-        console.warn("setWallpaper: wallpaperUpdateScript missing or not executable:", script);
+        console.log("setWallpaper: wallpaperUpdateScript missing or not executable:", script);
     } else {
         await execAsync(`${GLib.shell_quote(script)} ${GLib.shell_quote(path)}`);
     }
