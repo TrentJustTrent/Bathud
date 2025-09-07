@@ -5,7 +5,6 @@ import RevealerRow from "../../common/RevealerRow";
 import OkButton from "../../common/OkButton";
 import {createBinding, createComputed, createState, For, With} from "ags";
 import {integratedMenuRevealed} from "../IntegratedMenu";
-import {applyStyleChangeFix} from "../../utils/styleFix";
 
 function BluetoothDevices() {
     const bluetooth = Bluetooth.get_default()
@@ -49,9 +48,6 @@ function BluetoothDevices() {
                             buttonsRevealedSetter(!buttonsRevealed.get())
                         }}/>
                     <revealer
-                        $={(self) => {
-                            applyStyleChangeFix(self, buttonsRevealed)
-                        }}
                         revealChild={buttonsRevealed}
                         transitionDuration={200}
                         transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>

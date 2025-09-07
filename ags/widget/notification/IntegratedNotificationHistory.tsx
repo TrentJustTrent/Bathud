@@ -1,7 +1,6 @@
 import {Gtk} from "ags/gtk4";
 import {createState} from "ags";
 import NotificationHistory from "../systemMenu/widgets/NotificationHistory";
-import {applyStyleChangeFix} from "../utils/styleFix";
 
 export const integratedNotificationHistoryWidth = 410
 
@@ -13,9 +12,6 @@ export function toggleIntegratedNotificationHistory() {
 
 export default function () {
     return <revealer
-        $={(self) => {
-            applyStyleChangeFix(self, integratedNotificationHistoryRevealed)
-        }}
         hexpand={false}
         transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
         revealChild={integratedNotificationHistoryRevealed}>

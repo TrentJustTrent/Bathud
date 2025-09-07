@@ -16,7 +16,6 @@ import {createBinding} from "ags";
 import {SystemMenuWidget} from "../../config/schema/definitions/systemMenuWidgets";
 import {appendChildren, removeAllChildren} from "../utils/widgets";
 import QuickToggles from "./widgets/QuickToggles";
-import {applyStyleChangeFix} from "../utils/styleFix";
 
 const {audio} = Wp.get_default()!
 
@@ -102,9 +101,6 @@ export default function () {
     })
 
     return <revealer
-        $={(self) => {
-            applyStyleChangeFix(self, integratedMenuRevealed)
-        }}
         hexpand={false}
         transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
         revealChild={integratedMenuRevealed}>

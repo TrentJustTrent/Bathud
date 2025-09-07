@@ -2,7 +2,6 @@ import {Astal, Gtk} from "ags/gtk4";
 import {createState} from "ags";
 import AppLauncher from "./AppLauncher";
 import {frameWindow} from "../frame/Frame";
-import {applyStyleChangeFix} from "../utils/styleFix";
 
 export const integratedAppLauncherWidth = 500
 
@@ -22,9 +21,6 @@ export default function () {
     })
 
     return <revealer
-        $={(self) => {
-            applyStyleChangeFix(self, integratedAppLauncherRevealed)
-        }}
         hexpand={false}
         transitionType={Gtk.RevealerTransitionType.SLIDE_RIGHT}
         revealChild={integratedAppLauncherRevealed}>

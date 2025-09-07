@@ -1,8 +1,6 @@
 import {Gtk} from "ags/gtk4";
 import OkButton, {OkButtonHorizontalPadding, OkButtonSize} from "./OkButton";
 import {Accessor, createState, State} from "ags";
-import {timeout} from "ags/time";
-import {applyStyleChangeFix} from "../utils/styleFix";
 
 type Params = {
     marginTop?: number;
@@ -73,9 +71,6 @@ export default function (
                 }}/>
         </box>
         <revealer
-            $={(self) => {
-                applyStyleChangeFix(self, revealed)
-            }}
             marginStart={10}
             marginEnd={10}
             revealChild={revealed}
