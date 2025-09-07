@@ -55,6 +55,14 @@ export default function (
         return clients.filter((it) => it.class === clazz).length > 0
     })
 
+    const selected = createComputed([
+        createBinding(hyprland, "focusedClient"),
+        // @ts-ignore
+        variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.asAccessor()
+    ], (focused: AstalHyprland.Client, clazz: string) => {
+        return focused?.class === clazz
+    })
+
     let cycleClientsTimer: Timer | null = null
     let lastClientFocusId: number | null = null
 
@@ -82,6 +90,7 @@ export default function (
         <OkButton
             hpadding={getHPadding(bar)}
             vpadding={getVPadding(bar)}
+            selected={selected}
             labelCss={[`barShortcut${shortcutNumber}Foreground`]}
             backgroundCss={[`barShortcut${shortcutNumber}Background`]}
             //@ts-ignore
