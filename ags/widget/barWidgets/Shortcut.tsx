@@ -9,6 +9,8 @@ import {launchApp} from "../utils/launch";
 import Gio from "gi://Gio?version=2.0";
 import GLib from "gi://GLib?version=2.0";
 
+const hyprland = AstalHyprland.get_default()
+
 function getIndicatorHAlign(bar: Bar) {
     switch (bar) {
         case Bar.LEFT:
@@ -37,6 +39,7 @@ function addLaunchToMenu(
     menu: Gio.Menu,
     actionGroup: Gio.SimpleActionGroup,
     pop: Gtk.PopoverMenu,
+    shortcutNumber: number,
 ) {
     const newWindowAction = new Gio.SimpleAction({ name: "launch" });
     newWindowAction.connect("activate", () => {
@@ -50,6 +53,92 @@ function addLaunchToMenu(
     actionGroup.add_action(newWindowAction)
 
     menu.append("Launch", "main.launch")
+}
+
+function addNewWindowToMenu(
+    menu: Gio.Menu,
+    actionGroup: Gio.SimpleActionGroup,
+    pop: Gtk.PopoverMenu,
+    shortcutNumber: number,
+) {
+    const newWindowAction = new Gio.SimpleAction({name: "new-window"})
+    newWindowAction.connect("activate", () => {
+        pop.popdown()
+        // @ts-ignore
+        const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].newWindow.get()
+        if (command !== "") {
+            launchApp([command])
+        }
+    })
+    actionGroup.add_action(newWindowAction)
+
+    menu.append("New Window", "main.new-window")
+}
+
+function addMoveFocusedClientToMenu(
+    menu: Gio.Menu,
+    actionGroup: Gio.SimpleActionGroup,
+    pop: Gtk.PopoverMenu,
+    shortcutNumber: number,
+) {
+    // @ts-ignore
+    const clazz: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.get()
+    const focusedClient = hyprland.get_focused_client()
+    if (focusedClient !== null && focusedClient.class === clazz) {
+        const moveFocusedAction = new Gio.SimpleAction({
+            name: "move-focused",
+            parameterType: new GLib.VariantType("i"),
+        })
+        moveFocusedAction.connect("activate", (_action, param) => {
+            pop.popdown()
+            const targetWorkspace = param?.get_int32()
+            if (typeof  targetWorkspace === "number") {
+                const workspace = hyprland.workspaces.find((it) => it.id === targetWorkspace)
+                if (workspace !== undefined) {
+                    focusedClient.move_to(workspace)
+                    workspace.focus()
+                    focusedClient.focus()
+                }
+            }
+        })
+        actionGroup.add_action(moveFocusedAction)
+
+        const chooseWorkspaceSubmenu = new Gio.Menu();
+        const focused = hyprland.get_focused_client();
+        const currentWs = focused?.workspace?.id;
+
+        hyprland.workspaces
+            .map(w => w.id)
+            .sort((a, b) => a - b)
+            .forEach(id => {
+                if (id === currentWs) return; // optional: don't list current
+                // Each item triggers main.move-focused(<id>) with an int parameter
+                chooseWorkspaceSubmenu.append(`Workspace ${id}`, `main.move-focused(${id})`);
+            });
+
+        const moveFocusedMenuItem = Gio.MenuItem.new("Move focused window to workspace", null)
+        moveFocusedMenuItem.set_submenu(chooseWorkspaceSubmenu);
+
+        menu.append_item(moveFocusedMenuItem)
+    }
+}
+
+function addQuitToMenu(
+    menu: Gio.Menu,
+    actionGroup: Gio.SimpleActionGroup,
+    pop: Gtk.PopoverMenu,
+    shortcutNumber: number,
+) {
+    const quitAction = new Gio.SimpleAction({name: "quit"})
+    quitAction.connect("activate", () => {
+        pop.popdown()
+        // @ts-ignore
+        const clazz: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.get()
+        hyprland.clients.filter((it) => it.class === clazz).forEach((it) => it.kill())
+    })
+    actionGroup.add_action(quitAction)
+
+    menu.append("Quit", "main.quit")
 }
 
 export default function (
@@ -137,7 +226,7 @@ export default function (
                         const focusedWorkspace = hyprland.get_focused_workspace()
 
                         // If we are already focused on the class, focus the next client
-                        if (currentFocusedClient.class === clazz) {
+                        if (currentFocusedClient !== null && currentFocusedClient.class === clazz) {
                             const nextClients = clients
                                 .filter((it) => it.focusHistoryId > currentFocusedClient.focusHistoryId)
 
@@ -178,96 +267,19 @@ export default function (
                         const pop = new Gtk.PopoverMenu()
                         pop.set_has_arrow(false)
 
-                        // 1) Provide the actions on the popover (prefix "dock")
-                        const group = new Gio.SimpleActionGroup()
+                        const actionGroup = new Gio.SimpleActionGroup()
+                        const menu = new Gio.Menu()
 
                         if (clients.length === 0) {
-                            // No opened clients
-                            const newWindowAction = new Gio.SimpleAction({ name: "launch" });
-                            newWindowAction.connect("activate", () => {
-                                pop.popdown()
-                                // @ts-ignore
-                                const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].launch.get()
-                                if (command !== "") {
-                                    launchApp([command])
-                                }
-                            });
-                            group.add_action(newWindowAction)
-
-                            const root = new Gio.Menu()
-                            root.append("Launch", "main.launch")
-                            pop.set_menu_model(root)
+                            addLaunchToMenu(menu, actionGroup, pop, shortcutNumber)
                         } else {
-                            // Has opened clients
-                            const newWindowAction = new Gio.SimpleAction({name: "new-window"})
-                            newWindowAction.connect("activate", () => {
-                                pop.popdown()
-                                // @ts-ignore
-                                const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].newWindow.get()
-                                if (command !== "") {
-                                    launchApp([command])
-                                }
-                            })
-                            group.add_action(newWindowAction)
-
-                            const focusedClient = hyprland.get_focused_client()
-                            if (focusedClient.class === clazz) {
-                                const moveFocusedAction = new Gio.SimpleAction({
-                                    name: "move-focused",
-                                    parameterType: new GLib.VariantType("i"),
-                                })
-                                moveFocusedAction.connect("activate", (_action, param) => {
-                                    pop.popdown()
-                                    const targetWorkspace = param?.get_int32()
-                                    if (typeof  targetWorkspace === "number") {
-                                        const workspace = hyprland.workspaces.find((it) => it.id === targetWorkspace)
-                                        if (workspace !== undefined) {
-                                            focusedClient.move_to(workspace)
-                                            workspace.focus()
-                                            focusedClient.focus()
-                                        }
-                                    }
-                                })
-                                group.add_action(moveFocusedAction)
-                            }
-
-                            const chooseWorkspaceSubmenu = new Gio.Menu();
-                            const focused = hyprland.get_focused_client();
-                            const currentWs = focused?.workspace?.id;
-
-                            hyprland.workspaces
-                                .map(w => w.id)
-                                .sort((a, b) => a - b)
-                                .forEach(id => {
-                                    if (id === currentWs) return; // optional: don't list current
-                                    // Each item triggers main.move-focused(<id>) with an int parameter
-                                    chooseWorkspaceSubmenu.append(`Workspace ${id}`, `main.move-focused(${id})`);
-                                });
-
-                            const moveFocusedMenuItem = Gio.MenuItem.new("Move focused window to workspace", null)
-                            moveFocusedMenuItem.set_submenu(chooseWorkspaceSubmenu);
-
-                            const quitAction = new Gio.SimpleAction({name: "quit"})
-                            quitAction.connect("activate", () => {
-                                pop.popdown()
-                                // @ts-ignore
-                                const clazz: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.get()
-                                hyprland.clients.filter((it) => it.class === clazz).forEach((it) => it.kill())
-                            })
-                            group.add_action(quitAction)
-
-                            const root = new Gio.Menu()
-                            root.append("New Window", "main.new-window")
-                            if (focusedClient.class === clazz) {
-                                root.append_item(moveFocusedMenuItem)
-                            }
-                            root.append("Quit", "main.quit")
-                            pop.set_menu_model(root)
+                            addNewWindowToMenu(menu, actionGroup, pop, shortcutNumber)
+                            addMoveFocusedClientToMenu(menu, actionGroup, pop, shortcutNumber)
+                            addQuitToMenu(menu, actionGroup, pop, shortcutNumber)
                         }
 
-                        // Attach the group to the popover under the "main" prefix
-                        // (GTK will search the popover, then its parents, for "main.*")
-                        pop.insert_action_group?.("main", group)
+                        pop.set_menu_model(menu)
+                        pop.insert_action_group?.("main", actionGroup)
 
                         pop.set_parent(self)
 
