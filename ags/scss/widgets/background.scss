@@ -5,6 +5,10 @@
   background-color: transparent;
 }
 
+.windowBackground {
+  background-color: vars.$windowBackgroundColor;
+}
+
 .scrimBackground {
   background-color: vars.$scrimColor;
 }

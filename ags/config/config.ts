@@ -10,6 +10,8 @@ import {setTheme, setThemeBasic} from "./theme";
 import {integratedMenuRevealedSetting} from "../widget/systemMenu/IntegratedMenu";
 import GLib from "gi://GLib?version=2.0";
 import {timeout, Timer} from "ags/time";
+import {resolveWallpaper} from "../widget/wallpaper/getWallpaper";
+import {setWallpaper} from "../widget/wallpaper/setWallpaper";
 
 const homePath = GLib.get_home_dir()
 const globalConfigFile = "okpanel.yaml"
@@ -226,6 +228,13 @@ export function setNewConfig(configFile: ConfigFile, onFinished: () => void) {
     monitorSelectedConfig()
     integratedMenuRevealedSetting(false)
     setTheme(onFinished)
+    const wallpaperPath = resolveWallpaper()
+    if (wallpaperPath !== null) {
+        setWallpaper(wallpaperPath)
+            .finally(() => {
+                console.log("wallpaper set")
+            })
+    }
 }
 
 function updateDefaultValues() {

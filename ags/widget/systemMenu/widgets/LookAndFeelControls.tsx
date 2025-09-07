@@ -10,14 +10,15 @@ import {
 import RevealerRow from "../../common/RevealerRow";
 import OkButton, {OkButtonSize} from "../../common/OkButton";
 import {listFilenamesInDir} from "../../utils/files";
-import {setWallpaper} from "../../../config/theme";
 import {createComputed, createState, For, With} from "ags";
 import GLib from "gi://GLib?version=2.0";
 import {integratedMenuRevealed} from "../IntegratedMenu";
+import {setWallpaper} from "../../wallpaper/setWallpaper";
 
 const [files, filesSetter] = createState<string[][]>([])
 const numberOfColumns = 2
 let buttonsEnabled = true
+let changingWallpaperBusy = false
 
 function updateConfig(configFile: ConfigFile) {
     if (!buttonsEnabled) {
@@ -245,6 +246,12 @@ function WallpaperColumn(
     const filesListInColumn = createComputed([
         files
     ], (filesList) => {
+        if (!filesList) {
+            return []
+        }
+        if (column < 0 || column >= filesList.length) {
+            return []
+        }
         return filesList[column]
     })
 
@@ -267,7 +274,13 @@ function WallpaperColumn(
                     }}
                     cssClasses={["wallpaperButton"]}
                     onClicked={() => {
+                        if (changingWallpaperBusy) return
+                        changingWallpaperBusy = true
                         setWallpaper(file)
+                            .finally(() => {
+                                changingWallpaperBusy = false
+                                console.log("wallpaper set")
+                            })
                     }}/>
             }}
         </For>

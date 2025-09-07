@@ -20,6 +20,7 @@ import {toggleIntegratedCalendar} from "./widget/calendar/IntegratedCalendar";
 import {toggleIntegratedClipboardManager} from "./widget/clipboardManager/IntegratedClipboardManager";
 import {toggleIntegratedNotificationHistory} from "./widget/notification/IntegratedNotificationHistory";
 import {customWidgetLabelSetters} from "./widget/barWidgets/CustomWidget";
+import Wallpaper from "./widget/wallpaper/Wallpaper";
 
 export let projectDir = ""
 
@@ -41,6 +42,7 @@ App.start({
         ChargingAlertSound()
 
         hyprland.monitors.map((monitor) => {
+            Wallpaper(monitor)
             VolumeAlert(monitor)
             BrightnessAlert(monitor)
             NotificationPopups(monitor)
@@ -49,6 +51,7 @@ App.start({
 
         hyprland.connect("monitor-added", (_, monitor) => {
             createRoot(() => {
+                App.add_window(Wallpaper(monitor))
                 App.add_window(VolumeAlert(monitor))
                 App.add_window(BrightnessAlert(monitor))
                 App.add_window(NotificationPopups(monitor))

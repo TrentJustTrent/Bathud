@@ -2,7 +2,6 @@ import {config, selectedConfig} from "./config";
 import {execAsync} from "ags/process";
 import {projectDir} from "../app";
 import {BarWidget} from "./schema/definitions/barWidgets";
-import GLib from "gi://GLib?version=2.0";
 import App from "ags/gtk4/app"
 
 export function setTheme(onFinished: () => void) {
@@ -17,31 +16,6 @@ if [[ -f "${config.configUpdateScript}" ]]; then
     # call the external update theme/config
     ${config.configUpdateScript} ${config.theme.name} ${selectedConfig.get()?.fileName}
 fi
-
-# if the update wallpaper script exists
-if [[ -f "${config.wallpaper.wallpaperUpdateScript}" ]]; then
-    # if there is a cached wallpaper for this theme, then set it
-    WALLPAPER_CACHE_PATH="${GLib.get_home_dir()}/.cache/OkPanel/wallpaper/${selectedConfig.get()?.fileName}"
-    # Check if the file exists and is non-empty
-    if [[ -s "$WALLPAPER_CACHE_PATH" ]]; then
-        # Read the wallpaper path from the file
-        potentialWallpaper="$(< "$WALLPAPER_CACHE_PATH")"
-        
-        # Check if that file actually exists
-        if [[ -f "$potentialWallpaper" ]]; then
-          WALLPAPER="$potentialWallpaper"
-        else
-          # Fallback: pick the first .jpg or .png in the wallpaper dir
-          WALLPAPER="$(find "${config.wallpaper.wallpaperDir}" -maxdepth 1 -type f \\( -iname '*.jpg' -o -iname '*.png' \\) -print -quit 2>/dev/null || true)"
-        fi
-    else
-        # If there is no cached wallpaper path, do the same fallback
-        WALLPAPER="$(find "${config.wallpaper.wallpaperDir}" -maxdepth 1 -type f \\( -iname '*.jpg' -o -iname '*.png' \\) -print -quit 2>/dev/null || true)"
-    fi
-    
-    ${config.wallpaper.wallpaperUpdateScript} $WALLPAPER
-fi
-
     '`).catch((error) => {
         console.log("setTheme error")
         console.error(error)
@@ -156,21 +130,3 @@ sass --load-path "$BUILD_DIR" "$BUILD_DIR/main.scss" "$OUT_TMP" --no-source-map 
 mv -f "$OUT_TMP" "$OUT_CSS"
 rm -rf "$BUILD_DIR"
 `; }
-
-export function setWallpaper(path: string) {
-    execAsync(`bash -c '
-
-# if the wallpaper update script exists
-if [[ -f "${config.wallpaper.wallpaperUpdateScript}" ]]; then
-    # call the wallpaper script
-    ${config.wallpaper.wallpaperUpdateScript} ${path}
-    
-    # cache the name of the selected wallpaper
-    mkdir -p ${GLib.get_home_dir()}/.cache/OkPanel/wallpaper
-    echo "${path}" > ${GLib.get_home_dir()}/.cache/OkPanel/wallpaper/${selectedConfig.get()?.fileName}
-fi
-
-    '`).catch((error) => {
-        console.error(error)
-    })
-}
