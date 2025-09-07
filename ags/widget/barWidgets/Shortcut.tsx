@@ -116,7 +116,7 @@ function addMoveFocusedClientToMenu(
                 chooseWorkspaceSubmenu.append(`Workspace ${id}`, `main.move-focused(${id})`);
             });
 
-        const moveFocusedMenuItem = Gio.MenuItem.new("Move focused window to workspace", null)
+        const moveFocusedMenuItem = Gio.MenuItem.new("Move focused", null)
         moveFocusedMenuItem.set_submenu(chooseWorkspaceSubmenu);
 
         menu.append_item(moveFocusedMenuItem)
@@ -266,6 +266,7 @@ export default function (
 
                         const pop = new Gtk.PopoverMenu()
                         pop.set_has_arrow(false)
+                        pop.add_css_class("ok-popover")
 
                         const actionGroup = new Gio.SimpleActionGroup()
                         const menu = new Gio.Menu()
