@@ -1,13 +1,14 @@
 import OkButton from "../common/OkButton";
 import {variableConfig} from "../../config/config";
 import {Bar} from "../../config/bar";
-import {Accessor, createBinding, createComputed, createRoot} from "ags";
+import {Accessor, createBinding, createComputed, createRoot, createState, onCleanup} from "ags";
 import {getHPadding, getVPadding} from "./BarWidgets";
 import {Gdk, Gtk} from "ags/gtk4";
 import AstalHyprland from "gi://AstalHyprland?version=0.1";
 import {launchApp} from "../utils/launch";
 import Gio from "gi://Gio?version=2.0";
 import GLib from "gi://GLib?version=2.0";
+import {timeout, Timer} from "ags/time";
 
 const hyprland = AstalHyprland.get_default()
 
@@ -47,7 +48,7 @@ function addLaunchToMenu(
         // @ts-ignore
         const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].launch.get()
         if (command !== "") {
-            launchApp([command])
+            launchApp(command)
         }
     });
     actionGroup.add_action(newWindowAction)
@@ -67,7 +68,7 @@ function addNewWindowToMenu(
     if (command !== "") {
         newWindowAction.connect("activate", () => {
             pop.popdown()
-            launchApp([command])
+            launchApp(command)
         })
         actionGroup.add_action(newWindowAction)
 
@@ -183,13 +184,32 @@ export default function (
         return clients.filter((it) => it.class === clazz).length > 0
     })
 
-    const selected = createComputed([
+    // @ts-ignore
+    const clazz = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.get()
+    const [selected, selectedSet] = createState(hyprland.focusedClient?.class === clazz)
+
+    // Delay setting the selected value because the focused client might not have a class name just yet
+    let selectedDebounceTimer: Timer | null = null;
+
+    let dispose = createComputed([
         createBinding(hyprland, "focusedClient"),
         // @ts-ignore
         variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.asAccessor()
-    ], (focused: AstalHyprland.Client, clazz: string) => {
-        return focused?.class === clazz
+    ], (focusedClient: AstalHyprland.Client, clazz: string) => {
+        return focusedClient.class === clazz
+    }).subscribe(() => {
+        if (selectedDebounceTimer !== null) {
+            selectedDebounceTimer.cancel()
+        }
+        selectedDebounceTimer = timeout(100, () => {
+            // @ts-ignore
+            const clazz = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.get()
+            selectedSet(hyprland.focusedClient?.class === clazz)
+            selectedDebounceTimer = null
+        })
     })
+
+    onCleanup(dispose)
 
     return <overlay
         $={(self) => {
@@ -224,7 +244,6 @@ export default function (
             label={label}
             clickHandlers={{
                 onLeftClick: () => {
-                    console.log("click")
                     // @ts-ignore
                     const clazz: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.get()
                     let clients = hyprland
@@ -232,14 +251,12 @@ export default function (
                         .filter((it) => it.class === clazz)
                         .sort((a, b) => a.focusHistoryId - b.focusHistoryId)
 
-                    console.log(`clients: ${clients.map((it) => it.focusHistoryId)}`)
-
                     if (clients.length === 0) {
                         // If there are no clients open, launch one
                         // @ts-ignore
                         const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].launch.get()
                         if (command !== "") {
-                            launchApp([command])
+                            launchApp(command)
                         }
                     } else {
 
@@ -274,7 +291,7 @@ export default function (
                     // @ts-ignore
                     const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].newWindow.get()
                     if (command !== "") {
-                        launchApp([command])
+                        launchApp(command)
                     }
                 },
                 onRightClick: ({self, x, y}) => {

@@ -3,10 +3,7 @@ import Pango from "gi://Pango?version=1.0";
 import {Gdk, Gtk} from "ags/gtk4";
 import {createComputed, createState, For, Accessor} from "ags";
 import {integratedAppLauncherRevealed, toggleIntegratedAppLauncher} from "./IntegratedAppLauncher";
-
-function launchApp(app: Apps.Application) {
-    app.launch()
-}
+import {launchDesktopApp} from "../utils/launch";
 
 interface AppButtonProps {
     app: Apps.Application;
@@ -40,7 +37,7 @@ function AppButton({ app, isSelected }: AppButtonProps) {
         cssClasses={isSelected.as(sel => sel ? ["appButton", "selectedAppButton"] : ["appButton"])}
         onClicked={() => {
             toggleIntegratedAppLauncher()
-            launchApp(app)
+            launchDesktopApp(app)
         }}>
         <box>
             <box
@@ -99,7 +96,7 @@ export default function () {
         if (list.get().length > 0) {
             const app = list.get()?.[selectedIndex.get()]
             if (app !== null) {
-                launchApp(app)
+                launchDesktopApp(app)
             }
         }
         toggleIntegratedAppLauncher()
