@@ -1,5 +1,5 @@
 import {Gtk} from "ags/gtk4";
-import {createState} from "ags";
+import {createState, onCleanup} from "ags";
 import {setDirectories, updateScreenshotAudioOptions} from "./utils";
 import Divider from "../common/Divider";
 import ScreenRecording from "./ScreenRecording";
@@ -18,11 +18,12 @@ export default function () {
     setDirectories()
     updateScreenshotAudioOptions()
 
-    integratedScreenshotRevealed.subscribe(() => {
+    const unsub = integratedScreenshotRevealed.subscribe(() => {
         if (integratedScreenshotRevealed.get()) {
             updateScreenshotAudioOptions()
         }
     })
+    onCleanup(unsub)
 
     return <revealer
         hexpand={false}

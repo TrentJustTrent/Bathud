@@ -2,7 +2,7 @@ import {Gtk} from "ags/gtk4"
 import Divider from "../common/Divider";
 import {variableConfig} from "../../config/config";
 import {SpeedUnits, TemperatureUnits} from "../../config/schema/definitions/weather";
-import {createBinding, createComputed, createState, For, Accessor} from "ags";
+import {createBinding, createComputed, createState, For, Accessor, onCleanup} from "ags";
 import {interval} from "ags/time";
 import AstalNetwork from "gi://AstalNetwork?version=0.1";
 import AstalIO from "gi://AstalIO?version=0.1";
@@ -190,7 +190,7 @@ function setupUpdateInterval() {
     }
 
     updateIntervalBinding = createBinding(network, "connectivity")
-    updateIntervalBinding.subscribe(() => {
+    const unsub = updateIntervalBinding.subscribe(() => {
         if (updateInterval !== null) {
             updateInterval.cancel()
             updateInterval = null
@@ -202,6 +202,7 @@ function setupUpdateInterval() {
             return;
         }
     })
+    onCleanup(unsub)
 
     if (network.connectivity === AstalNetwork.Connectivity.FULL) {
         updateInterval = interval(WEATHER_UPDATE_INTERVAL, () => {

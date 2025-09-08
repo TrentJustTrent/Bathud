@@ -4,7 +4,7 @@ import {execAsync} from "ags/process"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../common/RevealerRow";
 import OkButton, {OkButtonSize} from "../common/OkButton";
-import {createBinding, createState, For} from "ags";
+import {createBinding, createState, For, onCleanup} from "ags";
 import {integratedScreenshareRevealed, toggleIntegratedScreenshare} from "./IntegratedScreenshare";
 import {timeout} from "ags/time";
 import {truncateString} from "../utils/strings";
@@ -120,9 +120,10 @@ function Monitors() {
             </box>
         }
         setup={(revealed) => {
-            integratedScreenshareRevealed.subscribe(() => {
+            const unsub = integratedScreenshareRevealed.subscribe(() => {
                 if (revealed[1] !== null) revealed[1](false)
             })
+            onCleanup(unsub)
         }}
     />
 }
@@ -184,9 +185,10 @@ function Windows() {
             </box>
         }
         setup={(revealed) => {
-            integratedScreenshareRevealed.subscribe(() => {
+            const unsub = integratedScreenshareRevealed.subscribe(() => {
                 if (revealed[1] !== null) revealed[1](false)
             })
+            onCleanup(unsub)
         }}
     />
 }
@@ -232,9 +234,10 @@ function Region() {
             </box>
         }
         setup={(revealed) => {
-            integratedScreenshareRevealed.subscribe(() => {
+            const unsub = integratedScreenshareRevealed.subscribe(() => {
                 if (revealed[1] !== null) revealed[1](false)
             })
+            onCleanup(unsub)
         }}
     />
 }
@@ -254,7 +257,7 @@ export default function () {
                 }),
             }))
 
-            integratedScreenshareRevealed.subscribe(() => {
+            const unsub = integratedScreenshareRevealed.subscribe(() => {
                 if (integratedScreenshareRevealed.get()) {
                     if (!shortcutController.get_widget()) {
                         console.log("adding")
@@ -269,6 +272,7 @@ export default function () {
                     frameWindow.keymode = Astal.Keymode.NONE
                 }
             })
+            onCleanup(unsub)
         }}
         orientation={Gtk.Orientation.VERTICAL}
         marginStart={10}

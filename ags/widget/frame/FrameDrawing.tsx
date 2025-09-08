@@ -1,5 +1,5 @@
 import {variableConfig} from "../../config/config";
-import {createComputed, createState} from "ags";
+import {createComputed, createState, onCleanup} from "ags";
 import {Gtk} from "ags/gtk4";
 import {hexToRgba} from "../utils/strings";
 import Cairo from 'gi://cairo';
@@ -224,9 +224,10 @@ export default function () {
                     )
                 });
 
-                redrawAccessor.subscribe(() => {
+                const unsub = redrawAccessor.subscribe(() => {
                     da.queue_draw()
                 })
+                onCleanup(unsub)
             }}
         />
     </overlay>

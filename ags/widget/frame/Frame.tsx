@@ -1,7 +1,7 @@
 import {Astal, Gtk} from "ags/gtk4";
 import App from "ags/gtk4/app";
 import {variableConfig} from "../../config/config";
-import {createComputed, createState} from "ags";
+import {createComputed, createState, onCleanup} from "ags";
 import LeftBar from "./bars/LeftBar";
 import IntegratedMenu from "../systemMenu/IntegratedMenu";
 import TopBar from "./bars/TopBar";
@@ -245,7 +245,7 @@ export default function (): Astal.Window {
     const appLauncherPosition = variableConfig.frame.appLauncher.position.asAccessor()
     const screensharePosition = variableConfig.frame.screenshare.position.asAccessor()
 
-    createComputed([
+    const unsub = createComputed([
         menuPosition,
         calendarPosition,
         clipboardManagerPosition,
@@ -262,6 +262,7 @@ export default function (): Astal.Window {
         appendChildren(leftGroup, leftSideWidgets)
         appendChildren(rightGroup, rightSideWidgets)
     })
+    onCleanup(unsub)
 
     integratedMenu = <IntegratedMenu/> as Gtk.Widget
     integratedCalendar = <IntegratedCalendar/> as Gtk.Widget

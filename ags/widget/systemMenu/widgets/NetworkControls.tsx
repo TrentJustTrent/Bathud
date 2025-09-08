@@ -5,7 +5,7 @@ import {execAsync} from "ags/process"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
 import OkButton from "../../common/OkButton";
-import {createBinding, createComputed, createState, For, Setter, State, With} from "ags";
+import {createBinding, createComputed, createState, For, onCleanup, Setter, State, With} from "ags";
 import {integratedMenuRevealed} from "../IntegratedMenu";
 import {wireEntryFocus} from "../../frame/keymodeUtils";
 
@@ -227,11 +227,12 @@ function PasswordEntry(
     const [errorRevealed, errorRevealedSetter] = createState(false)
     const [isConnecting, isConnectingSetter] = createState(false)
 
-    passwordEntryRevealed[0].subscribe(() => {
+    const unsub = passwordEntryRevealed[0].subscribe(() => {
         if (!passwordEntryRevealed[0].get()) {
             errorRevealedSetter(false)
         }
     })
+    onCleanup(unsub)
 
     const connect = () => {
         errorRevealedSetter(false)
@@ -636,18 +637,20 @@ export default function () {
             </box>
         }
         setup={(revealed) => {
-            revealed[0].subscribe(() => {
+            const unsub = revealed[0].subscribe(() => {
                 if (revealed[0].get()) {
                     network.wifi?.scan()
                     updateConnections()
                 }
             })
+            onCleanup(unsub)
 
-            integratedMenuRevealed.subscribe(() => {
+            const unsub2 = integratedMenuRevealed.subscribe(() => {
                 if (!integratedMenuRevealed.get()) {
                     revealed[1](false)
                 }
             })
+            onCleanup(unsub2)
         }}
     />
 }

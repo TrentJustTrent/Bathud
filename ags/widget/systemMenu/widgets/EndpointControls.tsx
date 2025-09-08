@@ -4,7 +4,7 @@ import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
 import {toggleMuteEndpoint} from "../../utils/audio";
 import OkButton from "../../common/OkButton";
-import {Accessor, createBinding, createComputed, For} from "ags";
+import {Accessor, createBinding, createComputed, For, onCleanup} from "ags";
 import {integratedMenuRevealed} from "../IntegratedMenu";
 
 /**
@@ -33,11 +33,12 @@ export default function (
 
     return <RevealerRow
         setup={(revealed) => {
-            integratedMenuRevealed.subscribe(() => {
+            const unsub = integratedMenuRevealed.subscribe(() => {
                 if (!integratedMenuRevealed.get()) {
                     revealed[1](false)
                 }
             })
+            onCleanup(unsub)
         }}
         icon={endpointLabelVar(() => getIcon(defaultEndpoint))}
         iconOffset={endpointLabelVar(() => {

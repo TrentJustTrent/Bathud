@@ -1,5 +1,5 @@
 import {Astal, Gtk} from "ags/gtk4";
-import {createState} from "ags";
+import {createState, onCleanup} from "ags";
 import AppLauncher from "./AppLauncher";
 import {frameWindow} from "../frame/Frame";
 
@@ -12,13 +12,14 @@ export function toggleIntegratedAppLauncher() {
 }
 
 export default function () {
-    integratedAppLauncherRevealed.subscribe(() => {
+    const unsub = integratedAppLauncherRevealed.subscribe(() => {
         if (integratedAppLauncherRevealed.get()) {
             frameWindow.keymode = Astal.Keymode.EXCLUSIVE
         } else {
             frameWindow.keymode = Astal.Keymode.NONE
         }
     })
+    onCleanup(unsub)
 
     return <revealer
         hexpand={false}

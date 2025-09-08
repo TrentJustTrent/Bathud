@@ -10,7 +10,7 @@ import {
 import RevealerRow from "../../common/RevealerRow";
 import OkButton, {OkButtonSize} from "../../common/OkButton";
 import {listFilenamesInDir} from "../../utils/files";
-import {createComputed, createState, For, With} from "ags";
+import {createComputed, createState, For, onCleanup, With} from "ags";
 import GLib from "gi://GLib?version=2.0";
 import {integratedMenuRevealed} from "../IntegratedMenu";
 import {setWallpaper} from "../../wallpaper/setWallpaper";
@@ -288,20 +288,22 @@ function WallpaperColumn(
 }
 
 export default function () {
-    selectedConfig.asAccessor().subscribe(() => {
+    const unsub = selectedConfig.asAccessor().subscribe(() => {
         if (selectedConfig.get() != undefined) {
             updateFiles()
         }
     })
+    onCleanup(unsub)
     updateFiles()
 
     return <RevealerRow
         setup={(revealed) => {
-            integratedMenuRevealed.subscribe(() => {
+            const unsub = integratedMenuRevealed.subscribe(() => {
                 if (!integratedMenuRevealed.get()) {
                     revealed[1](false)
                 }
             })
+            onCleanup(unsub)
         }}
         icon={variableConfig.icon.asAccessor()}
         iconOffset={variableConfig.iconOffset.asAccessor()}

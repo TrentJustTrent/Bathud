@@ -177,9 +177,10 @@ function CavaWaveformInternal(
 
     let [r, g, b, a] = hexToRgba(color.get())
 
-    color.subscribe(() => {
+    const unsub = color.subscribe(() => {
         [r, g, b, a] = hexToRgba(color.get())
     })
+    onCleanup(unsub)
 
     const drawing = new Gtk.DrawingArea({
         hexpand: vertical ? false : expand,

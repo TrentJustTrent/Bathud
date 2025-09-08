@@ -4,7 +4,7 @@ import AstalHyprland from "gi://AstalHyprland?version=0.1";
 import {createScaledTexture} from "../utils/images";
 import {resolveWallpaper} from "./getWallpaper";
 import GLib from "gi://GLib?version=2.0";
-import {createState} from "ags";
+import {createState, onCleanup} from "ags";
 import {variableConfig} from "../../config/config";
 import {toGtkTransition} from "./transitions";
 
@@ -80,9 +80,10 @@ export default function (monitor: AstalHyprland.Monitor): Astal.Window {
                     })
                 }
 
-                wallpaperPathState.subscribe(() => {
+                const unsub = wallpaperPathState.subscribe(() => {
                     applyWallpaper(wallpaperPathState.get(), self)
                 })
+                onCleanup(unsub)
             }}
             hexpand
             vexpand>

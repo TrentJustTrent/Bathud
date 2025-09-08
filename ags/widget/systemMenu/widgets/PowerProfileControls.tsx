@@ -5,7 +5,7 @@ import PowerProfiles from "gi://AstalPowerProfiles"
 import {capitalizeFirstLetter} from "../../utils/strings";
 import {getPowerProfileIconBinding, PowerProfile} from "../../utils/powerProfile";
 import OkButton from "../../common/OkButton";
-import {createBinding} from "ags";
+import {createBinding, onCleanup} from "ags";
 import {integratedMenuRevealed} from "../IntegratedMenu";
 
 const powerProfiles = PowerProfiles.get_default()
@@ -15,11 +15,12 @@ export default function () {
 
     return <RevealerRow
         setup={(revealed) => {
-            integratedMenuRevealed.subscribe(() => {
+            const unsub = integratedMenuRevealed.subscribe(() => {
                 if (!integratedMenuRevealed.get()) {
                     revealed[1](false)
                 }
             })
+            onCleanup(unsub)
         }}
         visible={profiles.length !== 0}
         icon={getPowerProfileIconBinding()}

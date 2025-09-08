@@ -4,7 +4,7 @@ import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../common/RevealerRow";
 import OkButton from "../common/OkButton";
 import {projectDir} from "../../app";
-import {createState, Setter, For} from "ags";
+import {createState, Setter, For, onCleanup} from "ags";
 import GLib from "gi://GLib?version=2.0";
 import {integratedScreenshotRevealed, toggleIntegratedScreenshot} from "./IntegratedScreenshot";
 import {truncateString} from "../utils/strings";
@@ -31,7 +31,7 @@ export default function() {
     let encodingRevealedSetter: Setter<boolean> | null = null
     let crfRevealedSetter: Setter<boolean> | null = null
 
-    integratedScreenshotRevealed.subscribe(() => {
+    const unsub = integratedScreenshotRevealed.subscribe(() => {
         if (integratedScreenshotRevealed.get()) {
             selectedAudioSetter(null)
             selectedCodecSetter(codecs[0])
@@ -39,6 +39,7 @@ export default function() {
             selectedCrfQualitySetter(20)
         }
     })
+    onCleanup(unsub)
 
     return <box
         orientation={Gtk.Orientation.VERTICAL}>
@@ -57,9 +58,10 @@ export default function() {
             iconOffset={0}
             setup={(revealed) => {
                 audioRevealedSetter = revealed[1]
-                integratedScreenshotRevealed.subscribe(() => {
+                const unsub = integratedScreenshotRevealed.subscribe(() => {
                     if (audioRevealedSetter !== null) audioRevealedSetter(false)
                 })
+                onCleanup(unsub)
             }}
             content={
                 <label
@@ -112,9 +114,10 @@ export default function() {
             iconOffset={0}
             setup={(revealed) => {
                 codecRevealedSetter = revealed[1]
-                integratedScreenshotRevealed.subscribe(() => {
+                const unsub = integratedScreenshotRevealed.subscribe(() => {
                     if (codecRevealedSetter !== null) codecRevealedSetter(false)
                 })
+                onCleanup(unsub)
             }}
             content={
                 <label
@@ -152,9 +155,10 @@ export default function() {
             iconOffset={0}
             setup={(revealed) => {
                 encodingRevealedSetter = revealed[1]
-                integratedScreenshotRevealed.subscribe(() => {
+                const unsub = integratedScreenshotRevealed.subscribe(() => {
                     if (encodingRevealedSetter !== null) encodingRevealedSetter(false)
                 })
+                onCleanup(unsub)
             }}
             content={
                 <label
@@ -192,9 +196,10 @@ export default function() {
             iconOffset={0}
             setup={(revealed) => {
                 crfRevealedSetter = revealed[1]
-                integratedScreenshotRevealed.subscribe(() => {
+                const unsub = integratedScreenshotRevealed.subscribe(() => {
                     if (crfRevealedSetter !== null) crfRevealedSetter(false)
                 })
+                onCleanup(unsub)
             }}
             content={
                 <label

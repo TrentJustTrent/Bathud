@@ -3,7 +3,7 @@ import {Gtk} from "ags/gtk4";
 import {variableConfig} from "../../config/config";
 import {hexToRgba} from "../utils/strings";
 import {isAccessor} from "../utils/bindings";
-import {Accessor, createComputed, With} from "ags";
+import {Accessor, createComputed, onCleanup, With} from "ags";
 
 export default function (
     {
@@ -73,10 +73,11 @@ function VerticalLabelInternal(
 
     let realText = ""
     if (isAccessor(text)) {
-        text.subscribe(() => {
+        const unsub = text.subscribe(() => {
             realText = text.get()
             area.queue_draw()
         })
+        onCleanup(unsub)
         realText = text.get()
     } else {
         realText = text
@@ -84,10 +85,11 @@ function VerticalLabelInternal(
 
     let realFlipped = false
     if (isAccessor(flipped)) {
-        flipped.subscribe(() => {
+        const unsub = flipped.subscribe(() => {
             realFlipped = flipped.get()
             area.queue_draw()
         })
+        onCleanup(unsub)
         realFlipped = flipped.get()
     } else {
         realFlipped = flipped
@@ -95,10 +97,11 @@ function VerticalLabelInternal(
 
     let [r, g, b, a] = hexToRgba(foregroundColor.get())
 
-    foregroundColor.subscribe(() => {
+    const unsub = foregroundColor.subscribe(() => {
         [r, g, b, a] = hexToRgba(foregroundColor.get())
         area.queue_draw()
     })
+    onCleanup(unsub)
 
     area.set_draw_func((widget, cr, width, height) => {
         // @ts-ignore

@@ -1,7 +1,7 @@
 import Apps from "gi://AstalApps"
 import Pango from "gi://Pango?version=1.0";
 import {Gdk, Gtk} from "ags/gtk4";
-import {createComputed, createState, For, Accessor} from "ags";
+import {createComputed, createState, For, Accessor, onCleanup} from "ags";
 import {integratedAppLauncherRevealed, toggleIntegratedAppLauncher} from "./IntegratedAppLauncher";
 import {launchDesktopApp} from "../utils/launch";
 
@@ -138,7 +138,7 @@ export default function () {
         </Gtk.ScrolledWindow>
     ) as Gtk.ScrolledWindow
 
-    integratedAppLauncherRevealed.subscribe(() => {
+    const unsub = integratedAppLauncherRevealed.subscribe(() => {
         if (integratedAppLauncherRevealed.get()) {
             apps = new Apps.Apps()
             textSetter("")
@@ -150,6 +150,7 @@ export default function () {
             }
         }
     })
+    onCleanup(unsub)
 
     return <box
         $={(self) => {

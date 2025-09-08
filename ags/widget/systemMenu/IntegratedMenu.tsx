@@ -1,6 +1,6 @@
 import {Gtk} from "ags/gtk4";
 import {variableConfig} from "../../config/config";
-import {createState} from "ags";
+import {createState, onCleanup} from "ags";
 import EndpointControls from "./widgets/EndpointControls";
 import Wp from "gi://AstalWp"
 import {getMicrophoneIcon, getVolumeIcon} from "../utils/audio";
@@ -95,10 +95,11 @@ function getListOfWidgets(
 }
 
 export default function () {
-    variableConfig.systemMenu.widgets.asAccessor().subscribe(() => {
+    const unsub = variableConfig.systemMenu.widgets.asAccessor().subscribe(() => {
         removeAllChildren(mainBox)
         appendChildren(mainBox, getListOfWidgets(variableConfig.systemMenu.widgets.get()))
     })
+    onCleanup(unsub)
 
     return <revealer
         hexpand={false}

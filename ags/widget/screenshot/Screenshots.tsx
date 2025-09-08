@@ -5,7 +5,7 @@ import {playCameraShutter} from "../utils/audio";
 import RevealerRow from "../common/RevealerRow";
 import OkButton from "../common/OkButton";
 import {projectDir} from "../../app";
-import {createState, Setter} from "ags";
+import {createState, onCleanup, Setter} from "ags";
 import {integratedScreenshotRevealed, toggleIntegratedScreenshot} from "./IntegratedScreenshot";
 import {
     delayOptions,
@@ -35,9 +35,10 @@ export default function () {
             iconOffset={0}
             setup={(revealed) => {
                 delayRevealedSetter = revealed[1]
-                integratedScreenshotRevealed.subscribe(() => {
+                const unsub = integratedScreenshotRevealed.subscribe(() => {
                     if (delayRevealedSetter !== null) delayRevealedSetter(false)
                 })
+                onCleanup(unsub)
             }}
             content={
                 <label
@@ -77,9 +78,10 @@ export default function () {
             iconOffset={0}
             setup={(revealed) => {
                 saveTypeRevealedSetter = revealed[1]
-                integratedScreenshotRevealed.subscribe(() => {
+                const unsub = integratedScreenshotRevealed.subscribe(() => {
                     if (saveTypeRevealedSetter !== null) saveTypeRevealedSetter(false)
                 })
+                onCleanup(unsub)
             }}
             content={
                 <label

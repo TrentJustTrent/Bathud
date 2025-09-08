@@ -1,5 +1,5 @@
 import App from "ags/gtk4/app"
-import {Accessor, createBinding, createComputed} from "ags"
+import {Accessor, createBinding, createComputed, onCleanup} from "ags"
 import Wp from "gi://AstalWp"
 import {getVolumeIcon, playPowerPlug, playPowerUnplug} from "../utils/audio";
 import Brightness from "../utils/connectables/brightness";
@@ -43,7 +43,7 @@ export function AlertWindow(
         visible={false}
         $={(self: Astal.Window) => {
             let canShow = false
-            showVariable.subscribe(() => {
+            let unsub = showVariable.subscribe(() => {
                 if (!canShow) {
                     // for some reason, getting the variable here prevents it from being needlessly
                     // emitted a second time on startup
@@ -61,6 +61,7 @@ export function AlertWindow(
                     windowVisibilityTimeout = null
                 }, 1_000)
             })
+            onCleanup(unsub)
         }}>
         <box
             orientation={Gtk.Orientation.HORIZONTAL}
@@ -138,12 +139,13 @@ export function ChargingAlertSound() {
                 return args.find((online) => online === true) ?? false
             }
         )
-        pluggedIn.subscribe(() => {
+        const unsub = pluggedIn.subscribe(() => {
             if (pluggedIn.get()) {
                 playPowerPlug()
             } else {
                 playPowerUnplug()
             }
         })
+        onCleanup(unsub)
     }
 }
