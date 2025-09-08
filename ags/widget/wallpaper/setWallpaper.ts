@@ -5,6 +5,8 @@ import {execAsync} from "ags/process";
 import {wallpaperPathStateSet} from "./Wallpaper";
 
 export async function setWallpaper(path: string): Promise<void> {
+    console.log("setting wallpaper")
+    console.log(`wallpaper path: ${path}`)
     const script = config.wallpaper.wallpaperUpdateScript;
 
     // require an existing, executable script (match your bash guard)
