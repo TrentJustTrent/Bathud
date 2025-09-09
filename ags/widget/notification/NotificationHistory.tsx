@@ -4,6 +4,7 @@ import {Gtk} from "ags/gtk4"
 import OkButton from "../common/OkButton";
 import {createBinding, For, With} from "ags";
 import {integratedNotificationHistoryRevealedSetting} from "./IntegratedNotificationHistory";
+import {AnimatedFor} from "../common/AnimatedFor";
 
 export default function() {
     const notifications = Notifd.get_default()
@@ -36,24 +37,20 @@ export default function() {
                     integratedNotificationHistoryRevealedSetting(false)
                 }}/>
         </box>
-        <With value={createBinding(notifications, "notifications")}>
-            {(notificationsList: Notifd.Notification[]) => {
-                if (notificationsList.length === 0) {
-                    return <label
-                        cssClasses={["labelSmall"]}
-                        marginTop={8}
-                        marginBottom={20}
-                        halign={Gtk.Align.CENTER}
-                        label="All caught up"/>
-                }
-            }}
-        </With>
-        <For
+        <AnimatedFor
             each={
                 createBinding(notifications, "notifications")
                     .as((n) => {
                         return n.sort((a, b) => b.time - a.time)
                     })
+            }
+            emptyState={
+                <label
+                    cssClasses={["labelSmall"]}
+                    marginTop={8}
+                    marginBottom={20}
+                    halign={Gtk.Align.CENTER}
+                    label="All caught up"/>
             }
             id={(it) => it.id}
         >
@@ -63,6 +60,6 @@ export default function() {
                     notification={notification}
                     useHistoryCss={true}/>
             }}
-        </For>
+        </AnimatedFor>
     </box>
 }

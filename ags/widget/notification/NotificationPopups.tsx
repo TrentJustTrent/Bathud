@@ -4,11 +4,42 @@ import {variableConfig} from "../../config/config";
 import Hyprland from "gi://AstalHyprland"
 import {NotificationsPosition} from "../../config/schema/definitions/notifications";
 import GLib from "gi://GLib?version=2.0";
-import {createBinding, createComputed, createState, For, onCleanup} from "ags";
+import {Accessor, createBinding, createComputed, createState, For, onCleanup} from "ags";
 import AstalNotifd from "gi://AstalNotifd?version=0.1";
+import {timeout} from "ags/time";
+import {AnimatedFor} from "../common/AnimatedFor";
 
 // see comment below in constructor
 const TIMEOUT_DELAY = 7_000
+
+/** Delay only the transition from true -> false by `delayMs`. */
+function withHideDelay(src: Accessor<boolean>, delayMs = 200): Accessor<boolean> {
+    const [out, outSet] = createState<boolean>(src.get())
+    let timerId: number | null = null
+
+    const unsub = src.subscribe(() => {
+        if (src.get()) {
+            // cancel pending hide and show immediately
+            if (timerId !== null) { GLib.Source.remove(timerId); timerId = null }
+            outSet(true)
+        } else {
+            // schedule hide
+            if (timerId !== null) GLib.Source.remove(timerId)
+            timerId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, delayMs, () => {
+                if (!src.get()) outSet(false)        // still false? then commit
+                timerId = null
+                return GLib.SOURCE_REMOVE
+            })
+        }
+    })
+
+    onCleanup(() => {
+        unsub()
+        if (timerId !== null) GLib.Source.remove(timerId)
+    })
+
+    return out
+}
 
 export default function NotificationPopups(monitor: Hyprland.Monitor): Astal.Window {
     const notifd = AstalNotifd.get_default()
@@ -36,12 +67,12 @@ export default function NotificationPopups(monitor: Hyprland.Monitor): Astal.Win
         notifd.disconnect(resolvedHandler)
     })
 
-    const visible = createComputed([
+    const visible = withHideDelay(createComputed([
         notifications,
         createBinding(notifd, "dontDisturb"),
     ], (notifications, dnd) => {
         return notifications.length !== 0 && !dnd
-    })
+    }), 200)
 
     return <window
         namespace={"okpanel-notifications"}
@@ -67,7 +98,7 @@ export default function NotificationPopups(monitor: Hyprland.Monitor): Astal.Win
         })}>
         <box
             orientation={Gtk.Orientation.VERTICAL}>
-            <For each={notifications} id={(it) => it.id}>
+            <AnimatedFor each={notifications} id={(it) => it.id}>
                 {(notification: AstalNotifd.Notification) => {
                     let hideTimeout: GLib.Source | null = null
                     return <Notification
@@ -94,7 +125,7 @@ export default function NotificationPopups(monitor: Hyprland.Monitor): Astal.Win
                         notification={notification}
                         useHistoryCss={false}/>
                 }}
-            </For>
+            </AnimatedFor>
         </box>
     </window> as Astal.Window
 }
