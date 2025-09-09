@@ -61,8 +61,14 @@ function createSystemWidgets() {
     notificationHistory = <NotificationHistory/> as Gtk.Widget
     clock = <Clock/> as Gtk.Widget
     quickToggles = <QuickToggles/> as Gtk.Widget
-    quickActions1 = <QuickActions actions={variableConfig.systemMenu.quickActions1.actions.asAccessor()}/> as Gtk.Widget
-    quickActions2 = <QuickActions actions={variableConfig.systemMenu.quickActions1.actions.asAccessor()}/> as Gtk.Widget
+    quickActions1 = <QuickActions
+        actions={variableConfig.systemMenu.quickActions1.actions.asAccessor()}
+        maxSize={variableConfig.systemMenu.quickActions1.maxPerRow.asAccessor()}
+    /> as Gtk.Widget
+    quickActions2 = <QuickActions
+        actions={variableConfig.systemMenu.quickActions2.actions.asAccessor()}
+        maxSize={variableConfig.systemMenu.quickActions2.maxPerRow.asAccessor()}
+    /> as Gtk.Widget
 }
 
 function getListOfWidgets(

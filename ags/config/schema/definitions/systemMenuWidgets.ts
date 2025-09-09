@@ -119,7 +119,7 @@ export function systemMenuWidgetsSchema() { return [
                 'Actions inside the group',
                 [
                     SystemMenuQuickActions.LOGOUT,
-                    SystemMenuQuickActions.LOGOUT,
+                    SystemMenuQuickActions.LOCK,
                     SystemMenuQuickActions.RESTART,
                     SystemMenuQuickActions.SHUTDOWN,
                 ]
