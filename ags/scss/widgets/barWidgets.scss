@@ -939,81 +939,101 @@
 
 .barShortcut1Selected {
   background-color: vars.$barShortcut1SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut1SelectedColor);
 }
 
 .barShortcut2Selected {
   background-color: vars.$barShortcut2SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut2SelectedColor);
 }
 
 .barShortcut3Selected {
   background-color: vars.$barShortcut3SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut3SelectedColor);
 }
 
 .barShortcut4Selected {
   background-color: vars.$barShortcut4SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut5SelectedColor);
 }
 
 .barShortcut5Selected {
   background-color: vars.$barShortcut5SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut5SelectedColor);
 }
 
 .barShortcut6Selected {
   background-color: vars.$barShortcut6SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut6SelectedColor);
 }
 
 .barShortcut7Selected {
   background-color: vars.$barShortcut7SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut7SelectedColor);
 }
 
 .barShortcut8Selected {
   background-color: vars.$barShortcut8SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut8SelectedColor);
 }
 
 .barShortcut9Selected {
   background-color: vars.$barShortcut9SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut9SelectedColor);
 }
 
 .barShortcut10Selected {
   background-color: vars.$barShortcut10SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut10SelectedColor);
 }
 
 .barShortcut11Selected {
   background-color: vars.$barShortcut11SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut11SelectedColor);
 }
 
 .barShortcut12Selected {
   background-color: vars.$barShortcut12SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut12SelectedColor);
 }
 
 .barShortcut13Selected {
   background-color: vars.$barShortcut13SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut13SelectedColor);
 }
 
 .barShortcut14Selected {
   background-color: vars.$barShortcut14SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut14SelectedColor);
 }
 
 .barShortcut15Selected {
   background-color: vars.$barShortcut15SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut15SelectedColor);
 }
 
 .barShortcut16Selected {
   background-color: vars.$barShortcut16SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut16SelectedColor);
 }
 
 .barShortcut17Selected {
   background-color: vars.$barShortcut17SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut17SelectedColor);
 }
 
 .barShortcut18Selected {
   background-color: vars.$barShortcut18SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut18SelectedColor);
 }
 
 .barShortcut19Selected {
   background-color: vars.$barShortcut19SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut19SelectedColor);
 }
 
 .barShortcut20Selected {
   background-color: vars.$barShortcut20SelectedColor;
+  @include fun.hoverLighten(vars.$barShortcut20SelectedColor);
 }
 

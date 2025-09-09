@@ -17,6 +17,7 @@
   all: unset;
   background-color: vars.$buttonPrimary;
   border: none;
+  @include fun.hoverLighten(vars.$buttonPrimary);
 }
 
 .screenshotButton {
