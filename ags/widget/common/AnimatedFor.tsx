@@ -1,5 +1,5 @@
 import Gtk from "gi://Gtk?version=4.0"
-import {Accessor, createComputed, createState, For, With} from "ags";
+import {Accessor, createComputed, createState, For, onCleanup, With} from "ags";
 import {timeout} from "ags/time";
 
 type AnimatedForProps<Item, El extends JSX.Element, Key> = {
@@ -52,10 +52,12 @@ export function AnimatedFor<Item, El extends JSX.Element, Key>({
     }
 
     // Reconcile on each() changes
-    each.subscribe(() => {
+    const unsub = each.subscribe(() => {
         update()
     })
     update()
+
+    onCleanup(unsub)
 
     function removeItem(key: Key) {
         const cur = new Map(rendered.get())
