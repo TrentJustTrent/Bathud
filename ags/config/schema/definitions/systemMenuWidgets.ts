@@ -9,11 +9,9 @@ export enum SystemMenuWidget {
     MPRIS_PLAYERS = "mprisPlayers",
     NETWORK = "network",
     NOTIFICATION_HISTORY = "notificationHistory",
-    POWER_OPTIONS = "powerOptions",
     POWER_PROFILE = "powerProfile",
     QUICK_ACTIONS_1 = "quickActions1",
     QUICK_ACTIONS_2 = "quickActions2",
-    QUICK_TOGGLES = "quickToggles",
 }
 
 export const SYSTEM_MENU_WIDGET_VALUES = Object.values(SystemMenuWidget) as readonly SystemMenuWidget[]

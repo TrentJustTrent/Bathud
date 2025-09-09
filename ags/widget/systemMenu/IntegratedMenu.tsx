@@ -4,7 +4,6 @@ import {createBinding, createState, onCleanup} from "ags";
 import EndpointControls from "./widgets/EndpointControls";
 import Wp from "gi://AstalWp"
 import {getMicrophoneIcon, getVolumeIcon} from "../utils/audio";
-import PowerOptions from "./widgets/PowerOptions";
 import MediaPlayers from "./widgets/MediaPlayers";
 import NotificationHistory from "./widgets/NotificationHistory";
 import NetworkControls from "./widgets/NetworkControls";
@@ -14,7 +13,6 @@ import PowerProfileControls from "./widgets/PowerProfileControls";
 import Clock from "./widgets/Clock";
 import {SystemMenuWidget} from "../../config/schema/definitions/systemMenuWidgets";
 import {appendChildren, removeAllChildren} from "../utils/widgets";
-import QuickToggles from "./widgets/QuickToggles";
 import QuickActions from "./widgets/QuickActions";
 
 const {audio} = Wp.get_default()!
@@ -36,10 +34,8 @@ let audioIn: Gtk.Widget
 let powerProfile: Gtk.Widget
 let lookAndFeel: Gtk.Widget
 let mpris: Gtk.Widget
-let powerOptions: Gtk.Widget
 let notificationHistory: Gtk.Widget
 let clock: Gtk.Widget
-let quickToggles: Gtk.Widget
 let quickActions1: Gtk.Widget
 let quickActions2: Gtk.Widget
 
@@ -57,10 +53,8 @@ function createSystemWidgets() {
     powerProfile = <PowerProfileControls/> as Gtk.Widget
     lookAndFeel = <LookAndFeelControls/> as Gtk.Widget
     mpris = <MediaPlayers/> as Gtk.Widget
-    powerOptions = <PowerOptions/> as Gtk.Widget
     notificationHistory = <NotificationHistory/> as Gtk.Widget
     clock = <Clock/> as Gtk.Widget
-    quickToggles = <QuickToggles/> as Gtk.Widget
     quickActions1 = <QuickActions
         actions={variableConfig.systemMenu.quickActions1.actions.asAccessor()}
         maxSize={variableConfig.systemMenu.quickActions1.maxPerRow.asAccessor()}
@@ -95,10 +89,6 @@ function getListOfWidgets(
                     return mpris
                 case SystemMenuWidget.POWER_PROFILE:
                     return powerProfile
-                case SystemMenuWidget.POWER_OPTIONS:
-                    return powerOptions
-                case SystemMenuWidget.QUICK_TOGGLES:
-                    return quickToggles
                 case SystemMenuWidget.QUICK_ACTIONS_1:
                     return quickActions1
                 case SystemMenuWidget.QUICK_ACTIONS_2:

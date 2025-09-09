@@ -28,14 +28,14 @@ export const systemMenuSchema = {
             'Widgets inside the system menu',
             [
                 SystemMenuWidget.CLOCK,
-                SystemMenuWidget.QUICK_TOGGLES,
+                SystemMenuWidget.QUICK_ACTIONS_1,
                 SystemMenuWidget.NETWORK,
                 SystemMenuWidget.BLUETOOTH,
                 SystemMenuWidget.AUDIO_OUT,
                 SystemMenuWidget.AUDIO_IN,
                 SystemMenuWidget.LOOK_AND_FEEL,
                 SystemMenuWidget.MPRIS_PLAYERS,
-                SystemMenuWidget.POWER_OPTIONS,
+                SystemMenuWidget.QUICK_ACTIONS_2,
                 SystemMenuWidget.NOTIFICATION_HISTORY
             ]
         ),
