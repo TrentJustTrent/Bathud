@@ -1,9 +1,9 @@
 import Notifd from "gi://AstalNotifd"
-import Notification from "../../notification/Notification"
+import Notification from "./Notification"
 import {Gtk} from "ags/gtk4"
-import OkButton from "../../common/OkButton";
+import OkButton from "../common/OkButton";
 import {createBinding, For, With} from "ags";
-import {integratedNotificationHistoryRevealedSetting} from "../../notification/IntegratedNotificationHistory";
+import {integratedNotificationHistoryRevealedSetting} from "./IntegratedNotificationHistory";
 
 export default function() {
     const notifications = Notifd.get_default()

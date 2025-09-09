@@ -1,6 +1,6 @@
 import {Gtk} from "ags/gtk4";
 import {createState} from "ags";
-import NotificationHistory from "../systemMenu/widgets/NotificationHistory";
+import NotificationHistory from "./NotificationHistory";
 
 export const integratedNotificationHistoryWidth = 410
 

@@ -5,7 +5,7 @@ import EndpointControls from "./widgets/EndpointControls";
 import Wp from "gi://AstalWp"
 import {getMicrophoneIcon, getVolumeIcon} from "../utils/audio";
 import MediaPlayers from "./widgets/MediaPlayers";
-import NotificationHistory from "./widgets/NotificationHistory";
+import NotificationHistory from "../notification/NotificationHistory";
 import NetworkControls from "./widgets/NetworkControls";
 import BluetoothControls from "./widgets/BluetoothControls";
 import LookAndFeelControls from "./widgets/LookAndFeelControls";
