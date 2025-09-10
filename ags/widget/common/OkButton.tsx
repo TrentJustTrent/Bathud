@@ -61,6 +61,8 @@ function buildButtonCssClasses(
         return buttonClasses
     }
 
+    buttonClasses.push(...backgroundCss)
+
     return selected.as((isSelected) => {
         if (isSelected) {
             if (selectedCss === undefined) {
