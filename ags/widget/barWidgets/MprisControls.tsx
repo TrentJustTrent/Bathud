@@ -3,10 +3,12 @@ import {With} from "ags";
 import MprisControlButtons from "../mpris/MprisControlButtons";
 import {Bar} from "../../config/bar";
 import {getHPadding, getVPadding} from "./BarWidgets";
+import {Gtk} from "ags/gtk4";
 
 export default function ({vertical, bar}: { vertical: boolean, bar: Bar }) {
     const mpris = Mpris.get_default()
     return <box
+        overflow={Gtk.Overflow.HIDDEN}
         cssClasses={["barMprisControlsBackground", "radiusSmall"]}>
         <With value={mpris.players[0]}>
             {(players) => {
