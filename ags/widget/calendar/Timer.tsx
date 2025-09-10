@@ -1,4 +1,4 @@
-import {Accessor, createComputed, createState} from "ags";
+import {Accessor, createComputed, createState, With} from "ags";
 import {Gtk} from "ags/gtk4";
 import GLib from "gi://GLib?version=2.0";
 import OkButton, {OkButtonHorizontalPadding, OkButtonVerticalPadding} from "../common/OkButton";
@@ -273,11 +273,16 @@ export default function () {
                     </box> as Gtk.Widget
                 )
             }}>
-            <CircularProgress
-                size={200}
-                progress={timerValue.as(() => {
-                    return timerValue.get() / timerStartingValue
-                })}/>
+            <With value={variableConfig.theme.colors.foreground.asAccessor()}>
+                {color =>
+                    <CircularProgress
+                        size={200}
+                        color={color}
+                        progress={timerValue.as(() => {
+                            return timerValue.get() / timerStartingValue
+                        })}/>
+                }
+            </With>
         </overlay>
     </box>
 }

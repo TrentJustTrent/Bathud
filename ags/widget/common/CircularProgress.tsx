@@ -1,10 +1,10 @@
 import {Gtk} from "ags/gtk4";
 import {Accessor} from "ags";
 import {hexToRgba} from "../utils/strings";
-import {variableConfig} from "../../config/config";
 
 type Props = {
     progress: Accessor<number>;   // 0..1
+    color: string,
     size?: number;                // px
     stroke?: number;              // px
     trackAlpha?: number;          // 0..1 (only used if no trackColor)
@@ -13,6 +13,7 @@ type Props = {
 
 export default function ({
     progress,
+    color,
     size = 24,
     stroke = 3,
     trackAlpha = 0.25,
@@ -24,7 +25,7 @@ export default function ({
             widthRequest={size}
             heightRequest={size}
             $={(area: Gtk.DrawingArea) => {
-                const fgColor = hexToRgba(variableConfig.theme.colors.primary.get())
+                const fgColor = hexToRgba(color)
                 const draw = (_: Gtk.DrawingArea, cr: any, w: number, h: number) => {
                     const p = Math.max(0, Math.min(1, progress.get()));
                     const cx = w / 2, cy = h / 2;
