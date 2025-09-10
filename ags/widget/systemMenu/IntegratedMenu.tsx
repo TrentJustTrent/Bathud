@@ -17,7 +17,7 @@ import QuickActions from "./widgets/QuickActions";
 
 const {audio} = Wp.get_default()!
 
-export const integratedMenuWidth = 410
+export const integratedMenuWidth = 430
 
 export const [integratedMenuRevealed, integratedMenuRevealedSetting] = createState(false)
 
