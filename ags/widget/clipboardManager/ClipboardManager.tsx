@@ -12,6 +12,7 @@ import Gio from "gi://Gio?version=2.0";
 import {monitorFile} from "ags/file";
 import {timeout, Timer} from "ags/time";
 import {toggleIntegratedClipboardManager} from "./IntegratedClipboardManager";
+import {AnimatedFor} from "../common/AnimatedFor";
 
 let cliphistStarted = false
 
@@ -137,16 +138,8 @@ function wipeHistory() {
 }
 
 export function ClipboardManagerContent() {
-    const wipeCallbacks: Map<number, () => void> = new Map<number, () => void>
-
     return <box
         orientation={Gtk.Orientation.VERTICAL}>
-        <label
-            visible={clipboardEntries.as((e) => e.length === 0)}
-            hexpand={true}
-            halign={Gtk.Align.CENTER}
-            label="Empty"
-            cssClasses={["labelMedium"]}/>
         <box
             visible={clipboardEntries.as((e) => e.length !== 0)}
             marginBottom={16}>
@@ -155,13 +148,21 @@ export function ClipboardManagerContent() {
                 label="Delete all"
                 primary={true}
                 onClicked={() => {
-                    for (const callback of wipeCallbacks.values()) {
-                        callback()
-                    }
                     wipeHistory()
                 }}/>
         </box>
-        <For each={clipboardEntries} id={(it) => it.number}>
+        <AnimatedFor
+            each={clipboardEntries}
+            id={(it) => it.number}
+            reverse={true}
+            emptyState={
+                <label
+                    visible={clipboardEntries.as((e) => e.length === 0)}
+                    hexpand={true}
+                    halign={Gtk.Align.CENTER}
+                    label="Empty"
+                    cssClasses={["labelMedium"]}/>
+            }>
             {(entry) => {
                 const imageType = getImageType(entry)
                 const isImage = imageType !== null
@@ -176,62 +177,41 @@ export function ClipboardManagerContent() {
                         cliphistId={entry.number}/>
                 }
 
-                const [reveal, revealSet] = createState(false)
-
-                wipeCallbacks.set(entry.number, () => {
-                    revealSet(false)
-                })
-
-                return <revealer
-                    $={(self)=> {
-                        timeout(200, () => {
-                            revealSet(true)
-                        })
-                        onCleanup(() => {
-                            wipeCallbacks.delete(entry.number)
-                        })
-                    }}
-                    revealChild={reveal}
-                    transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>
-                    <box
+                return <box
                         orientation={Gtk.Orientation.VERTICAL}>
+                    <box
+                        orientation={Gtk.Orientation.HORIZONTAL}>
+                        {content}
                         <box
-                            orientation={Gtk.Orientation.HORIZONTAL}>
-                            {content}
-                            <box
-                                orientation={Gtk.Orientation.HORIZONTAL}
-                                vexpand={false}>
-                                <OkButton
-                                    hpadding={OkButtonHorizontalPadding.THIN}
-                                    valign={Gtk.Align.START}
-                                    label=""
-                                    onClicked={() => {
-                                        copyEntry(entry)
-                                        toggleIntegratedClipboardManager()
-                                    }}/>
-                                <OkButton
-                                    hpadding={OkButtonHorizontalPadding.THIN}
-                                    valign={Gtk.Align.START}
-                                    label=""
-                                    onClicked={() => {
-                                        revealSet(false)
-                                        timeout(200, () => {
-                                            deleteEntry(entry)
-                                        })
-                                    }}/>
-                            </box>
+                            orientation={Gtk.Orientation.HORIZONTAL}
+                            vexpand={false}>
+                            <OkButton
+                                hpadding={OkButtonHorizontalPadding.THIN}
+                                valign={Gtk.Align.START}
+                                label=""
+                                onClicked={() => {
+                                    copyEntry(entry)
+                                    toggleIntegratedClipboardManager()
+                                }}/>
+                            <OkButton
+                                hpadding={OkButtonHorizontalPadding.THIN}
+                                valign={Gtk.Align.START}
+                                label=""
+                                onClicked={() => {
+                                    deleteEntry(entry)
+                                }}/>
                         </box>
-                        <Divider
-                            visible={clipboardEntries.as((entries) => {
-                                return entries[entries.length - 1].number !== entry.number
-                            })}
-                            marginTop={10}
-                            marginBottom={10}
-                            thin={true}/>
                     </box>
-                </revealer>
+                    <Divider
+                        visible={clipboardEntries.as((entries) => {
+                            return entries[entries.length - 1].number !== entry.number
+                        })}
+                        marginTop={10}
+                        marginBottom={10}
+                        thin={true}/>
+                </box>
             }}
-        </For>
+        </AnimatedFor>
     </box>
 }
 

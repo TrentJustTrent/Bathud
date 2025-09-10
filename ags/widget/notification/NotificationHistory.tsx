@@ -38,6 +38,7 @@ export default function() {
                 }}/>
         </box>
         <AnimatedFor
+            reverse={true}
             each={
                 createBinding(notifications, "notifications")
                     .as((n) => {

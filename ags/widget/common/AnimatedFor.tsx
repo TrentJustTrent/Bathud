@@ -2,10 +2,27 @@ import Gtk from "gi://Gtk?version=4.0"
 import {Accessor, createComputed, createState, For, onCleanup, With} from "ags";
 import {timeout} from "ags/time";
 
+function mapToSortedEntries<K, V>(
+    m: Map<K, V>,
+    cmp?: (a: K, b: K) => number
+): [K, V][] {
+    const entries = Array.from(m.entries())
+
+    const defaultCmp = (a: K, b: K) => {
+        if (typeof a === "number" && typeof b === "number") return a - b
+        // fallback: compare as strings, numeric-aware
+        return String(a).localeCompare(String(b), undefined, { numeric: true, sensitivity: "base" })
+    }
+
+    entries.sort(([ka], [kb]) => (cmp ?? defaultCmp)(ka, kb))
+    return entries
+}
+
 type AnimatedForProps<Item, El extends JSX.Element, Key> = {
     each: Accessor<Iterable<Item>>
     children: (item: Item, index: Accessor<number>) => El
     emptyState?: El,
+    reverse?: boolean,
     id?: (item: Item) => Key
     /** Revealer transition type (default: CROSSFADE) */
     transitionType?: Gtk.RevealerTransitionType
@@ -22,6 +39,7 @@ export function AnimatedFor<Item, El extends JSX.Element, Key>({
     each,
     children,
     emptyState,
+    reverse = false,
     id = (item: any) => item as any as Key,
     transitionType = Gtk.RevealerTransitionType.CROSSFADE,
     transitionDuration = 220,
@@ -70,11 +88,21 @@ export function AnimatedFor<Item, El extends JSX.Element, Key>({
         renderedSet(cur)
     }
 
+    const innerList = createComputed([
+        rendered,
+    ], (map) => {
+        const entries = mapToSortedEntries(map)
+        if (reverse) {
+            return entries.reverse()
+        }
+        return entries
+    })
+
     // Render via your existing <For>, keyed by .key
     return <box
         orientation={orientation}>
         <For
-            each={rendered}
+            each={innerList}
             id={(pair) => pair[0]}>
             {(pair, idx) => {
                 const [key, item] = pair

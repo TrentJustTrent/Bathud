@@ -99,7 +99,10 @@ export default function NotificationPopups(monitor: Hyprland.Monitor): Astal.Win
         })}>
         <box
             orientation={Gtk.Orientation.VERTICAL}>
-            <AnimatedFor each={notifications} id={(it) => it.id}>
+            <AnimatedFor
+                reverse={true}
+                each={notifications}
+                id={(it) => it.id}>
                 {(notification: AstalNotifd.Notification) => {
                     let hideTimeout: GLib.Source | null = null
                     return <Notification
