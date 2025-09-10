@@ -63,6 +63,8 @@ function monitorAvailableConfigs() {
                     fileName: fileName,
                     icon: newConfig.icon,
                     pixelOffset: newConfig.iconOffset
+                }).sort((a, b) => {
+                    return String(a.fileName).localeCompare(String(b.fileName), undefined, { numeric: true, sensitivity: "base" })
                 }))
                 break
             case Gio.FileMonitorEvent.DELETED:
@@ -83,6 +85,9 @@ function monitorAvailableConfigs() {
                         fileName: fileName,
                         icon: newC.icon,
                         pixelOffset: newC.iconOffset
+                    })
+                    .sort((a, b) => {
+                        return String(a.fileName).localeCompare(String(b.fileName), undefined, { numeric: true, sensitivity: "base" })
                     }))
         }
     })
