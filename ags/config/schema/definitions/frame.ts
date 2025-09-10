@@ -72,6 +72,30 @@ export const frameSchema = {
             reactive: true,
         },
         {
+            name: 'enableTopSpacer',
+            type: 'boolean',
+            default: true,
+            description: 'Enables the top spacer.  The spacer pushes window content below the top of the frame.',
+        },
+        {
+            name: 'enableBottomSpacer',
+            type: 'boolean',
+            default: true,
+            description: 'Enables the bottom spacer.  The spacer pushes window content above the bottom of the frame.',
+        },
+        {
+            name: 'enableLeftSpacer',
+            type: 'boolean',
+            default: true,
+            description: 'Enables the left spacer.  The spacer pushes window content to the right of the left side of the frame.',
+        },
+        {
+            name: 'enableRightSpacer',
+            type: 'boolean',
+            default: true,
+            description: 'Enables the right spacer.  The spacer pushes window content to the left of the right side of the frame.',
+        },
+        {
             name: 'borderRadius',
             type: 'number',
             default: 8,

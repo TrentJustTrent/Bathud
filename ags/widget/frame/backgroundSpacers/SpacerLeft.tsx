@@ -52,7 +52,7 @@ export default function (): Astal.Window {
         namespace={"okpanel-frame-spacer"}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.LEFT}
-        visible={true}
+        visible={variableConfig.frame.enableLeftSpacer.asAccessor()}
         application={App}
         canTarget={false}
         canFocus={false}>
