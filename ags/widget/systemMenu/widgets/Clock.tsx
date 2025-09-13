@@ -1,6 +1,6 @@
 import {Gtk} from "ags/gtk4";
 import {variableConfig} from "../../../config/config";
-import {createPoll} from "../../../../../../../../usr/share/ags/js/lib/time";
+import {createPoll} from "ags/time";
 import GLib from "gi://GLib?version=2.0";
 
 export default function () {
@@ -14,12 +14,10 @@ export default function () {
 
     const date = createPoll("", 1000, () =>
             GLib.DateTime.new_now_local().format("%m/%d/%Y")!
-        // %-d: Day of month (no leading 0), %B: Full month name, %Y: Year
     );
 
     const time = createPoll("", 1000, () =>
             GLib.DateTime.new_now_local().format("%-I:%M %p")!
-        // %-I: Hour (12-hour, no leading 0), %M: Minute, %p: AM/PM
     );
 
     return <box
