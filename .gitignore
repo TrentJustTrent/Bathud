@@ -1,8 +1,0 @@
-.idea
-src
-pkg
-OkPanel
-docs/build
-docs/node_modules
-docs/package-lock.json
-docs/config.md
