@@ -5,7 +5,7 @@ export enum SystemMenuWidget {
     AUDIO_OUT = "audioOut",
     BLUETOOTH = "bluetooth",
     CLOCK = "clock",
-    LOOK_AND_FEEL = "lookAndFeel",
+    WALLPAPER = "wallpapers",
     MPRIS_PLAYERS = "mprisPlayers",
     NETWORK = "network",
     NOTIFICATION_HISTORY = "notificationHistory",

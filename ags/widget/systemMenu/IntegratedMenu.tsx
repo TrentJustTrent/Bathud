@@ -8,7 +8,7 @@ import MediaPlayers from "./widgets/MediaPlayers";
 import NotificationHistory from "../notification/NotificationHistory";
 import NetworkControls from "./widgets/NetworkControls";
 import BluetoothControls from "./widgets/BluetoothControls";
-import LookAndFeelControls from "./widgets/LookAndFeelControls";
+import Wallpapers from "./widgets/Wallpapers";
 import Clock from "./widgets/Clock";
 import {SystemMenuWidget} from "../../config/schema/definitions/systemMenuWidgets";
 import {appendChildren, removeAllChildren} from "../utils/widgets";
@@ -30,12 +30,11 @@ let network: Gtk.Widget
 let bluetooth: Gtk.Widget
 let audioOut: Gtk.Widget
 let audioIn: Gtk.Widget
-let lookAndFeel: Gtk.Widget
+let wallpapers: Gtk.Widget
 let mpris: Gtk.Widget
 let notificationHistory: Gtk.Widget
 let clock: Gtk.Widget
 let quickActions1: Gtk.Widget
-let quickActions2: Gtk.Widget
 
 function createSystemWidgets() {
     network = <NetworkControls/> as Gtk.Widget
@@ -48,17 +47,13 @@ function createSystemWidgets() {
         defaultEndpoint={audio.default_microphone}
         endpointsBinding={createBinding(audio, "microphones")}
         getIcon={getMicrophoneIcon}/> as Gtk.Widget
-    lookAndFeel = <LookAndFeelControls/> as Gtk.Widget
+    wallpapers = <Wallpapers/> as Gtk.Widget
     mpris = <MediaPlayers/> as Gtk.Widget
     notificationHistory = <NotificationHistory/> as Gtk.Widget
     clock = <Clock/> as Gtk.Widget
     quickActions1 = <QuickActions
         actions={variableConfig.systemMenu.quickActions1.actions.asAccessor()}
         maxSize={variableConfig.systemMenu.quickActions1.maxPerRow.asAccessor()}
-    /> as Gtk.Widget
-    quickActions2 = <QuickActions
-        actions={variableConfig.systemMenu.quickActions2.actions.asAccessor()}
-        maxSize={variableConfig.systemMenu.quickActions2.maxPerRow.asAccessor()}
     /> as Gtk.Widget
 }
 
@@ -80,8 +75,8 @@ function getListOfWidgets(
                     return audioOut
                 case SystemMenuWidget.AUDIO_IN:
                     return audioIn
-                case SystemMenuWidget.LOOK_AND_FEEL:
-                    return lookAndFeel
+                case SystemMenuWidget.WALLPAPER:
+                    return wallpapers
                 case SystemMenuWidget.MPRIS_PLAYERS:
                     return mpris
                 case SystemMenuWidget.QUICK_ACTIONS_1:
