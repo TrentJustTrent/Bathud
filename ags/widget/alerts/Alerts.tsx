@@ -9,18 +9,21 @@ import Hyprland from "gi://AstalHyprland"
 import GLib from "gi://GLib?version=2.0";
 import Astal from "gi://Astal?version=4.0";
 import Gtk from "gi://Gtk?version=4.0";
+import {variableConfig} from "../../config/config";
 
 const VolumeAlertName = "volumeAlert"
 const BrightnessAlertName = "brightnessAlert"
 
 export function AlertWindow(
     {
+        enabled,
         iconLabel,
         sliderValue,
         windowName,
         showVariable,
         monitor
     }: {
+        enabled: Accessor<boolean>,
         iconLabel: Accessor<string>,
         sliderValue: Accessor<number>,
         windowName: string,
@@ -51,6 +54,7 @@ export function AlertWindow(
                     canShow = true
                     return
                 }
+                if (!enabled.get()) return
                 if (windowVisibilityTimeout != null) {
                     windowVisibilityTimeout.destroy()
                 }
@@ -101,6 +105,7 @@ export function VolumeAlert(monitor: Hyprland.Monitor): Astal.Window {
     ])
 
     return <AlertWindow
+        enabled={variableConfig.osd.soundOSDEnabled.asAccessor()}
         iconLabel={speakerVar(() => getVolumeIcon(defaultSpeaker))}
         sliderValue={createBinding(defaultSpeaker, "volume")}
         windowName={VolumeAlertName}
@@ -116,6 +121,7 @@ export function BrightnessAlert(monitor: Hyprland.Monitor): Astal.Window {
     ])
 
     return <AlertWindow
+        enabled={variableConfig.osd.brightnessOSDEnabled.asAccessor()}
         iconLabel={createBinding(brightness, "screen").as(() => {
             return getBrightnessIcon(brightness)
         })}

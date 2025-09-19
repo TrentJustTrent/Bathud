@@ -13,6 +13,7 @@ import {frameSchema} from "./frame";
 import {weatherSchema} from "./weather";
 import {barWidgetsSchema} from "./barWidgets";
 import {wallpaperSchema} from "./wallpaper";
+import {osdSchema} from "./osd";
 
 export const CONFIG_SCHEMA = [
     {
@@ -48,6 +49,7 @@ export const CONFIG_SCHEMA = [
         description: 'Index of the primary monitor (0‑based as reported by Hyprland).',
     },
     soundsSchema,
+    osdSchema,
     weatherSchema,
     notificationsSchema,
     frameSchema,
