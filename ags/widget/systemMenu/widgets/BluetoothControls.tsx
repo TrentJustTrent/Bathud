@@ -2,7 +2,7 @@ import {Gtk} from "ags/gtk4"
 import {getBluetoothIcon, getBluetoothName} from "../../utils/bluetooth";
 import Bluetooth from "gi://AstalBluetooth";
 import RevealerRow from "../../common/RevealerRow";
-import OkButton from "../../common/OkButton";
+import BButton from "../../common/BButton";
 import {createBinding, createComputed, createState, For, onCleanup, With} from "ags";
 import {integratedMenuRevealed} from "../IntegratedMenu";
 
@@ -40,7 +40,7 @@ function BluetoothDevices() {
 
                 return <box
                     orientation={Gtk.Orientation.VERTICAL}>
-                    <OkButton
+                    <BButton
                         hexpand={true}
                         label={`  ${device.name}`}
                         labelHalign={Gtk.Align.START}
@@ -56,7 +56,7 @@ function BluetoothDevices() {
                             marginTop={4}
                             marginBottom={4}
                             spacing={4}>
-                            <OkButton
+                            <BButton
                                 primary={true}
                                 hexpand={true}
                                 visible={createBinding(device, "paired")}
@@ -84,7 +84,7 @@ function BluetoothDevices() {
                                         })
                                     }
                                 }}/>
-                            <OkButton
+                            <BButton
                                 primary={true}
                                 hexpand={true}
                                 visible={createBinding(device, "paired")}
@@ -98,7 +98,7 @@ function BluetoothDevices() {
                                 onClicked={() => {
                                     device.set_trusted(!device.trusted)
                                 }}/>
-                            <OkButton
+                            <BButton
                                 primary={true}
                                 hexpand={true}
                                 label={createBinding(device, "paired").as((paired) => {
@@ -152,7 +152,7 @@ export default function () {
                         hexpand={true}
                         label="Devices"
                         cssClasses={["labelLargeBold"]}/>
-                    <OkButton
+                    <BButton
                         label={createBinding(bluetooth.adapter, "discovering").as((discovering) => {
                             return discovering ? "Stop scanning" : "Scan"
                         })}

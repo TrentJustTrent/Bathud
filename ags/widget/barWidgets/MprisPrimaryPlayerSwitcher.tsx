@@ -1,7 +1,7 @@
 import {Bar} from "../../config/bar";
 import {Mpris} from "../utils/mpris";
 import {With} from "ags";
-import OkButton from "../common/OkButton";
+import BButton from "../common/BButton";
 import {getHPadding, getVPadding} from "./BarWidgets";
 
 export default function ({ bar}: { bar: Bar }) {
@@ -14,7 +14,7 @@ export default function ({ bar}: { bar: Bar }) {
                     return <box/>
                 }
 
-                return <OkButton
+                return <BButton
                     labelCss={["barMprisPrimaryPlayerSwitcherForeground"]}
                     backgroundCss={["barMprisPrimaryPlayerSwitcherBackground"]}
                     offset={2}

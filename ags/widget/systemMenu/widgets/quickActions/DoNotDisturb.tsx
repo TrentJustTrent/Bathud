@@ -1,12 +1,12 @@
-import OkButton, {OkButtonSize} from "../../../common/OkButton";
+import BButton, {BButtonSize} from "../../../common/BButton";
 import {createBinding} from "ags";
 import AstalNotifd from "gi://AstalNotifd?version=0.1";
 
 export default function () {
     const notifications = AstalNotifd.get_default()
 
-    return <OkButton
-        size={OkButtonSize.XL}
+    return <BButton
+        size={BButtonSize.XL}
         label={createBinding(notifications, "dontDisturb").as((dnd) => {
             return dnd ? "󰂛" : "󰂚"
         })}

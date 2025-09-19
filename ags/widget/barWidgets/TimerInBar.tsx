@@ -1,6 +1,6 @@
 import {Gtk} from "ags/gtk4";
-import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
-import {TimerDelete, TimerPlayPauseStop, timerText, timerTextVisible} from "../calendar/Timer";
+import BButton, {BButtonHorizontalPadding} from "../common/BButton";
+import {TimerDelete, TimerPlayPauseStop, timerText, timerTextVisible} from "../miscellaneous/Timer";
 import {Bar} from "../../config/bar";
 import {getHPadding, getVPadding} from "./BarWidgets";
 
@@ -15,8 +15,8 @@ export default function ({vertical, bar}: { vertical: boolean, bar: Bar}) {
         cssClasses={["barTimerBackground"]}
         visible={timerTextVisible}
         orientation={vertical ? Gtk.Orientation.VERTICAL : Gtk.Orientation.HORIZONTAL}>
-        <OkButton
-            hpadding={vertical ? OkButtonHorizontalPadding.NONE : OkButtonHorizontalPadding.THIN}
+        <BButton
+            hpadding={vertical ? BButtonHorizontalPadding.NONE : BButtonHorizontalPadding.THIN}
             vpadding={getVPadding(bar)}
             labelCss={["barTimerForeground"]}
             label={text}/>

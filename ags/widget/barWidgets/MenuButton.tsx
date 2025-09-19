@@ -1,5 +1,5 @@
 import {Bar} from "../../config/bar";
-import OkButton from "../common/OkButton";
+import BButton from "../common/BButton";
 import {variableConfig} from "../../config/config";
 import {getHPadding, getVPadding} from "./BarWidgets";
 import {
@@ -9,7 +9,7 @@ import {
 } from "../systemMenu/IntegratedMenu";
 
 export default function ({bar}: { bar: Bar }) {
-    return <OkButton
+    return <BButton
         labelCss={["barMenuForeground"]}
         backgroundCss={["barMenuBackground"]}
         offset={variableConfig.barWidgets.menu.iconOffset.asAccessor()}

@@ -1,7 +1,7 @@
 import {Bar} from "../../config/bar";
 import Wp from "gi://AstalWp"
 import {createBinding, createComputed} from "ags";
-import OkButton from "../common/OkButton";
+import BButton from "../common/BButton";
 import {getHPadding, getVPadding} from "./BarWidgets";
 import {getVolumeIcon} from "../utils/audio";
 
@@ -14,7 +14,7 @@ export default function ({bar}: { bar: Bar }) {
         createBinding(defaultSpeaker, "mute")
     ])
 
-    return <OkButton
+    return <BButton
         labelCss={["barAudioOutForeground"]}
         backgroundCss={["barAudioOutBackground"]}
         hpadding={getHPadding(bar)}

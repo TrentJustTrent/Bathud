@@ -1,4 +1,4 @@
-import OkButton from "../common/OkButton";
+import BButton from "../common/BButton";
 import {variableConfig} from "../../config/config";
 import {Bar} from "../../config/bar";
 import {getHPadding, getVPadding} from "./BarWidgets";
@@ -68,7 +68,7 @@ export default function (
         runningProcs = []
     })
 
-    return <OkButton
+    return <BButton
         labelCss={[`barCustom${customNumber}Foreground`]}
         backgroundCss={[`barCustom${customNumber}Background`]}
         hpadding={getHPadding(bar)}

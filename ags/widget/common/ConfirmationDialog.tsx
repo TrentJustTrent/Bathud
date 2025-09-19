@@ -1,5 +1,5 @@
 import App from "ags/gtk4/app"
-import OkButton from "./OkButton";
+import BButton from "./BButton";
 import {hideAllWindows} from "../utils/windows";
 import Astal from "gi://Astal?version=4.0";
 import {Gdk, Gtk} from "ags/gtk4";
@@ -42,13 +42,13 @@ export default function(
                 cssClasses={["labelLarge"]}/>
             <box
                 orientation={Gtk.Orientation.HORIZONTAL}>
-                <OkButton
+                <BButton
                     label={deny}
                     hexpand={true}
                     onClicked={() => {
                         hideAllWindows()
                     }}/>
-                <OkButton
+                <BButton
                     label={confirm}
                     hexpand={true}
                     onClicked={() => {

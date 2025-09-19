@@ -1,7 +1,7 @@
 import Notifd from "gi://AstalNotifd"
 import Notification from "./Notification"
 import {Gtk} from "ags/gtk4"
-import OkButton from "../common/OkButton";
+import BButton from "../common/BButton";
 import {createBinding, For, With} from "ags";
 import {integratedNotificationHistoryRevealedSetting} from "./IntegratedNotificationHistory";
 import {AnimatedFor} from "../common/AnimatedFor";
@@ -13,7 +13,7 @@ export default function() {
         orientation={Gtk.Orientation.VERTICAL}>
         <box
             orientation={Gtk.Orientation.HORIZONTAL}>
-            <OkButton
+            <BButton
                 label={createBinding(notifications, "dontDisturb").as((dnd) => {
                     return dnd ? "󰂛" : "󰂚"
                 })}
@@ -28,7 +28,7 @@ export default function() {
                 cssClasses={["labelMediumBold"]}
                 label="Notifications"/>
             <box hexpand={true}/>
-            <OkButton
+            <BButton
                 label="Clear all"
                 onClicked={() => {
                     notifications.notifications.forEach((notification) => {

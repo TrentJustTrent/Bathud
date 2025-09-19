@@ -7,7 +7,7 @@ import IntegratedMenu from "../systemMenu/IntegratedMenu";
 import TopBar from "./bars/TopBar";
 import RightBar from "./bars/RightBar";
 import BottomBar from "./bars/BottomBar";
-import IntegratedCalendar from "../calendar/IntegratedCalendar";
+import IntegratedCalendar from "../miscellaneous/IntegratedMisc";
 import IntegratedClipboardManager from "../clipboardManager/IntegratedClipboardManager";
 import IntegratedNotificationHistory from "../notification/IntegratedNotificationHistory";
 import {appendChildren, ghostWhenTooNarrow, removeAllChildren} from "../utils/widgets";

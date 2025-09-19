@@ -1,7 +1,7 @@
 import {execAsync} from "ags/process";
 import {Gtk} from "ags/gtk4";
 import Divider from "../common/Divider";
-import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
+import BButton, {BButtonHorizontalPadding} from "../common/BButton";
 import AsyncClipboardPicture from "./AsyncClipboardPicture";
 import AsyncClipboardLabel from "./AsyncClipboardLabel";
 
@@ -45,7 +45,7 @@ export function startCliphist() {
     console.log("Starting cliphist...")
 
     // text
-    execAsync(`${projectDir}/shellScripts/cliphistStore.sh`)
+    execAsync(`${projectDir}/shellScripts/cliphistStore`)
         .catch((error) => {
             console.error(error)
         })
@@ -143,7 +143,7 @@ export function ClipboardManagerContent() {
         <box
             visible={clipboardEntries.as((e) => e.length !== 0)}
             marginBottom={16}>
-            <OkButton
+            <BButton
                 hexpand={true}
                 label="Delete all"
                 primary={true}
@@ -185,16 +185,16 @@ export function ClipboardManagerContent() {
                         <box
                             orientation={Gtk.Orientation.HORIZONTAL}
                             vexpand={false}>
-                            <OkButton
-                                hpadding={OkButtonHorizontalPadding.THIN}
+                            <BButton
+                                hpadding={BButtonHorizontalPadding.THIN}
                                 valign={Gtk.Align.START}
                                 label=""
                                 onClicked={() => {
                                     copyEntry(entry)
                                     toggleIntegratedClipboardManager()
                                 }}/>
-                            <OkButton
-                                hpadding={OkButtonHorizontalPadding.THIN}
+                            <BButton
+                                hpadding={BButtonHorizontalPadding.THIN}
                                 valign={Gtk.Align.START}
                                 label=""
                                 onClicked={() => {

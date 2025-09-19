@@ -1,7 +1,7 @@
 import {variableConfig} from "../../config/config";
 import {Bar} from "../../config/bar";
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
-import {OkButtonHorizontalPadding, OkButtonVerticalPadding} from "../common/OkButton";
+import {BButtonHorizontalPadding, BButtonVerticalPadding} from "../common/BButton";
 import MenuButton from "./MenuButton";
 import Workspaces from "./Workspaces";
 import Clock from "./Clock";
@@ -14,11 +14,6 @@ import Tray from "./Tray";
 import AppLauncherButton from "./AppLauncherButton";
 import ScreenshotButton from "./ScreenshotButton";
 import ClipboardManagerButton from "./ClipboardManagerButton";
-import PowerProfileIndicator from "./PowerProfileIndicator";
-import LockButton from "./LockButton";
-import LogoutButton from "./LogoutButton";
-import RestartButton from "./RestartButton";
-import ShutdownButton from "./ShutdownButton";
 import CavaBars from "./CavaBars";
 import VpnIndicator from "./VpnIndicator";
 import ScreenRecordingStopButton from "./ScreenRecordingStopButton";
@@ -35,13 +30,13 @@ export function getHPadding(bar: Bar) {
     switch (bar) {
         case Bar.TOP:
         case Bar.BOTTOM:
-            return OkButtonHorizontalPadding.THIN
+            return BButtonHorizontalPadding.THIN
         case Bar.LEFT:
             return variableConfig.leftBar.compact.asAccessor().as((c) =>
-                c ? OkButtonHorizontalPadding.THIN : OkButtonHorizontalPadding.STANDARD)
+                c ? BButtonHorizontalPadding.THIN : BButtonHorizontalPadding.STANDARD)
         case Bar.RIGHT:
             return variableConfig.rightBar.compact.asAccessor().as((c) =>
-                c ? OkButtonHorizontalPadding.THIN : OkButtonHorizontalPadding.STANDARD)
+                c ? BButtonHorizontalPadding.THIN : BButtonHorizontalPadding.STANDARD)
     }
 }
 
@@ -49,13 +44,13 @@ export function getVPadding(bar: Bar) {
     switch (bar) {
         case Bar.TOP:
             return variableConfig.topBar.compact.asAccessor().as((c) =>
-                c ? OkButtonVerticalPadding.THIN : OkButtonVerticalPadding.STANDARD)
+                c ? BButtonVerticalPadding.THIN : BButtonVerticalPadding.STANDARD)
         case Bar.BOTTOM:
             return variableConfig.bottomBar.compact.asAccessor().as((c) =>
-                c ? OkButtonVerticalPadding.THIN : OkButtonVerticalPadding.STANDARD)
+                c ? BButtonVerticalPadding.THIN : BButtonVerticalPadding.STANDARD)
         case Bar.LEFT:
         case Bar.RIGHT:
-            return OkButtonVerticalPadding.STANDARD
+            return BButtonVerticalPadding.STANDARD
     }
 }
 
@@ -112,16 +107,6 @@ function getWidget(widget: BarWidget, isVertical: boolean, bar: Bar) {
             return <ScreenshotButton bar={bar}/>
         case BarWidget.CLIPBOARD_MANAGER:
             return <ClipboardManagerButton bar={bar}/>
-        case BarWidget.POWER_PROFILE:
-            return <PowerProfileIndicator bar={bar}/>
-        case BarWidget.LOCK:
-            return <LockButton bar={bar}/>
-        case BarWidget.LOGOUT:
-            return <LogoutButton bar={bar}/>
-        case BarWidget.RESTART:
-            return <RestartButton bar={bar}/>
-        case BarWidget.SHUTDOWN:
-            return <ShutdownButton bar={bar}/>
         case BarWidget.CAVA_WAVEFORM:
             return <CavaBars bar={bar} vertical={isVertical}/>
         case BarWidget.VPN_INDICATOR:

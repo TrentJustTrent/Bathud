@@ -2,7 +2,7 @@ import {Bar} from "../../config/bar";
 import AstalNotifd from "gi://AstalNotifd?version=0.1";
 import {createBinding, createComputed} from "ags";
 import {Gtk} from "ags/gtk4";
-import OkButton from "../common/OkButton";
+import BButton from "../common/BButton";
 import {getHPadding, getVPadding} from "./BarWidgets";
 import {toggleIntegratedNotificationHistory} from "../notification/IntegratedNotificationHistory";
 
@@ -54,7 +54,7 @@ export default function ({ bar}: { bar: Bar }) {
                 /> as Gtk.Box
             )
         }}>
-        <OkButton
+        <BButton
             labelCss={["barNotificationHistoryForeground"]}
             backgroundCss={["barNotificationHistoryBackground"]}
             offset={notificationIconOffset}

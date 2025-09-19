@@ -9,7 +9,6 @@ import NotificationHistory from "../notification/NotificationHistory";
 import NetworkControls from "./widgets/NetworkControls";
 import BluetoothControls from "./widgets/BluetoothControls";
 import LookAndFeelControls from "./widgets/LookAndFeelControls";
-import PowerProfileControls from "./widgets/PowerProfileControls";
 import Clock from "./widgets/Clock";
 import {SystemMenuWidget} from "../../config/schema/definitions/systemMenuWidgets";
 import {appendChildren, removeAllChildren} from "../utils/widgets";
@@ -31,7 +30,6 @@ let network: Gtk.Widget
 let bluetooth: Gtk.Widget
 let audioOut: Gtk.Widget
 let audioIn: Gtk.Widget
-let powerProfile: Gtk.Widget
 let lookAndFeel: Gtk.Widget
 let mpris: Gtk.Widget
 let notificationHistory: Gtk.Widget
@@ -50,7 +48,6 @@ function createSystemWidgets() {
         defaultEndpoint={audio.default_microphone}
         endpointsBinding={createBinding(audio, "microphones")}
         getIcon={getMicrophoneIcon}/> as Gtk.Widget
-    powerProfile = <PowerProfileControls/> as Gtk.Widget
     lookAndFeel = <LookAndFeelControls/> as Gtk.Widget
     mpris = <MediaPlayers/> as Gtk.Widget
     notificationHistory = <NotificationHistory/> as Gtk.Widget
@@ -87,12 +84,8 @@ function getListOfWidgets(
                     return lookAndFeel
                 case SystemMenuWidget.MPRIS_PLAYERS:
                     return mpris
-                case SystemMenuWidget.POWER_PROFILE:
-                    return powerProfile
                 case SystemMenuWidget.QUICK_ACTIONS_1:
                     return quickActions1
-                case SystemMenuWidget.QUICK_ACTIONS_2:
-                    return quickActions2
             }
         })
     )]

@@ -192,19 +192,6 @@
   @include fun.hoverLighten(vars.$barClipboardManagerBackground);
 }
 
-.barPowerProfileForeground {
-  color: vars.$barPowerProfileForeground;
-}
-
-.barPowerProfileBackground {
-  background-color: vars.$barPowerProfileBackground;
-  border-radius: vars.$barPowerProfileBorderRadius;
-  border-width: vars.$barPowerProfileBorderWidth;
-  border-color: vars.$barPowerProfileBorderColor;
-  border-style: solid;
-  @include fun.hoverLighten(vars.$barPowerProfileBackground);
-}
-
 .barCavaWaveformForeground {
   color: vars.$barCavaWaveformForeground;
 }
@@ -285,19 +272,6 @@
   @include fun.hoverLighten(vars.$barColorPickerBackground);
 }
 
-.barLogoutForeground {
-  color: vars.$barLogoutForeground;
-}
-
-.barLogoutBackground {
-  background-color: vars.$barLogoutBackground;
-  border-radius: vars.$barLogoutBorderRadius;
-  border-width: vars.$barLogoutBorderWidth;
-  border-color: vars.$barLogoutBorderColor;
-  border-style: solid;
-  @include fun.hoverLighten(vars.$barLogoutBackground);
-}
-
 .barLockForeground {
   color: vars.$barLockForeground;
 }
@@ -309,32 +283,6 @@
   border-color: vars.$barLockBorderColor;
   border-style: solid;
   @include fun.hoverLighten(vars.$barLockBackground);
-}
-
-.barRestartForeground {
-  color: vars.$barRestartForeground;
-}
-
-.barRestartBackground {
-  background-color: vars.$barRestartBackground;
-  border-radius: vars.$barRestartBorderRadius;
-  border-width: vars.$barRestartBorderWidth;
-  border-color: vars.$barRestartBorderColor;
-  border-style: solid;
-  @include fun.hoverLighten(vars.$barRestartBackground);
-}
-
-.barShutdownForeground {
-  color: vars.$barShutdownForeground;
-}
-
-.barShutdownBackground {
-  background-color: vars.$barShutdownBackground;
-  border-radius: vars.$barShutdownBorderRadius;
-  border-width: vars.$barShutdownBorderWidth;
-  border-color: vars.$barShutdownBorderColor;
-  border-style: solid;
-  @include fun.hoverLighten(vars.$barShutdownBackground);
 }
 
 .barTimerForeground {

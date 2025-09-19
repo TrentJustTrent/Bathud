@@ -1,5 +1,5 @@
 import {Gtk} from "ags/gtk4";
-import OkButton, {OkButtonHorizontalPadding, OkButtonSize} from "./OkButton";
+import BButton, {BButtonHorizontalPadding, BButtonSize} from "./BButton";
 import {Accessor, createState, State} from "ags";
 
 type Params = {
@@ -46,8 +46,8 @@ export default function (
         orientation={Gtk.Orientation.VERTICAL}>
         <box
             orientation={Gtk.Orientation.HORIZONTAL}>
-            <OkButton
-                size={OkButtonSize.XL}
+            <BButton
+                size={BButtonSize.XL}
                 offset={iconOffset}
                 label={icon}
                 onClicked={onClick}/>
@@ -56,9 +56,9 @@ export default function (
                 marginTop={4}>
                 {content}
             </box>
-            <OkButton
-                size={OkButtonSize.SMALL}
-                hpadding={OkButtonHorizontalPadding.THIN}
+            <BButton
+                size={BButtonSize.SMALL}
+                hpadding={BButtonHorizontalPadding.THIN}
                 label={revealed((revealed): string => {
                     if (revealed) {
                         return ""

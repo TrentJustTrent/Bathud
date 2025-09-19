@@ -1,6 +1,6 @@
 import {LoopStatus, PlaybackStatus, Player, ShuffleStatus} from "../utils/mpris";
 import {Gtk} from "ags/gtk4";
-import OkButton, {OkButtonHorizontalPadding, OkButtonVerticalPadding} from "../common/OkButton";
+import BButton, {BButtonHorizontalPadding, BButtonVerticalPadding} from "../common/BButton";
 import {getHPadding, getVPadding} from "../barWidgets/BarWidgets";
 import {Accessor} from "ags";
 
@@ -16,8 +16,8 @@ export default function (
     {
         player: Player,
         vertical: boolean,
-        hpadding: OkButtonHorizontalPadding | Accessor<OkButtonHorizontalPadding>,
-        vpadding: OkButtonVerticalPadding | Accessor<OkButtonVerticalPadding>,
+        hpadding: BButtonHorizontalPadding | Accessor<BButtonHorizontalPadding>,
+        vpadding: BButtonVerticalPadding | Accessor<BButtonVerticalPadding>,
         foregroundCss?: string[],
         backgroundCss?: string[],
     }
@@ -31,7 +31,7 @@ export default function (
     return <box
         halign={Gtk.Align.CENTER}
         orientation={vertical ? Gtk.Orientation.VERTICAL : Gtk.Orientation.HORIZONTAL}>
-        <OkButton
+        <BButton
             labelCss={foregroundCss}
             backgroundCss={backgroundCss}
             hpadding={hpadding}
@@ -51,7 +51,7 @@ export default function (
                     return "󰒞"
                 }
             })}/>
-        <OkButton
+        <BButton
             labelCss={foregroundCss}
             backgroundCss={backgroundCss}
             hpadding={hpadding}
@@ -61,7 +61,7 @@ export default function (
             }}
             visible={player.canGoPrevious[0]}
             label=""/>
-        <OkButton
+        <BButton
             labelCss={foregroundCss}
             backgroundCss={backgroundCss}
             hpadding={hpadding}
@@ -71,7 +71,7 @@ export default function (
             }}
             visible={player.canControl[0]}
             label={playIcon}/>
-        <OkButton
+        <BButton
             labelCss={foregroundCss}
             backgroundCss={backgroundCss}
             hpadding={hpadding}
@@ -81,7 +81,7 @@ export default function (
             }}
             visible={player.canGoNext[0]}
             label=""/>
-        <OkButton
+        <BButton
             labelCss={foregroundCss}
             backgroundCss={backgroundCss}
             hpadding={hpadding}

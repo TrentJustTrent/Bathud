@@ -2,13 +2,13 @@ import {Gtk} from "ags/gtk4"
 import Pango from "gi://Pango?version=1.0";
 import {createScaledTexture} from "../../utils/images";
 import {
-    availableConfigs, ConfigFile,
+    ConfigFile,
     selectedConfig,
     setNewConfig,
     variableConfig
 } from "../../../config/config";
 import RevealerRow from "../../common/RevealerRow";
-import OkButton, {OkButtonSize} from "../../common/OkButton";
+import BButton, {BButtonSize} from "../../common/BButton";
 import {listFilenamesInDir} from "../../utils/files";
 import {createComputed, createState, For, onCleanup, With} from "ags";
 import GLib from "gi://GLib?version=2.0";
@@ -117,125 +117,6 @@ function animateScroll(
     });
 }
 
-function ThemeButton({configFile}: {configFile: ConfigFile}) {
-    return <OkButton
-        size={OkButtonSize.XL}
-        label={configFile.icon}
-        offset={configFile.pixelOffset}
-        selected={selectedConfig.asAccessor()((t) => t === configFile)}
-        onClicked={() => {
-            updateConfig(configFile)
-        }}/>
-}
-
-function ThemeOptions() {
-    let leftGradient: Gtk.Box
-    let rightGradient: Gtk.Box
-    const scrolledWindow = new Gtk.ScrolledWindow({
-        hexpand: true,
-        cssClasses: ["scrollWindow"],
-        hscrollbar_policy: Gtk.PolicyType.AUTOMATIC,
-        vscrollbar_policy: Gtk.PolicyType.NEVER,
-        heightRequest: 50,
-        child: <box
-            marginStart={22}
-            marginEnd={22}
-            orientation={Gtk.Orientation.HORIZONTAL}
-            spacing={10}>
-            <For each={availableConfigs.asAccessor()} id={(it) => it.fileName}>
-                {(config) => {
-                    return <ThemeButton configFile={config}/>
-                }}
-            </For>
-        </box> as Gtk.Widget
-    })
-
-    const scrollController = Gtk.EventControllerScroll.new(Gtk.EventControllerScrollFlags.BOTH_AXES)
-
-    // Intercept vertical scrolling and translate to horizontal
-    scrollController.connect('scroll', (controller, dx, dy) => {
-        if (dy !== 0) {
-            const hadj = scrolledWindow.get_hadjustment()
-            const maxScroll = hadj.get_upper() - hadj.get_page_size();
-            if (dy === 1 || dy === -1) {
-                const newValue = hadj.get_value() + dy * 50;
-                animateScroll(
-                    hadj,
-                    Math.max(0, Math.min(newValue, maxScroll)),
-                    leftGradient,
-                    rightGradient,
-                );
-            } else {
-                const newValue = hadj.get_value() + dy * 5;
-                hadj.set_value(newValue);
-                updateFade(hadj, leftGradient, rightGradient);
-            }
-            return true
-        }
-        if (dx !== 0) {
-            const hadj = scrolledWindow.get_hadjustment()
-            const maxScroll = hadj.get_upper() - hadj.get_page_size();
-            if (dx === 1 || dx === -1) {
-                const newValue = hadj.get_value() + dx * 30;
-                animateScroll(
-                    hadj,
-                    Math.max(0, Math.min(newValue, maxScroll)),
-                    leftGradient,
-                    rightGradient,
-                );
-            } else {
-                const newValue = hadj.get_value() + dx * 5;
-                hadj.set_value(newValue);
-                updateFade(hadj, leftGradient, rightGradient);
-            }
-            return true
-
-        }
-        return false
-    })
-
-    scrolledWindow.add_controller(scrollController);
-
-    const overlay = new Gtk.Overlay(
-        {
-            child: scrolledWindow
-        }
-    )
-
-    overlay.add_overlay(
-        <box
-            canTarget={false}
-            canFocus={false}
-            opacity={0}
-            widthRequest={50}
-            halign={Gtk.Align.START}
-            hexpand={false}
-            cssClasses={["fadeLeft"]}
-            $={(self) => {
-                leftGradient = self
-            }}/> as Gtk.Widget
-    )
-
-    overlay.add_overlay(
-        <box
-            canTarget={false}
-            canFocus={false}
-            widthRequest={50}
-            halign={Gtk.Align.END}
-            hexpand={false}
-            cssClasses={["fadeRight"]}
-            $={(self) => {
-                rightGradient = self
-            }}/> as Gtk.Widget
-    )
-
-    return <box
-        hexpand={true}
-        orientation={Gtk.Orientation.HORIZONTAL}>
-        {overlay}
-    </box>
-}
-
 function WallpaperColumn(
     {
         column
@@ -319,18 +200,6 @@ export default function () {
             <box
                 marginTop={10}
                 orientation={Gtk.Orientation.VERTICAL}>
-                <box>
-                    <With value={availableConfigs.asAccessor()}>
-                        {(availConfigs) => {
-                            if (availConfigs.length > 1) {
-                                return <ThemeOptions/>
-                            } else {
-                                return <box/>
-                            }
-                        }}
-                    </With>
-                </box>
-                <box marginTop={20}/>
                 <box
                     orientation={Gtk.Orientation.HORIZONTAL}>
                     {Array.from({length: numberOfColumns}).map((_, index) => {

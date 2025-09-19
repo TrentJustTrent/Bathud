@@ -1,9 +1,9 @@
-import OkButton, {OkButtonSize} from "../../../common/OkButton";
+import BButton, {BButtonSize} from "../../../common/BButton";
 import {integratedScreenshotRevealed, toggleIntegratedScreenshot} from "../../../screenshot/IntegratedScreenshot";
 
 export default function () {
-    return <OkButton
-        size={OkButtonSize.XL}
+    return <BButton
+        size={BButtonSize.XL}
         label="󰹑"
         offset={3}
         selected={integratedScreenshotRevealed}

@@ -4,7 +4,7 @@ import {variableConfig} from "../../../config/config";
 import {createComputed} from "ags";
 import {integratedMenuRevealed, integratedMenuWidth} from "../../systemMenu/IntegratedMenu";
 import {rightBarWidth} from "../bars/RightBar";
-import {integratedCalendarRevealed, integratedCalendarWidth} from "../../calendar/IntegratedCalendar";
+import {integratedCalendarRevealed, integratedCalendarWidth} from "../../miscellaneous/IntegratedMisc";
 import {
     integratedClipboardManagerRevealed,
     integratedClipboardManagerWidth

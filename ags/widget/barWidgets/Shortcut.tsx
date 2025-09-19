@@ -1,4 +1,4 @@
-import OkButton from "../common/OkButton";
+import BButton from "../common/BButton";
 import {variableConfig} from "../../config/config";
 import {Bar} from "../../config/bar";
 import {Accessor, createBinding, createComputed, createRoot, createState, onCleanup} from "ags";
@@ -232,7 +232,7 @@ export default function (
                 /> as Gtk.Box
             )
         }}>
-        <OkButton
+        <BButton
             hpadding={getHPadding(bar)}
             vpadding={getVPadding(bar)}
             selected={selected}

@@ -13,7 +13,7 @@ import {toggleIntegratedScreenshot} from "./widget/screenshot/IntegratedScreensh
 import {toggleIntegratedAppLauncher} from "./widget/appLauncher/IntegratedAppLauncher";
 import {toggleIntegratedScreenshare} from "./widget/screenshare/IntegratedScreenshare";
 import {toggleIntegratedMenu} from "./widget/systemMenu/IntegratedMenu";
-import {toggleIntegratedCalendar} from "./widget/calendar/IntegratedCalendar";
+import {toggleIntegratedCalendar} from "./widget/miscellaneous/IntegratedMisc";
 import {toggleIntegratedClipboardManager} from "./widget/clipboardManager/IntegratedClipboardManager";
 import {toggleIntegratedNotificationHistory} from "./widget/notification/IntegratedNotificationHistory";
 import {customWidgetLabelSetters} from "./widget/barWidgets/CustomWidget";

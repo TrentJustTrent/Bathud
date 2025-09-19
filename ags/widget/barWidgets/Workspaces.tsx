@@ -3,7 +3,7 @@ import Divider from "../common/Divider";
 import {variableConfig} from "../../config/config";
 import {Bar} from "../../config/bar";
 import Gtk from "gi://Gtk?version=4.0";
-import OkButton, {OkButtonSize} from "../common/OkButton";
+import BButton, {BButtonSize} from "../common/BButton";
 import {createBinding, createComputed, With} from "ags";
 import {getHPadding, getVPadding} from "./BarWidgets";
 
@@ -82,10 +82,10 @@ export default function ({vertical, bar}: { vertical: boolean, bar: Bar }) {
                                     variableConfig.barWidgets.workspaces.largeActive.asAccessor()
                                 ], (w: Hyprland.Workspace, isLarge) => {
                                     const isActive = w?.id === workspace.id
-                                    return isActive && isLarge ? OkButtonSize.LARGE : OkButtonSize.SMALL
+                                    return isActive && isLarge ? BButtonSize.LARGE : BButtonSize.SMALL
                                 })
 
-                                return <OkButton
+                                return <BButton
                                     labelCss={labelCss.get()}
                                     backgroundCss={["barWorkspaceButtonBackground"]}
                                     offset={offset}

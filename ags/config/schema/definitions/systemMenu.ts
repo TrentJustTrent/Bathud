@@ -35,7 +35,6 @@ export const systemMenuSchema = {
                 SystemMenuWidget.AUDIO_IN,
                 SystemMenuWidget.LOOK_AND_FEEL,
                 SystemMenuWidget.MPRIS_PLAYERS,
-                SystemMenuWidget.QUICK_ACTIONS_2,
                 SystemMenuWidget.NOTIFICATION_HISTORY
             ]
         ),

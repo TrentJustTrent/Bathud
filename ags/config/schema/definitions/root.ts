@@ -8,7 +8,6 @@ import {
     topBarSchema,
 } from "./bars";
 import {systemMenuSchema} from "./systemMenu";
-import {systemCommandsSchema} from "./systemCommands";
 import {themeSchema} from "./theme";
 import {frameSchema} from "./frame";
 import {weatherSchema} from "./weather";
@@ -51,7 +50,6 @@ export const CONFIG_SCHEMA = [
     soundsSchema,
     weatherSchema,
     notificationsSchema,
-    systemCommandsSchema,
     frameSchema,
     systemMenuSchema,
     barWidgetsSchema,

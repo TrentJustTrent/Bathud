@@ -10,19 +10,14 @@ export enum BarWidget {
     CLIPBOARD_MANAGER = "clipboardManager",
     CLOCK = "clock",
     COLOR_PICKER = "colorPicker",
-    LOCK = "lock",
-    LOGOUT = "logout",
     MENU = "menu",
     MPRIS_CONTROLS = "mprisControls",
     MPRIS_PRIMARY_PLAYER_SWITCHER = "mprisPrimaryPlayerSwitcher",
     MPRIS_TRACK_INFO = "mprisTrackInfo",
     NETWORK = "network",
     NOTIFICATION_HISTORY = "notificationHistory",
-    POWER_PROFILE = "powerProfile",
     RECORDING_INDICATOR = "recordingIndicator",
-    RESTART = "restart",
     SCREENSHOT = "screenshot",
-    SHUTDOWN = "shutdown",
     TIMER = "timer",
     TRAY = "tray",
     VPN_INDICATOR = "vpnIndicator",
@@ -184,6 +179,172 @@ function customWidgetCommons() { return [
         description: 'The absolute path of the script to execute when the widget is clicked.  This is not reactive, so you need to restart OkPanel or switch configs after changing this value.',
     },
     ...widgetCommons()
+] as const satisfies Field[] }
+
+function customWorkspace(
+    active: string = 'barWidgets.workspaces.activeIcon',
+    inactive: string = 'barWidgets.workspaces.inactiveIcon',
+) { return [
+    {
+        name: '0',
+        type: 'object',
+        children: [
+            {
+                name: 'active',
+                type: 'icon',
+                default: {from: active}
+            },
+            {
+                name: 'inactive',
+                type: 'icon',
+                default: {from: inactive}
+            }
+        ]
+    },
+    {
+        name: '1',
+        type: 'object',
+        children: [
+            {
+                name: 'active',
+                type: 'icon',
+                default: {from: active}
+            },
+            {
+                name: 'inactive',
+                type: 'icon',
+                default: {from: inactive}
+            }
+        ]
+    },
+    {
+        name: '2',
+        type: 'object',
+        children: [
+            {
+                name: 'active',
+                type: 'icon',
+                default: {from: active}
+            },
+            {
+                name: 'inactive',
+                type: 'icon',
+                default: {from: inactive}
+            }
+        ]
+    },
+    {
+        name: '3',
+        type: 'object',
+        children: [
+            {
+                name: 'active',
+                type: 'icon',
+                default: {from: active}
+            },
+            {
+                name: 'inactive',
+                type: 'icon',
+                default: {from: inactive}
+            }
+        ]
+    },
+    {
+        name: '4',
+        type: 'object',
+        children: [
+            {
+                name: 'active',
+                type: 'icon',
+                default: {from: active}
+            },
+            {
+                name: 'inactive',
+                type: 'icon',
+                default: {from: inactive}
+            }
+        ]
+    },
+    {
+        name: '5',
+        type: 'object',
+        children: [
+            {
+                name: 'active',
+                type: 'icon',
+                default: {from: active}
+            },
+            {
+                name: 'inactive',
+                type: 'icon',
+                default: {from: inactive}
+            }
+        ]
+    },
+    {
+        name: '6',
+        type: 'object',
+        children: [
+            {
+                name: 'active',
+                type: 'icon',
+                default: {from: active}
+            },
+            {
+                name: 'inactive',
+                type: 'icon',
+                default: {from: inactive}
+            }
+        ]
+    },
+    {
+        name: '7',
+        type: 'object',
+        children: [
+            {
+                name: 'active',
+                type: 'icon',
+                default: {from: active}
+            },
+            {
+                name: 'inactive',
+                type: 'icon',
+                default: {from: inactive}
+            }
+        ]
+    },
+    {
+        name: '8',
+        type: 'object',
+        children: [
+            {
+                name: 'active',
+                type: 'icon',
+                default: {from: active}
+            },
+            {
+                name: 'inactive',
+                type: 'icon',
+                default: {from: inactive}
+            }
+        ]
+    },
+    {
+        name: '9',
+        type: 'object',
+        children: [
+            {
+                name: 'active',
+                type: 'icon',
+                default: {from: active}
+            },
+            {
+                name: 'inactive',
+                type: 'icon',
+                default: {from: inactive}
+            }
+        ]
+    },
 ] as const satisfies Field[] }
 
 function shortcutWidgetCommons() { return [
@@ -391,12 +552,6 @@ export const barWidgetsSchema = {
             children: [...widgetCommons()],
         },
         {
-            name: BarWidget.LOGOUT,
-            type: "object",
-            description: "Configuration for the logout bar widget.",
-            children: [...widgetCommons()],
-        },
-        {
             name: BarWidget.MENU,
             type: "object",
             description: "Theme configuration for the menu bar widget.",
@@ -479,12 +634,6 @@ export const barWidgetsSchema = {
             ],
         },
         {
-            name: BarWidget.POWER_PROFILE,
-            type: "object",
-            description: "Configuration for the power profile bar widget.",
-            children: [...widgetCommons()],
-        },
-        {
             name: BarWidget.RECORDING_INDICATOR,
             type: "object",
             description: "Configuration for the recording indicator bar widget.",
@@ -498,21 +647,9 @@ export const barWidgetsSchema = {
             )],
         },
         {
-            name: BarWidget.RESTART,
-            type: "object",
-            description: "Configuration for the restart bar widget.",
-            children: [...widgetCommons()],
-        },
-        {
             name: BarWidget.SCREENSHOT,
             type: "object",
             description: "Configuration for the screenshot bar widget.",
-            children: [...widgetCommons()],
-        },
-        {
-            name: BarWidget.SHUTDOWN,
-            type: "object",
-            description: "Configuration for the shutdown bar widget.",
             children: [...widgetCommons()],
         },
         {
@@ -584,6 +721,7 @@ export const barWidgetsSchema = {
                     description: 'Foreground color of inactive workspaces.',
                     reactive: false,
                 },
+                ...customWorkspace(),
             ],
         },
         {

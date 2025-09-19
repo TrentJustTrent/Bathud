@@ -1,10 +1,10 @@
 import {Bar} from "../../config/bar";
-import OkButton from "../common/OkButton";
+import BButton from "../common/BButton";
 import {getHPadding, getVPadding} from "./BarWidgets";
 import {toggleIntegratedScreenshot} from "../screenshot/IntegratedScreenshot";
 
 export default function ({bar}: { bar: Bar }) {
-    return <OkButton
+    return <BButton
         labelCss={["barScreenshotForeground"]}
         backgroundCss={["barScreenshotBackground"]}
         offset={2}
