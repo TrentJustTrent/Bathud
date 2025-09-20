@@ -10,7 +10,6 @@ import {
 import {systemMenuSchema} from "./systemMenu";
 import {themeSchema} from "./theme";
 import {frameSchema} from "./frame";
-import {weatherSchema} from "./weather";
 import {barWidgetsSchema} from "./barWidgets";
 import {wallpaperSchema} from "./wallpaper";
 import {osdSchema} from "./osd";
@@ -19,7 +18,7 @@ export const CONFIG_SCHEMA = [
     {
         name: 'icon',
         type: 'icon',
-        default: '',
+        default: '',
         description: 'Icon (glyph) representing this config file.',
     },
     {
@@ -50,7 +49,6 @@ export const CONFIG_SCHEMA = [
     },
     soundsSchema,
     osdSchema,
-    weatherSchema,
     notificationsSchema,
     frameSchema,
     systemMenuSchema,
