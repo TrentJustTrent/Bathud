@@ -36,7 +36,7 @@ function getImageType(entry: Entry): string | null {
 }
 
 // starts cliphist.  Defaults are from the ~/.config/cliphist/config file which is
-// created by the okpanel run command.
+// created by the bathud run command.
 export function startCliphist() {
     if (cliphistStarted) {
         return

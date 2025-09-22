@@ -61,7 +61,7 @@ export default function (monitor: AstalHyprland.Monitor): Astal.Window {
         monitor={monitor.id}
         cssClasses={["windowBackground"]}
         layer={Astal.Layer.BACKGROUND}
-        namespace={"okpanel-wallpaper"}
+        namespace={"bathud-wallpaper"}
         exclusivity={Astal.Exclusivity.IGNORE}
         anchor={Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.LEFT}
         visible={variableConfig.wallpaper.showWallpaper.asAccessor()}

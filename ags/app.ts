@@ -24,8 +24,8 @@ import {killOldMonitorWindows, spawnMonitorWindows} from "./widget/utils/windows
 export let projectDir = ""
 
 App.start({
-    instanceName: "OkPanel",
-    css: "/tmp/OkPanel/style.css",
+    instanceName: "Bathud",
+    css: "/tmp/Bathud/style.css",
     main(...args: Array<string>) {
         projectDir = args[0]
         setThemeBasic()

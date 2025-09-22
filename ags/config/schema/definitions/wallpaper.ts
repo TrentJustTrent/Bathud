@@ -37,7 +37,7 @@ export const wallpaperSchema = {
             name: 'showWallpaper',
             type: 'boolean',
             default: 'true',
-            description: 'Show the wallpaper in OkPanel.  Set to false if you want to use another wallpaper program',
+            description: 'Show the wallpaper in Bathud.  Set to false if you want to use another wallpaper program',
         },
         {
             name: 'wallpaperUpdateScript',

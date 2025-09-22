@@ -281,7 +281,7 @@ export default function (): Astal.Window {
         name={frameWindowName}
         cssClasses={["transparentBackground"]}
         layer={Astal.Layer.TOP}
-        namespace={"okpanel-frame"}
+        namespace={"bathud-frame"}
         exclusivity={Astal.Exclusivity.IGNORE}
         anchor={Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.LEFT}
         visible={true}

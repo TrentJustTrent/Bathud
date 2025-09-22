@@ -304,7 +304,7 @@ export default function (
 
                         const pop = new Gtk.PopoverMenu()
                         pop.set_has_arrow(false)
-                        pop.add_css_class("ok-popover")
+                        pop.add_css_class("bathud-popover")
 
                         const actionGroup = new Gio.SimpleActionGroup()
                         const menu = new Gio.Menu()

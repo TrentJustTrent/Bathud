@@ -38,7 +38,7 @@ custom_command() {
 	shift
 	local string="$*"
 
-	ags request -i "OkPanel" "custom" "$number" "$string"
+	ags request -i "Bathud" "custom" "$number" "$string"
 }
 
 wallpaper() {
@@ -47,20 +47,20 @@ wallpaper() {
 		exit 1
 	fi
 
-	ags request -i "OkPanel" "wallpaper" "$1"
+	ags request -i "Bathud" "wallpaper" "$1"
 }
 
 run_run_command() {
-	if [ -d "/usr/share/okpanel" ]; then
-		dir="/usr/share/okpanel"
-	elif [ -d "$HOME/.local/share/okpanel" ]; then
-		dir="$HOME/.local/share/okpanel"
+	if [ -d "/usr/share/bathud" ]; then
+		dir="/usr/share/bathud"
+	elif [ -d "$HOME/.local/share/bathud" ]; then
+		dir="$HOME/.local/share/bathud"
 	else
 		dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../ags
 	fi
 
 	# make the config file if it doesn't exist so that we can monitor for config changes
-	mkdir -p $HOME/.config/OkPanel
+	mkdir -p $HOME/.config/Bathud
 
 	# Start astal-tray if not already running
 	if ! pgrep -x "astal-tray" > /dev/null; then
@@ -94,7 +94,7 @@ cleanup() {
 
 quit() {
 	cleanup
-	ags quit -i "OkPanel"
+	ags quit -i "Bathud"
 }
 
 main() {
@@ -106,15 +106,15 @@ main() {
 	case $1 in
 		run)          run_run_command;;
 		quit)         quit;;
-		launcher)     ags request -i "OkPanel" "appLauncher";;
-		screenshot)   ags request -i "OkPanel" "screenshot";;
-		calendar)	  ags request -i "OkPanel" "calendar";;
-		menu)		  ags request -i "OkPanel" "menu";;
-		clipboard)	  ags request -i "OkPanel" "clipboard";;
-		notification) ags request -i "OkPanel" "notification";;
-		volume-up)    ags request -i "OkPanel" "volume-up";;
-		volume-down)  ags request -i "OkPanel" "volume-down";;
-		mute)         ags request -i "OkPanel" "mute";;
+		launcher)     ags request -i "Bathud" "appLauncher";;
+		screenshot)   ags request -i "Bathud" "screenshot";;
+		calendar)	  ags request -i "Bathud" "calendar";;
+		menu)		  ags request -i "Bathud" "menu";;
+		clipboard)	  ags request -i "Bathud" "clipboard";;
+		notification) ags request -i "Bathud" "notification";;
+		volume-up)    ags request -i "Bathud" "volume-up";;
+		volume-down)  ags request -i "Bathud" "volume-down";;
+		mute)         ags request -i "Bathud" "mute";;
 		custom)       shift; custom_command "$@";;
 		wallpaper)	  shift; wallpaper "$@";;
 		help|-h|--help) print_help;;

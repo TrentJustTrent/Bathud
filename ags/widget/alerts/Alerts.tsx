@@ -34,7 +34,7 @@ export function AlertWindow(
     let windowVisibilityTimeout: GLib.Source | null = null
 
     return <window
-        namespace={"okpanel-alerts"}
+        namespace={"bathud-alerts"}
         monitor={monitor.id}
         name={windowName}
         application={App}

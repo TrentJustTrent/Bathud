@@ -24,12 +24,12 @@
 //     console.log("[PolkitAgent] returning identity:", identity.to_string());
 //
 //     try {
-//         const ok = authority.authentication_agent_response_sync(
+//         const bathud = authority.authentication_agent_response_sync(
 //             cookie,
 //             identity,
 //             null
 //         );
-//         console.log(`[PolkitAgent] sync response ok=${ok}`);
+//         console.log(`[PolkitAgent] sync response bathud=${bathud}`);
 //     } catch (e: any) {
 //         console.error("[PolkitAgent] sync response failed:", e.message);
 //     }
@@ -134,7 +134,7 @@
 // };
 //
 // // --- Export and register agent ---
-// const AGENT_PATH = "/com/okpanel/PolkitAgent";
+// const AGENT_PATH = "/com/bathud/PolkitAgent";
 // const agentInterfaceXML = `
 // <node>
 //   <interface name="org.freedesktop.PolicyKit1.AuthenticationAgent">

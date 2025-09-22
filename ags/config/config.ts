@@ -15,7 +15,7 @@ import {setWallpaper} from "../widget/wallpaper/setWallpaper";
 import {refreshWallpaper} from "../widget/wallpaper/refreshWallpaper";
 
 const homePath = GLib.get_home_dir()
-const globalConfigFile = "okpanel.yaml"
+const globalConfigFile = "bathud.yaml"
 
 // Order matters for these variables.  No touchy
 export const availableConfigs = new Variable(getAvailableConfigs())
@@ -23,9 +23,9 @@ export const availableConfigs = new Variable(getAvailableConfigs())
 export const selectedConfig = new Variable(getSelectedConfig())
 
 let defaultConfigValues: Config | undefined = ((): Config | undefined => {
-    if (GLib.file_test(`${homePath}/.config/OkPanel/${globalConfigFile}`, GLib.FileTest.EXISTS)) {
+    if (GLib.file_test(`${homePath}/.config/Bathud/${globalConfigFile}`, GLib.FileTest.EXISTS)) {
         console.log(`Loading global default configs`)
-        return loadConfig(`${homePath}/.config/OkPanel/${globalConfigFile}`, undefined, false)
+        return loadConfig(`${homePath}/.config/Bathud/${globalConfigFile}`, undefined, false)
     } else {
         return undefined
     }
@@ -37,7 +37,7 @@ export let config: Config = ((): Config => {
         return validateAndApplyDefaults({}, CONFIG_SCHEMA)
     }
     console.log(`Loading initial config from: ${selectedConfig.get()?.fileName}`)
-    return loadConfig(`${homePath}/.config/OkPanel/${selectedConfig.get()?.fileName}`, defaultConfigValues)
+    return loadConfig(`${homePath}/.config/Bathud/${selectedConfig.get()?.fileName}`, defaultConfigValues)
 })()
 
 export const variableConfig: VariableConfig = ((): VariableConfig => {
@@ -45,7 +45,7 @@ export const variableConfig: VariableConfig = ((): VariableConfig => {
 })()
 
 function monitorAvailableConfigs() {
-    monitorFile(`${homePath}/.config/OkPanel`, (file, event) => {
+    monitorFile(`${homePath}/.config/Bathud`, (file, event) => {
         const fileName = GLib.path_get_basename(file)
         if (fileName.split(".").pop() !== "yaml") {
             return
@@ -58,7 +58,7 @@ function monitorAvailableConfigs() {
                     monitorDefaultsConfig()
                     break
                 }
-                const newConfig = loadConfig(`${homePath}/.config/OkPanel/${fileName}`)
+                const newConfig = loadConfig(`${homePath}/.config/Bathud/${fileName}`)
                 availableConfigs.set(availableConfigs.get().concat({
                     fileName: fileName,
                     icon: newConfig.icon,
@@ -78,7 +78,7 @@ function monitorAvailableConfigs() {
                 break
             case Gio.FileMonitorEvent.CHANGED:
                 console.log(`Available config file changed: ${fileName}`)
-                const newC = loadConfig(`${homePath}/.config/OkPanel/${fileName}`)
+                const newC = loadConfig(`${homePath}/.config/Bathud/${fileName}`)
                 availableConfigs.set(availableConfigs.get()
                     .filter((conf) => conf.fileName !== fileName)
                     .concat({
@@ -106,7 +106,7 @@ function monitorSelectedConfig() {
         return
     }
     let debounceTimer: Timer | null = null;
-    selectedConfigFileMonitor = monitorFile(`${homePath}/.config/OkPanel/${selectedConfig.get()?.fileName}`, (file, event) => {
+    selectedConfigFileMonitor = monitorFile(`${homePath}/.config/Bathud/${selectedConfig.get()?.fileName}`, (file, event) => {
         const fileName = GLib.path_get_basename(file)
         switch (event) {
             case Gio.FileMonitorEvent.CHANGED:
@@ -116,7 +116,7 @@ function monitorSelectedConfig() {
                 }
                 debounceTimer = timeout(200, () => {
                     console.log(`Selected config file changed`)
-                    config = loadConfig(`${homePath}/.config/OkPanel/${fileName}`, defaultConfigValues)
+                    config = loadConfig(`${homePath}/.config/Bathud/${fileName}`, defaultConfigValues)
                     updateVariablesFromConfig(CONFIG_SCHEMA, variableConfig, config)
                     setThemeBasic()
                     debounceTimer = null
@@ -135,11 +135,11 @@ function monitorDefaultsConfig() {
     if (defaultsConfigFileMonitor !== null) {
         defaultsConfigFileMonitor.cancel()
     }
-    if (!GLib.file_test(`${homePath}/.config/OkPanel/${globalConfigFile}`, GLib.FileTest.EXISTS)) {
+    if (!GLib.file_test(`${homePath}/.config/Bathud/${globalConfigFile}`, GLib.FileTest.EXISTS)) {
         return
     }
     let debounceTimer: Timer | null = null;
-    defaultsConfigFileMonitor = monitorFile(`${homePath}/.config/OkPanel/${globalConfigFile}`, (_, event) => {
+    defaultsConfigFileMonitor = monitorFile(`${homePath}/.config/Bathud/${globalConfigFile}`, (_, event) => {
         switch (event) {
             case Gio.FileMonitorEvent.CHANGED:
                 if (debounceTimer !== null) {
@@ -172,13 +172,13 @@ export type ConfigFile = {
 }
 
 function getAvailableConfigs(): ConfigFile[] {
-    const files = listFilenamesInDir(`${homePath}/.config/OkPanel`)
+    const files = listFilenamesInDir(`${homePath}/.config/Bathud`)
         .filter((name) => name.includes(".yaml"))
         .filter((name) => name !== globalConfigFile)
     const configs: ConfigFile[] = []
     files.forEach((file) => {
         console.log(`Found config: ${file}`)
-        const config = loadConfig(`${homePath}/.config/OkPanel/${file}`)
+        const config = loadConfig(`${homePath}/.config/Bathud/${file}`)
         configs.push({
             fileName: file,
             icon: config.icon,
@@ -190,7 +190,7 @@ function getAvailableConfigs(): ConfigFile[] {
 
 export function saveConfig(name: string) {
     const homeDir = GLib.get_home_dir()
-    const dirPath = `${homeDir}/.cache/OkPanel`
+    const dirPath = `${homeDir}/.cache/Bathud`
     const filePath = `${dirPath}/config`
 
     // Ensure the directory exists
@@ -208,8 +208,8 @@ export function saveConfig(name: string) {
 }
 
 function getSelectedConfig(): ConfigFile | undefined {
-    if (GLib.file_test(`${homePath}/.cache/OkPanel/config`, GLib.FileTest.EXISTS)) {
-        const savedConfigString = readFile(`${GLib.get_home_dir()}/.cache/OkPanel/config`).trim()
+    if (GLib.file_test(`${homePath}/.cache/Bathud/config`, GLib.FileTest.EXISTS)) {
+        const savedConfigString = readFile(`${GLib.get_home_dir()}/.cache/Bathud/config`).trim()
         const savedConfig = availableConfigs.get().find((config) => config.fileName === savedConfigString)
         if (savedConfig !== undefined) {
             console.log(`Selected config from cache: ${savedConfig.fileName}`)
@@ -227,7 +227,7 @@ function getSelectedConfig(): ConfigFile | undefined {
 
 export function setNewConfig(configFile: ConfigFile, onFinished: () => void) {
     console.log(`Loading config: ${configFile.fileName}`)
-    config = loadConfig(`${homePath}/.config/OkPanel/${configFile.fileName}`, defaultConfigValues)
+    config = loadConfig(`${homePath}/.config/Bathud/${configFile.fileName}`, defaultConfigValues)
     updateVariablesFromConfig(CONFIG_SCHEMA, variableConfig, config)
     saveConfig(configFile.fileName)
     selectedConfig.set(configFile)
@@ -240,9 +240,9 @@ export function setNewConfig(configFile: ConfigFile, onFinished: () => void) {
 function updateDefaultValues() {
     console.log("Updating default values")
     // update default values
-    if (GLib.file_test(`${homePath}/.config/OkPanel/${globalConfigFile}`, GLib.FileTest.EXISTS)) {
+    if (GLib.file_test(`${homePath}/.config/Bathud/${globalConfigFile}`, GLib.FileTest.EXISTS)) {
         console.log("Loading default config")
-        defaultConfigValues = loadConfig(`${homePath}/.config/OkPanel/${globalConfigFile}`, undefined, false)
+        defaultConfigValues = loadConfig(`${homePath}/.config/Bathud/${globalConfigFile}`, undefined, false)
     } else {
         console.log("Default config undefined")
         defaultConfigValues = undefined
@@ -253,7 +253,7 @@ function updateDefaultValues() {
         config = validateAndApplyDefaults({}, CONFIG_SCHEMA, defaultConfigValues)
     } else {
         console.log(`Loading selected config: ${selectedConfig.get()?.fileName}`)
-        config = loadConfig(`${homePath}/.config/OkPanel/${selectedConfig.get()?.fileName}`, defaultConfigValues)
+        config = loadConfig(`${homePath}/.config/Bathud/${selectedConfig.get()?.fileName}`, defaultConfigValues)
     }
     console.log(`Updating variables: ${config.theme.windows.borderColor}`)
     updateVariablesFromConfig(CONFIG_SCHEMA, variableConfig, config)

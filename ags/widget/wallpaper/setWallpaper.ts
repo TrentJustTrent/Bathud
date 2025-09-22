@@ -21,7 +21,7 @@ export async function setWallpaper(path: string): Promise<void> {
         const themeName = selectedConfig.get()?.fileName;
         if (!themeName) return; // nothing to cache against
 
-        const cacheDirPath = `${GLib.get_home_dir()}/.cache/OkPanel/wallpaper`;
+        const cacheDirPath = `${GLib.get_home_dir()}/.cache/Bathud/wallpaper`;
         const cacheFilePath = `${cacheDirPath}/${themeName}`;
 
         const cacheDir = Gio.File.new_for_path(cacheDirPath);

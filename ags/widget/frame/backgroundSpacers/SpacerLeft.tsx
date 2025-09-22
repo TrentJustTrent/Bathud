@@ -49,7 +49,7 @@ export default function (): Astal.Window {
         defaultWidth={1} // necessary or resizing doesn't work
         cssClasses={["mostlyTransparentBackground"]}
         layer={Astal.Layer.BACKGROUND}
-        namespace={"okpanel-frame-spacer"}
+        namespace={"bathud-frame-spacer"}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.LEFT}
         visible={variableConfig.frame.enableLeftSpacer.asAccessor()}

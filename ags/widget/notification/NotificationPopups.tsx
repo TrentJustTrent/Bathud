@@ -76,7 +76,7 @@ export default function NotificationPopups(monitor: Hyprland.Monitor): Astal.Win
 
     return <window
         defaultHeight={1}
-        namespace={"okpanel-notifications"}
+        namespace={"bathud-notifications"}
         visible={visible}
         cssClasses={["NotificationPopups"]}
         monitor={monitor.id}

@@ -21,7 +21,7 @@ fi
         console.log("setTheme error")
         console.error(error)
     }).finally(() => {
-        App.apply_css("/tmp/OkPanel/style.css", true)
+        App.apply_css("/tmp/Bathud/style.css", true)
         App.get_window(frameWindowName)?.add_css_class("__style")
         App.get_window(frameWindowName)?.remove_css_class("__style")
         console.log(`Theme applied: ${config.theme.name}`)
@@ -38,7 +38,7 @@ ${compileThemeBashScript()}
     '`).catch((error) => {
         console.error(error)
     }).finally(() => {
-        App.apply_css("/tmp/OkPanel/style.css", true)
+        App.apply_css("/tmp/Bathud/style.css", true)
         App.get_window(frameWindowName)?.add_css_class("__style")
         App.get_window(frameWindowName)?.remove_css_class("__style")
     })
@@ -68,7 +68,7 @@ function compileThemeBashScript() {
 set -euo pipefail
 
 SOURCE_DIR="${projectDir}/scss"
-PUBLISH_DIR="/tmp/OkPanel"
+PUBLISH_DIR="/tmp/Bathud"
 LOCKFILE="$PUBLISH_DIR/.sass.lock"
 
 mkdir -p "$PUBLISH_DIR"

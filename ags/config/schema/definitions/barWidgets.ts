@@ -164,19 +164,19 @@ function customWidgetCommons() { return [
         name: 'label',
         type: 'string',
         default: '',
-        description: 'The initial label for the custom widget.  This is not reactive, so you need to restart OkPanel or switch configs after changing this value.',
+        description: 'The initial label for the custom widget.  This is not reactive, so you need to restart Bathud or switch configs after changing this value.',
     },
     {
         name: 'execOnInit',
         type: 'string',
         default: '',
-        description: 'The absolute path of the script to execute when the widget is created.  This is not reactive, so you need to restart OkPanel or switch configs after changing this value.',
+        description: 'The absolute path of the script to execute when the widget is created.  This is not reactive, so you need to restart Bathud or switch configs after changing this value.',
     },
     {
         name: 'execOnClick',
         type: 'string',
         default: '',
-        description: 'The absolute path of the script to execute when the widget is clicked.  This is not reactive, so you need to restart OkPanel or switch configs after changing this value.',
+        description: 'The absolute path of the script to execute when the widget is clicked.  This is not reactive, so you need to restart Bathud or switch configs after changing this value.',
     },
     ...widgetCommons()
 ] as const satisfies Field[] }

@@ -9,7 +9,7 @@ export const [scrimsVisible, scrimsVisibleSetter] = createState(false)
 
 export default function (monitor: Hyprland.Monitor): Astal.Window {
     return <window
-        namespace={"okpanel-scrim"}
+        namespace={"bathud-scrim"}
         monitor={monitor.id}
         anchor={Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.LEFT | Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.TOP}
         exclusivity={Astal.Exclusivity.IGNORE}

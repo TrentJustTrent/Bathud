@@ -9,7 +9,7 @@
 //     const text = Variable("")
 //
 //     return <window
-//         namespace={"okpanel-polkit"}
+//         namespace={"bathud-polkit"}
 //         name={PolkitWindowName}
 //         application={App}
 //         layer={Astal.Layer.OVERLAY}
