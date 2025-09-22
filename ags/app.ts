@@ -13,12 +13,13 @@ import {toggleIntegratedScreenshot} from "./widget/screenshot/IntegratedScreensh
 import {toggleIntegratedAppLauncher} from "./widget/appLauncher/IntegratedAppLauncher";
 import {toggleIntegratedScreenshare} from "./widget/screenshare/IntegratedScreenshare";
 import {toggleIntegratedMenu} from "./widget/systemMenu/IntegratedMenu";
-import {toggleIntegratedCalendar} from "./widget/miscellaneous/IntegratedMisc";
+import {toggleIntegratedMisc} from "./widget/miscellaneous/IntegratedMisc";
 import {toggleIntegratedClipboardManager} from "./widget/clipboardManager/IntegratedClipboardManager";
 import {toggleIntegratedNotificationHistory} from "./widget/notification/IntegratedNotificationHistory";
 import {customWidgetLabelSetters} from "./widget/barWidgets/CustomWidget";
 import {setWallpaper} from "./widget/wallpaper/setWallpaper";
 import {killOldMonitorWindows, spawnMonitorWindows} from "./widget/utils/windows";
+//import { runCLI } from "./cli/commander";
 
 export let projectDir = ""
 
@@ -49,6 +50,9 @@ App.start({
             killOldMonitorWindows();
         });
     },
+    //requestHandler: (request: string, res: (response: unknown) => void) {
+    //  runCLI(request, res)
+    // },
     requestHandler(request: string[], res: (response: any) => void) {
         const command = request[0] ?? ""
         if (command.startsWith("custom")) {
@@ -87,7 +91,7 @@ App.start({
             toggleIntegratedMenu()
             res("menu toggled")
         } else if (command === "calendar") {
-            toggleIntegratedCalendar()
+            toggleIntegratedMisc()
             res("calendar toggled")
         } else if (command === "clipboard") {
             toggleIntegratedClipboardManager()
