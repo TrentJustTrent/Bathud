@@ -14,11 +14,6 @@ import Tray from "./Tray";
 import AppLauncherButton from "./AppLauncherButton";
 import ScreenshotButton from "./ScreenshotButton";
 import ClipboardManagerButton from "./ClipboardManagerButton";
-import PowerProfileIndicator from "./PowerProfileIndicator";
-import LockButton from "./LockButton";
-import LogoutButton from "./LogoutButton";
-import RestartButton from "./RestartButton";
-import ShutdownButton from "./ShutdownButton";
 import CavaBars from "./CavaBars";
 import VpnIndicator from "./VpnIndicator";
 import ScreenRecordingStopButton from "./ScreenRecordingStopButton";
@@ -112,16 +107,6 @@ function getWidget(widget: BarWidget, isVertical: boolean, bar: Bar) {
             return <ScreenshotButton bar={bar}/>
         case BarWidget.CLIPBOARD_MANAGER:
             return <ClipboardManagerButton bar={bar}/>
-        case BarWidget.POWER_PROFILE:
-            return <PowerProfileIndicator bar={bar}/>
-        case BarWidget.LOCK:
-            return <LockButton bar={bar}/>
-        case BarWidget.LOGOUT:
-            return <LogoutButton bar={bar}/>
-        case BarWidget.RESTART:
-            return <RestartButton bar={bar}/>
-        case BarWidget.SHUTDOWN:
-            return <ShutdownButton bar={bar}/>
         case BarWidget.CAVA_WAVEFORM:
             return <CavaBars bar={bar} vertical={isVertical}/>
         case BarWidget.VPN_INDICATOR:

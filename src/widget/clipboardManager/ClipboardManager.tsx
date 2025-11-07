@@ -45,7 +45,7 @@ export function startCliphist() {
     console.log("Starting cliphist...")
 
     // text
-    execAsync(`${projectDir}/shellScripts/cliphistStore.sh`)
+    execAsync(`${projectDir}/shellScripts/cliphistStore`)
         .catch((error) => {
             console.error(error)
         })
