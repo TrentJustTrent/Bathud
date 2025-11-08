@@ -1,12 +1,12 @@
-import OkButton, {OkButtonSize} from "../../../common/OkButton";
+import BButton, {BButtonSize} from "../../../common/BButton";
 import {createBinding} from "ags";
 import AstalBluetooth from "gi://AstalBluetooth?version=0.1";
 
 export default function () {
     const bluetooth = AstalBluetooth.get_default()
 
-    return <OkButton
-        size={OkButtonSize.XL}
+    return <BButton
+        size={BButtonSize.XL}
         label={createBinding(bluetooth, "isPowered").as((powered) =>
             powered ? "󰂯" : "󰂲"
         )}

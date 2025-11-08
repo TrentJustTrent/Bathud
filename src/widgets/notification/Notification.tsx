@@ -2,7 +2,7 @@ import { Gtk } from "ags/gtk4"
 import Notifd from "gi://AstalNotifd"
 import {insertNewlines} from "../utils/strings";
 import Pango from "gi://Pango?version=1.0";
-import OkButton from "../common/OkButton";
+import BButton from "../common/BButton";
 import GLib from "gi://GLib?version=2.0";
 
 const time = (time: number, format = "%I:%M %p") => GLib.DateTime
@@ -51,7 +51,7 @@ export default function Notification(props: Props) {
                 hexpand
                 halign={END}
                 label={time(n.time)}/>
-            <OkButton
+            <BButton
                 onClicked={() => n.dismiss()}
                 label=""/>
         </box>
@@ -83,7 +83,7 @@ export default function Notification(props: Props) {
                 marginStart={8}
                 spacing={8}>
                 {n.get_actions().map(({ label, id }) => (
-                    <OkButton
+                    <BButton
                         primary={true}
                         hexpand={true}
                         onClicked={() => n.invoke(id)}

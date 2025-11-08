@@ -1,10 +1,10 @@
 import {Bar} from "../../config/bar";
-import OkButton from "../common/OkButton";
+import BButton from "../common/BButton";
 import {getHPadding, getVPadding} from "./BarWidgets";
 import {getNetworkIconBinding} from "../utils/network";
 
 export default function ({bar}: { bar: Bar }) {
-    return <OkButton
+    return <BButton
         labelCss={["barNetworkForeground"]}
         backgroundCss={["barNetworkBackground"]}
         offset={1}

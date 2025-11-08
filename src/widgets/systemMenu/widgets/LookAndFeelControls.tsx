@@ -8,7 +8,7 @@ import {
     variableConfig
 } from "../../../config/config";
 import RevealerRow from "../../common/RevealerRow";
-import OkButton, {OkButtonSize} from "../../common/OkButton";
+import BButton, {BButtonSize} from "../../common/BButton";
 import {listFilenamesInDir} from "../../utils/files";
 import {createComputed, createState, For, onCleanup, With} from "ags";
 import GLib from "gi://GLib?version=2.0";
@@ -118,8 +118,8 @@ function animateScroll(
 }
 
 function ThemeButton({configFile}: {configFile: ConfigFile}) {
-    return <OkButton
-        size={OkButtonSize.XL}
+    return <BButton
+        size={BButtonSize.XL}
         label={configFile.icon}
         offset={configFile.pixelOffset}
         selected={selectedConfig.asAccessor()((t) => t === configFile)}

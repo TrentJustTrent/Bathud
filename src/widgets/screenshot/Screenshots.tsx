@@ -3,7 +3,7 @@ import {execAsync} from "ags/process"
 import Pango from "gi://Pango?version=1.0";
 import {playCameraShutter} from "../utils/audio";
 import RevealerRow from "../common/RevealerRow";
-import OkButton from "../common/OkButton";
+import BButton from "../common/BButton";
 import {projectDir} from "../../app";
 import {createState, onCleanup, Setter} from "ags";
 import {integratedScreenshotRevealed, toggleIntegratedScreenshot} from "./IntegratedScreenshot";
@@ -57,7 +57,7 @@ export default function () {
                 <box
                     orientation={Gtk.Orientation.VERTICAL}>
                     {delayOptions.map((value) => {
-                        return <OkButton
+                        return <BButton
                             hexpand={true}
                             labelHalign={Gtk.Align.START}
                             ellipsize={Pango.EllipsizeMode.END}
@@ -98,7 +98,7 @@ export default function () {
                     orientation={Gtk.Orientation.VERTICAL}>
                     {saveTypeValues.map((value) => {
                         let label = `${getSaveTypeIcon(value)}  ${getSaveTypeLabel(value)}`
-                        return <OkButton
+                        return <BButton
                             hexpand={true}
                             labelHalign={Gtk.Align.START}
                             ellipsize={Pango.EllipsizeMode.END}

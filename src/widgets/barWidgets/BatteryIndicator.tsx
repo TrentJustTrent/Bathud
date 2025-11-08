@@ -1,7 +1,7 @@
 import {Bar} from "../../config/bar";
 import GLib from "gi://GLib?version=2.0";
 import {createBinding, createComputed} from "ags";
-import OkButton from "../common/OkButton";
+import BButton from "../common/BButton";
 import {getHPadding, getVPadding} from "./BarWidgets";
 import {playBatteryWarning} from "../utils/audio";
 import {getBatteryIcon} from "../utils/battery";
@@ -17,7 +17,7 @@ export default function ({bar}: { bar: Bar }) {
         createBinding(battery, "state")
     ])
 
-    return <OkButton
+    return <BButton
         labelCss={["barBatteryForeground"]}
         backgroundCss={["barBatteryBackground"]}
         hpadding={getHPadding(bar)}

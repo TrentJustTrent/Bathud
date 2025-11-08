@@ -2,18 +2,18 @@
 @use "sass:color";
 @use "../functions" as fun;
 
-.okButtonClass {
+.bButtonClass {
   all: unset;
   background-color: transparent;
   border: none;
   @include fun.hoverLighten(vars.$bg);
 }
 
-.okButtonClassPrimary {
+.bButtonClassPrimary {
   @include fun.hoverLighten(vars.$buttonPrimary);
 }
 
-.okButtonClassSelected {
+.bButtonClassSelected {
   all: unset;
   background-color: vars.$buttonPrimary;
   border: none;

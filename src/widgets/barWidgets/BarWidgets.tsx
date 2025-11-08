@@ -1,7 +1,7 @@
 import {variableConfig} from "../../config/config";
 import {Bar} from "../../config/bar";
 import {BarWidget} from "../../config/schema/definitions/barWidgets";
-import {OkButtonHorizontalPadding, OkButtonVerticalPadding} from "../common/OkButton";
+import {BButtonHorizontalPadding, BButtonVerticalPadding} from "../common/BButton";
 import MenuButton from "./MenuButton";
 import Workspaces from "./Workspaces";
 import Clock from "./Clock";
@@ -30,13 +30,13 @@ export function getHPadding(bar: Bar) {
     switch (bar) {
         case Bar.TOP:
         case Bar.BOTTOM:
-            return OkButtonHorizontalPadding.THIN
+            return BButtonHorizontalPadding.THIN
         case Bar.LEFT:
             return variableConfig.leftBar.compact.asAccessor().as((c) =>
-                c ? OkButtonHorizontalPadding.THIN : OkButtonHorizontalPadding.STANDARD)
+                c ? BButtonHorizontalPadding.THIN : BButtonHorizontalPadding.STANDARD)
         case Bar.RIGHT:
             return variableConfig.rightBar.compact.asAccessor().as((c) =>
-                c ? OkButtonHorizontalPadding.THIN : OkButtonHorizontalPadding.STANDARD)
+                c ? BButtonHorizontalPadding.THIN : BButtonHorizontalPadding.STANDARD)
     }
 }
 
@@ -44,13 +44,13 @@ export function getVPadding(bar: Bar) {
     switch (bar) {
         case Bar.TOP:
             return variableConfig.topBar.compact.asAccessor().as((c) =>
-                c ? OkButtonVerticalPadding.THIN : OkButtonVerticalPadding.STANDARD)
+                c ? BButtonVerticalPadding.THIN : BButtonVerticalPadding.STANDARD)
         case Bar.BOTTOM:
             return variableConfig.bottomBar.compact.asAccessor().as((c) =>
-                c ? OkButtonVerticalPadding.THIN : OkButtonVerticalPadding.STANDARD)
+                c ? BButtonVerticalPadding.THIN : BButtonVerticalPadding.STANDARD)
         case Bar.LEFT:
         case Bar.RIGHT:
-            return OkButtonVerticalPadding.STANDARD
+            return BButtonVerticalPadding.STANDARD
     }
 }
 

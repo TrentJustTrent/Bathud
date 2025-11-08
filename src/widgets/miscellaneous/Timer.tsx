@@ -1,7 +1,7 @@
 import {Accessor, createComputed, createState, With} from "ags";
 import {Gtk} from "ags/gtk4";
 import GLib from "gi://GLib?version=2.0";
-import OkButton, {OkButtonHorizontalPadding, OkButtonVerticalPadding} from "../common/OkButton";
+import BButton, {BButtonHorizontalPadding, BButtonVerticalPadding} from "../common/BButton";
 import {interval, Timer} from "ags/time";
 import {makeLoopingPlayer} from "./timerUpLoopPlayer";
 import {variableConfig} from "../../config/config";
@@ -154,13 +154,13 @@ export function TimerPlayPauseStop(
         backgroundCss = [],
     }:
     {
-        hpadding?: OkButtonHorizontalPadding | Accessor<OkButtonHorizontalPadding>,
-        vpadding?: OkButtonVerticalPadding | Accessor<OkButtonVerticalPadding>,
+        hpadding?: BButtonHorizontalPadding | Accessor<BButtonHorizontalPadding>,
+        vpadding?: BButtonVerticalPadding | Accessor<BButtonVerticalPadding>,
         foregroundCss?: string[],
         backgroundCss?: string[],
     }
 ) {
-    return <OkButton
+    return <BButton
         hpadding={hpadding}
         vpadding={vpadding}
         labelCss={foregroundCss}
@@ -198,13 +198,13 @@ export function TimerDelete(
         backgroundCss = [],
     }:
     {
-        hpadding?: OkButtonHorizontalPadding | Accessor<OkButtonHorizontalPadding>,
-        vpadding?: OkButtonVerticalPadding | Accessor<OkButtonVerticalPadding>,
+        hpadding?: BButtonHorizontalPadding | Accessor<BButtonHorizontalPadding>,
+        vpadding?: BButtonVerticalPadding | Accessor<BButtonVerticalPadding>,
         foregroundCss?: string[],
         backgroundCss?: string[],
     }
 ) {
-    return <OkButton
+    return <BButton
         hpadding={hpadding}
         vpadding={vpadding}
         labelCss={foregroundCss}
@@ -258,7 +258,7 @@ export default function () {
                                 wireEntryFocus(self)
                             }}
                         />
-                        <OkButton
+                        <BButton
                             labelCss={["labelXL"]}
                             visible={timerTextVisible}
                             label={timerText}

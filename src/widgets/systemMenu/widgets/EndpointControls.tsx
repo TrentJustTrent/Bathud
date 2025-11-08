@@ -3,7 +3,7 @@ import {Gtk} from "ags/gtk4"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
 import {toggleMuteEndpoint} from "../../utils/audio";
-import OkButton from "../../common/OkButton";
+import BButton from "../../common/BButton";
 import {Accessor, createBinding, createComputed, For, onCleanup} from "ags";
 import {integratedMenuRevealed} from "../IntegratedMenu";
 
@@ -69,7 +69,7 @@ export default function (
                 orientation={Gtk.Orientation.VERTICAL}>
                 <For each={endpointsBinding}>
                     {(endpoint) => {
-                        return <OkButton
+                        return <BButton
                             hexpand={true}
                             onClicked={() => {
                                 endpoint.set_is_default(true)

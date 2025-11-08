@@ -2,7 +2,7 @@ import {Bar} from "../../config/bar";
 import {variableConfig} from "../../config/config";
 import {createBinding, createState, For, With} from "ags";
 import {Gtk} from "ags/gtk4";
-import OkButton from "../common/OkButton";
+import BButton from "../common/BButton";
 import {getHPadding, getVPadding} from "./BarWidgets";
 import AstalTray from "gi://AstalTray?version=0.1";
 
@@ -21,7 +21,7 @@ export default function ({vertical, bar}: { vertical: boolean, bar: Bar }) {
                             revealChild={revealed}>
                             <TrayContent vertical={vertical}/>
                         </revealer>
-                        <OkButton
+                        <BButton
                             labelCss={["barTrayForeground"]}
                             backgroundCss={["barTrayBackground"]}
                             hpadding={getHPadding(bar)}

@@ -3,7 +3,7 @@ import Hyprland from "gi://AstalHyprland"
 import {execAsync} from "ags/process"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../common/RevealerRow";
-import OkButton, {OkButtonSize} from "../common/OkButton";
+import BButton, {BButtonSize} from "../common/BButton";
 import {createBinding, createState, For, onCleanup} from "ags";
 import {integratedScreenshareRevealed, toggleIntegratedScreenshare} from "./IntegratedScreenshare";
 import {timeout} from "ags/time";
@@ -104,8 +104,8 @@ function Monitors() {
                 spacing={12}>
                 <For each={createBinding(hyprland, "monitors")}>
                     {(monitor: Hyprland.Monitor) => {
-                        return <OkButton
-                            size={OkButtonSize.MEDIUM}
+                        return <BButton
+                            size={BButtonSize.MEDIUM}
                             bold={true}
                             hexpand={true}
                             primary={true}
@@ -163,8 +163,8 @@ function Windows() {
                                     }
                                 })
                                 .map((instance) => {
-                                    return <OkButton
-                                        size={OkButtonSize.MEDIUM}
+                                    return <BButton
+                                        size={BButtonSize.MEDIUM}
                                         bold={true}
                                         primary={true}
                                         hexpand={true}
@@ -208,8 +208,8 @@ function Region() {
             <box
                 marginTop={8}
                 marginBottom={8}>
-                <OkButton
-                    size={OkButtonSize.MEDIUM}
+                <BButton
+                    size={BButtonSize.MEDIUM}
                     bold={true}
                     primary={true}
                     hexpand={true}

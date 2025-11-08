@@ -1,6 +1,6 @@
 import {createPoll} from "../../../../../../../usr/share/ags/js/lib/time";
 import GLib from "gi://GLib?version=2.0";
-import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
+import BButton, {BButtonHorizontalPadding} from "../common/BButton";
 import {Bar} from "../../config/bar";
 import {getVPadding} from "./BarWidgets";
 import {toggleIntegratedMiscellaneous} from "../miscellaneous/IntegratedMiscellaneous";
@@ -20,11 +20,11 @@ export default function ({vertical, bar}: { vertical: boolean, bar: Bar }) {
         return GLib.DateTime.new_now_local().format(format)!
     })
 
-    return <OkButton
+    return <BButton
         labelCss={["barClockForeground"]}
         backgroundCss={["barClockBackground"]}
         hexpand={vertical}
-        hpadding={vertical ? OkButtonHorizontalPadding.NONE : OkButtonHorizontalPadding.THIN}
+        hpadding={vertical ? BButtonHorizontalPadding.NONE : BButtonHorizontalPadding.THIN}
         vpadding={getVPadding(bar)}
         label={time}
         onClicked={() => {

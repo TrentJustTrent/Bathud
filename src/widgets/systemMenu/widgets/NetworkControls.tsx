@@ -4,7 +4,7 @@ import {Gtk} from "ags/gtk4"
 import {execAsync} from "ags/process"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../../common/RevealerRow";
-import OkButton from "../../common/OkButton";
+import BButton from "../../common/BButton";
 import {createBinding, createComputed, createState, For, onCleanup, Setter, State, With} from "ags";
 import {integratedMenuRevealed} from "../IntegratedMenu";
 import {wireEntryFocus} from "../../frame/keymodeUtils";
@@ -285,7 +285,7 @@ function PasswordEntry(
                 cssClasses={["labelSmallWarning"]}
                 label="Error Connecting"/>
         </revealer>
-        <OkButton
+        <BButton
             primary={true}
             hexpand={true}
             label={isConnecting((connecting) => {
@@ -331,7 +331,7 @@ function WifiConnections() {
 
                 return <box
                     orientation={Gtk.Orientation.VERTICAL}>
-                    <OkButton
+                    <BButton
                         hexpand={true}
                         label={label}
                         labelHalign={Gtk.Align.START}
@@ -346,7 +346,7 @@ function WifiConnections() {
                             marginTop={4}
                             orientation={Gtk.Orientation.VERTICAL}
                             spacing={4}>
-                            {canConnect && <OkButton
+                            {canConnect && <BButton
                                 hexpand={true}
                                 primary={true}
                                 label="Connect"
@@ -359,7 +359,7 @@ function WifiConnections() {
                                             updateConnections()
                                         })
                                 }}/>}
-                            <OkButton
+                            <BButton
                                 hexpand={true}
                                 primary={true}
                                 label="Forget"
@@ -408,7 +408,7 @@ function WifiScannedConnections() {
                             orientation={Gtk.Orientation.VERTICAL}>
                             <box
                                 orientation={Gtk.Orientation.HORIZONTAL}>
-                                <OkButton
+                                <BButton
                                     hexpand={true}
                                     labelHalign={Gtk.Align.START}
                                     label={`${getAccessPointIcon(accessPoint)}  ${accessPoint.ssid}`}
@@ -464,7 +464,7 @@ function VpnActiveConnections() {
 
                 return <box
                     orientation={Gtk.Orientation.VERTICAL}>
-                    <OkButton
+                    <BButton
                         hexpand={true}
                         labelHalign={Gtk.Align.START}
                         label={`󰯄  ${connection}`}
@@ -480,7 +480,7 @@ function VpnActiveConnections() {
                             marginBottom={4}
                             orientation={Gtk.Orientation.VERTICAL}
                             spacing={4}>
-                            <OkButton
+                            <BButton
                                 hexpand={true}
                                 primary={true}
                                 label="Disconnect"
@@ -493,7 +493,7 @@ function VpnActiveConnections() {
                                             updateConnections()
                                         })
                                 }}/>
-                            <OkButton
+                            <BButton
                                 hexpand={true}
                                 primary={true}
                                 label="Forget"
@@ -523,7 +523,7 @@ function VpnConnections() {
 
                 return <box
                     orientation={Gtk.Orientation.VERTICAL}>
-                    <OkButton
+                    <BButton
                         hexpand={true}
                         labelHalign={Gtk.Align.START}
                         label={`󰯄  ${connection}`}
@@ -539,7 +539,7 @@ function VpnConnections() {
                             marginBottom={4}
                             orientation={Gtk.Orientation.VERTICAL}
                             spacing={4}>
-                            <OkButton
+                            <BButton
                                 hexpand={true}
                                 primary={true}
                                 label={isConnecting.as((connecting) => {
@@ -554,7 +554,7 @@ function VpnConnections() {
                                         connectVpn(connection, isConnectingSetter)
                                     }
                                 }}/>
-                            <OkButton
+                            <BButton
                                 hexpand={true}
                                 primary={true}
                                 label="Forget"
@@ -566,7 +566,7 @@ function VpnConnections() {
                 </box>
             }}
         </For>
-        <OkButton
+        <BButton
             primary={true}
             label="Add Wireguard VPN"
             onClicked={() => {
@@ -622,7 +622,7 @@ export default function () {
                         return <box
                             hexpand={true}
                             marginBottom={8}>
-                            <OkButton
+                            <BButton
                                 hexpand={true}
                                 visible={activeAccessPoint !== null}
                                 primary={true}

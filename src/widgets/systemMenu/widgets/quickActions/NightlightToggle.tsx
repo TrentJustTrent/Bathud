@@ -1,4 +1,4 @@
-import OkButton, {OkButtonSize} from "../../../common/OkButton";
+import BButton, {BButtonSize} from "../../../common/BButton";
 import {execAsync} from "ags/process";
 import {createState} from "ags";
 import {variableConfig} from "../../../../config/config";
@@ -24,8 +24,8 @@ export function disableNightLight() {
 }
 
 export default function () {
-    return <OkButton
-        size={OkButtonSize.XL}
+    return <BButton
+        size={BButtonSize.XL}
         label="󱩌"
         offset={0}
         selected={nightLightEnabled}

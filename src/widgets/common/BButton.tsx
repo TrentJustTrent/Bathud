@@ -4,19 +4,19 @@ import {Accessor, createComputed, createState} from "ags";
 import {Gtk} from "ags/gtk4";
 import {attachClickHandlers} from "../utils/clickHandler";
 
-export enum OkButtonHorizontalPadding {
+export enum BButtonHorizontalPadding {
     STANDARD,
     THIN,
     NONE
 }
 
-export enum OkButtonVerticalPadding {
+export enum BButtonVerticalPadding {
     STANDARD,
     THIN,
     NONE
 }
 
-export enum OkButtonSize {
+export enum BButtonSize {
     SMALL,
     MEDIUM,
     LARGE,
@@ -25,7 +25,7 @@ export enum OkButtonSize {
 
 function buildButtonCssClasses(
     backgroundCss: string[],
-    size: OkButtonSize,
+    size: BButtonSize,
     primary: boolean,
     menuButtonContent?: JSX.Element,
     selected?: Accessor<boolean>,
@@ -34,12 +34,12 @@ function buildButtonCssClasses(
     const buttonClasses: string[] = []
 
     switch (size) {
-        case OkButtonSize.SMALL:
-        case OkButtonSize.MEDIUM:
-        case OkButtonSize.LARGE:
+        case BButtonSize.SMALL:
+        case BButtonSize.MEDIUM:
+        case BButtonSize.LARGE:
             buttonClasses.push("radiusSmall")
             break
-        case OkButtonSize.XL:
+        case BButtonSize.XL:
             buttonClasses.push("radiusLarge")
             break
     }
@@ -53,9 +53,9 @@ function buildButtonCssClasses(
     }
 
     if (selected === undefined) {
-        buttonClasses.push("okButtonClass")
+        buttonClasses.push("bButtonClass")
         if (primary) {
-            buttonClasses.push("okButtonClassPrimary")
+            buttonClasses.push("bButtonClassPrimary")
         }
         buttonClasses.push(...backgroundCss)
         return buttonClasses
@@ -66,12 +66,12 @@ function buildButtonCssClasses(
     return selected.as((isSelected) => {
         if (isSelected) {
             if (selectedCss === undefined) {
-                return buttonClasses.concat("okButtonClassSelected")
+                return buttonClasses.concat("bButtonClassSelected")
             } else {
                 return buttonClasses.concat(selectedCss)
             }
         } else {
-            return buttonClasses.concat("okButtonClass")
+            return buttonClasses.concat("bButtonClass")
         }
     })
 }
@@ -84,9 +84,9 @@ export default function(
         label,
         offset = 0,
         selected,
-        hpadding = OkButtonHorizontalPadding.STANDARD,
-        vpadding = OkButtonVerticalPadding.STANDARD,
-        size = OkButtonSize.SMALL,
+        hpadding = BButtonHorizontalPadding.STANDARD,
+        vpadding = BButtonVerticalPadding.STANDARD,
+        size = BButtonSize.SMALL,
         bold = false,
         warning = false,
         primary = false,
@@ -116,9 +116,9 @@ export default function(
         label: Accessor<string> | string,
         offset?: number | Accessor<number>,
         selected?: Accessor<boolean>,
-        hpadding?: OkButtonHorizontalPadding | Accessor<OkButtonHorizontalPadding>,
-        vpadding?: OkButtonVerticalPadding | Accessor<OkButtonVerticalPadding>,
-        size?: OkButtonSize | Accessor<OkButtonSize>,
+        hpadding?: BButtonHorizontalPadding | Accessor<BButtonHorizontalPadding>,
+        vpadding?: BButtonVerticalPadding | Accessor<BButtonVerticalPadding>,
+        size?: BButtonSize | Accessor<BButtonSize>,
         bold?: boolean | Accessor<boolean>,
         warning?: boolean | Accessor<boolean>,
         primary?: boolean,
@@ -154,7 +154,7 @@ export default function(
     } else {
         realWarning = createState(warning)[0]
     }
-    let realSize: Accessor<OkButtonSize>
+    let realSize: Accessor<BButtonSize>
     if (isAccessor(size)) {
         realSize = size
     } else {
@@ -176,11 +176,11 @@ export default function(
         isAccessor(vpadding) ? vpadding : createState(vpadding)[0]
     ], (v) => {
         switch (v) {
-            case OkButtonVerticalPadding.STANDARD:
+            case BButtonVerticalPadding.STANDARD:
                 return 8
-            case OkButtonVerticalPadding.THIN:
+            case BButtonVerticalPadding.THIN:
                 return 4
-            case OkButtonVerticalPadding.NONE:
+            case BButtonVerticalPadding.NONE:
                 return 0
         }
     })
@@ -191,13 +191,13 @@ export default function(
     ], (o, h) => {
         let horizontalPadding
         switch (h) {
-            case OkButtonHorizontalPadding.STANDARD:
+            case BButtonHorizontalPadding.STANDARD:
                 horizontalPadding = 18
                 break
-            case OkButtonHorizontalPadding.THIN:
+            case BButtonHorizontalPadding.THIN:
                 horizontalPadding = 14
                 break
-            case OkButtonHorizontalPadding.NONE:
+            case BButtonHorizontalPadding.NONE:
                 horizontalPadding = 0
         }
         return horizontalPadding - o
@@ -209,13 +209,13 @@ export default function(
     ], (o, h) => {
         let horizontalPadding
         switch (h) {
-            case OkButtonHorizontalPadding.STANDARD:
+            case BButtonHorizontalPadding.STANDARD:
                 horizontalPadding = 18
                 break
-            case OkButtonHorizontalPadding.THIN:
+            case BButtonHorizontalPadding.THIN:
                 horizontalPadding = 14
                 break
-            case OkButtonHorizontalPadding.NONE:
+            case BButtonHorizontalPadding.NONE:
                 horizontalPadding = 0
         }
         return horizontalPadding + o
@@ -236,16 +236,16 @@ export default function(
             const labelClasses: string[] = []
 
             switch (size) {
-                case OkButtonSize.SMALL:
+                case BButtonSize.SMALL:
                     labelClasses.push("labelSmall")
                     break
-                case OkButtonSize.MEDIUM:
+                case BButtonSize.MEDIUM:
                     labelClasses.push("labelMedium")
                     break
-                case OkButtonSize.LARGE:
+                case BButtonSize.LARGE:
                     labelClasses.push("labelLarge")
                     break
-                case OkButtonSize.XL:
+                case BButtonSize.XL:
                     labelClasses.push("labelXL")
                     break
             }

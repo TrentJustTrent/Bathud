@@ -1,12 +1,12 @@
-import OkButton, {OkButtonSize} from "../../../common/OkButton";
+import BButton, {BButtonSize} from "../../../common/BButton";
 import {
     integratedClipboardManagerRevealed,
     toggleIntegratedClipboardManager
 } from "../../../clipboardManager/IntegratedClipboardManager";
 
 export default function () {
-    return <OkButton
-        size={OkButtonSize.XL}
+    return <BButton
+        size={BButtonSize.XL}
         label=""
         offset={1}
         selected={integratedClipboardManagerRevealed}

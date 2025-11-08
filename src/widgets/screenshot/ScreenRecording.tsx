@@ -2,7 +2,7 @@ import {Gtk} from "ags/gtk4"
 import {execAsync} from "ags/process"
 import Pango from "gi://Pango?version=1.0";
 import RevealerRow from "../common/RevealerRow";
-import OkButton from "../common/OkButton";
+import BButton from "../common/BButton";
 import {projectDir} from "../../app";
 import {createState, Setter, For, onCleanup} from "ags";
 import GLib from "gi://GLib?version=2.0";
@@ -80,7 +80,7 @@ export default function() {
             revealedContent={
                 <box
                     orientation={Gtk.Orientation.VERTICAL}>
-                    <OkButton
+                    <BButton
                         hexpand={true}
                         labelHalign={Gtk.Align.START}
                         ellipsize={Pango.EllipsizeMode.END}
@@ -93,7 +93,7 @@ export default function() {
                         }}/>
                     <For each={audioOptions}>
                         {(option) => {
-                            return <OkButton
+                            return <BButton
                                 hexpand={true}
                                 labelHalign={Gtk.Align.START}
                                 ellipsize={Pango.EllipsizeMode.END}
@@ -133,7 +133,7 @@ export default function() {
                 <box
                     orientation={Gtk.Orientation.VERTICAL}>
                     {codecs.map((value) => {
-                        return <OkButton
+                        return <BButton
                             hexpand={true}
                             labelHalign={Gtk.Align.START}
                             ellipsize={Pango.EllipsizeMode.END}
@@ -174,7 +174,7 @@ export default function() {
                 <box
                     orientation={Gtk.Orientation.VERTICAL}>
                     {h264EncodingPresets.map((value) => {
-                        return <OkButton
+                        return <BButton
                             hexpand={true}
                             labelHalign={Gtk.Align.START}
                             ellipsize={Pango.EllipsizeMode.END}
@@ -215,7 +215,7 @@ export default function() {
                 <box
                     orientation={Gtk.Orientation.VERTICAL}>
                     {crfQualityValues.map((value) => {
-                        return <OkButton
+                        return <BButton
                             hexpand={true}
                             labelHalign={Gtk.Align.START}
                             ellipsize={Pango.EllipsizeMode.END}
