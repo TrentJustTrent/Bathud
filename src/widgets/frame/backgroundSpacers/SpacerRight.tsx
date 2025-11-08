@@ -4,7 +4,7 @@ import {variableConfig} from "../../../config/config";
 import {createComputed} from "ags";
 import {integratedMenuRevealed, integratedMenuWidth} from "../../systemMenu/IntegratedMenu";
 import {rightBarWidth} from "../bars/RightBar";
-import {integratedCalendarRevealed, integratedCalendarWidth} from "../../calendar/IntegratedCalendar";
+import {IntegratedMiscRevealed, IntegratedMiscWidth} from "../../miscellaneous/IntegratedMiscellaneous";
 import {
     integratedClipboardManagerRevealed,
     integratedClipboardManagerWidth
@@ -76,18 +76,18 @@ export default function (): Astal.Window {
                 <box
                     widthRequest={integratedMenuWidth}/>
             </revealer>
-            {/*Represents integrated calendar*/}
+            {/*Represents integrated verse*/}
             <revealer
                 visible={createComputed([
-                    variableConfig.frame.calendar.position.asAccessor(),
-                    variableConfig.frame.calendar.pushContent.asAccessor()
+                    variableConfig.frame.verse.position.asAccessor(),
+                    variableConfig.frame.verse.pushContent.asAccessor()
                 ], (position, push) => {
                     return position === Position.RIGHT && push
                 })}
                 transitionType={Gtk.RevealerTransitionType.SLIDE_LEFT}
-                revealChild={integratedCalendarRevealed}>
+                revealChild={IntegratedMiscRevealed}>
                 <box
-                    widthRequest={integratedCalendarWidth}/>
+                    widthRequest={IntegratedMiscWidth}/>
             </revealer>
             {/*Represents integrated clipboard manager*/}
             <revealer

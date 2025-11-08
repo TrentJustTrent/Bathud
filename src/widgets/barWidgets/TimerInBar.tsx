@@ -1,6 +1,6 @@
 import {Gtk} from "ags/gtk4";
 import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
-import {TimerDelete, TimerPlayPauseStop, timerText, timerTextVisible} from "../calendar/Timer";
+import {TimerDelete, TimerPlayPauseStop, timerText, timerTextVisible} from "../miscellaneous/Timer";
 import {Bar} from "../../config/bar";
 import {getHPadding, getVPadding} from "./BarWidgets";
 

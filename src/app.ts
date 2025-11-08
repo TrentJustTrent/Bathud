@@ -8,7 +8,7 @@ import {closeIntegratedScreenshot, toggleIntegratedScreenshot} from "./widgets/s
 import {closeIntegratedAppLauncher, toggleIntegratedAppLauncher} from "./widgets/appLauncher/IntegratedAppLauncher";
 import {closeIntegratedScreenshare, toggleIntegratedScreenshare} from "./widgets/screenshare/IntegratedScreenshare";
 import {closeIntegratedMenu, toggleIntegratedMenu} from "./widgets/systemMenu/IntegratedMenu";
-import {closeIntegratedCalendar, toggleIntegratedCalendar} from "./widgets/calendar/IntegratedCalendar";
+import {closeIntegratedMiscellaneous, toggleIntegratedMiscellaneous} from "./widgets/miscellaneous/IntegratedMiscellaneous";
 import {
     closeIntegratedClipboardManager,
     toggleIntegratedClipboardManager
@@ -97,9 +97,9 @@ App.start({
         } else if (command === "menu") {
             toggleIntegratedMenu()
             res("menu toggled")
-        } else if (command === "calendar") {
-            toggleIntegratedCalendar()
-            res("calendar toggled")
+        } else if (command === "verse") {
+            toggleIntegratedMiscellaneous()
+            res("verse toggled")
         } else if (command === "clipboard") {
             toggleIntegratedClipboardManager()
             res("clipboard toggled")
@@ -108,7 +108,7 @@ App.start({
             res("notifications toggled")
         } else if (command === "closeAll") {
             closeIntegratedAppLauncher()
-            closeIntegratedCalendar()
+            closeIntegratedMiscellaneous()
             closeIntegratedClipboardManager()
             closeIntegratedMenu()
             closeIntegratedScreenshare()

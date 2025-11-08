@@ -1,38 +1,38 @@
 @use "../variables" as vars;
 
-.calendar{
+.verse{
   border-color: transparent;
   border-radius: 16px;
 }
 
-.calendarBox {
+.verseBox {
   padding: 20px;
 }
 
-// The gtk calendar itself
-calendar {
+// The gtk verse itself
+verse {
   background-color: vars.$bg;
   border: 2px solid vars.$fg;
   border-radius: 4px;
   padding: 10px;
 }
 
-calendar header {
+verse header {
   background-color: vars.$bg;
   color: vars.$fg;
   padding: 5px;
 }
 
-calendar button {
+verse button {
   background-color: vars.$bg;
   color: vars.$fg;
 }
 
-calendar grid label {
+verse grid label {
   background-color: vars.$bg;
   color: vars.$fg;
 }
 
-calendar grid label.today {
+verse grid label.today {
   background-color: vars.$primary;
 }

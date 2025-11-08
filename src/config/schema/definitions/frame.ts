@@ -136,9 +136,9 @@ export const frameSchema = {
             children: [...commonIntegrationSchema()],
         },
         {
-            name: 'calendar',
+            name: 'verse',
             type: 'object',
-            description: 'Configurations for the expandable calendar integration.',
+            description: 'Configurations for the expandable verse integration.',
             children: [...commonIntegrationSchema()],
         },
         {

@@ -3,7 +3,7 @@ import GLib from "gi://GLib?version=2.0";
 import OkButton, {OkButtonHorizontalPadding} from "../common/OkButton";
 import {Bar} from "../../config/bar";
 import {getVPadding} from "./BarWidgets";
-import {toggleIntegratedCalendar} from "../calendar/IntegratedCalendar";
+import {toggleIntegratedMiscellaneous} from "../miscellaneous/IntegratedMiscellaneous";
 import {variableConfig} from "../../config/config";
 
 export default function ({vertical, bar}: { vertical: boolean, bar: Bar }) {
@@ -28,6 +28,6 @@ export default function ({vertical, bar}: { vertical: boolean, bar: Bar }) {
         vpadding={getVPadding(bar)}
         label={time}
         onClicked={() => {
-            toggleIntegratedCalendar()
+            toggleIntegratedMiscellaneous()
         }}/>
 }

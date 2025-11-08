@@ -7,7 +7,7 @@ import IntegratedMenu from "../systemMenu/IntegratedMenu";
 import TopBar from "./bars/TopBar";
 import RightBar from "./bars/RightBar";
 import BottomBar from "./bars/BottomBar";
-import IntegratedCalendar from "../calendar/IntegratedCalendar";
+import IntegratedMiscellaneous from "../miscellaneous/IntegratedMiscellaneous";
 import IntegratedClipboardManager from "../clipboardManager/IntegratedClipboardManager";
 import IntegratedNotificationHistory from "../notification/IntegratedNotificationHistory";
 import {appendChildren, ghostWhenTooNarrow, removeAllChildren} from "../utils/widgets";
@@ -27,7 +27,7 @@ let rightGroup: Gtk.Box
 let integratedMenu: Gtk.Widget
 let leftBar: Gtk.Widget
 let rightBar: Gtk.Widget
-let integratedCalendar: Gtk.Widget
+let IntegratedMisc: Gtk.Widget
 let integratedClipboardManager: Gtk.Widget
 let integratedNotificationHistory: Gtk.Widget
 let integratedScreenshotTool: Gtk.Widget
@@ -39,7 +39,7 @@ export const [rightGroupWidth, rightGroupWidthSetter] = createState(0)
 
 function getLeftAndRightSides() {
     const menuPosition = variableConfig.frame.menu.position.asAccessor()
-    const calendarPosition = variableConfig.frame.calendar.position.asAccessor()
+    const versePosition = variableConfig.frame.verse.position.asAccessor()
     const clipboardManagerPosition = variableConfig.frame.clipboardManager.position.asAccessor()
     const notificationHistoryPosition = variableConfig.frame.notifications.position.asAccessor()
     const screenshotPositon = variableConfig.frame.screenshotTool.position.asAccessor()
@@ -55,10 +55,10 @@ function getLeftAndRightSides() {
         rightSide.push(integratedMenu)
     }
 
-    if (calendarPosition.get() === Position.LEFT) {
-        leftSide.push(integratedCalendar)
+    if (versePosition.get() === Position.LEFT) {
+        leftSide.push(IntegratedMisc)
     } else {
-        rightSide.push(integratedCalendar)
+        rightSide.push(IntegratedMisc)
     }
 
     if (clipboardManagerPosition.get() === Position.LEFT) {
@@ -238,7 +238,7 @@ function RightGroup() {
 export default function (): Astal.Window {
 
     const menuPosition = variableConfig.frame.menu.position.asAccessor()
-    const calendarPosition = variableConfig.frame.calendar.position.asAccessor()
+    const versePosition = variableConfig.frame.verse.position.asAccessor()
     const clipboardManagerPosition = variableConfig.frame.clipboardManager.position.asAccessor()
     const notificationHistoryPosition = variableConfig.frame.notifications.position.asAccessor()
     const screenshotPositon = variableConfig.frame.screenshotTool.position.asAccessor()
@@ -247,7 +247,7 @@ export default function (): Astal.Window {
 
     const unsub = createComputed([
         menuPosition,
-        calendarPosition,
+        versePosition,
         clipboardManagerPosition,
         notificationHistoryPosition,
         screenshotPositon,
@@ -265,7 +265,7 @@ export default function (): Astal.Window {
     onCleanup(unsub)
 
     integratedMenu = <IntegratedMenu/> as Gtk.Widget
-    integratedCalendar = <IntegratedCalendar/> as Gtk.Widget
+    IntegratedMisc = <IntegratedMiscellaneous/> as Gtk.Widget
     integratedClipboardManager = <IntegratedClipboardManager/> as Gtk.Widget
     integratedNotificationHistory = <IntegratedNotificationHistory/> as Gtk.Widget
     integratedScreenshotTool = <IntegratedScreenshot/> as Gtk.Widget
