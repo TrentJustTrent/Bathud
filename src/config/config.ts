@@ -3,16 +3,16 @@ import {loadConfig, validateAndApplyDefaults} from "./parser/configLoader";
 import {Config, VariableConfig} from "./types/derivedTypes";
 import {updateVariablesFromConfig, wrapConfigInVariables} from "./parser/variableWrapper";
 import {CONFIG_SCHEMA} from "./schema/definitions/root";
-import {listFilenamesInDir} from "../widget/utils/files";
+import {listFilenamesInDir} from "../widgets/utils/files";
 import {monitorFile, readFile} from "ags/file";
 import Gio from "gi://Gio?version=2.0";
 import {setTheme, setThemeBasic} from "./theme";
-import {integratedMenuRevealedSetting} from "../widget/systemMenu/IntegratedMenu";
+import {integratedMenuRevealedSetting} from "../widgets/systemMenu/IntegratedMenu";
 import GLib from "gi://GLib?version=2.0";
 import {timeout, Timer} from "ags/time";
-import {resolveWallpaper} from "../widget/wallpaper/getWallpaper";
-import {setWallpaper} from "../widget/wallpaper/setWallpaper";
-import {refreshWallpaper} from "../widget/wallpaper/refreshWallpaper";
+import {resolveWallpaper} from "../widgets/wallpaper/getWallpaper";
+import {setWallpaper} from "../widgets/wallpaper/setWallpaper";
+import {refreshWallpaper} from "../widgets/wallpaper/refreshWallpaper";
 
 const homePath = GLib.get_home_dir()
 const globalConfigFile = "bathud.yaml"

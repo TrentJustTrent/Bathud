@@ -3,7 +3,7 @@ import {execAsync} from "ags/process";
 import {projectDir} from "../app";
 import {BarWidget} from "./schema/definitions/barWidgets";
 import App from "ags/gtk4/app"
-import {frameWindowName} from "../widget/frame/Frame";
+import {frameWindowName} from "../widgets/frame/Frame";
 
 export function setTheme(onFinished: () => void) {
     execAsync(`bash -c '

@@ -1,26 +1,26 @@
 import App from "ags/gtk4/app"
-import {ChargingAlertSound} from "./widget/alerts/Alerts";
-import {updateResponse, updateWindows} from "./widget/screenshare/Screenshare";
-import {decreaseVolume, increaseVolume, muteVolume} from "./widget/utils/audio";
+import {ChargingAlertSound} from "./widgets/alerts/Alerts";
+import {updateResponse, updateWindows} from "./widgets/screenshare/Screenshare";
+import {decreaseVolume, increaseVolume, muteVolume} from "./widgets/utils/audio";
 import Hyprland from "gi://AstalHyprland"
 import {setThemeBasic} from "./config/theme";
-import {closeIntegratedScreenshot, toggleIntegratedScreenshot} from "./widget/screenshot/IntegratedScreenshot";
-import {closeIntegratedAppLauncher, toggleIntegratedAppLauncher} from "./widget/appLauncher/IntegratedAppLauncher";
-import {closeIntegratedScreenshare, toggleIntegratedScreenshare} from "./widget/screenshare/IntegratedScreenshare";
-import {closeIntegratedMenu, toggleIntegratedMenu} from "./widget/systemMenu/IntegratedMenu";
-import {closeIntegratedCalendar, toggleIntegratedCalendar} from "./widget/calendar/IntegratedCalendar";
+import {closeIntegratedScreenshot, toggleIntegratedScreenshot} from "./widgets/screenshot/IntegratedScreenshot";
+import {closeIntegratedAppLauncher, toggleIntegratedAppLauncher} from "./widgets/appLauncher/IntegratedAppLauncher";
+import {closeIntegratedScreenshare, toggleIntegratedScreenshare} from "./widgets/screenshare/IntegratedScreenshare";
+import {closeIntegratedMenu, toggleIntegratedMenu} from "./widgets/systemMenu/IntegratedMenu";
+import {closeIntegratedCalendar, toggleIntegratedCalendar} from "./widgets/calendar/IntegratedCalendar";
 import {
     closeIntegratedClipboardManager,
     toggleIntegratedClipboardManager
-} from "./widget/clipboardManager/IntegratedClipboardManager";
+} from "./widgets/clipboardManager/IntegratedClipboardManager";
 import {
     closeIntegratedNotificationsHistory,
     toggleIntegratedNotificationHistory
-} from "./widget/notification/IntegratedNotificationHistory";
-import {customWidgetLabelSetters} from "./widget/barWidgets/CustomWidget";
-import {setWallpaper} from "./widget/wallpaper/setWallpaper";
-import {killOldMonitorWindows, spawnMonitorWindows} from "./widget/utils/windows";
-import {getHyprMonitorInfoById} from "./widget/utils/monitors";
+} from "./widgets/notification/IntegratedNotificationHistory";
+import {customWidgetLabelSetters} from "./widgets/barWidgets/CustomWidget";
+import {setWallpaper} from "./widgets/wallpaper/setWallpaper";
+import {killOldMonitorWindows, spawnMonitorWindows} from "./widgets/utils/windows";
+import {getHyprMonitorInfoById} from "./widgets/utils/monitors";
 
 export let projectDir = ""
 
