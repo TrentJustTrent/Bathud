@@ -18,6 +18,12 @@ import {appLauncherSchema} from "./appLauncher";
 
 export const CONFIG_SCHEMA = [
     {
+        name: 'desktop',
+        type: 'boolean',
+        default: true,
+        description: 'Determines whether to disable laptop/mobile features like charging indicator, brightness, etc'
+    },
+    {
         name: 'icon',
         type: 'icon',
         default: '',
