@@ -3,6 +3,7 @@ import {Field} from "../primitiveDefinitions";
 export enum SystemMenuWidget {
     AUDIO_IN = "audioIn",
     AUDIO_OUT = "audioOut",
+    BIBLE = "bible",
     BLUETOOTH = "bluetooth",
     CLOCK = "clock",
     LOOK_AND_FEEL = "lookAndFeel",
@@ -81,6 +82,19 @@ export function systemMenuWidgetsSchema() { return [
                 default: {from: "theme.font"},
                 description: "Font used for the week day name",
                 reactive: false,
+            },
+        ]
+    },
+    {
+        name: SystemMenuWidget.BIBLE,
+        type: 'object',
+        description: 'Configurations for the system menu clock.',
+        children: [
+            {
+                name: "refreshRate",
+                type: 'number',
+                default: 15,
+                description: "Time in minutes to check for a new verse",
             },
         ]
     },

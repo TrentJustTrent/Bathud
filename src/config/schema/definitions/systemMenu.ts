@@ -30,6 +30,7 @@ export const systemMenuSchema = {
                 SystemMenuWidget.CLOCK,
                 SystemMenuWidget.QUICK_ACTIONS_1,
                 SystemMenuWidget.NETWORK,
+                SystemMenuWidget.BIBLE,
                 SystemMenuWidget.BLUETOOTH,
                 SystemMenuWidget.AUDIO_OUT,
                 SystemMenuWidget.AUDIO_IN,
