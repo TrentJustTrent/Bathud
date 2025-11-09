@@ -6,6 +6,14 @@ export const soundsSchema = {
     description: 'Global sound configs.',
     children: [
         {
+            name: 'volumeIncrement',
+            type: 'number',
+            description: 'The amount to increase or decrease the volume by each tick',
+            default: 0.05,
+            withinConstraints: (value) => value >= 0.01 && value <= 0.1,
+            constraintDescription: 'Must be between 0.01 and 0.1'
+        },
+        {
             name: 'playVolumeChangingSound',
             type: 'boolean',
             description: 'Whether or not to play a sound when changing volume',

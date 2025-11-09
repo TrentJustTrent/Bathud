@@ -1,23 +1,37 @@
 import { Command } from '../../types';
 import { App } from 'astal/gtk4';
-import { errorHandler, BarVisibility, isWindowVisible } from '../../../../utils';
+import { errorHandler, windowClose, windowToggles } from '../../helpers/utils';
 
 export const windowManagementCommands: Command[] = [
     {
-        name: 'isWindowVisible',
-        aliases: ['iwv'],
-        description: 'Checks if a specified window is visible.',
+        name: 'closeWindow',
+        aliases: ['c'],
+        description: 'Closes the specified window.',
         category: 'Window Management',
         args: [
             {
                 name: 'window',
-                description: 'Name of the window to check.',
+                description: 'The name of the window to close.',
                 type: 'string',
                 required: true,
             },
         ],
-        handler: (args: Record<string, unknown>): boolean => {
-            return isWindowVisible(args['window'] as string);
+        handler: async (args: Record<string, unknown>): Promise<string> => {
+            try {
+                const windowName = args['window'] as string;
+
+                const foundWindow = windowClose.has(windowName);
+
+                if (!foundWindow) {
+                    throw new Error(`Window ${args['window']} not found.`);
+                }
+
+                windowClose.get(windowName)();
+
+                return `Closed window ${args['window'] as string}`;
+            } catch (error) {
+                errorHandler(error);
+            }
         },
     },
     {
@@ -37,19 +51,15 @@ export const windowManagementCommands: Command[] = [
             try {
                 const windowName = args['window'] as string;
 
-                const foundWindow = App.get_window(windowName);
+                const foundWindow = windowToggles.has(windowName);
 
                 if (!foundWindow) {
                     throw new Error(`Window ${args['window']} not found.`);
                 }
 
-                const windowStatus = foundWindow.visible ? 'hidden' : 'visible';
+                windowToggles.get(windowName)();
 
-                App.toggle_window(windowName);
-
-                BarVisibility.set(windowName, windowStatus === 'visible');
-
-                return windowStatus;
+                return `Toggled window ${args['window'] as string}`;
             } catch (error) {
                 errorHandler(error);
             }

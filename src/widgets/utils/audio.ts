@@ -4,6 +4,8 @@ import {variableConfig} from "../../config/config";
 
 import {projectDir} from "../../app";
 
+const increment = variableConfig.sounds.volumeIncrement.get()
+
 export function getVolumeIcon(speaker?: Wp.Endpoint) {
     let volume = speaker?.volume
     let muted = speaker?.mute
@@ -74,8 +76,8 @@ export function muteVolume() {
 export function increaseVolume() {
     const defaultSpeaker = Wp.get_default()!.audio.default_speaker
     const currentVolume = defaultSpeaker.volume
-    if (currentVolume < 0.95) {
-        defaultSpeaker.volume = currentVolume + 0.05
+    if (currentVolume < (1-increment)) {
+        defaultSpeaker.volume = currentVolume + increment
     } else {
         defaultSpeaker.volume = 1
     }
@@ -85,8 +87,8 @@ export function increaseVolume() {
 export function decreaseVolume() {
     const defaultSpeaker = Wp.get_default()!.audio.default_speaker
     const currentVolume = defaultSpeaker.volume
-    if (currentVolume > 0.05) {
-        defaultSpeaker.volume = currentVolume - 0.05
+    if (currentVolume > (1+increment)) {
+        defaultSpeaker.volume = currentVolume - increment
     } else {
         defaultSpeaker.volume = 0
     }

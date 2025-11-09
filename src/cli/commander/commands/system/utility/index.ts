@@ -3,8 +3,10 @@ import AstalWp from 'gi://AstalWp?version=0.1';
 import { Command } from '../../../types';
 import { execAsync } from 'astal';
 import { getSystrayItems } from '../../../../helpers/systray';
-import { errorHandler } from '../../../../../utils';
+import { errorHandler } from '../../../helpers/utils';
 import options from 'src/configuration';
+import { decreaseVolume, increaseVolume, muteVolume } from '../../../../../widgets/utils/audio';
+import { variableConfig } from '../../../../../config/config';
 
 const notifdService = AstalNotifd.get_default();
 const audio = AstalWp.get_default();
@@ -81,28 +83,26 @@ export const utilityCommands: Command[] = [
         args: [
             {
                 name: 'volume',
-                description: 'A positive or negative number to adjust the volume by.',
-                type: 'number',
+                description: 'Adjust the volume up, down, or mute',
+                type: 'string',
                 required: true,
             },
         ],
-        handler: (args: Record<string, unknown>): number => {
+        handler: (args: Record<string, unknown>): string => {
             try {
-                const speaker = audio?.defaultSpeaker;
 
-                if (speaker === undefined) {
-                    throw new Error('A default speaker was not found.');
-                }
-
-                const volumeInput = Number(args['volume']) / 100;
-
-                if (options.menus.volume.raiseMaximumVolume.get()) {
-                    speaker.set_volume(Math.min(speaker.volume + volumeInput, 1.5));
+                const volume = String(args['volume']).toLowerCase();
+                if (volume == 'up') {
+                    increaseVolume()
+                } else if (volume == 'down') {
+                    decreaseVolume()
+                } else if (volume == 'mute') {
+                    muteVolume()
+                    return 'Volume Muted'
                 } else {
-                    speaker.set_volume(Math.min(speaker.volume + volumeInput, 1));
+                    return `Up, down, or mute are the only allowed values`
                 }
-
-                return Math.round((speaker.volume + volumeInput) * 100);
+                return `Adjusted volume by ${variableConfig.sounds.volumeIncrement.get()}`;
             } catch (error) {
                 errorHandler(error);
             }
