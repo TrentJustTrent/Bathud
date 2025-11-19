@@ -63,7 +63,7 @@ export function spawnMonitorWindows(
         }
 
         const windows = [
-            Wallpaper(hyprMonitorInfo.id, hyprMonitorInfo.width, hyprMonitorInfo.height),
+            // Wallpaper(hyprMonitorInfo.id, hyprMonitorInfo.width, hyprMonitorInfo.height),
             VolumeAlert(hyprMonitorInfo.id),
             BrightnessAlert(hyprMonitorInfo.id),
             NotificationPopups(hyprMonitorInfo.id),

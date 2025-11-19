@@ -13,7 +13,10 @@ import {listFilenamesInDir} from "../../utils/files";
 import {createComputed, createState, For, onCleanup, With} from "ags";
 import GLib from "gi://GLib?version=2.0";
 import {integratedMenuRevealed} from "../IntegratedMenu";
-import {setWallpaper} from "../../wallpaper/setWallpaper";
+import { WallpaperService } from "../../wallpaper";
+// import {setWallpaper} from "../../wallpaper/setWallpaper";
+
+const wallpaperService = WallpaperService.getInstance();
 
 const [files, filesSetter] = createState<string[][]>([])
 const numberOfColumns = 2
@@ -260,28 +263,58 @@ function WallpaperColumn(
         orientation={Gtk.Orientation.VERTICAL}>
         <For each={filesListInColumn}>
             {(file) => {
-                return <button
-                    $={(self) => {
-                        // 140x70 is a magic number that scales well and doesn't cause unwanted expansion of the scroll window
-                        createScaledTexture(140, 70, file).then((texture) => {
-                            const picture = Gtk.Picture.new_for_paintable(texture)
-                            picture.heightRequest = 90
-                            picture.cssClasses = ["wallpaper"]
-                            picture.contentFit = Gtk.ContentFit.COVER
-
-                            self.set_child(picture)
-                        })
-                    }}
-                    cssClasses={["wallpaperButton"]}
-                    onClicked={() => {
+            return <BButton
+                backgroundCss={["wallpaperButton"]}
+                clickHandlers={{
+                    onLeftClick: () => {
                         if (changingWallpaperBusy) return
                         changingWallpaperBusy = true
-                        setWallpaper(file)
-                            .finally(() => {
-                                changingWallpaperBusy = false
-                                console.log("wallpaper set")
-                            })
-                    }}/>
+                        try {
+                            wallpaperService.setWallpaper(filePath);
+                            changingWallpaperBusy = false
+                            console.log("wallpaper set")
+                        } catch (error) {
+                            changingWallpaperBusy = false
+                            if (error instanceof Error) {
+                                throw new Error(error.message);
+                            } else {
+                                throw new Error(`An error occurred while setting the wallpaper: ${error}`);
+                            }
+                        }
+                    },
+                    onRightClick: ({self, x, y}) => {
+                        
+                    }
+            }}/>
+                // return <button
+                    // $={(self) => {
+                    //     // 140x70 is a magic number that scales well and doesn't cause unwanted expansion of the scroll window
+                    //     createScaledTexture(140, 70, file).then((texture) => {
+                    //         const picture = Gtk.Picture.new_for_paintable(texture)
+                    //         picture.heightRequest = 90
+                    //         picture.cssClasses = ["wallpaper"]
+                    //         picture.contentFit = Gtk.ContentFit.COVER
+
+                    //         self.set_child(picture)
+                    //     })
+                    // }}
+                //     cssClasses={["wallpaperButton"]}
+                //     onClicked={() => {
+                //         if (changingWallpaperBusy) return
+                //         changingWallpaperBusy = true
+                //         try {
+                //             wallpaperService.setWallpaper(filePath);
+                //             changingWallpaperBusy = false
+                //             console.log("wallpaper set")
+                //         } catch (error) {
+                //             changingWallpaperBusy = false
+                //             if (error instanceof Error) {
+                //                 throw new Error(error.message);
+                //             } else {
+                //                 throw new Error(`An error occurred while setting the wallpaper: ${error}`);
+                //             }
+                //         }
+                //     }}/>
             }}
         </For>
     </box>

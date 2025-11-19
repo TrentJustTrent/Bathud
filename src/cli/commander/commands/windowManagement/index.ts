@@ -1,6 +1,7 @@
 import { Command } from '../../types';
 import { App } from 'astal/gtk4';
 import { errorHandler, windowClose, windowToggles } from '../../helpers/utils';
+import { setWallpaper } from '../../../../widgets/wallpaper/setWallpaper';
 
 export const windowManagementCommands: Command[] = [
     {

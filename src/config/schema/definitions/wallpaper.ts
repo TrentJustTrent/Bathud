@@ -3,27 +3,20 @@ import {Field} from "../primitiveDefinitions";
 export enum WallpaperTransitionType {
     None = "none",
     Crossfade = "crossfade",
-    SlideRight = "slideRight",
-    SlideLeft = "slideLeft",
-    SlideUp = "slideUp",
-    SlideDown = "slideDown",
-    SlideLeftRight = "slideLeftRight",
-    SlideUpDown = "slideUpDown",
-    OverUp = "overUp",
-    OverDown = "overDown",
-    OverLeft = "overLeft",
-    OverRight = "overRight",
-    UnderUp = "underUp",
-    UnderDown = "underDown",
-    UnderLeft = "underLeft",
-    UnderRight = "underRight",
-    OverUpDown = "overUpDown",
-    OverDownUp = "overDownUp",
-    OverLeftRight = "overLeftRight",
-    OverRightLeft = "overRightLeft",
-    RotateLeft = "rotateLeft",
-    RotateRight = "rotateRight",
-    RotateLeftRight = "rotateLeftRight",
+    Simple = "simple",
+    Fade = "fade",
+    Left = "left",
+    Right = "right",
+    Top = "top",
+    Bottom = "bottom",
+    Wipe = "wipe",//Uses transition angle
+    Wave = "wave",//Uses transition angle
+    Grow = "grow",//Uses transition pos
+    Center = "center",
+    Any = "any",
+    Outer = "outer",//Uses transition pos
+    Random = "random",
+    
 }
 
 export const WALLPAPER_TRANSITION_VALUES = Object.values(WallpaperTransitionType) as readonly WallpaperTransitionType[]
@@ -55,14 +48,20 @@ export const wallpaperSchema = {
             name: 'transitionType',
             type: 'enum',
             enumValues: WALLPAPER_TRANSITION_VALUES,
-            default: WallpaperTransitionType.Crossfade,
+            default: WallpaperTransitionType.Random,
             description: 'The type of transition animation when switching wallpapers.'
         },
         {
             name: 'transitionDuration',
             type: 'number',
-            default: 200,
-            description: 'The duration of the transition animation when switching wallpapers in milliseconds.'
+            default: 3,
+            description: 'The duration of the transition animation when switching wallpapers in seconds.'
+        },
+        {
+            name: 'transitionFPS',
+            type: 'number',
+            default: 60,
+            description: 'The Frames per Second of the transition animation when switching wallpapers.'
         },
     ]
 } as const satisfies Field

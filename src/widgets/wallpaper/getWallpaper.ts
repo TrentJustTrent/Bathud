@@ -1,6 +1,7 @@
 import GLib from "gi://GLib";
 import Gio from "gi://Gio";
 import {config, selectedConfig} from "../../config/config";
+import {execAsync} from "ags/process";
 
 export function resolveWallpaper(): string | null {
     const cacheFilePath = `${GLib.get_home_dir()}/.cache/Bathud/wallpaper/${selectedConfig.get()?.fileName ?? ""}`;

@@ -22,6 +22,7 @@ import {setWallpaper} from "./widgets/wallpaper/setWallpaper";
 import {killOldMonitorWindows, spawnMonitorWindows} from "./widgets/utils/windows";
 import {getHyprMonitorInfoById} from "./widgets/utils/monitors";
 import { runCLI } from "./cli/commander";
+import { generatePreviews } from "./widgets/wallpaper";
 
 
 export let projectDir = ""
@@ -32,7 +33,7 @@ App.start({
     main(...args: Array<string>) {
         projectDir = args[0]
         setThemeBasic()
-
+        generatePreviews()
         const hyprland = Hyprland.get_default()
 
         ChargingAlertSound()
