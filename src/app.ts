@@ -64,7 +64,7 @@ App.start({
         });
     },
     requestHandler: (request: string, res: (response: unknown) => void) => {
-     runCLI(request, res)
+        runCLI(request, res)
     },
     // requestHandler(request: string[], res: (response: any) => void) {
     //     const command = request[0] ?? ""

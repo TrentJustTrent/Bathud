@@ -1,12 +1,8 @@
 import GObject, { GLib, property, register, signal } from 'astal/gobject';
-import AstalHyprland from 'gi://AstalHyprland?version=0.1';
 import { AwwwDaemon } from './awwwDaemon';
 import { execAsync} from 'astal';
 import { variableConfig } from '../../config/config';
-import { projectDir } from '../../app';
-
-const hyprlandService = AstalHyprland.get_default();
-const WP = `${GLib.get_home_dir()}/.config/background`;
+import { projectDir } from '../../app'
 
 /**
  * Service for managing desktop wallpaper using awww daemon
@@ -29,7 +25,7 @@ export class WallpaperService extends GObject.Object {
         if (variableConfig.wallpaper.showWallpaper.get()) {
             this._daemon.start().then((started) => {
                 if (started) {
-                    this._wallpaper();
+                    console.log('Started Awww daemon from wallpaper service');
                 }
             });
         } else {
@@ -56,7 +52,15 @@ export class WallpaperService extends GObject.Object {
      * @param path - Path to the wallpaper image file
      */
     public setWallpaper(path: string,outputs: string[] = []): void {
-        this._daemon.setWallpaper(path, outputs)
+        //Make sure this isn't a gif preview
+        const suffix = "_ff.jpg";
+        if (path.endsWith(suffix)) {
+            console.log(`Getting gif version of ${path}`)
+            const gif = path.replace(suffix, ".gif");
+            this._daemon.setWallpaper(gif, outputs)
+        } else {
+            this._daemon.setWallpaper(path, outputs)
+        }
     }
 
     /**

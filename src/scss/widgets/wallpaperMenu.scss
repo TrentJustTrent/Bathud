@@ -1,0 +1,14 @@
+.wallpaperMenu {
+  padding: 20px;
+}
+.wallpaperMenu-Apply::first-letter {
+  color: green;
+  font-size: 150%; /* Adjust size as needed */
+  font-weight: bold;
+}
+.wallpaperMenu-Clear::first-letter {
+  color: red;
+  font-size: 150%; /* Adjust size as needed */
+  font-weight: bold;
+}
+

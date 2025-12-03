@@ -263,58 +263,41 @@ function WallpaperColumn(
         orientation={Gtk.Orientation.VERTICAL}>
         <For each={filesListInColumn}>
             {(file) => {
-            return <BButton
-                backgroundCss={["wallpaperButton"]}
-                clickHandlers={{
-                    onLeftClick: () => {
-                        if (changingWallpaperBusy) return
-                        changingWallpaperBusy = true
-                        try {
-                            wallpaperService.setWallpaper(filePath);
-                            changingWallpaperBusy = false
-                            console.log("wallpaper set")
-                        } catch (error) {
-                            changingWallpaperBusy = false
-                            if (error instanceof Error) {
-                                throw new Error(error.message);
-                            } else {
-                                throw new Error(`An error occurred while setting the wallpaper: ${error}`);
-                            }
-                        }
-                    },
-                    onRightClick: ({self, x, y}) => {
-                        
-                    }
-            }}/>
-                // return <button
-                    // $={(self) => {
-                    //     // 140x70 is a magic number that scales well and doesn't cause unwanted expansion of the scroll window
-                    //     createScaledTexture(140, 70, file).then((texture) => {
-                    //         const picture = Gtk.Picture.new_for_paintable(texture)
-                    //         picture.heightRequest = 90
-                    //         picture.cssClasses = ["wallpaper"]
-                    //         picture.contentFit = Gtk.ContentFit.COVER
+                return <BButton
+                    $={(self) => {
+                        // 140x70 is a magic number that scales well and doesn't cause unwanted expansion of the scroll window
+                        createScaledTexture(140, 70, file).then((texture) => {
+                            const picture = Gtk.Picture.new_for_paintable(texture)
+                            picture.heightRequest = 90
+                            picture.cssClasses = ["wallpaper"]
+                            picture.contentFit = Gtk.ContentFit.COVER
 
-                    //         self.set_child(picture)
-                    //     })
-                    // }}
-                //     cssClasses={["wallpaperButton"]}
-                //     onClicked={() => {
-                //         if (changingWallpaperBusy) return
-                //         changingWallpaperBusy = true
-                //         try {
-                //             wallpaperService.setWallpaper(filePath);
-                //             changingWallpaperBusy = false
-                //             console.log("wallpaper set")
-                //         } catch (error) {
-                //             changingWallpaperBusy = false
-                //             if (error instanceof Error) {
-                //                 throw new Error(error.message);
-                //             } else {
-                //                 throw new Error(`An error occurred while setting the wallpaper: ${error}`);
-                //             }
-                //         }
-                //     }}/>
+                            self.set_child(picture)
+                        })
+                    }}
+                    selected={}
+                    backgroundCss={["wallpaperButton"]}
+                    clickHandlers={{
+                        onLeftClick: () => {
+                            if (changingWallpaperBusy) return
+                            changingWallpaperBusy = true
+                            try {
+                                wallpaperService.setWallpaper(file);
+                                changingWallpaperBusy = false
+                                console.log("wallpaper set")
+                            } catch (error) {
+                                changingWallpaperBusy = false
+                                if (error instanceof Error) {
+                                    throw new Error(error.message);
+                                } else {
+                                    throw new Error(`An error occurred while setting the wallpaper: ${error}`);
+                                }
+                            }
+                        },
+                        onRightClick: () => {
+                            //Open Monitor Select
+                        }
+                    }}/>
             }}
         </For>
     </box>

@@ -1,96 +1,287 @@
-import App from "ags/gtk4/app";
-import {Astal, Gtk} from "ags/gtk4";
-import {createScaledTexture} from "../utils/images";
-import {resolveWallpaper} from "./getWallpaper";
-import GLib from "gi://GLib?version=2.0";
-import {createState, onCleanup} from "ags";
-import {variableConfig} from "../../config/config";
-import {toGtkTransition} from "./transitions";
+import {Astal, Gdk, Gtk} from "ags/gtk4"
+import Hyprland from "gi://AstalHyprland"
+import {execAsync} from "ags/process"
+import Pango from "gi://Pango?version=1.0";
+import RevealerRow from "../common/RevealerRow";
+import BButton, {BButtonSize} from "../common/BButton";
+import {createBinding, createState, For, onCleanup} from "ags";
+import {integratedScreenshareRevealed, toggleIntegratedScreenshare} from "./IntegratedScreenshare";
+import {timeout} from "ags/time";
+import {truncateString} from "../utils/strings";
+import {frameWindow} from "../frame/Frame";
 
-export const [wallpaperPathState, wallpaperPathStateSet] = createState("")
+let response: (response: any) => void = () => {}
 
-function applyWallpaper(
-    path: string,
-    wallpaperStack: Gtk.Stack
-) {
-    if (!wallpaperStack) return;
+export function updateResponse(res: (response: any) => void) {
+    response = res
+}
 
-    // use current allocated size; if 0 (early), fall back to the window size guess
-    const w = Math.max(1, wallpaperStack.get_allocated_width());
-    const h = Math.max(1, wallpaperStack.get_allocated_height());
+const [screenShareWindows, screenShareWindowsSetter] = createState<Program[]>([])
 
-    createScaledTexture(w, h, path).then((texture) => {
-        const pic = Gtk.Picture.new_for_paintable(texture);
-        pic.contentFit = Gtk.ContentFit.COVER;
-        pic.hexpand = true;
-        pic.vexpand = true;
+type ScreenShareWindow = {
+    windowId: string;
+    windowProgram: string;
+    instanceTitle: string;
+};
 
-        const name = `wp-${Date.now()}`;
-        // add as a named child so Stack can animate between pages
-        wallpaperStack.add_named(pic, name);
+type Program = {
+    name: string;
+    windows: ScreenShareWindow[];
+};
 
-        const duration = variableConfig.wallpaper.transitionDuration.get()
+const maxCharacters = 34
 
-        // configure crossfade and flip
-        wallpaperStack.transition_type = toGtkTransition(variableConfig.wallpaper.transitionType.get())
-        wallpaperStack.transition_duration = duration;
-        wallpaperStack.set_visible_child_name(name);
+function parseScreenShareString(input: string): ScreenShareWindow[] {
+    // Remove the "screenshare" prefix
+    const content = input.replace(/^screenshare/, "");
 
-        // cleanup: after the fade, remove any non-visible children (pause videos if you add support)
-        GLib.timeout_add(GLib.PRIORITY_DEFAULT, duration + 40, () => {
-            const keep = wallpaperStack.get_visible_child();
-            let child = wallpaperStack.get_first_child();
-            while (child) {
-                const next = child.get_next_sibling();
-                if (child !== keep) {
-                    wallpaperStack.remove(child);
-                }
-                child = next;
-            }
-            return GLib.SOURCE_REMOVE;
-        });
-    }).catch((e) => {
-        console.error("applyWallpaper failed:", e);
+    // Split the string into parts based on "[HC>]"
+    const parts = content.split("[HE>]").filter(part => part.trim() !== "");
+
+    // Map each part to an object
+    return parts.filter((part) => {
+        return part.includes("[HC>]") && part.includes("[HT>]")
+    }).map(part => {
+        const [hc, htAndHe] = part.split("[HC>]");
+        const [ht, he] = htAndHe.split("[HT>]");
+
+        return {
+            windowId: hc.trim(),
+            windowProgram: ht?.trim() || "",
+            instanceTitle: he?.trim() || "",
+        };
     });
 }
 
-export default function (
-    monitorId: number,
-    monitorWidth: number,
-    monitorHeight: number,
-): Astal.Window {
-    return <window
-        name={"wallpaper"}
-        monitor={monitorId}
-        cssClasses={["windowBackground"]}
-        layer={Astal.Layer.BACKGROUND}
-        namespace={"bathud-wallpaper"}
-        exclusivity={Astal.Exclusivity.IGNORE}
-        anchor={Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.LEFT}
-        visible={variableConfig.wallpaper.showWallpaper.asAccessor()}
-        application={App}>
-        <stack
-            $={(self) => {
-                const wallpaperPath = resolveWallpaper()
+function groupByWindowProgram(windows: ScreenShareWindow[]): Program[] {
+    const grouped: Program[] = [];
 
-                if (wallpaperPath !== null) {
-                    createScaledTexture(monitorWidth, monitorHeight, wallpaperPath).then((texture) => {
-                        const picture = Gtk.Picture.new_for_paintable(texture)
-                        picture.contentFit = Gtk.ContentFit.COVER
+    windows.forEach(window => {
+        // Find an existing group for this windowProgram
+        let group = grouped.find(g => g.name === window.windowProgram);
 
-                        self.add_named(picture, "initial");
-                        self.set_visible_child_name("initial");
-                    })
+        // If no group exists, create one
+        if (!group) {
+            group = { name: window.windowProgram, windows: [] };
+            grouped.push(group);
+        }
+
+        // Add the window to the group
+        group.windows.push(window);
+    });
+
+    return grouped.sort((a, b) => {
+        if (a.name > b.name) {
+            return 1
+        } else {
+            return -1
+        }
+    });
+}
+
+export function updateWindows(input: string) {
+    screenShareWindowsSetter(groupByWindowProgram(parseScreenShareString(input)))
+}
+
+function Monitors() {
+    const hyprland = Hyprland.get_default()
+
+    return <RevealerRow
+        icon={"󰍹"}
+        iconOffset={0}
+        content={
+            <label
+                hexpand={true}
+                label="Monitors"
+                halign={Gtk.Align.START}
+                cssClasses={["labelLargeBold"]}/>
+        }
+        revealedContent={
+            <box
+                marginTop={8}
+                marginBottom={8}
+                orientation={Gtk.Orientation.VERTICAL}
+                spacing={12}>
+                <For each={createBinding(hyprland, "monitors")}>
+                    {(monitor: Hyprland.Monitor) => {
+                        return <BButton
+                            size={BButtonSize.MEDIUM}
+                            bold={true}
+                            hexpand={true}
+                            primary={true}
+                            labelHalign={Gtk.Align.START}
+                            label={truncateString(monitor.name, maxCharacters)}
+                            onClicked={() => {
+                                response(`[SELECTION]/screen:${monitor.name}`)
+                                toggleIntegratedScreenshare()
+                            }}/>
+                    }}
+                </For>
+            </box>
+        }
+        setup={(revealed) => {
+            const unsub = integratedScreenshareRevealed.subscribe(() => {
+                if (revealed[1] !== null) revealed[1](false)
+            })
+            onCleanup(unsub)
+        }}
+    />
+}
+
+function Windows() {
+    return <RevealerRow
+        icon={""}
+        iconOffset={0}
+        content={
+            <label
+                hexpand={true}
+                label="Windows"
+                halign={Gtk.Align.START}
+                cssClasses={["labelLargeBold"]}/>
+        }
+        revealedContent={
+            <box
+                marginTop={8}
+                marginBottom={8}
+                orientation={Gtk.Orientation.VERTICAL}
+                spacing={12}>
+                <For each={screenShareWindows}>
+                    {(program) => {
+                        return <box
+                            orientation={Gtk.Orientation.VERTICAL}
+                            spacing={6}>
+                            <label
+                                halign={Gtk.Align.CENTER}
+                                cssClasses={["labelLargeBold"]}
+                                label={truncateString(program.name, 30)}/>
+                            {program.windows
+                                .sort((a, b) => {
+                                    if (a.instanceTitle > b.instanceTitle) {
+                                        return 1
+                                    } else {
+                                        return -1
+                                    }
+                                })
+                                .map((instance) => {
+                                    return <BButton
+                                        size={BButtonSize.MEDIUM}
+                                        bold={true}
+                                        primary={true}
+                                        hexpand={true}
+                                        labelHalign={Gtk.Align.START}
+                                        label={truncateString(instance.instanceTitle, maxCharacters)}
+                                        ellipsize={Pango.EllipsizeMode.END}
+                                        onClicked={() => {
+                                            toggleIntegratedScreenshare()
+                                            timeout(400, () => {
+                                                response(`[SELECTION]/window:${instance.windowId}`)
+                                            })
+                                        }}/>
+                                })
+                            }
+                        </box>
+                    }}
+                </For>
+            </box>
+        }
+        setup={(revealed) => {
+            const unsub = integratedScreenshareRevealed.subscribe(() => {
+                if (revealed[1] !== null) revealed[1](false)
+            })
+            onCleanup(unsub)
+        }}
+    />
+}
+
+function Region() {
+    return <RevealerRow
+        icon={""}
+        iconOffset={0}
+        content={
+            <label
+                hexpand={true}
+                label="Other"
+                halign={Gtk.Align.START}
+                cssClasses={["labelLargeBold"]}/>
+        }
+        revealedContent={
+            <box
+                marginTop={8}
+                marginBottom={8}>
+                <BButton
+                    size={BButtonSize.MEDIUM}
+                    bold={true}
+                    primary={true}
+                    hexpand={true}
+                    labelHalign={Gtk.Align.START}
+                    label="Region"
+                    onClicked={() => {
+                        toggleIntegratedScreenshare()
+                        execAsync("slurp -f \"%o %x %y %w %h\"")
+                            .catch((error) => {
+                                console.error(error)
+                                response(`[SELECTION]/region:`)
+                            })
+                            .then((value) => {
+                                if (typeof value === "string") {
+                                    const [name, x, y, w, h] = value.split(" ")
+                                    response(`[SELECTION]/region:${name}@${x},${y},${w},${h}`)
+                                } else {
+                                    response(`[SELECTION]/region:`)
+                                }
+                            })
+                    }}/>
+            </box>
+        }
+        setup={(revealed) => {
+            const unsub = integratedScreenshareRevealed.subscribe(() => {
+                if (revealed[1] !== null) revealed[1](false)
+            })
+            onCleanup(unsub)
+        }}
+    />
+}
+
+export default function () {
+    return <box
+        $={(self) => {
+            const shortcutController = new Gtk.ShortcutController()
+            shortcutController.set_scope(Gtk.ShortcutScope.GLOBAL)
+            shortcutController.add_shortcut(new Gtk.Shortcut({
+                trigger: Gtk.ShortcutTrigger.parse_string("Escape"),
+                action: Gtk.CallbackAction.new(() => {
+                    console.log("shortcut")
+                    toggleIntegratedScreenshare()
+                    response("")
+                    return true
+                }),
+            }))
+
+            const unsub = integratedScreenshareRevealed.subscribe(() => {
+                if (integratedScreenshareRevealed.get()) {
+                    if (!shortcutController.get_widget()) {
+                        console.log("adding")
+                        self.add_controller(shortcutController)
+                    }
+                    // make exclusive so users can hit escape to exit picker, and prevent them from closing the
+                    // program that is asking for sharing
+                    frameWindow.keymode = Astal.Keymode.EXCLUSIVE
+                } else {
+                    console.log("removing")
+                    self.remove_controller(shortcutController)
+                    frameWindow.keymode = Astal.Keymode.NONE
                 }
-
-                const unsub = wallpaperPathState.subscribe(() => {
-                    applyWallpaper(wallpaperPathState.get(), self)
-                })
-                onCleanup(unsub)
-            }}
-            hexpand
-            vexpand>
-
-        </stack>
-    </window> as Astal.Window
+            })
+            onCleanup(unsub)
+        }}
+        orientation={Gtk.Orientation.VERTICAL}
+        marginStart={10}
+        marginBottom={10}
+        marginTop={20}
+        marginEnd={10}
+        spacing={8}>
+        <Monitors/>
+        <Windows/>
+        <Region/>
+    </box>
 }
