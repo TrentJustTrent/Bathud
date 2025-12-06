@@ -6,44 +6,45 @@ import {createBinding, createState, For, createEffect} from "ags";
 import type { Accessor, Setter } from "ags";
 import { Variable } from "../../config/Variable";
 import { closeIntegratedMonitorList } from "./IntegratedWallpaperMenu";
+import { variableConfig } from "../../config/config";
 const { Box, CheckButton, Label, Window, Button } = Widget;
-export const [monitors, monitorsSetter] = createState<string[]>([])
+
 export const [selectedWallpaper, selectedWallpaperSetter] = createState<string>('')
-// Function to get the list of monitor names
 
 //On selectedWallpaper change, call getHyprMonitorsInfo
 const wally = selectedWallpaper.subscribe(() => {
-    console.log("Potential wallpaper:", selectedWallpaper.peek())
-    saveWallpapersActive();
-    getHyprMonitorsInfo().then((monitors) => {
-        if (monitors === null) return
-        const name = selectedWallpaper.peek()
-        monitors.forEach((monitor) => {
-            if (name == monitor.name) {
-                console.log(`Output: ${monitor.name}, Monitor: ${monitor.id} uses ${name}`)
-                wallpaperActives[monitor.id].set(true)
-            }
+    const name = selectedWallpaper.peek()
+    console.log("Potential wallpaper:", name)
+    getHyprMonitorsInfo()
+        .then((monitors) => {
+            if (monitors === null) return
+            monitors.forEach((monitor) => {
+                if (name == monitor.wallpaper) {
+                    console.log(`Output: ${monitor.name}, Monitor: ${monitor.id} uses ${name}`)
+                    selectedMonitors[monitor.id].set(true)
+                    outputBuffer.push(monitor.name)
+                }
+            })
         })
-    })
+        .finally(()=> saveSelectedMonitors())
 })
 wally();
 
-export let wallpaperActives: Variable<boolean>[] = [
-    new Variable(false),
-    new Variable(false),
-    new Variable(false),
-    new Variable(false),
-    new Variable(false)
-];
-const savedWallpapersActive: Variable<boolean>[] = wallpaperActives;
+// Function to create an array of custom types with length n
+function createList(n:number) {
+    return Array.from({ length: n }, () => new Variable(false));
+}
+export const selectedMonitors: Variable<boolean>[] = createList(variableConfig.wallpaper.supportedMonitors.peek());
 
-export function saveWallpapersActive() {
-    wallpaperActives.forEach((value, index) => {
+const savedWallpapersActive: Variable<boolean>[] = selectedMonitors;
+
+export function saveSelectedMonitors() {
+    selectedMonitors.forEach((value, index) => {
         savedWallpapersActive[index].set(value.peek());
       });
 }
 
-let selectedMonitors: string[] = [];
+let outputBuffer: string[] = [];
 
 const getMonitors = async () => {
     try {
@@ -56,24 +57,28 @@ const getMonitors = async () => {
     }
 };
 function updateWallpaper(monitor: Hyprland.Monitor, status: boolean) {
+    //Highlight selection in menu
+    selectedMonitors[monitor.id].set(status);
     if (!status) {
         //set monitor accessor to false
-        wallpaperActives[monitor.id].set(false);
+        //wallpaperActives[monitor.id].set(false);
+
         //remove monitor name from cli command
-        const index: number = selectedMonitors.indexOf(monitor.name);
+        const index: number = outputBuffer.indexOf(monitor.name);
         if (index !== -1) { // Ensure the item exists in the array
-            selectedMonitors.splice(index, 1);
+            //Remove monitor name in place
+            outputBuffer.splice(index, 1);
         }
     } else {
-        wallpaperActives[monitor.name].set(true);
-        selectedMonitors.push(monitor.name)
+        //wallpaperActives[monitor.id].set(true);
+        outputBuffer.push(monitor.name)
     }
 }
 
 // Custom multi-select monitor widget
 function WallpaperSelectContent() {
     const hyprland = Hyprland.get_default()
-    // const selectedMonitors = new Set();
+    // const outputBuffer = new Set();
     const monitorList = Box({
         vertical: true,
         children: [],
@@ -88,15 +93,15 @@ function WallpaperSelectContent() {
                 child: Label({ label: name }),
                 on_toggled: ({ active }) => {
                     if (active) {
-                        selectedMonitors.add(name);
+                        outputBuffer.add(name);
                     } else {
-                        selectedMonitors.delete(name);
+                        outputBuffer.delete(name);
                     }
-                    console.log("Selected monitors:", Array.from(selectedMonitors));
+                    console.log("Selected monitors:", Array.from(outputBuffer));
                 },
             });
             // Set initial state if needed
-            checkbox.active = selectedMonitors.has(name); 
+            checkbox.active = outputBuffer.has(name); 
             return checkbox;
         });
         return 
@@ -121,7 +126,7 @@ function WallpaperSelectContent() {
                 labelCss={["wallpaperMenu-Clear"]}
                 onClicked={() => {
                     //Clear selections and close entire widget menu
-                    wallpaperActives = savedWallpapersActive;
+                    selectedMonitors = savedWallpapersActive;
                     closeIntegratedMonitorList();
                 }}/>
             <BButton
@@ -140,16 +145,18 @@ function WallpaperSelectContent() {
                     hexpand={true}
                     primary={true}
                     labelHalign={Gtk.Align.START}
-                    selected={wallpaperActives[monitor.id].asAccessor()}
+                    selected={selectedMonitors[monitor.id].asAccessor()}
+                    // selected={selectedMonitors[monitor.id]}
                     label={monitor.name}
                     onClicked={() => {
                         //Do something
-                        if (Number(monitor.id) > maxMonitors) {
+                        //Should never trigger but just a gaurd
+                        if (Number(monitor.id) > variableConfig.wallpaper.supportedMonitors.peek()) {
                             console.warn(`Monitor selected (${monitor.id}) exceeds the maximum number of supported monitors for this feature`);
                             return
                         }
-                        console.log(`Selected: ${monitor.name}`)
-                        updateWallpaper(monitor,wallpaperActives[monitor.id].peek())
+                        updateWallpaper(monitor,!selectedMonitors[monitor.id].peek())
+                        console.log(`Toggled: ${monitor.name}`)
                     }}/>
             }}
         </For>

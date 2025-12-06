@@ -297,7 +297,7 @@ function WallpaperColumn(
                         },
                         onRightClick: () => {
                             //Open Monitor Select
-                            console.log(file);
+                            console.log('Expanding',file);
                             selectedWallpaperSetter(file);
                         }
                     }}/>

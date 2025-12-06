@@ -27,6 +27,12 @@ export const wallpaperSchema = {
     description: 'Wallpaper configs.',
     children: [
         {
+            name: 'supportedMonitors',
+            type: 'number',
+            default: 5,
+            description: 'The max number of supported monitors. Ensures stability of wallpaper menu.'
+        },
+        {
             name: 'showWallpaper',
             type: 'boolean',
             default: 'true',
