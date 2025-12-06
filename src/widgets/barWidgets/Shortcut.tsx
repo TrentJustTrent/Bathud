@@ -46,7 +46,7 @@ function addLaunchToMenu(
     newWindowAction.connect("activate", () => {
         pop.popdown()
         // @ts-ignore
-        const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].launch.get()
+        const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].launch.peek()
         if (command !== "") {
             launchApp(command)
         }
@@ -64,7 +64,7 @@ function addNewWindowToMenu(
 ) {
     const newWindowAction = new Gio.SimpleAction({name: "new-window"})
     // @ts-ignore
-    const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].newWindow.get()
+    const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].newWindow.peek()
     if (command !== "") {
         newWindowAction.connect("activate", () => {
             pop.popdown()
@@ -83,7 +83,7 @@ function addMoveFocusedClientToMenu(
     shortcutNumber: number,
 ) {
     // @ts-ignore
-    const clazz: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.get()
+    const clazz: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.peek()
     const focusedClient = hyprland.get_focused_client()
     if (focusedClient !== null && focusedClient.class === clazz) {
         const moveFocusedAction = new Gio.SimpleAction({
@@ -131,7 +131,7 @@ function addCloseFocusedToMenu(
     shortcutNumber: number,
 ) {
     // @ts-ignore
-    const clazz: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.get()
+    const clazz: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.peek()
     const focusedClient = hyprland.get_focused_client()
     if (focusedClient !== null && focusedClient.class === clazz) {
         const action = new Gio.SimpleAction({name: "close-focused"})
@@ -155,7 +155,7 @@ function addQuitToMenu(
     quitAction.connect("activate", () => {
         pop.popdown()
         // @ts-ignore
-        const clazz: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.get()
+        const clazz: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.peek()
         hyprland.clients.filter((it) => it.class === clazz).forEach((it) => it.kill())
     })
     actionGroup.add_action(quitAction)
@@ -185,7 +185,7 @@ export default function (
     })
 
     // @ts-ignore
-    const clazz = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.get()
+    const clazz = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.peek()
     const [selected, selectedSet] = createState(hyprland.focusedClient?.class === clazz)
 
     // Delay setting the selected value because the focused client might not have a class name just yet
@@ -203,7 +203,7 @@ export default function (
         }
         selectedDebounceTimer = timeout(100, () => {
             // @ts-ignore
-            const clazz = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.get()
+            const clazz = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.peek()
             selectedSet(hyprland.focusedClient?.class === clazz)
             selectedDebounceTimer = null
         })
@@ -245,7 +245,7 @@ export default function (
             clickHandlers={{
                 onLeftClick: () => {
                     // @ts-ignore
-                    const clazz: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.get()
+                    const clazz: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.peek()
                     let clients = hyprland
                         .clients
                         .filter((it) => it.class === clazz)
@@ -254,7 +254,7 @@ export default function (
                     if (clients.length === 0) {
                         // If there are no clients open, launch one
                         // @ts-ignore
-                        const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].launch.get()
+                        const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].launch.peek()
                         if (command !== "") {
                             launchApp(command)
                         }
@@ -289,7 +289,7 @@ export default function (
                 },
                 onMiddleClick: () => {
                     // @ts-ignore
-                    const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].newWindow.get()
+                    const command: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].newWindow.peek()
                     if (command !== "") {
                         launchApp(command)
                     }
@@ -297,7 +297,7 @@ export default function (
                 onRightClick: ({self, x, y}) => {
                     createRoot((dispose) => {
                         // @ts-ignore
-                        const clazz: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.get()
+                        const clazz: string = variableConfig.barWidgets[`shortcut${shortcutNumber}`].class.peek()
                         let clients = hyprland
                             .clients
                             .filter((it) => it.class === clazz)

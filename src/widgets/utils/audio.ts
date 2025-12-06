@@ -4,7 +4,7 @@ import {variableConfig} from "../../config/config";
 
 import {projectDir} from "../../app";
 
-const increment = variableConfig.sounds.volumeIncrement.get()
+const increment = variableConfig.sounds.volumeIncrement.peek()
 
 export function getVolumeIcon(speaker?: Wp.Endpoint) {
     let volume = speaker?.volume
@@ -96,9 +96,9 @@ export function decreaseVolume() {
 }
 
 export function playVolumeTick() {
-    if (variableConfig.sounds.playVolumeChangingSound.get()) {
-        let path = variableConfig.sounds.volumeChangingSoundPath.get() !== ""
-            ? variableConfig.sounds.volumeChangingSoundPath.get()
+    if (variableConfig.sounds.playVolumeChangingSound.peek()) {
+        let path = variableConfig.sounds.volumeChangingSoundPath.peek() !== ""
+            ? variableConfig.sounds.volumeChangingSoundPath.peek()
             : `${projectDir}/sounds/audio-volume-change.oga`
         execAsync(`bash -c "play ${path}"`)
             .catch((error) => {
@@ -108,9 +108,9 @@ export function playVolumeTick() {
 }
 
 export function playCameraShutter() {
-    if (variableConfig.sounds.playScreenshotSound.get()) {
-        let path = variableConfig.sounds.screenshotSoundPath.get() !== ""
-            ? variableConfig.sounds.screenshotSoundPath.get()
+    if (variableConfig.sounds.playScreenshotSound.peek()) {
+        let path = variableConfig.sounds.screenshotSoundPath.peek() !== ""
+            ? variableConfig.sounds.screenshotSoundPath.peek()
             : `${projectDir}/sounds/camera-shutter.ogg`
         execAsync(`bash -c "play ${path}"`)
             .catch((error) => {
@@ -120,9 +120,9 @@ export function playCameraShutter() {
 }
 
 export function playBatteryWarning() {
-    if (variableConfig.sounds.playLowBatteryWarningSound.get()) {
-        let path = variableConfig.sounds.lowBatteryWarningSoundPath.get() !== ""
-            ? variableConfig.sounds.lowBatteryWarningSoundPath.get()
+    if (variableConfig.sounds.playLowBatteryWarningSound.peek()) {
+        let path = variableConfig.sounds.lowBatteryWarningSoundPath.peek() !== ""
+            ? variableConfig.sounds.lowBatteryWarningSoundPath.peek()
             : `${projectDir}/sounds/battery-low.ogg`
         execAsync(`bash -c "play ${path}"`)
             .catch((error) => {
@@ -132,9 +132,9 @@ export function playBatteryWarning() {
 }
 
 export function playPowerPlug() {
-    if (variableConfig.sounds.playChargingSound.get()) {
-        let path = variableConfig.sounds.chargingPlugInSoundPath.get() !== ""
-            ? variableConfig.sounds.chargingPlugInSoundPath.get()
+    if (variableConfig.sounds.playChargingSound.peek()) {
+        let path = variableConfig.sounds.chargingPlugInSoundPath.peek() !== ""
+            ? variableConfig.sounds.chargingPlugInSoundPath.peek()
             : `${projectDir}/sounds/power-plug.ogg`
         execAsync(`bash -c "play ${path}"`)
             .catch((error) => {
@@ -144,9 +144,9 @@ export function playPowerPlug() {
 }
 
 export function playPowerUnplug() {
-    if (variableConfig.sounds.playChargingSound.get()) {
-        let path = variableConfig.sounds.chargingUnplugSoundPath.get() !== ""
-            ? variableConfig.sounds.chargingUnplugSoundPath.get()
+    if (variableConfig.sounds.playChargingSound.peek()) {
+        let path = variableConfig.sounds.chargingUnplugSoundPath.peek() !== ""
+            ? variableConfig.sounds.chargingUnplugSoundPath.peek()
             : `${projectDir}/sounds/power-unplug.ogg`
         execAsync(`bash -c "play ${path}"`)
             .catch((error) => {

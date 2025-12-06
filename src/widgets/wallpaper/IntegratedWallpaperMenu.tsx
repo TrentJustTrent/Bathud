@@ -7,10 +7,10 @@ export const integratedMonitorListHistoryWidth = 410
 export const [integratedMonitorListRevealed, integratedMonitorListRevealedSetting] = createState(false)
 
 export function toggleIntegratedMonitorList() {
-    integratedMonitorListRevealedSetting(!integratedMonitorListRevealed.get())
+    integratedMonitorListRevealedSetting(!integratedMonitorListRevealed.peek())
 }
 
-export function closeIntegratedNotificationsHistory() {
+export function closeIntegratedMonitorList() {
     integratedMonitorListRevealedSetting(false)
 }
 

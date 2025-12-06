@@ -14,9 +14,10 @@ import {createComputed, createState, For, onCleanup, With} from "ags";
 import GLib from "gi://GLib?version=2.0";
 import {integratedMenuRevealed} from "../IntegratedMenu";
 import { WallpaperService } from "../../wallpaper";
+import { selectedWallpaperSetter } from "../../wallpaper/WallpaperMenu";
 // import {setWallpaper} from "../../wallpaper/setWallpaper";
 
-const wallpaperService = WallpaperService.getInstance();
+export const wallpaperService = WallpaperService.getInstance();
 
 const [files, filesSetter] = createState<string[][]>([])
 const numberOfColumns = 2
@@ -47,7 +48,7 @@ function chunkIntoColumns<T>(arr: T[], numCols: number): T[][] {
 }
 
 function updateFiles() {
-    const dir = variableConfig.wallpaper.wallpaperDir.get()
+    const dir = variableConfig.wallpaper.wallpaperDir.peek()
     if (dir === "") {
         return
     }
@@ -275,7 +276,7 @@ function WallpaperColumn(
                             self.set_child(picture)
                         })
                     }}
-                    selected={}
+                    // selected={}
                     backgroundCss={["wallpaperButton"]}
                     clickHandlers={{
                         onLeftClick: () => {
@@ -296,6 +297,8 @@ function WallpaperColumn(
                         },
                         onRightClick: () => {
                             //Open Monitor Select
+                            console.log(file);
+                            selectedWallpaperSetter(file);
                         }
                     }}/>
             }}
@@ -305,7 +308,7 @@ function WallpaperColumn(
 
 export default function () {
     const unsub = selectedConfig.asAccessor().subscribe(() => {
-        if (selectedConfig.get() != undefined) {
+        if (selectedConfig.peek() != undefined) {
             updateFiles()
         }
     })
@@ -315,7 +318,7 @@ export default function () {
     return <RevealerRow
         setup={(revealed) => {
             const unsub = integratedMenuRevealed.subscribe(() => {
-                if (!integratedMenuRevealed.get()) {
+                if (!integratedMenuRevealed.peek()) {
                     revealed[1](false)
                 }
             })

@@ -8,7 +8,7 @@ export const IntegratedMiscWidth = 410
 export const [IntegratedMiscRevealed, IntegratedMiscRevealedSetting] = createState(false)
 
 export function toggleIntegratedMiscellaneous() {
-    IntegratedMiscRevealedSetting(!IntegratedMiscRevealed.get())
+    IntegratedMiscRevealedSetting(!IntegratedMiscRevealed.peek())
 }
 
 export function closeIntegratedMiscellaneous() {

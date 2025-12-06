@@ -40,7 +40,7 @@
 //                 <entry
 //                     cssClasses={["networkPasswordEntry"]}
 //                     onChanged={self => text.set(self.text)}
-//                     onActivate={() => submittedPassword.set(text.get())}/>
+//                     onActivate={() => submittedPassword.set(text.peek())}/>
 //             </box>
 //         </box>
 //     </window>

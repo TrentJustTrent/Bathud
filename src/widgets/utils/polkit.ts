@@ -100,7 +100,7 @@
 //         loop.run();
 //         hideAllWindows();
 //
-//         const password = submittedPassword.get();
+//         const password = submittedPassword.peek();
 //         submittedPassword.set("")
 //
 //         // Authenticate via PAM

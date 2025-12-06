@@ -44,9 +44,9 @@ export class AwwwDaemon {
                 let command: string[] = [
                     'awww',
                     'img',
-                    `-t ${variableConfig.wallpaper.transitionType.get()}`,
-                    `--transition-duration ${variableConfig.wallpaper.transitionDuration.get()}`,
-                    `--transition-fps ${variableConfig.wallpaper.transitionFPS.get()}`
+                    `-t ${variableConfig.wallpaper.transitionType.peek()}`,
+                    `--transition-duration ${variableConfig.wallpaper.transitionDuration.peek()}`,
+                    `--transition-fps ${variableConfig.wallpaper.transitionFPS.peek()}`
                 ];
 
                 if (outputs.length > 0){

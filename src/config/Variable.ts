@@ -14,7 +14,7 @@ export class Variable<T> {
     // Or wrap an existing accessor (+ optional setter for mutability)
     constructor(accessor: Accessor<T>, setter?: Setter<T>);
     constructor(arg1: T | Accessor<T>, setter?: Setter<T>) {
-        if (typeof arg1 === "function" || (arg1 && typeof (arg1 as any).get === "function")) {
+        if (typeof arg1 === "function" || (arg1 && typeof (arg1 as any).peek === "function")) {
             this.acc = arg1 as Accessor<T>;
             this.setter = setter;
         } else {
@@ -24,10 +24,10 @@ export class Variable<T> {
         }
     }
 
-    /** Read current value. Works whether Accessor uses `.get()` or is callable. */
-    get(): T {
+    /** Read current value. Works whether Accessor uses `.peek()` or is callable. */
+    peek(): T {
         const a = this.acc as any;
-        if (typeof a.get === "function") return a.get();
+        if (typeof a.peek === "function") return a.peek();
         // callable-style accessor fallback
         return a();
     }
@@ -47,7 +47,7 @@ export class Variable<T> {
 
     /** Back-compat property-style access. */
     get value(): T {
-        return this.get();
+        return this.peek();
     }
     set value(v: T) {
         this.set(v);
@@ -55,7 +55,7 @@ export class Variable<T> {
 
     /** Create a read-only derived Variable<U>. */
     map<U>(fn: (v: T) => U): Variable<U> {
-        const comp = createComputed([this.acc], () => fn(this.get()));
+        const comp = createComputed([this.acc], () => fn(this.peek()));
         // no setter → read-only wrapper
         return new Variable<U>(comp);
     }
@@ -67,10 +67,10 @@ export class Variable<T> {
 
     /** Helpful for JSON/string interpolation */
     toJSON(): T {
-        return this.get();
+        return this.peek();
     }
     valueOf(): T {
-        return this.get();
+        return this.peek();
     }
 
     /** Wrap an existing [accessor, setter] tuple. */

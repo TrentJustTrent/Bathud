@@ -21,7 +21,7 @@ export const integratedMenuWidth = 430
 export const [integratedMenuRevealed, integratedMenuRevealedSetting] = createState(false)
 
 export function toggleIntegratedMenu() {
-    integratedMenuRevealedSetting(!integratedMenuRevealed.get())
+    integratedMenuRevealedSetting(!integratedMenuRevealed.peek())
 }
 
 export function closeIntegratedMenu() {
@@ -100,7 +100,7 @@ function getListOfWidgets(
 export default function () {
     const unsub = variableConfig.systemMenu.widgets.asAccessor().subscribe(() => {
         removeAllChildren(mainBox)
-        appendChildren(mainBox, getListOfWidgets(variableConfig.systemMenu.widgets.get()))
+        appendChildren(mainBox, getListOfWidgets(variableConfig.systemMenu.widgets.peek()))
     })
     onCleanup(unsub)
 
@@ -125,7 +125,7 @@ export default function () {
 
                     createSystemWidgets()
 
-                    appendChildren(self, getListOfWidgets(variableConfig.systemMenu.widgets.get()))
+                    appendChildren(self, getListOfWidgets(variableConfig.systemMenu.widgets.peek()))
                 }}/>
         </Gtk.ScrolledWindow>
     </revealer>

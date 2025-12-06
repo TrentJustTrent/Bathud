@@ -2,28 +2,48 @@ import BButton, { BButtonSize } from "../common/BButton";
 import { getHyprMonitorsInfo } from "../utils/monitors";
 import {Gtk} from "ags/gtk4";
 import Hyprland from "gi://AstalHyprland"
-import {createBinding, createState, For} from "ags";
+import {createBinding, createState, For, createEffect} from "ags";
+import type { Accessor, Setter } from "ags";
 import { Variable } from "../../config/Variable";
+import { closeIntegratedMonitorList } from "./IntegratedWallpaperMenu";
 const { Box, CheckButton, Label, Window, Button } = Widget;
 export const [monitors, monitorsSetter] = createState<string[]>([])
-export const [wallpapers, wallpapersSetter] = createState<string[]>([])
+export const [selectedWallpaper, selectedWallpaperSetter] = createState<string>('')
 // Function to get the list of monitor names
 
-export const wallpaper0 = new Variable(false);
-export const wallpaper1 = new Variable(false);
-export const wallpaper2 = new Variable(false);
-export const wallpaper3 = new Variable(false);
-export const wallpaper4 = new Variable(false);
+//On selectedWallpaper change, call getHyprMonitorsInfo
+const wally = selectedWallpaper.subscribe(() => {
+    console.log("Potential wallpaper:", selectedWallpaper.peek())
+    saveWallpapersActive();
+    getHyprMonitorsInfo().then((monitors) => {
+        if (monitors === null) return
+        const name = selectedWallpaper.peek()
+        monitors.forEach((monitor) => {
+            if (name == monitor.name) {
+                console.log(`Output: ${monitor.name}, Monitor: ${monitor.id} uses ${name}`)
+                wallpaperActives[monitor.id].set(true)
+            }
+        })
+    })
+})
+wally();
 
-export const wallpaperActives: Variable<boolean>[] = [
+export let wallpaperActives: Variable<boolean>[] = [
     new Variable(false),
     new Variable(false),
     new Variable(false),
     new Variable(false),
     new Variable(false)
-] 
+];
+const savedWallpapersActive: Variable<boolean>[] = wallpaperActives;
 
+export function saveWallpapersActive() {
+    wallpaperActives.forEach((value, index) => {
+        savedWallpapersActive[index].set(value.peek());
+      });
+}
 
+let selectedMonitors: string[] = [];
 
 const getMonitors = async () => {
     try {
@@ -35,11 +55,25 @@ const getMonitors = async () => {
         return [];
     }
 };
+function updateWallpaper(monitor: Hyprland.Monitor, status: boolean) {
+    if (!status) {
+        //set monitor accessor to false
+        wallpaperActives[monitor.id].set(false);
+        //remove monitor name from cli command
+        const index: number = selectedMonitors.indexOf(monitor.name);
+        if (index !== -1) { // Ensure the item exists in the array
+            selectedMonitors.splice(index, 1);
+        }
+    } else {
+        wallpaperActives[monitor.name].set(true);
+        selectedMonitors.push(monitor.name)
+    }
+}
 
 // Custom multi-select monitor widget
 function WallpaperSelectContent() {
     const hyprland = Hyprland.get_default()
-    const selectedMonitors = new Set();
+    // const selectedMonitors = new Set();
     const monitorList = Box({
         vertical: true,
         children: [],
@@ -86,14 +120,16 @@ function WallpaperSelectContent() {
                 label=" Close"
                 labelCss={["wallpaperMenu-Clear"]}
                 onClicked={() => {
-                    //Apply Settings
+                    //Clear selections and close entire widget menu
+                    wallpaperActives = savedWallpapersActive;
+                    closeIntegratedMonitorList();
                 }}/>
             <BButton
                 label=" Apply"
                 backgroundCss={["wallpaperMenu-Apply"]}
                 marginStart={4}
                 onClicked={() => {
-                    //Clear selections and close entire widget menu
+                    //Apply Settings
                 }}/>
         </box>
         <For each={createBinding(hyprland, "monitors")}>
@@ -108,6 +144,12 @@ function WallpaperSelectContent() {
                     label={monitor.name}
                     onClicked={() => {
                         //Do something
+                        if (Number(monitor.id) > maxMonitors) {
+                            console.warn(`Monitor selected (${monitor.id}) exceeds the maximum number of supported monitors for this feature`);
+                            return
+                        }
+                        console.log(`Selected: ${monitor.name}`)
+                        updateWallpaper(monitor,wallpaperActives[monitor.id].peek())
                     }}/>
             }}
         </For>

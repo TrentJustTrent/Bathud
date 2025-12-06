@@ -258,7 +258,7 @@ export default function () {
             }))
 
             const unsub = integratedScreenshareRevealed.subscribe(() => {
-                if (integratedScreenshareRevealed.get()) {
+                if (integratedScreenshareRevealed.peek()) {
                     if (!shortcutController.get_widget()) {
                         console.log("adding")
                         self.add_controller(shortcutController)

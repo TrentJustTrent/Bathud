@@ -49,43 +49,43 @@ function getLeftAndRightSides() {
     const leftSide = [leftBar]
     const rightSide = [rightBar]
 
-    if (menuPosition.get() === Position.LEFT) {
+    if (menuPosition.peek() === Position.LEFT) {
         leftSide.push(integratedMenu)
     } else {
         rightSide.push(integratedMenu)
     }
 
-    if (versePosition.get() === Position.LEFT) {
+    if (versePosition.peek() === Position.LEFT) {
         leftSide.push(IntegratedMisc)
     } else {
         rightSide.push(IntegratedMisc)
     }
 
-    if (clipboardManagerPosition.get() === Position.LEFT) {
+    if (clipboardManagerPosition.peek() === Position.LEFT) {
         leftSide.push(integratedClipboardManager)
     } else {
         rightSide.push(integratedClipboardManager)
     }
 
-    if (notificationHistoryPosition.get() === Position.LEFT) {
+    if (notificationHistoryPosition.peek() === Position.LEFT) {
         leftSide.push(integratedNotificationHistory)
     } else {
         rightSide.push(integratedNotificationHistory)
     }
 
-    if (screenshotPositon.get() === Position.LEFT) {
+    if (screenshotPositon.peek() === Position.LEFT) {
         leftSide.push(integratedScreenshotTool)
     } else {
         rightSide.push(integratedScreenshotTool)
     }
 
-    if (appLauncherPosition.get() === Position.LEFT) {
+    if (appLauncherPosition.peek() === Position.LEFT) {
         leftSide.push(integratedAppLauncher)
     } else {
         rightSide.push(integratedAppLauncher)
     }
 
-    if (screensharePosition.get() === Position.LEFT) {
+    if (screensharePosition.peek() === Position.LEFT) {
         leftSide.push(integratedScreenshare)
     } else {
         rightSide.push(integratedScreenshare)

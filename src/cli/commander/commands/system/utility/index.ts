@@ -102,7 +102,7 @@ export const utilityCommands: Command[] = [
                 } else {
                     return `Up, down, or mute are the only allowed values`
                 }
-                return `Adjusted volume by ${variableConfig.sounds.volumeIncrement.get()}`;
+                return `Adjusted volume by ${variableConfig.sounds.volumeIncrement.peek()}`;
             } catch (error) {
                 errorHandler(error);
             }

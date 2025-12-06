@@ -129,14 +129,14 @@ function updateConnections() {
                     wifiConnectionsSetter(wifiNames)
                     inactiveWifiConnectionsSetter(
                         wifiNames
-                            .filter((line) => !activeWifiConnections.get().includes(line))
+                            .filter((line) => !activeWifiConnections.peek().includes(line))
                     )
 
                     const vpnNames = value
                         .split("\n")
                         .filter((line) => line.includes("vpn") || line.includes("wireguard"))
                         .map((line) => line.split(":")[0].trim())
-                        .filter((line) => !activeVpnConnections.get().includes(line))
+                        .filter((line) => !activeVpnConnections.peek().includes(line))
                         .sort((a, b) => {
                             if (a > b) {
                                 return 1
@@ -201,7 +201,7 @@ function addWireguardConnection()
 function connectVpn(name: string, isConnectingSetter: Setter<boolean>) {
     isConnectingSetter(true)
     // first disconnect any existing vpn connections
-    activeVpnConnections.get().forEach((vpnName) => {
+    activeVpnConnections.peek().forEach((vpnName) => {
         execAsync(["bash", "-c", `nmcli connection down "${vpnName}"`])
             .finally(() => {
                 updateConnections()
@@ -231,7 +231,7 @@ function PasswordEntry(
     const [isConnecting, isConnectingSetter] = createState(false)
 
     const unsub = passwordEntryRevealed[0].subscribe(() => {
-        if (!passwordEntryRevealed[0].get()) {
+        if (!passwordEntryRevealed[0].peek()) {
             errorRevealedSetter(false)
         }
     })
@@ -240,7 +240,7 @@ function PasswordEntry(
     const connect = () => {
         errorRevealedSetter(false)
         isConnectingSetter(true)
-        execAsync(["bash", "-c", `echo '${text.get()}' | nmcli device wifi connect "${accessPoint.ssid}" --ask`])
+        execAsync(["bash", "-c", `echo '${text.peek()}' | nmcli device wifi connect "${accessPoint.ssid}" --ask`])
             .catch((error) => {
                 console.error(error)
                 errorRevealedSetter(true)
@@ -250,7 +250,7 @@ function PasswordEntry(
                 console.log(value)
             })
             .finally(() => {
-                if (!errorRevealed.get()) {
+                if (!errorRevealed.peek()) {
                     passwordEntryRevealed[1](false)
                     updateConnections()
                 }
@@ -296,7 +296,7 @@ function PasswordEntry(
                 }
             })}
             onClicked={() => {
-                if (!isConnecting.get()) {
+                if (!isConnecting.peek()) {
                     connect()
                 }
             }}/>
@@ -336,7 +336,7 @@ function WifiConnections() {
                         label={label}
                         labelHalign={Gtk.Align.START}
                         onClicked={() => {
-                            buttonsRevealedSetter(!buttonsRevealed.get())
+                            buttonsRevealedSetter(!buttonsRevealed.peek())
                         }}/>
                     <revealer
                         revealChild={buttonsRevealed}
@@ -392,7 +392,7 @@ function WifiScannedConnections() {
 
                     const accessPointsUi = accessPoints.filter((value) => {
                         return value.ssid != null
-                            && wifiConnections.get().find((connection) => {
+                            && wifiConnections.peek().find((connection) => {
                                 return value.ssid === connection
                             }) == null
                     }).sort((a, b) => {
@@ -413,7 +413,7 @@ function WifiScannedConnections() {
                                     labelHalign={Gtk.Align.START}
                                     label={`${getAccessPointIcon(accessPoint)}  ${accessPoint.ssid}`}
                                     onClicked={() => {
-                                        passwordEntryRevealedSetter(!passwordEntryRevealed.get())
+                                        passwordEntryRevealedSetter(!passwordEntryRevealed.peek())
                                     }}/>
                             </box>
                             <revealer
@@ -469,7 +469,7 @@ function VpnActiveConnections() {
                         labelHalign={Gtk.Align.START}
                         label={`󰯄  ${connection}`}
                         onClicked={() => {
-                            buttonsRevealedSetter(!buttonsRevealed.get())
+                            buttonsRevealedSetter(!buttonsRevealed.peek())
                         }}/>
                     <revealer
                         revealChild={buttonsRevealed}
@@ -528,7 +528,7 @@ function VpnConnections() {
                         labelHalign={Gtk.Align.START}
                         label={`󰯄  ${connection}`}
                         onClicked={() => {
-                            buttonsRevealedSetter(!buttonsRevealed.get())
+                            buttonsRevealedSetter(!buttonsRevealed.peek())
                         }}/>
                     <revealer
                         revealChild={buttonsRevealed}
@@ -550,7 +550,7 @@ function VpnConnections() {
                                     }
                                 })}
                                 onClicked={() => {
-                                    if (!isConnecting.get()) {
+                                    if (!isConnecting.peek()) {
                                         connectVpn(connection, isConnectingSetter)
                                     }
                                 }}/>
@@ -641,7 +641,7 @@ export default function () {
         }
         setup={(revealed) => {
             const unsub = revealed[0].subscribe(() => {
-                if (revealed[0].get()) {
+                if (revealed[0].peek()) {
                     network.wifi?.scan()
                     updateConnections()
                 }
@@ -649,7 +649,7 @@ export default function () {
             onCleanup(unsub)
 
             const unsub2 = integratedMenuRevealed.subscribe(() => {
-                if (!integratedMenuRevealed.get()) {
+                if (!integratedMenuRevealed.peek()) {
                     revealed[1](false)
                 }
             })

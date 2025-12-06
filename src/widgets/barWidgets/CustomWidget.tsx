@@ -38,13 +38,13 @@ export default function (
     }
 
     // @ts-ignore
-    const [label, labelSetter] = createState(variableConfig.barWidgets[`custom${customNumber}`].label.get())
+    const [label, labelSetter] = createState(variableConfig.barWidgets[`custom${customNumber}`].label.peek())
     customWidgetLabelSetters.set(customNumber, labelSetter)
 
     // @ts-ignore
-    const execOnInit: string = variableConfig.barWidgets[`custom${customNumber}`].execOnInit.get()
+    const execOnInit: string = variableConfig.barWidgets[`custom${customNumber}`].execOnInit.peek()
     // @ts-ignore
-    const execOnClick: string = variableConfig.barWidgets[`custom${customNumber}`].execOnClick.get()
+    const execOnClick: string = variableConfig.barWidgets[`custom${customNumber}`].execOnClick.peek()
 
     let onClick: undefined | (() => void)
     if (execOnClick === '') {

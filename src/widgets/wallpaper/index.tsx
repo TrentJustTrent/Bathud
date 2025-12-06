@@ -22,7 +22,7 @@ export class WallpaperService extends GObject.Object {
     constructor() {
         super();
 
-        if (variableConfig.wallpaper.showWallpaper.get()) {
+        if (variableConfig.wallpaper.showWallpaper.peek()) {
             this._daemon.start().then((started) => {
                 if (started) {
                     console.log('Started Awww daemon from wallpaper service');
@@ -74,8 +74,8 @@ export class WallpaperService extends GObject.Object {
 }
 export function generatePreviews() {
     const homePath = GLib.get_home_dir();
-    let path = variableConfig.wallpaper.wallpaperDir.get() !== ""
-        ? variableConfig.wallpaper.wallpaperDir.get()
+    let path = variableConfig.wallpaper.wallpaperDir.peek() !== ""
+        ? variableConfig.wallpaper.wallpaperDir.peek()
         : `${homePath}/.wallpapers`;
     
     execAsync(`bash -c "${projectDir}/shellScripts/generatePreviews ${path}"`)

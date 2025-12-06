@@ -13,6 +13,7 @@ export type HyprMonitorInfo = {
     name: string;
     width: number;   // device pixels from hyprctl
     height: number;  // device pixels from hyprctl
+    wallpaper?: string;
 };
 
 /**
@@ -46,11 +47,60 @@ export async function getHyprMonitorsInfo(): Promise<HyprMonitorInfo[] | null> {
         const out = await execAsync("hyprctl monitors -j");
         const data = JSON.parse(out) as unknown;
 
+        const wallInfo = await execAsync("awww query");
+        const wallInfoData = getMonitorbyWallpaper(wallInfo);
+
         if (!Array.isArray(data)) return null;
 
-        return data as HyprMonitorInfo[]
+        const refinedData = data as HyprMonitorInfo[];
+        refinedData.forEach((monitor) => {
+            monitor.wallpaper = monitor.name in wallInfoData ? wallInfoData[monitor.name]:null;
+        }
+        )
+        return refinedData
     } catch (e) {
-        console.error("getHyprMonitorInfoById error:", e);
+        console.error("getHyprMonitorInfo error:", e);
         return null;
     }
+}
+function getMonitorbyWallpaper(path: string) {
+    const boundaryRegex = /default: (.+?):.*?currently displaying: (.*?)(?=default:|$)/g;
+  
+    // 1. Define the helper function BEFORE it is used in the 'if' block.
+    const mapMatches = (acc, match) => {
+      const defaultName = match[1] ? match[1].trim() : '';
+      const currentlyDisplaying = match[2] ? match[2].trim() : '';
+      
+      if (defaultName) {
+          acc[defaultName] = currentlyDisplaying;
+      }
+      return acc;
+    };
+  
+    const matches = [...path.matchAll(boundaryRegex)];
+  
+    // 2. Check for matches and execute fallback if needed
+    if (matches.length === 0) {
+        // Fallback logic
+        const fallbackRegex = /default: (.+?):.*?currently displaying: (.+?)(?=default:|$)/g;
+        const fallbackMatches = [...path.matchAll(fallbackRegex)];
+        
+        if (fallbackMatches.length > 0) {
+            console.warn("Using fallback regex. Original regex failed to find matches.");
+            // Now 'mapMatches' is defined and accessible here
+            return fallbackMatches.reduce(mapMatches, {});
+        }
+        return {}; 
+    }
+  
+    // 3. Process the successful matches
+    // 'mapMatches' is also used here
+    return matches.reduce(mapMatches, {});
+    // Output:
+    /*
+    {
+    'DP-1': '/home/user/images/wallpaper_4k.png',
+    'HDMI-A-1': '#000000'
+    }
+    */
 }
