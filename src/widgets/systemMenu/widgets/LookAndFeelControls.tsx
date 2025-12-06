@@ -55,11 +55,11 @@ export function updateFiles() {
     if (dir === "") {
         return
     }
-    getHyprMonitorsInfo().then((monitors) => {
-        if (monitors !== null) {
-            monitorsList = monitors;
-        }
-    })
+    // getHyprMonitorsInfo().then((monitors) => {
+    //     if (monitors !== null) {
+    //         monitorsList = monitors;
+    //     }
+    // })
 
     filesSetter(
         chunkIntoColumns(
@@ -285,7 +285,6 @@ function WallpaperColumn(
                         })
                     }}
                     selected={inUse.asAccessor()}
-                    // selected={inUse}
                     backgroundCss={["wallpaperButton"]}
                     clickHandlers={{
                         onLeftClick: () => {
@@ -295,7 +294,6 @@ function WallpaperColumn(
                                 wallpaperService.setWallpaper(file);
                                 changingWallpaperBusy = false
                                 inUse.set(monitorsList.find(monitor => monitor.wallpaper == file) === undefined ? false:true)
-                                updateFiles()
                                 console.log("wallpaper set")
                             } catch (error) {
                                 changingWallpaperBusy = false

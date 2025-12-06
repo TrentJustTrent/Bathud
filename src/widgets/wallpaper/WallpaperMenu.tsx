@@ -6,7 +6,7 @@ import {createBinding, createState, For, onCleanup} from "ags";
 import { Variable } from "../../config/Variable";
 import { closeIntegratedMonitorList } from "./IntegratedWallpaperMenu";
 import { variableConfig } from "../../config/config";
-import { changingWallpaperBusy, updateFiles, wallpaperService } from "../systemMenu/widgets/LookAndFeelControls";
+import { changingWallpaperBusy, wallpaperService } from "../systemMenu/widgets/LookAndFeelControls";
 
 export const [selectedWallpaper, selectedWallpaperSetter] = createState<string>('')
 const [resetButton, setResetButton] = createState(" Close")
@@ -117,7 +117,6 @@ function WallpaperSelectContent() {
                     //Apply Settings
                     changingWallpaperBusy = false
                     wallpaperService.setWallpaper(selectedWallpaper.peek(),outputBuffer)
-                    updateFiles()
                     closeIntegratedMonitorList();
                 }}/>
         </box>
@@ -130,7 +129,6 @@ function WallpaperSelectContent() {
                     primary={true}
                     labelHalign={Gtk.Align.START}
                     selected={selectedMonitors[monitor.id].asAccessor()}
-                    // selected={selectedMonitors[monitor.id]}
                     label={monitor.name}
                     onClicked={() => {
                         //Do something
