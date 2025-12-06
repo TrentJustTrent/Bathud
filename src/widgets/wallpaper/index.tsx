@@ -9,14 +9,13 @@ import { projectDir } from '../../app'
  */
 @register({ GTypeName: 'Wallpaper' })
 export class WallpaperService extends GObject.Object {
-    @property(String)
-    declare public wallpaper: string;
+    // @property(String)
+    // declare public wallpaper: string;
 
     @signal(Boolean)
     declare public changed: (event: boolean) => void;
 
     private static _instance: WallpaperService;
-    private _blockMonitor = false;
     private _daemon = new AwwwDaemon();
 
     constructor() {

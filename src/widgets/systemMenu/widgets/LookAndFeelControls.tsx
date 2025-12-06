@@ -22,7 +22,7 @@ export const wallpaperService = WallpaperService.getInstance();
 const [files, filesSetter] = createState<string[][]>([])
 const numberOfColumns = 2
 let buttonsEnabled = true
-let changingWallpaperBusy = false
+export let changingWallpaperBusy = false
 
 function updateConfig(configFile: ConfigFile) {
     if (!buttonsEnabled) {
@@ -297,6 +297,7 @@ function WallpaperColumn(
                         },
                         onRightClick: () => {
                             //Open Monitor Select
+                            changingWallpaperBusy = true;
                             console.log('Expanding',file);
                             selectedWallpaperSetter(file);
                         }

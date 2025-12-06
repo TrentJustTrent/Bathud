@@ -6,6 +6,7 @@ import {createBinding, createState, For, onCleanup} from "ags";
 import { Variable } from "../../config/Variable";
 import { closeIntegratedMonitorList } from "./IntegratedWallpaperMenu";
 import { variableConfig } from "../../config/config";
+import { changingWallpaperBusy, wallpaperService } from "../systemMenu/widgets/LookAndFeelControls";
 
 export const [selectedWallpaper, selectedWallpaperSetter] = createState<string>('')
 const [resetButton, setResetButton] = createState(" Close")
@@ -100,7 +101,7 @@ function WallpaperSelectContent() {
                     //Clear selections and close entire widget menu
                     if (initialStatus) {
                         manipulateMenuState('clear')
-                        initialStatus = true
+                        changingWallpaperBusy = false
                         closeIntegratedMonitorList();
                     } else {
                         setResetButton(' Close')
@@ -114,6 +115,9 @@ function WallpaperSelectContent() {
                 marginStart={4}
                 onClicked={() => {
                     //Apply Settings
+                    changingWallpaperBusy = false
+                    wallpaperService.setWallpaper(selectedWallpaper.peek(),outputBuffer)
+                    closeIntegratedMonitorList();
                 }}/>
         </box>
         <For each={createBinding(hyprland, "monitors")}>
@@ -139,8 +143,8 @@ function WallpaperSelectContent() {
                             setResetButton('  Clear')
                         }
                         // updateWallpaper(monitor,!selectedMonitors[monitor.id].peek())
-                        manipulateMenuState('update',monitor,selectedMonitors[monitor.id].peek())
-                        console.log(`Toggled: ${monitor.name}`)
+                        manipulateMenuState('update',monitor,!selectedMonitors[monitor.id].peek())
+                        console.log(`Selection of ${monitor.name}:`,!selectedMonitors[monitor.id].peek())
                     }}/>
             }}
         </For>
