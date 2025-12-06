@@ -15,6 +15,8 @@ import GLib from "gi://GLib?version=2.0";
 import {integratedMenuRevealed} from "../IntegratedMenu";
 import { WallpaperService } from "../../wallpaper";
 import { selectedWallpaperSetter } from "../../wallpaper/WallpaperMenu";
+import { Variable } from "../../../config/Variable";
+import { getHyprMonitorsInfo, HyprMonitorInfo } from "../../utils/monitors";
 // import {setWallpaper} from "../../wallpaper/setWallpaper";
 
 export const wallpaperService = WallpaperService.getInstance();
@@ -22,6 +24,7 @@ export const wallpaperService = WallpaperService.getInstance();
 const [files, filesSetter] = createState<string[][]>([])
 const numberOfColumns = 2
 let buttonsEnabled = true
+let monitorsList: HyprMonitorInfo[] = []
 export let changingWallpaperBusy = false
 
 function updateConfig(configFile: ConfigFile) {
@@ -47,11 +50,16 @@ function chunkIntoColumns<T>(arr: T[], numCols: number): T[][] {
     return columns;
 }
 
-function updateFiles() {
+export function updateFiles() {
     const dir = variableConfig.wallpaper.wallpaperDir.peek()
     if (dir === "") {
         return
     }
+    getHyprMonitorsInfo().then((monitors) => {
+        if (monitors !== null) {
+            monitorsList = monitors;
+        }
+    })
 
     filesSetter(
         chunkIntoColumns(
@@ -258,12 +266,12 @@ function WallpaperColumn(
         }
         return filesList[column]
     })
-
     return <box
         hexpand={true}
         orientation={Gtk.Orientation.VERTICAL}>
         <For each={filesListInColumn}>
             {(file) => {
+                const inUse = new Variable(monitorsList.find(monitor => monitor.wallpaper == file) === undefined ? false:true)
                 return <BButton
                     $={(self) => {
                         // 140x70 is a magic number that scales well and doesn't cause unwanted expansion of the scroll window
@@ -276,7 +284,8 @@ function WallpaperColumn(
                             self.set_child(picture)
                         })
                     }}
-                    // selected={}
+                    selected={inUse.asAccessor()}
+                    // selected={inUse}
                     backgroundCss={["wallpaperButton"]}
                     clickHandlers={{
                         onLeftClick: () => {
@@ -285,6 +294,8 @@ function WallpaperColumn(
                             try {
                                 wallpaperService.setWallpaper(file);
                                 changingWallpaperBusy = false
+                                inUse.set(monitorsList.find(monitor => monitor.wallpaper == file) === undefined ? false:true)
+                                updateFiles()
                                 console.log("wallpaper set")
                             } catch (error) {
                                 changingWallpaperBusy = false
@@ -317,7 +328,7 @@ export default function () {
     updateFiles()
 
     return <RevealerRow
-        setup={(revealed) => {
+        $={(revealed) => {
             const unsub = integratedMenuRevealed.subscribe(() => {
                 if (!integratedMenuRevealed.peek()) {
                     revealed[1](false)

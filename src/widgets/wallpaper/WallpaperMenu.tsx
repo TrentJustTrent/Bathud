@@ -6,7 +6,7 @@ import {createBinding, createState, For, onCleanup} from "ags";
 import { Variable } from "../../config/Variable";
 import { closeIntegratedMonitorList } from "./IntegratedWallpaperMenu";
 import { variableConfig } from "../../config/config";
-import { changingWallpaperBusy, wallpaperService } from "../systemMenu/widgets/LookAndFeelControls";
+import { changingWallpaperBusy, updateFiles, wallpaperService } from "../systemMenu/widgets/LookAndFeelControls";
 
 export const [selectedWallpaper, selectedWallpaperSetter] = createState<string>('')
 const [resetButton, setResetButton] = createState(" Close")
@@ -117,6 +117,7 @@ function WallpaperSelectContent() {
                     //Apply Settings
                     changingWallpaperBusy = false
                     wallpaperService.setWallpaper(selectedWallpaper.peek(),outputBuffer)
+                    updateFiles()
                     closeIntegratedMonitorList();
                 }}/>
         </box>
