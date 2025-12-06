@@ -3,6 +3,7 @@ import { AwwwDaemon } from './awwwDaemon';
 import { execAsync} from 'astal';
 import { variableConfig } from '../../config/config';
 import { projectDir } from '../../app'
+import { updateFiles } from '../systemMenu/widgets/LookAndFeelControls';
 
 /**
  * Service for managing desktop wallpaper using awww daemon
@@ -60,6 +61,7 @@ export class WallpaperService extends GObject.Object {
         } else {
             this._daemon.setWallpaper(path, outputs)
         }
+        updateFiles()
     }
 
     /**

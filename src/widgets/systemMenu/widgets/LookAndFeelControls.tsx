@@ -26,6 +26,8 @@ const numberOfColumns = 2
 let buttonsEnabled = true
 let monitorsList: HyprMonitorInfo[] = []
 export let changingWallpaperBusy = false
+const selectedWallpapers: Variable<boolean>[] = [];
+
 
 function updateConfig(configFile: ConfigFile) {
     if (!buttonsEnabled) {
@@ -36,7 +38,10 @@ function updateConfig(configFile: ConfigFile) {
         buttonsEnabled = true
     })
 }
-
+type WallpaperFile = {
+    path: string,
+    index: number
+}
 function chunkIntoColumns<T>(arr: T[], numCols: number): T[][] {
     // Create numCols empty arrays
     const columns: T[][] = Array.from({ length: numCols }, () => []);
@@ -49,26 +54,35 @@ function chunkIntoColumns<T>(arr: T[], numCols: number): T[][] {
 
     return columns;
 }
-
+function createList(n:number) {
+    return Array.from({ length: n }, () => new Variable(false));
+}
 export function updateFiles() {
     const dir = variableConfig.wallpaper.wallpaperDir.peek()
     if (dir === "") {
         return
     }
-    // getHyprMonitorsInfo().then((monitors) => {
-    //     if (monitors !== null) {
-    //         monitorsList = monitors;
-    //     }
-    // })
+    getHyprMonitorsInfo().then((monitors) => {
+        if (monitors !== null) {
+            monitorsList = monitors;
+        }
+    })
 
-    filesSetter(
-        chunkIntoColumns(
-            listFilenamesInDir(dir)
+    const lists = listFilenamesInDir(dir)
                 .filter((file) => file.includes("jpg") || file.includes("png"))
-                .map((file) => `${dir}/${file}`),
-            numberOfColumns
-        )
-    )
+                .map((file) => `${dir}/${file}`)
+    
+    const finalList: WallpaperFile[] = [];
+    lists.forEach((wallpaper)=>{
+        const index = monitorsList.findIndex(monitor => monitor.wallpaper === wallpaper);
+        finalList.push({path:wallpaper,index:index})
+        if (index >= 0) {
+            selectedWallpapers[index].set(true)
+        }
+    })
+    
+    filesSetter(chunkIntoColumns(finalList,numberOfColumns))
+    
 }
 
 function updateFade(
@@ -264,18 +278,20 @@ function WallpaperColumn(
         if (column < 0 || column >= filesList.length) {
             return []
         }
+        console.log('Got enough WallpaperFiles');
+        
         return filesList[column]
     })
     return <box
         hexpand={true}
         orientation={Gtk.Orientation.VERTICAL}>
         <For each={filesListInColumn}>
-            {(file) => {
-                const inUse = new Variable(monitorsList.find(monitor => monitor.wallpaper == file) === undefined ? false:true)
+            {(file: WallpaperFile) => {
+                //const inUse = new Variable(monitorsList.find(monitor => monitor.wallpaper == file) === undefined ? false:true)
                 return <BButton
                     $={(self) => {
                         // 140x70 is a magic number that scales well and doesn't cause unwanted expansion of the scroll window
-                        createScaledTexture(140, 70, file).then((texture) => {
+                        createScaledTexture(140, 70, file.path).then((texture) => {
                             const picture = Gtk.Picture.new_for_paintable(texture)
                             picture.heightRequest = 90
                             picture.cssClasses = ["wallpaper"]
@@ -284,16 +300,17 @@ function WallpaperColumn(
                             self.set_child(picture)
                         })
                     }}
-                    selected={inUse.asAccessor()}
+                    selected={selectedWallpapers[file.index].asAccessor()}
                     backgroundCss={["wallpaperButton"]}
                     clickHandlers={{
                         onLeftClick: () => {
                             if (changingWallpaperBusy) return
                             changingWallpaperBusy = true
                             try {
-                                wallpaperService.setWallpaper(file);
+                                wallpaperService.setWallpaper(file.path);
                                 changingWallpaperBusy = false
-                                inUse.set(monitorsList.find(monitor => monitor.wallpaper == file) === undefined ? false:true)
+                                // inUse.set(monitorsList.find(monitor => monitor.wallpaper == file) === undefined ? false:true)
+                                //selectedWallpapers[file.index].set(true)
                                 console.log("wallpaper set")
                             } catch (error) {
                                 changingWallpaperBusy = false
@@ -307,8 +324,8 @@ function WallpaperColumn(
                         onRightClick: () => {
                             //Open Monitor Select
                             changingWallpaperBusy = true;
-                            console.log('Expanding menu',file);
-                            selectedWallpaperSetter(file);
+                            console.log('Expanding menu',file.path);
+                            selectedWallpaperSetter(file.path);
                         }
                     }}/>
             }}
