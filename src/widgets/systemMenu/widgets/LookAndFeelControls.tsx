@@ -298,7 +298,7 @@ function WallpaperColumn(
                         onRightClick: () => {
                             //Open Monitor Select
                             changingWallpaperBusy = true;
-                            console.log('Expanding',file);
+                            console.log('Expanding menu',file);
                             selectedWallpaperSetter(file);
                         }
                     }}/>
