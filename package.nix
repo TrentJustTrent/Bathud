@@ -18,6 +18,7 @@
   hyprpicker,
   libgtop,
   libnotify,
+  makeWrapper,
   networkmanager,
   nix-update-script,
   stdenvNoCC,

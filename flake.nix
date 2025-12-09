@@ -15,14 +15,13 @@
       perSystem = { pkgs, ... }: {
         packages = {
           # Define your package here
-          #bathud = pkgs.callPackage ./package.nix {inherit (inputs) ags};
-          bathud = pkgs.callPackage ./package.nix {};
+          default = pkgs.callPackage ./package.nix {};
           #default = bathud;
         };
         apps = {
-          bathud-bin = {
+          default = {
             type = "app";
-            program = "${self'.packages.bathud}/bin/bathud";
+            program = "${pkgs.bathud}/bin/bathud";
           };
           #default = bathud-bin;
         };
