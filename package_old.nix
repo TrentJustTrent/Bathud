@@ -6,123 +6,101 @@
   bluez,
   bluez-tools,
   brightnessctl,
-  btop,
+  cliphist,
   dart-sass,
-  fetchFromGitHub,
   glib,
   glib-networking,
   gnome-bluetooth,
   gpu-screen-recorder,
   gpustat,
   grimblast,
-  gtksourceview3,
   gvfs,
   hyprpicker,
   libgtop,
   libnotify,
-  libsoup_3,
-  matugen,
+  makeWrapper,
   networkmanager,
   nix-update-script,
-  python3,
-  pywal,
-  stdenv,
+  stdenvNoCC,
   swww,
-  upower,
   wireplumber,
+  wf-recorder,
   wl-clipboard,
   writeShellScript,
-
-  enableCuda ? config.cudaSupport,
+  grim,
+  yq-go,
+  slurp,
+  sox,
+  jq,
+  pipewire,
 }:
-ags.bundle {
-  pname = "hyprpanel";
-  version = "0-unstable-2025-09-11";
+let 
+  name = "bathud";
+  version = "1.0.0";
+in 
+stdenvNoCC.mkDerivation rec {
+  inherit name version;
 
-  __structuredAttrs = true;
-  strictDeps = true;
+  src = ./src;
 
-  src = fetchFromGitHub {
-    owner = "Jas-SinghFSU";
-    repo = "HyprPanel";
-    rev = "0a961ce8a959c521f41546af7f355e04adee5503";
-    hash = "sha256-pz69vejsrB+7N+jyKxZcckTjJtzw9BCAIRzHNbFUIp0=";
-  };
+  # The astal library is a build input.
+  # buildInputs = [ astal ];
+  nativeBuildInputs = [
+    ags
+    makeWrapper
+  ];
 
-  # keep in sync with https://github.com/Jas-SinghFSU/HyprPanel/blob/master/flake.nix#L42
-  dependencies = [
-    astal.apps
-    astal.battery
-    astal.bluetooth
-    astal.cava
-    astal.hyprland
-    astal.mpris
-    astal.network
-    astal.notifd
-    astal.powerprofiles
-    astal.tray
-    astal.wireplumber
+  buildInputs = with astal; [
+    io
+    gjs
+    astal4
+  ];
+installPhase = ''
+  mkdir -p $out/bin
+  ags bundle app.ts $out/bin/${name}.js -d "SRC='${./src}'"
+  
+  cat > $out/bin/${name} << EOF
+#!/bin/sh
+exec ags run $out/bin/${name}.js "$@"
+EOF
 
-    bluez
-    bluez-tools
-    brightnessctl
-    btop
-    dart-sass
-    glib
-    gnome-bluetooth
-    grimblast
-    gtksourceview3
-    gvfs
-    hyprpicker
-    libgtop
-    libnotify
-    libsoup_3
-    matugen
-    networkmanager
-    pywal
-    swww
-    upower
-    wireplumber
-    wl-clipboard
-    (python3.withPackages (
-      ps:
-      with ps;
-      [
-        dbus-python
-        pygobject3
+  chmod +x $out/bin/${name}
+'';
+
+  preFixup = ''
+    wrapProgram $out/bin/${name} \
+    --prefix PATH ':' ${
+      lib.makeBinPath [
+        bluez
+        bluez-tools
+        brightnessctl
+        dart-sass
+        grim
+        yq-go
+        slurp
+        sox
+        grimblast
+        gvfs
+        hyprpicker
+        libgtop
+        libnotify
+        jq
+        pipewire
+        networkmanager
+        swww
+        wireplumber
+        wf-recorder
+        wl-clipboard
       ]
-      ++ lib.optional enableCuda gpustat
-    ))
-  ]
-  ++ (lib.optionals (stdenv.hostPlatform.system == "x86_64-linux") [ gpu-screen-recorder ]);
-
-  passthru.updateScript = nix-update-script { extraArgs = [ "--version=branch" ]; };
-
-  postFixup =
-    let
-      script = writeShellScript "hyprpanel" ''
-        export GIO_EXTRA_MODULES='${glib-networking}/lib/gio/modules'
-        if [ "$#" -eq 0 ]; then
-          exec @out@/bin/.hyprpanel
-        else
-          exec ${astal.io}/bin/astal -i hyprpanel "$*"
-        fi
-      '';
-    in
-    # bash
-    ''
-      mv "$out/bin/hyprpanel" "$out/bin/.hyprpanel"
-      cp '${script}' "$out/bin/hyprpanel"
-      substituteInPlace "$out/bin/hyprpanel" \
-        --replace-fail '@out@' "$out"
-    '';
-
+    }
+  '';
+  # The astal input is automatically available in the environment
+  # during the build phase. The path is handled by Nix.
   meta = {
     description = "Bar/Panel for Hyprland with extensive customizability";
     homepage = "https://github.com/Jas-SinghFSU/HyprPanel";
     license = lib.licenses.mit;
-    maintainers = with lib.maintainers; [ perchun ];
-    mainProgram = "hyprpanel";
+    mainProgram = "bathud";
     platforms = lib.platforms.linux;
   };
 }

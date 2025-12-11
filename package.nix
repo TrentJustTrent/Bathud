@@ -1,106 +1,77 @@
+{ config, lib, pkgs, ags, astal, ... }:
+
 {
-  lib,
-  config,
-  ags,
-  astal,
-  bluez,
-  bluez-tools,
-  brightnessctl,
-  cliphist,
-  dart-sass,
-  glib,
-  glib-networking,
-  gnome-bluetooth,
-  gpu-screen-recorder,
-  gpustat,
-  grimblast,
-  gvfs,
-  hyprpicker,
-  libgtop,
-  libnotify,
-  makeWrapper,
-  networkmanager,
-  nix-update-script,
-  stdenvNoCC,
-  swww,
-  wireplumber,
-  wf-recorder,
-  wl-clipboard,
-  writeShellScript,
-  grim,
-  yq-go,
-  slurp,
-  sox,
-  jq,
-  pipewire,
-}:
-let 
-  name = "bathud";
-  version = "1.0.0";
-in 
-stdenvNoCC.mkDerivation rec {
-  inherit name version;
+  perSystem = { system, self', pkgs, lib, ... }:
+    let
+      packageName = "bathud";
+      
+      # Extract the system-specific Astal package set
+      astalPackages = astal.packages.${system};
 
-  src = ./src;
+      # Define Astal dependencies in an easy-to-read list
+      astalDeps = [
+        astalPackages.astal3
+        astalPackages.astal4
+      ];
+      
+      bundledApp = 
+        # Use 'with' to bring pkgs and astalPackages into scope
+        with pkgs;
+        with astalPackages;
+        
+        stdenv.mkDerivation {
+          pname = packageName;
+          version = "0.1.0";
 
-  # The astal library is a build input.
-  # buildInputs = [ astal ];
-  nativeBuildInputs = [
-    ags
-    makeWrapper
-  ];
+          # Source is the current directory (project root)
+          src = ./.; 
 
-  buildInputs = with astal; [
-    io
-    gjs
-    astal4
-  ];
-installPhase = ''
-  mkdir -p $out/bin
-  ags bundle app.ts $out/bin/${name}.js -d "SRC='${./src}'"
-  
-  cat > $out/bin/${name} << EOF
-#!/bin/sh
-exec ags run $out/bin/${name}.js "$@"
-EOF
+          nativeBuildInputs = [
+            ags.packages.${system}.default
+            makeWrapper
+          ];
 
-  chmod +x $out/bin/${name}
-'';
+          # Runtime dependencies are clean due to 'with pkgs'
+          buildInputs = [
+            astalDeps 
+            
+            pipewire
+            networkmanager
+            bluez
+            gtk4
+          ];
+          
+          buildPhase = ''
+            echo "Running simple ags bundle command..."
+            ags bundle
+            
+            if [ ! -d "dist" ]; then
+              echo "ERROR: 'ags bundle' did not create the expected 'dist' output directory."
+              exit 1
+            fi
+          '';
 
-  preFixup = ''
-    wrapProgram $out/bin/${name} \
-    --prefix PATH ':' ${
-      lib.makeBinPath [
-        bluez
-        bluez-tools
-        brightnessctl
-        dart-sass
-        grim
-        yq-go
-        slurp
-        sox
-        grimblast
-        gvfs
-        hyprpicker
-        libgtop
-        libnotify
-        jq
-        pipewire
-        networkmanager
-        swww
-        wireplumber
-        wf-recorder
-        wl-clipboard
-      ]
-    }
-  '';
-  # The astal input is automatically available in the environment
-  # during the build phase. The path is handled by Nix.
-  meta = {
-    description = "Bar/Panel for Hyprland with extensive customizability";
-    homepage = "https://github.com/Jas-SinghFSU/HyprPanel";
-    license = lib.licenses.mit;
-    mainProgram = "bathud";
-    platforms = lib.platforms.linux;
-  };
+          installPhase = ''
+            # 1. Copy bundled assets from 'dist' to the AGS config directory
+            mkdir -p $out/share/ags/js
+            cp -r dist/* $out/share/ags/js/
+
+            # 2. Create the executable wrapper
+            mkdir -p $out/bin
+            
+            makeWrapper ${ags.packages.${system}.default}/bin/ags $out/bin/${packageName} \
+              --add-path "${lib.makeBinPath buildInputs}" \
+              --run "export AGS_CONFIG_DIR=$out/share/ags/js"
+          '';
+        };
+    in
+    {
+      packages.default = bundledApp;
+
+      apps.default = {
+        type = "app";
+        program = "${bundledApp}/bin/${packageName}";
+      };
+      #nix run . -- marco
+    };
 }
