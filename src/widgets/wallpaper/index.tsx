@@ -1,6 +1,6 @@
 import GObject, { GLib, property, register, signal } from 'astal/gobject';
 import { AwwwDaemon } from './awwwDaemon';
-import { execAsync} from 'astal';
+import { execAsync} from 'ags/process';
 import { variableConfig } from '../../config/config';
 import { projectDir } from '../../app'
 import { updateFiles } from '../systemMenu/widgets/LookAndFeelControls';

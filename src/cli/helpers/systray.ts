@@ -1,5 +1,5 @@
 import AstalTray from 'gi://AstalTray';
-import { errorHandler } from '../../utils';
+import { errorHandler } from '../commander/helpers/utils';
 const systemtray = AstalTray.get_default();
 
 /**
