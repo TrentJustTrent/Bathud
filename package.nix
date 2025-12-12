@@ -45,7 +45,7 @@
             # ags bundle [entryfile] [outfile] [flags]
             # Use -r . to set the project root correctly for the bundler
             # Use -p to include packages defined in package.json (if applicable)
-            ags bundle src/main.ts ${bundledOutputName} -r . -p
+            ags bundle src/app.ts ${bundledOutputName} -r . -d "SRC='${./src}'"
             
             # Note: The output is a file, not a directory, so no directory check is needed.
           '';
