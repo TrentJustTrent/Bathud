@@ -4,6 +4,7 @@ import { execAsync} from 'ags/process';
 import { variableConfig } from '../../config/config';
 import { projectDir } from '../../app'
 import { updateFiles } from '../systemMenu/widgets/LookAndFeelControls';
+import { timeout } from "ags/time";
 
 /**
  * Service for managing desktop wallpaper using awww daemon
@@ -71,6 +72,23 @@ export class WallpaperService extends GObject.Object {
      */
     public isRunning(): boolean {
         return this._daemon.isRunning;
+    }
+    /**
+     * Restarts wallpaper service is currently running
+     *
+     * @returns Whether awww daemon is active
+     */
+    public refresh(): void {
+        if(this._daemon.isRunning) {
+            this._daemon.stop();
+            timeout(200, () => {
+                this._daemon.start().then((started) => {
+                    if (started) {
+                        console.log('Refreshed Awww daemon from wallpaper service');
+                    }
+                });
+            })
+        }
     }
 }
 export function generatePreviews() {
