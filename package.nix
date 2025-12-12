@@ -3,32 +3,32 @@
 {
   perSystem = { system, self', pkgs, lib, ... }:
     let
-      packageName = "bathud";
+      packageName = "your-typescript-project-ags";
       
-      # Extract the system-specific Astal package set
+      # Define the name of the final bundled JavaScript file
+      bundledOutputName = "shell.js";
+      
       astalPackages = astal.packages.${system};
-
-      bundledApp = 
-	# --- FIX: Start 'with' here to bring 'pkgs' and 'astalPackages' into scope ---
+      
+      tsAgsBundle = 
         with pkgs;
         with astalPackages;
         
         let
-          # Now, all these variables are defined in the 'with' scope:
           allRuntimeDeps = [
-            astal3      # astalPackages.astal3
-            astal4      # astalPackages.astal4
-            pipewire    # pkgs.pipewire
-            networkmanager # pkgs.networkmanager
-            bluez       # pkgs.bluez
-            gtk4        # pkgs.gtk4
+            astal3
+            astal4
+            pipewire
+            networkmanager
+            bluez
+            gtk4
           ];
         in
+        
         stdenv.mkDerivation {
           pname = packageName;
           version = "0.1.0";
 
-          # Source is the current directory (project root)
           src = ./.; 
 
           nativeBuildInputs = [
@@ -36,25 +36,28 @@
             makeWrapper
           ];
 
-          # Runtime dependencies are clean due to 'with pkgs'
-	  buildInputs = allRuntimeDeps;
+          buildInputs = allRuntimeDeps;
           
           buildPhase = ''
-            echo "Running simple ags bundle command..."
-            ags bundle
+            echo "Running precise ags bundle command..."
             
-            if [ ! -d "dist" ]; then
-              echo "ERROR: 'ags bundle' did not create the expected 'dist' output directory."
-              exit 1
-            fi
+            # --- FIX: Use the confirmed syntax ---
+            # ags bundle [entryfile] [outfile] [flags]
+            # Use -r . to set the project root correctly for the bundler
+            # Use -p to include packages defined in package.json (if applicable)
+            ags bundle src/main.ts ${bundledOutputName} -r . -p
+            
+            # Note: The output is a file, not a directory, so no directory check is needed.
           '';
 
           installPhase = ''
-            # 1. Copy bundled assets from 'dist' to the AGS config directory
+            # 1. Create the target directory for the config file
             mkdir -p $out/share/ags/js
-            cp -r dist/* $out/share/ags/js/
+            
+            # 2. FIX: Copy the single bundled file to the final location
+            cp ${bundledOutputName} $out/share/ags/js/config.js
 
-            # 2. Create the executable wrapper
+            # 3. Create the executable wrapper
             mkdir -p $out/bin
             
             makeWrapper ${ags.packages.${system}.default}/bin/ags $out/bin/${packageName} \
@@ -64,12 +67,11 @@
         };
     in
     {
-      packages.default = bundledApp;
+      packages.default = tsAgsBundle;
 
       apps.default = {
         type = "app";
-        program = "${bundledApp}/bin/${packageName}";
+        program = "${tsAgsBundle}/bin/${packageName}";
       };
-      #nix run . -- marco
     };
 }
