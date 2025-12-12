@@ -305,7 +305,7 @@ function WallpaperColumn(
                     clickHandlers={{
                         onLeftClick: () => {
                             if (changingWallpaperBusy.peek()) return
-                            changingWallpaperBusy = true
+                            changingWallpaperBusy.set(true)
                             try {
                                 wallpaperService.setWallpaper(file.path);
                                 changingWallpaperBusy.set(false)
