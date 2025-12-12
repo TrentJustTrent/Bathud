@@ -8,17 +8,22 @@
       # Extract the system-specific Astal package set
       astalPackages = astal.packages.${system};
 
-      # Define Astal dependencies in an easy-to-read list
-      astalDeps = [
-        astalPackages.astal3
-        astalPackages.astal4
-      ];
-      
       bundledApp = 
-        # Use 'with' to bring pkgs and astalPackages into scope
+	# --- FIX: Start 'with' here to bring 'pkgs' and 'astalPackages' into scope ---
         with pkgs;
         with astalPackages;
         
+        let
+          # Now, all these variables are defined in the 'with' scope:
+          allRuntimeDeps = [
+            astal3      # astalPackages.astal3
+            astal4      # astalPackages.astal4
+            pipewire    # pkgs.pipewire
+            networkmanager # pkgs.networkmanager
+            bluez       # pkgs.bluez
+            gtk4        # pkgs.gtk4
+          ];
+        in
         stdenv.mkDerivation {
           pname = packageName;
           version = "0.1.0";
@@ -32,14 +37,7 @@
           ];
 
           # Runtime dependencies are clean due to 'with pkgs'
-          buildInputs = [
-            astalDeps 
-            
-            pipewire
-            networkmanager
-            bluez
-            gtk4
-          ];
+	  buildInputs = allRuntimeDeps;
           
           buildPhase = ''
             echo "Running simple ags bundle command..."
@@ -60,7 +58,7 @@
             mkdir -p $out/bin
             
             makeWrapper ${ags.packages.${system}.default}/bin/ags $out/bin/${packageName} \
-              --add-path "${lib.makeBinPath buildInputs}" \
+              --add-path "${lib.makeBinPath allRuntimeDeps}" \
               --run "export AGS_CONFIG_DIR=$out/share/ags/js"
           '';
         };
