@@ -25,7 +25,7 @@ const [files, filesSetter] = createState<string[][]>([])
 const numberOfColumns = 2
 let buttonsEnabled = true
 let monitorsList: HyprMonitorInfo[] = []
-export let changingWallpaperBusy = false
+export const changingWallpaperBusy = new Variable(false);
 const selectedWallpapers: Variable<boolean>[] = [];
 
 
@@ -304,16 +304,16 @@ function WallpaperColumn(
                     backgroundCss={["wallpaperButton"]}
                     clickHandlers={{
                         onLeftClick: () => {
-                            if (changingWallpaperBusy) return
+                            if (changingWallpaperBusy.peek()) return
                             changingWallpaperBusy = true
                             try {
                                 wallpaperService.setWallpaper(file.path);
-                                changingWallpaperBusy = false
+                                changingWallpaperBusy.set(false)
                                 // inUse.set(monitorsList.find(monitor => monitor.wallpaper == file) === undefined ? false:true)
                                 //selectedWallpapers[file.index].set(true)
                                 console.log("wallpaper set")
                             } catch (error) {
-                                changingWallpaperBusy = false
+                                changingWallpaperBusy.set(false)
                                 if (error instanceof Error) {
                                     throw new Error(error.message);
                                 } else {
@@ -323,7 +323,7 @@ function WallpaperColumn(
                         },
                         onRightClick: () => {
                             //Open Monitor Select
-                            changingWallpaperBusy = true;
+                            changingWallpaperBusy.set(true);
                             console.log('Expanding menu',file.path);
                             selectedWallpaperSetter(file.path);
                         }

@@ -56,7 +56,7 @@ function updateVerse() {
             });
         })
         .catch((error) => {
-            logError(error);
+            console.error(error);
         })
         .finally(() => {
             console.log("Verse done")

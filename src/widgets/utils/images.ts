@@ -26,7 +26,7 @@ export async function createScaledTexture(width: number, height: number, path: s
             });
         });
     } catch (e) {
-        logError(e);
+        console.error(e);
         return null;
     }
 

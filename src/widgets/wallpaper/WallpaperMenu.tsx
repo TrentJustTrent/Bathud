@@ -101,7 +101,7 @@ function WallpaperSelectContent() {
                     //Clear selections and close entire widget menu
                     if (initialStatus) {
                         manipulateMenuState('clear')
-                        changingWallpaperBusy = false
+                        changingWallpaperBusy.set(false)
                         closeIntegratedMonitorList();
                     } else {
                         setResetButton(' Close')
@@ -115,7 +115,7 @@ function WallpaperSelectContent() {
                 marginStart={4}
                 onClicked={() => {
                     //Apply Settings
-                    changingWallpaperBusy = false
+                    changingWallpaperBusy.set(false)
                     wallpaperService.setWallpaper(selectedWallpaper.peek(),outputBuffer)
                     closeIntegratedMonitorList();
                 }}/>

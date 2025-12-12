@@ -1,4 +1,4 @@
-import {createPoll} from "../../../../../../../usr/share/ags/js/lib/time";
+import {createPoll} from "ags/time";
 import GLib from "gi://GLib?version=2.0";
 import BButton, {BButtonHorizontalPadding} from "../common/BButton";
 import {Bar} from "../../config/bar";
