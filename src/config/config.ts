@@ -13,6 +13,7 @@ import {timeout, Timer} from "ags/time";
 import {resolveWallpaper} from "../widgets/wallpaper/getWallpaper";
 import {setWallpaper} from "../widgets/wallpaper/setWallpaper";
 import {refreshWallpaper} from "../widgets/wallpaper/refreshWallpaper";
+import { wallpaperService } from "../widgets/systemMenu/widgets/LookAndFeelControls";
 
 const homePath = GLib.get_home_dir()
 const globalConfigFile = "bathud.yaml"
@@ -234,7 +235,8 @@ export function setNewConfig(configFile: ConfigFile, onFinished: () => void) {
     monitorSelectedConfig()
     integratedMenuRevealedSetting(false)
     setTheme(onFinished)
-    refreshWallpaper()
+    // refreshWallpaper()
+    wallpaperService.refresh()
 }
 
 function updateDefaultValues() {

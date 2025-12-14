@@ -1,7 +1,7 @@
 import AstalNotifd from 'gi://AstalNotifd?version=0.1';
 import AstalWp from 'gi://AstalWp?version=0.1';
 import { Command } from '../../../types';
-import { execAsync } from 'astal';
+import { execAsync } from 'ags/process';
 import { getSystrayItems } from '../../../../helpers/systray';
 import { errorHandler } from '../../../helpers/utils';
 import options from 'src/configuration';
