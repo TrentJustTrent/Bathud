@@ -12,7 +12,6 @@ import GLib from "gi://GLib?version=2.0";
 import {timeout, Timer} from "ags/time";
 import {resolveWallpaper} from "../widgets/wallpaper/getWallpaper";
 import {setWallpaper} from "../widgets/wallpaper/setWallpaper";
-import {refreshWallpaper} from "../widgets/wallpaper/refreshWallpaper";
 import { wallpaperService } from "../widgets/systemMenu/widgets/LookAndFeelControls";
 
 const homePath = GLib.get_home_dir()
