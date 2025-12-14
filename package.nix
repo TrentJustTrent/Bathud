@@ -18,6 +18,8 @@
           allRuntimeDeps = [
             astal3
             astal4
+            glib
+            gjs
             pipewire
             networkmanager
             bluez
@@ -38,33 +40,38 @@
           ];
 
           buildInputs = allRuntimeDeps;
-          
-          buildPhase = ''
-            echo "Running precise ags bundle command..."
-            
-            # --- FIX: Use the confirmed syntax ---
-            # ags bundle [entryfile] [outfile] [flags]
-            # Use -r . to set the project root correctly for the bundler
-            # Use -p to include packages defined in package.json (if applicable)
-            ags bundle src/app.ts ${bundledOutputName} -r . -d "SRC='${./src}'"
-            
-            # Note: The output is a file, not a directory, so no directory check is needed.
-          '';
 
           installPhase = ''
-            # 1. Create the target directory for the config file
-            mkdir -p $out/share/ags/js
-            
-            # 2. FIX: Copy the single bundled file to the final location
-            cp ${bundledOutputName} $out/share/ags/js/config.js
-
-            # 3. Create the executable wrapper
             mkdir -p $out/bin
+
+            ags bundle ./src/app.ts $out/bin/${packageName}
+          '';          
+          # buildPhase = ''
+          #   echo "Running precise ags bundle command..."
             
-            makeWrapper ${ags.packages.${system}.default}/bin/ags $out/bin/${packageName} \
-              --add-path "${lib.makeBinPath allRuntimeDeps}" \
-              --run "export AGS_CONFIG_DIR=$out/share/ags/js"
-          '';
+          #   # --- FIX: Use the confirmed syntax ---
+          #   # ags bundle [entryfile] [outfile] [flags]
+          #   # Use -r . to set the project root correctly for the bundler
+          #   # Use -p to include packages defined in package.json (if applicable)
+          #   ags bundle src/app.ts ${bundledOutputName} -r . -d "SRC='${./src}'"
+            
+          #   # Note: The output is a file, not a directory, so no directory check is needed.
+          # '';
+
+          # installPhase = ''
+          #   # 1. Create the target directory for the config file
+          #   mkdir -p $out/share/ags/js
+            
+          #   # 2. FIX: Copy the single bundled file to the final location
+          #   cp ${bundledOutputName} $out/share/ags/js/config.js
+
+          #   # 3. Create the executable wrapper
+          #   mkdir -p $out/bin
+            
+          #   makeWrapper ${ags.packages.${system}.default}/bin/ags $out/bin/${packageName} \
+          #     --add-path "${lib.makeBinPath allRuntimeDeps}" \
+          #     --run "export AGS_CONFIG_DIR=$out/share/ags/js"
+          # '';
         };
     in
     {
