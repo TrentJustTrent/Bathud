@@ -20,16 +20,16 @@
             astal4
             glib
             gjs
-            Apps
-            Battery
-            Bluetooth
-            Cava
-            Hyprland
-            Mpris
-            Network
-            Notifd
-            PowerProfiles
-            Tray
+            apps
+            battery
+            bluetooth
+            cava
+            hyprland
+            mpris
+            network
+            notifd
+            powerprofiles
+            tray
             pipewire
             networkmanager
             bluez
