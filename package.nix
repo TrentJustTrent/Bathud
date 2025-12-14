@@ -25,7 +25,7 @@
           ];
         in
         
-        stdenv.mkDerivation {
+        stdenvNoCC.mkDerivation {
           pname = packageName;
           version = "0.1.0";
 
@@ -33,6 +33,7 @@
 
           nativeBuildInputs = [
             ags.packages.${system}.default
+            gobject-introspection
             makeWrapper
           ];
 

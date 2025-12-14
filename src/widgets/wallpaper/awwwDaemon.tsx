@@ -1,4 +1,4 @@
-import { execAsync } from 'ags/process';
+import { execAsync } from 'astal';
 import { variableConfig } from '../../config/config';
 
 /**
