@@ -1,106 +1,78 @@
+{ config, lib, pkgs, ags, astal, ... }:
+
 {
-  lib,
-  config,
-  ags,
-  astal,
-  bluez,
-  bluez-tools,
-  brightnessctl,
-  cliphist,
-  dart-sass,
-  glib,
-  glib-networking,
-  gnome-bluetooth,
-  gpu-screen-recorder,
-  gpustat,
-  grimblast,
-  gvfs,
-  hyprpicker,
-  libgtop,
-  libnotify,
-  makeWrapper,
-  networkmanager,
-  nix-update-script,
-  stdenvNoCC,
-  swww,
-  wireplumber,
-  wf-recorder,
-  wl-clipboard,
-  writeShellScript,
-  grim,
-  yq-go,
-  slurp,
-  sox,
-  jq,
-  pipewire,
-}:
-let 
-  name = "bathud";
-  version = "1.0.0";
-in 
-stdenvNoCC.mkDerivation rec {
-  inherit name version;
+  perSystem = { system, self', pkgs, lib, ... }:
+    let
+      packageName = "your-typescript-project-ags";
+      
+      # Define the name of the final bundled JavaScript file
+      bundledOutputName = "shell.js";
+      
+      astalPackages = astal.packages.${system};
+      
+      tsAgsBundle = 
+        with pkgs;
+        with astalPackages;
+        
+        let
+          allRuntimeDeps = [
+            astal3
+            astal4
+            pipewire
+            networkmanager
+            bluez
+            gtk4
+          ];
+        in
+        
+        stdenvNoCC.mkDerivation {
+          pname = packageName;
+          version = "0.1.0";
 
-  src = ./src;
+          src = ./.; 
 
-  # The astal library is a build input.
-  # buildInputs = [ astal ];
-  nativeBuildInputs = [
-    ags
-    makeWrapper
-  ];
+          nativeBuildInputs = [
+            ags.packages.${system}.default
+            gobject-introspection
+            makeWrapper
+          ];
 
-  buildInputs = with astal; [
-    io
-    gjs
-    astal4
-  ];
-installPhase = ''
-  mkdir -p $out/bin
-  ags bundle app.ts $out/bin/${name}.js -d "SRC='${./src}'"
-  
-  cat > $out/bin/${name} << EOF
-#!/bin/sh
-exec ags run $out/bin/${name}.js "$@"
-EOF
+          buildInputs = allRuntimeDeps;
+          
+          buildPhase = ''
+            echo "Running precise ags bundle command..."
+            
+            # --- FIX: Use the confirmed syntax ---
+            # ags bundle [entryfile] [outfile] [flags]
+            # Use -r . to set the project root correctly for the bundler
+            # Use -p to include packages defined in package.json (if applicable)
+            ags bundle src/app.ts ${bundledOutputName} -r . -d "SRC='${./src}'"
+            
+            # Note: The output is a file, not a directory, so no directory check is needed.
+          '';
 
-  chmod +x $out/bin/${name}
-'';
+          installPhase = ''
+            # 1. Create the target directory for the config file
+            mkdir -p $out/share/ags/js
+            
+            # 2. FIX: Copy the single bundled file to the final location
+            cp ${bundledOutputName} $out/share/ags/js/config.js
 
-  preFixup = ''
-    wrapProgram $out/bin/${name} \
-    --prefix PATH ':' ${
-      lib.makeBinPath [
-        bluez
-        bluez-tools
-        brightnessctl
-        dart-sass
-        grim
-        yq-go
-        slurp
-        sox
-        grimblast
-        gvfs
-        hyprpicker
-        libgtop
-        libnotify
-        jq
-        pipewire
-        networkmanager
-        swww
-        wireplumber
-        wf-recorder
-        wl-clipboard
-      ]
-    }
-  '';
-  # The astal input is automatically available in the environment
-  # during the build phase. The path is handled by Nix.
-  meta = {
-    description = "Bar/Panel for Hyprland with extensive customizability";
-    homepage = "https://github.com/Jas-SinghFSU/HyprPanel";
-    license = lib.licenses.mit;
-    mainProgram = "bathud";
-    platforms = lib.platforms.linux;
-  };
+            # 3. Create the executable wrapper
+            mkdir -p $out/bin
+            
+            makeWrapper ${ags.packages.${system}.default}/bin/ags $out/bin/${packageName} \
+              --add-path "${lib.makeBinPath allRuntimeDeps}" \
+              --run "export AGS_CONFIG_DIR=$out/share/ags/js"
+          '';
+        };
+    in
+    {
+      packages.default = tsAgsBundle;
+
+      apps.default = {
+        type = "app";
+        program = "${tsAgsBundle}/bin/${packageName}";
+      };
+    };
 }
