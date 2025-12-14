@@ -34,9 +34,9 @@
           src = ./.; 
 
           nativeBuildInputs = [
-            ags.packages.${system}.default
+            wrapGAppsHook
             gobject-introspection
-            makeWrapper
+            ags.packages.${system}.default
           ];
 
           buildInputs = allRuntimeDeps;
