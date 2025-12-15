@@ -1,4 +1,5 @@
-import GObject, { GLib, property, register, signal } from 'ags/gobject';
+import GObject, { property, register, signal } from 'ags/gobject';
+import GLib from "gi://GLib?version=2.0";
 import { AwwwDaemon } from './awwwDaemon';
 import { execAsync} from 'ags/process';
 import { variableConfig } from '../../config/config';
