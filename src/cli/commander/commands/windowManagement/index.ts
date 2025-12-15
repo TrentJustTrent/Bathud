@@ -1,5 +1,5 @@
 import { Command } from '../../types';
-import { App } from 'ags/gtk4/app';
+import App from 'ags/gtk4/app';
 import { errorHandler, windowClose, windowToggles } from '../../helpers/utils';
 
 export const windowManagementCommands: Command[] = [
