@@ -27,15 +27,15 @@
           ];
         in
         
-        stdenv.mkDerivation {
+        pkgs.stdenvNoCC.mkDerivation {
           pname = packageName;
           version = "0.1.0";
 
           src = ./.; 
 
           nativeBuildInputs = [
-            wrapGAppsHook4
-            gobject-introspection
+            pkgs.wrapGAppsHook4
+            pkgs.gobject-introspection
             ags.packages.${system}.default
           ];
 
