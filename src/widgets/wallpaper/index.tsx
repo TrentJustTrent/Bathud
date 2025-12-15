@@ -1,4 +1,4 @@
-import GObject, { GLib, property, register, signal } from 'astal/gobject';
+import GObject, { GLib, property, register, signal } from 'ags/gobject';
 import { AwwwDaemon } from './awwwDaemon';
 import { execAsync} from 'ags/process';
 import { variableConfig } from '../../config/config';
@@ -14,7 +14,7 @@ export class WallpaperService extends GObject.Object {
     // @property(String)
     // declare public wallpaper: string;
 
-    @signal(Boolean)
+    //@signal(Boolean)
     declare public changed: (event: boolean) => void;
 
     private static _instance: WallpaperService;
