@@ -9,87 +9,44 @@
       bundledOutputName = "shell.js";
       
       astalPackages = astal.packages.${system};
-      
-      tsAgsBundle = 
-        with pkgs;
-        with astalPackages;
-        
-        let
-          allRuntimeDeps = [
-            astal3
-            astal4
-            glib
-            gjs
-            apps
-            battery
-            bluetooth
-            cava
-            hyprland
-            mpris
-            network
-            notifd
-            powerprofiles
-            tray
-            pipewire
-            networkmanager
-            bluez
-            gtk4
-          ];
-        in
-        
-        stdenvNoCC.mkDerivation {
-          pname = packageName;
-          version = "0.1.0";
-
-          src = ./.; 
-
-          nativeBuildInputs = [
-            wrapGAppsHook4
-            gobject-introspection
-            ags.packages.${system}.default
-          ];
-
-          buildInputs = allRuntimeDeps;
-
-          installPhase = ''
-            mkdir -p $out/bin
-
-            ags bundle ./src/app.ts $out/bin/${packageName}
-          '';          
-          # buildPhase = ''
-          #   echo "Running precise ags bundle command..."
-            
-          #   # --- FIX: Use the confirmed syntax ---
-          #   # ags bundle [entryfile] [outfile] [flags]
-          #   # Use -r . to set the project root correctly for the bundler
-          #   # Use -p to include packages defined in package.json (if applicable)
-          #   ags bundle src/app.ts ${bundledOutputName} -r . -d "SRC='${./src}'"
-            
-          #   # Note: The output is a file, not a directory, so no directory check is needed.
-          # '';
-
-          # installPhase = ''
-          #   # 1. Create the target directory for the config file
-          #   mkdir -p $out/share/ags/js
-            
-          #   # 2. FIX: Copy the single bundled file to the final location
-          #   cp ${bundledOutputName} $out/share/ags/js/config.js
-
-          #   # 3. Create the executable wrapper
-          #   mkdir -p $out/bin
-            
-          #   makeWrapper ${ags.packages.${system}.default}/bin/ags $out/bin/${packageName} \
-          #     --add-path "${lib.makeBinPath allRuntimeDeps}" \
-          #     --run "export AGS_CONFIG_DIR=$out/share/ags/js"
-          # '';
-        };
+      agsPackages = ags.packages.${system};
+      agsDependencies = with agsPackages; [
+        hyprland
+        mpris
+        battery
+        wireplumber
+        network
+        bluetooth
+        powerprofiles
+        notifd
+        apps
+      ];
+      systemDeps = with pkgs; [
+        iio-hyprland
+        hyprsunset
+        slurp
+        grim
+        brightnessctl
+        libnotify
+        wlinhibit
+        wl-clipboard
+        libnotify
+      ];
+      bundle = ags.lib.bundle {
+        inherit pkgs;
+        extraPackages = agsDependencies ++ systemDeps;
+        src = ./src;
+        name = "tokyo-shell";
+        entry = "app.ts";
+        gtk4 = true;
+      };
     in
     {
       packages.default = tsAgsBundle;
 
       apps.default = {
         type = "app";
-        program = "${tsAgsBundle}/bin/${packageName}";
+        program = bundle;
       };
     };
 }
