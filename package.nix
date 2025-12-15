@@ -1,16 +1,17 @@
-{ config, lib, pkgs, ags, astal, ... }:
+{ config, lib, pkgs, ags, astal, awww, ... }:
 
 {
   perSystem = { system, self', pkgs, lib, ... }:
     let
-      packageName = "your-typescript-project-ags";
+      packageName = "bathud";
       
       # Define the name of the final bundled JavaScript file
-      bundledOutputName = "shell.js";
+      bundledOutputName = "bathud.js";
       
       ap = astal.packages.${system};
+      aw = awww.packages.${system};
       
-      tsAgsBundle = 
+      bathud = 
         
         let
           allRuntimeDeps = [
@@ -18,6 +19,24 @@
             pkgs.gjs
             pkgs.networkmanager
             pkgs.bluez
+            pkgs.sox
+            pkgs.brightnessctl
+            pkgs.cava
+            pkgs.cliphist
+            pkgs.dart-sass
+            pkgs.yq-qo
+            pkgs.grim
+            pkgs.gvfs
+            pkgs.jq
+            pkgs.libnotify
+            pkgs.pipewire-pulse
+            pkgs.power-profiles-daemon
+            pkgs.slurp
+            pkgs.sox
+            pkgs.upower
+            pkgs.wf-recorder
+            pkgs.wl-clipboard 
+            aw.awww
             pkgs.gtk4
             pkgs.pipewire
             ap.io
@@ -63,18 +82,18 @@
             # 3. Create the executable wrapper
             mkdir -p $out/bin
             
-            makeWrapper ${ags.packages.${system}.default}/bin/ags $out/bin/${packageName} \
-              --set PATH "${lib.makeBinPath allRuntimeDeps}" \
+            makeWrapper ${ags.packages.${system}.default}/bin/ags $out/bin/${packageName}
+              --set PATH "${lib.makeBinPath allRuntimeDeps}"
               --set AGS_CONFIG_DIR "$out/share/ags/js"
           '';
         };
     in
     {
-      packages.default = tsAgsBundle;
+      packages.default = bathud;
 
       apps.default = {
         type = "app";
-        program = "${tsAgsBundle}/bin/${packageName}";
+        program = "${bathud}/bin/${packageName}";
       };
     };
 }

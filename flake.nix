@@ -11,10 +11,12 @@
 
     astal.url = "github:Aylur/astal";
     astal.inputs.nixpkgs.follows = "nixpkgs";
+
+    awww.url = "git+https://codeberg.org/LGFae/awww";
   };
 
   # Use destructuring to access the inputs needed for argument passing
-  outputs = inputs@{ flake-parts, ags, astal, ... }:
+  outputs = inputs@{ flake-parts, ags, astal, awww, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
         "x86_64-linux"
@@ -26,7 +28,7 @@
         ({ ... }: {
           # Define args at the top level of the flake-parts configuration
           _module.args = {
-            inherit ags astal;
+            inherit ags astal awww;
           };
         })
         # Load the main package definition
