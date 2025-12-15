@@ -65,7 +65,7 @@
             
             makeWrapper ${ags.packages.${system}.default}/bin/ags $out/bin/${packageName} \
               --add-path "${lib.makeBinPath allRuntimeDeps}" \
-              --run "export AGS_CONFIG_DIR=$out/share/ags/js"
+              --set "export AGS_CONFIG_DIR=$out/share/ags/js"
           '';
         };
     in
