@@ -42,7 +42,7 @@
       };
     in
     {
-      packages.default = tsAgsBundle;
+      packages.default = bundle;
 
       apps.default = {
         type = "app";
