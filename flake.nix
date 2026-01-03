@@ -2,7 +2,7 @@
   description = "A Nix flake for a TypeScript project using AGS and Astal.";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     flake-parts.url = "github:hercules-ci/flake-parts";
     
     ags.url = "github:Aylur/ags";
